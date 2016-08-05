@@ -6,7 +6,7 @@
         .controller('Games', Games);
 
     /* @ngInject */
-    function Games(dataservice, logger) {
+    function Games(dataservice, logger, $q) {
         /*jshint validthis: true */
         var vm = this;
         vm.gameDays = [];
@@ -16,9 +16,21 @@
         activate();
 
         function activate() {
-            //return getGames().then(function() {
-            //    logger.info('Activated Games View');
-            //});
+            var promise = dataservice.getGames();
+
+            var all = $q.all([
+                promise
+            ]);
+
+            all.then(function (response) {
+                var temp = response;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function (data) {
+                vm.loading = true;
+            });
 
             var gameday = {};
             gameday.date = 'Sunday, June 12th';
@@ -93,13 +105,6 @@
             gameday2.matchups.push(matchup2);
 
             vm.gameDays.push(gameday2);
-        }
-
-        function getGames() {
-            //return dataservice.getGames().then(function(data) {
-            //    vm.games = data;
-            //    return vm.games;
-            //});
         }
 
         function makePick(matchup, competitorId) {

@@ -11,4 +11,15 @@ module.exports = function(app) {
         });
         res.send(json);
     }
+
+    app.get('/api/games', getGames);
+
+    function getGames(req, res, next) {
+        var json = jsonfileservice.getJsonFromFile('/../../data/maa.json');
+        json[0].data.results.forEach(function(character) {
+            var pos = character.name.indexOf('(MAA)');
+            character.name = character.name.substr(0, pos - 1);
+        });
+        res.send(json);
+    }
 };

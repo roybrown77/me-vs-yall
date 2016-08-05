@@ -14,10 +14,24 @@
             getAvengersCast: getAvengersCast,
             getAvengerCount: getAvengerCount,
             getAvengers: getAvengers,
-            ready: ready
+            ready: ready,
+            getGames: getGames
         };
 
         return service;
+
+        function getGames() {
+            return $http.get('/api/games')
+                .then(getGamesComplete)
+                .catch(function(message) {
+                    exception.catcher('XHR Failed for getGames')(message);
+                    $location.url('/');
+                });
+
+            function getGamesComplete(data, status, headers, config) {
+                return data.data[0].data.results;
+            }
+        }
 
         function getAvengers() {
             return $http.get('/api/maa')
