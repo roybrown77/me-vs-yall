@@ -10,15 +10,40 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var routes;
 var jwt        = require("jsonwebtoken");
-var mongoose     = require('mongoose');
+var uuid = require('node-uuid');
 
 var app = express();
 var port = process.env.PORT || 7200;
 
-var User     = require('./models/User');
-mongoose.connect('mongodb://localhost/myapp');
+// mongodb
+// http://code.tutsplus.com/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543
+//var User     = require('./models/User');
+//var mongoose     = require('mongoose');
+//mongoose.connect('mongodb://localhost/myapp');
 
+// mysql
+// https://www.sitepoint.com/using-node-mysql-javascript-client/
+var mysql = require("mysql");
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "root",
+    database: "sportpicks"
+});
 
+con.connect(function(err){
+    if(err){
+        console.log('Error connecting to Db');
+        return;
+    }
+    console.log('Connection established');
+});
+
+// con.end(function(err) {
+//     // The connection is terminated gracefully
+//     // Ensures all previously enqueued queries are still
+//     // before sending a COM_QUIT packet to the MySQL server.
+// });
 
 var environment = process.env.NODE_ENV;
 
@@ -36,8 +61,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-
-
 routes = require('./routes/index')(app);
 
 console.log('About to crank up node');
@@ -51,20 +74,20 @@ app.get('/ping', function(req, res, next) {
     res.send('pong');
 });
 
-// http://code.tutsplus.com/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543
 app.post('/authenticate', function(req, res) {
-    User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
+    con.query("SELECT * FROM users where email = '" + req.body.email + "' and password = '" + req.body.password + "'",function(err,rows){
         if (err) {
             res.json({
                 type: false,
                 data: "Error occured: " + err
             });
-        } else {
-            if (user) {
+        }
+        else {
+            if (rows.length > 0) {
                 res.json({
                     type: true,
-                    data: user,
-                    token: user.token
+                    //data: user,
+                    token: rows[0].token
                 });
             } else {
                 res.json({
@@ -77,31 +100,36 @@ app.post('/authenticate', function(req, res) {
 });
 
 app.post('/signin', function(req, res) {
-    User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
+    con.query("SELECT * FROM users where email = '" + req.body.email + "' and password = '" + req.body.password + "'",function(err,rows){
         if (err) {
             res.json({
                 type: false,
                 data: "Error occured: " + err
             });
-        } else {
-            if (user) {
+        }
+        else {
+            if (rows.length > 0) {
                 res.json({
                     type: false,
                     data: "User already exists!"
                 });
             } else {
-                var user = new User({email: req.body.email, password: req.body.password});
-                user.save(function(err, user) {
-                    if (err) return console.error(err);
-                    var user1 =  new User({email: user.email, password: user.password, token: jwt.sign(user, 'shhhhh')});
-                    user1.save(function(err, user1) {
+                var user = {id: uuid.v1(), email: req.body.email, password: req.body.password};
+                user.token = jwt.sign(user, 'shhhhh');
+                con.query('INSERT INTO users SET ?', user, function (err, res) {
+                    if (err) {
                         res.json({
-                            type: true,
-                            data: user1,
-                            token: v.token
+                            type: false,
+                            data: "Error occured: " + err
                         });
+                    }
+
+                    res.json({
+                        type: true,
+                        //data: user,
+                        token: user.token
                     });
-                })
+                });
             }
         }
     });
