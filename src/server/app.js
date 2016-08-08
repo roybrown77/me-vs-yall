@@ -84,9 +84,10 @@ app.post('/authenticate', function(req, res) {
         }
         else {
             if (rows.length > 0) {
+                var user = {id: rows[0].id, email: rows[0].email, password: rows[0].password};
                 res.json({
                     type: true,
-                    //data: user,
+                    data: user,
                     token: rows[0].token
                 });
             } else {
@@ -126,7 +127,7 @@ app.post('/signin', function(req, res) {
 
                     res.json({
                         type: true,
-                        //data: user,
+                        data: user,
                         token: user.token
                     });
                 });
@@ -134,6 +135,53 @@ app.post('/signin', function(req, res) {
         }
     });
 });
+
+app.get('/me', ensureAuthorized, function(req, res) {
+    con.query("SELECT * FROM users where token = '" + req.body.token + "'",function(err,rows){
+        if (err) {
+            res.json({
+                type: false,
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            if (rows.length > 0) {
+                var user = {id: rows[0].id, email: rows[0].email, password: rows[0].password};
+                res.json({
+                    type: true,
+                    data: user
+                });
+            } else {
+                res.json({
+                    type: false,
+                    data: "Incorrect token"
+                });
+            }
+        }
+    });
+});
+
+function ensureAuthorized(req, res, next) {
+    var bearerToken;
+    var bearerHeader = req.headers["authorization"];
+    if (typeof bearerHeader !== 'undefined') {
+        var bearer = bearerHeader.split(" ");
+        bearerToken = bearer[1];
+        req.token = bearerToken;
+        jwt.verify(req.token,'shhhhh',function(err,token){
+            if(err){
+                res.json({
+                    type: false,
+                    data: "Incorrect token: " + err
+                });
+            }
+
+            next();
+        });
+    } else {
+        res.send(403);
+    }
+}
 
 switch (environment){
     case 'production':
@@ -155,6 +203,10 @@ switch (environment){
         app.use('/', express.static('./'));
         break;
 }
+
+process.on('uncaughtException', function(err) {
+    console.log(err);
+});
 
 app.listen(port, function() {
     console.log('Express server listening on port ' + port);
