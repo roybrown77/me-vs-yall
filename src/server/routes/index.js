@@ -11,21 +11,4 @@ module.exports = function(app) {
         });
         res.send(json);
     }
-
-    app.get('/api/games', getGames);
-
-    function getGames(req, res, next) {
-        var json = [];
-        var response = {};
-        response.data = {};
-
-        var games = [];
-        var game = {};
-        
-        games.push(game);
-
-        response.data.results = games;
-        json.push(response);
-        res.send(json);
-    }
 };

@@ -1,0 +1,36 @@
+create table games (
+  
+id nvarchar(36),
+  
+league nvarchar(100),
+  
+competitor1 nvarchar(100),
+  
+competitor2 nvarchar(100),
+  
+gametimestamp datetime,
+  
+tvstations nvarchar(100),
+  
+primary key (id)
+);
+
+insert into games values 
+('ffb71dc5-0201-4b46-bb36-2caaeea81751','NFL','Tampa Bay Buccaneers','Atlanta Falcons','2016-09-11 17:00','FOX'),
+
+('f9cafdf3-3197-4f5e-a6ef-423c392d1547','NFL','Buffalo Bills','Baltimore Ravens','2016-09-11 17:00','CBS');
+
+create table users (
+
+id nvarchar(36),
+
+email nvarchar(100),
+
+password nvarchar(100),
+
+createdat datetime,
+
+token blob,
+
+primary key (id)
+);

@@ -24,7 +24,9 @@
             ]);
 
             all.then(function (response) {
-                var temp = response;
+                var games = response[0];
+                var game1 = games[0];
+                var game2 = games[1];
             })
             .catch(function (error) {
                 console.log(error);

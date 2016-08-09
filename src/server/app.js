@@ -11,6 +11,7 @@ var logger = require('morgan');
 var routes;
 var jwt        = require("jsonwebtoken");
 var uuid = require('node-uuid');
+var moment = require('moment');
 
 var app = express();
 var port = process.env.PORT || 7200;
@@ -155,6 +156,41 @@ app.get('/me', ensureAuthorized, function(req, res) {
                 res.json({
                     type: false,
                     data: "Incorrect token"
+                });
+            }
+        }
+    });
+});
+
+app.get('/api/games', function(req, res, next) {
+    //var weekStartingDate = if req.query.league === nfl then (if req.query.week then GetWeekStartingDate(req.query.week) then req.query.weekStartingDate) else req.query.weekStartingDate;
+    //var weekEndingDate = if req.query.league === nfl then (if req.query.week then GetWeekEndingDate(req.query.week) then req.query.weekEndingDate) else req.query.weekEndingDate;
+    //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
+    // week is thursday to wednesday for nfl
+    con.query("SELECT * FROM games where league = 'NFL' and gametimestamp >= '2016-09-08 4:00:00' and gametimestamp <= '2016-09-14 3:59:59'",function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            if (rows.length > 0) {
+                var games = rows.map(function (row) {
+                    var item = {};
+                    item.id = row.id;
+                    item.league = row.league;
+                    item.competitor1 = row.competitor1;
+                    item.competitor2 = row.competitor2;
+                    item.gameTimeStamp = row.gametimestamp;
+                    return item;
+                });
+                res.json({
+                    games: games
+                });
+            } else {
+                var games = [];
+                res.json({
+                    games: games
                 });
             }
         }

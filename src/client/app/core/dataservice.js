@@ -28,8 +28,8 @@
                     $location.url('/');
                 });
 
-            function getGamesComplete(data, status, headers, config) {
-                return data.data[0].data.results;
+            function getGamesComplete(response, status, headers, config) {
+                return response.data.games;
             }
         }
 
