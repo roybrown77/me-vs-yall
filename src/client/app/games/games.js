@@ -12,7 +12,6 @@
         vm.title = 'Games';
 
         vm.gameDays = [];
-        vm.daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
         vm.makePick = makePick;
 
@@ -28,20 +27,27 @@
             all.then(function (data) {
                 var games = data[0];
 
+                var formattedGames = _.map(games, function(game) {
+                    var item = game;
+                    item.date = moment(game.gametimestamp).format('ddd');
+                    item.time = moment(game.gametimestamp).format('h:mm a zz');
+                    return item;
+                });
+
                 var formattedDates = _.map(games, function(game) {
                     var item = {};
-                    item.formattedDate = moment(game.gameTimeStamp).format('YYYY-MM-DD HH:mm');
+                    item.formattedDate = moment(game.gametimestamp).format('YYYY-MM-DD HH:mm');
                     return item;
                 });
 
                 var uniqueDates = _.uniqBy(formattedDates, 'formattedDate');
 
-                vm.gameDays = _.map(uniqueDates, function(date) {
+                vm.gameDays = _.map(uniqueDates, function(item) {
                     var gameDay = {};
-                    gameDay.date = moment(date).format('LLLL');
+                    gameDay.date = moment(item.formattedDate).format('dddd [, ] MMM Do');
                     gameDay.matchups = _.filter(games, function (game) {
-                        var itemDate = game.gameTimeStamp ? moment(game.gameTimeStamp).format('YYYY-MM-DD HH:mm') : null;
-                        return itemDate === date;
+                        var itemDate = game.gametimestamp ? moment(game.gametimestamp).format('YYYY-MM-DD HH:mm') : null;
+                        return itemDate === item.formattedDate;
                     });
 
                     return gameDay;

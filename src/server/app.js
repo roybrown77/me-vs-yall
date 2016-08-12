@@ -179,12 +179,8 @@ app.get('/api/games', function(req, res, next) {
             var games = [];
             if (rows.length > 0) {
                 games = rows.map(function (row) {
-                    var item = {};
-                    item.id = row.id;
-                    item.league = row.league;
-                    item.competitor1 = row.competitor1;
-                    item.competitor2 = row.competitor2;
-                    item.gameTimeStamp = moment(row.gametimestamp).format('YYYY-MM-DD HH:mm');
+                    var item = row;
+                    item.gametimestamp = moment(row.gametimestamp).format('YYYY-MM-DD HH:mm');
                     return item;
                 });
                 res.json({

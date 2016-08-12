@@ -7,56 +7,56 @@
           margin-left: 1em;">
              {{gameDay.date}}
          </h2>
-         <!--<div class="row" style="clear: both;-->
-              <!--margin: 0 1em;-->
-              <!--border-top:.1em solid #f1f2f3" ng-repeat="matchup in gameDay.matchups">-->
-             <!--<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:.5em 0">-->
-                 <!--<div class="row">-->
-                     <!--<div class="col-xs-3 col-md-3 col-lg-3" ng-click="vm.makePick(matchup, matchup.competitor1.name)">-->
-                         <!--<a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car">-->
-                             <!--<img style="height:3em;width:3em"-->
-                                  <!--onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';this.width=1;"-->
-                                  <!--src="{{matchup.competitor1.logo}}&amp;h=70&amp;w=70">-->
-                         <!--</a>-->
-                     <!--</div>-->
-                     <!--<div class="col-xs-4 col-md-4 col-lg-4" style="padding:1em" ng-click="vm.makePick(matchup, matchup.competitor1.name)">-->
-                             <!--<a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car" class="">-->
-                                 <!--<span class="sb-team-short">{{matchup.competitor1.name}}</span>-->
-                             <!--</a>-->
-                     <!--</div>-->
+         <div class="row" style="clear: both;
+              margin: 0 1em;
+              border-top:.1em solid #f1f2f3" ng-repeat="matchup in gameDay.matchups">
+             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="margin:.5em 0">
+                 <div class="row">
+                     <div class="col-xs-3 col-md-3 col-lg-3" ng-click="vm.makePick(matchup, matchup.competitor1)">
+                         <a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car">
+                             <img style="height:3em;width:3em"
+                                  onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';this.width=1;"
+                                  src="{{matchup.competitor1.logo}}&amp;h=70&amp;w=70">
+                         </a>
+                     </div>
+                     <div class="col-xs-4 col-md-4 col-lg-4" style="padding:1em" ng-click="vm.makePick(matchup, matchup.competitor1)">
+                             <a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car" class="">
+                                 <span class="sb-team-short">{{matchup.competitor1}}</span>
+                             </a>
+                     </div>
                      <!--<div class="col-xs-5 col-md-5 col-lg-5" ng-click="vm.makePick(matchup, matchup.competitor1.name)">-->
                          <!--<div class="fa fa-check-square pull-right" aria-hidden="true" style ="font-size: 3em;color: green;" ng-if="matchup.competitor1.name === matchup.pickselected">-->
                          <!--</div>-->
                          <!--<div style="height:3em;" ng-if="matchup.competitor1.name !== matchup.pickselected">-->
                          <!--</div>-->
                      <!--</div>-->
-                 <!--</div>-->
-                 <!--<div class="row">-->
-                     <!--<div class="col-xs-3 col-md-3 col-lg-3" ng-click="vm.makePick(matchup, matchup.competitor2.name)">-->
-                         <!--<a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car">-->
-                             <!--<img style="height:3em;width:3em"-->
-                                  <!--onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';this.width=1;"-->
-                                  <!--src="{{matchup.competitor2.logo}}&amp;h=70&amp;w=70">-->
-                         <!--</a>-->
-                     <!--</div>-->
-                     <!--<div class="col-xs-4 col-md-4 col-lg-4" style="padding:1em" ng-click="vm.makePick(matchup, matchup.competitor2.name)">-->
-                         <!--<a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car" class="">-->
-                             <!--<span class="sb-team-short">{{matchup.competitor2.name}}</span>-->
-                         <!--</a>-->
-                     <!--</div>-->
+                 </div>
+                 <div class="row">
+                     <div class="col-xs-3 col-md-3 col-lg-3" ng-click="vm.makePick(matchup, matchup.competitor2)">
+                         <a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car">
+                             <img style="height:3em;width:3em"
+                                  onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';this.width=1;"
+                                  src="{{matchup.competitor2.logo}}&amp;h=70&amp;w=70">
+                         </a>
+                     </div>
+                     <div class="col-xs-4 col-md-4 col-lg-4" style="padding:1em" ng-click="vm.makePick(matchup, matchup.competitor2)">
+                         <a name="&amp;lpos=nfl:scoreboard:team" href="/nfl/team/_/name/car" class="">
+                             <span class="sb-team-short">{{matchup.competitor2}}</span>
+                         </a>
+                     </div>
                      <!--<div class="col-xs-5 col-md-5 col-lg-5" ng-click="vm.makePick(matchup, matchup.competitor2.name)">-->
                          <!--<div class="fa fa-check-square pull-right" aria-hidden="true" style ="font-size: 3em;color: green;" ng-if="matchup.competitor2.name === matchup.pickselected">-->
                          <!--</div>-->
                          <!--<div style="height:3em;" ng-if="matchup.competitor2.name !== matchup.pickselected">-->
                          <!--</div>-->
                      <!--</div>-->
-                 <!--</div>-->
-             <!--</div>-->
-             <!--<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border-left:.1em solid #f1f2f3; margin: 1em 0">-->
-                 <!--<div>{{matchup.date}}</div>-->
-                 <!--<div>{{matchup.time}}</div>-->
-                 <!--<div>{{matchup.station}}</div>-->
-             <!--</div>-->
-         <!--</div>-->
+                 </div>
+             </div>
+             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="border-left:.1em solid #f1f2f3; margin: 1em 0">
+                 <div>{{matchup.date}}</div>
+                 <div>{{matchup.time}}</div>
+                 <div>{{matchup.tvstation}}</div>
+             </div>
+         </div>
      </div>
  </div>
