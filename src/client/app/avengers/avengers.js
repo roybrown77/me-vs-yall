@@ -3,14 +3,16 @@
 
     angular
         .module('app.avengers')
-        .controller('Avengers', Avengers);
+        .controller('Avengers', Avengers, '$location', '$timeout');
 
     /* @ngInject */
-    function Avengers(dataservice, logger) {
+    function Avengers(dataservice, logger, $location, $timeout) {
         /*jshint validthis: true */
         var vm = this;
         vm.avengers = [];
-        vm.title = 'Avengers';
+        vm.title = 'Pick Sport';
+
+        vm.gotoSportSearch = gotoSportSearch;
 
         activate();
 
@@ -28,6 +30,12 @@
                 vm.avengers = data;
                 return vm.avengers;
             });
+        }
+
+        function gotoSportSearch(sport){
+            $timeout(function() {
+                $location.path('/games');
+            }, 0);
         }
     }
 })();

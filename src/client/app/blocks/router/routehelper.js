@@ -97,7 +97,7 @@
                 function(event, current, previous) {
                     routeCounts.changes++;
                     handlingRouteChangeError = false;
-                    var title = routehelperConfig.config.docTitle + ' ' + (current.title || '');
+                    var title = routehelperConfig.config.docTitle + ' - ' + (current.title || 'Main Menu');
                     $rootScope.title = title; // data bind to <title>
                 }
             );

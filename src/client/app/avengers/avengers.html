@@ -1,37 +1,25 @@
-﻿<section class="mainbar">
-    <section class="matter">
-        <div class="container">
-            <div class="row">
-                <div class="widget wblue">
-                    <div data-cc-widget-header title="{{vm.title}}"></div>
-                    <div class="widget-content user">
-                        <!--<pre>{{vm.avengers.data | json}}</pre>-->
+﻿<style>
+    .button-nav {
+        border: .5px solid;
+        font-size: 50px;
+        padding: 10px;
+        font-size: 50px;
+    }
+</style>
 
-                        <input data-ng-model="vm.filter.name" placeholder="Find Avengers by name" type="search"/>
-                        <table class="table table-condensed table-striped">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Character</th>
-                                <th>Description</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-ng-repeat="c in vm.avengers | filter:vm.filter track by c.id">
-                                <td><img
-                                        ng-src="{{c.thumbnail.path}}.{{c.thumbnail.extension}}"
-                                        class="avenger-thumb img-rounded"/></td>
-                                <td><span class="avenger-name">{{c.name}}</span></td>
-                                <td>{{c.description | limitTo: 2000 }} ...</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="widget-foot">
-                        <div class="clearfix"></div>
-                    </div>
+<section id="dashboard-view" style="margin-top:5em">
+    <section class="matter">
+        <div class="container" style="line-height:5em">
+            <div class="row">
+                <div class="col-md-12 text-center" style="margin:1em">
+                    <a href="#" class="button button-nav" ng-click="vm.gotoSportSearch('Soccer')">Soccer</a>
+                </div>
+                <!--</div>-->
+                <!--<div class="row">-->
+                <div class="col-md-12 text-center" style="margin:1em">
+
+                    <a href="#" class="button button-nav" ng-click="vm.gotoSportSearch('NFL')">NFL</a>
                 </div>
             </div>
-        </div>
     </section>
 </section>

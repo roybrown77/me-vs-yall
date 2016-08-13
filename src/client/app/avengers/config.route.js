@@ -15,12 +15,12 @@
     function getRoutes() {
         return [
             {
-                url: '/avengers',
+                url: '/picksport',
                 config: {
                     templateUrl: 'app/avengers/avengers.html',
                     controller: 'Avengers',
                     controllerAs: 'vm',
-                    title: 'avengers',
+                    title: 'Pick Sport',
                     settings: {
                         nav: 2,
                         content: '<i class="fa fa-lock"></i> Avengers'

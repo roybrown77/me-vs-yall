@@ -9,7 +9,7 @@
     function Games(dataservice, logger, $q) {
         /*jshint validthis: true */
         var vm = this;
-        vm.title = 'Games';
+        vm.title = 'Search Games';
 
         vm.gameDays = [];
 

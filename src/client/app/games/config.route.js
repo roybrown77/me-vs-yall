@@ -20,7 +20,7 @@
                     templateUrl: 'app/games/games.html',
                     controller: 'Games',
                     controllerAs: 'vm',
-                    title: 'games',
+                    title: 'Search Games',
                     settings: {
                         nav: 2,
                         content: '<i class="fa fa-lock"></i> Games'

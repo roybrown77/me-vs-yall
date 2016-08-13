@@ -5,9 +5,9 @@
         .module('app.dashboard')
         .controller('Dashboard', Dashboard);
 
-    Dashboard.$inject = ['$q', 'dataservice', 'logger'];
+    Dashboard.$inject = ['$q', 'dataservice', 'logger', '$location', '$timeout'];
 
-    function Dashboard($q, dataservice, logger) {
+    function Dashboard($q, dataservice, logger, $location, $timeout) {
 
         /*jshint validthis: true */
         var vm = this;
@@ -19,7 +19,11 @@
         vm.avengerCount = 0;
         vm.avengers = [];
         vm.games = [];
-        vm.title = 'Dashboard';
+        vm.title = 'Main Menu';
+
+        vm.gotoMyPicks = gotoMyPicks;
+        vm.gotoSearchSports = gotoSearchSports;
+        vm.gotoHead2Heads = gotoHead2Heads;
 
         activate();
 
@@ -44,6 +48,24 @@
                 vm.avengers = data;
                 return vm.avengers;
             });
+        }
+
+        function gotoMyPicks() {
+            $timeout(function() {
+                $location.path('/mypicks');
+            }, 0);
+        }
+
+        function gotoSearchSports() {
+            $timeout(function() {
+                $location.path('/picksport');
+            }, 0);
+        }
+
+        function gotoHead2Heads() {
+            $timeout(function() {
+                $location.path('/head2heads');
+            }, 0);
         }
     }
 })();
