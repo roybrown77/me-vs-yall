@@ -14,9 +14,13 @@
         vm.gameDays = [];
         vm.pickSheetSelectedId = undefined;
         vm.pickSheets = [];
+        vm.showPickSheetEntry = false;
+        vm.pickSheetName = "";
 
         vm.makePick = makePick;
         vm.getPickSheetName = getPickSheetName;
+        vm.addPickSheet = addPickSheet;
+        vm.createPickSheet = createPickSheet;
 
         activate();
 
@@ -148,19 +152,36 @@
         }
 
         function makePick(matchup, competitorId) {
+            if (!vm.pickSheetSelectedId) {
+                toastr.info("Select a Pick Sheet");
+                return;
+            }
+
             matchup.pickselected = competitorId;
+            //matchup.id, competitorId, vm.pickSheetSelectedId, userid in token sent to server
         }
 
         function getPickSheetName(id) {
-            if (vm.pickSheets.length === 0) return 'No Picks Exist';
+            if (vm.pickSheets.length === 0) return 'No Pick Sheets Exist';
 
             if (!id) return;
 
             var pickSheet = _.findWhere(vm.pickSheets, { "id": id });
 
-            if (!pickSheet) return '';
+            if (!pickSheet) return 'Select Pick Sheet';
 
             return pickSheet.name;
+        }
+
+        function addPickSheet() {
+            vm.showPickSheetEntry = true;
+        }
+
+        function createPickSheet(name) {
+            vm.pickSheetName = "";
+            vm.showPickSheetEntry = false;
+
+            // name, userid in token sent to server
         }
     }
 })();
