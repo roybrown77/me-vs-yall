@@ -27,7 +27,7 @@
         function activate() {
             var promises = [getAvengers()];
             return $q.all(promises).then(function (eventArgs) {
-                toastr.info('Activated Avengers View');
+                //toastr.info('Activated Avengers View');
                 $log.info('Activated Avengers View');
             });
         }
@@ -38,7 +38,7 @@
                     vm.avengers = data.data[0].data.results;
                     return vm.avengers;
                 }, function(error){
-                    toastr.error(error, title);
+                    //toastr.error(error, title);
                     $log.error('Error: ' + error);
                 });
         }
