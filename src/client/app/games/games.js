@@ -31,6 +31,15 @@
                     var item = game;
                     item.date = moment(game.gametimestamp).format('ddd');
                     item.time = moment(game.gametimestamp).format('h:mm a zz');
+                    var competitor = {};
+                    competitor.name = game.competitor1;
+                    competitor.logo = 'http://a1.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/car.png';
+                    item.competitor1 = competitor;
+
+                    competitor = {};
+                    competitor.name = game.competitor2;
+                    competitor.logo = 'http://a1.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/scoreboard/den.png';
+                    item.competitor2 = competitor;
                     return item;
                 });
 
