@@ -12,8 +12,11 @@
         vm.title = 'Search Games';
 
         vm.gameDays = [];
+        vm.pickSheetSelectedId = undefined;
+        vm.pickSheets = [];
 
         vm.makePick = makePick;
+        vm.getPickSheetName = getPickSheetName;
 
         activate();
 
@@ -146,6 +149,18 @@
 
         function makePick(matchup, competitorId) {
             matchup.pickselected = competitorId;
+        }
+
+        function getPickSheetName(id) {
+            if (vm.pickSheets.length === 0) return 'No Picks Exist';
+
+            if (!id) return;
+
+            var pickSheet = _.findWhere(vm.pickSheets, { "id": id });
+
+            if (!pickSheet) return '';
+
+            return pickSheet.name;
         }
     }
 })();
