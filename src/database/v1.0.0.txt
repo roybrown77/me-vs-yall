@@ -45,3 +45,16 @@ userid nvarchar(36) not null,
 
 primary key (id)
 );
+
+create table picksheetselection (
+
+id nvarchar(36) not null,
+
+picksheetid nvarchar(36) not null,
+
+matchupid nvarchar(36) not null,
+
+selectionid nvarchar(36) not null,
+
+primary key (id)
+);

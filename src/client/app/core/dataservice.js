@@ -14,7 +14,8 @@
             ready: ready,
             getGames: getGames,
             createPickSheet: createPickSheet,
-            getPickSheetsByUserId: getPickSheetsByUserId
+            getPickSheetsByUserId: getPickSheetsByUserId,
+            addPick: addPick
         };
 
         return service;
@@ -24,11 +25,27 @@
         }
 
         function createPickSheet(pickSheet) {
-            return $http.post('/api/picksheet', pickSheet);
+            return $http.post('/api/picksheets', pickSheet);
         }
 
         function getPickSheetsByUserId() {
-            return $http.get('/api/picksheet');
+            return $http.get('/api/picksheets');
+        }
+
+        function addPick(pickSheetId, pick) {
+            return $http.post('/api/picksheets/' + pickSheetId + '/selections', pick);
+        }
+
+        function updatePick(pickSheetId, id, pick) {
+            return $http.put('/api/picksheets/' + pickSheetId + '/selections/' + id, pick);
+        }
+
+        function removePick(pickSheetId, id, pick) {
+            return $http.delete('/api/picksheets/' + pickSheetId + '/selections/' + id);
+        }
+
+        function getPicks(pickSheetId, pick) {
+            return $http.get('/api/picksheets/' + pickSheetId + '/selections');
         }
 
         // function getAvengers() {

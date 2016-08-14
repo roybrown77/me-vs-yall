@@ -12,7 +12,7 @@
         vm.title = 'Search Games';
 
         vm.gameDays = [];
-        vm.pickSheetSelected = {};
+        vm.pickSheetSelected = { id: '', name: 'Select Pick Sheet' };
         vm.pickSheetSelectedName = 'Select Pick Sheet';
         vm.pickSheets = [];
         vm.showPickSheetEntry = false;
@@ -156,16 +156,6 @@
             // vm.gameDays.push(gameday2);
         }
 
-        function makePick(matchup, competitorId) {
-            if (!vm.pickSheetSelected.id) {
-                toastr.info("Select a Pick Sheet");
-                return;
-            }
-
-            matchup.pickselected = competitorId;
-            //matchup.id, competitorId, vm.pickSheetSelected.id, userid in token sent to server
-        }
-
         function getPickSheetName(id) {
             if (vm.pickSheets.length === 0) return 'No Pick Sheets Exist';
 
@@ -179,20 +169,40 @@
         }
 
         function createPickSheet() {
-            var pickSheet = {};
-            pickSheet.name = vm.pickSheetName;
-            var promise = dataservice.createPickSheet(pickSheet);
+            var pickSheet = { name: vm.pickSheetName };
+            //var promise = dataservice.createPickSheet(pickSheet);
+            //var pickSheetsPromise = dataservice.getPickSheetsByUserId();
 
-            var all = $q.all([
-                promise
-            ]);
+            //var all = $q.all([
+                //promise,
+                //pickSheetsPromise
+            //]);
 
-            all.then(function (data) {
+            dataservice.createPickSheet(pickSheet).then(function (data) {
                 vm.pickSheetName = "";
                 vm.showPickSheetEntry = false;
 
-                var pickSheetSelected = data[0].data;
-                vm.pickSheets = getPickSheetsByUserId(pickSheetSelected);
+                var pickSheetSelected = data[0].data.error ? { id: '', name: 'Select Pick Sheet' } : data[0].data;
+                getPickSheetsByUserId(pickSheetSelected);
+
+                // vm.pickSheets = data[1].data.pickSheets;
+                //
+                // if (vm.pickSheets.length === 0) {
+                //     vm.pickSheetSelected = { id: '', name: 'No Pick Sheets Exist' };
+                //     vm.pickSheetSelectedName = 'No Pick Sheets Exist';
+                //     // var emptyPickSheet = {};
+                //     // emptyPickSheet.id = '';
+                //     // emptyPickSheet.name = 'No Pick Sheets Exist'
+                //     // vm.pickSheets.push(emptyPickSheet);
+                // } else {
+                //     if (pickSheetSelected) {
+                //         vm.pickSheetSelected = pickSheetSelected;
+                //         vm.pickSheetSelectedName = pickSheetSelected.name;
+                //     } else {
+                //         vm.pickSheetSelected = { id: '', name: 'Select Pick Sheet' };
+                //         vm.pickSheetSelectedName = 'Select Pick Sheet';
+                //     }
+                // }
             })
             .catch(function (error) {
                 console.log(error);
@@ -200,8 +210,6 @@
             .finally(function (data) {
                 vm.loading = true;
             });
-
-            // name, userid in token sent to server
         }
 
         function getPickSheetsByUserId(pickSheetSelected) {
@@ -215,21 +223,16 @@
                 vm.pickSheets = data[0].data.pickSheets;
 
                 if (vm.pickSheets.length === 0) {
-                    vm.pickSheetSelected = {};
+                    vm.pickSheetSelected = { id: '', name: 'No Pick Sheets Exist' };
                     vm.pickSheetSelectedName = 'No Pick Sheets Exist';
-                    // var emptyPickSheet = {};
-                    // emptyPickSheet.id = '';
-                    // emptyPickSheet.name = 'No Pick Sheets Exist'
-                    // vm.pickSheets.push(emptyPickSheet);
                 } else {
                     if (pickSheetSelected) {
                         vm.pickSheetSelected = pickSheetSelected;
                         vm.pickSheetSelectedName = pickSheetSelected.name;
                     } else {
-                        vm.pickSheetSelected = {};
+                        vm.pickSheetSelected = { id: '', name: 'Select Pick Sheet' };
                         vm.pickSheetSelectedName = 'Select Pick Sheet';
                     }
-
                 }
             })
             .catch(function (error) {
@@ -238,6 +241,36 @@
             .finally(function (data) {
                 vm.loading = true;
             });
+        }
+
+        function makePick(matchup, competitorId) {
+            if (!vm.pickSheetSelected ||
+                !vm.pickSheetSelected.id) {
+                toastr.info("Select a Pick Sheet");
+                return;
+            }
+
+            matchup.pickselected = competitorId;
+
+            var pick = {
+                matchupId: matchup.id,
+                selectionId: competitorId
+            };
+
+            var promise = dataservice.addPick(vm.pickSheetSelected.id, pick);
+
+            var all = $q.all([
+                promise
+            ]);
+
+            all.then(function (data) {
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function (data) {
+                vm.loading = true;});
         }
     }
 })();

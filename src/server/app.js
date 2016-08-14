@@ -196,7 +196,39 @@ app.get('/api/games', function(req, res, next) {
     });
 });
 
-app.post('/api/picksheet', function(req, res) {
+app.get('/api/picksheets', function(req, res, next) {
+    //var weekStartingDate = if req.query.league === nfl then (if req.query.week then GetWeekStartingDate(req.query.week) then req.query.weekStartingDate) else req.query.weekStartingDate;
+    //var weekEndingDate = if req.query.league === nfl then (if req.query.week then GetWeekEndingDate(req.query.week) then req.query.weekEndingDate) else req.query.weekEndingDate;
+    //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
+    // week is thursday to wednesday for nfl
+    var userId = 1;
+    con.query("SELECT * FROM picksheet where userId = '" + userId + "'",function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            var pickSheets = [];
+            if (rows.length > 0) {
+                pickSheets = rows.map(function (row) {
+                    var item = row;
+                    return item;
+                });
+                res.json({
+                    pickSheets: pickSheets
+                });
+            } else {
+                pickSheets = [];
+                res.json({
+                    pickSheets: pickSheets
+                });
+            }
+        }
+    });
+});
+
+app.post('/api/picksheets', function(req, res) {
     var userId = 1;
     var name = req.body.name;
     con.query("SELECT * FROM picksheet where name = '" + name + "' and userid = '" + userId + "'",function(err,rows){
@@ -230,35 +262,86 @@ app.post('/api/picksheet', function(req, res) {
     });
 });
 
-app.get('/api/picksheet', function(req, res, next) {
-    //var weekStartingDate = if req.query.league === nfl then (if req.query.week then GetWeekStartingDate(req.query.week) then req.query.weekStartingDate) else req.query.weekStartingDate;
-    //var weekEndingDate = if req.query.league === nfl then (if req.query.week then GetWeekEndingDate(req.query.week) then req.query.weekEndingDate) else req.query.weekEndingDate;
-    //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
-    // week is thursday to wednesday for nfl
+app.get('/api/picksheets/:picksheetid/selections', function(req, res) {
     var userId = 1;
-    con.query("SELECT * FROM picksheet where userId = '" + userId + "'",function(err,rows){
+    var picksheetid = req.params.picksheetid;
+    con.query("SELECT * FROM picksheetselection where picksheetid = '" + picksheetid + "'",function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
             });
         }
         else {
-            var pickSheets = [];
+            var pickSheetSelections = [];
             if (rows.length > 0) {
-                pickSheets = rows.map(function (row) {
+                pickSheetSelections = rows.map(function (row) {
                     var item = row;
                     return item;
                 });
                 res.json({
-                    pickSheets: pickSheets
+                    pickSheetSelections: pickSheetSelections
                 });
             } else {
-                pickSheets = [];
+                pickSheetSelections = [];
                 res.json({
-                    pickSheets: pickSheets
+                    pickSheetSelections: pickSheetSelections
                 });
             }
         }
+    });
+});
+
+app.put('/api/picksheets/:picksheetid/selections/:id', function(req, res) {
+    var userId = 1;
+    var id = req.params.id;
+    con.query("SELECT * FROM picksheetselection where id = '" + id + "'",function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            if (rows.length === 1) {
+
+            } else {
+                var pickSheetSelection = {id: uuid.v1(), name: name, userId: userId};
+                con.query('INSERT INTO picksheetselection SET ?', pickSheet, function (err, res) {
+                    if (err) {
+                        res.json({
+                            error: "Error occured: " + err
+                        });
+                    }
+
+                    var idModel = {};
+                    idModel.id = pickSheet.id;
+                    res.json({
+                        data: pickSheet
+                    });
+                });
+            }
+        }
+    });
+});
+
+app.post('/api/picksheets/:picksheetid/selections', function(req, res) {
+    var userId = 1;
+    var picksheetid = req.params.picksheetid;
+    var matchupId = req.body.matchupId;
+    var selectionId = req.body.selectionId;
+
+    var pickSheetSelection = {id: uuid.v1(), picksheetid: picksheetid, matchupid: matchupId, selectionid: selectionId};
+    con.query('INSERT INTO picksheetselection SET ?', pickSheetSelection, function (err, res) {
+        if (err) {
+            res.json({
+                error: "Error occured: " + err
+            });
+        }
+
+        var idModel = {};
+        idModel.id = pickSheet.id;
+        res.json({
+            data: pickSheet
+        });
     });
 });
 
