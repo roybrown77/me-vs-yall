@@ -34,3 +34,14 @@ token blob,
 
 primary key (id)
 );
+
+create table picksheet (
+
+id nvarchar(36) not null,
+
+name nvarchar(100) not null,
+
+userid nvarchar(36) not null,
+
+primary key (id)
+);

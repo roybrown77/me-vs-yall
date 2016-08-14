@@ -1,13 +1,13 @@
 <div class="container" style="margin-top:.5em">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <select ng-model="vm.pickSheetSelectedId"
+            <select ng-model="vm.pickSheetSelected"
                     style="height: 37px !important;"
-                    ng-options="vm.getPickSheetName(pickSheet.id) for pickSheet in vm.pickSheets">
-                <option value="">{{vm.getPickSheetName(vm.pickSheetSelectedId)}}</option>
+                    ng-options="pickSheet.name for pickSheet in vm.pickSheets">
+                <option value="">{{vm.pickSheetSelectedName}}</option>
             </select>
-            <button type="button" class="btn btn-default btn-sm" ng-click="vm.addPickSheet(vm.pickSheetName)">
-                <span class="glyphicon glyphicon-plus"></span> Add PickSheet
+            <button type="button" class="btn btn-default btn-sm" ng-click="vm.showPickSheetEntry = true">
+                Add Pick Sheet <span class="glyphicon glyphicon-plus"></span>
             </button>
             <span ng-show="vm.showPickSheetEntry">
                     <input type="text" placeholder="Enter Pick Sheet Name" ng-model="vm.pickSheetName">

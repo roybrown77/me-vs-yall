@@ -12,19 +12,24 @@
         vm.title = 'Search Games';
 
         vm.gameDays = [];
-        vm.pickSheetSelectedId = undefined;
+        vm.pickSheetSelected = {};
+        vm.pickSheetSelectedName = 'Select Pick Sheet';
         vm.pickSheets = [];
         vm.showPickSheetEntry = false;
         vm.pickSheetName = "";
 
         vm.makePick = makePick;
         vm.getPickSheetName = getPickSheetName;
-        vm.addPickSheet = addPickSheet;
         vm.createPickSheet = createPickSheet;
 
         activate();
 
         function activate() {
+            getPickSheetsByUserId(null);
+            getGames();
+        }
+
+        function getGames() {
             var promise = dataservice.getGames();
 
             var all = $q.all([
@@ -32,7 +37,7 @@
             ]);
 
             all.then(function (data) {
-                var games = data[0];
+                var games = data[0].data.games;
 
                 var formattedGames = _.map(games, function(game) {
                     var item = game;
@@ -152,36 +157,87 @@
         }
 
         function makePick(matchup, competitorId) {
-            if (!vm.pickSheetSelectedId) {
+            if (!vm.pickSheetSelected.id) {
                 toastr.info("Select a Pick Sheet");
                 return;
             }
 
             matchup.pickselected = competitorId;
-            //matchup.id, competitorId, vm.pickSheetSelectedId, userid in token sent to server
+            //matchup.id, competitorId, vm.pickSheetSelected.id, userid in token sent to server
         }
 
         function getPickSheetName(id) {
             if (vm.pickSheets.length === 0) return 'No Pick Sheets Exist';
 
-            if (!id) return;
+            if (!id) return 'Select Pick Sheet';
 
-            var pickSheet = _.findWhere(vm.pickSheets, { "id": id });
+            var pickSheet = _.find(vm.pickSheets, { "id": id });
 
             if (!pickSheet) return 'Select Pick Sheet';
 
             return pickSheet.name;
         }
 
-        function addPickSheet() {
-            vm.showPickSheetEntry = true;
-        }
+        function createPickSheet() {
+            var pickSheet = {};
+            pickSheet.name = vm.pickSheetName;
+            var promise = dataservice.createPickSheet(pickSheet);
 
-        function createPickSheet(name) {
-            vm.pickSheetName = "";
-            vm.showPickSheetEntry = false;
+            var all = $q.all([
+                promise
+            ]);
+
+            all.then(function (data) {
+                vm.pickSheetName = "";
+                vm.showPickSheetEntry = false;
+
+                var pickSheetSelected = data[0].data;
+                vm.pickSheets = getPickSheetsByUserId(pickSheetSelected);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function (data) {
+                vm.loading = true;
+            });
 
             // name, userid in token sent to server
+        }
+
+        function getPickSheetsByUserId(pickSheetSelected) {
+            var promise = dataservice.getPickSheetsByUserId();
+
+            var all = $q.all([
+                promise
+            ]);
+
+            all.then(function (data) {
+                vm.pickSheets = data[0].data.pickSheets;
+
+                if (vm.pickSheets.length === 0) {
+                    vm.pickSheetSelected = {};
+                    vm.pickSheetSelectedName = 'No Pick Sheets Exist';
+                    // var emptyPickSheet = {};
+                    // emptyPickSheet.id = '';
+                    // emptyPickSheet.name = 'No Pick Sheets Exist'
+                    // vm.pickSheets.push(emptyPickSheet);
+                } else {
+                    if (pickSheetSelected) {
+                        vm.pickSheetSelected = pickSheetSelected;
+                        vm.pickSheetSelectedName = pickSheetSelected.name;
+                    } else {
+                        vm.pickSheetSelected = {};
+                        vm.pickSheetSelectedName = 'Select Pick Sheet';
+                    }
+
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function (data) {
+                vm.loading = true;
+            });
         }
     }
 })();

@@ -196,6 +196,72 @@ app.get('/api/games', function(req, res, next) {
     });
 });
 
+app.post('/api/picksheet', function(req, res) {
+    var userId = 1;
+    var name = req.body.name;
+    con.query("SELECT * FROM picksheet where name = '" + name + "' and userid = '" + userId + "'",function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            if (rows.length > 0) {
+                res.json({
+                    error: "Pick Sheet already exists!"
+                });
+            } else {
+                var pickSheet = {id: uuid.v1(), name: name, userId: userId};
+                con.query('INSERT INTO picksheet SET ?', pickSheet, function (err, res) {
+                    if (err) {
+                        res.json({
+                            error: "Error occured: " + err
+                        });
+                    }
+
+                    var idModel = {};
+                    idModel.id = pickSheet.id;
+                    res.json({
+                        data: pickSheet
+                    });
+                });
+            }
+        }
+    });
+});
+
+app.get('/api/picksheet', function(req, res, next) {
+    //var weekStartingDate = if req.query.league === nfl then (if req.query.week then GetWeekStartingDate(req.query.week) then req.query.weekStartingDate) else req.query.weekStartingDate;
+    //var weekEndingDate = if req.query.league === nfl then (if req.query.week then GetWeekEndingDate(req.query.week) then req.query.weekEndingDate) else req.query.weekEndingDate;
+    //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
+    // week is thursday to wednesday for nfl
+    var userId = 1;
+    con.query("SELECT * FROM picksheet where userId = '" + userId + "'",function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            var pickSheets = [];
+            if (rows.length > 0) {
+                pickSheets = rows.map(function (row) {
+                    var item = row;
+                    return item;
+                });
+                res.json({
+                    pickSheets: pickSheets
+                });
+            } else {
+                pickSheets = [];
+                res.json({
+                    pickSheets: pickSheets
+                });
+            }
+        }
+    });
+});
+
 function ensureAuthorized(req, res, next) {
     var bearerToken;
     var bearerHeader = req.headers["authorization"];
