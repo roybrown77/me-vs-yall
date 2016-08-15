@@ -231,6 +231,18 @@ app.get('/api/picksheets', function(req, res, next) {
 app.post('/api/picksheets', function(req, res) {
     var userId = 1;
     var name = req.body.name;
+
+    if (!req.body.name) {
+        var errors = [];
+        var error = { rule: "Pick Sheet Name is required."};
+        errors.push(error);
+        
+        res.json({
+            errors: errors
+        });
+        return;
+    }
+
     con.query("SELECT * FROM picksheet where name = ? and userid = ?", [name, userId], function(err,rows){
         if (err) {
             res.json({
