@@ -21,6 +21,7 @@
         vm.makePick = makePick;
         vm.getPickSheetName = getPickSheetName;
         vm.createPickSheet = createPickSheet;
+        vm.onPickSheetChange = onPickSheetChange;
 
         activate();
 
@@ -243,6 +244,26 @@
             });
         }
 
+        function onPickSheetChange() {
+            var pickSheet = vm.pickSheetSelected;
+
+            var promise = dataservice.getPicks(pickSheet.id);
+
+            var all = $q.all([
+                promise
+            ]);
+
+            all.then(function (data) {
+                var picks = data[0].data.picks;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function (data) {
+                vm.loading = true;
+            });
+        }
+
         function makePick(matchup, competitorId) {
             if (!vm.pickSheetSelected ||
                 !vm.pickSheetSelected.id) {
@@ -257,7 +278,7 @@
                 selectionId: competitorId
             };
 
-            var promise = dataservice.addPick(vm.pickSheetSelected.id, pick);
+            var promise = dataservice.makePick(vm.pickSheetSelected.id, pick);
 
             var all = $q.all([
                 promise
@@ -270,7 +291,8 @@
                 console.log(error);
             })
             .finally(function (data) {
-                vm.loading = true;});
+                vm.loading = true;
+            });
         }
     }
 })();

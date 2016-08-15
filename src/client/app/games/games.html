@@ -1,7 +1,8 @@
 <div class="container" style="margin-top:.5em">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <select ng-model="vm.pickSheetSelected"
+            <select ng-change="vm.onPickSheetChange()"
+                    ng-model="vm.pickSheetSelected"
                     style="height: 37px !important;"
                     ng-options="pickSheet.name for pickSheet in vm.pickSheets">
                 <option value="">{{vm.pickSheetSelectedName}}</option>

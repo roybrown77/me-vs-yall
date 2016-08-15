@@ -15,7 +15,8 @@
             getGames: getGames,
             createPickSheet: createPickSheet,
             getPickSheetsByUserId: getPickSheetsByUserId,
-            addPick: addPick
+            makePick: makePick,
+            getPicks: getPicks
         };
 
         return service;
@@ -32,7 +33,7 @@
             return $http.get('/api/picksheets');
         }
 
-        function addPick(pickSheetId, pick) {
+        function makePick(pickSheetId, pick) {
             return $http.post('/api/picksheets/' + pickSheetId + '/selections', pick);
         }
 
@@ -44,7 +45,7 @@
             return $http.delete('/api/picksheets/' + pickSheetId + '/selections/' + id);
         }
 
-        function getPicks(pickSheetId, pick) {
+        function getPicks(pickSheetId) {
             return $http.get('/api/picksheets/' + pickSheetId + '/selections');
         }
 

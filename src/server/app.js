@@ -77,7 +77,7 @@ app.get('/ping', function(req, res, next) {
 });
 
 app.post('/authenticate', function(req, res) {
-    con.query("SELECT * FROM users where email = '" + req.body.email + "' and password = '" + req.body.password + "'",function(err,rows){
+    con.query("SELECT * FROM users where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
         if (err) {
             res.json({
                 type: false,
@@ -103,7 +103,7 @@ app.post('/authenticate', function(req, res) {
 });
 
 app.post('/signin', function(req, res) {
-    con.query("SELECT * FROM users where email = '" + req.body.email + "' and password = '" + req.body.password + "'",function(err,rows){
+    con.query("SELECT * FROM users where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
         if (err) {
             res.json({
                 type: false,
@@ -139,7 +139,7 @@ app.post('/signin', function(req, res) {
 });
 
 app.get('/me', ensureAuthorized, function(req, res) {
-    con.query("SELECT * FROM users where token = '" + req.body.token + "'",function(err,rows){
+    con.query("SELECT * FROM users where token = ?", req.body.token, function(err,rows){
         if (err) {
             res.json({
                 type: false,
@@ -169,7 +169,7 @@ app.get('/api/games', function(req, res, next) {
     //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
     // week is thursday to wednesday for nfl
     var timeZoneId = "Pacific Standard Time";
-    con.query("SELECT * FROM games where league = 'NFL' and gametimestamp >= '2016-09-08 4:00:00' and gametimestamp <= '2016-09-14 3:59:59'",function(err,rows){
+    con.query("SELECT * FROM games where league = 'NFL' and gametimestamp >= '2016-09-08 4:00:00' and gametimestamp <= '2016-09-14 3:59:59'", function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
@@ -202,7 +202,7 @@ app.get('/api/picksheets', function(req, res, next) {
     //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
     // week is thursday to wednesday for nfl
     var userId = 1;
-    con.query("SELECT * FROM picksheet where userId = '" + userId + "'",function(err,rows){
+    con.query("SELECT * FROM picksheet where userId = ?", userId, function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
@@ -231,7 +231,7 @@ app.get('/api/picksheets', function(req, res, next) {
 app.post('/api/picksheets', function(req, res) {
     var userId = 1;
     var name = req.body.name;
-    con.query("SELECT * FROM picksheet where name = '" + name + "' and userid = '" + userId + "'",function(err,rows){
+    con.query("SELECT * FROM picksheet where name = ? and userid = ?", [name, userId], function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
@@ -265,26 +265,26 @@ app.post('/api/picksheets', function(req, res) {
 app.get('/api/picksheets/:picksheetid/selections', function(req, res) {
     var userId = 1;
     var picksheetid = req.params.picksheetid;
-    con.query("SELECT * FROM picksheetselection where picksheetid = '" + picksheetid + "'",function(err,rows){
+    con.query("SELECT * FROM picksheetselection where picksheetid = ?", picksheetid, function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
             });
         }
         else {
-            var pickSheetSelections = [];
+            var picks = [];
             if (rows.length > 0) {
-                pickSheetSelections = rows.map(function (row) {
+                picks = rows.map(function (row) {
                     var item = row;
                     return item;
                 });
                 res.json({
-                    pickSheetSelections: pickSheetSelections
+                    picks: picks
                 });
             } else {
-                pickSheetSelections = [];
+                picks = [];
                 res.json({
-                    pickSheetSelections: pickSheetSelections
+                    picks: picks
                 });
             }
         }
@@ -294,7 +294,7 @@ app.get('/api/picksheets/:picksheetid/selections', function(req, res) {
 app.put('/api/picksheets/:picksheetid/selections/:id', function(req, res) {
     var userId = 1;
     var id = req.params.id;
-    con.query("SELECT * FROM picksheetselection where id = '" + id + "'",function(err,rows){
+    con.query("SELECT * FROM picksheetselection where id = ?", id, function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
@@ -329,19 +329,53 @@ app.post('/api/picksheets/:picksheetid/selections', function(req, res) {
     var matchupId = req.body.matchupId;
     var selectionId = req.body.selectionId;
 
-    var pickSheetSelection = {id: uuid.v1(), picksheetid: picksheetid, matchupid: matchupId, selectionid: selectionId};
-    con.query('INSERT INTO picksheetselection SET ?', pickSheetSelection, function (err, res) {
+    con.query("SELECT * FROM picksheetselection WHERE picksheetid = ? AND matchupid = ?", [picksheetid, matchupId], function(err,rows){
         if (err) {
             res.json({
-                error: "Error occured: " + err
+                data: "Error occured: " + err
             });
-        }
+        } else {
+            if (rows.length > 1) {
+                res.json({
+                    data: "More than 1 record exist"
+                });
+            } else {
+                if (rows.length === 1) {
+                    con.query('UPDATE picksheetselection SET selectionid = ? WHERE picksheetid = ? AND matchupid = ?', [selectionId, picksheetid, matchupId], function (err, res) {
+                        if (err) {
+                            res.json({
+                                error: "Error occured: " + err
+                            });
+                        }
 
-        var idModel = {};
-        idModel.id = pickSheet.id;
-        res.json({
-            data: pickSheet
-        });
+                        res.json({
+                            data: true
+                        });
+                    });
+                } else {
+                    var pickSheetSelection = {
+                        id: uuid.v1(),
+                        picksheetid: picksheetid,
+                        matchupid: matchupId,
+                        selectionid: selectionId
+                    };
+
+                    con.query('INSERT INTO picksheetselection SET ?', pickSheetSelection, function (err, res) {
+                        if (err) {
+                            res.json({
+                                error: "Error occured: " + err
+                            });
+                        }
+
+                        var idModel = {};
+                        idModel.id = pickSheet.id;
+                        res.json({
+                            data: pickSheet
+                        });
+                    });
+                }
+            }
+        }
     });
 });
 
