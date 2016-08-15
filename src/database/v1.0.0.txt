@@ -1,36 +1,38 @@
-create table games (
+create table game (
   
-id nvarchar(36),
-  
-league nvarchar(100),
-  
-competitor1 nvarchar(100),
-  
-competitor2 nvarchar(100),
-  
-gametimestamp datetime,
-  
-tvstations nvarchar(100),
-  
+id nvarchar(36) not null,
+
+league nvarchar(100) not null,
+
+competitor1 nvarchar(100) not null,
+
+competitor2 nvarchar(100) not null,
+
+winner nvarchar(100),
+
+gametimestamp datetime not null,
+
+tvstation nvarchar(100) not null,
+
 primary key (id)
 );
 
-insert into games values 
-('ffb71dc5-0201-4b46-bb36-2caaeea81751','NFL','Tampa Bay Buccaneers','Atlanta Falcons','2016-09-11 17:00','FOX'),
+insert into game values
+('ffb71dc5-0201-4b46-bb36-2caaeea81751','NFL','Tampa Bay Buccaneers','Atlanta Falcons', null, '2016-09-11 17:00','FOX'),
 
-('f9cafdf3-3197-4f5e-a6ef-423c392d1547','NFL','Buffalo Bills','Baltimore Ravens','2016-09-11 17:00','CBS');
+('f9cafdf3-3197-4f5e-a6ef-423c392d1547','NFL','Buffalo Bills','Baltimore Ravens', null, '2016-09-11 17:00','CBS');
 
-create table users (
+create table user (
 
-id nvarchar(36),
+id nvarchar(36) not null,
 
-email nvarchar(100),
+email nvarchar(100) not null,
 
-password nvarchar(100),
+password nvarchar(100) not null,
 
-createdat datetime,
+createdat datetime not null,
 
-token blob,
+token text not null,
 
 primary key (id)
 );
@@ -54,7 +56,7 @@ picksheetid nvarchar(36) not null,
 
 matchupid nvarchar(36) not null,
 
-selectionid nvarchar(36) not null,
+selectionid nvarchar(36),
 
 primary key (id)
 );

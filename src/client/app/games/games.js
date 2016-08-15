@@ -40,7 +40,7 @@
             all.then(function (data) {
                 var games = data[0].data.games;
 
-                var formattedGames = _.map(games, function(game) {
+                _.map(games, function(game) {
                     var item = game;
                     item.date = moment(game.gametimestamp).format('ddd');
                     item.time = moment(game.gametimestamp).format('h:mm a zz');
@@ -245,6 +245,16 @@
         }
 
         function onPickSheetChange() {
+            if (!vm.pickSheetSelected) {
+                var matchups = _.map(vm.gameDays, 'matchups')[0];
+
+                _.map(matchups, function(matchup) {
+                    var item = matchup;
+                    item.pickselected = undefined;
+                    return item;
+                });
+            }
+
             var pickSheet = vm.pickSheetSelected;
 
             var promise = dataservice.getPicks(pickSheet.id);
@@ -255,6 +265,15 @@
 
             all.then(function (data) {
                 var picks = data[0].data.picks;
+
+                var matchups = _.map(vm.gameDays, 'matchups')[0];
+
+                _.map(matchups, function(matchup) {
+                    var item = matchup;
+                    var pick =  _.find(picks, { "matchupid": matchup.id });
+                    item.pickselected = pick ? pick.selectionid : undefined;
+                    return item;
+                });
             })
             .catch(function (error) {
                 console.log(error);

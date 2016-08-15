@@ -77,7 +77,7 @@ app.get('/ping', function(req, res, next) {
 });
 
 app.post('/authenticate', function(req, res) {
-    con.query("SELECT * FROM users where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
+    con.query("SELECT * FROM user where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
         if (err) {
             res.json({
                 type: false,
@@ -103,7 +103,7 @@ app.post('/authenticate', function(req, res) {
 });
 
 app.post('/signin', function(req, res) {
-    con.query("SELECT * FROM users where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
+    con.query("SELECT * FROM user where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
         if (err) {
             res.json({
                 type: false,
@@ -119,7 +119,7 @@ app.post('/signin', function(req, res) {
             } else {
                 var user = {id: uuid.v1(), email: req.body.email, password: req.body.password};
                 user.token = jwt.sign(user, 'shhhhh');
-                con.query('INSERT INTO users SET ?', user, function (err, res) {
+                con.query('INSERT INTO user SET ?', user, function (err, res) {
                     if (err) {
                         res.json({
                             type: false,
@@ -139,7 +139,7 @@ app.post('/signin', function(req, res) {
 });
 
 app.get('/me', ensureAuthorized, function(req, res) {
-    con.query("SELECT * FROM users where token = ?", req.body.token, function(err,rows){
+    con.query("SELECT * FROM user where token = ?", req.body.token, function(err,rows){
         if (err) {
             res.json({
                 type: false,
@@ -169,7 +169,7 @@ app.get('/api/games', function(req, res, next) {
     //convert req.query.weekEndingDate and req.query.weekStartingDate to proper req.query.timezoneid
     // week is thursday to wednesday for nfl
     var timeZoneId = "Pacific Standard Time";
-    con.query("SELECT * FROM games where league = 'NFL' and gametimestamp >= '2016-09-08 4:00:00' and gametimestamp <= '2016-09-14 3:59:59'", function(err,rows){
+    con.query("SELECT * FROM game where league = 'NFL' and gametimestamp >= '2016-09-08 4:00:00' and gametimestamp <= '2016-09-14 3:59:59'", function(err,rows){
         if (err) {
             res.json({
                 data: "Error occured: " + err
