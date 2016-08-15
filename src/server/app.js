@@ -138,7 +138,7 @@ app.post('/signin', function(req, res) {
     });
 });
 
-app.get('/me', ensureAuthorized, function(req, res) {
+app.get('/testauthorization', ensureAuthorized, function(req, res) {
     con.query("SELECT * FROM user where token = ?", req.body.token, function(err,rows){
         if (err) {
             res.json({

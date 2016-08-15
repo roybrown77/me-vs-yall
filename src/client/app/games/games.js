@@ -171,49 +171,27 @@
 
         function createPickSheet() {
             var pickSheet = { name: vm.pickSheetName };
-            //var promise = dataservice.createPickSheet(pickSheet);
-            //var pickSheetsPromise = dataservice.getPickSheetsByUserId();
+            var promise = dataservice.createPickSheet(pickSheet);
 
-            //var all = $q.all([
-                //promise,
-                //pickSheetsPromise
-            //]);
+            var all = $q.all([
+                promise
+            ]);
 
-            dataservice.createPickSheet(pickSheet).then(function (data) {
-                vm.pickSheetName = "";
-                vm.showPickSheetEntry = false;
-
-                var pickSheetSelected = data[0].data.error ? { id: '', name: 'Select Pick Sheet' } : data[0].data;
-                getPickSheetsByUserId(pickSheetSelected);
-
-                // vm.pickSheets = data[1].data.pickSheets;
-                //
-                // if (vm.pickSheets.length === 0) {
-                //     vm.pickSheetSelected = { id: '', name: 'No Pick Sheets Exist' };
-                //     vm.pickSheetSelectedName = 'No Pick Sheets Exist';
-                //     // var emptyPickSheet = {};
-                //     // emptyPickSheet.id = '';
-                //     // emptyPickSheet.name = 'No Pick Sheets Exist'
-                //     // vm.pickSheets.push(emptyPickSheet);
-                // } else {
-                //     if (pickSheetSelected) {
-                //         vm.pickSheetSelected = pickSheetSelected;
-                //         vm.pickSheetSelectedName = pickSheetSelected.name;
-                //     } else {
-                //         vm.pickSheetSelected = { id: '', name: 'Select Pick Sheet' };
-                //         vm.pickSheetSelectedName = 'Select Pick Sheet';
-                //     }
-                // }
+            all.then(function (response) {
+                vm.pickSheetSelected = response[0].data.error ? { id: '', name: 'Select Pick Sheet' } : response[0].data;
             })
             .catch(function (error) {
                 console.log(error);
             })
             .finally(function (data) {
                 vm.loading = true;
-            });
+            }).then(getPickSheetsByUserId(pickSheet));
         }
 
         function getPickSheetsByUserId(pickSheetSelected) {
+            vm.pickSheetName = "";
+            vm.showPickSheetEntry = false;
+            
             var promise = dataservice.getPickSheetsByUserId();
 
             var all = $q.all([
@@ -228,7 +206,7 @@
                     vm.pickSheetSelectedName = 'No Pick Sheets Exist';
                 } else {
                     if (pickSheetSelected) {
-                        vm.pickSheetSelected = pickSheetSelected;
+                        vm.pickSheetSelected = _.find(vm.pickSheets, { 'name' : pickSheetSelected.name });
                         vm.pickSheetSelectedName = pickSheetSelected.name;
                     } else {
                         vm.pickSheetSelected = { id: '', name: 'Select Pick Sheet' };
