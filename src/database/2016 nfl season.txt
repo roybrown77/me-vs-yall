@@ -1,7 +1,7 @@
-'','Carolina Panthers','Denver Broncos','2016-09-08 20:30','NBC'
-'
-'ffb71dc5-0201-4b46-bb36-2caaeea81751','Tampa Bay Buccaneers','Atlanta Falcons','2016-09-11 13:00','FOX'
-'f9cafdf3-3197-4f5e-a6ef-423c392d1547','Buffalo Bills','Baltimore Ravens','2016-09-11 13:00','CBS'
+'ffb71dc5-0201-4b46-bb36-2caaeea81752','NFL','Carolina Panthers','Denver Broncos',NULL,'2016-09-08 20:30','NBC'
+'ffb71dc5-0201-4b46-bb36-2caaeea81751','NFL','Tampa Bay Buccaneers','Atlanta Falcons',NULL,'2016-09-11 13:00','FOX'
+'f9cafdf3-3197-4f5e-a6ef-423c392d1547','NFL','Buffalo Bills','Baltimore Ravens',NULL,'2016-09-11 13:00','CBS'
+
 'Chicago Bears','Houston Texans','2016-09-11 13:00','FOX'
 'Green Bay Packers','Jacksonville Jaguars','2016-09-11 13:00','FOX'
 'San Diego Chargers','Kansas City Chiefs','2016-09-11 13:00','CBS'
