@@ -23,7 +23,8 @@
         'app.avengers',
         'app.dashboard',
         'app.layout',
-        'app.games'
+        'app.games',
+        'app.head2heads'
     ]);
 
 })();
