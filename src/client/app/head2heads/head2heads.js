@@ -14,6 +14,8 @@
         vm.games = [];
         vm.competitors = [];
 
+        vm.getSelection = getSelection;
+
         activate();
 
         function activate() {
@@ -96,7 +98,6 @@
                 competitor.competitorSelections = competitorSelections;
 
                 vm.competitors.push(competitor);
-
             })
             .catch(function (error) {
                 console.log(error);
@@ -104,6 +105,13 @@
             .finally(function (data) {
                 vm.loading = true;
             });
+        }
+
+        function getSelection (competitorColumnNumber, matchupId) {
+            var competitor = vm.competitors[competitorColumnNumber];
+            var selection = _.find(competitor.competitorSelections, { 'matchupid': matchupId});
+            var selectionid = selection.selectionid;
+            return selectionid;
         }
     }
 })();

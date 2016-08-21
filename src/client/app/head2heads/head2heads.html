@@ -3,6 +3,7 @@
 </style>
 
 <div class="container" style="margin-top:.5em">
+    <!--
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         Games
         <div class="row" ng-repeat="game in vm.games">
@@ -22,13 +23,22 @@
             </span>
         </div>
     </div>
+    -->
 
-    <!--<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">-->
-    <!--Scott - 3-->
-    <!--<div class="row" ng-repeat="game in vm.games">-->
-    <!--<span class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="border-top:.1em solid #f1f2f3">-->
-    <!--<span>NE</span>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--</div>-->
+    <table width="100%">
+        <tr>
+            <th>Games</th>
+            <th ng-repeat="competitor in vm.competitors">{{competitor.name}} - {{competitor.totalWins}}</th>
+        </tr>
+        <tr ng-repeat="game in vm.games">
+            <td>
+                <span class="sb-team-short">{{game.competitor1.locationShortName}}</span>
+                <span>at</span>
+                <span>{{game.competitor2.locationShortName}}</span>
+            </td>
+            <td ng-repeat="competitor in vm.competitors">
+                <span>{{vm.getSelection($index, game.id)}}</span>
+            </td>
+        </tr>
+    </table>
 </div>
