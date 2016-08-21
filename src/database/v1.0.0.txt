@@ -1,3 +1,5 @@
+-- game table --
+
 create table game (
   
 id nvarchar(36) not null,
@@ -24,9 +26,13 @@ insert into game values
 
 ('f9cafdf3-3197-4f5e-a6ef-423c392d1547','NFL','Buffalo Bills','Baltimore Ravens', null, '2016-09-11 13:00','CBS');
 
+-- user table --
+
 create table user (
 
 id nvarchar(36) not null,
+
+username nvarchar(100) not null,
 
 email nvarchar(100) not null,
 
@@ -38,6 +44,11 @@ token text not null,
 
 primary key (id)
 );
+
+insert into user values ('5b4f5dba-6a2f-4be5-8065-603a35afc02c', 'Pats All Day', 'roybrown77@gmail.com','password1',NOW(),'token');
+insert into user values ('5b4f5dba-6a2f-4be5-8065-603a35afc03c', 'Steeler Nation', 'sbtobias78@gmail.com', 'password1',NOW(),'token');
+
+-- picksheet tables --
 
 create table picksheet (
 
