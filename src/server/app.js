@@ -8,7 +8,9 @@ var cors = require('cors');
 var errorHandler = require('./routes/utils/errorHandler')();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+
 var routes;
+
 var jwt        = require("jsonwebtoken");
 var uuid = require('node-uuid');
 var moment = require('moment');

@@ -78,6 +78,7 @@
     "merge-stream": "^0.1.5",
     "minimist": "^1.1.0",
     "mocha": "^1.20.1",
+    "mysql": "*",
     "ng-midway-tester": "^2.0.5",
     "phantomjs": "^1.9.7-14",
     "plato": "^1.2.2",
