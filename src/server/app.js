@@ -78,6 +78,12 @@ app.get('/ping', function(req, res, next) {
     res.send('pong');
 });
 
+/*
+ *
+ * users
+ *
+ */
+
 app.post('/authenticate', function(req, res) {
     con.query("SELECT * FROM user where email = ? and password = ?", [req.body.email, req.body.password], function(err,rows){
         if (err) {
@@ -98,6 +104,31 @@ app.post('/authenticate', function(req, res) {
                 res.json({
                     type: false,
                     data: "Incorrect email/password"
+                });
+            }
+        }
+    });
+});
+
+app.get('/testauthorization', ensureAuthorized, function(req, res) {
+    con.query("SELECT * FROM user where token = ?", req.body.token, function(err,rows){
+        if (err) {
+            res.json({
+                type: false,
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            if (rows.length > 0) {
+                var user = {id: rows[0].id, email: rows[0].email, password: rows[0].password};
+                res.json({
+                    type: true,
+                    data: user
+                });
+            } else {
+                res.json({
+                    type: false,
+                    data: "Incorrect token"
                 });
             }
         }
@@ -140,30 +171,57 @@ app.post('/signin', function(req, res) {
     });
 });
 
-app.get('/testauthorization', ensureAuthorized, function(req, res) {
-    con.query("SELECT * FROM user where token = ?", req.body.token, function(err,rows){
+app.get('/api/users', function(req, res, next) {
+    con.query("SELECT * FROM user", function(err,rows){
         if (err) {
             res.json({
-                type: false,
                 data: "Error occured: " + err
             });
         }
         else {
+            var users = [];
             if (rows.length > 0) {
-                var user = {id: rows[0].id, email: rows[0].email, password: rows[0].password};
+                users = rows;
                 res.json({
-                    type: true,
-                    data: user
+                    users: users
                 });
             } else {
+                users = [];
                 res.json({
-                    type: false,
-                    data: "Incorrect token"
+                    users: users
                 });
             }
         }
     });
 });
+
+app.get('/api/users/:userid', function(req, res) {
+    var userid = req.params.userid;
+    con.query("SELECT * FROM user WHERE id = ?", userid, function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            var user = {};
+            if (rows.length === 1) {
+                user = rows[0];
+                res.json({
+                    user: user
+                });
+            } else {
+                res.send(204);
+            }
+        }
+    });
+});
+
+/*
+*
+* games
+*
+ */
 
 app.get('/api/games', function(req, res, next) {
     //var weekStartingDate = if req.query.league === nfl then (if req.query.week then GetWeekStartingDate(req.query.week) then req.query.weekStartingDate) else req.query.weekStartingDate;
@@ -197,6 +255,37 @@ app.get('/api/games', function(req, res, next) {
         }
     });
 });
+
+app.get('/api/weeks', function(req, res, next) {
+    var season = '2016';
+    con.query("SELECT * FROM week WHERE season = ?", season, function(err,rows){
+        if (err) {
+            res.json({
+                data: "Error occured: " + err
+            });
+        }
+        else {
+            var weeks = [];
+            if (rows.length > 0) {
+                weeks = rows;
+                res.json({
+                    weeks: weeks
+                });
+            } else {
+                weeks = [];
+                res.json({
+                    weeks: weeks
+                });
+            }
+        }
+    });
+});
+
+/*
+ *
+ * pick sheets
+ *
+*/
 
 app.get('/api/picksheets', function(req, res, next) {
     //var weekStartingDate = if req.query.league === nfl then (if req.query.week then GetWeekStartingDate(req.query.week) then req.query.weekStartingDate) else req.query.weekStartingDate;

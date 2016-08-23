@@ -16,13 +16,18 @@
             createPickSheet: createPickSheet,
             getPickSheetsByUserId: getPickSheetsByUserId,
             makePick: makePick,
-            getPicks: getPicks
+            getPicks: getPicks,
+            getWeeks: getWeeks
         };
 
         return service;
 
         function getGames() {
             return $http.get('/api/games');
+        }
+
+        function getWeeks() {
+            return $http.get('/api/weeks');
         }
 
         function createPickSheet(pickSheet) {

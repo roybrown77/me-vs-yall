@@ -12,12 +12,16 @@
         vm.title = 'Search Games';
 
         vm.gameDays = [];
+        vm.weeks = [];
+        vm.weekSelected = {};
+
         vm.pickSheetSelected = { id: '', name: 'Select Pick Sheet' };
         vm.pickSheetSelectedName = 'Select Pick Sheet';
         vm.pickSheets = [];
         vm.showPickSheetEntry = false;
         vm.pickSheetName = "";
 
+        vm.onWeekChange = onWeekChange;
         vm.makePick = makePick;
         vm.getPickSheetName = getPickSheetName;
         vm.createPickSheet = createPickSheet;
@@ -28,6 +32,7 @@
         function activate() {
             getPickSheetsByUserId(null);
             getGames();
+            getWeeks();
         }
 
         function getGames() {
@@ -223,6 +228,36 @@
             .finally(function (data) {
                 vm.loading = true;
             });
+        }
+
+        function getWeeks() {
+            var promise = dataservice.getWeeks();
+
+            var all = $q.all([
+                promise
+            ]);
+
+            all.then(function (data) {
+                vm.weeks = data[0].data.weeks;
+
+                _.map(vm.weeks, function(week) {
+                    var item = week;
+                    item.name = 'Week ' + week.number;
+                    return item;
+                });
+
+                vm.weekSelected = vm.weeks[0];
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function (data) {
+                vm.loading = true;
+            });
+        }
+
+        function onWeekChange() {
+
         }
     }
 })();

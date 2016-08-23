@@ -1,5 +1,8 @@
 ﻿<style>
-
+    .cell {
+        border-top: .1em solid #f1f2f3;
+        border-bottom: .1em solid #f1f2f3;
+    }
 </style>
 
 <div class="container" style="margin-top:.5em">
@@ -25,20 +28,42 @@
     </div>
     -->
 
-    <table width="100%">
-        <tr>
-            <th>Games</th>
-            <th ng-repeat="competitor in vm.competitors">{{competitor.name}} - {{competitor.totalWins}}</th>
-        </tr>
-        <tr ng-repeat="game in vm.games">
-            <td>
-                <span class="sb-team-short">{{game.competitor1.locationShortName}}</span>
-                <span>at</span>
-                <span>{{game.competitor2.locationShortName}}</span>
-            </td>
-            <td ng-repeat="competitor in vm.competitors">
-                <span>{{vm.getSelection($index, game.id)}}</span>
-            </td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <select ng-change="vm.onWeekChange()"
+                    ng-model="vm.weekSelected"
+                    ng-options="week.name for week in vm.weeks"
+                    ng-init="vm.weekSelected">
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button type="button" class="btn-default btn-sm">
+                Add Member <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table width="100%">
+                <tr class="cell" >
+                    <th>Games</th>
+                    <th ng-repeat="competitor in vm.competitors">{{competitor.name}} - {{competitor.totalWins}}</th>
+                </tr>
+                <tr class="cell" ng-repeat="game in vm.games">
+                    <td>
+                        <span class="sb-team-short">{{game.competitor1.locationShortName}}</span>
+                        <span>at</span>
+                        <span>{{game.competitor2.locationShortName}}</span>
+                    </td>
+                    <td ng-repeat="competitor in vm.competitors">
+                        <span>{{vm.getSelection($index, game.id)}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
