@@ -10,8 +10,7 @@ http://mevsyall.apphb.com
 
 Client:
 
-- ReactJs
-- Redux
+- React/Redux
 - Google Material Design
 
 Backend:
@@ -29,4 +28,4 @@ Continuous integration and hosting server:
 
 2. npm start
 
-3. open localhost:3000 if it doesn't open automatically
+3. open localhost:3001 if it doesn't open automatically
