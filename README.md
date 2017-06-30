@@ -8,6 +8,7 @@ https://me-vs-yall.firebaseapp.com
 
 Client:
 
+- Progressive Web App capabilities per https://developers.google.com/web/progressive-web-apps/
 - React/Redux
 - Google Material Design
 
