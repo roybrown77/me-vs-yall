@@ -1,28 +1,20 @@
 {
-  "name": "sportspick",
-  "version": "1.0.0",
-  "description": "Pick winners of sporting events and compete with others around the world.",
-  "main": "index.js",
+  "name": "me-vs-yall",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-      "react": "^15.6.1",
-      "react-dom": "^15.6.1",
-      "react-router": "^3.0.5",
-      "react-scripts": "1.0.9"
+    "firebase-tools": "^3.9.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "3.0.5"
+  },
+  "devDependencies": {
+    "react-scripts": "0.9.5"
   },
   "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test --env=jsdom",
-      "eject": "react-scripts eject"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/roybrown77/sportspick.git"
-  },
-  "author": "Roy Brown",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/roybrown77/sportspick/issues"
-  },
-  "homepage": "https://github.com/roybrown77/sportspick#readme"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
 }
