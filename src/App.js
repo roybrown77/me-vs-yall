@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MyAwesomeReactComponent from './MyAwesomeReactComponent';
 import { Router, browserHistory, Route, Link } from 'react-router'
+
 import logo from './logo.svg';
 import './App.css';
 
 const Page = ({ title }) => (
+<MuiThemeProvider>
     <div className="App">
       <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -12,6 +16,7 @@ const Page = ({ title }) => (
       <p className="App-intro">
         This is the {title} page.
       </p>
+      <MyAwesomeReactComponent />
       <p>
         <Link to="/">Home</Link>
       </p>
@@ -22,6 +27,7 @@ const Page = ({ title }) => (
         <Link to="/settings">Settings</Link>
       </p>
     </div>
+    </MuiThemeProvider>
 )
 
 const Home = (props) => (
