@@ -1,5 +1,5 @@
 body {
-  background-color: lightgray;
+  background-color: #f4f7f6;
 }
 
 .App-logo {
@@ -39,7 +39,12 @@ body {
 }
 
 #app-bar {
-  background-color: #013d77 !important;
+  background-color: #f4f7f6 !important;
+  border-bottom: 1px solid black;
+}
+
+#app-bar button div svg {
+  fill: black !important;
 }
 
 .list {
@@ -54,13 +59,23 @@ body {
 }
 
 .list__item {
-  border: 8px white solid;
+  margin: 8px;
+  border: 8px #f4f7f6 solid;
   width: 100%;
   background-color: blue;
   font: 1.4rem/1 Permanent Marker,sans-serif;
-  color: lightgray;
+  color: #f4f7f6;
   font-size: 4em;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+#home {
+  top: 0;
+  position: fixed;
+  z-index: 9999;
+  background-color: red;
+  height: 100%;
+  width: 100%;
 }
