@@ -2,6 +2,16 @@ body {
   background-color: lightgray;
 }
 
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .app {
   position: relative;
   display: block;
@@ -10,7 +20,7 @@ body {
 }
 
 .app__wrapper {
-  padding: 62.5%;
+  padding-top: 62.5%;
 }
 
 .app__title {
@@ -28,16 +38,33 @@ body {
   font: 1.4rem/1 Permanent Marker,sans-serif;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 #app-bar {
   background-color: #013d77 !important;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.list__item {
+  width: 100%;
+}
+
+@media (min-width: 48em) {
+  .list__item {
+    width: 33.33%;
+  }
+}
+
+@media (min-width: 30em) {
+  .list__item {
+    width: 50%;
+  }
 }

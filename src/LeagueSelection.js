@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 class LeagueSelection extends Component {
     constructor(props) {
@@ -7,8 +8,10 @@ class LeagueSelection extends Component {
 
     render() {
         return (
-            <div>
-                League Selection
+            <div className="list js-list">
+                <Link className="list__item app js-app" to="/league/nfl">
+                    <h2 className="app__title">NFL</h2>
+                </Link>
             </div>
         );
     }

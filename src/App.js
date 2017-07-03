@@ -8,6 +8,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import './App.css';
 import Home from './Home';
 import LeagueSelection from './LeagueSelection';
+import LeagueSchedule from './LeagueSchedule';
 
 class App extends Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class App extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/selectleague') }}
+                                  onClick={() => { history.push('/league') }}
                                 >
                                   Select League
                                 </MenuItem>
@@ -81,7 +82,8 @@ class App extends Component {
                     <main>
                         <Switch>
                             <Route exact path='/' component={Home}/>
-                            <Route path='/selectleague' component={LeagueSelection}/>
+                            <Route exact path='/league' component={LeagueSelection}/>
+                            <Route path='/league/:name' component={LeagueSchedule}/>
                         </Switch>
                     </main>
                 </div>
