@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase-tools": "^3.9.1",
+    "material-design-icons": "^3.0.1",
     "material-ui": "^0.18.5",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

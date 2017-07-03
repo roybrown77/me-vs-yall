@@ -78,6 +78,26 @@ class App extends Component {
                                 </MenuItem>
                               )} />
                         )}
+                        {(
+                            <Route render={({ history}) => (
+                                <MenuItem
+                                  onTouchTap={this.handleClose}
+                                  onClick={() => { history.push('/feedback') }}
+                                >
+                                  Feedback
+                                </MenuItem>
+                              )} />
+                        )}
+                        {(
+                            <Route render={({ history}) => (
+                                <MenuItem
+                                  onTouchTap={this.handleClose}
+                                  onClick={() => { history.push('/login') }}
+                                >
+                                  Login
+                                </MenuItem>
+                              )} />
+                        )}
                     </Drawer>
                     <main>
                         <Switch>

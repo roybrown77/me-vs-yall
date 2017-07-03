@@ -9,7 +9,6 @@ class LeagueScheduler extends Component {
     render() {
         return (
             <div className="list">
-                LeagueScheduler
             </div>
         );
     }

@@ -2,14 +2,23 @@ body {
   background-color: #f4f7f6;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+#home {
+  top: 0;
+  position: fixed;
+  z-index: 9999;
+  background-color: red;
+  height: 100%;
+  width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#home-title {
+  font: 7.4rem/1 Permanent Marker,sans-serif;
+  margin-top: 15%;
+}
+
+#home-go {
+  font: 7.4rem/1 Permanent Marker,sans-serif;
+  cursor: pointer;
 }
 
 .app {
@@ -47,6 +56,16 @@ body {
   fill: black !important;
 }
 
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .list {
   margin: 0;
   padding: 0;
@@ -71,11 +90,3 @@ body {
   justify-content: center;
 }
 
-#home {
-  top: 0;
-  position: fixed;
-  z-index: 9999;
-  background-color: red;
-  height: 100%;
-  width: 100%;
-}
