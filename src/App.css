@@ -54,17 +54,25 @@ body {
 }
 
 .list__item {
-  width: 100%;
+  width: 5em;
+  height: 5em;
+  background-color: blue;
+  font: 1.4rem/1 Permanent Marker,sans-serif;
+  color: lightgray;
+  font-size: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-@media (min-width: 48em) {
+@media (min-width: 695px) {
   .list__item {
-    width: 33.33%;
+    width: 50%;
   }
 }
 
-@media (min-width: 30em) {
+@media (max-width: 595px) {
   .list__item {
-    width: 50%;
+    width: 100%;
   }
 }
