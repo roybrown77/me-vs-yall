@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 class Home extends Component {
     render() {
         return (
-            <div id="home">
+            <div id="home" className="fade-in one">
                 <div id="home-title">Me vs Yall</div>
                 {(
                     <Route render={({ history }) => (
