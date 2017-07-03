@@ -32,5 +32,4 @@ Hosting server:
 2. npm config set prefix '~/.npm-global'
 3. export PATH=~/.npm-global/bin:$PATH
 4. npm install -g firebase-tools
-5. npm run build
-6. npm firebase deploy
+5. npm run build && firebase deploy
