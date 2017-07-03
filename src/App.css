@@ -54,8 +54,8 @@ body {
 }
 
 .list__item {
-  width: 5em;
-  height: 5em;
+  border: 8px white solid;
+  width: 100%;
   background-color: blue;
   font: 1.4rem/1 Permanent Marker,sans-serif;
   color: lightgray;
@@ -63,16 +63,4 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-@media (min-width: 695px) {
-  .list__item {
-    width: 50%;
-  }
-}
-
-@media (max-width: 595px) {
-  .list__item {
-    width: 100%;
-  }
 }
