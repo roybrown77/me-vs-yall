@@ -9,6 +9,7 @@ import './App.css';
 import Home from './Home';
 import LeagueSelection from './LeagueSelection';
 import LeagueSchedule from './LeagueSchedule';
+import About from './About';
 
 class App extends Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class App extends Component {
                                   onTouchTap={this.handleClose}
                                   onClick={() => { history.push('/league') }}
                                 >
-                                  Select League
+                                  League Sport
                                 </MenuItem>
                               )} />
                         )}
@@ -62,9 +63,9 @@ class App extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/mypicks') }}
+                                  onClick={() => { history.push('/leaders') }}
                                 >
-                                  My Picks
+                                  Leaders
                                 </MenuItem>
                               )} />
                         )}
@@ -72,9 +73,19 @@ class App extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/about') }}
+                                  onClick={() => { history.push('/me') }}
                                 >
-                                  About
+                                  Me
+                                </MenuItem>
+                              )} />
+                        )}
+                        {(
+                            <Route render={({ history}) => (
+                                <MenuItem
+                                  onTouchTap={this.handleClose}
+                                  onClick={() => { history.push('/yall') }}
+                                >
+                                  Yall
                                 </MenuItem>
                               )} />
                         )}
@@ -85,6 +96,16 @@ class App extends Component {
                                   onClick={() => { history.push('/feedback') }}
                                 >
                                   Feedback
+                                </MenuItem>
+                              )} />
+                        )}
+                        {(
+                            <Route render={({ history}) => (
+                                <MenuItem
+                                  onTouchTap={this.handleClose}
+                                  onClick={() => { history.push('/about') }}
+                                >
+                                  About
                                 </MenuItem>
                               )} />
                         )}
@@ -104,6 +125,7 @@ class App extends Component {
                             <Route exact path='/' component={Home}/>
                             <Route exact path='/league' component={LeagueSelection}/>
                             <Route path='/league/:name' component={LeagueSchedule}/>
+                            <Route path='/about' component={About}/>
                         </Switch>
                     </main>
                 </div>
