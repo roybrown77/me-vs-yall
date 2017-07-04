@@ -18,8 +18,10 @@ body {
 }
 
 #home-description {
-  font: 3.4rem/1 "Press Start 2P", sans-serif;
-  font-size: 16px;
+  font-family: 'PressStart2PRegular';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 10px;
   margin-top: 32px;
 }
 
