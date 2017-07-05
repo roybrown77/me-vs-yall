@@ -81,19 +81,19 @@ body {
   cursor: pointer;
 }
 
-@media screen and (max-height: 600px) {
-  #home-title {
-    font-size: 64px;
-  }
+/*@media screen and (max-height: 600px) {*/
+  /*#home-title {*/
+    /*font-size: 64px;*/
+  /*}*/
 
-  #home-description {
-    font-size: 8px;
-  }
+  /*#home-description {*/
+    /*font-size: 8px;*/
+  /*}*/
 
-  #home-go {
-    font-size: 64px;
-  }
-}
+  /*#home-go {*/
+    /*font-size: 64px;*/
+  /*}*/
+/*}*/
 
 /* --- splash screen end --- */
 
