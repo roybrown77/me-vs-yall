@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 import Header from './Header';
 
@@ -132,8 +130,8 @@ class LeagueScheduler extends Component {
                                 key={tile.img}
                                 title={tile.title}
                                 style={grid.tile}
-                                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                                 >
+                                <div className="game-check"></div>
                                 <img src={tile.img} alt=""/>
                             </GridTile>
                         ))}
