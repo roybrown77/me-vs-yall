@@ -10,13 +10,13 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Header from './Header';
 
 const dropDown = {
-    customWidth: {
+    root: {
         width: '50%'
     }
 };
 
 const dropDownFull = {
-    customWidth: {
+    root: {
         width: '100%'
     }
 };
@@ -64,13 +64,17 @@ const tilesData = [
     },
 ];
 
-const gridList = {
+const grid = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        marginTop: '8px'
     },
-    gridList: {
+    list: {
+        width: '100%'
+    },
+    tile: {
         width: '100%'
     }
 };
@@ -83,6 +87,7 @@ class LeagueScheduler extends Component {
 
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
+    handleChange3 = (event, index, value3) => this.setState({value3});
 
     render() {
         let name = this.props.match.params.name;
@@ -90,11 +95,11 @@ class LeagueScheduler extends Component {
         return (
             <div>
                 <Header/>
-                <div>
+                <div style={{marginTop: '8px'}}>
                     <DropDownMenu
                         value={this.state.value1}
                         onChange={this.handleChange1}
-                        style={dropDown.customWidth}
+                        style={dropDown.root}
                         autoWidth={false}
                         >
                         <MenuItem value={1} primaryText={name.toUpperCase()}/>
@@ -102,7 +107,7 @@ class LeagueScheduler extends Component {
                     <DropDownMenu
                         value={this.state.value2}
                         onChange={this.handleChange2}
-                        style={dropDown.customWidth}
+                        style={dropDown.root}
                         autoWidth={false}
                         >
                         <MenuItem value={1} primaryText="2017" />
@@ -110,22 +115,23 @@ class LeagueScheduler extends Component {
                     <DropDownMenu
                         value={this.state.value3}
                         onChange={this.handleChange3}
-                        style={dropDownFull.customWidth}
+                        style={dropDownFull.root}
                         autoWidth={false}
                         >
                         <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                     </DropDownMenu>
                 </div>
-                <div style={gridList.root}>
+                <div style={grid.root}>
                     <GridList
                         cellHeight={180}
-                        style={gridList.gridList}
+                        style={grid.list}
                         >
                         <Subheader></Subheader>
                         {tilesData.map((tile) => (
                             <GridTile
                                 key={tile.img}
                                 title={tile.title}
+                                style={grid.tile}
                                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                                 >
                                 <img src={tile.img} alt=""/>
