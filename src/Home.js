@@ -14,7 +14,7 @@ class Home extends Component {
                                   className='flash'
                                   onClick={() => { history.push('/league') }}
                                 >
-                                    <i class="material-icons">-></i>
+                                    <div>-></div>
                                 </div>
                               )} />
                 )}

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import AppBar from 'material-ui/AppBar';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './App.css';
 import Home from './Home';
@@ -30,96 +28,6 @@ class App extends Component {
         <BrowserRouter>
             <MuiThemeProvider>
                 <div className="App">
-                    <AppBar
-                        id="app-bar"
-                        iconClassNameRight="muidocs-icon-navigation-expand-more"
-                        onTouchTap={this.handleToggle}
-                        />
-                    <Drawer docked={false}
-                            open={this.state.open}
-                            onRequestChange={(open) => this.setState({open})}
-                        >
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/') }}
-                                >
-                                  Home
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/league') }}
-                                >
-                                  League Sport
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/leaders') }}
-                                >
-                                  Leaders
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/me') }}
-                                >
-                                  Me
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/yall') }}
-                                >
-                                  Yall
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/feedback') }}
-                                >
-                                  Feedback
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/about') }}
-                                >
-                                  About
-                                </MenuItem>
-                              )} />
-                        )}
-                        {(
-                            <Route render={({ history}) => (
-                                <MenuItem
-                                  onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/login') }}
-                                >
-                                  Login
-                                </MenuItem>
-                              )} />
-                        )}
-                    </Drawer>
                     <main>
                         <Switch>
                             <Route exact path='/' component={Home}/>
