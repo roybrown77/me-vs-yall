@@ -107,7 +107,7 @@ class LeagueScheduler extends Component {
                         cellHeight={180}
                         style={styles2.gridList}
                         >
-                        <Subheader>Week 1 9/7 - 9/10</Subheader>
+                        <Subheader>Week 1 Saturday 9/7 - Monday 9/11</Subheader>
                         {tilesData.map((tile) => (
                             <GridTile
                                 key={tile.img}
