@@ -8,7 +8,7 @@ class About extends Component {
             <div>
                 <Header/>
                 <div style={{marginTop: '1em'}}>
-                    Pick winners of sporting events and compete with others around the world.
+                    Me pick winners of sporting events and compete with yall.
                 </div>
             </div>
         );
