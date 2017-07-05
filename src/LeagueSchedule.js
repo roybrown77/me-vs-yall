@@ -17,14 +17,14 @@ const styles = {
 
 const tilesData = [
     {
-        img: 'images/grid-list/00-52-29-429_640.jpg',
-        title: 'Breakfast',
-        author: 'jill111'
+        img: 'images/falcons.png',
+        title: 'Atlanta Falcons',
+        author: 'add link'
     },
     {
-        img: 'images/grid-list/burger-827309_640.jpg',
-        title: 'Tasty burger',
-        author: 'pashminu'
+        img: 'images/patriots.png',
+        title: 'New England Patriots',
+        author: 'add link'
     },
     {
         img: 'images/grid-list/camera-813814_640.jpg',
@@ -112,7 +112,6 @@ class LeagueScheduler extends Component {
                             <GridTile
                                 key={tile.img}
                                 title={tile.title}
-                                subtitle={<span>by <b>{tile.author}</b></span>}
                                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
                                 >
                                 <img src={tile.img} alt=""/>

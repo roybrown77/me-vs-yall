@@ -6,7 +6,7 @@ class Home extends Component {
         return (
             <div id="home" className="fade-in">
                 <div id="home-title">Me vs Yall</div>
-                <div id="home-description">Me pick winners of sporting events and compete with yall.</div>
+                <div id="home-description">Pick winners of sporting events and compete with others around the world.</div>
                 {(
                     <Route render={({ history }) => (
                                 <div
