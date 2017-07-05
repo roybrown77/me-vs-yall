@@ -9,9 +9,15 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 import Header from './Header';
 
-const styles = {
+const dropDown = {
     customWidth: {
         width: '50%'
+    }
+};
+
+const dropDownFull = {
+    customWidth: {
+        width: '100%'
     }
 };
 
@@ -58,7 +64,7 @@ const tilesData = [
     },
 ];
 
-const styles2 = {
+const gridList = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -72,7 +78,7 @@ const styles2 = {
 class LeagueScheduler extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1};
+        this.state = {value1: 1, value2: 1, value3: 1};
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
@@ -88,7 +94,7 @@ class LeagueScheduler extends Component {
                     <DropDownMenu
                         value={this.state.value1}
                         onChange={this.handleChange1}
-                        style={styles.customWidth}
+                        style={dropDown.customWidth}
                         autoWidth={false}
                         >
                         <MenuItem value={1} primaryText={name.toUpperCase()}/>
@@ -96,18 +102,26 @@ class LeagueScheduler extends Component {
                     <DropDownMenu
                         value={this.state.value2}
                         onChange={this.handleChange2}
-                        style={styles.customWidth}
+                        style={dropDown.customWidth}
                         autoWidth={false}
                         >
-                        <MenuItem value={1} primaryText="Week 1" />
+                        <MenuItem value={1} primaryText="2017" />
+                    </DropDownMenu>
+                    <DropDownMenu
+                        value={this.state.value3}
+                        onChange={this.handleChange3}
+                        style={dropDownFull.customWidth}
+                        autoWidth={false}
+                        >
+                        <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                     </DropDownMenu>
                 </div>
-                <div style={styles2.root}>
+                <div style={gridList.root}>
                     <GridList
                         cellHeight={180}
-                        style={styles2.gridList}
+                        style={gridList.gridList}
                         >
-                        <Subheader>Week 1 Thursday 9/7 - Monday 9/11</Subheader>
+                        <Subheader></Subheader>
                         {tilesData.map((tile) => (
                             <GridTile
                                 key={tile.img}
