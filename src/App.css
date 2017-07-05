@@ -103,6 +103,9 @@ body {
   justify-content: center;
 }
 
+.list__item__text {
+  cursor: pointer;
+}
 /* --- animation start --- */
 
 .flash {

@@ -16,7 +16,7 @@ class LeagueSelection extends Component {
                                           className='list__item'
                                           onClick={() => { history.push('/league/nfl') }}
                                         >
-                                        <div className='list__item___text'>NFL</div>
+                                        <div className='list__item__text'>NFL</div>
                                         </div>
                                       )} />
                         )}
@@ -27,7 +27,7 @@ class LeagueSelection extends Component {
                                           style={{backgroundColor: '#f0ad4e'}}
                                           onClick={() => { history.push('/league/futbol') }}
                                         >
-                                        <div className='list__item___text'>FUTBOL</div>
+                                        <div className='list__item__text'>FUTBOL</div>
                                         </div>
                                       )} />
                         )}
@@ -38,7 +38,7 @@ class LeagueSelection extends Component {
                                           style={{backgroundColor: '#a52a2a'}}
                                           onClick={() => { history.push('/league/nba') }}
                                         >
-                                        <div className='list__item___text'>NBA</div>
+                                        <div className='list__item__text'>NBA</div>
                                         </div>
                                       )} />
                         )}
@@ -49,7 +49,7 @@ class LeagueSelection extends Component {
                                           style={{backgroundColor: '#283593'}}
                                           onClick={() => { history.push('/league/mlb') }}
                                         >
-                                          <div className='list__item___text'>MLB</div>
+                                          <div className='list__item__text'>MLB</div>
                                         </div>
                                       )} />
                         )}
@@ -60,7 +60,7 @@ class LeagueSelection extends Component {
                                           style={{backgroundColor: '#00695C'}}
                                           onClick={() => { history.push('/league/tennis') }}
                                         >
-                                          <div className='list__item___text'>TENNIS</div>
+                                          <div className='list__item__text'>TENNIS</div>
                                         </div>
                                       )} />
                         )}
@@ -71,7 +71,7 @@ class LeagueSelection extends Component {
                                           style={{backgroundColor: '#556b2f'}}
                                           onClick={() => { history.push('/league/mma') }}
                                         >
-                                          <div className='list__item___text'>MMA</div>
+                                          <div className='list__item__text'>MMA</div>
                                         </div>
                                       )} />
                         )}
