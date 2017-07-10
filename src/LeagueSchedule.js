@@ -12,13 +12,13 @@ import Header from './Header';
 
 const gameCheck = {
     large: {
-        width: '90',
-        height: '90',
-        borderLeft: '1px solid lightgray'
+        width: '120',
+        height: '120'
     },
     largeIcon: {
-        width: '50',
-        height: '50'
+        width: '90',
+        height: '90',
+        color: 'green'
     }
 };
 
@@ -95,7 +95,8 @@ const grid = {
         width: '100%'
     },
     tile: {
-        width: '100%'
+        width: '100%',
+        background: 'rgba(0, 0, 0, 0.4)'
     }
 };
 
@@ -157,9 +158,8 @@ class LeagueScheduler extends Component {
                                 title={tile.title}
                                 style={grid.tile}
                                 >
-                                <div onClick={this.handleTeamClick}>
+                                <div onClick={this.handleTeamClick} className="game-check2">
                                     <IconButton
-                                        className="game-check"
                                         tooltip="top-center"
                                         touch={true}
                                         tooltipPosition="top-center"

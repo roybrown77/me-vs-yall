@@ -38,9 +38,9 @@ body {
   -moz-animation-fill-mode:forwards;
   animation-fill-mode:forwards;
 
-  -webkit-animation-duration:3s;
-  -moz-animation-duration:3s;
-  animation-duration:3s;
+  -webkit-animation-duration:2s;
+  -moz-animation-duration:2s;
+  animation-duration:2s;
 }
 
 /* make keyframes that tell the start state and the end state of our object */
@@ -184,4 +184,12 @@ body {
     height: 70px !important;
     width: 70px !important;
   }
+}
+
+.game-check2 {
+  position: sticky;
+  left: 50%;
+  background-color: lightgray;
+  height: 100%;
+  opacity: .5;
 }
