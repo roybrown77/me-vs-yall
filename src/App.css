@@ -38,9 +38,9 @@ body {
   -moz-animation-fill-mode:forwards;
   animation-fill-mode:forwards;
 
-  -webkit-animation-duration:.7s;
-  -moz-animation-duration:.7s;
-  animation-duration:1s;
+  -webkit-animation-duration:3s;
+  -moz-animation-duration:3s;
+  animation-duration:3s;
 }
 
 /* make keyframes that tell the start state and the end state of our object */
@@ -154,8 +154,7 @@ body {
 }
 
 .list__item {
-  margin: 8px;
-  border: 8px #f4f7f6 solid;
+  margin: 12px 12px 0 12px;
   width: 100%;
   background-color: blue;
   font: 1.4rem/1 Permanent Marker,sans-serif;

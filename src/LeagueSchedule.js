@@ -6,6 +6,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import ActionCheck from 'material-ui/svg-icons/action/done';
+import Checkbox from 'material-ui/Checkbox';
 
 import Header from './Header';
 
@@ -24,6 +25,13 @@ const gameCheck = {
 const dropDown = {
     root: {
         width: '50%'
+    }
+};
+
+const checkBox = {
+    root: {
+        width: '2em',
+        height: '4em'
     }
 };
 
