@@ -4,8 +4,22 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
+import IconButton from 'material-ui/IconButton';
+import ActionCheck from 'material-ui/svg-icons/action/done';
 
 import Header from './Header';
+
+const gameCheck = {
+    large: {
+        width: '90',
+        height: '90',
+        padding: '30'
+    },
+    largeIcon: {
+        width: '60',
+        height: '60'
+    }
+};
 
 const dropDown = {
     root: {
@@ -131,7 +145,18 @@ class LeagueScheduler extends Component {
                                 title={tile.title}
                                 style={grid.tile}
                                 >
-                                <div className="game-check"></div>
+                                <div>
+                                    <IconButton
+                                        className="game-check"
+                                        tooltip="top-center"
+                                        touch={true}
+                                        tooltipPosition="top-center"
+                                        iconStyle={gameCheck.largeIcon}
+                                        style={gameCheck.large}
+                                        >
+                                        <ActionCheck />
+                                    </IconButton>
+                                </div>
                                 <img src={tile.img} alt=""/>
                             </GridTile>
                         ))}

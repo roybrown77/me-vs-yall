@@ -47,7 +47,7 @@ class Header extends Component {
                                   onTouchTap={this.handleClose}
                                   onClick={() => { history.push('/league') }}
                                 >
-                                  League Sport
+                                  Leagues
                                 </MenuItem>
                               )} />
                         )}
