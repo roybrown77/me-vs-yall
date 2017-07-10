@@ -178,3 +178,10 @@ body {
   position: absolute !important;
   right: 0;
 }
+
+@media screen and (max-height: 1000px) {
+  .game-check {
+    height: 70px !important;
+    width: 70px !important;
+  }
+}

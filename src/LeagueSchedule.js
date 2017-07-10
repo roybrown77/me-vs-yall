@@ -14,11 +14,11 @@ const gameCheck = {
     large: {
         width: '90',
         height: '90',
-        padding: '30'
+        borderLeft: '1px solid lightgray'
     },
     largeIcon: {
-        width: '60',
-        height: '60'
+        width: '50',
+        height: '50'
     }
 };
 
@@ -102,15 +102,20 @@ const grid = {
 class LeagueScheduler extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1};
+        this.state = {value1: 1, value2: 1, value3: 1, gameId: -1};
+        this.handleTeamClick = this.handleTeamClick.bind(this);
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
+    handleTeamClick = function (event, index, gameId) {
+        this.setState({gameId});
+    }
 
     render() {
         let name = this.props.match.params.name;
+        let gameId = this.state.gameId;
 
         return (
             <div>
@@ -146,14 +151,13 @@ class LeagueScheduler extends Component {
                         cellHeight={180}
                         style={grid.list}
                         >
-                        <Subheader></Subheader>
                         {tilesData.map((tile) => (
                             <GridTile
                                 key={tile.img}
                                 title={tile.title}
                                 style={grid.tile}
                                 >
-                                <div>
+                                <div onClick={this.handleTeamClick}>
                                     <IconButton
                                         className="game-check"
                                         tooltip="top-center"
