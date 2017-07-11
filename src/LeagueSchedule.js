@@ -45,6 +45,7 @@ const tilesData = [
         competitorId: 2,
         img: '/src/images/patriots.png',
         name: 'New England Patriots',
+        showCheck: true
     }
 ];
 
@@ -80,13 +81,10 @@ class LeagueScheduler extends Component {
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
 
-    handleTeamClick (gameId, competitorId) {
+    selectCompetitor (gameId, competitorId) {
     }
 
     render() {
-        let name = this.props.match.params.name;
-        let gameId = this.state.gameId;
-
         return (
             <div>
                 <Header/>
@@ -126,9 +124,9 @@ class LeagueScheduler extends Component {
                                 key={tile.gameId + "." + tile.competitorId}
                                 title={tile.name}
                                 style={grid.tile}
-                                onClick={() => this.handleTeamClick(tile.gameId, tile.competitorId)}
+                                onClick={() => this.selectCompetitor(tile.gameId, tile.competitorId)}
                                 >
-                                <div className="game-check2">
+                                <div className="game-check2" style={{display: tile.showCheck ? 'block' : 'none'}}>
                                     <IconButton
                                         tooltip="top-center"
                                         touch={true}
@@ -139,7 +137,7 @@ class LeagueScheduler extends Component {
                                         <ActionCheck />
                                     </IconButton>
                                 </div>
-                                <img src={ Background } alt="" />
+                                <img src={ Background } alt="" style={{display: tile.showCheck ? 'none' : 'contents'}}/>
                             </GridTile>
                         ))}
                     </GridList>
