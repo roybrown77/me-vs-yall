@@ -7,15 +7,16 @@ import IconButton from 'material-ui/IconButton';
 import ActionCheck from 'material-ui/svg-icons/action/done';
 
 import Header from './Header';
+import Background from './images/patriots.png';
 
 const gameCheck = {
     large: {
-        width: '120',
-        height: '120'
+        width: 120,
+        height: 120
     },
     largeIcon: {
-        width: '90',
-        height: '90',
+        width: 90,
+        height: 90,
         color: 'green'
     }
 };
@@ -36,13 +37,13 @@ const tilesData = [
     {
         gameId: 1,
         competitorId: 1,
-        img: 'images/falcons.png',
+        img: '/src/images/falcons.png',
         name: 'Atlanta Falcons',
     },
     {
         gameId: 1,
         competitorId: 2,
-        img: 'images/patriots.png',
+        img: '/src/images/patriots.png',
         name: 'New England Patriots',
     }
 ];
@@ -60,6 +61,12 @@ const grid = {
     tile: {
         width: '100%',
         background: 'rgba(0, 0, 0, 0.4)'
+    }
+};
+
+const image = {
+    root: {
+        backgroundImage: `url(${'/src/images/falcons.png'}`
     }
 };
 
@@ -132,7 +139,7 @@ class LeagueScheduler extends Component {
                                         <ActionCheck />
                                     </IconButton>
                                 </div>
-                                <img src={tile.img} alt=""/>
+                                <img src={ Background } alt="" />
                             </GridTile>
                         ))}
                     </GridList>
