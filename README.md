@@ -8,7 +8,7 @@ https://me-vs-yall.firebaseapp.com
 
 Client:
 
-- Progressive Web App capabilities to be:
+- Progressive Web App capabilities to be
   1. Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
   2. Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
   3. Engaging - Feel like a natural app on the device, with an immersive user experience.
