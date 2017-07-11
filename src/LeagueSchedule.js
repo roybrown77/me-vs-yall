@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
-import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import ActionCheck from 'material-ui/svg-icons/action/done';
-import Checkbox from 'material-ui/Checkbox';
 
 import Header from './Header';
 
@@ -28,13 +26,6 @@ const dropDown = {
     }
 };
 
-const checkBox = {
-    root: {
-        width: '2em',
-        height: '4em'
-    }
-};
-
 const dropDownFull = {
     root: {
         width: '100%'
@@ -43,45 +34,17 @@ const dropDownFull = {
 
 const tilesData = [
     {
+        gameId: 1,
+        competitorId: 1,
         img: 'images/falcons.png',
-        title: 'Atlanta Falcons',
-        author: 'add link'
+        name: 'Atlanta Falcons',
     },
     {
+        gameId: 1,
+        competitorId: 2,
         img: 'images/patriots.png',
-        title: 'New England Patriots',
-        author: 'add link'
-    },
-    {
-        img: 'images/grid-list/camera-813814_640.jpg',
-        title: 'Camera',
-        author: 'Danson67'
-    },
-    {
-        img: 'images/grid-list/morning-819362_640.jpg',
-        title: 'Morning',
-        author: 'fancycrave1'
-    },
-    {
-        img: 'images/grid-list/hats-829509_640.jpg',
-        title: 'Hats',
-        author: 'Hans'
-    },
-    {
-        img: 'images/grid-list/honey-823614_640.jpg',
-        title: 'Honey',
-        author: 'fancycravel'
-    },
-    {
-        img: 'images/grid-list/vegetables-790022_640.jpg',
-        title: 'Vegetables',
-        author: 'jill111'
-    },
-    {
-        img: 'images/grid-list/water-plant-821293_640.jpg',
-        title: 'Water plant',
-        author: 'BkrmadtyaKarki'
-    },
+        name: 'New England Patriots',
+    }
 ];
 
 const grid = {
@@ -104,14 +67,13 @@ class LeagueScheduler extends Component {
     constructor(props) {
         super(props);
         this.state = {value1: 1, value2: 1, value3: 1, gameId: -1};
-        this.handleTeamClick = this.handleTeamClick.bind(this);
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
-    handleTeamClick = function (event, index, gameId) {
-        this.setState({gameId});
+
+    handleTeamClick (gameId, competitorId) {
     }
 
     render() {
@@ -154,11 +116,12 @@ class LeagueScheduler extends Component {
                         >
                         {tilesData.map((tile) => (
                             <GridTile
-                                key={tile.img}
-                                title={tile.title}
+                                key={tile.gameId + "." + tile.competitorId}
+                                title={tile.name}
                                 style={grid.tile}
+                                onClick={() => this.handleTeamClick(tile.gameId, tile.competitorId)}
                                 >
-                                <div onClick={this.handleTeamClick} className="game-check2">
+                                <div className="game-check2">
                                     <IconButton
                                         tooltip="top-center"
                                         touch={true}

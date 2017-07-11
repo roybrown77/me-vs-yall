@@ -193,3 +193,7 @@ body {
   height: 100%;
   opacity: .5;
 }
+
+.game-check2:hover {
+  cursor: pointer;
+}
