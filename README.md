@@ -8,7 +8,11 @@ https://me-vs-yall.firebaseapp.com
 
 Client:
 
-- Progressive Web App capabilities to be reliable, fast and engaging (more info at https://developers.google.com/web/progressive-web-apps/)
+- Progressive Web App capabilities to be:
+--Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
+--Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
+--Engaging - Feel like a natural app on the device, with an immersive user experience.
+--more info at https://developers.google.com/web/progressive-web-apps/
 - React / Redux / Javascript
 - Google Material Design
 
