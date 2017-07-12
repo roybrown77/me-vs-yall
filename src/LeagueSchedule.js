@@ -84,6 +84,8 @@ class LeagueScheduler extends Component {
     }
 
     render() {
+        let name = this.props.match.params.name;
+
         return (
             <div>
                 <Header/>
