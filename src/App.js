@@ -7,6 +7,7 @@ import './App.css';
 import Home from './Home';
 import LeagueSelection from './LeagueSelection';
 import LeagueSchedule from './LeagueSchedule';
+import Leaders from './Leaders';
 import About from './About';
 
 class App extends Component {
@@ -31,8 +32,9 @@ class App extends Component {
                     <main>
                         <Switch>
                             <Route exact path='/' component={Home}/>
-                            <Route exact path='/league' component={LeagueSelection}/>
-                            <Route path='/league/:name' component={LeagueSchedule}/>
+                            <Route exact path='/leagues' component={LeagueSelection}/>
+                            <Route path='/leagues/:name' component={LeagueSchedule}/>
+                            <Route path='/leaders' component={Leaders}/>
                             <Route path='/about' component={About}/>
                         </Switch>
                     </main>

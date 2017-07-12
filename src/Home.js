@@ -16,7 +16,7 @@ class Home extends Component {
                                 <div
                                   id='home-go'
                                   className='flash'
-                                  onClick={() => { history.push('/league') }}
+                                  onClick={() => { history.push('/leagues') }}
                                 >
                                     <div>-></div>
                                 </div>

@@ -13,11 +13,11 @@ class Header extends Component {
 
     handleToggle = () => {
         this.setState({open: !this.state.open});
-    }
+    };
 
     handleClose = () => {
         this.setState({open: false});
-    }
+    };
 
    render() {
     return (
@@ -45,12 +45,22 @@ class Header extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/league') }}
+                                  onClick={() => { history.push('/leagues') }}
                                 >
                                   Leagues
                                 </MenuItem>
                               )} />
                         )}
+                       {(
+                           <Route render={({ history}) => (
+                           <MenuItem
+                               onTouchTap={this.handleClose}
+                               onClick={() => { history.push('/leagues/nfl') }}
+                           >
+                               Schedules
+                               </MenuItem>
+                           )} />
+                       )}
                         {(
                             <Route render={({ history}) => (
                                 <MenuItem
