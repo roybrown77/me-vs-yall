@@ -7,7 +7,8 @@ import IconButton from 'material-ui/IconButton';
 import ActionCheck from 'material-ui/svg-icons/action/done';
 
 import Header from './Header';
-import Background from './images/patriots.png';
+import Patriots from './images/new-england-patriots.png';
+import Falcons from './images/atlanta-falcons.png';
 
 const gameCheck = {
     large: {
@@ -33,19 +34,20 @@ const dropDownFull = {
     }
 };
 
-const tilesData = [
+let tilesData = [
     {
         gameId: 1,
         competitorId: 1,
-        img: '/src/images/falcons.png',
+        img: Falcons,
         name: 'Atlanta Falcons',
+        showCheck: false
     },
     {
         gameId: 1,
         competitorId: 2,
-        img: '/src/images/patriots.png',
+        img: Patriots,
         name: 'New England Patriots',
-        showCheck: true
+        showCheck: false
     }
 ];
 
@@ -61,20 +63,15 @@ const grid = {
     },
     tile: {
         width: '100%',
-        background: 'rgba(0, 0, 0, 0.4)'
-    }
-};
-
-const image = {
-    root: {
-        backgroundImage: `url(${'/src/images/falcons.png'}`
+        background: 'lightgray',
+        cursor: 'pointer'
     }
 };
 
 class LeagueScheduler extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1, gameId: -1};
+        this.state = {value1: 1, value2: 1, value3: 1};
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
@@ -82,6 +79,8 @@ class LeagueScheduler extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
+        let competitor = tilesData.find(x=>x.competitorId === competitorId);
+        competitor.showCheck = true;
     }
 
     render() {
@@ -126,7 +125,7 @@ class LeagueScheduler extends Component {
                                 style={grid.tile}
                                 onClick={() => this.selectCompetitor(tile.gameId, tile.competitorId)}
                                 >
-                                <div className="game-check2" style={{display: tile.showCheck ? 'block' : 'none'}}>
+                                <div className="game-check" style={{display: tile.showCheck ? 'block' : 'none'}}>
                                     <IconButton
                                         tooltip="top-center"
                                         touch={true}
@@ -137,7 +136,9 @@ class LeagueScheduler extends Component {
                                         <ActionCheck />
                                     </IconButton>
                                 </div>
-                                <img src={ Background } alt="" style={{display: tile.showCheck ? 'none' : 'contents'}}/>
+                                <div>
+                                    <img className="competitor-image" src={ tile.img } alt="" style={{display: tile.showCheck ? 'none' : 'contents'}}/>
+                                </div>
                             </GridTile>
                         ))}
                     </GridList>

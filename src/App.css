@@ -175,18 +175,6 @@ body {
 }
 
 .game-check {
-  position: absolute !important;
-  right: 0;
-}
-
-@media screen and (max-height: 1000px) {
-  .game-check {
-    height: 70px !important;
-    width: 70px !important;
-  }
-}
-
-.game-check2 {
   position: sticky;
   left: 50%;
   background-color: lightgray;
@@ -196,4 +184,8 @@ body {
 
 .game-check2:hover {
   cursor: pointer;
+}
+
+.competitor-image {
+
 }
