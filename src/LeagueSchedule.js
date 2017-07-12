@@ -48,6 +48,20 @@ let tilesData = [
         img: Patriots,
         name: 'New England Patriots',
         showCheck: false
+    },
+    {
+        gameId: 2,
+        competitorId: 1,
+        img: Falcons,
+        name: 'Atlanta Falcons',
+        showCheck: false
+    },
+    {
+        gameId: 2,
+        competitorId: 2,
+        img: Patriots,
+        name: 'New England Patriots',
+        showCheck: false
     }
 ];
 
@@ -71,7 +85,7 @@ const grid = {
 class LeagueScheduler extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1};
+        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false};
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
@@ -79,8 +93,15 @@ class LeagueScheduler extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
-        let competitor = tilesData.find(x=>x.competitorId === competitorId);
-        competitor.showCheck = true;
+        tilesData.map((tile) => {
+            if (tile.gameId === gameId) {
+                tile.showCheck = false;
+            }
+        });
+
+        let competitor = tilesData.find(x=>x.competitorId === competitorId && x.gameId === gameId);
+        competitor.showCheck = !competitor.showCheck;
+        this.setState({winnerSelected: true});
     }
 
     render() {
@@ -115,6 +136,7 @@ class LeagueScheduler extends Component {
                         <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                     </DropDownMenu>
                 </div>
+                <div style={{color:'red'}}>*tap winners</div>
                 <div style={grid.root}>
                     <GridList
                         cellHeight={180}
@@ -138,8 +160,8 @@ class LeagueScheduler extends Component {
                                         <ActionCheck />
                                     </IconButton>
                                 </div>
-                                <div>
-                                    <img className="competitor-image" src={ tile.img } alt="" style={{display: tile.showCheck ? 'none' : 'contents'}}/>
+                                <div style={{display: tile.showCheck ? 'none' : 'block'}}>
+                                    <img className="competitor-image" src={ tile.img } alt=""/>
                                 </div>
                             </GridTile>
                         ))}
