@@ -142,14 +142,14 @@ class LeagueSchedule extends Component {
                         cellHeight={180}
                         style={grid.list}
                         >
-                        {games.map((game) => (
+                        {games.map((game, index) => (
                             <GridTile
                                 key={game.id + "." + game.competitorId}
                                 title={game.name}
                                 style={grid.tile}
                                 onClick={() => this.selectCompetitor(game.id, game.competitorId)}
                                 >
-                                <div className="game-check" style={{display: game.showCheck ? 'block' : 'none'}}>
+                                <div style={{display: game.showCheck ? 'block' : 'none'}}>
                                     <IconButton
                                         tooltip="top-center"
                                         touch={true}
