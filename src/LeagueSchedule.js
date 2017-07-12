@@ -34,30 +34,30 @@ const dropDownFull = {
     }
 };
 
-let tilesData = [
+let games = [
     {
-        gameId: 1,
+        id: 1,
         competitorId: 1,
         img: Falcons,
         name: 'Atlanta Falcons',
         showCheck: false
     },
     {
-        gameId: 1,
+        id: 1,
         competitorId: 2,
         img: Patriots,
         name: 'New England Patriots',
         showCheck: false
     },
     {
-        gameId: 2,
+        id: 2,
         competitorId: 1,
         img: Falcons,
         name: 'Atlanta Falcons',
         showCheck: false
     },
     {
-        gameId: 2,
+        id: 2,
         competitorId: 2,
         img: Patriots,
         name: 'New England Patriots',
@@ -82,7 +82,7 @@ const grid = {
     }
 };
 
-class LeagueScheduler extends Component {
+class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
         this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false};
@@ -93,13 +93,13 @@ class LeagueScheduler extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
-        tilesData.map((tile) => {
-            if (tile.gameId === gameId) {
-                tile.showCheck = false;
+        games.map((game) => {
+            if (game.id === gameId) {
+                game.showCheck = false;
             }
         });
 
-        let competitor = tilesData.find(x=>x.competitorId === competitorId && x.gameId === gameId);
+        let competitor = games.find(x=>x.competitorId === competitorId && x.id === gameId);
         competitor.showCheck = !competitor.showCheck;
         this.setState({winnerSelected: true});
     }
@@ -142,14 +142,14 @@ class LeagueScheduler extends Component {
                         cellHeight={180}
                         style={grid.list}
                         >
-                        {tilesData.map((tile) => (
+                        {games.map((game) => (
                             <GridTile
-                                key={tile.gameId + "." + tile.competitorId}
-                                title={tile.name}
+                                key={game.id + "." + game.competitorId}
+                                title={game.name}
                                 style={grid.tile}
-                                onClick={() => this.selectCompetitor(tile.gameId, tile.competitorId)}
+                                onClick={() => this.selectCompetitor(game.id, game.competitorId)}
                                 >
-                                <div className="game-check" style={{display: tile.showCheck ? 'block' : 'none'}}>
+                                <div className="game-check" style={{display: game.showCheck ? 'block' : 'none'}}>
                                     <IconButton
                                         tooltip="top-center"
                                         touch={true}
@@ -160,8 +160,8 @@ class LeagueScheduler extends Component {
                                         <ActionCheck />
                                     </IconButton>
                                 </div>
-                                <div style={{display: tile.showCheck ? 'none' : 'block'}}>
-                                    <img className="competitor-image" src={ tile.img } alt=""/>
+                                <div style={{display: game.showCheck ? 'none' : 'block'}}>
+                                    <img className="competitor-image" src={ game.img } alt=""/>
                                 </div>
                             </GridTile>
                         ))}
@@ -172,4 +172,4 @@ class LeagueScheduler extends Component {
     }
 }
 
-export default LeagueScheduler;
+export default LeagueSchedule;

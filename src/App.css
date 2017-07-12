@@ -2,6 +2,32 @@ body {
   background-color: #f4f7f6;
 }
 
+.app {
+  position: relative;
+  display: block;
+  border-bottom: 2.5rem solid;
+  text-decoration: none;
+}
+
+.app__wrapper {
+  padding-top: 62.5%;
+}
+
+.app__title {
+  position: absolute;
+  right: 0;
+  bottom: -2.5rem;
+  left: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-top: .55rem;
+  height: 2rem;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  text-align: center;
+  font: 1.4rem/1 Permanent Marker,sans-serif;
+}
+
 /* --- animation start --- */
 
 .flash {
@@ -97,31 +123,7 @@ body {
 
 /* --- splash screen end --- */
 
-.app {
-  position: relative;
-  display: block;
-  border-bottom: 2.5rem solid;
-  text-decoration: none;
-}
-
-.app__wrapper {
-  padding-top: 62.5%;
-}
-
-.app__title {
-  position: absolute;
-  right: 0;
-  bottom: -2.5rem;
-  left: 0;
-  overflow: hidden;
-  margin: 0;
-  padding-top: .55rem;
-  height: 2rem;
-  background: rgba(0,0,0,.5);
-  color: #fff;
-  text-align: center;
-  font: 1.4rem/1 Permanent Marker,sans-serif;
-}
+/* --- side bar start --- */
 
 #app-bar {
   background-color: #f4f7f6 !important;
@@ -131,6 +133,8 @@ body {
 #app-bar button div svg {
   fill: black !important;
 }
+
+/* --- side bar end --- */
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -182,10 +186,5 @@ body {
   opacity: .5;
 }
 
-.game-check2:hover {
-  cursor: pointer;
-}
-
 .competitor-image {
-
 }
