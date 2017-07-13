@@ -18,6 +18,23 @@ const dropDownFull = {
     }
 };
 
+let players = [
+    {
+        id: 1,
+        username: 'Roy',
+        wins: 5,
+        losses: 1,
+        ties: 1
+    },
+    {
+        id: 2,
+        username: 'Scott',
+        wins: 3,
+        losses: 3,
+        ties: 1
+    }
+];
+
 class Leaders extends Component {
     constructor(props) {
         super(props);
@@ -60,7 +77,55 @@ class Leaders extends Component {
                         </DropDownMenu>
                     </div>
                     <div>
-                        leader list
+                        <List style={{width:"100%", padding:"0 0 32px 0"}}>
+                            <ListItem style={{paddingBottom:"16px"}}>
+                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", margin:"2px 2px 2px 128px",
+                                backgroundColor: "#388E3C",
+                                height: "1.5em",
+                                width: "1.5em",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center"}}>
+                                    W
+                                </div>
+                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", margin:"2px",
+                                backgroundColor: "#D32F2F",
+                                height: "1.5em",
+                                width: "1.5em",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center"}}>
+                                    L
+                                </div>
+                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", margin:"2px",
+                                backgroundColor: "#FFFF8D",
+                                height: "1.5em",
+                                width: "1.5em",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center"}}>
+                                    T
+                                </div>
+                            </ListItem>
+                        </List>
+                        <List style={{width:"100%"}}>
+                        {players.map((player, index) => (
+                                <ListItem style={{paddingBottom:"16px"}}>
+                                    <div style={{fontWeight:"bold", color:"#757575", width:"40%", fontSize:"24px", float: "left"}}>
+                                        {player.username}
+                                    </div>
+                                    <div style={{fontWeight:"bold", color:"#757575", width:"20%", fontSize:"24px", float: "left"}}>
+                                        {player.wins}
+                                    </div>
+                                    <div style={{fontWeight:"bold", color:"#757575", width:"20%", fontSize:"24px", float: "left"}}>
+                                        {player.losses}
+                                    </div>
+                                    <div style={{fontWeight:"bold", color:"#757575", width:"20%", fontSize:"24px", float: "left"}}>
+                                        {player.ties}
+                                    </div>
+                                </ListItem>
+                        ))}
+                        </List>
                     </div>
                 </div>
             </div>
