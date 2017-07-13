@@ -35,6 +35,7 @@ class Header extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
+                                  style={{marginTop:'2em'}}
                                   onClick={() => { history.push('/') }}
                                 >
                                   Home

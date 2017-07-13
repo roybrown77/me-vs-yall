@@ -120,6 +120,10 @@ body {
   fill: black !important;
 }
 
+.menu-item {
+  font-weight: bold;
+}
+
 /* --- side bar end --- */
 
 .App-logo {
@@ -179,6 +183,14 @@ body {
   background-color: lightgray;
   height: 100%;
   opacity: .5;
+}
+
+.game-footer {
+  height: 48px;
+  width: 100%;
+  background-color: black;
+  bottom:0;
+  position:sticky;
 }
 
 .competitor-image {
