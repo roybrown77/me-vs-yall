@@ -42,6 +42,16 @@ class LeagueSelection extends Component {
                         )}
                         {(
                             <Route render={({ history }) => (
+                            <div
+                                className='list__item'
+                                onClick={() => { history.push('/leagues/affl') }}
+                            >
+                            <div className='list__item__text'>AFFL</div>
+                                </div>
+                            )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
                                         <div
                                           className='list__item'
                                           style={{backgroundColor: '#f0ad4e'}}
