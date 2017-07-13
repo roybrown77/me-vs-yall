@@ -29,6 +29,7 @@ class Header extends Component {
                         />
                     <Drawer docked={false}
                             open={this.state.open}
+                            style={{fontWeight: 'bold', textAlign:'left'}}
                             onRequestChange={(open) => this.setState({open})}
                         >
                         {(
