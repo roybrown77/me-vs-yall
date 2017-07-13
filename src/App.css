@@ -107,20 +107,6 @@ body {
   cursor: pointer;
 }
 
-/*@media screen and (max-height: 600px) {*/
-  /*#home-title {*/
-    /*font-size: 64px;*/
-  /*}*/
-
-  /*#home-description {*/
-    /*font-size: 8px;*/
-  /*}*/
-
-  /*#home-go {*/
-    /*font-size: 64px;*/
-  /*}*/
-/*}*/
-
 /* --- splash screen end --- */
 
 /* --- side bar start --- */
@@ -146,8 +132,17 @@ body {
   to { transform: rotate(360deg); }
 }
 
+.page-container {
+  margin: 0 20%;
+}
+
+@media screen and (max-width: 900px) {
+  .page-container {
+    margin: 0;
+  }
+}
+
 .list {
-  margin: 0;
   padding: 0;
   display: -webkit-box;
   display: -ms-flexbox;

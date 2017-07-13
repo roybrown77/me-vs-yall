@@ -31,7 +31,7 @@ class Leaders extends Component {
         return (
             <div>
                 <Header/>
-                <div style={{marginTop: '8px'}}>
+                <div className="page-container" style={{marginTop: '8px'}}>
                     <DropDownMenu
                         value={this.state.value1}
                         onChange={this.handleChange1}

@@ -7,8 +7,10 @@ import IconButton from 'material-ui/IconButton';
 import ActionCheck from 'material-ui/svg-icons/action/done';
 
 import Header from './Header';
+import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
 import Falcons from './images/atlanta-falcons.png';
+import Bears from './images/chicago-bears.png';
 
 const gameCheck = {
     large: {
@@ -38,8 +40,8 @@ let games = [
     {
         id: 1,
         competitorId: 1,
-        img: Falcons,
-        name: 'Atlanta Falcons',
+        img: Chiefs,
+        name: 'Kansas City Chiefs',
         showCheck: false
     },
     {
@@ -59,8 +61,8 @@ let games = [
     {
         id: 2,
         competitorId: 2,
-        img: Patriots,
-        name: 'New England Patriots',
+        img: Bears,
+        name: 'Chicago Bears',
         showCheck: false
     }
 ];
@@ -110,6 +112,7 @@ class LeagueSchedule extends Component {
         return (
             <div>
                 <Header/>
+                <div className="page-container">
                 <div style={{marginTop: '8px'}}>
                     <DropDownMenu
                         value={this.state.value1}
@@ -166,6 +169,7 @@ class LeagueSchedule extends Component {
                             </GridTile>
                         ))}
                     </GridList>
+                </div>
                 </div>
             </div>
         );

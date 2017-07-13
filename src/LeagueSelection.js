@@ -8,7 +8,7 @@ class LeagueSelection extends Component {
         return (
             <div>
                 <Header/>
-                <div>
+                <div className="page-container">
                     <div className="list js-list">
                         {(
                             <Route render={({ history }) => (
@@ -27,26 +27,6 @@ class LeagueSelection extends Component {
                                 onClick={() => { history.push('/leagues/ncaaf') }}
                             >
                             <div className='list__item__text'>NCAAF</div>
-                                </div>
-                            )} />
-                        )}
-                        {(
-                            <Route render={({ history }) => (
-                            <div
-                                className='list__item'
-                                onClick={() => { history.push('/leagues/ncaam') }}
-                            >
-                            <div className='list__item__text'>NCAAM</div>
-                                </div>
-                            )} />
-                        )}
-                        {(
-                            <Route render={({ history }) => (
-                            <div
-                                className='list__item'
-                                onClick={() => { history.push('/leagues/ncaaw') }}
-                            >
-                            <div className='list__item__text'>NCAAW</div>
                                 </div>
                             )} />
                         )}
@@ -85,12 +65,45 @@ class LeagueSelection extends Component {
                         )}
                         {(
                             <Route render={({ history }) => (
+                            <div
+                                className='list__item'
+                                style={{backgroundColor: '#a52a2a'}}
+                                onClick={() => { history.push('/leagues/ncaam') }}
+                            >
+                            <div className='list__item__text'>NCAAM</div>
+                                </div>
+                            )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
+                            <div
+                                className='list__item'
+                                style={{backgroundColor: '#a52a2a'}}
+                                onClick={() => { history.push('/leagues/ncaaw') }}
+                            >
+                            <div className='list__item__text'>NCAAW</div>
+                                </div>
+                            )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
                                         <div
                                           className='list__item'
                                           style={{backgroundColor: '#283593'}}
                                           onClick={() => { history.push('/leagues/mlb') }}
                                         >
                                           <div className='list__item__text'>MLB</div>
+                                        </div>
+                                      )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
+                                        <div
+                                          className='list__item'
+                                          style={{backgroundColor: '#283593'}}
+                                          onClick={() => { history.push('/leagues/llws') }}
+                                        >
+                                          <div className='list__item__text'>LLWS</div>
                                         </div>
                                       )} />
                         )}
