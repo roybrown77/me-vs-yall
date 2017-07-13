@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import {List, ListItem} from 'material-ui/List';
 
 import Header from './Header';
 
@@ -32,32 +33,35 @@ class Leaders extends Component {
             <div>
                 <Header/>
                 <div className="page-container" style={{marginTop: '8px'}}>
-                    <DropDownMenu
-                        value={this.state.value1}
-                        onChange={this.handleChange1}
-                        style={dropDown.root}
-                        autoWidth={false}
-                        >
-                        <MenuItem value={1} primaryText="NFL"/>
-                    </DropDownMenu>
-                    <DropDownMenu
-                        value={this.state.value2}
-                        onChange={this.handleChange2}
-                        style={dropDown.root}
-                        autoWidth={false}
-                        >
-                        <MenuItem value={1} primaryText="2017" />
-                    </DropDownMenu>
-                    <DropDownMenu
-                        value={this.state.value3}
-                        onChange={this.handleChange3}
-                        style={dropDownFull.root}
-                        autoWidth={false}
-                        >
-                        <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
-                    </DropDownMenu>
-                </div>
-                <div>
+                    <div>
+                        <DropDownMenu
+                            value={this.state.value1}
+                            onChange={this.handleChange1}
+                            style={dropDown.root}
+                            autoWidth={false}
+                            >
+                            <MenuItem value={1} primaryText="NFL"/>
+                        </DropDownMenu>
+                        <DropDownMenu
+                            value={this.state.value2}
+                            onChange={this.handleChange2}
+                            style={dropDown.root}
+                            autoWidth={false}
+                            >
+                            <MenuItem value={1} primaryText="2017" />
+                        </DropDownMenu>
+                        <DropDownMenu
+                            value={this.state.value3}
+                            onChange={this.handleChange3}
+                            style={dropDownFull.root}
+                            autoWidth={false}
+                            >
+                            <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
+                        </DropDownMenu>
+                    </div>
+                    <div>
+                        leader list
+                    </div>
                 </div>
             </div>
         );
