@@ -39,7 +39,8 @@ body {
 }
 
 .page-container {
-  margin: 0 20% 64px 20%;
+  margin: 0 20%;
+  margin-bottom: 64px !important;
 }
 
 @media screen and (max-width: 900px) {
