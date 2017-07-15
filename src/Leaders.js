@@ -76,67 +76,52 @@ class Leaders extends Component {
                         </DropDownMenu>
                     </div>
                     <table style={{width:"100%"}}>
-                        <tr style={{width:"100%", padding:"0 0 32px 0"}}>
-                            <th>
-                            </th>
-                            <th>
-                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", marginLeft:"30%",
-                                backgroundColor: "#388E3C",
-                                height: "1.5em",
-                                width: "1.5em",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"}}>
-                                    W
-                                </div>
-                             </th>
-                             <th>
-                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", marginLeft:"30%",
-                                backgroundColor: "#D32F2F",
-                                height: "1.5em",
-                                width: "1.5em",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"}}>
-                                    L
-                                </div>
-                             </th>
-                             <th>
-                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", marginLeft:"30%",
-                                backgroundColor: "#f0ad4e",
-                                height: "1.5em",
-                                width: "1.5em",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"}}>
-                                    T
-                                </div>
-                             </th>
-                        </tr>
-                        {players.map((player, index) => (
-                                <tr style={{paddingBottom:"16px"}}>
+                        <tbody>
+                            <tr>
+                                <th>
+                                </th>
+                                <th>
+                                    <div className="leader-win-loss-tie-header" style={{backgroundColor: "#388E3C"}}>
+                                        W
+                                    </div>
+                                 </th>
+                                 <th>
+                                    <div className="leader-win-loss-tie-header" style={{backgroundColor: "#D32F2F"}}>
+                                        L
+                                    </div>
+                                 </th>
+                                 <th>
+                                    <div className="leader-win-loss-tie-header" style={{backgroundColor: "#f0ad4e"}}>
+                                        T
+                                    </div>
+                                 </th>
+                            </tr>
+                            {players.map((player, index) => (
+                                <tr key={player.id}
+                                    style={{paddingBottom:"16px"}}>
                                     <td>
-                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                        <div className="leader-item">
                                             {player.username}
                                         </div>
                                     </td>
                                     <td>
-                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                        <div className="leader-item">
                                             {player.wins}
                                         </div>
                                     </td>
                                     <td>
-                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                        <div className="leader-item">
                                             {player.losses}
                                         </div>
                                     </td>
                                     <td>
-                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                        <div className="leader-item">
                                             {player.ties}
                                         </div>
                                     </td>
                                 </tr>
-                        ))}
+                            ))}
+                        </tbody>
                     </table>
                 </div>
             </div>

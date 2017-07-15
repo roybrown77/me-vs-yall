@@ -81,16 +81,22 @@ class LeagueSchedule extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
-        games.map((game) => {
-            if (game.id === gameId) {
-                game.showCheck = false;
-            }
-
-            return game;
-        });
-
         let competitor = games.find(x=>x.competitorId === competitorId && x.id === gameId);
-        competitor.showCheck = !competitor.showCheck;
+
+        if (competitor.showCheck) {
+            competitor.showCheck = false;
+        } else {
+            games.map((game) => {
+                if (game.id === gameId) {
+                    game.showCheck = false;
+                }
+
+                return game;
+            });
+
+            competitor.showCheck = true;
+        }
+
         this.setState({winnerSelected: true});
     }
 
@@ -127,7 +133,7 @@ class LeagueSchedule extends Component {
                         <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                     </DropDownMenu>
                 </div>
-                <div style={{color:'red'}}>*tap winners</div>
+                <div style={{color:'#BA68C8'}}>*tap winners</div>
                     <div style={grid.root}>
                         <GridList
                             cellHeight={180}
@@ -140,7 +146,7 @@ class LeagueSchedule extends Component {
                                     style={grid.tile}
                                     onClick={() => this.selectCompetitor(game.id, game.competitorId)}
                                     >
-                                    <div style={{border: game.showCheck ? '8px solid #f0ad4e': '0', height: "91%", }}>
+                                    <div style={{border: game.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
                                     <div>
                                         <img className="competitor-image" src={ game.img } alt=""/>
                                     </div>

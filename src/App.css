@@ -156,7 +156,7 @@ body {
   list-style: none;
 }
 
-.list__item {
+.list-item {
   margin: 12px 12px 0 12px;
   width: 100%;
   background-color: blue;
@@ -173,7 +173,7 @@ body {
   transform:translate(0,-2px);opacity:.85
 }
 
-.list__item__text {
+.list-item-text {
   cursor: pointer;
 }
 
@@ -194,4 +194,20 @@ body {
 }
 
 .competitor-image {
+}
+
+.leader-win-loss-tie-header {
+  font-weight: bold;
+  color: white;
+  font-size: 32px;
+  height: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.leader-item {
+  font-weight: bold;
+  color: #757575;
+  font-size: 24px;
 }
