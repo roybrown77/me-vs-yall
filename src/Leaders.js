@@ -4,6 +4,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
 import Header from './Header';
+import Footer from './Footer';
 
 const dropDown = {
     root: {
@@ -124,6 +125,7 @@ class Leaders extends Component {
                         </tbody>
                     </table>
                 </div>
+                <Footer/>
             </div>
         );
     }

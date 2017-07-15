@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from './Header';
+import Footer from './Footer';
 
 class About extends Component {
     render() {
@@ -10,6 +11,7 @@ class About extends Component {
                 <div className="page-container" style={{marginTop: '1em'}}>
                     Pick winners of sporting events and compete with others around the world.
                 </div>
+                <Footer/>
             </div>
         );
     }

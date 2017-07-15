@@ -5,6 +5,8 @@ import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
 
 import Header from './Header';
+import Footer from './Footer';
+
 import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
 import Falcons from './images/atlanta-falcons.png';
@@ -156,6 +158,7 @@ class LeagueSchedule extends Component {
                         </GridList>
                     </div>
                 </div>
+                <Footer/>
             </div>
         );
     }

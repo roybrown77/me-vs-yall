@@ -129,7 +129,7 @@ body {
 
 /* --- splash screen end --- */
 
-/* --- side bar start --- */
+/* --- header & side bar start --- */
 
 #app-bar {
   background-color: #f4f7f6 !important;
@@ -144,7 +144,7 @@ body {
   font-weight: bold;
 }
 
-/* --- side bar end --- */
+/* --- header & side bar end --- */
 
 /* --- leagues start --- */
 

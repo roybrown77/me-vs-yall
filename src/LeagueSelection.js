@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 
 import Header from './Header';
+import Footer from './Footer';
 
 class LeagueSelection extends Component {
     render() {
@@ -184,6 +185,7 @@ class LeagueSelection extends Component {
                         )}
                     </div>
                 </div>
+                <Footer/>
             </div>
         );
     }
