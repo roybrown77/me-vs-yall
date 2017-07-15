@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import {List, ListItem} from 'material-ui/List';
 
 import Header from './Header';
 
@@ -76,10 +75,12 @@ class Leaders extends Component {
                             <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                         </DropDownMenu>
                     </div>
-                    <div>
-                        <List style={{width:"100%", padding:"0 0 32px 0"}}>
-                            <ListItem style={{paddingBottom:"16px"}}>
-                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", margin:"2px 2px 2px 128px",
+                    <table style={{width:"100%"}}>
+                        <tr style={{width:"100%", padding:"0 0 32px 0"}}>
+                            <th>
+                            </th>
+                            <th>
+                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", marginLeft:"30%",
                                 backgroundColor: "#388E3C",
                                 height: "1.5em",
                                 width: "1.5em",
@@ -88,7 +89,9 @@ class Leaders extends Component {
                                 justifyContent: "center"}}>
                                     W
                                 </div>
-                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", margin:"2px",
+                             </th>
+                             <th>
+                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", marginLeft:"30%",
                                 backgroundColor: "#D32F2F",
                                 height: "1.5em",
                                 width: "1.5em",
@@ -97,8 +100,10 @@ class Leaders extends Component {
                                 justifyContent: "center"}}>
                                     L
                                 </div>
-                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", margin:"2px",
-                                backgroundColor: "#FFFF8D",
+                             </th>
+                             <th>
+                                <div style={{fontWeight:"bold", color:"white", fontSize:"32px", float: "left", marginLeft:"30%",
+                                backgroundColor: "#f0ad4e",
                                 height: "1.5em",
                                 width: "1.5em",
                                 display: "flex",
@@ -106,27 +111,33 @@ class Leaders extends Component {
                                 justifyContent: "center"}}>
                                     T
                                 </div>
-                            </ListItem>
-                        </List>
-                        <List style={{width:"100%"}}>
+                             </th>
+                        </tr>
                         {players.map((player, index) => (
-                                <ListItem style={{paddingBottom:"16px"}}>
-                                    <div style={{fontWeight:"bold", color:"#757575", width:"40%", fontSize:"24px", float: "left"}}>
-                                        {player.username}
-                                    </div>
-                                    <div style={{fontWeight:"bold", color:"#757575", width:"20%", fontSize:"24px", float: "left"}}>
-                                        {player.wins}
-                                    </div>
-                                    <div style={{fontWeight:"bold", color:"#757575", width:"20%", fontSize:"24px", float: "left"}}>
-                                        {player.losses}
-                                    </div>
-                                    <div style={{fontWeight:"bold", color:"#757575", width:"20%", fontSize:"24px", float: "left"}}>
-                                        {player.ties}
-                                    </div>
-                                </ListItem>
+                                <tr style={{paddingBottom:"16px"}}>
+                                    <td>
+                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                            {player.username}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                            {player.wins}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                            {player.losses}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style={{fontWeight:"bold", color:"#757575", fontSize:"24px"}}>
+                                            {player.ties}
+                                        </div>
+                                    </td>
+                                </tr>
                         ))}
-                        </List>
-                    </div>
+                    </table>
                 </div>
             </div>
         );

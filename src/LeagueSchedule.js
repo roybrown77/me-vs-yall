@@ -3,26 +3,12 @@ import React, { Component } from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import ActionCheck from 'material-ui/svg-icons/action/done';
 
 import Header from './Header';
 import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
 import Falcons from './images/atlanta-falcons.png';
 import Bears from './images/chicago-bears.png';
-
-const gameCheck = {
-    large: {
-        width: 120,
-        height: 120
-    },
-    largeIcon: {
-        width: 90,
-        height: 90,
-        color: 'green'
-    }
-};
 
 const dropDown = {
     root: {
@@ -99,6 +85,8 @@ class LeagueSchedule extends Component {
             if (game.id === gameId) {
                 game.showCheck = false;
             }
+
+            return game;
         });
 
         let competitor = games.find(x=>x.competitorId === competitorId && x.id === gameId);
@@ -140,36 +128,25 @@ class LeagueSchedule extends Component {
                     </DropDownMenu>
                 </div>
                 <div style={{color:'red'}}>*tap winners</div>
-                <div style={grid.root}>
-                    <GridList
-                        cellHeight={180}
-                        style={grid.list}
-                        >
-                        {games.map((game, index) => (
-                            <GridTile
-                                key={game.id + "." + game.competitorId}
-                                title={game.name}
-                                style={grid.tile}
-                                onClick={() => this.selectCompetitor(game.id, game.competitorId)}
-                                >
-                                <div style={{display: game.showCheck ? 'block' : 'none'}}>
-                                    <IconButton
-                                        tooltip="top-center"
-                                        touch={true}
-                                        tooltipPosition="top-center"
-                                        iconStyle={gameCheck.largeIcon}
-                                        style={gameCheck.large}
-                                        >
-                                        <ActionCheck />
-                                    </IconButton>
-                                </div>
-                                <div style={{display: game.showCheck ? 'none' : 'block'}}>
-                                    <img className="competitor-image" src={ game.img } alt=""/>
-                                </div>
-                            </GridTile>
-                        ))}
-                    </GridList>
-                </div>
+                    <div style={grid.root}>
+                        <GridList
+                            cellHeight={180}
+                            style={grid.list}
+                            >
+                            {games.map((game, index) => (
+                                <GridTile
+                                    key={game.id + "." + game.competitorId}
+                                    title={game.name}
+                                    style={grid.tile}
+                                    onClick={() => this.selectCompetitor(game.id, game.competitorId)}
+                                    >
+                                    <div style={{border: game.showCheck ? '8px solid green': '0' }}>
+                                        <img className="competitor-image" src={ game.img } alt=""/>
+                                    </div>
+                                </GridTile>
+                            ))}
+                        </GridList>
+                    </div>
                 </div>
             </div>
         );
