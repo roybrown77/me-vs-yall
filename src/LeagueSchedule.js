@@ -140,8 +140,10 @@ class LeagueSchedule extends Component {
                                     style={grid.tile}
                                     onClick={() => this.selectCompetitor(game.id, game.competitorId)}
                                     >
-                                    <div style={{border: game.showCheck ? '8px solid green': '0' }}>
+                                    <div style={{border: game.showCheck ? '8px solid #f0ad4e': '0', height: "91%", }}>
+                                    <div>
                                         <img className="competitor-image" src={ game.img } alt=""/>
+                                    </div>
                                     </div>
                                 </GridTile>
                             ))}
