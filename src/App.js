@@ -11,19 +11,6 @@ import Leaders from './Leaders';
 import About from './About';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {open: false};
-    }
-
-    handleToggle = () => {
-        this.setState({open: !this.state.open});
-    }
-
-    handleClose = () => {
-        this.setState({open: false});
-    }
-
    render() {
     return (
         <BrowserRouter>
