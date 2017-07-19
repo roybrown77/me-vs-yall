@@ -8,9 +8,11 @@ class Home extends Component {
     render() {
         return (
             <div id="home" className="fade-in">
-
                 <div id="home-title">Me vs Yall</div>
-                <div id="home-description">Pick winners of sporting events and compete with others around the world.</div>
+                <div id="home-description">Pick winners of sporting events and compete with others around the world.
+                    <br/>
+                    <br />
+                    *** In Beta.  Launching midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!) ***</div>
                 {(
                     <Route render={({ history }) => (
                                 <div

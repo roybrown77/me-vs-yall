@@ -107,12 +107,17 @@ body {
   background-color: #f4f7f6;
   color: #000;
   height: 100%;
-  width: 100%;
+  padding: 0 12px;
 }
 
 #home-title {
-  font: 7.4rem/1 Permanent Marker,sans-serif;
-  margin-top: 10%;
+  font: 7rem/1 Permanent Marker,sans-serif;
+  margin-top: 5%;
+}
+
+#home-go {
+  font: 7rem/1 Permanent Marker, sans-serif;
+  cursor: pointer;
 }
 
 #home-description {
@@ -123,9 +128,10 @@ body {
   margin-top: 32px;
 }
 
-#home-go {
-  font: 7.4rem/1 Permanent Marker, sans-serif;
-  cursor: pointer;
+@media screen and (min-width: 1000px) {
+  #home {
+    width: 100%;
+  }
 }
 
 /* --- splash screen end --- */
@@ -171,7 +177,7 @@ body {
   justify-content: center;
 }
 
-.list-item:hover, .leader-win-loss-tie-header:hover {
+.list-item:hover {
   -webkit-transform:translate(0,-2px);
   transform:translate(0,-2px);opacity:.85;
 }
@@ -215,4 +221,5 @@ body {
   font-weight: bold;
   color: #757575;
   font-size: 24px;
+  font: 2.4rem/1 Permanent Marker,sans-serif;
 }

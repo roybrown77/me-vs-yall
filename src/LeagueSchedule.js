@@ -59,8 +59,7 @@ const grid = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        marginTop: '8px'
+        justifyContent: 'space-around'
     },
     list: {
         width: '100%'
@@ -109,7 +108,7 @@ class LeagueSchedule extends Component {
             <div>
                 <Header/>
                 <div className="page-container">
-                <div style={{marginTop: '8px'}}>
+                <div style={{marginTop: '12px'}}>
                     <DropDownMenu
                         value={this.state.value1}
                         onChange={this.handleChange1}
@@ -145,6 +144,7 @@ class LeagueSchedule extends Component {
                                 <GridTile
                                     key={game.id + "." + game.competitorId}
                                     title={game.name}
+                                    titleStyle={{font:'1.4rem/1 Permanent Marker,sans-serif'}}
                                     style={grid.tile}
                                     onClick={() => this.selectCompetitor(game.id, game.competitorId)}
                                     >

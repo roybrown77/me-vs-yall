@@ -4,22 +4,26 @@ Pick winners of sporting events and compete with others around the world.
 
 https://me-vs-yall.firebaseapp.com
 
+# Launch
+
+Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
+
 # Tek Stak
 
 Client:
 
+- React / Javascript
+- Google Material Design
 - Progressive Web App capabilities to be
   1. Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
   2. Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
   3. Engaging - Feel like a natural app on the device, with an immersive user experience.
   4. more info at https://developers.google.com/web/progressive-web-apps/
-- React / Redux / Javascript
-- Google Material Design
-
+  
 Backend:
 
 - Node / Javascript
-- Couchbase
+- MongoDB
 
 Hosting server:
 
