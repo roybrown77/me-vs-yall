@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '../../node_modules/material-ui/styles/MuiThemeProvider';
 
 import './App.css';
 import Home from './Home';
