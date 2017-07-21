@@ -20,14 +20,14 @@ const dropDownFull = {
 
 let players = [
     {
-        id: 1,
+        _id: 1,
         username: 'Roy',
         wins: 5,
         losses: 1,
         ties: 1
     },
     {
-        id: 2,
+        _id: 2,
         username: 'Scott',
         wins: 3,
         losses: 3,
@@ -98,7 +98,7 @@ class Leaders extends Component {
                                  </th>
                             </tr>
                             {players.map((player, index) => (
-                                <tr key={player.id}
+                                <tr key={player._id}
                                     style={{paddingBottom:"16px"}}>
                                     <td>
                                         <div className="leader-item">

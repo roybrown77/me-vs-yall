@@ -26,28 +26,28 @@ const dropDownFull = {
 
 let games = [
     {
-        id: 1,
+        _id: 1,
         competitorId: 1,
         img: Chiefs,
         name: 'Kansas City Chiefs',
         showCheck: false
     },
     {
-        id: 1,
+        _id: 1,
         competitorId: 2,
         img: Patriots,
         name: 'New England Patriots',
         showCheck: false
     },
     {
-        id: 2,
+        _id: 2,
         competitorId: 1,
         img: Falcons,
         name: 'Atlanta Falcons',
         showCheck: false
     },
     {
-        id: 2,
+        _id: 2,
         competitorId: 2,
         img: Bears,
         name: 'Chicago Bears',
@@ -82,13 +82,13 @@ class LeagueSchedule extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
-        let competitor = games.find(x=>x.competitorId === competitorId && x.id === gameId);
+        let competitor = games.find(x=>x.competitorId === competitorId && x._id === gameId);
 
         if (competitor.showCheck) {
             competitor.showCheck = false;
         } else {
             games.map((game) => {
-                if (game.id === gameId) {
+                if (game._id === gameId) {
                     game.showCheck = false;
                 }
 
@@ -142,11 +142,11 @@ class LeagueSchedule extends Component {
                             >
                             {games.map((game, index) => (
                                 <GridTile
-                                    key={game.id + "." + game.competitorId}
+                                    key={game._id + "." + game.competitorId}
                                     title={game.name}
                                     titleStyle={{font:'1.4rem/1 Permanent Marker,sans-serif'}}
                                     style={grid.tile}
-                                    onClick={() => this.selectCompetitor(game.id, game.competitorId)}
+                                    onClick={() => this.selectCompetitor(game._id, game.competitorId)}
                                     >
                                     <div style={{border: game.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
                                     <div>

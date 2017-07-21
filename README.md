@@ -8,6 +8,14 @@ https://me-vs-yall.firebaseapp.com
 
 Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
 
+# Roadmap
+
+- backend
+- ui
+- prevent game selection 15 minutes before game start
+- notifications
+- offline ability
+
 # Tek Stak
 
 Client:
