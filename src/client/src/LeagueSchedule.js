@@ -74,9 +74,7 @@ const grid = {
         font:'1.4rem/1 Permanent Marker,sans-serif', 
         color: 'black'
     },
-    titleBackground: {
-        color: 'transparent'
-    }
+    titleBackground: 'transparent'
 };
 
 class LeagueSchedule extends Component {
