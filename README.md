@@ -14,6 +14,7 @@ Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
 - ui / make it purty
 - features - prevent game selection 15 minutes before game start, notifications, offline ability
 - security / white hack my own site
+- rinse & repeat
 
 # Tek Stak
 
