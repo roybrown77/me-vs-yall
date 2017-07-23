@@ -76,7 +76,7 @@ class Leaders extends Component {
                             <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                         </DropDownMenu>
                     </div>
-                    <table style={{width:"100%"}}>
+                    <table style={{width:"100%", marginTop: "12px"}}>
                         <tbody>
                             <tr>
                                 <th>

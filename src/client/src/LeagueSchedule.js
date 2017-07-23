@@ -60,15 +60,22 @@ const grid = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        marginTop: '12px'
     },
     list: {
         width: '100%'
     },
     tile: {
         width: '100%',
-        background: 'lightgray',
         cursor: 'pointer'
+    },
+    titleStyle: {
+        font:'1.4rem/1 Permanent Marker,sans-serif', 
+        color: 'black'
+    },
+    titleBackground: {
+        color: 'transparent'
     }
 };
 
@@ -140,7 +147,7 @@ class LeagueSchedule extends Component {
                         <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
                     </DropDownMenu>
                 </div>
-                <div style={{color:'#BA68C8'}}>*tap winners</div>
+                <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
                     <div style={grid.root}>
                         <GridList
                             cellHeight={180}
@@ -149,9 +156,10 @@ class LeagueSchedule extends Component {
                             {games.map((game, index) => (
                                 <GridTile
                                     key={game._id + "." + game.competitorId}
-                                    title={game.name}
-                                    titleStyle={{font:'1.4rem/1 Permanent Marker,sans-serif'}}
                                     style={grid.tile}
+                                    title={game.name}
+                                    titleStyle={grid.titleStyle}
+                                    titleBackground={grid.titleBackground}
                                     onClick={() => this.selectCompetitor(game._id, game.competitorId)}
                                     >
                                     <div style={{border: game.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>

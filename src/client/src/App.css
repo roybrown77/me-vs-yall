@@ -45,7 +45,7 @@ body {
 
 @media screen and (max-width: 900px) {
   .page-container {
-    margin: 0;
+    margin: 0 12px;
   }
 }
 
@@ -166,7 +166,7 @@ body {
 }
 
 .list-item {
-  margin: 12px 12px 0 12px;
+  margin: 12px 0 0 0;
   width: 100%;
   background-color: blue;
   font: 1.4rem/1 Permanent Marker,sans-serif;
