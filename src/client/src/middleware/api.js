@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
 function search(query, cb) {
-    return fetch(window.location.origin + `/api/games?q=${query}`, {
+    return fetch(`/api/games?q=${query}`, {
         accept: "application/json"
     })
         .then(checkStatus)
