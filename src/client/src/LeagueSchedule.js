@@ -6,6 +6,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 
 import Header from './Header';
 import Footer from './Footer';
+import api from './middleware/api.js';
 
 import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
@@ -74,7 +75,12 @@ const grid = {
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false};
+        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, games: []};
+        api.search('1', games => {
+            this.setState({
+                games: games
+            });
+        });
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});

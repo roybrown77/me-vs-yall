@@ -3,23 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-core": "^6.25.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "material-ui": "^0.18.5",
-    "mongoose": "^4.11.3",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-router-dom": "^4.1.1",
-    "react-tap-event-plugin": "^2.0.1"
+    "mongoose": "^4.11.3"
   },
   "devDependencies": {
-    "react-scripts": "0.9.5",
-    "yarn": "^0.24.5"
+    "concurrently": "^3.5.0"
   },
   "scripts": {
-    "start": "react-scripts start && node src/server/server.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node src/server/server.js",
+    "client": "node start-client.js",
+    "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
+    "lint": "eslint ."
   }
 }
