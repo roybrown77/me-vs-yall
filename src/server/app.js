@@ -13,15 +13,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Answer API requests.
-app.get('/api', function (req, res) {
-  res.set('Content-Type', 'application/json');
-  res.send('{"message":"Hello from the custom server!"}');
-});
+// app.get('/api', function (req, res) {
+//   res.set('Content-Type', 'application/json');
+//   res.send('{"message":"Hello from the custom server!"}');
+// });
 
 // All remaining requests return the React app, so it can handle routing.
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+// app.get('*', function(request, response) {
+//   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+// });
 
 var UserController = require('./user/UserController');
 app.use('/api/users', UserController);
