@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
+import ActionAndroid from 'material-ui/svg-icons/action/android';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -77,6 +79,13 @@ const grid = {
     titleBackground: 'transparent'
 };
 
+const filterButton = {
+  button: {
+    margin: 0,
+    width: '100%'
+  }
+};
+
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
@@ -120,6 +129,13 @@ class LeagueSchedule extends Component {
                 <Header/>
                 <div className="page-container">
                 <div style={{marginTop: '12px'}}>
+                    <RaisedButton
+                      label="Filtration"
+                      labelPosition="before"
+                      primary={true}
+                      icon={<ActionAndroid />}
+                      style={filterButton.button}
+                    />
                     <DropDownMenu
                         value={this.state.value1}
                         onChange={this.handleChange1}
