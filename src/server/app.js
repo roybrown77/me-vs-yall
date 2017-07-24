@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === "production") {
 //   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 // });
 
-All remaining requests return the React app, so it can handle routing.
+// All remaining requests return the React app, so it can handle routing.
 app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
