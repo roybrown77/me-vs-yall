@@ -36,3 +36,11 @@ Backend:
 Hosting server:
 
 - tbd
+
+# To run application locally
+
+1. npm install
+2. cd src/client
+3. npm install
+4. cd ../../
+5. npm start
