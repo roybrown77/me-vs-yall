@@ -35,17 +35,4 @@ Backend:
 
 Hosting server:
 
-- Google Cloud / Firebase
-
-# To run application locally
-
-1. npm install
-2. npm start
-
-# To deploy to production
-
-1. open system terminal
-2. npm config set prefix '~/.npm-global'
-3. export PATH=~/.npm-global/bin:$PATH
-4. npm install -g firebase-tools
-5. npm run build && firebase deploy
+- tbd
