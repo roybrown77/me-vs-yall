@@ -2,7 +2,7 @@
 
 Pick winners of sporting events and compete with others around the world.
 
-https://me-vs-yall.firebaseapp.com
+https://mevsyall.herokuapp.com
 
 # Launch
 
