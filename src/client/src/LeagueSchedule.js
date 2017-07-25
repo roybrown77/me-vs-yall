@@ -23,7 +23,8 @@ const dropDown = {
 
 const dropDownFull = {
     root: {
-        width: '100%'
+        width: '100%',
+        marginBottom: '16px'
     }
 };
 
@@ -42,7 +43,7 @@ let games = [
             },
             {
                 _id: 2,
-                name: 'New England Patriots2',
+                name: 'New England Patriots',
                 img: Patriots,
                 showCheck: false
             }
