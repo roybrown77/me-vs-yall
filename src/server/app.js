@@ -7,21 +7,21 @@ require('./db');
 app.set("port", process.env.PORT || 3001);
 
 // Express only serves static assets in production
-if (process.env.NODE_ENV === "production") {
+//if (process.env.NODE_ENV === "production") {
     //app.use(express.static("../client/build"));
     app.use(express.static(path.resolve(__dirname, '../client/build')));
-}
+//}
 
-// Answer API requests.
-// app.get('/api', function (req, res) {
-//   res.set('Content-Type', 'application/json');
-//   res.send('{"message":"Hello from the custom server!"}');
-// });
+Answer API requests.
+app.get('/api', function (req, res) {
+  res.set('Content-Type', 'application/json');
+  res.send('{"message":"Hello from the custom server!"}');
+});
 
-// All remaining requests return the React app, so it can handle routing.
-// app.get('*', function(request, response) {
-//   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-// });
+All remaining requests return the React app, so it can handle routing.
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 // All remaining requests return the React app, so it can handle routing.
 app.get('/', function(request, response) {
