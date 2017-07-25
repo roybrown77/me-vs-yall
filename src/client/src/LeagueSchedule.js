@@ -30,31 +30,40 @@ const dropDownFull = {
 let games = [
     {
         _id: 1,
-        competitorId: 1,
-        img: Chiefs,
-        name: 'Kansas City Chiefs',
-        showCheck: false
-    },
-    {
-        _id: 1,
-        competitorId: 2,
-        img: Patriots,
-        name: 'New England Patriots',
-        showCheck: false
+        startDateTime: "Thursday Sep 7 2017 8:30 pm ET",
+        station: "NBC",
+        stadiumName: "Gillette Stadium",
+        competitors: [
+            {
+                _id: 1,
+                name: 'Kansas City Chiefs',
+                img: Chiefs,
+                showCheck: false
+            },
+            {
+                _id: 2,
+                name: 'New England Patriots',
+                img: Patriots,
+                showCheck: false
+            }
+        ]
     },
     {
         _id: 2,
-        competitorId: 1,
-        img: Falcons,
-        name: 'Atlanta Falcons',
-        showCheck: false
-    },
-    {
-        _id: 2,
-        competitorId: 2,
-        img: Bears,
-        name: 'Chicago Bears',
-        showCheck: false
+        competitors: [
+            {
+                _id: 3,
+                name: 'Atlanta Falcons',
+                img: Falcons,
+                showCheck: false
+            },
+            {
+                _id: 4,
+                name: 'Chicago Bears',
+                img: Bears,
+                showCheck: false
+            }
+        ]
     }
 ];
 
@@ -66,7 +75,9 @@ const grid = {
         marginTop: '12px'
     },
     list: {
-        width: '100%'
+        width: '100%',
+        marginBottom: '12px',
+        backgroundColor: '#fff'
     },
     tile: {
         width: '100%',
@@ -74,7 +85,7 @@ const grid = {
     },
     titleStyle: {
         font:'1.4rem/1 Permanent Marker,sans-serif', 
-        color: 'black'
+        color: '#000'
     },
     titleBackground: 'transparent'
 };
@@ -97,25 +108,29 @@ class LeagueSchedule extends Component {
         });
     }
 
+    componentDidMount() {
+    }
+
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
-        let competitor = games.find(x=>x.competitorId === competitorId && x._id === gameId);
+        let game = games.find(x=>x._id === gameId);
+        let competitorSelected = game.competitors.find(x=>x._id === competitorId);
 
-        if (competitor.showCheck) {
-            competitor.showCheck = false;
+        if (competitorSelected.showCheck) {
+            competitorSelected.showCheck = false;
         } else {
-            games.map((game) => {
-                if (game._id === gameId) {
-                    game.showCheck = false;
+            game.competitors.map((competitor) => {
+                if (competitor._id !== competitorId) {
+                    competitor.showCheck = false;
                 }
 
-                return game;
+                return competitor;
             });
 
-            competitor.showCheck = true;
+            competitorSelected.showCheck = true;
         }
 
         this.setState({winnerSelected: true});
@@ -128,7 +143,7 @@ class LeagueSchedule extends Component {
             <div>
                 <Header/>
                 <div className="page-container">
-                <div style={{marginTop: '12px'}}>
+                <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
                     <RaisedButton
                       label="Filtration"
                       labelPosition="before"
@@ -163,27 +178,29 @@ class LeagueSchedule extends Component {
                 </div>
                 <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
                     <div style={grid.root}>
-                        <GridList
-                            cellHeight={180}
-                            style={grid.list}
-                            >
-                            {games.map((game, index) => (
-                                <GridTile
-                                    key={game._id + "." + game.competitorId}
-                                    style={grid.tile}
-                                    title={game.name}
-                                    titleStyle={grid.titleStyle}
-                                    titleBackground={grid.titleBackground}
-                                    onClick={() => this.selectCompetitor(game._id, game.competitorId)}
-                                    >
-                                    <div style={{border: game.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
-                                    <div>
-                                        <img className="competitor-image" src={ game.img } alt=""/>
-                                    </div>
-                                    </div>
-                                </GridTile>
-                            ))}
-                        </GridList>
+                        {games.map((game, index1) => (
+                            <GridList
+                                key={game._id}
+                                style={grid.list}
+                                >
+                                {game.competitors.map((competitor, index2) => (
+                                    <GridTile
+                                        key={game._id + "." + competitor._id}
+                                        style={grid.tile}
+                                        title={competitor.name}
+                                        titleStyle={grid.titleStyle}
+                                        titleBackground={grid.titleBackground}
+                                        onClick={() => this.selectCompetitor(game._id, competitor._id)}
+                                        >
+                                        <div style={{border: competitor.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
+                                        <div>
+                                            <img className="competitor-image" src={ competitor.img } alt=""/>
+                                        </div>
+                                        </div>
+                                    </GridTile>
+                                ))}
+                            </GridList>
+                        ))}
                     </div>
                 </div>
                 <Footer/>
