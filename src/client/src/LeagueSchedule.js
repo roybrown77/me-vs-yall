@@ -42,7 +42,7 @@ let games = [
             },
             {
                 _id: 2,
-                name: 'New England Patriots',
+                name: 'New England Patriots2',
                 img: Patriots,
                 showCheck: false
             }
