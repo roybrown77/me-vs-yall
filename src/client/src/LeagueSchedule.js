@@ -28,7 +28,26 @@ const dropDownFull = {
     }
 };
 
-let games = [
+const nflImages = [
+    {
+        id: 'Kansas City Chiefs',
+        img: Chiefs
+    },
+    {
+        id: 'New England Patriots',
+        img: Patriots
+    },
+    {
+        id: 'Atlanta Falcons',
+        img: Falcons
+    },
+    {
+        id: 'Chicago Bears',
+        img: Bears
+    }
+];
+
+let testGames = [
     {
         _id: 1,
         startDateTime: "Thursday Sep 7 2017 8:30 pm ET",
@@ -101,8 +120,15 @@ const filterButton = {
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, games: []};
+        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, games: [], gamesReceived: false};
         api.search('1', games => {
+            games.map((game)=>{
+                return game.competitors.map((competitor)=>{
+                    competitor.img = nflImages.find(x=>x.id === competitor.name).img;
+                    return competitor;
+                });
+            });
+
             this.setState({
                 games: games
             });
@@ -117,7 +143,7 @@ class LeagueSchedule extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId) {
-        let game = games.find(x=>x._id === gameId);
+        let game = this.state.games.find(x=>x._id === gameId);
         let competitorSelected = game.competitors.find(x=>x._id === competitorId);
 
         if (competitorSelected.showCheck) {
@@ -179,7 +205,7 @@ class LeagueSchedule extends Component {
                 </div>
                 <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
                     <div style={grid.root}>
-                        {games.map((game, index1) => (
+                        {this.state.games.map((game, index1) => (
                             <GridList
                                 key={game._id}
                                 style={grid.list}
