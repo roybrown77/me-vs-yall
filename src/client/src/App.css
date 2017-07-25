@@ -140,11 +140,11 @@ body {
 
 #app-bar {
   background-color: #f4f7f6 !important;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #000;
 }
 
 #app-bar button div svg {
-  fill: black !important;
+  fill: #000 !important;
 }
 
 .menu-item {
@@ -199,7 +199,7 @@ body {
 .game-footer {
   height: 48px;
   width: 100%;
-  background-color: black;
+  background-color: #000;
   bottom:0;
   position:sticky;
 }
@@ -209,7 +209,7 @@ body {
 
 .leader-win-loss-tie-header {
   font-weight: bold;
-  color: white;
+  color: #fff;
   font-size: 32px;
   height: 1.5em;
   display: flex;
