@@ -7,14 +7,15 @@ router.use(bodyParser.urlencoded({ extended: true }));
 var pickRepository = require('./PickRepository');
 
 router.post('/', function (req, res) {
-    pickRepository.create({
-            gameId : req.body.gameId,
-            userId : req.body.userId,
-            pickId : req.body.pickId
-        },
-        function (err, pick) {
+    const pick = {
+        userId: req.body.userId,
+        gameId: req.body.gameId,
+        pickId: req.body.pickId
+    };
+
+    pickRepository.create(pick, function (err, pickCreated) {
             if (err) return res.status(500).send("There was a problem adding the information to the database.");
-            res.status(200).send(pick);
+            res.status(200).send(pickCreated);
         });
 });
 

@@ -1,8 +1,27 @@
 /* eslint-disable no-undef */
+import URLSearchParams from 'url-search-params';
 
-function search(query, cb) {
+function getGames(query, cb) {
     return fetch(`/api/games?q=${query}`, {
         accept: "application/json"
+    })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(cb);
+}
+
+function createPick(body, cb) {
+    const searchParams = new URLSearchParams();
+    searchParams.set('userId', body.userId);
+    searchParams.set('gameId', body.gameId);
+    searchParams.set('pickId', body.pickId);
+
+    return fetch(`/api/picks`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: searchParams
     })
         .then(checkStatus)
         .then(parseJSON)
@@ -24,6 +43,6 @@ function parseJSON(response) {
     return response.json();
 }
 
-const api = { search };
+const api = { getGames, createPick };
 
 export default api;

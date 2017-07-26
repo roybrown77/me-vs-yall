@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var PickSchema = new mongoose.Schema({
-    gameId: String,
-    userId: String,
-    pickId: String
+	userId: 'string',
+    gameId: 'string',
+    pickId: 'string'
 });
-mongoose.model('Pick', PickSchema);
-module.exports = mongoose.model('Pick');
+;
+module.exports = mongoose.model('Pick', PickSchema)
