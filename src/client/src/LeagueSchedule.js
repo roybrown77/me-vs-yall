@@ -28,65 +28,6 @@ const dropDownFull = {
     }
 };
 
-const nflImages = [
-    {
-        id: 'Kansas City Chiefs',
-        img: Chiefs
-    },
-    {
-        id: 'New England Patriots',
-        img: Patriots
-    },
-    {
-        id: 'Atlanta Falcons',
-        img: Falcons
-    },
-    {
-        id: 'Chicago Bears',
-        img: Bears
-    }
-];
-
-// let testGames = [
-//     {
-//         _id: 1,
-//         startDateTime: "Thursday Sep 7 2017 8:30 pm ET",
-//         station: "NBC",
-//         stadiumName: "Gillette Stadium",
-//         competitors: [
-//             {
-//                 _id: 1,
-//                 name: 'Kansas City Chiefs',
-//                 img: Chiefs,
-//                 showCheck: false
-//             },
-//             {
-//                 _id: 2,
-//                 name: 'New England Patriots',
-//                 img: Patriots,
-//                 showCheck: false
-//             }
-//         ]
-//     },
-//     {
-//         _id: 2,
-//         competitors: [
-//             {
-//                 _id: 3,
-//                 name: 'Atlanta Falcons',
-//                 img: Falcons,
-//                 showCheck: false
-//             },
-//             {
-//                 _id: 4,
-//                 name: 'Chicago Bears',
-//                 img: Bears,
-//                 showCheck: false
-//             }
-//         ]
-//     }
-// ];
-
 const grid = {
     root: {
         display: 'flex',
@@ -117,6 +58,33 @@ const filterButton = {
   }
 };
 
+const staticData = [
+    {
+        id: 'Kansas City Chiefs',
+        img: Chiefs,
+        shortName: "KC Chiefs"
+    },
+    {
+        id: 'New England Patriots',
+        img: Patriots,
+        shortName: "NE Patriots"
+    },
+    {
+        id: 'Atlanta Falcons',
+        img: Falcons,
+        shortName: "ATL Falcons"
+    },
+    {
+        id: 'Chicago Bears',
+        img: Bears,
+        shortName: "CHI Bears"
+    }
+];
+
+//         startDateTime: "Thursday Sep 7 2017 8:30 pm ET",
+//         station: "NBC",
+//         stadiumName: "Gillette Stadium",
+
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
@@ -124,7 +92,9 @@ class LeagueSchedule extends Component {
         api.getGames('1', games => {
             games.map((game)=>{
                 return game.competitors.map((competitor)=>{
-                    competitor.img = nflImages.find(x=>x.id === competitor.name).img;
+                    var data = staticData.find(x=>x.id === competitor.name);
+                    competitor.img = data.img;
+                    competitor.shortName = data.shortName;
                     return competitor;
                 });
             });
@@ -142,8 +112,12 @@ class LeagueSchedule extends Component {
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
 
-    selectCompetitor (gameId, competitorId) {
-        api.createPick({userId:'roybrown77@gmail.com', gameId:gameId, pickId:competitorId}, response => {
+    selectCompetitor (gameId, competitorId, showCheck) {
+        let pickId = !showCheck ? competitorId : null;
+
+        // if pickid is null then delete, otherwise add if no previous pick else update
+
+        api.createPick({userId:'roybrown77@gmail.com', gameId:gameId, pickId:pickId}, response => {
             let game = this.state.games.find(x=>x._id === gameId);
             let competitorSelected = game.competitors.find(x=>x._id === competitorId);
 
@@ -213,20 +187,20 @@ class LeagueSchedule extends Component {
                                     style={grid.list}
                                     >
                                     {game.competitors.map((competitor, index2) => (
-                                        <GridTile
-                                            key={game._id + "." + competitor._id}
-                                            style={grid.tile}
-                                            title={competitor.name}
-                                            titleStyle={grid.titleStyle}
-                                            titleBackground={grid.titleBackground}
-                                            onClick={() => this.selectCompetitor(game._id, competitor._id)}
-                                            >
-                                            <div style={{border: competitor.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
-                                                <div>
-                                                    <img className="competitor-image" src={ competitor.img } alt=""/>
+                                            <GridTile
+                                                key={game._id + "." + competitor._id}
+                                                style={grid.tile}
+                                                title={competitor.shortName}
+                                                titleStyle={grid.titleStyle}
+                                                titleBackground={grid.titleBackground}
+                                                onClick={() => this.selectCompetitor(game._id, competitor._id, competitor.showCheck)}
+                                                >
+                                                <div style={{border: competitor.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
+                                                    <div>
+                                                        <img className="competitor-image" src={ competitor.img } alt=""/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </GridTile>
+                                            </GridTile>
                                     ))}
                                 </GridList>
                             ))}

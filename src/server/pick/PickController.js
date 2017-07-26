@@ -10,8 +10,11 @@ router.post('/', function (req, res) {
     const pick = {
         userId: req.body.userId,
         gameId: req.body.gameId,
-        pickId: req.body.pickId
+        pickId: req.body.pickId,
+        createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
+
+    // validate ids are present in db or at least guids
 
     pickRepository.create(pick, function (err, pickCreated) {
             if (err) return res.status(500).send("There was a problem adding the information to the database.");
