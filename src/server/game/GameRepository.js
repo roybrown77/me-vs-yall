@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var GameSchema = new mongoose.Schema({
+	leagueId: mongoose.Schema.Types.ObjectId,
     name: String
 });
-mongoose.model('Game', GameSchema);
-module.exports = mongoose.model('Game');
+module.exports = mongoose.model('Game', GameSchema);

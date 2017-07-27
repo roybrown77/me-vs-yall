@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -8,9 +9,9 @@ var pickRepository = require('./PickRepository');
 
 router.post('/', function (req, res) {
     const pick = {
-        userId: req.body.userId,
-        gameId: req.body.gameId,
-        pickId: req.body.pickId,
+        userId: mongoose.Types.ObjectId(req.body.userId),
+        gameId: mongoose.Types.ObjectId(req.body.gameId),
+        pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
@@ -23,6 +24,10 @@ router.post('/', function (req, res) {
 });
 
 router.get('/', function (req, res) {
+    const search = {
+        leagueId: mongoose.Types.ObjectId(req.query.leagueId)
+    };
+
     pickRepository.find({}, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
         res.status(200).send(picks);

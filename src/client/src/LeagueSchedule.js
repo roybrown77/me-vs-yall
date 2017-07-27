@@ -88,8 +88,10 @@ const staticData = [
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, games: [], gamesReceived: false};
-        api.getGames('1', games => {
+        
+        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, selectionInProgress: false, games: [], picks: []};
+
+        api.getGames({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"}, games => {
             games.map((game)=>{
                 return game.competitors.map((competitor)=>{
                     var data = staticData.find(x=>x.id === competitor.name);
@@ -101,6 +103,12 @@ class LeagueSchedule extends Component {
 
             this.setState({
                 games: games
+            });
+        });
+
+        api.getPicks({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"}, picks => {
+            this.setState({
+                picks: picks
             });
         });
     }

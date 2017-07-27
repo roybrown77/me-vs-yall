@@ -1,13 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
 var gameRepository = require('./GameRepository');
 
 router.get('/', function (req, res) {
-    gameRepository.find({}, function (err, games) {
+	const search = {
+		leagueId: mongoose.Types.ObjectId(req.query.leagueId)
+	};
+
+    gameRepository.find(search, function (err, games) {
         if (err) return res.status(500).send("There was a problem finding the games.");
         res.status(200).send(games);
     });

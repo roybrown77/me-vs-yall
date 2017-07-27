@@ -1,8 +1,25 @@
 /* eslint-disable no-undef */
 import URLSearchParams from 'url-search-params';
 
+function getQueryString(params) {
+      var esc = encodeURIComponent;
+      
+      return Object.keys(params)
+        .map(k => esc(k) + '=' + esc(params[k]))
+        .join('&');
+}
+
 function getGames(query, cb) {
-    return fetch(`/api/games?q=${query}`, {
+    return fetch(`/api/games?${getQueryString(query)}`, {
+        accept: "application/json"
+    })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(cb);
+}
+
+function getPicks(query, cb) {
+    return fetch(`/api/picks?${getQueryString(query)}`, {
         accept: "application/json"
     })
         .then(checkStatus)
@@ -43,6 +60,6 @@ function parseJSON(response) {
     return response.json();
 }
 
-const api = { getGames, createPick };
+const api = { getGames, getPicks, createPick };
 
 export default api;
