@@ -106,7 +106,7 @@ class LeagueSchedule extends Component {
             });
         });
 
-        api.getPicks({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"}, picks => {
+        api.getPicks({userId:"59723313734d1d6202a85f10", leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"}, picks => {
             this.setState({
                 picks: picks
             });
@@ -125,7 +125,7 @@ class LeagueSchedule extends Component {
 
         // if pickid is null then delete, otherwise add if no previous pick else update
 
-        api.createPick({userId:'roybrown77@gmail.com', gameId:gameId, pickId:pickId}, response => {
+        api.createPick({userId:'59723313734d1d6202a85f10', leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:pickId}, response => {
             let game = this.state.games.find(x=>x._id === gameId);
             let competitorSelected = game.competitors.find(x=>x._id === competitorId);
 

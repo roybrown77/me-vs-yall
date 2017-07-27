@@ -30,6 +30,7 @@ function getPicks(query, cb) {
 function createPick(body, cb) {
     const searchParams = new URLSearchParams();
     searchParams.set('userId', body.userId);
+    searchParams.set('leagueId', body.leagueId);
     searchParams.set('gameId', body.gameId);
     searchParams.set('pickId', body.pickId);
 

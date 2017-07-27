@@ -10,6 +10,7 @@ var pickRepository = require('./PickRepository');
 router.post('/', function (req, res) {
     const pick = {
         userId: mongoose.Types.ObjectId(req.body.userId),
+        leagueId: mongoose.Types.ObjectId(req.body.leagueId),
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
@@ -28,7 +29,7 @@ router.get('/', function (req, res) {
         leagueId: mongoose.Types.ObjectId(req.query.leagueId)
     };
 
-    pickRepository.find({}, function (err, picks) {
+    pickRepository.find(search, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
         res.status(200).send(picks);
     });
