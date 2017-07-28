@@ -92,12 +92,20 @@ class LeagueSchedule extends Component {
         
         this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, selectionInProgress: false, games: [], picks: []};
 
-        api.getGames({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"}, games => {
+        let getGamesPromise = api.getGames({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"});
+
+        let getPickPromsise = api.getPicks({userId:"59723313734d1d6202a85f10", leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"});
+
+        Promise.all([getGamesPromise, getPickPromsise]).then(data => { 
+            let games = data[0];
+            let picks = data[1];
+
             games.map((game)=>{
                 return game.competitors.map((competitor)=>{
                     var data = staticData.find(x=>x.id === competitor.name);
                     competitor.img = data.img;
                     competitor.shortName = data.shortName;
+                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
                     return competitor;
                 });
             });
@@ -105,9 +113,7 @@ class LeagueSchedule extends Component {
             this.setState({
                 games: games
             });
-        });
 
-        api.getPicks({userId:"59723313734d1d6202a85f10", leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"}, picks => {
             this.setState({
                 picks: picks
             });
@@ -124,6 +130,10 @@ class LeagueSchedule extends Component {
     selectCompetitor (gameId, competitorId, showCheck) {
         let newPickId = !showCheck ? competitorId : null;
 
+        if (newPickId === null) {
+            return;
+        }
+        
         // if pickid is null then delete, otherwise add if no previous pick else update
 
         let pick = this.state.picks.find(x=>x.gameId === gameId);
