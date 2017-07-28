@@ -131,18 +131,16 @@ class LeagueSchedule extends Component {
         let newPickId = !showCheck ? competitorId : null;
 
         if (newPickId === null) {
+            // may not need to delete a pick
             return;
         }
-        
-        // if pickid is null then delete, otherwise add if no previous pick else update
 
         let pick = this.state.picks.find(x=>x.gameId === gameId);
 
         if (pick && newPickId) {
             api.updatePick(pick._id, newPickId, response => {
-                let pickToUpdate = this.state.picks.find(x=>x._id === response._id);
-                pickToUpdate.pickId = newPickId;
-                this.forceUpdate();
+                const pickIndex = this.state.picks.findIndex(x=>x._id === response._id);
+                this.setState(update(this.state.picks, { $splice: [[pickIndex, 1, response]] } ));
 
                 let game = this.state.games.find(x=>x._id === gameId);
                 let competitorSelected = game.competitors.find(x=>x._id === competitorId);
