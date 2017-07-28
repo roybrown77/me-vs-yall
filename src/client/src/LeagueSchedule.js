@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import update from 'react-addons-update';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -121,11 +122,44 @@ class LeagueSchedule extends Component {
     handleChange3 = (event, index, value3) => this.setState({value3});
 
     selectCompetitor (gameId, competitorId, showCheck) {
-        let pickId = !showCheck ? competitorId : null;
+        let newPickId = !showCheck ? competitorId : null;
 
         // if pickid is null then delete, otherwise add if no previous pick else update
 
-        api.createPick({userId:'59723313734d1d6202a85f10', leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:pickId}, response => {
+        let pick = this.state.picks.find(x=>x.gameId === gameId);
+
+        if (pick && newPickId) {
+            api.updatePick(pick._id, newPickId, response => {
+                let pickToUpdate = this.state.picks.find(x=>x._id === response._id);
+                pickToUpdate.pickId = newPickId;
+                this.forceUpdate();
+
+                let game = this.state.games.find(x=>x._id === gameId);
+                let competitorSelected = game.competitors.find(x=>x._id === competitorId);
+
+                if (competitorSelected.showCheck) {
+                    competitorSelected.showCheck = false;
+                } else {
+                    game.competitors.map((competitor) => {
+                        if (competitor._id !== competitorId) {
+                            competitor.showCheck = false;
+                        }
+
+                        return competitor;
+                    });
+
+                    competitorSelected.showCheck = true;
+                }
+            
+               this.setState({winnerSelected: true});
+            });
+
+            return;
+        }
+
+        api.createPick({userId:'59723313734d1d6202a85f10', leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
+            this.setState({ picks: [...this.state.picks, response] });
+
             let game = this.state.games.find(x=>x._id === gameId);
             let competitorSelected = game.competitors.find(x=>x._id === competitorId);
 

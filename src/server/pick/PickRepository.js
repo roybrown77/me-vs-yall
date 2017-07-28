@@ -4,6 +4,7 @@ var PickSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
     gameId: mongoose.Schema.Types.ObjectId,
     pickId: mongoose.Schema.Types.ObjectId,
-    createDateTime: 'date'
+    createDateTime: 'date',
+    deleted: Boolean
 });
 module.exports = mongoose.model('Pick', PickSchema)

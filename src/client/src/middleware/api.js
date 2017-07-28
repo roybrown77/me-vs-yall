@@ -46,6 +46,24 @@ function createPick(body, cb) {
         .then(cb);
 }
 
+function updatePick(id, pickId, cb) {
+    const searchParams = new URLSearchParams();
+    searchParams.set('pickId', pickId);
+    
+    var esc = encodeURIComponent;
+    
+    return fetch(`/api/picks/` + esc(id), {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: searchParams
+    })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(cb);
+}
+
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
@@ -61,6 +79,6 @@ function parseJSON(response) {
     return response.json();
 }
 
-const api = { getGames, getPicks, createPick };
+const api = { getGames, getPicks, updatePick, createPick };
 
 export default api;

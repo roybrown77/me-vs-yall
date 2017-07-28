@@ -44,14 +44,20 @@ router.get('/:id', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-    pickRepository.findByIdAndUpdate(req.params.id, req.body, {deleted: true}, function (err, pick) {
+    const pick = {
+        deleted: true
+    };
+    pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), pick, {new: true}, function (err, pick) {
         if (err) return res.status(500).send("There was a problem deleting the pick.");
         res.status(200).send(pick);
     });
 });
 
 router.put('/:id', function (req, res) {
-    pickRepository.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, pick) {
+    const pick = {
+        pickId: mongoose.Types.ObjectId(req.body.pickId)
+    };
+    pickRepository.findByIdAndUpdate(req.params.id, pick, {new: true}, function (err, pick) {
         if (err) return res.status(500).send("There was a problem updating the pick.");
         res.status(200).send(pick);
     });
