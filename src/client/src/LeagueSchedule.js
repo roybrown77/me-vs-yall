@@ -127,6 +127,27 @@ class LeagueSchedule extends Component {
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
 
+    updatePickInUI (gameId, competitorId) {
+        let game = this.state.games.find(x=>x._id === gameId);
+        let competitorSelected = game.competitors.find(x=>x._id === competitorId);
+
+        if (competitorSelected.showCheck) {
+            competitorSelected.showCheck = false;
+        } else {
+            game.competitors.map((competitor) => {
+                if (competitor._id !== competitorId) {
+                      competitor.showCheck = false;
+                }
+
+                return competitor;
+            });
+
+            competitorSelected.showCheck = true;
+        }
+        
+       this.setState({winnerSelected: true});
+    }
+    
     selectCompetitor (gameId, competitorId, showCheck) {
         let newPickId = !showCheck ? competitorId : null;
 
@@ -142,24 +163,7 @@ class LeagueSchedule extends Component {
                 const pickIndex = this.state.picks.findIndex(x=>x._id === response._id);
                 this.setState(update(this.state.picks, { $splice: [[pickIndex, 1, response]] } ));
 
-                let game = this.state.games.find(x=>x._id === gameId);
-                let competitorSelected = game.competitors.find(x=>x._id === competitorId);
-
-                if (competitorSelected.showCheck) {
-                    competitorSelected.showCheck = false;
-                } else {
-                    game.competitors.map((competitor) => {
-                        if (competitor._id !== competitorId) {
-                            competitor.showCheck = false;
-                        }
-
-                        return competitor;
-                    });
-
-                    competitorSelected.showCheck = true;
-                }
-            
-               this.setState({winnerSelected: true});
+                this.updatePickInUI(gameId, competitorId);
             });
 
             return;
@@ -168,24 +172,7 @@ class LeagueSchedule extends Component {
         api.createPick({userId:'59723313734d1d6202a85f10', leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
             this.setState({ picks: [...this.state.picks, response] });
 
-            let game = this.state.games.find(x=>x._id === gameId);
-            let competitorSelected = game.competitors.find(x=>x._id === competitorId);
-
-            if (competitorSelected.showCheck) {
-                competitorSelected.showCheck = false;
-            } else {
-                game.competitors.map((competitor) => {
-                    if (competitor._id !== competitorId) {
-                        competitor.showCheck = false;
-                    }
-
-                    return competitor;
-                });
-
-                competitorSelected.showCheck = true;
-            }
-        
-           this.setState({winnerSelected: true});
+            this.updatePickInUI(gameId, competitorId);
         });
     }
 
