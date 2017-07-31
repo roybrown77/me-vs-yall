@@ -20,10 +20,10 @@ function getGames(query, cb) {
     //     .catch(error => this.setState({ message: error.message }));
 
     return fetch(`/api/games?${getQueryString(query)}`, {
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
         .then(checkStatus)
         .then(parseJSON)
         .then(cb);
@@ -38,11 +38,11 @@ function getPicks(query, cb) {
     //     .catch(error => this.setState({ message: error.message }));
 
     return fetch(`/api/picks?${getQueryString(query)}`, {
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${getAccessToken()}`
-        }
-    })
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${getAccessToken()}`
+            }
+        })
         .then(checkStatus)
         .then(parseJSON)
         .then(cb);
@@ -56,13 +56,13 @@ function createPick(body, cb) {
     searchParams.set('pickId', body.pickId);
 
     return fetch(`/api/picks`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${getAccessToken()}`
-        },
-        body: searchParams
-    })
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${getAccessToken()}`
+            },
+            body: searchParams
+        })
         .then(checkStatus)
         .then(parseJSON)
         .then(cb);
@@ -75,13 +75,13 @@ function updatePick(id, pickId, cb) {
     var esc = encodeURIComponent;
     
     return fetch(`/api/picks/` + esc(id), {
-        method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${getAccessToken()}`
-        },
-        body: searchParams
-    })
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${getAccessToken()}`
+            },
+            body: searchParams
+        })
         .then(checkStatus)
         .then(parseJSON)
         .then(cb);

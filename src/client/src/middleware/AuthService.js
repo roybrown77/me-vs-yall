@@ -97,6 +97,7 @@
 
 import decode from 'jwt-decode';
 import auth0 from 'auth0-js';
+import Auth0Lock from 'auth0-lock';
 import history from './history';
 
 const ID_TOKEN_KEY = 'id_token';
@@ -111,6 +112,29 @@ const AUDIENCE = 'https://mevsyallcom/api/';
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
   domain: CLIENT_DOMAIN
+});
+
+var lock = new Auth0Lock(
+  CLIENT_ID,
+  CLIENT_DOMAIN,
+  {
+    auth: {
+      redirect: false,
+      allowLogin: false
+    }
+  }
+);
+
+lock.on("authenticated", function(authResult) {
+  lock.getProfile(authResult.idToken, function(error, profile) {
+    if (error) {
+      // Handle error
+      return;
+    }
+
+    localStorage.setItem('token', authResult.idToken);
+    localStorage.setItem('profile', JSON.stringify(profile));
+  });
 });
 
 export function login() {
@@ -150,19 +174,16 @@ function clearAccessToken() {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
 }
 
-// Helper function that will allow us to extract the access_token and id_token
 function getParameterByName(name) {
   let match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
-// Get and store access_token in local storage
 export function setAccessToken() {
   let accessToken = getParameterByName('access_token');
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 
-// Get and store id_token in local storage
 export function setIdToken() {
   let idToken = getParameterByName('id_token');
   localStorage.setItem(ID_TOKEN_KEY, idToken);
