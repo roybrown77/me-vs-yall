@@ -92,6 +92,13 @@ class LeagueSchedule extends Component {
         super(props);
         
         this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, selectionInProgress: false, games: [], picks: []};
+    }
+
+    componentDidMount() {
+        if (!isLoggedIn()) {
+            login();
+            return;
+        }
 
         let getGamesPromise = api.getGames({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"});
 
@@ -121,9 +128,6 @@ class LeagueSchedule extends Component {
         });
     }
 
-    componentDidMount() {
-    }
-
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
@@ -150,10 +154,6 @@ class LeagueSchedule extends Component {
     }
     
     selectCompetitor (gameId, competitorId, showCheck) {
-        if (!isLoggedIn()) {
-            login();
-        }
-
         let newPickId = !showCheck ? competitorId : null;
 
         if (newPickId === null) {

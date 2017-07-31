@@ -97,7 +97,6 @@
 
 import decode from 'jwt-decode';
 import auth0 from 'auth0-js';
-import Auth0Lock from 'auth0-lock';
 import history from './history';
 
 const ID_TOKEN_KEY = 'id_token';
@@ -114,29 +113,6 @@ var auth = new auth0.WebAuth({
   domain: CLIENT_DOMAIN
 });
 
-var lock = new Auth0Lock(
-  CLIENT_ID,
-  CLIENT_DOMAIN,
-  {
-    auth: {
-      redirect: false,
-      allowLogin: false
-    }
-  }
-);
-
-lock.on("authenticated", function(authResult) {
-  lock.getProfile(authResult.idToken, function(error, profile) {
-    if (error) {
-      // Handle error
-      return;
-    }
-
-    localStorage.setItem('token', authResult.idToken);
-    localStorage.setItem('profile', JSON.stringify(profile));
-  });
-});
-
 export function login() {
   auth.authorize({
     responseType: 'token id_token',
@@ -149,12 +125,12 @@ export function login() {
 export function logout() {
   clearIdToken();
   clearAccessToken();
-  history.push('/');
+  history.push('/leagues');
 }
 
 export function requireAuth(nextState, replace) {
   if (!isLoggedIn()) {
-    replace({pathname: '/'});
+    replace({pathname: '/leagues'});
   }
 }
 
@@ -188,6 +164,17 @@ export function setIdToken() {
   let idToken = getParameterByName('id_token');
   localStorage.setItem(ID_TOKEN_KEY, idToken);
 }
+
+// export function setUserProfile() {
+//   let accessToken = getAccessToken();
+//   auth.client.userInfo(accessToken, function(err, user) {
+//     localStorage.setItem('profile', JSON.stringify(user));
+//   });
+// }
+
+// export function getUserProfile() {
+//   return localStorage.getItem('profile');
+// }
 
 export function isLoggedIn() {
   const idToken = getIdToken();
