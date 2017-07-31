@@ -92,19 +92,26 @@ class LeagueSchedule extends Component {
         super(props);
         
         this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, selectionInProgress: false, games: [], picks: []};
-    }
 
-    componentDidMount() {
         if (!isLoggedIn()) {
             login();
             return;
         }
 
-        let getGamesPromise = api.getGames({leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"});
+        let getGamesPromise = api.getGames({
+            leagueId:"59723313734d1d6202a85f10",
+            startDatetime:"2017-09-07T00:30:00+04:00",
+            endDateTime:"2017-09-12T00:30:00+04:00"
+        });
+        
+        let getPickPromise = api.getPicks({
+            userId:"59723313734d1d6202a85f10", 
+            leagueId:"59723313734d1d6202a85f10",
+            startDatetime:"2017-09-07T00:30:00+04:00",
+            endDateTime:"2017-09-12T00:30:00+04:00"
+        });
 
-        let getPickPromsise = api.getPicks({userId:"59723313734d1d6202a85f10", leagueId:"59723313734d1d6202a85f10",startDatetime:"2017-09-07T00:30:00+04:00",endDateTime:"2017-09-12T00:30:00+04:00"});
-
-        Promise.all([getGamesPromise, getPickPromsise]).then(data => { 
+        Promise.all([getGamesPromise, getPickPromise]).then(data => { 
             let games = data[0];
             let picks = data[1];
 
@@ -126,6 +133,9 @@ class LeagueSchedule extends Component {
                 picks: picks
             });
         });
+    }
+
+    componentDidUpdate() {
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});

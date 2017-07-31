@@ -1,13 +1,6 @@
-//import auth0 from 'auth0-js';
-//import { AUTH_CONFIG } from './auth0-variables';
-//import history from './history';
-
-// const AUTH_CONFIG = {
-//   domain: 'mevsyall.auth0.com',
-//   clientId: 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d',
-//   callbackUrl: 'http://localhost:3000/callback',
-//   apiUrl: 'https://mevsyallcom/api/'
-// };
+// import auth0 from 'auth0-js';
+// import { AUTH_CONFIG } from './auth0-variables';
+// import history from '../history';
 
 // export default class Auth {
 //   auth0 = new auth0.WebAuth({
@@ -16,7 +9,7 @@
 //     redirectUri: AUTH_CONFIG.callbackUrl,
 //     audience: AUTH_CONFIG.apiUrl,
 //     responseType: 'token id_token',
-//     scope: 'openid'
+//     scope: 'openid profile read:messages'
 //   });
 
 //   userProfile;
@@ -101,6 +94,7 @@ import history from './history';
 
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
+const USER_PROFILE_KEY = 'user_profile';
 
 const CLIENT_ID = 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d';
 const CLIENT_DOMAIN = 'mevsyall.auth0.com';
@@ -113,10 +107,15 @@ var auth = new auth0.WebAuth({
   domain: CLIENT_DOMAIN
 });
 
+export function isLoggedIn() {
+  const idToken = getIdToken();
+  return !!idToken && !isTokenExpired(idToken);
+}
+
 export function login() {
   auth.authorize({
     responseType: 'token id_token',
-    redirectUri: REDIRECT,
+    redirectUri: "http://" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/callback",
     audience: AUDIENCE,
     scope: SCOPE
   });
@@ -134,51 +133,34 @@ export function requireAuth(nextState, replace) {
   }
 }
 
+export function setIdToken() {
+  let idToken = getParameterByName(ID_TOKEN_KEY);
+  localStorage.setItem(ID_TOKEN_KEY, idToken);
+}
+
 export function getIdToken() {
   return localStorage.getItem(ID_TOKEN_KEY);
+}
+
+export function setAccessToken() {
+  let accessToken = getParameterByName(ACCESS_TOKEN_KEY);
+  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
-function clearIdToken() {
-  localStorage.removeItem(ID_TOKEN_KEY);
+export function setUserProfile() {
+  let accessToken = getAccessToken();
+  auth.client.userInfo(accessToken, (err, profile) => {
+    let userProfile = JSON.stringify(profile);
+    localStorage.setItem(USER_PROFILE_KEY, userProfile);
+  });
 }
 
-function clearAccessToken() {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-}
-
-function getParameterByName(name) {
-  let match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
-  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
-export function setAccessToken() {
-  let accessToken = getParameterByName('access_token');
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-}
-
-export function setIdToken() {
-  let idToken = getParameterByName('id_token');
-  localStorage.setItem(ID_TOKEN_KEY, idToken);
-}
-
-// export function setUserProfile() {
-//   let accessToken = getAccessToken();
-//   auth.client.userInfo(accessToken, function(err, user) {
-//     localStorage.setItem('profile', JSON.stringify(user));
-//   });
-// }
-
-// export function getUserProfile() {
-//   return localStorage.getItem('profile');
-// }
-
-export function isLoggedIn() {
-  const idToken = getIdToken();
-  return !!idToken && !isTokenExpired(idToken);
+export function getUserProfile() {
+  return localStorage.getItem(USER_PROFILE_KEY);
 }
 
 function getTokenExpirationDate(encodedToken) {
@@ -194,4 +176,17 @@ function getTokenExpirationDate(encodedToken) {
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
   return expirationDate < new Date();
+}
+
+function clearIdToken() {
+  localStorage.removeItem(ID_TOKEN_KEY);
+}
+
+function clearAccessToken() {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+}
+
+function getParameterByName(name) {
+  let match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
+  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
