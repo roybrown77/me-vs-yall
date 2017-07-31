@@ -94,13 +94,14 @@ import history from './history';
 
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
-const USER_PROFILE_KEY = 'user_profile';
 
 const CLIENT_ID = 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d';
 const CLIENT_DOMAIN = 'mevsyall.auth0.com';
+
+const RESPONSE_TYPE = 'token id_token';
 const REDIRECT = 'http://localhost:3000/callback';
-const SCOPE = 'openid';
 const AUDIENCE = 'https://mevsyallcom/api/';
+const SCOPE = 'openid profile';
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
@@ -114,8 +115,8 @@ export function isLoggedIn() {
 
 export function login() {
   auth.authorize({
-    responseType: 'token id_token',
-    redirectUri: "http://" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/callback",
+    responseType: RESPONSE_TYPE,
+    redirectUri: REDIRECT,
     audience: AUDIENCE,
     scope: SCOPE
   });
@@ -151,16 +152,11 @@ export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
-export function setUserProfile() {
+export function getUserProfile(cb) {
   let accessToken = getAccessToken();
   auth.client.userInfo(accessToken, (err, profile) => {
-    let userProfile = JSON.stringify(profile);
-    localStorage.setItem(USER_PROFILE_KEY, userProfile);
+    cb(err, profile);
   });
-}
-
-export function getUserProfile() {
-  return localStorage.getItem(USER_PROFILE_KEY);
 }
 
 function getTokenExpirationDate(encodedToken) {

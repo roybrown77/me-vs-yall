@@ -10,7 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Header from './Header';
 import Footer from './Footer';
 import api from './middleware/api.js';
-import { login, isLoggedIn } from './middleware/AuthService';
+import { login, isLoggedIn, getUserProfile } from './middleware/AuthService';
 
 import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
@@ -91,11 +91,33 @@ class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
         
-        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false, selectionInProgress: false, games: [], picks: []};
+        this.state = {
+            value1: 1, 
+            value2: 1, 
+            value3: 1, 
+            winnerSelected: false, 
+            selectionInProgress: false, 
+            games: [], 
+            picks: [], 
+            userProfile: {}
+        };
 
         if (!isLoggedIn()) {
             login();
             return;
+        }
+
+        this.setState({ userProfile: {} });
+
+        //const { userProfile, getProfile } = this.props.auth;
+        let userProfile;
+
+        if (!userProfile) {
+          getUserProfile((err, profile) => {
+            this.setState({ userProfile: profile });
+          });
+        } else {
+          this.setState({ userProfile: userProfile });
         }
 
         let getGamesPromise = api.getGames({
@@ -135,9 +157,6 @@ class LeagueSchedule extends Component {
         });
     }
 
-    componentDidUpdate() {
-    }
-
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
@@ -167,7 +186,6 @@ class LeagueSchedule extends Component {
         let newPickId = !showCheck ? competitorId : null;
 
         if (newPickId === null) {
-            // may not need to delete a pick
             return;
         }
 
@@ -192,7 +210,9 @@ class LeagueSchedule extends Component {
     }
 
     render() {
-        let name = this.props.match.params.name;
+        const { name } = this.state.userProfile;
+        const userName = name;
+        let leagueName = this.props.match.params.name;
 
         return (
             <div>
@@ -212,7 +232,7 @@ class LeagueSchedule extends Component {
                             style={dropDown.root}
                             autoWidth={false}
                             >
-                            <MenuItem value={1} primaryText={name.toUpperCase()}/>
+                            <MenuItem value={1} primaryText={leagueName.toUpperCase()}/>
                         </DropDownMenu>
                         <DropDownMenu
                             value={this.state.value2}
