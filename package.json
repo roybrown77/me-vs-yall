@@ -26,6 +26,7 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon src/server/server.js",
+    "prod-server": "node src/server/server.js",
     "client": "nodemon start-client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "lint": "eslint .",
