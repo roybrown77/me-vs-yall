@@ -4,6 +4,7 @@ import { Route }from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
+import { login, logout, isLoggedIn } from './middleware/AuthService';
 
 class Header extends Component {
     constructor(props) {
@@ -113,16 +114,28 @@ class Header extends Component {
                                 </MenuItem>
                               )} />
                         )}
-                        {(
+                        {
+                          isLoggedIn() ? (
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/login') }}
+                                  onClick={() => logout()}
+                                >
+                                  Logout
+                                </MenuItem>
+                              )} />
+                        ) : 
+                        (
+                            <Route render={({ history}) => (
+                                <MenuItem
+                                  onTouchTap={this.handleClose}
+                                  onClick={() => login()}
                                 >
                                   Login
                                 </MenuItem>
                               )} />
-                        )}
+                        )
+                      }
                     </Drawer>
                 </div>
     );

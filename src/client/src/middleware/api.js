@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 import URLSearchParams from 'url-search-params';
+import { getAccessToken } from './AuthService';
+import axios from 'axios';
 
 function getQueryString(params) {
       var esc = encodeURIComponent;
@@ -10,8 +12,17 @@ function getQueryString(params) {
 }
 
 function getGames(query, cb) {
+    // const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    // axios.get(`/api/games?${getQueryString(query)}`, { headers })
+    //     .then(checkStatus)
+    //     .then(parseJSON)
+    //     .then(cb)
+    //     .catch(error => this.setState({ message: error.message }));
+
     return fetch(`/api/games?${getQueryString(query)}`, {
-        accept: "application/json"
+        headers: {
+            'Accept': 'application/json'
+        }
     })
         .then(checkStatus)
         .then(parseJSON)
@@ -19,8 +30,18 @@ function getGames(query, cb) {
 }
 
 function getPicks(query, cb) {
+    // const headers = { 'Authorization': `Bearer ${getAccessToken()}`}
+    // axios.get(`/api/picks?${getQueryString(query)}`, { headers })
+    //     .then(checkStatus)
+    //     .then(parseJSON)
+    //     .then(cb)
+    //     .catch(error => this.setState({ message: error.message }));
+
     return fetch(`/api/picks?${getQueryString(query)}`, {
-        accept: "application/json"
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
+        }
     })
         .then(checkStatus)
         .then(parseJSON)
@@ -37,7 +58,8 @@ function createPick(body, cb) {
     return fetch(`/api/picks`, {
         method: 'POST',
         headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
         },
         body: searchParams
     })
@@ -55,7 +77,8 @@ function updatePick(id, pickId, cb) {
     return fetch(`/api/picks/` + esc(id), {
         method: 'PUT',
         headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
         },
         body: searchParams
     })

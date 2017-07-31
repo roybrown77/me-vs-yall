@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import MuiThemeProvider from '../node_modules/material-ui/styles/MuiThemeProvider';
 
-import './App.css';
+import Callback from './Callback';
 import Home from './Home';
 import LeagueSelection from './LeagueSelection';
 import LeagueSchedule from './LeagueSchedule';
@@ -23,6 +23,7 @@ class App extends Component {
                             <Route path='/leagues/:name' component={LeagueSchedule}/>
                             <Route path='/leaders' component={Leaders}/>
                             <Route path='/about' component={About}/>
+                            <Route path='/callback' component={Callback}/>
                         </Switch>
                     </main>
                 </div>

@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Header from './Header';
 import Footer from './Footer';
 import api from './middleware/api.js';
+import { login, isLoggedIn } from './middleware/AuthService';
 
 import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
@@ -149,6 +150,10 @@ class LeagueSchedule extends Component {
     }
     
     selectCompetitor (gameId, competitorId, showCheck) {
+        if (!isLoggedIn()) {
+            login();
+        }
+
         let newPickId = !showCheck ? competitorId : null;
 
         if (newPickId === null) {
