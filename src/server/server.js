@@ -46,10 +46,10 @@ app.use('/api/picks', authCheck, PickController);
 //   res.send('{"message":"Hello from the custom server!"}');
 // });
 
-//All remaining requests return the React app, so it can handle routing.
-// app.get('*', function(request, response) {
-//   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-// });
+// All remaining requests return the React app, so it can handle routing.
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 app.listen(app.get("port"), () => {
     console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console

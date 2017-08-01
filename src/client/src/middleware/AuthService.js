@@ -116,7 +116,7 @@ export function isLoggedIn() {
 export function login() {
   auth.authorize({
     responseType: RESPONSE_TYPE,
-    redirectUri: REDIRECT,
+    redirectUri: window.location.protocol + "//" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/callback",
     audience: AUDIENCE,
     scope: SCOPE
   });

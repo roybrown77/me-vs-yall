@@ -107,18 +107,18 @@ class LeagueSchedule extends Component {
             return;
         }
 
-        this.setState({ userProfile: {} });
+        // this.setState({ userProfile: {} });
 
-        //const { userProfile, getProfile } = this.props.auth;
-        let userProfile;
+        // //const { userProfile, getProfile } = this.props.auth;
+        // let userProfile;
 
-        if (!userProfile) {
-          getUserProfile((err, profile) => {
-            this.setState({ userProfile: profile });
-          });
-        } else {
-          this.setState({ userProfile: userProfile });
-        }
+        // if (!userProfile) {
+        //   getUserProfile((err, profile) => {
+        //     this.setState({ userProfile: profile });
+        //   });
+        // } else {
+        //   this.setState({ userProfile: userProfile });
+        // }
 
         let getGamesPromise = api.getGames({
             leagueId:"59723313734d1d6202a85f10",
@@ -210,8 +210,8 @@ class LeagueSchedule extends Component {
     }
 
     render() {
-        const { name } = this.state.userProfile;
-        const userName = name;
+        // const { name } = this.state.userProfile;
+        // const userName = name;
         let leagueName = this.props.match.params.name;
 
         return (
