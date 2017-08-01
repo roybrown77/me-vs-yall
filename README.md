@@ -8,19 +8,12 @@ https://mevsyall.herokuapp.com
 
 Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
 
-# Roadmap
-
-- backend
-- ui / make it purty
-- features - prevent game selection 15 minutes before game start, notifications, offline ability
-- security / white hack my own site
-- rinse & repeat
-
 # Tek Stak
 
 Client:
 
 - React / Javascript
+- Auth0
 - Google Material Design
 - Progressive Web App capabilities to be
   1. Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
@@ -32,6 +25,7 @@ Backend:
 
 - Node / Javascript
 - MongoDB
+- Auth0
 
 Hosting server:
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import URLSearchParams from 'url-search-params';
-import { getAccessToken } from './AuthService';
+import { login, isLoggedIn, getAccessToken } from './AuthService';
 
 function getQueryString(params) {
       var esc = encodeURIComponent;
@@ -76,6 +76,12 @@ function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
+    
+    if (response.status === 401) {
+        login();
+        return;
+    }
+
     const error = new Error(`HTTP Error ${response.statusText}`);
     error.status = response.statusText;
     error.response = response;
