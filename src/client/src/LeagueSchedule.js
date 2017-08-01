@@ -99,26 +99,13 @@ class LeagueSchedule extends Component {
             selectionInProgress: false, 
             games: [], 
             picks: [], 
-            userProfile: {}
+            userProfile: undefined
         };
 
         if (!isLoggedIn()) {
             login();
             return;
         }
-
-        // this.setState({ userProfile: {} });
-
-        // //const { userProfile, getProfile } = this.props.auth;
-        // let userProfile;
-
-        // if (!userProfile) {
-        //   getUserProfile((err, profile) => {
-        //     this.setState({ userProfile: profile });
-        //   });
-        // } else {
-        //   this.setState({ userProfile: userProfile });
-        // }
 
         let getGamesPromise = api.getGames({
             leagueId:"59723313734d1d6202a85f10",
@@ -154,33 +141,20 @@ class LeagueSchedule extends Component {
             this.setState({
                 picks: picks
             });
+
+            // get singleton userprofile and store in session in auth0
+            //const { userProfile, getProfile } = this.props.auth;
+            if (!this.state.userProfile) {
+                getUserProfile((err, profile) => {
+                    this.setState({ userProfile: profile });
+                });
+            }
         });
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
     handleChange3 = (event, index, value3) => this.setState({value3});
-
-    updatePickInUI (gameId, competitorId) {
-        let game = this.state.games.find(x=>x._id === gameId);
-        let competitorSelected = game.competitors.find(x=>x._id === competitorId);
-
-        if (competitorSelected.showCheck) {
-            competitorSelected.showCheck = false;
-        } else {
-            game.competitors.map((competitor) => {
-                if (competitor._id !== competitorId) {
-                      competitor.showCheck = false;
-                }
-
-                return competitor;
-            });
-
-            competitorSelected.showCheck = true;
-        }
-        
-       this.setState({winnerSelected: true});
-    }
     
     selectCompetitor (gameId, competitorId, showCheck) {
         let newPickId = !showCheck ? competitorId : null;
@@ -202,17 +176,37 @@ class LeagueSchedule extends Component {
             return;
         }
 
-        api.createPick({userId:'59723313734d1d6202a85f10', leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
+        api.createPick({leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
             this.setState({ picks: [...this.state.picks, response] });
 
             this.updatePickInUI(gameId, competitorId);
         });
     }
 
+    updatePickInUI (gameId, competitorId) {
+        let game = this.state.games.find(x=>x._id === gameId);
+        let competitorSelected = game.competitors.find(x=>x._id === competitorId);
+
+        if (competitorSelected.showCheck) {
+            competitorSelected.showCheck = false;
+        } else {
+            game.competitors.map((competitor) => {
+                if (competitor._id !== competitorId) {
+                      competitor.showCheck = false;
+                }
+
+                return competitor;
+            });
+
+            competitorSelected.showCheck = true;
+        }
+        
+       this.setState({winnerSelected: true});
+    }
+
     render() {
-        // const { name } = this.state.userProfile;
-        // const userName = name;
-        let leagueName = this.props.match.params.name;
+        const profile = this.state.userProfile;
+        const leagueName = this.props.match.params.name;
 
         return (
             <div>

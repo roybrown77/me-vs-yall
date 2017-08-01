@@ -99,9 +99,8 @@ const CLIENT_ID = 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d';
 const CLIENT_DOMAIN = 'mevsyall.auth0.com';
 
 const RESPONSE_TYPE = 'token id_token';
-const REDIRECT = 'http://localhost:3000/callback';
 const AUDIENCE = 'https://mevsyallcom/api/';
-const SCOPE = 'openid profile';
+const SCOPE = 'openid profile email';
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
@@ -153,8 +152,8 @@ export function getAccessToken() {
 }
 
 export function getUserProfile(cb) {
-  let accessToken = getAccessToken();
-  auth.client.userInfo(accessToken, (err, profile) => {
+  let token = getAccessToken();
+  auth.client.userInfo(token, (err, profile) => {
     cb(err, profile);
   });
 }
@@ -171,7 +170,8 @@ function getTokenExpirationDate(encodedToken) {
 
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
-  return expirationDate < new Date();
+  const currentDate = new Date();
+  return expirationDate < currentDate;
 }
 
 function clearIdToken() {
