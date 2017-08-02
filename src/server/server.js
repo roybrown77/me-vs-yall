@@ -10,26 +10,25 @@ var jwks = require('jwks-rsa');
 
 app.set("port", process.env.PORT || 3001);
 
-// Express only serves static assets in production
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.resolve(__dirname, '../client/build')));
 }
 
-var authCheck = jwt({
-    secret: jwks.expressJwtSecret({
+var secret = jwks.expressJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
         jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
-    }),
+    });
+
+var authCheck = jwt({
+    secret: secret,
     audience: 'https://mevsyallcom/api/',
     issuer: "https://mevsyall.auth0.com/",
     algorithms: ['RS256']
 });
 
-app.get('/authorized', function (req, res) {
-  res.send('Secured Resource');
-});
+app.set('jwtTokenSecret', 'YOUR_SECRET_STRING');
 
 var UserController = require('./user/UserController');
 app.use('/api/users', UserController);
@@ -40,7 +39,6 @@ app.use('/api/games', GameController);
 var PickController = require('./pick/PickController');
 app.use('/api/picks', authCheck, PickController);
 
-// All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });

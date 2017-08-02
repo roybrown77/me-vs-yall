@@ -1,4 +1,5 @@
 var express = require('express');
+var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -8,8 +9,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 var pickRepository = require('./PickRepository');
 
 router.post('/', function (req, res) {
-    const pick = {
-        userId: mongoose.Types.ObjectId(req.body.userId),
+   const pick = {
+        userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.body.leagueId),
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
@@ -26,6 +27,7 @@ router.post('/', function (req, res) {
 
 router.get('/', function (req, res) {
     const search = {
+        userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.query.leagueId)
     };
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import URLSearchParams from 'url-search-params';
-import { login, isLoggedIn, getAccessToken } from './AuthService';
+import { login, getAccessToken } from './AuthService';
 
 function getQueryString(params) {
       var esc = encodeURIComponent;
@@ -35,7 +35,6 @@ function getPicks(query, cb) {
 
 function createPick(body, cb) {
     const searchParams = new URLSearchParams();
-    searchParams.set('userId', body.userId);
     searchParams.set('leagueId', body.leagueId);
     searchParams.set('gameId', body.gameId);
     searchParams.set('pickId', body.pickId);
