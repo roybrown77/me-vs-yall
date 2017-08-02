@@ -28,8 +28,6 @@ var authCheck = jwt({
     algorithms: ['RS256']
 });
 
-app.set('jwtTokenSecret', 'YOUR_SECRET_STRING');
-
 var UserController = require('./user/UserController');
 app.use('/api/users', UserController);
 
