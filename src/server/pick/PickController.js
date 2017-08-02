@@ -17,8 +17,6 @@ router.post('/', function (req, res) {
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
-    // validate ids are present in db or at least guids
-
     pickRepository.create(pick, function (err, pickCreated) {
             if (err) return res.status(500).send("There was a problem adding the information to the database.");
             res.status(200).send(pickCreated);

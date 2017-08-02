@@ -54,7 +54,6 @@ class Footer extends Component {
                             <BottomNavigationItem
                                 label="Me"
                                 icon={meIcon}
-                                onTouchTap={() => { history.push('/me') }}
                                 />
                     )} />
                     )}
@@ -63,7 +62,6 @@ class Footer extends Component {
                             <BottomNavigationItem
                                 label="Yall"
                                 icon={yallIcon}
-                                onTouchTap={() => { history.push('/yall') }}
                                 />
                     )} />
                     )}

@@ -78,7 +78,6 @@ class Header extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/me') }}
                                 >
                                   Me
                                 </MenuItem>
@@ -88,7 +87,6 @@ class Header extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/yall') }}
                                 >
                                   Yall
                                 </MenuItem>
@@ -98,7 +96,6 @@ class Header extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => { history.push('/feedback') }}
                                 >
                                   Feedback
                                 </MenuItem>
