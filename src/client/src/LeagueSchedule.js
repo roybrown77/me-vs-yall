@@ -6,6 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory();
 
 import Header from './Header';
 import Footer from './Footer';
@@ -60,7 +62,38 @@ const filterButton = {
   }
 };
 
-const staticData = [
+const leagues = [ "NFL" ];
+
+const calendar = [
+    {
+        _id: "nfl",
+        years: [
+            {
+                _id: "2017",
+                preseason: {
+                    weeks: [
+                        {
+                            _id: 1,
+                            startDateTime: "",
+                            endDateTime: ""
+                        }
+                    ]
+                },
+                season: {
+                    weeks: [
+                        {
+                            _id: 1,
+                            startDateTime: "",
+                            endDateTime: ""
+                        }
+                    ]
+                }    
+            }
+        ]    
+    }
+];
+
+const teamData = [
     {
         _id: "59823783734d1d04a1b39d00",
         name: 'Kansas City Chiefs',
@@ -100,6 +133,7 @@ class LeagueSchedule extends Component {
             value1: 1, 
             value2: 1, 
             value3: 1, 
+            leagueName: "NFL",
             winnerSelected: false, 
             selectionInProgress: false, 
             games: [], 
@@ -131,13 +165,24 @@ class LeagueSchedule extends Component {
 
             games.map((game)=>{
                 return game.competitors.map((competitor)=>{
-                    var data = staticData.find(x=>x._id === competitor._id);
+                    var data = teamData.find(x=>x._id === competitor._id);
                     competitor.img = data.img;
                     competitor.shortName = data.shortName;
                     competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
                     return competitor;
                 });
             });
+
+            const leagueName = props.match.params.name;
+
+            if (leagues.find(x=>x === props.match.params.name.toUpperCase)) {
+                history.push('/leagues/' + props.match.params.name.toLowerCase);
+                this.setState({
+                    leagueName: props.match.params.name.toUpperCase 
+                });
+            } else {
+                history.push('/leagues/nfl');
+            }   
 
             this.setState({
                 games: games
@@ -211,7 +256,6 @@ class LeagueSchedule extends Component {
 
     render() {
         const profile = this.state.userProfile;
-        const leagueName = this.props.match.params.name;
 
         return (
             <div>
@@ -231,7 +275,7 @@ class LeagueSchedule extends Component {
                             style={dropDown.root}
                             autoWidth={false}
                             >
-                            <MenuItem value={1} primaryText={leagueName.toUpperCase()}/>
+                            <MenuItem value={1} primaryText={this.state.leagueName.toUpperCase()}/>
                         </DropDownMenu>
                         <DropDownMenu
                             value={this.state.value2}
