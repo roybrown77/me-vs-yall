@@ -7,7 +7,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 var gameRepository = require('./GameRepository');
 
-router.get('/', function (req, res) {
+router.get('/games/', function (req, res) {
 	const search = {
 		leagueId: mongoose.Types.ObjectId(req.query.leagueId)
 	};

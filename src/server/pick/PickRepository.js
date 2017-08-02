@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+
 var PickSchema = new mongoose.Schema({
 	userId: String,
 	leagueId: mongoose.Schema.Types.ObjectId,

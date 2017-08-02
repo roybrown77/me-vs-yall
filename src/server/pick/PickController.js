@@ -5,10 +5,11 @@ var mongoose = require('mongoose');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
+var pickDomain = require('./PickDomain');
 var pickRepository = require('./PickRepository');
 
-router.post('/', function (req, res) {
-   const pick = {
+router.post('/picks/', function (req, res) {
+    const pick = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.body.leagueId),
         gameId: mongoose.Types.ObjectId(req.body.gameId),
@@ -16,13 +17,16 @@ router.post('/', function (req, res) {
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
-    pickRepository.create(pick, function (err, pickCreated) {
-            if (err) return res.status(500).send("There was a problem adding the information to the database.");
-            res.status(200).send(pickCreated);
-        });
+    pickDomain.createPick(pick, function (err, pickCreated) {
+        if (err) {
+            return res.status(500).json("There was a problem adding the information to the database: " + err.message);
+        }  
+        
+        res.status(200).send(pickCreated);
+    });
 });
 
-router.get('/', function (req, res) {
+router.get('/picks/', function (req, res) {
     const search = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.query.leagueId)
@@ -34,7 +38,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/:id', function (req, res) {
+router.get('/picks/:id', function (req, res) {
     pickRepository.findById(req.params.id, function (err, pick) {
         if (err) return res.status(500).send("There was a problem finding the pick.");
         if (!pick) return res.status(404).send("No pick found.");
@@ -42,7 +46,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.delete('/:id', function (req, res) {
+router.delete('/picks/:id', function (req, res) {
     const pick = {
         deleted: true
     };
@@ -52,7 +56,7 @@ router.delete('/:id', function (req, res) {
     });
 });
 
-router.put('/:id', function (req, res) {
+router.put('/picks/:id', function (req, res) {
     const pick = {
         pickId: mongoose.Types.ObjectId(req.body.pickId)
     };

@@ -29,13 +29,13 @@ var authCheck = jwt({
 });
 
 var UserController = require('./user/UserController');
-app.use('/api/users', UserController);
+app.use('/api/usermanagement', UserController);
 
 var GameController = require('./game/GameController');
-app.use('/api/games', GameController);
+app.use('/api/gamemanagement', GameController);
 
 var PickController = require('./pick/PickController');
-app.use('/api/picks', authCheck, PickController);
+app.use('/api/pickmanagement', authCheck, PickController);
 
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

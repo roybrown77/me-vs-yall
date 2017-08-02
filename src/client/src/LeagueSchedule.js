@@ -62,30 +62,35 @@ const filterButton = {
 
 const staticData = [
     {
-        id: 'Kansas City Chiefs',
+        _id: "59823783734d1d04a1b39d00",
+        name: 'Kansas City Chiefs',
         img: Chiefs,
         shortName: "KC Chiefs"
     },
     {
-        id: 'New England Patriots',
+        _id: "59823783734d1d04a1b39d01",
+        name: 'New England Patriots',
         img: Patriots,
-        shortName: "NE Patriots"
+        shortName: "NE Patriots",
+        stadiumName: "Gillette Stadium",
+        stadiumCity: "Foxboro, MA"
     },
     {
-        id: 'Atlanta Falcons',
+        _id: "59823783734d1d04a1b39000",
+        name: 'Atlanta Falcons',
         img: Falcons,
         shortName: "ATL Falcons"
     },
     {
-        id: 'Chicago Bears',
+        _id: "59823783734d1d04a1b39001",
+        name: 'Chicago Bears',
         img: Bears,
         shortName: "CHI Bears"
     }
 ];
 
 //         startDateTime: "Thursday Sep 7 2017 8:30 pm ET",
-//         station: "NBC",
-//         stadiumName: "Gillette Stadium",
+//         station: "NBC"
 
 class LeagueSchedule extends Component {
     constructor(props) {
@@ -126,7 +131,7 @@ class LeagueSchedule extends Component {
 
             games.map((game)=>{
                 return game.competitors.map((competitor)=>{
-                    var data = staticData.find(x=>x.id === competitor.name);
+                    var data = staticData.find(x=>x._id === competitor._id);
                     competitor.img = data.img;
                     competitor.shortName = data.shortName;
                     competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;

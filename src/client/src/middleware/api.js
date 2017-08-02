@@ -11,7 +11,7 @@ function getQueryString(params) {
 }
 
 function getGames(query, cb) {
-    return fetch(`/api/games?${getQueryString(query)}`, {
+    return fetch(`/api/gamemanagement/games?${getQueryString(query)}`, {
             headers: {
                 'Accept': 'application/json'
             }
@@ -22,7 +22,7 @@ function getGames(query, cb) {
 }
 
 function getPicks(query, cb) {
-    return fetch(`/api/picks?${getQueryString(query)}`, {
+    return fetch(`/api/pickmanagement/picks?${getQueryString(query)}`, {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${getAccessToken()}`
@@ -39,7 +39,7 @@ function createPick(body, cb) {
     searchParams.set('gameId', body.gameId);
     searchParams.set('pickId', body.pickId);
 
-    return fetch(`/api/picks`, {
+    return fetch(`/api/pickmanagement/picks`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -58,7 +58,7 @@ function updatePick(id, pickId, cb) {
     
     var esc = encodeURIComponent;
     
-    return fetch(`/api/picks/` + esc(id), {
+    return fetch(`/api/pickmanagement/picks/` + esc(id), {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
