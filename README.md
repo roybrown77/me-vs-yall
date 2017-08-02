@@ -9,6 +9,13 @@ https://mevsyall.herokuapp.com
 Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
 
 # Tek Stak
+  
+Backend:
+
+- Architected with composition over inheritance mindset for less code cohesion and Domain Driven Design Lite principles to keep api and backing code modules organized, testable, shareable and scaleable
+- Node / Javascript
+- Auth0
+- MongoDB
 
 Client:
 
@@ -20,12 +27,6 @@ Client:
   2. Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
   3. Engaging - Feel like a natural app on the device, with an immersive user experience.
   4. more info at https://developers.google.com/web/progressive-web-apps/
-  
-Backend:
-
-- Node / Javascript
-- MongoDB
-- Auth0
 
 Hosting server:
 

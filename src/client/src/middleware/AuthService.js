@@ -104,7 +104,11 @@ const SCOPE = 'openid profile email';
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
-  domain: CLIENT_DOMAIN
+  domain: CLIENT_DOMAIN,
+  responseType: RESPONSE_TYPE,
+  redirectUri: window.location.protocol + "//" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/callback",
+  audience: AUDIENCE,
+  scope: SCOPE
 });
 
 export function isLoggedIn() {
@@ -114,10 +118,7 @@ export function isLoggedIn() {
 
 export function login() {
   auth.authorize({
-    responseType: RESPONSE_TYPE,
-    redirectUri: window.location.protocol + "//" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/callback",
-    audience: AUDIENCE,
-    scope: SCOPE
+    connection: 'google-oauth2'
   });
 }
 
