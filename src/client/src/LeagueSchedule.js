@@ -391,9 +391,11 @@ class LeagueSchedule extends Component {
                     <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
                         <div style={grid.root}>
                             {this.state.games.map((game, index1) => (
-                                <div style={{width:'100%', marginBottom: '12px'}}>
+                                <div
+                                    key={game._id}
+                                    style={{width:'100%', marginBottom: '12px'}}>
                                     <GridList
-                                        key={game._id}
+                                        key={game._id + "-gridlist"}
                                         style={grid.list}
                                         >
                                         {game.competitors.map((competitor, index2) => (
