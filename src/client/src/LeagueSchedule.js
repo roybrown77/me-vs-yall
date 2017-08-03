@@ -8,6 +8,7 @@ import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
+import moment from 'moment';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -18,6 +19,13 @@ import Chiefs from './images/kansas-city-chiefs.png';
 import Patriots from './images/new-england-patriots.png';
 import Falcons from './images/atlanta-falcons.png';
 import Bears from './images/chicago-bears.png';
+
+const filterButton = {
+  button: {
+    margin: 0,
+    width: '100%'
+  }
+};
 
 const dropDown = {
     root: {
@@ -41,7 +49,6 @@ const grid = {
     },
     list: {
         width: '100%',
-        marginBottom: '12px',
         backgroundColor: '#fff'
     },
     tile: {
@@ -53,13 +60,6 @@ const grid = {
         color: '#000'
     },
     titleBackground: 'transparent'
-};
-
-const filterButton = {
-  button: {
-    margin: 0,
-    width: '100%'
-  }
 };
 
 const leagues = [ "NFL" ];
@@ -164,11 +164,15 @@ class LeagueSchedule extends Component {
             let picks = data[1];
 
             games.map((game)=>{
-                return game.competitors.map((competitor)=>{
+                game.startDateTime = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
+                game.stadiumCity = teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
+                game.stadiumName = teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
+
+                return game.competitors.map((competitor, index)=>{
                     var data = teamData.find(x=>x._id === competitor._id);
                     competitor.img = data.img;
                     competitor.shortName = data.shortName;
-                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
+                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;    
                     return competitor;
                 });
             });
@@ -297,27 +301,42 @@ class LeagueSchedule extends Component {
                     <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
                         <div style={grid.root}>
                             {this.state.games.map((game, index1) => (
-                                <GridList
-                                    key={game._id}
-                                    style={grid.list}
-                                    >
-                                    {game.competitors.map((competitor, index2) => (
-                                            <GridTile
-                                                key={game._id + "." + competitor._id}
-                                                style={grid.tile}
-                                                title={competitor.shortName}
-                                                titleStyle={grid.titleStyle}
-                                                titleBackground={grid.titleBackground}
-                                                onClick={() => this.selectCompetitor(game._id, competitor._id, competitor.showCheck)}
-                                                >
-                                                <div style={{border: competitor.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
-                                                    <div>
-                                                        <img className="competitor-image" src={ competitor.img } alt=""/>
+                                <div style={{width:'100%', marginBottom: '12px'}}>
+                                    <GridList
+                                        key={game._id}
+                                        style={grid.list}
+                                        >
+                                        {game.competitors.map((competitor, index2) => (
+                                                <GridTile
+                                                    key={game._id + "." + competitor._id}
+                                                    style={grid.tile}
+                                                    title={competitor.shortName}
+                                                    titleStyle={grid.titleStyle}
+                                                    titleBackground={grid.titleBackground}
+                                                    onClick={() => this.selectCompetitor(game._id, competitor._id, competitor.showCheck)}
+                                                    >
+                                                    <div style={{border: competitor.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
+                                                        <div>
+                                                            <img className="competitor-image" src={ competitor.img } alt=""/>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </GridTile>
-                                    ))}
-                                </GridList>
+                                                </GridTile>
+                                        ))}
+                                    </GridList>
+                                    <div style={{
+                                        width: '100%', 
+                                        backgroundColor: '#fff', 
+                                        margin:'12px -2px',
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        color: 'gray'
+                                    }}>
+                                        <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTime}</div>
+                                        <div style={{float: 'left', marginRight:'24px'}}>{game.station}</div>
+                                        <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumName}</div>
+                                        <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumCity}</div>
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </div>
