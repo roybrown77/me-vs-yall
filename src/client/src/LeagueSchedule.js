@@ -64,6 +64,23 @@ const grid = {
 
 const leagues = [ "NFL" ];
 
+const weeks = [
+                        {
+                            _id: 1,
+                            weekNo: 1,
+                            namePrefix: "Preseason",
+                            startDateTime: "2017-08-04T00:00:00+04:00",
+                            endDateTime: "2017-08-05T00:00:00+04:00"
+                        },
+                        {
+                            _id: 2,
+                            weekNo: 2,
+                            namePrefix: "Preseason",
+                            startDateTime: "2017-08-09T00:00:00+04:00",
+                            endDateTime: "2017-08-16T00:00:00+04:00"
+                        }
+                    ];
+
 const calendar = [
     {
         _id: "nfl",
@@ -236,6 +253,20 @@ class LeagueSchedule extends Component {
             login();
             return;
         }
+
+        var currentWeek = weeks[0];
+        var last = 0;
+
+        weeks.forEach(function(x, index) {
+            var weekEndDateTime = moment.utc(new Date(x.endDateTime)).format("YYYY-MM-DD HH:mm:ss");
+            var currentDateTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+            var diff = moment(weekEndDateTime).diff(currentDateTime, 'minutes');
+
+            if ((diff < last && diff >= 15) || index === 0) {
+                last = diff;
+                currentWeek = x;
+            }
+        })
 
         let getGamesPromise = api.getGames({
             leagueId:"59723313734d1d6202a85f10",
