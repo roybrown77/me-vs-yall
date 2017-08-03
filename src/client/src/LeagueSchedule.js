@@ -73,18 +73,95 @@ const calendar = [
                 preseason: {
                     weeks: [
                         {
-                            _id: 1,
+                            weekNo: 1,
                             startDateTime: "",
-                            endDateTime: ""
+                            endDateTime: "",
+                            games: [
+                                {
+                                    startDateTime: "",
+                                    competitors: [
+                                        {
+                                            _id: ""
+                                        },
+                                        {
+                                            _id: ""
+                                        },
+                                    ]
+                                },
+                                {
+                                    startDateTime: "",
+                                    competitors: [
+                                        {
+                                            _id: ""
+                                        },
+                                        {
+                                            _id: ""
+                                        },
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 },
                 season: {
                     weeks: [
                         {
-                            _id: 1,
+                            weekNo: 1,
                             startDateTime: "",
-                            endDateTime: ""
+                            endDateTime: "",
+                            games: [
+                                {
+                                    startDateTime: "",
+                                    competitors: [
+                                        {
+                                            _id: ""
+                                        },
+                                        {
+                                            _id: ""
+                                        },
+                                    ]
+                                },
+                                {
+                                    startDateTime: "",
+                                    competitors: [
+                                        {
+                                            _id: ""
+                                        },
+                                        {
+                                            _id: ""
+                                        },
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            weekNo: 2,
+                            startDateTime: "",
+                            endDateTime: "",
+                            games: [
+                                {
+                                    startDateTime: "",
+                                    competitors: [
+                                        {
+                                            _id: ""
+                                        },
+                                        {
+                                            _id: ""
+                                        },
+                                    ]
+                                },
+                                {
+                                    startDateTime: "",
+                                    competitors: [
+                                        {
+                                            _id: ""
+                                        },
+                                        {
+                                            _id: ""
+                                        },
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }    
@@ -98,7 +175,9 @@ const teamData = [
         _id: "59823783734d1d04a1b39d00",
         name: 'Kansas City Chiefs',
         img: Chiefs,
-        shortName: "KC Chiefs"
+        shortName: "KC Chiefs",
+        stadiumName: "Arrow Head Stadium",
+        stadiumCity: "Kansas City, MO"
     },
     {
         _id: "59823783734d1d04a1b39d01",
@@ -112,18 +191,30 @@ const teamData = [
         _id: "59823783734d1d04a1b39000",
         name: 'Atlanta Falcons',
         img: Falcons,
-        shortName: "ATL Falcons"
+        shortName: "ATL Falcons",
+        stadiumName: "Mercedes-Benz Stadium",
+        stadiumCity: "Atlanta, GA"
     },
     {
         _id: "59823783734d1d04a1b39001",
         name: 'Chicago Bears',
         img: Bears,
-        shortName: "CHI Bears"
+        shortName: "CHI Bears",
+        stadiumName: "Soldier Field",
+        stadiumCity: "Chicago, IL"
+    },
+    {
+        _id: "59823783734d1d04a1b39100",
+        name: 'Arizona Cardinals',
+        shortName: "ARI Cardinals"
+    },
+    {
+        _id: "59823783734d1d04a1b39101",
+        name: 'Dallas Cowboys',
+        shortName: "DAL Cowboys",
+        stadiumCity: "Dallas, TX"
     }
 ];
-
-//         startDateTime: "Thursday Sep 7 2017 8:30 pm ET",
-//         station: "NBC"
 
 class LeagueSchedule extends Component {
     constructor(props) {
@@ -153,7 +244,6 @@ class LeagueSchedule extends Component {
         });
         
         let getPickPromise = api.getPicks({
-            userId:"59723313734d1d6202a85f10", 
             leagueId:"59723313734d1d6202a85f10",
             startDatetime:"2017-09-07T00:30:00+04:00",
             endDateTime:"2017-09-12T00:30:00+04:00"
@@ -165,8 +255,8 @@ class LeagueSchedule extends Component {
 
             games.map((game)=>{
                 game.startDateTime = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
-                game.stadiumCity = teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
-                game.stadiumName = teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
+                game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
+                game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
 
                 return game.competitors.map((competitor, index)=>{
                     var data = teamData.find(x=>x._id === competitor._id);
