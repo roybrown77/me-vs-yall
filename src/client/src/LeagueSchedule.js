@@ -446,13 +446,12 @@ class LeagueSchedule extends Component {
                                                     >
                                                     <div 
                                                     style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'center',
-                                                        alignItems: 'center',
                                                         border: competitor.showCheck ? '8px solid #BA68C8' : '0', height: "91%",
                                                         color: competitor.color
                                                     }}>
-                                                        {competitor.shortLocation}
+                                                        <div style={{paddingTop:'36px'}}>
+                                                            {competitor.shortLocation}
+                                                        </div>
                                                     </div>
                                                 </GridTile>
                                         ))}
