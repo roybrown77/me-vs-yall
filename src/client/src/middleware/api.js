@@ -33,11 +33,11 @@ function getPicks(query, cb) {
         .then(cb);
 }
 
-function createPick(body, cb) {
+function createPick(pick, cb) {
     const searchParams = new URLSearchParams();
-    searchParams.set('leagueId', body.leagueId);
-    searchParams.set('gameId', body.gameId);
-    searchParams.set('pickId', body.pickId);
+    searchParams.set('leagueId', pick.leagueId);
+    searchParams.set('gameId', pick.gameId);
+    searchParams.set('pickId', pick.pickId);
 
     return fetch(`/api/pickmanagement/picks`, {
             method: 'POST',
@@ -52,9 +52,10 @@ function createPick(body, cb) {
         .then(cb);
 }
 
-function updatePick(id, pickId, cb) {
+function updatePick(id, pick, cb) {
     const searchParams = new URLSearchParams();
-    searchParams.set('pickId', pickId);
+    searchParams.set('gameId', pick.gameId);
+    searchParams.set('pickId', pick.pickId);
     
     var esc = encodeURIComponent;
     

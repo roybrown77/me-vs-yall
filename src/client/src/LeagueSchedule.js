@@ -341,7 +341,7 @@ class LeagueSchedule extends Component {
         let pick = this.state.picks.find(x=>x.gameId === gameId);
 
         if (pick && newPickId) {
-            api.updatePick(pick._id, newPickId, response => {
+            api.updatePick(pick._id, { gameId:gameId, pickId:newPickId }, response => {
                 const pickIndex = this.state.picks.findIndex(x=>x._id === response._id);
                 this.setState(update(this.state.picks, { $splice: [[pickIndex, 1, response]] } ));
 

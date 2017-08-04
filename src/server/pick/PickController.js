@@ -26,6 +26,18 @@ router.post('/picks/', function (req, res) {
     });
 });
 
+router.put('/picks/:id', function (req, res) {
+    const pick = {
+        gameId: mongoose.Types.ObjectId(req.body.gameId),
+        pickId: mongoose.Types.ObjectId(req.body.pickId),
+        createDateTime: new Date(new Date().toUTCString()).toISOString()
+    };
+    pickDomain.updatePick(req.params.id, pick, function (err, pick) {
+        if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
+        res.status(200).send(pick);
+    });
+});
+
 router.get('/picks/', function (req, res) {
     const search = {
         userId: req.user.sub,
@@ -52,16 +64,6 @@ router.delete('/picks/:id', function (req, res) {
     };
     pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), pick, {new: true}, function (err, pick) {
         if (err) return res.status(500).send("There was a problem deleting the pick.");
-        res.status(200).send(pick);
-    });
-});
-
-router.put('/picks/:id', function (req, res) {
-    const pick = {
-        pickId: mongoose.Types.ObjectId(req.body.pickId)
-    };
-    pickRepository.findByIdAndUpdate(req.params.id, pick, {new: true}, function (err, pick) {
-        if (err) return res.status(500).send("There was a problem updating the pick.");
         res.status(200).send(pick);
     });
 });
