@@ -15,11 +15,6 @@ import Footer from './Footer';
 import api from './middleware/api.js';
 import { login, isLoggedIn, getUserProfile } from './middleware/AuthService';
 
-import Chiefs from './images/kansas-city-chiefs.png';
-import Patriots from './images/new-england-patriots.png';
-import Falcons from './images/atlanta-falcons.png';
-import Bears from './images/chicago-bears.png';
-
 const filterButton = {
   button: {
     margin: 0,
@@ -53,7 +48,9 @@ const grid = {
     },
     tile: {
         width: '100%',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        font: '4rem/1 Permanent Marker,sans-serif', 
+        color: '#000'
     },
     titleStyle: {
         font:'1.4rem/1 Permanent Marker,sans-serif', 
@@ -190,45 +187,53 @@ const calendar = [
 const teamData = [
     {
         _id: "59823783734d1d04a1b39d00",
-        name: 'Kansas City Chiefs',
-        img: Chiefs,
-        shortName: "KC Chiefs",
+        location: 'Kansas City',
+        shortLocation: "KC",
+        name: "Chiefs",
+        color: "#CA2430",
         stadiumName: "Arrow Head Stadium",
         stadiumCity: "Kansas City, MO"
     },
     {
         _id: "59823783734d1d04a1b39d01",
-        name: 'New England Patriots',
-        img: Patriots,
-        shortName: "NE Patriots",
+        location: 'New England',
+        shortLocation: "NE",
+        name: "Patriots",
+        color: "#0A2342",
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxboro, MA"
     },
     {
         _id: "59823783734d1d04a1b39000",
-        name: 'Atlanta Falcons',
-        img: Falcons,
-        shortName: "ATL Falcons",
+        location: 'Atlanta Falcons',
+        shortLocation: "ATL",
+        name: "Falcons",
+        color: "#A71930",
         stadiumName: "Mercedes-Benz Stadium",
         stadiumCity: "Atlanta, GA"
     },
     {
         _id: "59823783734d1d04a1b39001",
-        name: 'Chicago Bears',
-        img: Bears,
-        shortName: "CHI Bears",
+        location: 'Chicago',
+        shortLocation: "CHI",
+        name: "Bears",
+        color: "#00143F",
         stadiumName: "Soldier Field",
         stadiumCity: "Chicago, IL"
     },
     {
         _id: "59823783734d1d04a1b39100",
-        name: 'Arizona Cardinals',
-        shortName: "ARI Cardinals"
+        location: 'Arizona',
+        shortLocation: "ARI",
+        name: "Cardinals",
+        color: "#97233F"
     },
     {
         _id: "59823783734d1d04a1b39101",
-        name: 'Dallas Cowboys',
-        shortName: "DAL Cowboys",
+        location: 'Dallas',
+        shortLocation: "DAL",
+        name: "Cowboys",
+        color: "#0C264C",
         stadiumCity: "Dallas, TX"
     }
 ];
@@ -291,8 +296,9 @@ class LeagueSchedule extends Component {
 
                 return game.competitors.map((competitor, index)=>{
                     var data = teamData.find(x=>x._id === competitor._id);
-                    competitor.img = data.img;
-                    competitor.shortName = data.shortName;
+                    competitor.shortLocation = data.shortLocation;
+                    competitor.name = data.name;
+                    competitor.color = data.color;
                     competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;    
                     return competitor;
                 });
@@ -433,15 +439,20 @@ class LeagueSchedule extends Component {
                                                 <GridTile
                                                     key={game._id + "." + competitor._id}
                                                     style={grid.tile}
-                                                    title={competitor.shortName}
+                                                    title={competitor.name}
                                                     titleStyle={grid.titleStyle}
                                                     titleBackground={grid.titleBackground}
                                                     onClick={() => this.selectCompetitor(game._id, competitor._id, competitor.showCheck)}
                                                     >
-                                                    <div style={{border: competitor.showCheck ? '8px solid #BA68C8': '0', height: "91%", }}>
-                                                        <div>
-                                                            <img className="competitor-image" src={ competitor.img } alt=""/>
-                                                        </div>
+                                                    <div 
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        border: competitor.showCheck ? '8px solid #BA68C8' : '0', height: "91%",
+                                                        color: competitor.color
+                                                    }}>
+                                                        {competitor.shortLocation}
                                                     </div>
                                                 </GridTile>
                                         ))}
