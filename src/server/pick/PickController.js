@@ -12,6 +12,7 @@ router.post('/picks/', function (req, res) {
     const pick = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.body.leagueId),
+        weekNo: mongoose.Types.Number(req.user.weekNo),
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
@@ -39,16 +40,13 @@ router.put('/picks/:id', function (req, res) {
 });
 
 router.get('/picks/', function (req, res) {
-    console.log("req.query.startDateTime1:" + req.query.startDateTime);
-    console.log("req.query.endDateTime1:" + req.query.endDateTime);
+    // console.log("req.query.startDateTime1:" + req.query.beginDateTime);
+    // console.log("req.query.endDateTime1:" + req.query.endDateTime);
 
     const search = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-        createDateTime: {
-            '$gt': new Date(req.query.startDateTime).toISOString(),
-            '$lt': new Date(req.query.endDateTime).toISOString()
-        }
+        weekNo: req.query.weekNo
     };
         
     pickRepository.find(search, function (err, picks) {

@@ -5,10 +5,6 @@ const queryString = require('query-string');
 import { login, getAccessToken } from './AuthService';
 
 function getGames(query, cb) {
-    query.startDateTime = "2017-08-03T05:00:00+04:00";
-
-    console.log("game startDateTime: " + query.startDateTime);
-    
     return fetch(`/api/gamemanagement/games?${queryString.stringify(query)}`, {
             headers: {
                 'Accept': 'application/json'
@@ -20,10 +16,6 @@ function getGames(query, cb) {
 }
 
 function getPicks(query, cb) {
-    query.startDateTime = "2017-08-03T05:00:00+04:00";
-
-    console.log("pick startDateTime: " + query.startDateTime);
-    
     return fetch(`/api/pickmanagement/picks?${queryString.stringify(query)}`, {
             headers: {
                 'Accept': 'application/json',
@@ -38,6 +30,7 @@ function getPicks(query, cb) {
 function createPick(pick, cb) {
     const searchParams = new URLSearchParams();
     searchParams.set('leagueId', pick.leagueId);
+    searchParams.set('weekNo', pick.weekNo);
     searchParams.set('gameId', pick.gameId);
     searchParams.set('pickId', pick.pickId);
 

@@ -65,16 +65,18 @@ const weeks = [
                 {
                     _id: 1,
                     weekNo: 1,
+                    weekNumberDisplay: 1,
                     namePrefix: "Pre Week",
-                    startDateTime: "2017-08-03T05:00:00+04:00",
-                    endDateTime: "2017-08-04T03:00:00+04:00"
+                    endDateTime: "2017-08-04T02:00:00+04:00",
+                    beginDateTime: "2017-08-03T05:00:00+04:00"
                 },
                 {
                     _id: 2,
                     weekNo: 2,
+                    weekNumberDisplay: 2,
                     namePrefix: "Pre Week",
-                    startDateTime: "2017-08-09T05:00:00+04:00",
-                    endDateTime: "2017-08-14T03:00:00+04:00"
+                    endDateTime: "2017-08-14T02:00:00+04:00",
+                    beginDateTime: "2017-08-09T05:00:00+04:00"
                 }
               ];
 
@@ -136,6 +138,20 @@ class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            dataLoading: true,
+            selectionInProgress: false,
+            value1: 1, 
+            value2: 1, 
+            leagueName: "NFL",
+            selectedWeek: 0,
+            weeks: [],
+            games: [], 
+            picks: []
+        };
+    }
+
+    componentWillMount() {
         if (!isLoggedIn()) {
             login();
             return;
@@ -151,34 +167,78 @@ class LeagueSchedule extends Component {
         }   
 
         weeks.map((week)=>{
-            week.displayName = week.namePrefix + " " + week.weekNo + " " + moment.utc(week.startDateTime).format('ddd M/D') + " - " + moment.utc(week.endDateTime).format('ddd M/D');
+            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
+            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
+
+            if (startDateTime != endDateTime) {
+                week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D') + " - " + moment.utc(week.endDateTime).format('ddd M/D');
+            } else {
+                week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D');
+            }
+
             return week;
         });
 
-        var currentWeek = weeks.length-1;
+        this.setState({
+            weeks: weeks
+        });
 
-        this.state = {
-            dataLoading: true,
-            selectionInProgress: false,
-            value1: 1, 
-            value2: 1, 
-            selectedWeek: currentWeek,
-            weeks: weeks,
-            leagueName: "NFL",
-            games: [], 
-            picks: []
-        };
+        const currentWeek = weeks.length-1;
+
+        this.setState({
+            selectedWeek: currentWeek
+        });
 
         this.getGamesAndPicks(weeks[currentWeek]);
     }
 
-    getGamesAndPicks(week) {
-        console.log("week.startDateTime: " + week.startDateTime);
+    handleChange1 = (event, index, value1) => this.setState({value1});
+    handleChange2 = (event, index, value2) => this.setState({value2});
 
+    selectWeek = (event, index) => {
+        this.getGamesAndPicks(this.state.weeks[index]);
+        this.setState({selectedWeek: index});
+    };
+    
+    selectCompetitor (gameId, competitorId, showCheck) {
+        const newPickId = !showCheck ? competitorId : null;
+
+        if (newPickId === null) {
+            return;
+        }
+
+        const game = this.state.games.find(x=>x._id === gameId);
+
+        if (game.winner) {
+            return;
+        }
+
+        this.setState({selectionInProgress: true});
+
+        const pick = this.state.picks.find(x=>x.gameId === gameId);
+
+        if (pick && newPickId) {
+            api.updatePick(pick._id, { gameId:gameId, pickId:newPickId }, response => {
+                const pickIndex = this.state.picks.findIndex(x=>x._id === response._id);
+                this.setState(update(this.state.picks, { $splice: [[pickIndex, 1, response]] } ));
+
+                this.updatePickInUI(game, competitorId);
+            });
+
+            return;
+        }
+
+        api.createPick({leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
+            this.setState({ picks: [...this.state.picks, response] });
+
+            this.updatePickInUI(game, competitorId);
+        });
+    }
+
+    getGamesAndPicks(week) {
         const query = {
             leagueId:"59723313734d1d6202a85f10",
-            startDatetime: week.startDateTime,
-            endDateTime: week.endDateTime
+            weekNo: week.weekNo
         };
 
         const getGamesPromise = api.getGames(query);
@@ -187,7 +247,7 @@ class LeagueSchedule extends Component {
 
         Promise.all([getGamesPromise, getPickPromise]).then(data => {
             let games = data[0];
-            let picks = data[1];
+            const picks = data[1];
 
             games.map((game)=>{
                 game.startDateTimeDisplay = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
@@ -195,7 +255,7 @@ class LeagueSchedule extends Component {
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
 
                 return game.competitors.map((competitor, index)=> {
-                    var data = teamData.find(x=>x._id === competitor._id);
+                    const data = teamData.find(x=>x._id === competitor._id);
                     competitor.shortLocation = data.shortLocation;
                     competitor.name = data.name;
                     competitor.color = data.color;
@@ -211,49 +271,6 @@ class LeagueSchedule extends Component {
             this.setState({
                 picks: picks
             });
-        });
-    }
-
-    handleChange1 = (event, index, value1) => this.setState({value1});
-    handleChange2 = (event, index, value2) => this.setState({value2});
-
-    selectWeek = (event, index) => {
-        this.getGamesAndPicks(this.state.weeks[index]);
-        this.setState({selectedWeek: index});
-    };
-    
-    selectCompetitor (gameId, competitorId, showCheck) {
-        let newPickId = !showCheck ? competitorId : null;
-
-        if (newPickId === null) {
-            return;
-        }
-
-        let game = this.state.games.find(x=>x._id === gameId);
-
-        if (game.winner) {
-            return;
-        }
-
-        this.setState({selectionInProgress: true});
-
-        let pick = this.state.picks.find(x=>x.gameId === gameId);
-
-        if (pick && newPickId) {
-            api.updatePick(pick._id, { gameId:gameId, pickId:newPickId }, response => {
-                const pickIndex = this.state.picks.findIndex(x=>x._id === response._id);
-                this.setState(update(this.state.picks, { $splice: [[pickIndex, 1, response]] } ));
-
-                this.updatePickInUI(gameId, competitorId);
-            });
-
-            return;
-        }
-
-        api.createPick({leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
-            this.setState({ picks: [...this.state.picks, response] });
-
-            this.updatePickInUI(game, competitorId);
         });
     }
 
@@ -312,7 +329,7 @@ class LeagueSchedule extends Component {
                             style={dropDownFull.root}
                             autoWidth={false}
                             >
-                            {weeks.map((week, index) => (
+                            {this.state.weeks.map((week, index) => (
                                 <MenuItem key={index} value={index} primaryText={week.displayName}  />
                             ))}
                         </DropDownMenu>
@@ -350,7 +367,6 @@ class LeagueSchedule extends Component {
                                     </GridList>
                                     <div style={{
                                         width: '100%', 
-                                        backgroundColor: '#fff', 
                                         margin:'12px -2px',
                                         fontSize: '14px',
                                         fontWeight: 'bold',
