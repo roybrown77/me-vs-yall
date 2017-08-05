@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom'
 
 import Header from './Header';
 import Footer from './Footer';
 
-class LeagueSelection extends Component {
-    render() {
+function LeagueSelection(props) {
         return (
             <div>
                 <Header/>
@@ -173,7 +172,6 @@ class LeagueSelection extends Component {
                 <Footer/>
             </div>
         );
-    }
 }
 
 export default LeagueSelection;
