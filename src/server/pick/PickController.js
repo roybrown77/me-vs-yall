@@ -44,13 +44,12 @@ router.get('/picks/', function (req, res) {
 
     const search = {
         userId: req.user.sub,
-        leagueId: mongoose.Types.ObjectId(req.query.leagueId)
+        leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+        createDateTime: {
+            '$gt': new Date(req.query.startDateTime).toISOString(),
+            '$lt': new Date(req.query.endDateTime).toISOString()
+        }
     };
-
-        // createDateTime: {
-        //     $gte: req.query.startDateTime,
-        //     $lte: req.query.endDateTime
-        // }
         
     pickRepository.find(search, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");

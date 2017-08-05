@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import update from 'react-addons-update';
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory();
+import moment from 'moment';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
-import createHistory from 'history/createBrowserHistory'
-const history = createHistory();
-import moment from 'moment';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -61,7 +61,8 @@ const grid = {
 
 const leagues = [ "NFL" ];
 
-const weeks = [{
+const weeks = [
+                {
                     _id: 1,
                     weekNo: 1,
                     namePrefix: "Pre Week",
@@ -74,7 +75,8 @@ const weeks = [{
                     namePrefix: "Pre Week",
                     startDateTime: "2017-08-09T05:00:00+04:00",
                     endDateTime: "2017-08-14T03:00:00+04:00"
-                }];
+                }
+              ];
 
 const teamData = [
     {
@@ -153,21 +155,7 @@ class LeagueSchedule extends Component {
             return week;
         });
 
-        var currentWeek = 0;
-        var last = 10080;
-
-        weeks.forEach(function(x, index) {
-            var weekEndDateTime = moment.utc(new Date(x.endDateTime)).format("YYYY-MM-DD HH:mm:ss");
-            var currentDateTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-            var diff = moment(weekEndDateTime).diff(currentDateTime, 'minutes');
-
-            if ((diff < last && diff >= 15) || index === 0) {
-                last = diff;
-                currentWeek = 0;
-            }
-        });
-
-        console.log("week: " + currentWeek);
+        var currentWeek = weeks.length-1;
 
         this.state = {
             dataLoading: true,
@@ -185,17 +173,17 @@ class LeagueSchedule extends Component {
     }
 
     getGamesAndPicks(week) {
-        let getGamesPromise = api.getGames({
+        console.log("week.startDateTime: " + week.startDateTime);
+
+        const query = {
             leagueId:"59723313734d1d6202a85f10",
-            startDatetime: "2017-08-03T05:00:00+04:00",
+            startDatetime: week.startDateTime,
             endDateTime: week.endDateTime
-        });
+        };
+
+        const getGamesPromise = api.getGames(query);
         
-        let getPickPromise = api.getPicks({
-            leagueId:"59723313734d1d6202a85f10",
-            startDatetime: "2017-08-03T05:00:00+04:00",
-            endDateTime: week.endDateTime
-        });
+        const getPickPromise = api.getPicks(query);
 
         Promise.all([getGamesPromise, getPickPromise]).then(data => {
             let games = data[0];
@@ -206,7 +194,7 @@ class LeagueSchedule extends Component {
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
 
-                return game.competitors.map((competitor, index)=>{
+                return game.competitors.map((competitor, index)=> {
                     var data = teamData.find(x=>x._id === competitor._id);
                     competitor.shortLocation = data.shortLocation;
                     competitor.name = data.name;
@@ -230,7 +218,8 @@ class LeagueSchedule extends Component {
     handleChange2 = (event, index, value2) => this.setState({value2});
 
     selectWeek = (event, index) => {
-        this.getGamesAndPicks(weeks[index]);
+        this.getGamesAndPicks(this.state.weeks[index]);
+        this.setState({selectedWeek: index});
     };
     
     selectCompetitor (gameId, competitorId, showCheck) {

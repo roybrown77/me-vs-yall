@@ -1,17 +1,15 @@
 /* eslint-disable no-undef */
 import URLSearchParams from 'url-search-params';
+const queryString = require('query-string');
+
 import { login, getAccessToken } from './AuthService';
 
-function getQueryString(params) {
-      var esc = encodeURIComponent;
-      
-      return Object.keys(params)
-        .map(k => esc(k) + '=' + esc(params[k]))
-        .join('&');
-}
-
 function getGames(query, cb) {
-    return fetch(`/api/gamemanagement/games?${getQueryString(query)}`, {
+    query.startDateTime = "2017-08-03T05:00:00+04:00";
+
+    console.log("game startDateTime: " + query.startDateTime);
+    
+    return fetch(`/api/gamemanagement/games?${queryString.stringify(query)}`, {
             headers: {
                 'Accept': 'application/json'
             }
@@ -22,7 +20,11 @@ function getGames(query, cb) {
 }
 
 function getPicks(query, cb) {
-    return fetch(`/api/pickmanagement/picks?${getQueryString(query)}`, {
+    query.startDateTime = "2017-08-03T05:00:00+04:00";
+
+    console.log("pick startDateTime: " + query.startDateTime);
+    
+    return fetch(`/api/pickmanagement/picks?${queryString.stringify(query)}`, {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${getAccessToken()}`

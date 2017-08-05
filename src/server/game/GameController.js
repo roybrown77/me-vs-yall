@@ -12,13 +12,12 @@ router.get('/games/', function (req, res) {
     console.log("req.query.endDateTime2:" + req.query.endDateTime);
 
 	const search = {
-		leagueId: mongoose.Types.ObjectId(req.query.leagueId)
+		leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+        startDateTime: {
+            '$gt': new Date(req.query.startDateTime).toISOString(),
+            '$lt': new Date(req.query.endDateTime).toISOString()
+        }
 	};
-
-        //     startDateTime: {
-        //     $gte: req.query.startDateTime,
-        //     $lte: req.query.endDateTime
-        // }
 
     gameRepository.find(search, function (err, games) {
         if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
