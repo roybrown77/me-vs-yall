@@ -13,7 +13,7 @@ import moment from 'moment';
 import Header from './Header';
 import Footer from './Footer';
 import api from './middleware/api.js';
-import { login, isLoggedIn, getUserProfile } from './middleware/AuthService';
+import { login, isLoggedIn } from './middleware/AuthService';
 
 const filterButton = {
   button: {
@@ -61,128 +61,20 @@ const grid = {
 
 const leagues = [ "NFL" ];
 
-const weeks = [
-                        {
-                            _id: 1,
-                            weekNo: 1,
-                            namePrefix: "Preseason",
-                            startDateTime: "2017-08-04T00:00:00+04:00",
-                            endDateTime: "2017-08-05T00:00:00+04:00"
-                        },
-                        {
-                            _id: 2,
-                            weekNo: 2,
-                            namePrefix: "Preseason",
-                            startDateTime: "2017-08-09T00:00:00+04:00",
-                            endDateTime: "2017-08-16T00:00:00+04:00"
-                        }
-                    ];
-
-const calendar = [
-    {
-        _id: "nfl",
-        years: [
-            {
-                _id: "2017",
-                preseason: {
-                    weeks: [
-                        {
-                            weekNo: 1,
-                            startDateTime: "",
-                            endDateTime: "",
-                            games: [
-                                {
-                                    startDateTime: "",
-                                    competitors: [
-                                        {
-                                            _id: ""
-                                        },
-                                        {
-                                            _id: ""
-                                        },
-                                    ]
-                                },
-                                {
-                                    startDateTime: "",
-                                    competitors: [
-                                        {
-                                            _id: ""
-                                        },
-                                        {
-                                            _id: ""
-                                        },
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
+const weeks = [{
+                    _id: 1,
+                    weekNo: 1,
+                    namePrefix: "Pre Week",
+                    startDateTime: "2017-08-03T05:00:00+04:00",
+                    endDateTime: "2017-08-04T03:00:00+04:00"
                 },
-                season: {
-                    weeks: [
-                        {
-                            weekNo: 1,
-                            startDateTime: "",
-                            endDateTime: "",
-                            games: [
-                                {
-                                    startDateTime: "",
-                                    competitors: [
-                                        {
-                                            _id: ""
-                                        },
-                                        {
-                                            _id: ""
-                                        },
-                                    ]
-                                },
-                                {
-                                    startDateTime: "",
-                                    competitors: [
-                                        {
-                                            _id: ""
-                                        },
-                                        {
-                                            _id: ""
-                                        },
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            weekNo: 2,
-                            startDateTime: "",
-                            endDateTime: "",
-                            games: [
-                                {
-                                    startDateTime: "",
-                                    competitors: [
-                                        {
-                                            _id: ""
-                                        },
-                                        {
-                                            _id: ""
-                                        },
-                                    ]
-                                },
-                                {
-                                    startDateTime: "",
-                                    competitors: [
-                                        {
-                                            _id: ""
-                                        },
-                                        {
-                                            _id: ""
-                                        },
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }    
-            }
-        ]    
-    }
-];
+                {
+                    _id: 2,
+                    weekNo: 2,
+                    namePrefix: "Pre Week",
+                    startDateTime: "2017-08-09T05:00:00+04:00",
+                    endDateTime: "2017-08-14T03:00:00+04:00"
+                }];
 
 const teamData = [
     {
@@ -241,26 +133,28 @@ const teamData = [
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            value1: 1, 
-            value2: 1, 
-            value3: 1, 
-            leagueName: "NFL",
-            winnerSelected: false, 
-            selectionInProgress: false, 
-            games: [], 
-            picks: [], 
-            userProfile: undefined
-        };
 
         if (!isLoggedIn()) {
             login();
             return;
         }
 
-        var currentWeek = weeks[0];
-        var last = 0;
+        if (leagues.find(x=>x === this.props.match.params.name.toUpperCase)) {
+            history.push('/leagues/' + this.props.match.params.name.toLowerCase);
+                this.setState({
+                leagueName: this.props.match.params.name.toUpperCase 
+            });
+        } else {
+            history.push('/leagues/nfl');
+        }   
+
+        weeks.map((week)=>{
+            week.displayName = week.namePrefix + " " + week.weekNo + " " + moment.utc(week.startDateTime).format('ddd M/D') + " - " + moment.utc(week.endDateTime).format('ddd M/D');
+            return week;
+        });
+
+        var currentWeek = 0;
+        var last = 10080;
 
         weeks.forEach(function(x, index) {
             var weekEndDateTime = moment.utc(new Date(x.endDateTime)).format("YYYY-MM-DD HH:mm:ss");
@@ -269,28 +163,46 @@ class LeagueSchedule extends Component {
 
             if ((diff < last && diff >= 15) || index === 0) {
                 last = diff;
-                currentWeek = x;
+                currentWeek = 0;
             }
-        })
+        });
 
+        console.log("week: " + currentWeek);
+
+        this.state = {
+            dataLoading: true,
+            selectionInProgress: false,
+            value1: 1, 
+            value2: 1, 
+            selectedWeek: currentWeek,
+            weeks: weeks,
+            leagueName: "NFL",
+            games: [], 
+            picks: []
+        };
+
+        this.getGamesAndPicks(weeks[currentWeek]);
+    }
+
+    getGamesAndPicks(week) {
         let getGamesPromise = api.getGames({
             leagueId:"59723313734d1d6202a85f10",
-            startDatetime:"2017-09-07T00:30:00+04:00",
-            endDateTime:"2017-09-12T00:30:00+04:00"
+            startDatetime: "2017-08-03T05:00:00+04:00",
+            endDateTime: week.endDateTime
         });
         
         let getPickPromise = api.getPicks({
             leagueId:"59723313734d1d6202a85f10",
-            startDatetime:"2017-09-07T00:30:00+04:00",
-            endDateTime:"2017-09-12T00:30:00+04:00"
+            startDatetime: "2017-08-03T05:00:00+04:00",
+            endDateTime: week.endDateTime
         });
 
-        Promise.all([getGamesPromise, getPickPromise]).then(data => { 
+        Promise.all([getGamesPromise, getPickPromise]).then(data => {
             let games = data[0];
             let picks = data[1];
 
             games.map((game)=>{
-                game.startDateTime = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
+                game.startDateTimeDisplay = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
 
@@ -304,17 +216,6 @@ class LeagueSchedule extends Component {
                 });
             });
 
-            const leagueName = props.match.params.name;
-
-            if (leagues.find(x=>x === props.match.params.name.toUpperCase)) {
-                history.push('/leagues/' + props.match.params.name.toLowerCase);
-                this.setState({
-                    leagueName: props.match.params.name.toUpperCase 
-                });
-            } else {
-                history.push('/leagues/nfl');
-            }   
-
             this.setState({
                 games: games
             });
@@ -322,20 +223,15 @@ class LeagueSchedule extends Component {
             this.setState({
                 picks: picks
             });
-
-            // get singleton userprofile and store in session in auth0
-            //const { userProfile, getProfile } = this.props.auth;
-            if (!this.state.userProfile) {
-                getUserProfile((err, profile) => {
-                    this.setState({ userProfile: profile });
-                });
-            }
         });
     }
 
     handleChange1 = (event, index, value1) => this.setState({value1});
     handleChange2 = (event, index, value2) => this.setState({value2});
-    handleChange3 = (event, index, value3) => this.setState({value3});
+
+    selectWeek = (event, index) => {
+        this.getGamesAndPicks(weeks[index]);
+    };
     
     selectCompetitor (gameId, competitorId, showCheck) {
         let newPickId = !showCheck ? competitorId : null;
@@ -343,6 +239,14 @@ class LeagueSchedule extends Component {
         if (newPickId === null) {
             return;
         }
+
+        let game = this.state.games.find(x=>x._id === gameId);
+
+        if (game.winner) {
+            return;
+        }
+
+        this.setState({selectionInProgress: true});
 
         let pick = this.state.picks.find(x=>x.gameId === gameId);
 
@@ -360,12 +264,11 @@ class LeagueSchedule extends Component {
         api.createPick({leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
             this.setState({ picks: [...this.state.picks, response] });
 
-            this.updatePickInUI(gameId, competitorId);
+            this.updatePickInUI(game, competitorId);
         });
     }
 
-    updatePickInUI (gameId, competitorId) {
-        let game = this.state.games.find(x=>x._id === gameId);
+    updatePickInUI (game, competitorId) {
         let competitorSelected = game.competitors.find(x=>x._id === competitorId);
 
         if (competitorSelected.showCheck) {
@@ -382,12 +285,10 @@ class LeagueSchedule extends Component {
             competitorSelected.showCheck = true;
         }
         
-       this.setState({winnerSelected: true});
+       this.setState({selectionInProgress: false});
     }
 
     render() {
-        const profile = this.state.userProfile;
-
         return (
             <div>
                 <Header/>
@@ -406,7 +307,7 @@ class LeagueSchedule extends Component {
                             style={dropDown.root}
                             autoWidth={false}
                             >
-                            <MenuItem value={1} primaryText={this.state.leagueName.toUpperCase()}/>
+                            <MenuItem value={1} primaryText={this.state.leagueName}/>
                         </DropDownMenu>
                         <DropDownMenu
                             value={this.state.value2}
@@ -417,12 +318,14 @@ class LeagueSchedule extends Component {
                             <MenuItem value={1} primaryText="2017" />
                         </DropDownMenu>
                         <DropDownMenu
-                            value={this.state.value3}
-                            onChange={this.handleChange3}
+                            value={this.state.selectedWeek}
+                            onChange={this.selectWeek}
                             style={dropDownFull.root}
                             autoWidth={false}
                             >
-                            <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
+                            {weeks.map((week, index) => (
+                                <MenuItem key={index} value={index} primaryText={week.displayName}  />
+                            ))}
                         </DropDownMenu>
                     </div>
                     <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
@@ -464,7 +367,7 @@ class LeagueSchedule extends Component {
                                         fontWeight: 'bold',
                                         color: 'gray'
                                     }}>
-                                        <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTime}</div>
+                                        <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTimeDisplay}</div>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.station}</div>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumName}</div>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumCity}</div>

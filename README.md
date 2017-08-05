@@ -12,14 +12,14 @@ Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
   
 Backend:
 
-- Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable
+- Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable.  Same goes for client.
 - Node / Javascript
 - Auth0
 - MongoDB
 
 Client:
 
-- Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep features pluggable, testable and scaleable
+- Mobile first design
 - React / Javascript
 - Auth0
 - Google Material Design

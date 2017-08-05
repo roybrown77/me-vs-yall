@@ -39,11 +39,19 @@ router.put('/picks/:id', function (req, res) {
 });
 
 router.get('/picks/', function (req, res) {
+    console.log("req.query.startDateTime1:" + req.query.startDateTime);
+    console.log("req.query.endDateTime1:" + req.query.endDateTime);
+
     const search = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.query.leagueId)
     };
 
+        // createDateTime: {
+        //     $gte: req.query.startDateTime,
+        //     $lte: req.query.endDateTime
+        // }
+        
     pickRepository.find(search, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
         res.status(200).send(picks);
@@ -52,7 +60,7 @@ router.get('/picks/', function (req, res) {
 
 router.get('/picks/:id', function (req, res) {
     pickRepository.findById(req.params.id, function (err, pick) {
-        if (err) return res.status(500).send("There was a problem finding the pick.");
+        if (err) return res.status(500).send("There was a problem finding the pick.: " + err.message);
         if (!pick) return res.status(404).send("No pick found.");
         res.status(200).send(pick);
     });
