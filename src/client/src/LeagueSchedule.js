@@ -63,7 +63,6 @@ const leagues = [ "NFL" ];
 
 const weeks = [
                 {
-                    _id: 1,
                     weekNo: 1,
                     weekNumberDisplay: 1,
                     namePrefix: "Pre Week",
@@ -71,12 +70,32 @@ const weeks = [
                     beginDateTime: "2017-08-03T05:00:00+04:00"
                 },
                 {
-                    _id: 2,
                     weekNo: 2,
                     weekNumberDisplay: 2,
                     namePrefix: "Pre Week",
                     endDateTime: "2017-08-14T02:00:00+04:00",
                     beginDateTime: "2017-08-09T05:00:00+04:00"
+                },
+                {
+                    weekNo: 3,
+                    weekNumberDisplay: 3,
+                    namePrefix: "Pre Week",
+                    endDateTime: "2017-08-20T02:00:00+04:00",
+                    beginDateTime: "2017-08-16T05:00:00+04:00"
+                },
+                {
+                    weekNo: 4,
+                    weekNumberDisplay: 4,
+                    namePrefix: "Pre Week",
+                    endDateTime: "2017-08-27T02:00:00+04:00",
+                    beginDateTime: "2017-08-23T05:00:00+04:00"
+                },
+                {
+                    weekNo: 5,
+                    weekNumberDisplay: 1,
+                    namePrefix: "Week",
+                    endDateTime: "2017-09-12T02:00:00+04:00",
+                    beginDateTime: "2017-09-07T05:00:00+04:00"
                 }
               ];
 
@@ -170,7 +189,7 @@ class LeagueSchedule extends Component {
             const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
             const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
 
-            if (startDateTime != endDateTime) {
+            if (startDateTime !== endDateTime) {
                 week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D') + " - " + moment.utc(week.endDateTime).format('ddd M/D');
             } else {
                 week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D');
@@ -228,7 +247,7 @@ class LeagueSchedule extends Component {
             return;
         }
 
-        api.createPick({leagueId:'59723313734d1d6202a85f10', gameId:gameId, pickId:newPickId}, response => {
+        api.createPick({leagueId:'59723313734d1d6202a85f10', weekNo: game.weekNo, gameId:gameId, pickId:newPickId}, response => {
             this.setState({ picks: [...this.state.picks, response] });
 
             this.updatePickInUI(game, competitorId);

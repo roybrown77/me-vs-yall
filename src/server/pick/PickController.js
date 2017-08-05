@@ -12,7 +12,7 @@ router.post('/picks/', function (req, res) {
     const pick = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.body.leagueId),
-        weekNo: mongoose.Types.Number(req.user.weekNo),
+        weekNo: req.body.weekNo,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
