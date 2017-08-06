@@ -15,151 +15,148 @@ import Footer from './Footer';
 import api from './middleware/api.js';
 import { login, isLoggedIn } from './middleware/AuthService';
 
-const filterButton = {
-  button: {
-    margin: 0,
-    width: '100%'
-  }
-};
+    const filterButton = {
+      button: {
+        margin: 0,
+        width: '100%'
+      }
+    };
 
-const dropDown = {
-    root: {
-        width: '50%'
-    }
-};
+    const dropDown = {
+        root: {
+            width: '50%'
+        }
+    };
 
-const dropDownFull = {
-    root: {
-        width: '100%',
-        marginBottom: '16px'
-    }
-};
+    const dropDownFull = {
+        root: {
+            width: '100%',
+            marginBottom: '16px'
+        }
+    };
 
-const grid = {
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        marginTop: '12px'
-    },
-    list: {
-        width: '100%',
-        backgroundColor: '#fff'
-    },
-    tile: {
-        width: '100%',
-        cursor: 'pointer',
-        font: '4rem/1 Permanent Marker,sans-serif', 
-        color: '#000'
-    },
-    titleStyle: {
-        font:'1.4rem/1 Permanent Marker,sans-serif', 
-        color: '#000'
-    },
-    titleBackground: 'transparent'
-};
+    const grid = {
+        root: {
+            marginTop: '12px'
+        },
+        list: {
+            width: '100%',
+            backgroundColor: '#fff'
+        },
+        tile: {
+            width: '100%',
+            cursor: 'pointer',
+            font: '4rem/1 Permanent Marker,sans-serif', 
+            color: '#000'
+        },
+        titleStyle: {
+            font:'1.4rem/1 Permanent Marker,sans-serif', 
+            color: '#000'
+        },
+        titleBackground: 'transparent'
+    };
 
-const leagues = [ "NFL" ];
+    const leagues = [ "NFL" ];
 
-const weeks = [
-                {
-                    weekNo: 1,
-                    weekNumberDisplay: "",
-                    namePrefix: "Hall of Fame Game",
-                    endDateTime: "2017-08-04T02:00:00+04:00",
-                    beginDateTime: "2017-08-03T05:00:00+04:00"
-                },
-                // {
-                //     weekNo: 2,
-                //     weekNumberDisplay: 1,
-                //     namePrefix: "Pre Week",
-                //     endDateTime: "2017-08-14T02:00:00+04:00",
-                //     beginDateTime: "2017-08-09T05:00:00+04:00"
-                // },
-                // {
-                //     weekNo: 3,
-                //     weekNumberDisplay: 2,
-                //     namePrefix: "Pre Week",
-                //     endDateTime: "2017-08-22T02:00:00+04:00",
-                //     beginDateTime: "2017-08-17T05:00:00+04:00"
-                // },
-                // {
-                //     weekNo: 4,
-                //     weekNumberDisplay: 3,
-                //     namePrefix: "Pre Week",
-                //     endDateTime: "2017-08-28T02:00:00+04:00",
-                //     beginDateTime: "2017-08-24T05:00:00+04:00"
-                // },
-                // {
-                //     weekNo: 5,
-                //     weekNumberDisplay: 4,
-                //     namePrefix: "Pre Week",
-                //     endDateTime: "2017-09-01T02:00:00+04:00",
-                //     beginDateTime: "2017-08-31T05:00:00+04:00"
-                // },
-                // {
-                //     weekNo: 6,
-                //     weekNumberDisplay: 1,
-                //     namePrefix: "Week",
-                //     endDateTime: "2017-09-12T02:00:00+04:00",
-                //     beginDateTime: "2017-09-07T05:00:00+04:00"
-                // }
-              ];
+    const weeks = [
+                    {
+                        weekNo: 1,
+                        weekNumberDisplay: "",
+                        namePrefix: "Hall of Fame Game",
+                        endDateTime: "2017-08-04T02:00:00+04:00",
+                        beginDateTime: "2017-08-03T05:00:00+04:00"
+                    },
+                    {
+                        weekNo: 2,
+                        weekNumberDisplay: 1,
+                        namePrefix: "Pre Week",
+                        endDateTime: "2017-08-14T02:00:00+04:00",
+                        beginDateTime: "2017-08-09T05:00:00+04:00"
+                    }
+                    // {
+                    //     weekNo: 3,
+                    //     weekNumberDisplay: 2,
+                    //     namePrefix: "Pre Week",
+                    //     endDateTime: "2017-08-22T02:00:00+04:00",
+                    //     beginDateTime: "2017-08-17T05:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 4,
+                    //     weekNumberDisplay: 3,
+                    //     namePrefix: "Pre Week",
+                    //     endDateTime: "2017-08-28T02:00:00+04:00",
+                    //     beginDateTime: "2017-08-24T05:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 5,
+                    //     weekNumberDisplay: 4,
+                    //     namePrefix: "Pre Week",
+                    //     endDateTime: "2017-09-01T02:00:00+04:00",
+                    //     beginDateTime: "2017-08-31T05:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 6,
+                    //     weekNumberDisplay: 1,
+                    //     namePrefix: "Week",
+                    //     endDateTime: "2017-09-12T02:00:00+04:00",
+                    //     beginDateTime: "2017-09-07T05:00:00+04:00"
+                    // }
+                  ];
 
-const teamData = [
-    {
-        _id: "59823783734d1d04a1b39d00",
-        location: 'Kansas City',
-        shortLocation: "KC",
-        name: "Chiefs",
-        color: "#CA2430",
-        stadiumName: "Arrow Head Stadium",
-        stadiumCity: "Kansas City, MO"
-    },
-    {
-        _id: "59823783734d1d04a1b39d01",
-        location: 'New England',
-        shortLocation: "NE",
-        name: "Patriots",
-        color: "#0A2342",
-        stadiumName: "Gillette Stadium",
-        stadiumCity: "Foxboro, MA"
-    },
-    {
-        _id: "59823783734d1d04a1b39000",
-        location: 'Atlanta Falcons',
-        shortLocation: "ATL",
-        name: "Falcons",
-        color: "#A71930",
-        stadiumName: "Mercedes-Benz Stadium",
-        stadiumCity: "Atlanta, GA"
-    },
-    {
-        _id: "59823783734d1d04a1b39001",
-        location: 'Chicago',
-        shortLocation: "CHI",
-        name: "Bears",
-        color: "#00143F",
-        stadiumName: "Soldier Field",
-        stadiumCity: "Chicago, IL"
-    },
-    {
-        _id: "59823783734d1d04a1b39100",
-        location: 'Arizona',
-        shortLocation: "ARI",
-        name: "Cardinals",
-        color: "#97233F"
-    },
-    {
-        _id: "59823783734d1d04a1b39101",
-        location: 'Dallas',
-        shortLocation: "DAL",
-        name: "Cowboys",
-        color: "#0C264C",
-        stadiumCity: "Dallas, TX"
-    }
-];
-
+    const teamData = [
+        {
+            _id: "59823783734d1d04a1b39d00",
+            location: 'Kansas City',
+            shortLocation: "KC",
+            name: "Chiefs",
+            color: "#CA2430",
+            stadiumName: "Arrow Head Stadium",
+            stadiumCity: "Kansas City, MO"
+        },
+        {
+            _id: "59823783734d1d04a1b39d01",
+            location: 'New England',
+            shortLocation: "NE",
+            name: "Patriots",
+            color: "#0A2342",
+            stadiumName: "Gillette Stadium",
+            stadiumCity: "Foxboro, MA"
+        },
+        {
+            _id: "59823783734d1d04a1b39000",
+            location: 'Atlanta Falcons',
+            shortLocation: "ATL",
+            name: "Falcons",
+            color: "#A71930",
+            stadiumName: "Mercedes-Benz Stadium",
+            stadiumCity: "Atlanta, GA"
+        },
+        {
+            _id: "59823783734d1d04a1b39001",
+            location: 'Chicago',
+            shortLocation: "CHI",
+            name: "Bears",
+            color: "#00143F",
+            stadiumName: "Soldier Field",
+            stadiumCity: "Chicago, IL"
+        },
+        {
+            _id: "59823783734d1d04a1b39100",
+            location: 'Arizona',
+            shortLocation: "ARI",
+            name: "Cardinals",
+            color: "#97233F"
+        },
+        {
+            _id: "59823783734d1d04a1b39101",
+            location: 'Dallas',
+            shortLocation: "DAL",
+            name: "Cowboys",
+            color: "#0C264C",
+            stadiumCity: "Dallas, TX"
+        }
+    ];
+    
 class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
@@ -185,7 +182,7 @@ class LeagueSchedule extends Component {
 
         if (leagues.find(x=>x === this.props.match.params.name.toUpperCase)) {
             history.push('/leagues/' + this.props.match.params.name.toLowerCase);
-                this.setState({
+            this.setState({
                 leagueName: this.props.match.params.name.toUpperCase 
             });
         } else {
@@ -247,7 +244,6 @@ class LeagueSchedule extends Component {
             api.updatePick(pick._id, { gameId:gameId, pickId:newPickId }, response => {
                 const pickIndex = this.state.picks.findIndex(x=>x._id === response._id);
                 this.setState(update(this.state.picks, { $splice: [[pickIndex, 1, response]] } ));
-
                 this.updatePickInUI(game, competitorId);
             });
 
@@ -256,7 +252,6 @@ class LeagueSchedule extends Component {
 
         api.createPick({leagueId:'59723313734d1d6202a85f10', weekNo: game.weekNo, gameId:gameId, pickId:newPickId}, response => {
             this.setState({ picks: [...this.state.picks, response] });
-
             this.updatePickInUI(game, competitorId);
         });
     }
@@ -271,21 +266,21 @@ class LeagueSchedule extends Component {
         
         const getPickPromise = api.getPicks(query);
 
-        Promise.all([getGamesPromise, getPickPromise]).then(data => {
-            let games = data[0];
-            const picks = data[1];
+        Promise.all([getGamesPromise, getPickPromise]).then(response => {
+            let games = response[0];
+            const picks = response[1];
 
             games.map((game)=>{
                 game.startDateTimeDisplay = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
                 game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
-                
+
                 return game.competitors.map((competitor, index)=> {
-                    const data = teamData.find(x=>x._id === competitor._id);
-                    competitor.shortLocation = data.shortLocation;
-                    competitor.name = data.name;
-                    competitor.color = data.color;
+                    const team = teamData.find(x=>x._id === competitor._id);
+                    competitor.shortLocation = team.shortLocation;
+                    competitor.name = team.name;
+                    competitor.color = team.color;
                     competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;    
                     return competitor;
                 });
@@ -382,13 +377,15 @@ class LeagueSchedule extends Component {
                                                     >
                                                     <div 
                                                     style={{
-                                                        border: competitor.showCheck ? (game.isGameOver ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : '8px solid #BA68C8') : '0', height: "91%",
-                                                        color: competitor.color
+                                                        border: competitor.showCheck ? (game.isGameOver ? (game.winner ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : '8px solid #f0ad4e') : '8px solid #BA68C8') : '0', height: "91%",
+                                                        color: competitor.color,
+                                                        flexGrow: '0',
+                                                        marginLeft: '0'
                                                     }}>
-                                                        <div style={{paddingLeft:'20px', fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
+                                                        <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
                                                             {competitor.score}
                                                         </div>
-                                                        <div style={{paddingLeft:'20px', paddingTop: competitor.score ? '10px' : '26px'}}>
+                                                        <div style={{paddingTop: competitor.score ? '10px' : '26px'}}>
                                                             {competitor.shortLocation}
                                                         </div>
                                                     </div>
@@ -410,7 +407,7 @@ class LeagueSchedule extends Component {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                </div>
                 <Footer/>
             </div>
         );

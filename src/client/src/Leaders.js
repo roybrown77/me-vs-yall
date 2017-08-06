@@ -8,43 +8,42 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Header from './Header';
 import Footer from './Footer';
 
-
 const filterButton = {
-  button: {
-    margin: 0,
-    width: '100%'
-  }
-};
+      button: {
+        margin: 0,
+        width: '100%'
+      }
+    };
 
-const dropDown = {
-    root: {
-        width: '50%'
-    }
-};
+    const dropDown = {
+        root: {
+            width: '50%'
+        }
+    };
 
-const dropDownFull = {
-    root: {
-        width: '100%',
-        marginBottom: '16px'
-    }
-};
+    const dropDownFull = {
+        root: {
+            width: '100%',
+            marginBottom: '16px'
+        }
+    };
 
-let players = [
-    {
-        _id: 1,
-        username: 'Roy',
-        wins: 5,
-        losses: 1,
-        ties: 1
-    },
-    {
-        _id: 2,
-        username: 'Scott',
-        wins: 3,
-        losses: 3,
-        ties: 1
-    }
-];
+    let players = [
+        {
+            _id: 1,
+            username: 'Roy',
+            wins: 5,
+            losses: 1,
+            ties: 1
+        },
+        {
+            _id: 2,
+            username: 'Scott',
+            wins: 3,
+            losses: 3,
+            ties: 1
+        }
+    ];
 
 class Leaders extends Component {
     constructor(props) {

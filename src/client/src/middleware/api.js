@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import URLSearchParams from 'url-search-params';
-const queryString = require('query-string');
+import queryString from 'query-string';
 
 import { login, getAccessToken } from './AuthService';
 

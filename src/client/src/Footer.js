@@ -5,11 +5,11 @@ import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import Paper from 'material-ui/Paper';
 
-const leaguesIcon = <FontIcon className="material-icons"></FontIcon>;
-const schedulesIcon = <FontIcon className="material-icons"></FontIcon>;
-const leadersIcon = <FontIcon className="material-icons"></FontIcon>;
-const meIcon = <FontIcon className="material-icons"></FontIcon>;
-const yallIcon = <FontIcon className="material-icons"></FontIcon>;
+    const leaguesIcon = <FontIcon className="material-icons"></FontIcon>;
+    const schedulesIcon = <FontIcon className="material-icons"></FontIcon>;
+    const leadersIcon = <FontIcon className="material-icons"></FontIcon>;
+    const meIcon = <FontIcon className="material-icons"></FontIcon>;
+    const yallIcon = <FontIcon className="material-icons"></FontIcon>;
 
 class Footer extends Component {
     state = {
@@ -45,7 +45,6 @@ class Footer extends Component {
                             <BottomNavigationItem
                             label="Leaders"
                             icon={leadersIcon}
-                            onTouchTap={() => { history.push('/leaders') }}
                                 />
                     )} />
                     )}
