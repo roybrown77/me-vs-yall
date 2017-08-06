@@ -116,9 +116,10 @@ export function isLoggedIn() {
   return !!idToken && !isTokenExpired(idToken);
 }
 
-export function login() {
+export function googleLogin() {
   auth.authorize({
-    connection: 'google-oauth2'
+    connection: 'google-oauth2',
+    prompt: 'select_account'
   });
 }
 

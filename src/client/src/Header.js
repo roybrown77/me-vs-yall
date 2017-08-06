@@ -4,7 +4,7 @@ import { Route }from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
-import { login, logout, isLoggedIn } from './middleware/AuthService';
+import { logout, isLoggedIn } from './middleware/AuthService';
 
 class Header extends Component {
     constructor(props) {

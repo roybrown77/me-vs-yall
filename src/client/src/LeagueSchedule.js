@@ -13,7 +13,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Header from './Header';
 import Footer from './Footer';
 import api from './middleware/api.js';
-import { login, isLoggedIn } from './middleware/AuthService';
 import Spinner from './Spinner';
 
     const filterButton = {
@@ -176,11 +175,6 @@ class LeagueSchedule extends Component {
     }
 
     componentWillMount() {
-        if (!isLoggedIn()) {
-            login();
-            return;
-        }
-
         if (leagues.find(x=>x === this.props.match.params.name.toUpperCase)) {
             history.push('/leagues/' + this.props.match.params.name.toLowerCase);
             this.setState({

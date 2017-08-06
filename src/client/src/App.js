@@ -9,6 +9,8 @@ import LeagueSelection from './LeagueSelection';
 import LeagueSchedule from './LeagueSchedule';
 import Leaders from './Leaders';
 import About from './About';
+import Login from './Login';
+import { requireAuth } from './middleware/AuthService';
 
 class App extends Component {
    render() {
@@ -19,8 +21,9 @@ class App extends Component {
                     <main>
                         <Switch>
                             <Route exact path='/' component={Home}/>
+                            <Route exact path='/login' component={Login}/>
                             <Route exact path='/leagues' component={LeagueSelection}/>
-                            <Route path='/leagues/:name' component={LeagueSchedule}/>
+                            <Route path='/leagues/:name' component={LeagueSchedule} onEnter={requireAuth}/>
                             <Route path='/leaders' component={Leaders}/>
                             <Route path='/about' component={About}/>
                             <Route path='/callback' component={Callback}/>

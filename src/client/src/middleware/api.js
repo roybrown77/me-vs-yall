@@ -2,7 +2,7 @@
 import URLSearchParams from 'url-search-params';
 import queryString from 'query-string';
 
-import { login, getAccessToken } from './AuthService';
+import { getAccessToken } from './AuthService';
 
 function getGames(query, cb) {
     return fetch(`/api/gamemanagement/games?${queryString.stringify(query)}`, {
@@ -73,7 +73,7 @@ function checkStatus(response) {
     }
     
     if (response.status === 401) {
-        login();
+        window.location.href = "/login";
         return;
     }
 
