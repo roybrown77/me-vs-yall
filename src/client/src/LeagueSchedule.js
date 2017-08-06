@@ -385,10 +385,10 @@ class LeagueSchedule extends Component {
                                                         border: competitor.showCheck ? (game.isGameOver ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : '8px solid #BA68C8') : '0', height: "91%",
                                                         color: competitor.color
                                                     }}>
-                                                        <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
+                                                        <div style={{paddingLeft:'20px', fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
                                                             {competitor.score}
                                                         </div>
-                                                        <div style={{paddingTop: competitor.score ? '10px' : '26px'}}>
+                                                        <div style={{paddingLeft:'20px', paddingTop: competitor.score ? '10px' : '26px'}}>
                                                             {competitor.shortLocation}
                                                         </div>
                                                     </div>
