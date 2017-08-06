@@ -14,6 +14,7 @@ import Header from './Header';
 import Footer from './Footer';
 import api from './middleware/api.js';
 import { login, isLoggedIn } from './middleware/AuthService';
+import Spinner from './Spinner';
 
     const filterButton = {
       button: {
@@ -257,6 +258,10 @@ class LeagueSchedule extends Component {
     }
 
     getGamesAndPicks(week) {
+        this.setState({
+            dataLoading: true
+        });
+
         const query = {
             leagueId:"59723313734d1d6202a85f10",
             weekNo: week.weekNo
@@ -292,6 +297,10 @@ class LeagueSchedule extends Component {
 
             this.setState({
                 picks: picks
+            });
+
+            this.setState({
+                dataLoading: false
             });
         });
     }
@@ -356,9 +365,9 @@ class LeagueSchedule extends Component {
                             ))}
                         </DropDownMenu>
                     </div>
-                    <div style={{color:'#BA68C8', marginTop: '12px'}}>*tap winners</div>
                         <div style={grid.root}>
-                            {this.state.games.map((game, index1) => (
+                            {this.state.dataLoading && <Spinner/>}
+                            {!this.state.dataLoading && this.state.games.map((game, index1) => (
                                 <div
                                     key={game._id}
                                     style={{width:'100%', marginBottom: '12px'}}>
