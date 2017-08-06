@@ -125,7 +125,7 @@ class Header extends Component {
                             <Route render={({ history}) => (
                                 <MenuItem
                                   onTouchTap={this.handleClose}
-                                  onClick={() => login()}
+                                  onClick={() => { history.push('/login') }}
                                 >
                                   Login
                                 </MenuItem>
