@@ -64,34 +64,41 @@ const leagues = [ "NFL" ];
 const weeks = [
                 {
                     weekNo: 1,
-                    weekNumberDisplay: 1,
-                    namePrefix: "Pre Week",
+                    weekNumberDisplay: "",
+                    namePrefix: "Hall of Fame Game",
                     endDateTime: "2017-08-04T02:00:00+04:00",
                     beginDateTime: "2017-08-03T05:00:00+04:00"
                 },
                 {
                     weekNo: 2,
-                    weekNumberDisplay: 2,
+                    weekNumberDisplay: 1,
                     namePrefix: "Pre Week",
                     endDateTime: "2017-08-14T02:00:00+04:00",
                     beginDateTime: "2017-08-09T05:00:00+04:00"
                 },
                 {
                     weekNo: 3,
-                    weekNumberDisplay: 3,
+                    weekNumberDisplay: 2,
                     namePrefix: "Pre Week",
-                    endDateTime: "2017-08-20T02:00:00+04:00",
-                    beginDateTime: "2017-08-16T05:00:00+04:00"
+                    endDateTime: "2017-08-22T02:00:00+04:00",
+                    beginDateTime: "2017-08-17T05:00:00+04:00"
                 },
                 {
                     weekNo: 4,
-                    weekNumberDisplay: 4,
+                    weekNumberDisplay: 3,
                     namePrefix: "Pre Week",
-                    endDateTime: "2017-08-27T02:00:00+04:00",
-                    beginDateTime: "2017-08-23T05:00:00+04:00"
+                    endDateTime: "2017-08-28T02:00:00+04:00",
+                    beginDateTime: "2017-08-24T05:00:00+04:00"
                 },
                 {
                     weekNo: 5,
+                    weekNumberDisplay: 4,
+                    namePrefix: "Pre Week",
+                    endDateTime: "2017-09-01T02:00:00+04:00",
+                    beginDateTime: "2017-08-31T05:00:00+04:00"
+                },
+                {
+                    weekNo: 6,
                     weekNumberDisplay: 1,
                     namePrefix: "Week",
                     endDateTime: "2017-09-12T02:00:00+04:00",
@@ -228,7 +235,7 @@ class LeagueSchedule extends Component {
 
         const game = this.state.games.find(x=>x._id === gameId);
 
-        if (game.winner) {
+        if (game.isGameOver) {
             return;
         }
 
@@ -272,7 +279,8 @@ class LeagueSchedule extends Component {
                 game.startDateTimeDisplay = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
-
+                game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
+                
                 return game.competitors.map((competitor, index)=> {
                     const data = teamData.find(x=>x._id === competitor._id);
                     competitor.shortLocation = data.shortLocation;
@@ -374,10 +382,13 @@ class LeagueSchedule extends Component {
                                                     >
                                                     <div 
                                                     style={{
-                                                        border: competitor.showCheck ? '8px solid #BA68C8' : '0', height: "91%",
+                                                        border: competitor.showCheck ? (game.isGameOver ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : '8px solid #BA68C8') : '0', height: "91%",
                                                         color: competitor.color
                                                     }}>
-                                                        <div style={{paddingTop:'36px'}}>
+                                                        <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
+                                                            {competitor.score}
+                                                        </div>
+                                                        <div style={{paddingTop: competitor.score ? '10px' : '26px'}}>
                                                             {competitor.shortLocation}
                                                         </div>
                                                     </div>
