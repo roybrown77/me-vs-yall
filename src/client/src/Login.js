@@ -6,7 +6,7 @@ import Footer from './Footer';
 
 function Login(props) {
         return (
-        	<div className="fade-in">
+        	<div>
                 <Header/>
 	            <div className="page-container">
 	            	<div style={{fontSize:'25px', color:'gray', marginTop: '24px'}}>Login</div>
