@@ -40,12 +40,13 @@ body {
 
 .page-container {
   margin: 0 20%;
-  margin-bottom: 64px !important;
+  margin-bottom: 64px;
 }
 
 @media screen and (max-width: 900px) {
   .page-container {
     margin: 0 12px;
+    margin-bottom: 84px;
   }
 }
 

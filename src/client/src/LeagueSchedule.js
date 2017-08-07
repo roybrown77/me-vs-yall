@@ -148,14 +148,18 @@ import Spinner from './Spinner';
             location: 'Arizona',
             shortLocation: "ARI",
             name: "Cardinals",
-            color: "#97233F"
+            color: "#97233F",
+            stadiumName: "University of Phoenix Stadium",
+            stadiumCity: "Glendale, AZ"
         },
         {
             _id: "Dallas Cowboys",
             location: 'Dallas',
             shortLocation: "DAL",
             name: "Cowboys",
-            color: "#0C264C"
+            color: "#0C264C",
+            stadiumName: "AT&T Stadium",
+            stadiumCity: "Dallas, TX"
         },
         {
             _id: "Houston Texans",
@@ -174,6 +178,33 @@ import Spinner from './Spinner';
             color: "#0085CA",
             stadiumName: "Bank of America Stadium",
             stadiumCity: "Charlotte, NC"
+        },
+        {
+            _id: "Miami Dolphins",
+            location: 'Miami',
+            shortLocation: "MIA",
+            name: "Dolphins",
+            color: "#0091A0",
+            stadiumName: "Hard Rock Stadium",
+            stadiumCity: "Miami, FL"
+        },
+        {
+            _id: "Minnesota Vikings",
+            location: 'Minnesota',
+            shortLocation: "MIN",
+            name: "Vikings",
+            color: "#4F2E84",
+            stadiumName: "U.S. Bank Stadium",
+            stadiumCity: "Minneapolis, MN"
+        },
+        {
+            _id: "Buffalo Bills",
+            location: 'Buffalo',
+            shortLocation: "BUF",
+            name: "Bills",
+            color: "#00338D",
+            stadiumName: "New Era Field",
+            stadiumCity: "Buffalo, NY"
         }
     ];
     
@@ -418,7 +449,8 @@ class LeagueSchedule extends Component {
                                         margin:'12px -2px',
                                         fontSize: '14px',
                                         fontWeight: 'bold',
-                                        color: 'gray'
+                                        color: 'gray',
+                                        height: '12px'
                                     }}>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTimeDisplay}</div>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.station}</div>
