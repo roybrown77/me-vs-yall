@@ -10,7 +10,7 @@ function Login(props) {
                 <Header/>
 	            <div className="page-container">
 	            	<div style={{fontSize:'25px', color:'gray', marginTop: '24px'}}>Login</div>
-	            	<div style={{fontSize:'20px', color:'gray', margin: '24px 0'}}>connect with</div>
+	            	<div style={{fontSize:'20px', color:'gray', margin: '24px 0'}}>with</div>
 	            	<a href="#" className="fa fa-google" onClick={() => googleLogin()}></a>
 	            </div>
 	            <Footer/>

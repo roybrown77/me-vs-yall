@@ -123,15 +123,21 @@ export function googleLogin() {
   });
 }
 
+export function serverLogout() {
+  clearIdToken();
+  clearAccessToken();
+  history.push('/login');
+}
+
 export function logout() {
   clearIdToken();
   clearAccessToken();
-  history.push('/leagues');
+  history.push('/');
 }
 
 export function requireAuth(nextState, replace) {
   if (!isLoggedIn()) {
-    replace({pathname: '/leagues'});
+    replace({pathname: '/'});
   }
 }
 
