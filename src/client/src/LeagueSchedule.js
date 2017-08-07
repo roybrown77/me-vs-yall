@@ -437,6 +437,8 @@ class LeagueSchedule extends Component {
             let games = response[0];
             const picks = response[1];
 
+            games = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
             games.map((game)=>{
                 game.startDateTimeDisplay = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
