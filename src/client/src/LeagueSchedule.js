@@ -290,7 +290,7 @@ import Spinner from './Spinner';
         {
             _id: "New York Giants",
             location: 'New York',
-            shortLocation: "NYG",
+            shortLocation: "NY",
             name: "Giants",
             color: "#192E6C",
             stadiumName: "MetLife Stadium",
@@ -322,6 +322,78 @@ import Spinner from './Spinner';
             color: "#C9243F",
             stadiumName: "Levi's Stadium",
             stadiumCity: "Santa Clara, CA"
+        },
+        {
+            _id: "Tennessee Titans",
+            location: 'Tennessee',
+            shortLocation: "TEN",
+            name: "Titans",
+            color: "#4095D1",
+            stadiumName: "Nissan Stadium",
+            stadiumCity: "Nashville, TN"
+        },
+        {
+            _id: "New York Jets",
+            location: 'New York',
+            shortLocation: "NY",
+            name: "Jets",
+            color: "#FB4F14",
+            stadiumName: "MetLife Stadium",
+            stadiumCity: "East Rutherford, NJ"
+        },
+        {
+            _id: "Los Angeles Rams",
+            location: 'Los Angeles',
+            shortLocation: "LA",
+            name: "Rams",
+            color: "#95774C",
+            stadiumName: "Los Angeles Stadium",
+            stadiumCity: "Inglewood, CA"
+        },
+        {
+            _id: "Oakland Raiders",
+            location: 'Oakland',
+            shortLocation: "OAK",
+            name: "Raiders",
+            color: "#C4C9CC",
+            stadiumName: "Oakland Alameda Coliseum",
+            stadiumCity: "Oakland, CA"
+        },
+        {
+            _id: "Detroit Lions",
+            location: 'Detroit',
+            shortLocation: "DET",
+            name: "Lions",
+            color: "#046EB4",
+            stadiumName: "Ford Field",
+            stadiumCity: "Detroit, MI"
+        },
+        {
+            _id: "Indianapolis Colts",
+            location: 'Indianapolis',
+            shortLocation: "IND",
+            name: "Colts",
+            color: "#003D79",
+            stadiumName: "Lucas Oil Stadium",
+            stadiumCity: "Indianapolis, IN"
+        },
+        {
+            _id: "Seattle Seahawks",
+            location: 'Seattle',
+            shortLocation: "SEA",
+            name: "Seahawks",
+            color: "#7AC142",
+            stadiumName: "Raymond James Stadium",
+            stadiumCity: "Tampa, FL"
+        },
+        {
+            _id: "Los Angeles Chargers",
+            location: 'Los Angeles',
+            shortLocation: "LA",
+            name: "Chargers",
+            color: "#2072BA",
+            stadiumName: "CenturyLink Field",
+            stadiumCity: "Seattle, WA"
         }
     ];
     
