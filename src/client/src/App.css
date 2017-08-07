@@ -52,9 +52,8 @@ body {
 /* --- loader start --- */
 
 .loader {
-  left: 50%;
-  top: 50%;
-  position: fixed;
+  margin-left: 50%;
+  margin-top: 5em;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%); }
   .loader #spinner {
@@ -270,7 +269,8 @@ body {
 }
 
 .fa:hover {
-    opacity: 0.7;
+    opacity: 0.7;,
+    cursor: pointer !important;
 }
 
 .fa-google {

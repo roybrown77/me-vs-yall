@@ -5,7 +5,7 @@ var PickSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
 	weekNo: Number,
     gameId: mongoose.Schema.Types.ObjectId,
-    pickId: mongoose.Schema.Types.ObjectId,
+    pickId: String,
     createDateTime: 'date'
 });
 module.exports = mongoose.model('Pick', PickSchema)

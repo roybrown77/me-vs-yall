@@ -108,16 +108,16 @@ import Spinner from './Spinner';
 
     const teamData = [
         {
-            _id: "59823783734d1d04a1b39d00",
+            _id: "Kansas City Chiefs",
             location: 'Kansas City',
             shortLocation: "KC",
             name: "Chiefs",
             color: "#CA2430",
-            stadiumName: "Arrow Head Stadium",
+            stadiumName: "Arrowhead Stadium",
             stadiumCity: "Kansas City, MO"
         },
         {
-            _id: "59823783734d1d04a1b39d01",
+            _id: "New England Patriots",
             location: 'New England',
             shortLocation: "NE",
             name: "Patriots",
@@ -126,8 +126,8 @@ import Spinner from './Spinner';
             stadiumCity: "Foxboro, MA"
         },
         {
-            _id: "59823783734d1d04a1b39000",
-            location: 'Atlanta Falcons',
+            _id: "Atlanta Falcons",
+            location: 'Atlanta',
             shortLocation: "ATL",
             name: "Falcons",
             color: "#A71930",
@@ -135,7 +135,7 @@ import Spinner from './Spinner';
             stadiumCity: "Atlanta, GA"
         },
         {
-            _id: "59823783734d1d04a1b39001",
+            _id: "Chicago Bears",
             location: 'Chicago',
             shortLocation: "CHI",
             name: "Bears",
@@ -144,22 +144,21 @@ import Spinner from './Spinner';
             stadiumCity: "Chicago, IL"
         },
         {
-            _id: "59823783734d1d04a1b39100",
+            _id: "Arizona Cardinals",
             location: 'Arizona',
             shortLocation: "ARI",
             name: "Cardinals",
             color: "#97233F"
         },
         {
-            _id: "59823783734d1d04a1b39101",
+            _id: "Dallas Cowboys",
             location: 'Dallas',
             shortLocation: "DAL",
             name: "Cowboys",
-            color: "#0C264C",
-            stadiumCity: "Dallas, TX"
+            color: "#0C264C"
         },
         {
-            _id: "59823783734d1d04a1b39200",
+            _id: "Houston Texans",
             location: 'Houston',
             shortLocation: "HOU",
             name: "Texans",
@@ -168,7 +167,7 @@ import Spinner from './Spinner';
             stadiumCity: "Houston, TX"
         },
         {
-            _id: "59823783734d1d04a1b39201",
+            _id: "Carolina Panthers",
             location: 'Carolina',
             shortLocation: "CAR",
             name: "Panthers",
