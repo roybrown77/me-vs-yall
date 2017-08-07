@@ -423,6 +423,7 @@ class LeagueSchedule extends Component {
                                         {game.competitors.map((competitor, index2) => (
                                                 <GridTile
                                                     key={game._id + "." + competitor._id}
+                                                    className="grid-tile"
                                                     style={grid.tile}
                                                     title={competitor.name}
                                                     titleStyle={grid.titleStyle}

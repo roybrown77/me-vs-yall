@@ -281,6 +281,8 @@ body {
 
 /* --- login end --- */
 
+/* --- game start --- */
+
 .game-check {
   position: sticky;
   left: 50%;
@@ -309,8 +311,13 @@ body {
   }
 }
 
-.competitor-image {
+.grid-tile div div {
+  margin-left: 0 !important;
 }
+
+/* --- game end --- */
+
+/* --- leaders start --- */
 
 .leader-win-loss-tie-header {
   font-weight: bold;
@@ -328,3 +335,5 @@ body {
   font-size: 24px;
   font: 2.4rem/1 Permanent Marker,sans-serif;
 }
+
+/* --- leaders end --- */
