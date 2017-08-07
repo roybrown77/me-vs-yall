@@ -268,6 +268,60 @@ import Spinner from './Spinner';
             color: "#24423c",
             stadiumName: "Lambeau Field",
             stadiumCity: "Green Bay, WI"
+        },
+        {
+            _id: "Denver Broncos",
+            location: 'Denver',
+            shortLocation: "DEN",
+            name: "Broncos",
+            color: "#FB4F14",
+            stadiumName: "Sports Authority Field",
+            stadiumCity: "Denver, CO"
+        },
+        {
+            _id: "Pittsburgh Steelers",
+            location: 'Pittsburgh',
+            shortLocation: "PIT",
+            name: "Steelers",
+            color: "#FFC20E",
+            stadiumName: "Heinz Field",
+            stadiumCity: "Pittsburgh, PA"
+        },
+        {
+            _id: "New York Giants",
+            location: 'New York',
+            shortLocation: "NYG",
+            name: "Giants",
+            color: "#192E6C",
+            stadiumName: "MetLife Stadium",
+            stadiumCity: "East Rutherford, NJ"
+        },
+        {
+            _id: "Tampa Bay Buccaneers",
+            location: 'Tampa Bay',
+            shortLocation: "TB",
+            name: "Buccaneers",
+            color: "#D40909",
+            stadiumName: "Raymond James Stadium",
+            stadiumCity: "Tampa, FL"
+        },
+        {
+            _id: "Cincinnati Bengals",
+            location: 'Cincinnati',
+            shortLocation: "CIN",
+            name: "Bengals",
+            color: "#FB4F14",
+            stadiumName: "Paul Brown Stadium",
+            stadiumCity: "Cincinnati, OH"
+        },
+        {
+            _id: "San Francisco 49ers",
+            location: 'San Francisco',
+            shortLocation: "SF",
+            name: "49ers",
+            color: "#C9243F",
+            stadiumName: "Levi's Stadium",
+            stadiumCity: "Santa Clara, CA"
         }
     ];
     
