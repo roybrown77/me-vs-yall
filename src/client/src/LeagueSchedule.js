@@ -49,6 +49,9 @@ import Spinner from './Spinner';
             font: '4rem/1 Permanent Marker,sans-serif', 
             color: '#000'
         },
+        subTitleStyle: {
+            margin: '0'
+        },
         titleStyle: {
             font:'1.4rem/1 Permanent Marker,sans-serif', 
             color: '#000'
@@ -66,13 +69,13 @@ import Spinner from './Spinner';
                         endDateTime: "2017-08-04T02:00:00+04:00",
                         beginDateTime: "2017-08-03T05:00:00+04:00"
                     },
-                    // {
-                    //     weekNo: 2,
-                    //     weekNumberDisplay: 1,
-                    //     namePrefix: "Pre Week",
-                    //     endDateTime: "2017-08-14T02:00:00+04:00",
-                    //     beginDateTime: "2017-08-09T05:00:00+04:00"
-                    // }
+                    {
+                        weekNo: 2,
+                        weekNumberDisplay: 1,
+                        namePrefix: "Pre Week",
+                        endDateTime: "2017-08-14T02:00:00+04:00",
+                        beginDateTime: "2017-08-09T05:00:00+04:00"
+                    },
                     // {
                     //     weekNo: 3,
                     //     weekNumberDisplay: 2,
@@ -154,6 +157,24 @@ import Spinner from './Spinner';
             name: "Cowboys",
             color: "#0C264C",
             stadiumCity: "Dallas, TX"
+        },
+        {
+            _id: "59823783734d1d04a1b39200",
+            location: 'Houston',
+            shortLocation: "HOU",
+            name: "Texans",
+            color: "#00143F",
+            stadiumName: "NRG Stadium",
+            stadiumCity: "Houston, TX"
+        },
+        {
+            _id: "59823783734d1d04a1b39201",
+            location: 'Carolina',
+            shortLocation: "CAR",
+            name: "Panthers",
+            color: "#0085CA",
+            stadiumName: "Bank of America Stadium",
+            stadiumCity: "Charlotte, NC"
         }
     ];
     
@@ -381,9 +402,7 @@ class LeagueSchedule extends Component {
                                                     <div 
                                                     style={{
                                                         border: competitor.showCheck ? (game.isGameOver ? (game.winner ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : '8px solid #f0ad4e') : '8px solid #BA68C8') : '0', height: "91%",
-                                                        color: competitor.color,
-                                                        flexGrow: '0',
-                                                        marginLeft: '0'
+                                                        color: competitor.color
                                                     }}>
                                                         <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
                                                             {competitor.score}
