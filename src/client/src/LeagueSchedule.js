@@ -205,6 +205,69 @@ import Spinner from './Spinner';
             color: "#00338D",
             stadiumName: "New Era Field",
             stadiumCity: "Buffalo, NY"
+        },
+        {
+            _id: "Washington Redskins",
+            location: 'Washington',
+            shortLocation: "WAS",
+            name: "Redskins",
+            color: "#7C1415",
+            stadiumName: "FedExField",
+            stadiumCity: "Landover, MD"
+        },
+        {
+            _id: "Baltimore Ravens",
+            location: 'Baltimore',
+            shortLocation: "BAL",
+            name: "Ravens",
+            color: "#241773",
+            stadiumName: "M&T Bank Stadium",
+            stadiumCity: "Baltimore, MD"
+        },
+        {
+            _id: "Jacksonville Jaguars",
+            location: 'Jacksonville',
+            shortLocation: "JAC",
+            name: "Jaguars",
+            color: "#136677",
+            stadiumName: "EverBank Field",
+            stadiumCity: "Jacksonville, FL"
+        },
+        {
+            _id: "New Orleans Saints",
+            location: 'New Orleans',
+            shortLocation: "NO",
+            name: "Saints",
+            color: "#A08A58",
+            stadiumName: "Mercedes-Benz Superdome",
+            stadiumCity: "New Orleans, LA"
+        },
+        {
+            _id: "Cleveland Browns",
+            location: 'Cleveland',
+            shortLocation: "CLE",
+            name: "Browns",
+            color: "#FB4F14",
+            stadiumName: "FirstEnergy Stadium",
+            stadiumCity: "Cleveland, OH"
+        },
+        {
+            _id: "Philadelphia Eagles",
+            location: 'Philadelphia',
+            shortLocation: "PHI",
+            name: "Eagles",
+            color: "#014A53",
+            stadiumName: "Lincoln Financial Field",
+            stadiumCity: "Philadelphia, PA"
+        },
+        {
+            _id: "Green Bay Packers",
+            location: 'Green Bay',
+            shortLocation: "GB",
+            name: "Packers",
+            color: "#24423c",
+            stadiumName: "Lambeau Field",
+            stadiumCity: "Green Bay, WI"
         }
     ];
     
