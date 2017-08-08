@@ -108,7 +108,7 @@ import Spinner from './Spinner';
 
     const teamData = [
         {
-            _id: "Kansas City Chiefs",
+            _id: "19823783734d1d04a1b39001",
             location: 'Kansas City',
             shortLocation: "KC",
             name: "Chiefs",
@@ -117,7 +117,7 @@ import Spinner from './Spinner';
             stadiumCity: "Kansas City, MO"
         },
         {
-            _id: "New England Patriots",
+            _id: "19823783734d1d04a1b39002",
             location: 'New England',
             shortLocation: "NE",
             name: "Patriots",
@@ -126,7 +126,7 @@ import Spinner from './Spinner';
             stadiumCity: "Foxboro, MA"
         },
         {
-            _id: "Atlanta Falcons",
+            _id: "19823783734d1d04a1b39003",
             location: 'Atlanta',
             shortLocation: "ATL",
             name: "Falcons",
@@ -135,7 +135,7 @@ import Spinner from './Spinner';
             stadiumCity: "Atlanta, GA"
         },
         {
-            _id: "Chicago Bears",
+            _id: "19823783734d1d04a1b39004",
             location: 'Chicago',
             shortLocation: "CHI",
             name: "Bears",
@@ -144,7 +144,7 @@ import Spinner from './Spinner';
             stadiumCity: "Chicago, IL"
         },
         {
-            _id: "Arizona Cardinals",
+            _id: "19823783734d1d04a1b39005",
             location: 'Arizona',
             shortLocation: "ARI",
             name: "Cardinals",
@@ -153,7 +153,7 @@ import Spinner from './Spinner';
             stadiumCity: "Glendale, AZ"
         },
         {
-            _id: "Dallas Cowboys",
+            _id: "19823783734d1d04a1b39006",
             location: 'Dallas',
             shortLocation: "DAL",
             name: "Cowboys",
@@ -162,7 +162,7 @@ import Spinner from './Spinner';
             stadiumCity: "Dallas, TX"
         },
         {
-            _id: "Houston Texans",
+            _id: "19823783734d1d04a1b39007",
             location: 'Houston',
             shortLocation: "HOU",
             name: "Texans",
@@ -171,7 +171,7 @@ import Spinner from './Spinner';
             stadiumCity: "Houston, TX"
         },
         {
-            _id: "Carolina Panthers",
+            _id: "19823783734d1d04a1b39008",
             location: 'Carolina',
             shortLocation: "CAR",
             name: "Panthers",
@@ -180,7 +180,7 @@ import Spinner from './Spinner';
             stadiumCity: "Charlotte, NC"
         },
         {
-            _id: "Miami Dolphins",
+            _id: "19823783734d1d04a1b39009",
             location: 'Miami',
             shortLocation: "MIA",
             name: "Dolphins",
@@ -189,7 +189,7 @@ import Spinner from './Spinner';
             stadiumCity: "Miami, FL"
         },
         {
-            _id: "Minnesota Vikings",
+            _id: "19823783734d1d04a1b3900a",
             location: 'Minnesota',
             shortLocation: "MIN",
             name: "Vikings",
@@ -198,7 +198,7 @@ import Spinner from './Spinner';
             stadiumCity: "Minneapolis, MN"
         },
         {
-            _id: "Buffalo Bills",
+            _id: "19823783734d1d04a1b3900b",
             location: 'Buffalo',
             shortLocation: "BUF",
             name: "Bills",
@@ -207,7 +207,7 @@ import Spinner from './Spinner';
             stadiumCity: "Buffalo, NY"
         },
         {
-            _id: "Washington Redskins",
+            _id: "19823783734d1d04a1b3900c",
             location: 'Washington',
             shortLocation: "WAS",
             name: "Redskins",
@@ -216,7 +216,7 @@ import Spinner from './Spinner';
             stadiumCity: "Landover, MD"
         },
         {
-            _id: "Baltimore Ravens",
+            _id: "19823783734d1d04a1b3900d",
             location: 'Baltimore',
             shortLocation: "BAL",
             name: "Ravens",
@@ -225,7 +225,7 @@ import Spinner from './Spinner';
             stadiumCity: "Baltimore, MD"
         },
         {
-            _id: "Jacksonville Jaguars",
+            _id: "19823783734d1d04a1b3900e",
             location: 'Jacksonville',
             shortLocation: "JAC",
             name: "Jaguars",
@@ -234,7 +234,7 @@ import Spinner from './Spinner';
             stadiumCity: "Jacksonville, FL"
         },
         {
-            _id: "New Orleans Saints",
+            _id: "19823783734d1d04a1b3900f",
             location: 'New Orleans',
             shortLocation: "NO",
             name: "Saints",
@@ -243,7 +243,7 @@ import Spinner from './Spinner';
             stadiumCity: "New Orleans, LA"
         },
         {
-            _id: "Cleveland Browns",
+            _id: "19823783734d1d04a1b39010",
             location: 'Cleveland',
             shortLocation: "CLE",
             name: "Browns",
@@ -252,7 +252,7 @@ import Spinner from './Spinner';
             stadiumCity: "Cleveland, OH"
         },
         {
-            _id: "Philadelphia Eagles",
+            _id: "19823783734d1d04a1b39011",
             location: 'Philadelphia',
             shortLocation: "PHI",
             name: "Eagles",
@@ -261,7 +261,7 @@ import Spinner from './Spinner';
             stadiumCity: "Philadelphia, PA"
         },
         {
-            _id: "Green Bay Packers",
+            _id: "19823783734d1d04a1b39012",
             location: 'Green Bay',
             shortLocation: "GB",
             name: "Packers",
@@ -270,7 +270,7 @@ import Spinner from './Spinner';
             stadiumCity: "Green Bay, WI"
         },
         {
-            _id: "Denver Broncos",
+            _id: "19823783734d1d04a1b39013",
             location: 'Denver',
             shortLocation: "DEN",
             name: "Broncos",
@@ -279,7 +279,7 @@ import Spinner from './Spinner';
             stadiumCity: "Denver, CO"
         },
         {
-            _id: "Pittsburgh Steelers",
+            _id: "19823783734d1d04a1b39014",
             location: 'Pittsburgh',
             shortLocation: "PIT",
             name: "Steelers",
@@ -288,7 +288,7 @@ import Spinner from './Spinner';
             stadiumCity: "Pittsburgh, PA"
         },
         {
-            _id: "New York Giants",
+            _id: "19823783734d1d04a1b39015",
             location: 'New York',
             shortLocation: "NY",
             name: "Giants",
@@ -297,7 +297,7 @@ import Spinner from './Spinner';
             stadiumCity: "East Rutherford, NJ"
         },
         {
-            _id: "Tampa Bay Buccaneers",
+            _id: "19823783734d1d04a1b39016",
             location: 'Tampa Bay',
             shortLocation: "TB",
             name: "Buccaneers",
@@ -306,7 +306,7 @@ import Spinner from './Spinner';
             stadiumCity: "Tampa, FL"
         },
         {
-            _id: "Cincinnati Bengals",
+            _id: "19823783734d1d04a1b39017",
             location: 'Cincinnati',
             shortLocation: "CIN",
             name: "Bengals",
@@ -315,7 +315,7 @@ import Spinner from './Spinner';
             stadiumCity: "Cincinnati, OH"
         },
         {
-            _id: "San Francisco 49ers",
+            _id: "19823783734d1d04a1b39018",
             location: 'San Francisco',
             shortLocation: "SF",
             name: "49ers",
@@ -324,7 +324,7 @@ import Spinner from './Spinner';
             stadiumCity: "Santa Clara, CA"
         },
         {
-            _id: "Tennessee Titans",
+            _id: "19823783734d1d04a1b39019",
             location: 'Tennessee',
             shortLocation: "TEN",
             name: "Titans",
@@ -333,7 +333,7 @@ import Spinner from './Spinner';
             stadiumCity: "Nashville, TN"
         },
         {
-            _id: "New York Jets",
+            _id: "19823783734d1d04a1b3901a",
             location: 'New York',
             shortLocation: "NY",
             name: "Jets",
@@ -342,7 +342,7 @@ import Spinner from './Spinner';
             stadiumCity: "East Rutherford, NJ"
         },
         {
-            _id: "Los Angeles Rams",
+            _id: "19823783734d1d04a1b3901b",
             location: 'Los Angeles',
             shortLocation: "LA",
             name: "Rams",
@@ -351,7 +351,7 @@ import Spinner from './Spinner';
             stadiumCity: "Inglewood, CA"
         },
         {
-            _id: "Oakland Raiders",
+            _id: "19823783734d1d04a1b3901c",
             location: 'Oakland',
             shortLocation: "OAK",
             name: "Raiders",
@@ -360,7 +360,7 @@ import Spinner from './Spinner';
             stadiumCity: "Oakland, CA"
         },
         {
-            _id: "Detroit Lions",
+            _id: "19823783734d1d04a1b3901d",
             location: 'Detroit',
             shortLocation: "DET",
             name: "Lions",
@@ -369,7 +369,7 @@ import Spinner from './Spinner';
             stadiumCity: "Detroit, MI"
         },
         {
-            _id: "Indianapolis Colts",
+            _id: "19823783734d1d04a1b3901e",
             location: 'Indianapolis',
             shortLocation: "IND",
             name: "Colts",
@@ -378,7 +378,7 @@ import Spinner from './Spinner';
             stadiumCity: "Indianapolis, IN"
         },
         {
-            _id: "Seattle Seahawks",
+            _id: "19823783734d1d04a1b3901f",
             location: 'Seattle',
             shortLocation: "SEA",
             name: "Seahawks",
@@ -387,7 +387,7 @@ import Spinner from './Spinner';
             stadiumCity: "Tampa, FL"
         },
         {
-            _id: "Los Angeles Chargers",
+            _id: "19823783734d1d04a1b39000",
             location: 'Los Angeles',
             shortLocation: "LA",
             name: "Chargers",
@@ -512,7 +512,9 @@ class LeagueSchedule extends Component {
             games = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
             games.map((game)=>{
-                game.startDateTimeDisplay = moment.utc(game.startDateTime).format('dddd MMM D YYYY h:mm a') + ' ET';
+                console.log("game.startDateTime: " + game.startDateTime);
+
+                game.startDateTimeDisplay = moment.utc(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
                 game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)

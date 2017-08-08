@@ -18,8 +18,463 @@ router.get('/games/', function (req, res) {
 
     gameRepository.find(search, function (err, games) {
         if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+        console.log('games: ' + games);
+        
         res.status(200).send(games);
     });
+});
+
+router.post('/games/creategames', function (req, res) {
+    const games = [];
+
+    // const games = 
+    //             [
+    //               {
+    //                 "awayteam": "Houston",
+    //                 "hometeam": "Carolina",
+    //                 "startdate": "Wednesday, August 9",
+    //                 "starttime": "7:30 PM",
+    //                 "station": "NFL"
+    //               },
+    //               {
+    //                 "awayteam": "Atlanta",
+    //                 "hometeam": "Miami",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "7:00 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Minnesota",
+    //                 "hometeam": "Buffalo",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "7:00 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Washington",
+    //                 "hometeam": "Baltimore",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "7:30 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Jacksonville",
+    //                 "hometeam": "New England",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "7:30 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "New Orleans",
+    //                 "hometeam": "Cleveland",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "8:00 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Philadelphia",
+    //                 "hometeam": "Green Bay",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "8:00 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Denver",
+    //                 "hometeam": "Chicago",
+    //                 "startdate": "Thursday, August 10",
+    //                 "starttime": "8:00 PM",
+    //                 "station": "NFL"
+    //               },
+    //               {
+    //                 "awayteam": "Pittsburgh",
+    //                 "hometeam": "New York Giants",
+    //                 "startdate": "Friday, August 11",
+    //                 "starttime": "7:00 PM",
+    //                 "station": "NFL"
+    //               },
+    //               {
+    //                 "awayteam": "Tampa Bay",
+    //                 "hometeam": "Cincinnati",
+    //                 "startdate": "Friday, August 11",
+    //                 "starttime": "7:30 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "San Francisco",
+    //                 "hometeam": "Kansas City",
+    //                 "startdate": "Friday, August 11",
+    //                 "starttime": "9:00 PM",
+    //                 "station": "NFL"
+    //               },
+    //               {
+    //                 "awayteam": "Tennessee",
+    //                 "hometeam": "New York Jets",
+    //                 "startdate": "Saturday, August 12",
+    //                 "starttime": "7:30 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Dallas",
+    //                 "hometeam": "Los Angeles Rams",
+    //                 "startdate": "Saturday, August 12",
+    //                 "starttime": "9:00 PM",
+    //                 "station": "NFL"
+    //               },
+    //               {
+    //                 "awayteam": "Oakland",
+    //                 "hometeam": "Arizona",
+    //                 "startdate": "Saturday, August 12",
+    //                 "starttime": "10:00 PM",
+    //                 "station": ""
+    //               },
+    //               {
+    //                 "awayteam": "Detroit",
+    //                 "hometeam": "Indianapolis",
+    //                 "startdate": "Sunday, August 13",
+    //                 "starttime": "1:30 PM",
+    //                 "station": "NFL"
+    //               },
+    //               {
+    //                 "awayteam": "Seattle",
+    //                 "hometeam": "Los Angeles Chargers",
+    //                 "startdate": "Sunday, August 13",
+    //                 "starttime": "8:00 PM",
+    //                 "station": "NFL"
+    //               }
+    //             ];
+
+        const teamData = [
+        {
+            _id: "19823783734d1d04a1b39001",
+            location: 'Kansas City',
+            shortLocation: "KC",
+            name: "Chiefs",
+            color: "#CA2430",
+            stadiumName: "Arrowhead Stadium",
+            stadiumCity: "Kansas City, MO"
+        },
+        {
+            _id: "19823783734d1d04a1b39002",
+            location: 'New England',
+            shortLocation: "NE",
+            name: "Patriots",
+            color: "#0A2342",
+            stadiumName: "Gillette Stadium",
+            stadiumCity: "Foxboro, MA"
+        },
+        {
+            _id: "19823783734d1d04a1b39003",
+            location: 'Atlanta',
+            shortLocation: "ATL",
+            name: "Falcons",
+            color: "#A71930",
+            stadiumName: "Mercedes-Benz Stadium",
+            stadiumCity: "Atlanta, GA"
+        },
+        {
+            _id: "19823783734d1d04a1b39004",
+            location: 'Chicago',
+            shortLocation: "CHI",
+            name: "Bears",
+            color: "#00143F",
+            stadiumName: "Soldier Field",
+            stadiumCity: "Chicago, IL"
+        },
+        {
+            _id: "19823783734d1d04a1b39005",
+            location: 'Arizona',
+            shortLocation: "ARI",
+            name: "Cardinals",
+            color: "#97233F",
+            stadiumName: "University of Phoenix Stadium",
+            stadiumCity: "Glendale, AZ"
+        },
+        {
+            _id: "19823783734d1d04a1b39006",
+            location: 'Dallas',
+            shortLocation: "DAL",
+            name: "Cowboys",
+            color: "#0C264C",
+            stadiumName: "AT&T Stadium",
+            stadiumCity: "Dallas, TX"
+        },
+        {
+            _id: "19823783734d1d04a1b39007",
+            location: 'Houston',
+            shortLocation: "HOU",
+            name: "Texans",
+            color: "#00143F",
+            stadiumName: "NRG Stadium",
+            stadiumCity: "Houston, TX"
+        },
+        {
+            _id: "19823783734d1d04a1b39008",
+            location: 'Carolina',
+            shortLocation: "CAR",
+            name: "Panthers",
+            color: "#0085CA",
+            stadiumName: "Bank of America Stadium",
+            stadiumCity: "Charlotte, NC"
+        },
+        {
+            _id: "19823783734d1d04a1b39009",
+            location: 'Miami',
+            shortLocation: "MIA",
+            name: "Dolphins",
+            color: "#0091A0",
+            stadiumName: "Hard Rock Stadium",
+            stadiumCity: "Miami, FL"
+        },
+        {
+            _id: "19823783734d1d04a1b3900a",
+            location: 'Minnesota',
+            shortLocation: "MIN",
+            name: "Vikings",
+            color: "#4F2E84",
+            stadiumName: "U.S. Bank Stadium",
+            stadiumCity: "Minneapolis, MN"
+        },
+        {
+            _id: "19823783734d1d04a1b3900b",
+            location: 'Buffalo',
+            shortLocation: "BUF",
+            name: "Bills",
+            color: "#00338D",
+            stadiumName: "New Era Field",
+            stadiumCity: "Buffalo, NY"
+        },
+        {
+            _id: "19823783734d1d04a1b3900c",
+            location: 'Washington',
+            shortLocation: "WAS",
+            name: "Redskins",
+            color: "#7C1415",
+            stadiumName: "FedExField",
+            stadiumCity: "Landover, MD"
+        },
+        {
+            _id: "19823783734d1d04a1b3900d",
+            location: 'Baltimore',
+            shortLocation: "BAL",
+            name: "Ravens",
+            color: "#241773",
+            stadiumName: "M&T Bank Stadium",
+            stadiumCity: "Baltimore, MD"
+        },
+        {
+            _id: "19823783734d1d04a1b3900e",
+            location: 'Jacksonville',
+            shortLocation: "JAC",
+            name: "Jaguars",
+            color: "#136677",
+            stadiumName: "EverBank Field",
+            stadiumCity: "Jacksonville, FL"
+        },
+        {
+            _id: "19823783734d1d04a1b3900f",
+            location: 'New Orleans',
+            shortLocation: "NO",
+            name: "Saints",
+            color: "#A08A58",
+            stadiumName: "Mercedes-Benz Superdome",
+            stadiumCity: "New Orleans, LA"
+        },
+        {
+            _id: "19823783734d1d04a1b39010",
+            location: 'Cleveland',
+            shortLocation: "CLE",
+            name: "Browns",
+            color: "#FB4F14",
+            stadiumName: "FirstEnergy Stadium",
+            stadiumCity: "Cleveland, OH"
+        },
+        {
+            _id: "19823783734d1d04a1b39011",
+            location: 'Philadelphia',
+            shortLocation: "PHI",
+            name: "Eagles",
+            color: "#014A53",
+            stadiumName: "Lincoln Financial Field",
+            stadiumCity: "Philadelphia, PA"
+        },
+        {
+            _id: "19823783734d1d04a1b39012",
+            location: 'Green Bay',
+            shortLocation: "GB",
+            name: "Packers",
+            color: "#24423c",
+            stadiumName: "Lambeau Field",
+            stadiumCity: "Green Bay, WI"
+        },
+        {
+            _id: "19823783734d1d04a1b39013",
+            location: 'Denver',
+            shortLocation: "DEN",
+            name: "Broncos",
+            color: "#FB4F14",
+            stadiumName: "Sports Authority Field",
+            stadiumCity: "Denver, CO"
+        },
+        {
+            _id: "19823783734d1d04a1b39014",
+            location: 'Pittsburgh',
+            shortLocation: "PIT",
+            name: "Steelers",
+            color: "#FFC20E",
+            stadiumName: "Heinz Field",
+            stadiumCity: "Pittsburgh, PA"
+        },
+        {
+            _id: "19823783734d1d04a1b39015",
+            location: 'New York',
+            shortLocation: "NY",
+            name: "Giants",
+            color: "#192E6C",
+            stadiumName: "MetLife Stadium",
+            stadiumCity: "East Rutherford, NJ"
+        },
+        {
+            _id: "19823783734d1d04a1b39016",
+            location: 'Tampa Bay',
+            shortLocation: "TB",
+            name: "Buccaneers",
+            color: "#D40909",
+            stadiumName: "Raymond James Stadium",
+            stadiumCity: "Tampa, FL"
+        },
+        {
+            _id: "19823783734d1d04a1b39017",
+            location: 'Cincinnati',
+            shortLocation: "CIN",
+            name: "Bengals",
+            color: "#FB4F14",
+            stadiumName: "Paul Brown Stadium",
+            stadiumCity: "Cincinnati, OH"
+        },
+        {
+            _id: "19823783734d1d04a1b39018",
+            location: 'San Francisco',
+            shortLocation: "SF",
+            name: "49ers",
+            color: "#C9243F",
+            stadiumName: "Levi's Stadium",
+            stadiumCity: "Santa Clara, CA"
+        },
+        {
+            _id: "19823783734d1d04a1b39019",
+            location: 'Tennessee',
+            shortLocation: "TEN",
+            name: "Titans",
+            color: "#4095D1",
+            stadiumName: "Nissan Stadium",
+            stadiumCity: "Nashville, TN"
+        },
+        {
+            _id: "19823783734d1d04a1b3901a",
+            location: 'New York',
+            shortLocation: "NY",
+            name: "Jets",
+            color: "#FB4F14",
+            stadiumName: "MetLife Stadium",
+            stadiumCity: "East Rutherford, NJ"
+        },
+        {
+            _id: "19823783734d1d04a1b3901b",
+            location: 'Los Angeles',
+            shortLocation: "LA",
+            name: "Rams",
+            color: "#95774C",
+            stadiumName: "Los Angeles Stadium",
+            stadiumCity: "Inglewood, CA"
+        },
+        {
+            _id: "19823783734d1d04a1b3901c",
+            location: 'Oakland',
+            shortLocation: "OAK",
+            name: "Raiders",
+            color: "#C4C9CC",
+            stadiumName: "Oakland Alameda Coliseum",
+            stadiumCity: "Oakland, CA"
+        },
+        {
+            _id: "19823783734d1d04a1b3901d",
+            location: 'Detroit',
+            shortLocation: "DET",
+            name: "Lions",
+            color: "#046EB4",
+            stadiumName: "Ford Field",
+            stadiumCity: "Detroit, MI"
+        },
+        {
+            _id: "19823783734d1d04a1b3901e",
+            location: 'Indianapolis',
+            shortLocation: "IND",
+            name: "Colts",
+            color: "#003D79",
+            stadiumName: "Lucas Oil Stadium",
+            stadiumCity: "Indianapolis, IN"
+        },
+        {
+            _id: "19823783734d1d04a1b3901f",
+            location: 'Seattle',
+            shortLocation: "SEA",
+            name: "Seahawks",
+            color: "#7AC142",
+            stadiumName: "Raymond James Stadium",
+            stadiumCity: "Tampa, FL"
+        },
+        {
+            _id: "19823783734d1d04a1b39000",
+            location: 'Los Angeles',
+            shortLocation: "LA",
+            name: "Chargers",
+            color: "#2072BA",
+            stadiumName: "CenturyLink Field",
+            stadiumCity: "Seattle, WA"
+        }
+    ];
+
+    for (var i = 0, len = games.length; i < len; i++) {
+        let game = games[i];
+        
+        let competitors = [];
+
+        let awayteam = teamData.find(x=>x.location === game.awayteam || x.location + " " + x.name === game.awayteam);
+
+        let awaycompetitor = {
+            _id: mongoose.Types.ObjectId(awayteam._id)
+        };
+
+        let hometeam = teamData.find(x=>x.location === game.hometeam || x.location + " " + x.name === game.hometeam);
+
+        competitors.push(awaycompetitor);
+
+        let homecompetitor = {
+            _id: mongoose.Types.ObjectId(hometeam._id)
+        };
+
+        competitors.push(homecompetitor);
+
+        let date = new Date(new Date(game.startdate + ", 2017 " + game.starttime).toUTCString()).toISOString();
+
+        date = date.split('.')[0] + '+04:00';
+        
+        const formattedGame = {
+            startDateTime: date,
+            station: game.station,
+            leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
+            weekNo: 2,
+            competitors: competitors
+        };
+
+        gameRepository.create(formattedGame, function (err, gameCreated) {
+            if (err) {
+                console.log("There was a problem adding the information to the database: " + err.message);
+            }  
+            
+            console.log("Success Creating: " + gameCreated._id);
+        });
+    };
 });
 
 module.exports = router;
