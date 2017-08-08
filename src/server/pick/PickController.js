@@ -9,12 +9,13 @@ var pickDomain = require('./PickDomain');
 var pickRepository = require('./PickRepository');
 
 router.post('/picks/', function (req, res) {
+
     const pick = {
         userId: req.user.sub,
         leagueId: mongoose.Types.ObjectId(req.body.leagueId),
         weekNo: req.body.weekNo,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
-        pickId: mongoose.Schema.Types.ObjectId(req.body.pickId),
+        pickId: req.body.pickId,
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
@@ -30,7 +31,7 @@ router.post('/picks/', function (req, res) {
 router.put('/picks/:id', function (req, res) {
     const pick = {
         gameId: mongoose.Types.ObjectId(req.body.gameId),
-        pickId: req.body.pickId,
+        pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
     pickDomain.updatePick(req.params.id, pick, function (err, pick) {
