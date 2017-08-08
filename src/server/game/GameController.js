@@ -141,7 +141,7 @@ router.post('/games/creategames', function (req, res) {
     //               }
     //             ];
 
-        const teamData = [
+            const teamData = [
         {
             _id: "19823783734d1d04a1b39001",
             location: 'Kansas City',
@@ -372,7 +372,7 @@ router.post('/games/creategames', function (req, res) {
             location: 'New York',
             shortLocation: "NY",
             name: "Jets",
-            color: "#FB4F14",
+            color: "#203731",
             stadiumName: "MetLife Stadium",
             stadiumCity: "East Rutherford, NJ"
         },
@@ -418,8 +418,8 @@ router.post('/games/creategames', function (req, res) {
             shortLocation: "SEA",
             name: "Seahawks",
             color: "#7AC142",
-            stadiumName: "Raymond James Stadium",
-            stadiumCity: "Tampa, FL"
+            stadiumName: "CenturyLink Field",
+            stadiumCity: "Seattle, WA"
         },
         {
             _id: "19823783734d1d04a1b39000",
@@ -427,8 +427,8 @@ router.post('/games/creategames', function (req, res) {
             shortLocation: "LA",
             name: "Chargers",
             color: "#2072BA",
-            stadiumName: "CenturyLink Field",
-            stadiumCity: "Seattle, WA"
+            stadiumName: "Los Angeles Stadium",
+            stadiumCity: "Inglewood, CA"
         }
     ];
 
