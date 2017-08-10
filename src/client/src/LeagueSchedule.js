@@ -403,7 +403,6 @@ class LeagueSchedule extends Component {
 
         this.state = {
             dataLoading: true,
-            selectionInProgress: false,
             value1: 1, 
             value2: 1, 
             leagueName: "NFL",
@@ -471,8 +470,6 @@ class LeagueSchedule extends Component {
             return;
         }
 
-        this.setState({selectionInProgress: true});
-
         const pick = this.state.picks.find(x=>x.gameId === gameId);
 
         if (pick && newPickId) {
@@ -528,14 +525,8 @@ class LeagueSchedule extends Component {
             });
 
             this.setState({
-                games: games
-            });
-
-            this.setState({
-                picks: picks
-            });
-
-            this.setState({
+                games: games,
+                picks: picks,
                 dataLoading: false
             });
         });
@@ -557,8 +548,6 @@ class LeagueSchedule extends Component {
 
             competitorSelected.showCheck = true;
         }
-        
-       this.setState({selectionInProgress: false});
     }
 
     render() {
