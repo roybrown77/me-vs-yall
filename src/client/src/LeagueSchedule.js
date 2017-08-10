@@ -403,6 +403,7 @@ class LeagueSchedule extends Component {
 
         this.state = {
             dataLoading: true,
+            selectionInProgress: false,
             value1: 1, 
             value2: 1, 
             leagueName: "NFL",
@@ -470,6 +471,8 @@ class LeagueSchedule extends Component {
             return;
         }
 
+        this.setState({selectionInProgress: true});
+
         const pick = this.state.picks.find(x=>x.gameId === gameId);
 
         if (pick && newPickId) {
@@ -483,7 +486,7 @@ class LeagueSchedule extends Component {
         }
 
         api.createPick({leagueId:'59723313734d1d6202a85f10', weekNo: game.weekNo, gameId:gameId, pickId:newPickId}, response => {
-            this.setState({ picks: [...this.state.picks, response] });
+            this.setState({ picks: [...this.state.picks, response]});
             this.updatePickInUI(game, competitorId);
         });
     }
@@ -548,6 +551,8 @@ class LeagueSchedule extends Component {
 
             competitorSelected.showCheck = true;
         }
+        
+       this.setState({selectionInProgress: false});
     }
 
     render() {
