@@ -41,7 +41,8 @@ import Spinner from './Spinner';
         },
         list: {
             width: '100%',
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
+            margin: '0 !important'
         },
         tile: {
             width: '100%',
@@ -632,7 +633,8 @@ class LeagueSchedule extends Component {
                                     </GridList>
                                     <div style={{
                                         width: '100%', 
-                                        margin:'12px -2px',
+                                        margin:'12px 0',
+                                        marginLeft: '4px',
                                         fontSize: '14px',
                                         fontWeight: 'bold',
                                         color: 'gray',
