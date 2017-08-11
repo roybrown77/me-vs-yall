@@ -94,6 +94,7 @@ import history from './history';
 
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
+const EXPIRATION_KEY = 'expires_at';
 
 const CLIENT_ID = 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d';
 const CLIENT_DOMAIN = 'mevsyall.auth0.com';
@@ -132,6 +133,7 @@ export function serverLogout() {
 export function logout() {
   clearIdToken();
   clearAccessToken();
+  clearExpiration();
   history.push('/');
 }
 
@@ -159,6 +161,21 @@ export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
+export function setExpiration() {
+  auth.parseHash((err, authResult) => {
+    if (authResult && authResult.accessToken && authResult.idToken) {
+      let expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
+      localStorage.setItem(EXPIRATION_KEY, expiresAt);
+    } else if (err) {
+      console.log(err);
+    }
+  });
+}
+
+function getTokenExpirationDate() {
+  return localStorage.getItem(EXPIRATION_KEY);
+}
+
 export function getUserProfile(cb) {
   let token = getAccessToken();
   auth.client.userInfo(token, (err, profile) => {
@@ -166,20 +183,10 @@ export function getUserProfile(cb) {
   });
 }
 
-function getTokenExpirationDate(encodedToken) {
-  const token = decode(encodedToken);
-  if (!token.exp) { return null; }
-
-  const date = new Date(0);
-  date.setUTCSeconds(token.exp);
-
-  return date;
-}
-
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
-  const currentDate = new Date();
-  return expirationDate < currentDate;
+  let expiresAt = JSON.parse(expirationDate);
+  return new Date().getTime() >= expiresAt;
 }
 
 function clearIdToken() {
@@ -188,6 +195,10 @@ function clearIdToken() {
 
 function clearAccessToken() {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
+}
+
+function clearExpiration() {
+  localStorage.removeItem(EXPIRATION_KEY);
 }
 
 function getParameterByName(name) {
