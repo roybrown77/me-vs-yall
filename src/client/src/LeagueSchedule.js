@@ -405,6 +405,10 @@ class LeagueSchedule extends Component {
         this.state = {
             dataLoading: true,
             selectionInProgress: false,
+            areAnyGamesOver: false,
+            wins: 0,
+            losses: 0,
+            ties: 0,
             value1: 1, 
             value2: 1, 
             leagueName: "NFL",
@@ -511,6 +515,10 @@ class LeagueSchedule extends Component {
             const picks = response[1];
 
             games = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+            
+            let wins = 0;
+            let losses = 0;
+            let ties = 0;
 
             games.map((game)=>{
                 game.startDateTimeDisplay = moment.utc(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
@@ -518,20 +526,39 @@ class LeagueSchedule extends Component {
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
                 game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
+                if (game.isGameOver && game.competitors[0].score === game.competitors[1].score ) {
+                    ++ties;
+                }
+
                 return game.competitors.map((competitor, index)=> {
                     const team = teamData.find(x=>x._id === competitor._id);
                     competitor.shortLocation = team.shortLocation;
                     competitor.name = team.name;
                     competitor.color = team.color;
-                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;    
+                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
+
+                    if (competitor.showCheck && competitor._id === game.winner && game.isGameOver) {
+                        ++wins;
+                    }
+
+                    if (competitor.showCheck && competitor._id !== game.winner && game.isGameOver) {
+                        ++losses;
+                    }
+
                     return competitor;
                 });
             });
 
+            const areAnyGamesOver = games.some(x=>!!x.isGameOver);
+            
             this.setState({
                 games: games,
                 picks: picks,
-                dataLoading: false
+                dataLoading: false,
+                areAnyGamesOver: areAnyGamesOver,
+                wins: wins,
+                losses: losses,
+                ties: ties
             });
         });
     }
@@ -557,6 +584,7 @@ class LeagueSchedule extends Component {
     }
 
     render() {
+        const record = this.state.wins +  " - " + this.state.losses + " - " + this.state.ties;
         return (
             <div>
                 <Header/>
@@ -596,6 +624,7 @@ class LeagueSchedule extends Component {
                             ))}
                         </DropDownMenu>
                     </div>
+                    {this.state.areAnyGamesOver && <div style={{margin: '12px 0', fontSize: '40px', color: 'gray'}}>{record}</div>}
                         <div style={grid.root}>
                             {this.state.dataLoading && <Spinner/>}
                             {!this.state.dataLoading && this.state.games.map((game, index1) => (
@@ -632,13 +661,10 @@ class LeagueSchedule extends Component {
                                         ))}
                                     </GridList>
                                     <div style={{
-                                        width: '100%', 
-                                        margin:'12px 0',
-                                        marginLeft: '4px',
+                                        width: '100%',
                                         fontSize: '14px',
                                         fontWeight: 'bold',
-                                        color: 'gray',
-                                        height: '12px'
+                                        color: 'gray'
                                     }}>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTimeDisplay}</div>
                                         <div style={{float: 'left', marginRight:'24px'}}>{game.station}</div>
