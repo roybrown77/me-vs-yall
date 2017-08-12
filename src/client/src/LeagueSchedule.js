@@ -397,8 +397,157 @@ import Spinner from './Spinner';
             stadiumCity: "Inglewood, CA"
         }
     ];
-    
+
 class LeagueSchedule extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            league: "NFL",
+            year: 2017,
+            week: 0
+        };
+
+    this.handleFilterLeague = this.handleFilterLeague.bind(this);
+    this.handleFilterYear = this.handleFilterYear.bind(this);
+    this.handleFilterWeek = this.handleFilterWeek.bind(this);
+  }
+
+  handleFilterLeague(filterLeague) {
+    this.setState({
+      filterLeague: filterLeague
+    });
+  }
+
+  handleFilterYear(filterYear) {
+    this.setState({
+      filterYear: filterYear
+    })
+  }
+  
+  handleFilterWeek(filterWeek) {
+    this.setState({
+      filterWeek: filterWeek
+    })
+  }
+
+    render() {
+        return (
+            <div>
+                <Header/>
+                <div className="page-container">
+                    <GameSearchBar 
+                        league={this.state.league} 
+                        year={this.state.year}
+                        week={this.state.week}
+                        weeks={weeks}
+                        onFilterLeague={this.handleFilterLeague}
+                        onFilterYear={this.handleFilterYear}
+                        onFilterWeek={this.handleFilterWeek}
+                    />
+                </div>
+                <Footer/>
+            </div>
+        )
+    }
+}
+
+class GameSearchBar extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleFilterLeagueInputChange = this.handleFilterLeagueInputChange.bind(this);
+        this.handleFilterYearInputChange = this.handleFilterYearInputChange.bind(this);
+        this.handleFilterWeekInputChange = this.handleFilterWeekInputChange.bind(this);
+      }
+      
+      handleFilterLeagueInputChange(e) {
+        this.props.onFilterLeagueInput(e.target.value);
+      }
+      
+      handleFilterYearInputChange(e) {
+        this.props.handleFilterYearInputChange(e.target.value);
+      }
+
+      handleFilterWeekInputChange(e) {
+        this.props.onFilterWeekInput(e.target.value);
+      }
+      
+      render() {
+        console.log("week: " + JSON.stringify(this.props.week));
+        console.log("weeks: " + JSON.stringify(this.props.weeks));
+
+        return (
+          <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
+                        <RaisedButton
+                          label="Filtration"
+                          labelPosition="before"
+                          primary={true}
+                          icon={<ActionAndroid />}
+                          style={filterButton.button}
+                        />
+                        <DropDownMenu
+                            value={0}
+                            onChange={this.handleFilterLeagueInputChange}
+                            style={dropDown.root}
+                            autoWidth={false}
+                            >
+                            <MenuItem value={0} primaryText={this.props.league}/>
+                        </DropDownMenu>
+                        <DropDownMenu
+                            value={0}
+                            onChange={this.handleFilterYearInputChange}
+                            style={dropDown.root}
+                            autoWidth={false}
+                            >
+                            <MenuItem value={0} primaryText="2017" />
+                        </DropDownMenu>
+                        <DropDownMenu
+                            value={this.props.week}
+                            onChange={this.handleFilterWeekInputChange}
+                            style={dropDownFull.root}
+                            autoWidth={false}
+                            >
+                            {this.props.weeks.map((week, index) => (
+                                <MenuItem key={index} value={index} primaryText={week.displayName}  />
+                            ))}
+                        </DropDownMenu>
+                    </div>
+        );
+      }
+}
+
+          // <form>
+          //   <input
+          //     type="text"
+          //     placeholder="Search..."
+          //     value={this.props.filterText}
+          //     onChange={this.handleFilterTextInputChange}
+          //   />
+          //   <p>
+          //     <input
+          //       type="checkbox"
+          //       checked={this.props.inStockOnly}
+          //       onChange={this.handleInStockInputChange}
+          //     />
+          //     {' '}
+          //     Only show products in stock
+          //   </p>
+          // </form>
+
+class GamesAndPicks extends Component {
+    constructor(props) {
+        super(props);
+    }
+}
+
+class GameAndPick extends Component {
+    constructor(props) {
+        super(props);
+    }
+}
+
+class LeagueSchedule2 extends Component {
     constructor(props) {
         super(props);
 
