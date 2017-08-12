@@ -114,7 +114,13 @@ var auth = new auth0.WebAuth({
 
 export function isLoggedIn() {
   const idToken = getIdToken();
-  return !!idToken && !isTokenExpired(idToken);
+  const tokenExpired = !isTokenExpired(idToken);
+  //console.log("isTokenExpired: " + tokenExpired);
+  const token = !!idToken;
+  //console.log("token: " + token);
+  const result = token && !tokenExpired;
+  //console.log("isLoggedIn: " + result);
+  return result;
 }
 
 export function googleLogin() {
@@ -162,14 +168,11 @@ export function getAccessToken() {
 }
 
 export function setExpiration() {
-  auth.parseHash((err, authResult) => {
-    if (authResult && authResult.accessToken && authResult.idToken) {
-      let expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
-      localStorage.setItem(EXPIRATION_KEY, expiresAt);
-    } else if (err) {
-      console.log(err);
-    }
-  });
+  console.log("setExpiration");
+  let expiresIn = getParameterByName(EXPIRATION_KEY);
+  console.log("expiresIn: " + expiresIn);
+  let expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime());
+  localStorage.setItem(EXPIRATION_KEY, expiresAt);
 }
 
 function getTokenExpirationDate() {

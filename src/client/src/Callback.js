@@ -1,10 +1,11 @@
 import { Component } from 'react';
-import { setIdToken, setAccessToken } from './middleware/AuthService';
+import { setIdToken, setAccessToken, setExpiration } from './middleware/AuthService';
 
 class Callback extends Component {
   componentDidMount() {
     setAccessToken();
     setIdToken();
+    setExpiration();
     window.location.href = "/leagues/nfl";
   }
 
