@@ -402,10 +402,24 @@ class LeagueSchedule extends Component {
     constructor(props) {
         super(props);
 
+        weeks.map((week)=>{
+            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
+            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
+
+            if (startDateTime !== endDateTime) {
+                week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D') + " - " + moment.utc(week.endDateTime).format('ddd M/D');
+            } else {
+                week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D');
+            }
+
+            return week;
+        });
+
         this.state = {
             league: "NFL",
             year: 2017,
-            week: 0
+            currentWeek: weeks.length-1,
+            weeks: weeks
         };
 
     this.handleFilterLeague = this.handleFilterLeague.bind(this);
@@ -439,8 +453,8 @@ class LeagueSchedule extends Component {
                     <GameSearchBar 
                         league={this.state.league} 
                         year={this.state.year}
-                        week={this.state.week}
-                        weeks={weeks}
+                        currentWeek={this.state.currentWeek}
+                        weeks={this.state.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}
@@ -462,20 +476,21 @@ class GameSearchBar extends Component {
       }
       
       handleFilterLeagueInputChange(e) {
-        this.props.onFilterLeagueInput(e.target.value);
+        this.props.onFilterLeague(e.target.value);
       }
       
       handleFilterYearInputChange(e) {
-        this.props.handleFilterYearInputChange(e.target.value);
+        this.props.handleFilterYear(e.target.value);
       }
 
       handleFilterWeekInputChange(e) {
-        this.props.onFilterWeekInput(e.target.value);
+        this.props.onFilterWeek(e.target.value);
       }
       
       render() {
-        console.log("week: " + JSON.stringify(this.props.week));
-        console.log("weeks: " + JSON.stringify(this.props.weeks));
+        const weeks = this.props.weeks.map((week, index) =>
+                        <MenuItem key={index} value={index} primaryText={week.displayName}  />
+                      );
 
         return (
           <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
@@ -503,18 +518,16 @@ class GameSearchBar extends Component {
                             <MenuItem value={0} primaryText="2017" />
                         </DropDownMenu>
                         <DropDownMenu
-                            value={this.props.week}
+                            value={this.props.currentWeek}
                             onChange={this.handleFilterWeekInputChange}
                             style={dropDownFull.root}
                             autoWidth={false}
                             >
-                            {this.props.weeks.map((week, index) => (
-                                <MenuItem key={index} value={index} primaryText={week.displayName}  />
-                            ))}
+                            {weeks}
                         </DropDownMenu>
                     </div>
         );
-      }
+    }
 }
 
           // <form>

@@ -456,7 +456,8 @@ router.post('/games/creategames', function (req, res) {
     //     let awayteam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.awayteam);
 
     //     let awaycompetitor = {
-    //         _id: mongoose.Types.ObjectId(awayteam._id)
+    //         _id: mongoose.Types.ObjectId(awayteam._id),
+    //         name: awayteam.location + " " + awayteam.name
     //     };
 
     //     let hometeam = teamData.find(x=>(x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.hometeam);
@@ -464,7 +465,8 @@ router.post('/games/creategames', function (req, res) {
     //     competitors.push(awaycompetitor);
 
     //     let homecompetitor = {
-    //         _id: mongoose.Types.ObjectId(hometeam._id)
+    //         _id: mongoose.Types.ObjectId(hometeam._id),
+    //         name: hometeam.location + " " + hometeam.name
     //     };
 
     //     competitors.push(homecompetitor);
