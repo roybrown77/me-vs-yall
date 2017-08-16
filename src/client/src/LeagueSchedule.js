@@ -419,7 +419,8 @@ class Schedules extends Component {
             league: "NFL",
             year: 2017,
             currentWeek: formattedWeeks.length-1,
-            weeks: formattedWeeks
+            weeks: formattedWeeks,
+            picks: []
         };
 
     this.handleFilterLeague = this.handleFilterLeague.bind(this);
@@ -459,7 +460,7 @@ class Schedules extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}
                     />
-                    <GamesAndPicks games={this.props.games || []} picks={this.props.picks || []} />
+                    <GamesAndPicks games={this.props.games || []} picks={this.state.picks || []} />
                 </div>
                 <Footer/>
             </div>
@@ -559,6 +560,16 @@ class GamesAndPicks extends Component {
 class GameAndPick extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            gameAndPickLoading: false,
+            pickProcessing: false
+        };
+        
+        this.handlePick = this.handlePick.bind(this);
+    }
+
+    handlePick(gameId, pickId) {
     }
 
     render() {
@@ -611,19 +622,23 @@ class Schedules2 extends Component {
         super(props);
 
         this.state = {
-            dataLoading: true,
-            selectionInProgress: false,
+            leagueName: "NFL",
+            selectedWeek: 0,
+            weeks: [],
+
             areAnyGamesOver: false,
             wins: 0,
             losses: 0,
             ties: 0,
-            value1: 1, 
-            value2: 1, 
-            leagueName: "NFL",
-            selectedWeek: 0,
-            weeks: [],
+
+            dataLoading: true,
             games: [], 
-            picks: []
+
+            selectionInProgress: false,
+            picks: [],
+            
+            value1: 1, 
+            value2: 1
         };
     }
 
