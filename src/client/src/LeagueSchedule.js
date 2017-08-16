@@ -398,11 +398,11 @@ import Spinner from './Spinner';
         }
     ];
 
-class LeagueSchedule extends Component {
+class Schedules extends Component {
     constructor(props) {
         super(props);
 
-        weeks.map((week)=>{
+       const formattedWeeks = weeks.map((week)=>{
             const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
             const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
 
@@ -418,8 +418,8 @@ class LeagueSchedule extends Component {
         this.state = {
             league: "NFL",
             year: 2017,
-            currentWeek: weeks.length-1,
-            weeks: weeks
+            currentWeek: formattedWeeks.length-1,
+            weeks: formattedWeeks
         };
 
     this.handleFilterLeague = this.handleFilterLeague.bind(this);
@@ -459,6 +459,7 @@ class LeagueSchedule extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}
                     />
+                    <GamesAndPicks games={this.props.games || []} picks={this.props.picks || []} />
                 </div>
                 <Footer/>
             </div>
@@ -530,27 +531,28 @@ class GameSearchBar extends Component {
     }
 }
 
-          // <form>
-          //   <input
-          //     type="text"
-          //     placeholder="Search..."
-          //     value={this.props.filterText}
-          //     onChange={this.handleFilterTextInputChange}
-          //   />
-          //   <p>
-          //     <input
-          //       type="checkbox"
-          //       checked={this.props.inStockOnly}
-          //       onChange={this.handleInStockInputChange}
-          //     />
-          //     {' '}
-          //     Only show products in stock
-          //   </p>
-          // </form>
-
 class GamesAndPicks extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            dataLoading: false
+        };
+    }
+
+    render() {
+        let rows = [];
+        this.props.games.forEach(function(game) {
+            const pick = this.props.picks.find(x=>x.gameId === game._id);
+            rows.push(<GameAndPick game={game} pick={pick} key={game._id} />);
+        });
+
+        return (
+            <div style={grid.root}>
+                {this.state.dataLoading && <Spinner/>}
+                {rows}
+            </div>
+        );
     }
 }
 
@@ -558,9 +560,53 @@ class GameAndPick extends Component {
     constructor(props) {
         super(props);
     }
+
+    render() {
+        // var name = this.props.product.stocked ?
+        //   this.props.product.name :
+        //   <span style={{color: 'red'}}>
+        //     {this.props.product.name}
+        //   </span>;
+
+        return (
+            <div key={this.props.game._id} style={{width:'100%', marginBottom: '12px'}}>
+                <GridList key={this.props.game._id + "-gridlist"} style={grid.list}>
+                    {this.props.game.competitors.map((competitor) => (
+                        <GridTile
+                        key={this.props.game._id + "." + competitor._id}
+                        className="grid-tile"
+                        style={grid.tile}
+                        title={competitor.name}
+                        titleStyle={grid.titleStyle}
+                        titleBackground={grid.titleBackground}
+                        onClick={() => this.selectCompetitor(this.props.game._id, competitor._id, competitor.showCheck)}>
+                        <div style={{
+                            border: competitor.showCheck ? 
+                            (this.props.game.isGameOver ? (this.props.game.winner ? (this.props.game.winner === competitor._id ? '8px solid green' : '8px solid red') : 
+                                '8px solid #f0ad4e') : '8px solid #BA68C8') : '0', height: "91%",
+                            color: competitor.color}}>
+                            <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
+                                {competitor.score}
+                            </div>
+                            <div style={{paddingTop: competitor.score ? '10px' : '26px'}}>
+                                {competitor.shortLocation}
+                            </div>
+                        </div>
+                        </GridTile>
+                    ))}                            
+                </GridList>
+                <div style={{width: '100%',fontSize: '14px',fontWeight: 'bold',color: 'gray'}}>
+                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.startDateTimeDisplay}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.station}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.stadiumName}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.stadiumCity}</div>
+                </div>
+            </div>
+        );
+    }
 }
 
-class LeagueSchedule2 extends Component {
+class Schedules2 extends Component {
     constructor(props) {
         super(props);
 
@@ -843,4 +889,4 @@ class LeagueSchedule2 extends Component {
     }
 }
 
-export default LeagueSchedule;
+export default Schedules;
