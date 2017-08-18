@@ -576,10 +576,9 @@ class Games extends Component {
     render() {
         const { picks, games } = this.props;
 
-        let rows = [];
-        games.forEach(function(game) {
+        const rows = games.map(function(game) {
             const pick = picks.find(x=>x.gameId === game._id);
-            rows.push(<Game game={game} pick={pick} key={game._id} />);
+            return <Game game={game} pick={pick} key={game._id} />;
         });
 
         return (
