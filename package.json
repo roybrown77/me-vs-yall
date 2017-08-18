@@ -10,7 +10,8 @@
     "jwks-rsa": "^1.2.0",
     "moment": "^2.18.1",
     "mongoose": "^4.11.4",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "prop-types": "^15.5.10"
   },
   "devDependencies": {
     "concurrently": "^3.5.0",

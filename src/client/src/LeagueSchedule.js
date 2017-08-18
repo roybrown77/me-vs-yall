@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import update from 'react-addons-update';
 import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
@@ -419,8 +420,7 @@ class Schedules extends Component {
             league: "NFL",
             year: 2017,
             currentWeek: formattedWeeks.length-1,
-            weeks: formattedWeeks,
-            picks: []
+            weeks: formattedWeeks
         };
 
     this.handleFilterLeague = this.handleFilterLeague.bind(this);
@@ -460,7 +460,39 @@ class Schedules extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}
                     />
-                    <GamesAndPicks games={this.props.games || []} picks={this.state.picks || []} />
+                    <Games games={this.props.games || [
+                        {
+    "_id": "5989007136e954b6bd131b9b",
+    "startDateTime": "2017-08-11T00:00:00+04:00",
+    "station": "",
+    "leagueId": "59723313734d1d6202a85f10",
+    "weekNo": 2,
+    "competitors": [
+        {
+            "_id": "19823783734d1d04a1b3900f"
+        },
+        {
+            "_id": "19823783734d1d04a1b39010"
+        }
+    ]
+},
+{
+    "_id": "5989007136e954b6bd131b9c",
+    "startDateTime": "2017-08-11T00:00:00+04:00",
+    "station": "",
+    "leagueId": "59723313734d1d6202a85f10",
+    "weekNo": 2,
+    "competitors": [
+        {
+            "_id": "19823783734d1d04a1b39011"
+        },
+        {
+            "_id": "19823783734d1d04a1b39012"
+        }
+    ]
+}
+]
+} picks={this.props.picks || []} />
                 </div>
                 <Footer/>
             </div>
@@ -532,7 +564,7 @@ class GameSearchBar extends Component {
     }
 }
 
-class GamesAndPicks extends Component {
+class Games extends Component {
     constructor(props) {
         super(props);
 
@@ -542,10 +574,12 @@ class GamesAndPicks extends Component {
     }
 
     render() {
+        const { picks, games } = this.props;
+
         let rows = [];
-        this.props.games.forEach(function(game) {
-            const pick = this.props.picks.find(x=>x.gameId === game._id);
-            rows.push(<GameAndPick game={game} pick={pick} key={game._id} />);
+        games.forEach(function(game) {
+            const pick = picks.find(x=>x.gameId === game._id);
+            rows.push(<Game game={game} pick={pick} key={game._id} />);
         });
 
         return (
@@ -557,7 +591,12 @@ class GamesAndPicks extends Component {
     }
 }
 
-class GameAndPick extends Component {
+Games.propTypes = {
+  games: PropTypes.array,
+  picks: PropTypes.array
+};
+
+class Game extends Component {
     constructor(props) {
         super(props);
 
@@ -579,21 +618,23 @@ class GameAndPick extends Component {
         //     {this.props.product.name}
         //   </span>;
 
+        const { game, pick } = this.props;
+
         return (
-            <div key={this.props.game._id} style={{width:'100%', marginBottom: '12px'}}>
-                <GridList key={this.props.game._id + "-gridlist"} style={grid.list}>
-                    {this.props.game.competitors.map((competitor) => (
+            <div key={game._id} style={{width:'100%', marginBottom: '12px'}}>
+                <GridList key={game._id + "-gridlist"} style={grid.list}>
+                    {game.competitors.map((competitor) => (
                         <GridTile
-                        key={this.props.game._id + "." + competitor._id}
+                        key={game._id + "." + competitor._id}
                         className="grid-tile"
                         style={grid.tile}
                         title={competitor.name}
                         titleStyle={grid.titleStyle}
                         titleBackground={grid.titleBackground}
-                        onClick={() => this.selectCompetitor(this.props.game._id, competitor._id, competitor.showCheck)}>
+                        onClick={() => this.selectCompetitor(game._id, competitor._id, competitor.showCheck)}>
                         <div style={{
                             border: competitor.showCheck ? 
-                            (this.props.game.isGameOver ? (this.props.game.winner ? (this.props.game.winner === competitor._id ? '8px solid green' : '8px solid red') : 
+                            (game.isGameOver ? (game.winner ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : 
                                 '8px solid #f0ad4e') : '8px solid #BA68C8') : '0', height: "91%",
                             color: competitor.color}}>
                             <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
@@ -607,15 +648,20 @@ class GameAndPick extends Component {
                     ))}                            
                 </GridList>
                 <div style={{width: '100%',fontSize: '14px',fontWeight: 'bold',color: 'gray'}}>
-                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.startDateTimeDisplay}</div>
-                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.station}</div>
-                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.stadiumName}</div>
-                    <div style={{float: 'left', marginRight:'24px'}}>{this.props.game.stadiumCity}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTimeDisplay}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{game.station}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumName}</div>
+                    <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumCity}</div>
                 </div>
             </div>
         );
     }
 }
+
+Game.propTypes = {
+  game: PropTypes.object,
+  pick: PropTypes.object
+};
 
 class Schedules2 extends Component {
     constructor(props) {
