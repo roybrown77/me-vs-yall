@@ -67,23 +67,23 @@ import Spinner from './Spinner';
                         weekNo: 1,
                         weekNumberDisplay: "",
                         namePrefix: "Hall of Fame Game",
-                        endDateTime: "2017-08-04T02:00:00+04:00",
-                        beginDateTime: "2017-08-03T05:00:00+04:00"
+                        beginDateTime: "2017-08-03T05:00:00+04:00",
+                        endDateTime: "2017-08-04T02:00:00+04:00"
                     },
                     {
                         weekNo: 2,
                         weekNumberDisplay: 1,
                         namePrefix: "Pre Week",
-                        endDateTime: "2017-08-14T02:00:00+04:00",
-                        beginDateTime: "2017-08-09T05:00:00+04:00"
+                        beginDateTime: "2017-08-09T05:00:00+04:00",
+                        endDateTime: "2017-08-14T02:00:00+04:00"
                     },
-                    // {
-                    //     weekNo: 3,
-                    //     weekNumberDisplay: 2,
-                    //     namePrefix: "Pre Week",
-                    //     endDateTime: "2017-08-22T02:00:00+04:00",
-                    //     beginDateTime: "2017-08-17T05:00:00+04:00"
-                    // },
+                    {
+                        weekNo: 3,
+                        weekNumberDisplay: 2,
+                        namePrefix: "Pre Week",
+                        beginDateTime: "2017-08-17T05:00:00+04:00"
+                        endDateTime: "2017-08-22T02:00:00+04:00",
+                    },
                     // {
                     //     weekNo: 4,
                     //     weekNumberDisplay: 3,
