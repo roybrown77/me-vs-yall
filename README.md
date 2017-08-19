@@ -4,10 +4,6 @@ Pick winners of sporting events and compete with others around the world.
 
 https://mevsyall.herokuapp.com
 
-# Launch
-
-Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
-
 # Tek Stak
   
 Backend:
