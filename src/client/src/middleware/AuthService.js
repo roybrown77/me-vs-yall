@@ -103,7 +103,7 @@ const RESPONSE_TYPE = 'token id_token';
 const AUDIENCE = 'https://mevsyallcom/api/';
 const SCOPE = 'openid profile email';
 
-var auth = new auth0.WebAuth({
+const auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
   domain: CLIENT_DOMAIN,
   responseType: RESPONSE_TYPE,
@@ -150,7 +150,7 @@ export function requireAuth(nextState, replace) {
 }
 
 export function setIdToken() {
-  let idToken = getParameterByName(ID_TOKEN_KEY);
+  const idToken = getParameterByName(ID_TOKEN_KEY);
   localStorage.setItem(ID_TOKEN_KEY, idToken);
 }
 
@@ -159,7 +159,7 @@ export function getIdToken() {
 }
 
 export function setAccessToken() {
-  let accessToken = getParameterByName(ACCESS_TOKEN_KEY);
+  const accessToken = getParameterByName(ACCESS_TOKEN_KEY);
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 
@@ -169,9 +169,9 @@ export function getAccessToken() {
 
 export function setExpiration() {
   console.log("setExpiration");
-  let expiresIn = getParameterByName(EXPIRATION_KEY);
+  const expiresIn = getParameterByName(EXPIRATION_KEY);
   console.log("expiresIn: " + expiresIn);
-  let expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime());
+  const expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime());
   localStorage.setItem(EXPIRATION_KEY, expiresAt);
 }
 
@@ -188,8 +188,9 @@ export function getUserProfile(cb) {
 
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
-  let expiresAt = JSON.parse(expirationDate);
-  return new Date().getTime() >= expiresAt;
+  const expiresAt = JSON.parse(expirationDate);
+  const result = new Date().getTime() >= expiresAt;
+  return result;
 }
 
 function clearIdToken() {
@@ -205,6 +206,6 @@ function clearExpiration() {
 }
 
 function getParameterByName(name) {
-  let match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
+  const match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }

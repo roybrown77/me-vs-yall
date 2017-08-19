@@ -576,7 +576,27 @@ class Games extends Component {
     render() {
         const { picks, games } = this.props;
 
-        const rows = games.map(function(game) {
+        const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
+        const formattedGames = games.map((game)=>{
+                game.startDateTimeDisplay = moment.utc(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
+                game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
+                game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
+                game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
+
+                game.competitors = game.competitors.map((competitor, index)=> {
+                    const team = teamData.find(x=>x._id === competitor._id);
+                    competitor.shortLocation = team.shortLocation;
+                    competitor.name = team.name;
+                    competitor.color = team.color;
+                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
+                    return competitor;
+                });
+
+                return game;
+            });
+
+        const rows = formattedGames.map(function(game) {
             const pick = picks.find(x=>x.gameId === game._id);
             return <Game game={game} pick={pick} key={game._id} />;
         });
@@ -607,7 +627,7 @@ class Game extends Component {
         this.handlePick = this.handlePick.bind(this);
     }
 
-    handlePick(gameId, pickId) {
+    handlePick(gameId, pickId, showCheck) {
     }
 
     render() {
@@ -630,7 +650,7 @@ class Game extends Component {
                         title={competitor.name}
                         titleStyle={grid.titleStyle}
                         titleBackground={grid.titleBackground}
-                        onClick={() => this.selectCompetitor(game._id, competitor._id, competitor.showCheck)}>
+                        onClick={() => this.handlePick(game._id, competitor._id, competitor.showCheck)}>
                         <div style={{
                             border: competitor.showCheck ? 
                             (game.isGameOver ? (game.winner ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : 
