@@ -21,23 +21,23 @@ router.get('/games/', function (req, res) {
 
 router.post('/creategames', function (req, res) {
     const games = 
-[[
-  {
-    "awayteam": "Miami",
-    "hometeam": "Philadelphia",
-    "startdate": "Thursday, Aug 24, 2017",
-    "starttime": "7:00 PM",
-    "station": "NFLN",
-    "weekno": 4
-  },
-  {
-    "awayteam": "Carolina",
-    "hometeam": "Jacksonville",
-    "startdate": "Thursday, Aug 24, 2017",
-    "starttime": "7:30 PM",
-    "station": "",
-    "weekno": 4
-  },
+[
+  // {
+  //   "awayteam": "Miami",
+  //   "hometeam": "Philadelphia",
+  //   "startdate": "Thursday, Aug 24, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "NFLN",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Carolina",
+  //   "hometeam": "Jacksonville",
+  //   "startdate": "Thursday, Aug 24, 2017",
+  //   "starttime": "7:30 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
   // {
   //   "awayteam": "New England",
   //   "hometeam": "Detroit",
@@ -55,8 +55,8 @@ router.post('/creategames', function (req, res) {
   //   "weekno": 4
   // },
   // {
-  //   "awayteam": "N.Y. Jets",
-  //   "hometeam": "N.Y. Giants",
+  //   "awayteam": "New York Jets",
+  //   "hometeam": "New York Giants",
   //   "startdate": "Saturday, Aug 26, 2017",
   //   "starttime": "7:00 PM",
   //   "station": "",
@@ -103,8 +103,8 @@ router.post('/creategames', function (req, res) {
   //   "weekno": 4
   // },
   // {
-  //   "awayteam": "L.A. Chargers",
-  //   "hometeam": "L.A. Rams",
+  //   "awayteam": "Los Angeles Chargers",
+  //   "hometeam": "Los Angeles Rams",
   //   "startdate": "Saturday, Aug 26, 2017",
   //   "starttime": "8:00 PM",
   //   "station": "CBS",
@@ -150,7 +150,7 @@ router.post('/creategames', function (req, res) {
   //   "station": "NBC",
   //   "weekno": 4
   // }
-]];
+];
 
             const teamData = [
         {
