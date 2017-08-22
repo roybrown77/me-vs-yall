@@ -22,140 +22,138 @@ router.get('/games/', function (req, res) {
     });
 });
 
-router.post('/games/creategames', function (req, res) {
-    const games = [];
-
-//     const games = 
-// [
-//   {
-//     "awayteam": "Buffalo",
-//     "hometeam": "Philadelphia",
-//     "weekno": 3,
-//     "startdate": "Thursday, Aug 17, 2017",
-//     "starttime": "7:00 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Baltimore",
-//     "hometeam": "Miami",
-//     "weekno": 3,
-//     "startdate": "Thursday, Aug 17, 2017",
-//     "starttime": "7:00 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Tampa Bay",
-//     "hometeam": "Jacksonville",
-//     "weekno": 3,
-//     "startdate": "Thursday, Aug 17, 2017",
-//     "starttime": "8:00 PM",
-//     "station": "ESPN"
-//   },
-//   {
-//     "awayteam": "Minnesota",
-//     "hometeam": "Seattle",
-//     "weekno": 3,
-//     "startdate": "Friday, Aug 18, 2017",
-//     "starttime": "10:00 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "Carolina",
-//     "hometeam": "Tennessee",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "3:00 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "Kansas City",
-//     "hometeam": "Cincinnati",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "7:00 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Indianapolis",
-//     "hometeam": "Dallas",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "7:00 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "New York Jets",
-//     "hometeam": "Detroit",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "7:30 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Green Bay",
-//     "hometeam": "Washington",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "7:30 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "New England",
-//     "hometeam": "Houston",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "8:00 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Denver",
-//     "hometeam": "San Francisco",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "10:00 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "Los Angeles Rams",
-//     "hometeam": "Oakland",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "10:00 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Chicago",
-//     "hometeam": "Arizona",
-//     "weekno": 3,
-//     "startdate": "Saturday, Aug 19, 2017",
-//     "starttime": "10:00 PM",
-//     "station": ""
-//   },
-//   {
-//     "awayteam": "Atlanta",
-//     "hometeam": "Pittsburgh",
-//     "weekno": 3,
-//     "startdate": "Sunday, Aug 20, 2017",
-//     "starttime": "4:00 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "New Orleans",
-//     "hometeam": "Los Angeles Chargers",
-//     "weekno": 3,
-//     "startdate": "Sunday, Aug 20, 2017",
-//     "starttime": "8:00 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "New York Giants",
-//     "hometeam": "Cleveland",
-//     "weekno": 3,
-//     "startdate": "Monday, Aug 21, 2017",
-//     "starttime": "8:00 PM",
-//     "station": "ESPN"
-//   }
-// ];
+router.post('/creategames', function (req, res) {
+    const games = 
+[
+  // {
+  //   "awayteam": "Miami",
+  //   "hometeam": "Philadelphia",
+  //   "startdate": "Thursday, Aug 24, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "NFLN",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Carolina",
+  //   "hometeam": "Jacksonville",
+  //   "startdate": "Thursday, Aug 24, 2017",
+  //   "starttime": "7:30 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "New England",
+  //   "hometeam": "Detroit",
+  //   "startdate": "Friday, Aug 25, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Kansas City",
+  //   "hometeam": "Seattle",
+  //   "startdate": "Friday, Aug 25, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "CBS",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "New York Jets",
+  //   "hometeam": "New York Giants",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Buffalo",
+  //   "hometeam": "Baltimore",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Arizona",
+  //   "hometeam": "Atlanta",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Indianapolis",
+  //   "hometeam": "Pittsburgh",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:30 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Cleveland",
+  //   "hometeam": "Tampa Bay",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:30 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Houston",
+  //   "hometeam": "New Orleans",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Los Angeles Chargers",
+  //   "hometeam": "Los Angeles Rams",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "CBS",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Oakland",
+  //   "hometeam": "Dallas",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Green Bay",
+  //   "hometeam": "Denver",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "9:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Chicago",
+  //   "hometeam": "Tennessee",
+  //   "startdate": "Sunday, Aug 27, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "FOX",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Cincinnati",
+  //   "hometeam": "Washington",
+  //   "startdate": "Sunday, Aug 27, 2017",
+  //   "starttime": "4:30 PM",
+  //   "station": "FOX",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "San Francisco",
+  //   "hometeam": "Minnesota",
+  //   "startdate": "Sunday, Aug 27, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "NBC",
+  //   "weekno": 4
+  // }
+];
 
             const teamData = [
         {
@@ -448,47 +446,51 @@ router.post('/games/creategames', function (req, res) {
         }
     ];
 
-    // for (var i = 0, len = games.length; i < len; i++) {
-    //     let game = games[i];
+    for (var i = 0, len = games.length; i < len; i++) {
+        let game = games[i];
         
-    //     let competitors = [];
+        let competitors = [];
 
-    //     let awayteam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.awayteam);
+        let awayteam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.awayteam);
 
-    //     let awaycompetitor = {
-    //         _id: mongoose.Types.ObjectId(awayteam._id)
-    //     };
+        let awaycompetitor = {
+            _id: mongoose.Types.ObjectId(awayteam._id),
+            name: awayteam.location + " " + awayteam.name
+        };
 
-    //     let hometeam = teamData.find(x=>(x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.hometeam);
+        competitors.push(awaycompetitor);
 
-    //     competitors.push(awaycompetitor);
+        let hometeam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.hometeam) || x.location + " " + x.name === game.hometeam);
 
-    //     let homecompetitor = {
-    //         _id: mongoose.Types.ObjectId(hometeam._id)
-    //     };
+        let homecompetitor = {
+            _id: mongoose.Types.ObjectId(hometeam._id),
+            name: hometeam.location + " " + hometeam.name
+        };
 
-    //     competitors.push(homecompetitor);
+        competitors.push(homecompetitor);
 
-    //     let date = new Date(new Date(game.startdate + game.starttime).toUTCString()).toISOString();
+        let date = new Date(new Date(game.startdate + " " + game.starttime).toUTCString()).toISOString();
 
-    //     date = date.split('.')[0] + '+04:00';
+        date = date.split('.')[0] + '+04:00';
         
-    //     const formattedGame = {
-    //         startDateTime: date,
-    //         station: game.station,
-    //         leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
-    //         weekNo: game.weekno,
-    //         competitors: competitors
-    //     };
+        const formattedGame = {
+            startDateTime: date,
+            station: game.station,
+            leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
+            weekNo: game.weekno,
+            competitors: competitors
+        };
 
-    //     gameRepository.create(formattedGame, function (err, gameCreated) {
-    //         if (err) {
-    //             console.log("There was a problem adding the information to the database: " + err.message);
-    //         }  
+        gameRepository.create(formattedGame, function (err, gameCreated) {
+            if (err) {
+                console.log("There was a problem adding the information to the database: " + err.message);
+            }  
             
-    //         console.log("Success Creating: " + gameCreated._id);
-    //     });
-    // };
+            console.log("Success Creating: " + gameCreated._id);
+        });
+    };
+
+    res.status(200).send({message: "done", code: 200});
 });
 
 module.exports = router;

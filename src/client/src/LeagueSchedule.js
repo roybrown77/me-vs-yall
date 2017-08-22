@@ -84,27 +84,13 @@ import Spinner from './Spinner';
                         beginDateTime: "2017-08-17T05:00:00+04:00",
                         endDateTime: "2017-08-22T02:00:00+04:00"
                     },
-                    // {
-                    //     weekNo: 4,
-                    //     weekNumberDisplay: 3,
-                    //     namePrefix: "Pre Week",
-                    //     endDateTime: "2017-08-28T02:00:00+04:00",
-                    //     beginDateTime: "2017-08-24T05:00:00+04:00"
-                    // },
-                    // {
-                    //     weekNo: 5,
-                    //     weekNumberDisplay: 4,
-                    //     namePrefix: "Pre Week",
-                    //     endDateTime: "2017-09-01T02:00:00+04:00",
-                    //     beginDateTime: "2017-08-31T05:00:00+04:00"
-                    // },
-                    // {
-                    //     weekNo: 6,
-                    //     weekNumberDisplay: 1,
-                    //     namePrefix: "Week",
-                    //     endDateTime: "2017-09-12T02:00:00+04:00",
-                    //     beginDateTime: "2017-09-07T05:00:00+04:00"
-                    // }
+                    {
+                        weekNo: 4,
+                        weekNumberDisplay: 3,
+                        namePrefix: "Pre Week",
+                        beginDateTime: "2017-08-27T05:00:00+04:00",
+                        endDateTime: "2017-08-29T02:00:00+04:00"
+                    }
                   ];
 
     const teamData = [
