@@ -20,139 +20,137 @@ router.get('/games/', function (req, res) {
 });
 
 router.post('/creategames', function (req, res) {
-//    const games = [];
-
     const games = 
-[
+[[
+  {
+    "awayteam": "Miami",
+    "hometeam": "Philadelphia",
+    "startdate": "Thursday, Aug 24, 2017",
+    "starttime": "7:00 PM",
+    "station": "NFLN",
+    "weekno": 4
+  },
+  {
+    "awayteam": "Carolina",
+    "hometeam": "Jacksonville",
+    "startdate": "Thursday, Aug 24, 2017",
+    "starttime": "7:30 PM",
+    "station": "",
+    "weekno": 4
+  },
   // {
-  //   "awayteam": "Buffalo",
-  //   "hometeam": "Philadelphia",
-  //   "weekno": 3,
-  //   "startdate": "Thursday, Aug 17, 2017",
+  //   "awayteam": "New England",
+  //   "hometeam": "Detroit",
+  //   "startdate": "Friday, Aug 25, 2017",
   //   "starttime": "7:00 PM",
-  //   "station": ""
-  // },
-  // {
-  //   "awayteam": "Baltimore",
-  //   "hometeam": "Miami",
-  //   "weekno": 3,
-  //   "startdate": "Thursday, Aug 17, 2017",
-  //   "starttime": "7:00 PM",
-  //   "station": ""
-  // },
-  // {
-  //   "awayteam": "Tampa Bay",
-  //   "hometeam": "Jacksonville",
-  //   "weekno": 3,
-  //   "startdate": "Thursday, Aug 17, 2017",
-  //   "starttime": "8:00 PM",
-  //   "station": "ESPN"
-  // },
-  // {
-  //   "awayteam": "Minnesota",
-  //   "hometeam": "Seattle",
-  //   "weekno": 3,
-  //   "startdate": "Friday, Aug 18, 2017",
-  //   "starttime": "10:00 PM",
-  //   "station": "NFLN"
-  // },
-  // {
-  //   "awayteam": "Carolina",
-  //   "hometeam": "Tennessee",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "3:00 PM",
-  //   "station": "NFLN"
+  //   "station": "",
+  //   "weekno": 4
   // },
   // {
   //   "awayteam": "Kansas City",
-  //   "hometeam": "Cincinnati",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
+  //   "hometeam": "Seattle",
+  //   "startdate": "Friday, Aug 25, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "CBS",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "N.Y. Jets",
+  //   "hometeam": "N.Y. Giants",
+  //   "startdate": "Saturday, Aug 26, 2017",
   //   "starttime": "7:00 PM",
-  //   "station": ""
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Buffalo",
+  //   "hometeam": "Baltimore",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Arizona",
+  //   "hometeam": "Atlanta",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:00 PM",
+  //   "station": "",
+  //   "weekno": 4
   // },
   // {
   //   "awayteam": "Indianapolis",
-  //   "hometeam": "Dallas",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "7:00 PM",
-  //   "station": "NFLN"
+  //   "hometeam": "Pittsburgh",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "7:30 PM",
+  //   "station": "",
+  //   "weekno": 4
   // },
   // {
-  //   "awayteam": "New York Jets",
-  //   "hometeam": "Detroit",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
+  //   "awayteam": "Cleveland",
+  //   "hometeam": "Tampa Bay",
+  //   "startdate": "Saturday, Aug 26, 2017",
   //   "starttime": "7:30 PM",
-  //   "station": ""
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Houston",
+  //   "hometeam": "New Orleans",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "L.A. Chargers",
+  //   "hometeam": "L.A. Rams",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "CBS",
+  //   "weekno": 4
+  // },
+  // {
+  //   "awayteam": "Oakland",
+  //   "hometeam": "Dallas",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "8:00 PM",
+  //   "station": "",
+  //   "weekno": 4
   // },
   // {
   //   "awayteam": "Green Bay",
-  //   "hometeam": "Washington",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "7:30 PM",
-  //   "station": ""
-  // },
-  // {
-  //   "awayteam": "New England",
-  //   "hometeam": "Houston",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "8:00 PM",
-  //   "station": ""
-  // },
-  // {
-  //   "awayteam": "Denver",
-  //   "hometeam": "San Francisco",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "10:00 PM",
-  //   "station": "NFLN"
-  // },
-  // {
-  //   "awayteam": "Los Angeles Rams",
-  //   "hometeam": "Oakland",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "10:00 PM",
-  //   "station": ""
+  //   "hometeam": "Denver",
+  //   "startdate": "Saturday, Aug 26, 2017",
+  //   "starttime": "9:00 PM",
+  //   "station": "",
+  //   "weekno": 4
   // },
   // {
   //   "awayteam": "Chicago",
-  //   "hometeam": "Arizona",
-  //   "weekno": 3,
-  //   "startdate": "Saturday, Aug 19, 2017",
-  //   "starttime": "10:00 PM",
-  //   "station": ""
+  //   "hometeam": "Tennessee",
+  //   "startdate": "Sunday, Aug 27, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "FOX",
+  //   "weekno": 4
   // },
   // {
-  //   "awayteam": "Atlanta",
-  //   "hometeam": "Pittsburgh",
-  //   "weekno": 3,
-  //   "startdate": "Sunday, Aug 20, 2017",
-  //   "starttime": "4:00 PM",
-  //   "station": "NFLN"
+  //   "awayteam": "Cincinnati",
+  //   "hometeam": "Washington",
+  //   "startdate": "Sunday, Aug 27, 2017",
+  //   "starttime": "4:30 PM",
+  //   "station": "FOX",
+  //   "weekno": 4
   // },
   // {
-  //   "awayteam": "New Orleans",
-  //   "hometeam": "Los Angeles Chargers",
-  //   "weekno": 3,
-  //   "startdate": "Sunday, Aug 20, 2017",
+  //   "awayteam": "San Francisco",
+  //   "hometeam": "Minnesota",
+  //   "startdate": "Sunday, Aug 27, 2017",
   //   "starttime": "8:00 PM",
-  //   "station": "NFLN"
-  // },
-  // {
-  //   "awayteam": "New York Giants",
-  //   "hometeam": "Cleveland",
-  //   "weekno": 3,
-  //   "startdate": "Monday, Aug 21, 2017",
-  //   "starttime": "8:00 PM",
-  //   "station": "ESPN"
+  //   "station": "NBC",
+  //   "weekno": 4
   // }
-];
+]];
 
             const teamData = [
         {
