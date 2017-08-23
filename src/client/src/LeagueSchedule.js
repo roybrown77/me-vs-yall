@@ -88,8 +88,8 @@ import Spinner from './Spinner';
                         weekNo: 4,
                         weekNumberDisplay: 3,
                         namePrefix: "Pre Week",
-                        beginDateTime: "2017-08-27T05:00:00+04:00",
-                        endDateTime: "2017-08-29T02:00:00+04:00"
+                        beginDateTime: "2017-08-24T05:00:00+04:00",
+                        endDateTime: "2017-08-28T02:00:00+04:00"
                     }
                   ];
 
