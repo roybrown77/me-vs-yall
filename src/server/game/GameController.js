@@ -23,6 +23,2057 @@ router.get('/games/', function (req, res) {
 });
 
 router.post('/creategames', function (req, res) {
+//     const regularSeasonGames = [
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "New England Patriots",
+//     "weekno": 6,
+//     "startdate": "Thursday, Sept. 7, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "Houston Texans",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 6,
+//     "startdate": "Sunday, Sept. 10, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 6,
+//     "startdate": "Monday, Sept. 11, 2017",
+//     "starttime": "7:10 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 6,
+//     "startdate": "Monday, Sept. 11, 2017",
+//     "starttime": "10:20 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 7,
+//     "startdate": "Thursday, Sept. 14, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 7,
+//     "startdate": "Sunday, Sept. 17, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "New York Giants",
+//     "weekno": 7,
+//     "startdate": "Monday, Sept. 18, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 8,
+//     "startdate": "Thursday, Sept. 21, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "9:30 a.m.",
+//     "station": "TBD"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "New England Patriots",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "New York Jets",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 8,
+//     "startdate": "Sunday, Sept. 24, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 8,
+//     "startdate": "Monday, Sept. 25, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 9,
+//     "startdate": "Thursday, Sept. 28, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "CBS/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "9:30 a.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Houston Texans",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "New England Patriots",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "New York Jets",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 9,
+//     "startdate": "Sunday, Oct. 1, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 9,
+//     "startdate": "Monday, Oct. 2, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 10,
+//     "startdate": "Thursday, Oct. 5, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "CBS/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "New York Giants",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "Houston Texans",
+//     "weekno": 10,
+//     "startdate": "Sunday, Oct. 8, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 10,
+//     "startdate": "Monday, Oct. 9, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 11,
+//     "startdate": "Thursday, Oct. 12, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "CBS/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Houston Texans",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "New York Jets",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 11,
+//     "startdate": "Sunday, Oct. 15, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 11,
+//     "startdate": "Monday, Oct. 16, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 12,
+//     "startdate": "Thursday, Oct. 19, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "CBS/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "New York Giants",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "New England Patriots",
+//     "weekno": 12,
+//     "startdate": "Sunday, Oct. 22, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 12,
+//     "startdate": "Monday, Oct. 23, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 13,
+//     "startdate": "Thursday, Oct. 26, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "CBS/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "9:30 a.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "New England Patriots",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "New York Jets",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 13,
+//     "startdate": "Sunday, Oct. 29, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 13,
+//     "startdate": "Monday, Oct. 30, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "New York Jets",
+//     "weekno": 14,
+//     "startdate": "Thursday, Nov. 2, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Houston Texans",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "New York Giants",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 14,
+//     "startdate": "Sunday, Nov. 5, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 14,
+//     "startdate": "Monday, Nov. 6, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 15,
+//     "startdate": "Thursday, Nov. 9, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NBC/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 15,
+//     "startdate": "Sunday, Nov. 12, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 15,
+//     "startdate": "Monday, Nov. 13, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 16,
+//     "startdate": "Thursday, Nov. 16, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NBC/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Houston Texans",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "New York Giants",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 16,
+//     "startdate": "Sunday, Nov. 19, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 16,
+//     "startdate": "Monday, Nov. 20, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 17,
+//     "startdate": "Thursday, Nov. 23, 2017",
+//     "starttime": "12:30 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 17,
+//     "startdate": "Thursday, Nov. 23, 2017",
+//     "starttime": "4:30 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 17,
+//     "startdate": "Thursday, Nov. 23, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "New England Patriots",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "New York Jets",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 17,
+//     "startdate": "Sunday, Nov. 26, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 17,
+//     "startdate": "Monday, Nov. 27, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 18,
+//     "startdate": "Thursday, Nov. 30, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NBC/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "New York Jets",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 18,
+//     "startdate": "Sunday, Dec. 3, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 18,
+//     "startdate": "Monday, Dec. 4, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 19,
+//     "startdate": "Thursday, Dec. 7, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NBC/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Houston Texans",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "New York Giants",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 19,
+//     "startdate": "Sunday, Dec. 10, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 19,
+//     "startdate": "Monday, Dec. 11, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 20,
+//     "startdate": "Thursday, Dec. 14, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NBC/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 20,
+//     "startdate": "Saturday, Dec. 16, 2017",
+//     "starttime": "4:30 p.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 20,
+//     "startdate": "Saturday, Dec. 16, 2017",
+//     "starttime": "8:25 p.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "Buffalo Bills",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Baltimore Ravens",
+//     "hometeam": "Cleveland Browns",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Jacksonville Jaguars",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Philadelphia Eagles",
+//     "hometeam": "New York Giants",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New England Patriots",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Tennessee Titans",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "Oakland Raiders",
+//     "weekno": 20,
+//     "startdate": "Sunday, Dec. 17, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 20,
+//     "startdate": "Monday, Dec. 18, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Indianapolis Colts",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 21,
+//     "startdate": "Saturday, Dec. 23, 2017",
+//     "starttime": "4:30 p.m.",
+//     "station": "NFLN"
+//   },
+//   {
+//     "awayteam": "Minnesota Vikings",
+//     "hometeam": "Green Bay Packers",
+//     "weekno": 21,
+//     "startdate": "Saturday, Dec. 23, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "NBC"
+//   },
+//   {
+//     "awayteam": "Tampa Bay Buccaneers",
+//     "hometeam": "Carolina Panthers",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Chicago Bears",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Detroit Lions",
+//     "hometeam": "Cincinnati Bengals",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Miami Dolphins",
+//     "hometeam": "Kansas City Chiefs",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "New England Patriots",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Atlanta Falcons",
+//     "hometeam": "New Orleans Saints",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Los Angeles Chargers",
+//     "hometeam": "New York Jets",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Los Angeles Rams",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Denver Broncos",
+//     "hometeam": "Washington Redskins",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "San Francisco 49ers",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "4:05 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New York Giants",
+//     "hometeam": "Arizona Cardinals",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Seattle Seahawks",
+//     "hometeam": "Dallas Cowboys",
+//     "weekno": 21,
+//     "startdate": "Sunday, Dec. 24, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Pittsburgh Steelers",
+//     "hometeam": "Houston Texans",
+//     "weekno": 21,
+//     "startdate": "Monday, Dec. 25, 2017",
+//     "starttime": "4:30 p.m.",
+//     "station": "NBC/NFLN/Amazon"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 21,
+//     "startdate": "Monday, Dec. 25, 2017",
+//     "starttime": "8:30 p.m.",
+//     "station": "ESPN"
+//   },
+//   {
+//     "awayteam": "Carolina Panthers",
+//     "hometeam": "Atlanta Falcons",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cincinnati Bengals",
+//     "hometeam": "Baltimore Ravens",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Green Bay Packers",
+//     "hometeam": "Detroit Lions",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Houston Texans",
+//     "hometeam": "Indianapolis Colts",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Buffalo Bills",
+//     "hometeam": "Miami Dolphins",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Chicago Bears",
+//     "hometeam": "Minnesota Vikings",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "New York Jets",
+//     "hometeam": "New England Patriots",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Washington Redskins",
+//     "hometeam": "New York Giants",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Dallas Cowboys",
+//     "hometeam": "Philadelphia Eagles",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Cleveland Browns",
+//     "hometeam": "Pittsburgh Steelers",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "New Orleans Saints",
+//     "hometeam": "Tampa Bay Buccaneers",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Jacksonville Jaguars",
+//     "hometeam": "Tennessee Titans",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "1 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Kansas City Chiefs",
+//     "hometeam": "Denver Broncos",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "Oakland Raiders",
+//     "hometeam": "Los Angeles Chargers",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "CBS"
+//   },
+//   {
+//     "awayteam": "San Francisco 49ers",
+//     "hometeam": "Los Angeles Rams",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   },
+//   {
+//     "awayteam": "Arizona Cardinals",
+//     "hometeam": "Seattle Seahawks",
+//     "weekno": 22,
+//     "startdate": "Sunday, Dec. 31, 2017",
+//     "starttime": "4:25 p.m.",
+//     "station": "Fox"
+//   }
+// ];
+
     const games = 
 [
   // {
