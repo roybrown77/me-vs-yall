@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-class About extends Component {
+class AboutPage extends Component {
     render() {
         return (
             <div>
@@ -17,4 +17,4 @@ class About extends Component {
     }
 }
 
-export default About;
+export default AboutPage;

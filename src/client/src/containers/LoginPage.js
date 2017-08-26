@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { googleLogin } from '../middleware/AuthService';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-function Login(props) {
+function LoginPage(props) {
         return (
         	<div>
                 <Header/>
@@ -18,4 +18,4 @@ function Login(props) {
         );
 }
 
-export default Login;
+export default LoginPage;

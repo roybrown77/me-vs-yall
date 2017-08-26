@@ -2,26 +2,27 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Home from '../components/Home';
-import LeagueSelection from '../components/LeagueSelection';
-import LeagueSchedule from '../components/LeagueSchedule';
-import Leaders from '../components/Leaders';
-import About from '../components/About';
-import Login from '../components/Login';
-import { requireAuth } from '../middleware/AuthService';
+import HomePage from '../containers/HomePage';
+import SchedulePage from '../containers/SchedulePage';
+import AboutPage from '../containers/AboutPage';
+import LoginPage from '../containers/LoginPage';
+import LeagueSelectionPage from '../containers/LeagueSelectionPage';
+import LeaderPage from '../containers/LeaderPage';
 import Callback from '../components/Callback';
+
+import { requireAuth } from '../middleware/AuthService';
 
 const routes = (
 	 <MuiThemeProvider>
 	    <div className="App">
 	        <main>
 	            <Switch>
-	                <Route exact path='/' component={Home}/>
-	                <Route exact path='/login' component={Login}/>
-	                <Route exact path='/leagues' component={LeagueSelection}/>
-	                <Route path='/leagues/:name' component={LeagueSchedule} onEnter={requireAuth}/>
-	                <Route path='/leaders' component={Leaders}/>
-	                <Route path='/about' component={About}/>
+	                <Route exact path='/' component={HomePage}/>
+	                <Route exact path='/login' component={LoginPage}/>
+	                <Route exact path='/leagues' component={LeagueSelectionPage}/>
+	                <Route path='/leagues/:name' component={SchedulePage} onEnter={requireAuth}/>
+	                <Route path='/leaders' component={LeaderPage}/>
+	                <Route path='/about' component={AboutPage}/>
 	                <Route path='/callback' component={Callback}/>
 	            </Switch>
 	        </main>

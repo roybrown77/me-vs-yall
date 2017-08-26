@@ -11,10 +11,10 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Spinner from '../components/Spinner';
 import api from '../middleware/api.js';
-import Spinner from './Spinner';
 
     const filterButton = {
       button: {
@@ -399,7 +399,7 @@ import Spinner from './Spinner';
         }
     ];
 
-class Schedules extends Component {
+class SchedulePage extends Component {
     constructor(props) {
         super(props);
 
@@ -968,4 +968,4 @@ Game.propTypes = {
 //     }
 // }
 
-export default Schedules;
+export default SchedulePage;
