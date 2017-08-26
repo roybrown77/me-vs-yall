@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { googleLogin } from './middleware/AuthService';
+import { googleLogin } from '../middleware/AuthService';
 import Header from './Header';
 import Footer from './Footer';
 

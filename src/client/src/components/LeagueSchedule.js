@@ -13,7 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import Header from './Header';
 import Footer from './Footer';
-import api from './middleware/api.js';
+import api from '../middleware/api.js';
 import Spinner from './Spinner';
 
     const filterButton = {
