@@ -2,7 +2,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import './styles/App.css';
 injectTapEventPlugin();
 
-import { AppContainer } from 'react-hot-loader';
+import { AppContainer } from 'react-hot-loader'; // remove if not using
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
