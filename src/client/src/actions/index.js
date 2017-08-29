@@ -1,53 +1,61 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
-export const USER_REQUEST = 'USER_REQUEST'
-export const USER_SUCCESS = 'USER_SUCCESS'
-export const USER_FAILURE = 'USER_FAILURE'
+export const GAMES_REQUEST = 'GAMES_REQUEST'
+export const GAMES_SUCCESS = 'GAMES_SUCCESS'
+export const GAMES_FAILURE = 'GAMES_FAILURE'
 
 // Fetches a single user from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
-const fetchUser = login => ({
+const fetchGames = login => ({
+ // const query = {
+ //             leagueId:"59723313734d1d6202a85f10",
+ //             weekNo: week.weekNo
+ //         };
+
+ // const getGamesPromise = api.getGames(query);
+ // const getPickPromise = api.getPicks(query);
+
   [CALL_API]: {
-    types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
+    types: [ GAMES_REQUEST, GAMES_SUCCESS, GAMES_FAILURE ],
     endpoint: `users/${login}`,
-    schema: Schemas.USER
+    schema: Schemas.GAMES
   }
 })
 
 // Fetches a single user from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
-export const loadUser = (login, requiredFields = []) => (dispatch, getState) => {
+export const loadGames = (login, requiredFields = []) => (dispatch, getState) => {
   const user = getState().entities.users[login]
   if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
     return null
   }
 
-  return dispatch(fetchUser(login))
+  return dispatch(fetchGames(login))
 }
 
-export const REPO_REQUEST = 'REPO_REQUEST'
-export const REPO_SUCCESS = 'REPO_SUCCESS'
-export const REPO_FAILURE = 'REPO_FAILURE'
+export const PICKS_REQUEST = 'PICKS_REQUEST'
+export const PICKS_SUCCESS = 'PICKS_SUCCESS'
+export const PICKS_FAILURE = 'PICKS_FAILURE'
 
 // Fetches a single repository from Github API.
 // Relies on the custom API middleware defined in ../middleware/api.js.
-const fetchRepo = fullName => ({
+const fetchPicks = fullName => ({
   [CALL_API]: {
-    types: [ REPO_REQUEST, REPO_SUCCESS, REPO_FAILURE ],
+    types: [ PICKS_REQUEST, PICKS_SUCCESS, PICKS_FAILURE ],
     endpoint: `repos/${fullName}`,
-    schema: Schemas.REPO
+    schema: Schemas.PICKS
   }
 })
 
 // Fetches a single repository from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
-export const loadRepo = (fullName, requiredFields = []) => (dispatch, getState) => {
+export const loadPicks = (fullName, requiredFields = []) => (dispatch, getState) => {
   const repo = getState().entities.repos[fullName]
   if (repo && requiredFields.every(key => repo.hasOwnProperty(key))) {
     return null
   }
 
-  return dispatch(fetchRepo(fullName))
+  return dispatch(fetchPicks(fullName))
 }
 
 export const STARRED_REQUEST = 'STARRED_REQUEST'

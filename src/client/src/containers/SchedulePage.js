@@ -5,7 +5,7 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 import moment from 'moment';
 import { connect } from 'react-redux'
-import { loadGames } from '../actions'
+import { loadGames, loadPicks } from '../actions'
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -42,7 +42,8 @@ const weeks = [
               ];
 
 const loadData = ({ leagueId, year, weekId }) => {
-  loadGames(leagueId, year, weekId)
+  loadGames(leagueId, year, weekId);
+  loadPicks(leagueId, year, weekId)
 }
 
 class SchedulePage extends Component {
@@ -51,8 +52,8 @@ class SchedulePage extends Component {
         //user: PropTypes.object,
         games: PropTypes.array.isRequired,
         picks: PropTypes.array.isRequired,
-        //loadGames: PropTypes.func.isRequired,
-        //loadPicks: PropTypes.func.isRequired
+        loadGames: PropTypes.func.isRequired,
+        loadPicks: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -189,7 +190,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   loadGames,
-  //loadPicks
+  loadPicks
 })(SchedulePage);
 
 // class Schedules2 extends Component {
