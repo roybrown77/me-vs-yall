@@ -41,17 +41,23 @@ const weeks = [
                 }
               ];
 
-const loadData = ({ leagueId, year, weekId }) => {
-  loadGames(leagueId, year, weekId);
-  loadPicks(leagueId, year, weekId)
+const loadData = ({ leagueId, weekNo }) => {
+    const query = {
+            leagueId:"59723313734d1d6202a85f10",
+            weekNo: 5
+        };
+  loadGames(query);
+  loadPicks(query);
 }
 
 class SchedulePage extends Component {
     static propTypes = {
         //login: PropTypes.string.isRequired,
         //user: PropTypes.object,
-        games: PropTypes.array.isRequired,
-        picks: PropTypes.array.isRequired,
+        leagueId: PropTypes.string,//.isRequired,
+        weekNo: PropTypes.number,//.isRequired,
+        games: PropTypes.array,//.isRequired,
+        picks: PropTypes.array,//.isRequired,
         loadGames: PropTypes.func.isRequired,
         loadPicks: PropTypes.func.isRequired
     }
@@ -85,12 +91,12 @@ class SchedulePage extends Component {
     }
 
     componentWillMount() {
-        //loadData(this.props)
+        loadData(this.props)
     } 
 
     componentWillReceiveProps(nextProps) {
         // if (nextProps.login !== this.props.login) {
-        //     loadData(nextProps)
+             loadData(nextProps)
         // }
     }
 
@@ -135,56 +141,20 @@ class SchedulePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  //const login = ownProps.params.login.toLowerCase()
+  // const login = ownProps.params.login.toLowerCase();
 
-  // const {
-  //   pagination: { starredByUser },
-  //   entities: { users, repos }
-  // } = state
+  const { games, picks, leagueId, weekNo } = state;
 
-  // const starredPagination = starredByUser[login] || { ids: [] }
-  // const starredRepos = starredPagination.ids.map(id => repos[id])
-  // const starredRepoOwners = starredRepos.map(repo => users[repo.owner])
-
-  const games = [
-                    {
-                        "_id": "5989007136e954b6bd131b9b",
-                        "startDateTime": "2017-08-11T00:00:00+04:00",
-                        "station": "",
-                        "leagueId": "59723313734d1d6202a85f10",
-                        "weekNo": 2,
-                        "competitors": [
-                            {
-                                "_id": "19823783734d1d04a1b3900f"
-                            },
-                            {
-                                "_id": "19823783734d1d04a1b39010"
-                            }
-                        ]
-                    },
-                    {
-                        "_id": "5989007136e954b6bd131b9c",
-                        "startDateTime": "2017-08-11T00:00:00+04:00",
-                        "station": "",
-                        "leagueId": "59723313734d1d6202a85f10",
-                        "weekNo": 2,
-                        "competitors": [
-                            {
-                                "_id": "19823783734d1d04a1b39011"
-                            },
-                            {
-                                "_id": "19823783734d1d04a1b39012"
-                            }
-                        ]
-                    }
-                ];
-
-  const picks = [];
+  // const starredPagination = starredByUser[login] || { ids: [] };
+  // const starredRepos = starredPagination.ids.map(id => repos[id]);
+  // const starredRepoOwners = starredRepos.map(repo => users[repo.owner]);
 
   return {
     //login,
     games,
-    picks
+    picks,
+    leagueId,
+    weekNo
   }
 }
 
