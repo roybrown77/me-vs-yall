@@ -132,7 +132,7 @@ class SchedulePage extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}
                     />
-                    <Games games={this.props.games} picks={this.props.picks} />
+                    <Games games={this.props.games ? this.props.games : []} picks={this.props.picks ? this.props.picks : []} />
                 </div>
                 <Footer/>
             </div>
