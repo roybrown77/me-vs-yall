@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import update from 'react-addons-update';
 import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import moment from 'moment';
-import { connect } from 'react-redux'
-import { loadGames, loadPicks } from '../actions'
+import PropTypes from 'prop-types';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -20,7 +20,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 import Game from '../components/Game';
 
-import api from '../middleware/api.js';
+import { loadGames, loadPicks } from '../actions';
 
 const leagues = [ "NFL" ];
 
@@ -41,27 +41,16 @@ const weeks = [
                 }
               ];
 
-const loadData = ({ leagueId, weekNo }) => {
-    const query = {
-            leagueId:"59723313734d1d6202a85f10",
-            weekNo: 5
-        };
-  loadGames(query);
-  loadPicks(query);
-}
+// const loadData = ({ leagueId, weekNo }) => {
+//     const query = {
+//             leagueId:"59723313734d1d6202a85f10",
+//             weekNo: 5
+//         };
+//   loadGames(query);
+//   loadPicks(query);
+// }
 
 class SchedulePage extends Component {
-    static propTypes = {
-        //login: PropTypes.string.isRequired,
-        //user: PropTypes.object,
-        leagueId: PropTypes.string,//.isRequired,
-        weekNo: PropTypes.number,//.isRequired,
-        games: PropTypes.array,//.isRequired,
-        picks: PropTypes.array,//.isRequired,
-        loadGames: PropTypes.func.isRequired,
-        loadPicks: PropTypes.func.isRequired
-    }
-
     constructor(props) {
         super(props);
 
@@ -91,12 +80,16 @@ class SchedulePage extends Component {
     }
 
     componentWillMount() {
-        loadData(this.props)
+        const query = {
+            leagueId:"59723313734d1d6202a85f10",
+            weekNo: 5
+        };
+        this.props.loadGames(query);
     } 
 
     componentWillReceiveProps(nextProps) {
         // if (nextProps.login !== this.props.login) {
-             loadData(nextProps)
+             //loadData(nextProps)
         // }
     }
 
@@ -121,7 +114,7 @@ class SchedulePage extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header></Header>
                 <div className="page-container">
                     <GameSearchBar 
                         league={this.state.league} 
@@ -130,11 +123,12 @@ class SchedulePage extends Component {
                         weeks={this.state.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
-                        onFilterWeek={this.handleFilterWeek}
-                    />
-                    <Games games={this.props.games ? this.props.games : []} picks={this.props.picks ? this.props.picks : []} />
+                        onFilterWeek={this.handleFilterWeek}>
+                    </GameSearchBar>
+                    <Games games={this.props.games ? this.props.games : []} picks={this.props.picks ? this.props.picks : []}> 
+                    </Games>
                 </div>
-                <Footer/>
+                <Footer></Footer>
             </div>
         )
     }
@@ -143,11 +137,19 @@ class SchedulePage extends Component {
 const mapStateToProps = (state, ownProps) => {
   // const login = ownProps.params.login.toLowerCase();
 
-  const { games, picks, leagueId, weekNo } = state;
+  console.log("state: " + JSON.stringify(state));
+
+  const { entities, leagueId, weekNo } = state;
+
+  const games = _.get(state, 'entities.games');
+  const picks = _.get(state, 'entities.picks');
 
   // const starredPagination = starredByUser[login] || { ids: [] };
   // const starredRepos = starredPagination.ids.map(id => repos[id]);
   // const starredRepoOwners = starredRepos.map(repo => users[repo.owner]);
+
+  console.log("games: " + JSON.stringify(games));
+  console.log("picks: " + JSON.stringify(picks));
 
   return {
     //login,
@@ -158,10 +160,23 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, {
-  loadGames,
-  loadPicks
-})(SchedulePage);
+const mapDispatchToProps = dispatch => ({
+  loadGames: () => dispatch(loadGames({leagueId:"1", weekNo:"1"})),
+  loadPicks: () => dispatch(loadPicks()),
+})
+
+SchedulePage.propTypes = {
+        //login: PropTypes.string.isRequired,
+        //user: PropTypes.object,
+        //leagueId: PropTypes.string,//.isRequired,
+        //weekNo: PropTypes.number,//.isRequired,
+        games: PropTypes.array,//.isRequired,
+        picks: PropTypes.array,//.isRequired,
+        loadGames: PropTypes.func.isRequired,
+        loadPicks: PropTypes.func.isRequired
+    }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
 
 // class Schedules2 extends Component {
 //     constructor(props) {

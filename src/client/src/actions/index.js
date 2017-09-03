@@ -26,7 +26,7 @@ const fetchGames = query => ({
 
 // Fetches data unless it is cached.
 // Relies on Redux Thunk middleware.
-export const loadGames = (query) => (dispatch, getState) => {
+export const loadGames = (query, requiredFields = []) => (dispatch, getState) => {
   //const games = getState().entities.games; //find by query
   //if (games && requiredFields.every(key => game.hasOwnProperty(key))) {
   //  return null
@@ -51,7 +51,7 @@ const fetchPicks = query => ({
 
 // Fetches a data unless it is cached.
 // Relies on Redux Thunk middleware.
-export const loadPicks = (query) => (dispatch, getState) => {
+export const loadPicks = (query, requiredFields = []) => (dispatch, getState) => {
   //const picks = getState().entities.picks; //find by query
   //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
   //  return null
