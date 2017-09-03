@@ -3,7 +3,7 @@ import counterReducer from './counter';
 import * as ActionTypes from '../actions';
 import merge from 'lodash/merge';
 //import paginate from './paginate';
-//import { routerReducer as routing } from 'react-router-redux';
+import { routerReducer as routing } from 'react-router-redux';
 //import { combineReducers } from 'redux';
 
 // Updates an entity cache in response to any action with response.entities.
@@ -30,7 +30,8 @@ const errorMessage = (state = null, action) => {
 
 const rootReducer = combineReducers({
 	entities: entities,
-	errorMessage: errorMessage
+	errorMessage: errorMessage,
+  routing
 })
 
 export default rootReducer

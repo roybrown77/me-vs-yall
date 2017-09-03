@@ -1,10 +1,10 @@
-import { CALL_API, Schemas } from '../middleware/api'
+import { CALL_API, Schemas } from '../middleware/api';
 // import URLSearchParams from 'url-search-params';
 import queryString from 'query-string';
 
-export const GAMES_REQUEST = 'GAMES_REQUEST'
-export const GAMES_SUCCESS = 'GAMES_SUCCESS'
-export const GAMES_FAILURE = 'GAMES_FAILURE'
+export const GAMES_REQUEST = 'GAMES_REQUEST';
+export const GAMES_SUCCESS = 'GAMES_SUCCESS';
+export const GAMES_FAILURE = 'GAMES_FAILURE';
 
 // const query = {
 //             leagueId:"59723313734d1d6202a85f10",
@@ -22,7 +22,7 @@ const fetchGames = query => ({
     endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
     schema: Schemas.GAMES
   }
-})
+});
 
 // Fetches data unless it is cached.
 // Relies on Redux Thunk middleware.
@@ -32,12 +32,12 @@ export const loadGames = (query, requiredFields = []) => (dispatch, getState) =>
   //  return null
   //}
 
-  return dispatch(fetchGames(query))
-}
+  return dispatch(fetchGames(query));
+};
 
-export const PICKS_REQUEST = 'PICKS_REQUEST'
-export const PICKS_SUCCESS = 'PICKS_SUCCESS'
-export const PICKS_FAILURE = 'PICKS_FAILURE'
+export const PICKS_REQUEST = 'PICKS_REQUEST';
+export const PICKS_SUCCESS = 'PICKS_SUCCESS';
+export const PICKS_FAILURE = 'PICKS_FAILURE';
 
 // Fetches data
 // Relies on the custom API middleware defined in ../middleware/api.js.
@@ -47,7 +47,7 @@ const fetchPicks = query => ({
     endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
     schema: Schemas.PICKS
   }
-})
+});
 
 // Fetches a data unless it is cached.
 // Relies on Redux Thunk middleware.
@@ -57,12 +57,12 @@ export const loadPicks = (query, requiredFields = []) => (dispatch, getState) =>
   //  return null
   //}
 
-  return dispatch(fetchPicks(query))
-}
+  return dispatch(fetchPicks(query));
+};
 
-export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
+export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
 // Resets the currently visible error message.
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE
-})
+});
