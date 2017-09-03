@@ -1,20 +1,21 @@
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import './styles/App.css';
-injectTapEventPlugin();
 
-import { AppContainer } from 'react-hot-loader'; // remove if not using
-import { applyMiddleware, compose, createStore } from 'redux';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
-import { Provider } from 'react-redux';
-import { render } from 'react-dom';
-import Immutable from 'immutable';
 import React from 'react';
+import { render } from 'react-dom';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { AppContainer } from 'react-hot-loader'; // remove if not using
+import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
+import { createBrowserHistory } from 'history';
+import Immutable from 'immutable';
+//import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './containers/App';
 import api from './middleware/api';
 import rootReducer from './reducers';
+
+//injectTapEventPlugin();
 
 const history = createBrowserHistory();
 const initialState = Immutable.Map();

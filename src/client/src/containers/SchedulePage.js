@@ -149,7 +149,7 @@ const mapStateToProps = (state, ownProps) => {
   // const starredRepoOwners = starredRepos.map(repo => users[repo.owner]);
 
   console.log("games: " + JSON.stringify(games));
-  console.log("picks: " + JSON.stringify(picks));
+  //console.log("picks: " + JSON.stringify(picks));
 
   return {
     //login,
@@ -173,7 +173,7 @@ SchedulePage.propTypes = {
         games: PropTypes.array,//.isRequired,
         picks: PropTypes.array,//.isRequired,
         loadGames: PropTypes.func.isRequired,
-        loadPicks: PropTypes.func.isRequired
+        //loadPicks: PropTypes.func.isRequired
     }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
