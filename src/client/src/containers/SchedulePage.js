@@ -161,7 +161,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  loadGames: () => dispatch(loadGames({leagueId:"1", weekNo:"1"})),
+  loadGames: () => dispatch(loadGames({leagueId:"59723313734d1d6202a85f10", weekNo:"1"})),
   loadPicks: () => dispatch(loadPicks()),
 })
 

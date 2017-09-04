@@ -10,13 +10,13 @@ import { AppContainer } from 'react-hot-loader'; // remove if not using
 import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
 import { createBrowserHistory } from 'history';
 import Immutable from 'immutable';
-//import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './containers/App';
 import api from './middleware/api';
 import rootReducer from './reducers';
 
-//injectTapEventPlugin();
+injectTapEventPlugin();
 
 const history = createBrowserHistory();
 const initialState = Immutable.Map();
@@ -28,7 +28,8 @@ const store = createStore(
   connectRouter(history)(rootReducer),
   initialState,
   composeEnhancer(
-    applyMiddleware(thunkMiddleware, 
+    applyMiddleware(thunkMiddleware,
+      api, 
       routerMiddlewareWithHistory,
       loggerMiddleware)
   )

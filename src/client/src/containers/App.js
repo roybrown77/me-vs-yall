@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { ConnectedRouter } from 'connected-react-router/immutable'
-import routes from '../routes'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ConnectedRouter } from 'connected-react-router/immutable';
+import routes from '../routes';
 
 const App = ({ history }) => {
   return (
     <ConnectedRouter history={history}>
-      { routes }
+    {routes}
     </ConnectedRouter>
   )
 }
@@ -16,3 +16,26 @@ App.propTypes = {
 }
 
 export default App
+
+// import React from 'react'
+// import PropTypes from 'prop-types'
+// import { Provider } from 'react-redux'
+// import routes from '../routes'
+// import DevTools from './DevTools'
+// import { Router } from 'react-router'
+
+// const Root = ({ store, history }) => (
+//   <Provider store={store}>
+//     <div>
+//       <Router history={history} routes={routes} />
+//       <DevTools />
+//     </div>
+//   </Provider>
+// )
+
+// Root.propTypes = {
+//   store: PropTypes.object.isRequired,
+//   history: PropTypes.object.isRequired
+// }
+
+// export default Root

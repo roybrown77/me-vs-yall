@@ -20,7 +20,7 @@ const fetchGames = query => ({
   [CALL_API]: {
     types: [ GAMES_REQUEST, GAMES_SUCCESS, GAMES_FAILURE ],
     endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
-    schema: Schemas.GAMES
+    schema: Schemas.GAME_ARRAY
   }
 });
 
@@ -45,7 +45,7 @@ const fetchPicks = query => ({
   [CALL_API]: {
     types: [ PICKS_REQUEST, PICKS_SUCCESS, PICKS_FAILURE ],
     endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
-    schema: Schemas.PICKS
+    schema: Schemas.PICK_ARRAY
   }
 });
 
