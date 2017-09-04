@@ -92,8 +92,8 @@
 
 // export default api;
 
-import { normalize, schema } from 'normalizr'
-import { camelizeKeys } from 'humps'
+import { normalize, schema } from 'normalizr';
+import { camelizeKeys } from 'humps';
 
 // Extracts the next page URL from Github API response.
 const getNextPageUrl = response => {

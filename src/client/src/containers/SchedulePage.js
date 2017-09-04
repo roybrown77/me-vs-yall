@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import update from 'react-addons-update';
+import { connect } from 'react-redux';
+//import update from 'react-addons-update';
+import PropTypes from 'prop-types';
 import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
-import { connect } from 'react-redux';
+
 import _ from 'lodash';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -135,21 +136,10 @@ class SchedulePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // const login = ownProps.params.login.toLowerCase();
-
-  console.log("state: " + JSON.stringify(state));
-
-  const { entities, leagueId, weekNo } = state;
-
-  const games = _.get(state, 'entities.games');
-  const picks = _.get(state, 'entities.picks');
-
-  // const starredPagination = starredByUser[login] || { ids: [] };
-  // const starredRepos = starredPagination.ids.map(id => repos[id]);
-  // const starredRepoOwners = starredRepos.map(repo => users[repo.owner]);
-
-  console.log("games: " + JSON.stringify(games));
-  //console.log("picks: " + JSON.stringify(picks));
+  const games = _.get(state, '_root.entries[0][.games');
+  const picks = _.get(state, '_root.entries[0][.picks');
+  const leagueId = _.get(state, '_root.entries[0].leagueId');
+  const weekNo = _.get(state, '_root.entries[0].weekNo');
 
   return {
     //login,
@@ -158,12 +148,12 @@ const mapStateToProps = (state, ownProps) => {
     leagueId,
     weekNo
   }
-}
+};
 
-const mapDispatchToProps = dispatch => ({
-  loadGames: () => dispatch(loadGames({leagueId:"59723313734d1d6202a85f10", weekNo:"1"})),
-  loadPicks: () => dispatch(loadPicks()),
-})
+// const mapDispatchToProps = dispatch => ({
+//   loadGames: () => dispatch(loadGames({leagueId: "1", weekNo: "2"})),
+//   loadPicks: () => dispatch(loadPicks())
+// });
 
 SchedulePage.propTypes = {
         //login: PropTypes.string.isRequired,
@@ -174,9 +164,11 @@ SchedulePage.propTypes = {
         picks: PropTypes.array,//.isRequired,
         loadGames: PropTypes.func.isRequired,
         //loadPicks: PropTypes.func.isRequired
-    }
+    };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
+export default connect(mapStateToProps,{
+  loadGames
+})(SchedulePage);
 
 // class Schedules2 extends Component {
 //     constructor(props) {

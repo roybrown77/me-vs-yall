@@ -12,10 +12,10 @@ const App = ({ history }) => {
 }
 
 App.propTypes = {
-  history: PropTypes.object,
-}
+  history: PropTypes.object
+};
 
-export default App
+export default App;
 
 // import React from 'react'
 // import PropTypes from 'prop-types'
