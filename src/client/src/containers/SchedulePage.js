@@ -136,10 +136,10 @@ class SchedulePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const games = _.get(state, '_root.entries[0][.games');
-  const picks = _.get(state, '_root.entries[0][.picks');
-  const leagueId = _.get(state, '_root.entries[0].leagueId');
-  const weekNo = _.get(state, '_root.entries[0].weekNo');
+  const games = _.get(state, '_root.entries[0][1].games');
+  const picks = _.get(state, '_root.entries[0][1].picks');
+  const leagueId = _.get(state, '_root.entries[0][1].leagueId');
+  const weekNo = _.get(state, '_root.entries[0][1].weekNo');
 
   return {
     //login,
