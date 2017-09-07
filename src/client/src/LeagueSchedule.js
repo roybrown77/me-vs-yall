@@ -160,7 +160,7 @@ import Spinner from './Spinner';
             name: "Cowboys",
             color: "#0C264C",
             stadiumName: "AT&T Stadium",
-            stadiumCity: "Dallas, TX"
+            stadiumCity: "Arlington, TX"
         },
         {
             _id: "19823783734d1d04a1b39007",
