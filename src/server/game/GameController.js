@@ -23,7 +23,7 @@ router.get('/games/', function (req, res) {
 });
 
 router.post('/creategames', function (req, res) {
-//     const regularSeasonGames = [
+     const games = [
 //   {
 //     "awayteam": "Kansas City Chiefs",
 //     "hometeam": "New England Patriots",
@@ -2072,10 +2072,10 @@ router.post('/creategames', function (req, res) {
 //     "starttime": "4:25 p.m.",
 //     "station": "Fox"
 //   }
-// ];
+ ];
 
-    const games = 
-[
+    //const games = 
+//[
   // {
   //   "awayteam": "Miami",
   //   "hometeam": "Philadelphia",
@@ -2204,7 +2204,7 @@ router.post('/creategames', function (req, res) {
   //   "station": "NBC",
   //   "weekno": 4
   // }
-];
+//];
 
             const teamData = [
         {
