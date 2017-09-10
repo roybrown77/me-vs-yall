@@ -2206,7 +2206,7 @@ router.post('/creategames', function (req, res) {
   // }
 //];
 
-            const teamData = [
+        const teamData = [
         {
             _id: "19823783734d1d04a1b39001",
             location: 'Kansas City',
@@ -2223,7 +2223,7 @@ router.post('/creategames', function (req, res) {
             name: "Patriots",
             color: "#0A2342",
             stadiumName: "Gillette Stadium",
-            stadiumCity: "Foxboro, MA"
+            stadiumCity: "Foxborough, MA"
         },
         {
             _id: "19823783734d1d04a1b39003",
@@ -2259,7 +2259,7 @@ router.post('/creategames', function (req, res) {
             name: "Cowboys",
             color: "#0C264C",
             stadiumName: "AT&T Stadium",
-            stadiumCity: "Dallas, TX"
+            stadiumCity: "Arlington, TX"
         },
         {
             _id: "19823783734d1d04a1b39007",
