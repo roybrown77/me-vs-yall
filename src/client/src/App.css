@@ -41,6 +41,8 @@ body {
 .page-container {
   margin: 0 20%;
   margin-bottom: 120px;
+  height: 100%;
+  position: relative;
 }
 
 @media screen and (max-width: 900px) {
