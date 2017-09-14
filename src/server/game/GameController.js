@@ -46,7 +46,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 6,
   //   "startdate": "Sunday, Sept. 10, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Baltimore Ravens",
@@ -70,7 +70,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 6,
   //   "startdate": "Sunday, Sept. 10, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Jacksonville Jaguars",
@@ -86,7 +86,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 6,
   //   "startdate": "Sunday, Sept. 10, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Oakland Raiders",
@@ -102,7 +102,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 6,
   //   "startdate": "Sunday, Sept. 10, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Indianapolis Colts",
@@ -118,7 +118,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 6,
   //   "startdate": "Sunday, Sept. 10, 2017",
   //   "starttime": "4:25 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Carolina Panthers",
@@ -126,7 +126,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 6,
   //   "startdate": "Sunday, Sept. 10, 2017",
   //   "starttime": "4:25 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "New York Giants",
@@ -182,7 +182,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Tennessee Titans",
@@ -198,7 +198,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "New England Patriots",
@@ -214,7 +214,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Chicago Bears",
@@ -222,7 +222,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "1:00 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Miami Dolphins",
@@ -246,7 +246,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "4:25 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Washington Redskins",
@@ -254,7 +254,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "4:25 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "San Francisco 49ers",
@@ -262,7 +262,7 @@ router.post('/creategames', function (req, res) {
   //   "weekNo": 7,
   //   "startdate": "Sunday, Sept. 17, 2017",
   //   "starttime": "4:25 PM",
-  //   "station": "Fox"
+  //   "station": "FOX"
   // },
   // {
   //   "awayteam": "Green Bay Packers",
@@ -280,134 +280,134 @@ router.post('/creategames', function (req, res) {
   //   "starttime": "8:30 PM",
   //   "station": "ESPN"
   // },
-//   {
-//     "awayteam": "Los Angeles Rams",
-//     "hometeam": "San Francisco 49ers",
-//     "weekNo": 8,
-//     "startdate": "Thursday, Sept. 21, 2017",
-//     "starttime": "8:25 PM",
-//     "station": "NFLN"
-//   },
-//   {
-//     "awayteam": "Baltimore Ravens",
-//     "hometeam": "Jacksonville Jaguars",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "9:30 AM",
-//     "station": "TBD"
-//   },
-//   {
-//     "awayteam": "Denver Broncos",
-//     "hometeam": "Buffalo Bills",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "New Orleans Saints",
-//     "hometeam": "Carolina Panthers",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "Fox"
-//   },
-//   {
-//     "awayteam": "Pittsburgh Steelers",
-//     "hometeam": "Chicago Bears",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "Atlanta Falcons",
-//     "hometeam": "Detroit Lions",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "Fox"
-//   },
-//   {
-//     "awayteam": "Cleveland Browns",
-//     "hometeam": "Indianapolis Colts",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "Tampa Bay Buccaneers",
-//     "hometeam": "Minnesota Vikings",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "Fox"
-//   },
-//   {
-//     "awayteam": "Houston Texans",
-//     "hometeam": "New England Patriots",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "Miami Dolphins",
-//     "hometeam": "New York Jets",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "New York Giants",
-//     "hometeam": "Philadelphia Eagles",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "1:00 PM",
-//     "station": "Fox"
-//   },
-//   {
-//     "awayteam": "Seattle Seahawks",
-//     "hometeam": "Tennessee Titans",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "4:05 PM",
-//     "station": "Fox"
-//   },
-//   {
-//     "awayteam": "Cincinnati Bengals",
-//     "hometeam": "Green Bay Packers",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "4:25 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "Kansas City Chiefs",
-//     "hometeam": "Los Angeles Chargers",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "4:25 PM",
-//     "station": "CBS"
-//   },
-//   {
-//     "awayteam": "Oakland Raiders",
-//     "hometeam": "Washington Redskins",
-//     "weekNo": 8,
-//     "startdate": "Sunday, Sept. 24, 2017",
-//     "starttime": "8:30 PM",
-//     "station": "NBC"
-//   },
-//   {
-//     "awayteam": "Dallas Cowboys",
-//     "hometeam": "Arizona Cardinals",
-//     "weekNo": 8,
-//     "startdate": "Monday, Sept. 25, 2017",
-//     "starttime": "8:30 PM",
-//     "station": "ESPN"
-//   },
+  // {
+  //   "awayteam": "Los Angeles Rams",
+  //   "hometeam": "San Francisco 49ers",
+  //   "weekNo": 8,
+  //   "startdate": "Thursday, Sept. 21, 2017",
+  //   "starttime": "8:25 PM",
+  //   "station": "NFLN"
+  // },
+  // {
+  //   "awayteam": "Baltimore Ravens",
+  //   "hometeam": "Jacksonville Jaguars",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "9:30 AM",
+  //   "station": "TBD"
+  // },
+  // {
+  //   "awayteam": "Denver Broncos",
+  //   "hometeam": "Buffalo Bills",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "New Orleans Saints",
+  //   "hometeam": "Carolina Panthers",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "FOX"
+  // },
+  // {
+  //   "awayteam": "Pittsburgh Steelers",
+  //   "hometeam": "Chicago Bears",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "Atlanta Falcons",
+  //   "hometeam": "Detroit Lions",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "FOX"
+  // },
+  // {
+  //   "awayteam": "Cleveland Browns",
+  //   "hometeam": "Indianapolis Colts",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "Tampa Bay Buccaneers",
+  //   "hometeam": "Minnesota Vikings",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "FOX"
+  // },
+  // {
+  //   "awayteam": "Houston Texans",
+  //   "hometeam": "New England Patriots",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "Miami Dolphins",
+  //   "hometeam": "New York Jets",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "New York Giants",
+  //   "hometeam": "Philadelphia Eagles",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "1:00 PM",
+  //   "station": "FOX"
+  // },
+  // {
+  //   "awayteam": "Seattle Seahawks",
+  //   "hometeam": "Tennessee Titans",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "4:05 PM",
+  //   "station": "FOX"
+  // },
+  // {
+  //   "awayteam": "Cincinnati Bengals",
+  //   "hometeam": "Green Bay Packers",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "4:25 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "Kansas City Chiefs",
+  //   "hometeam": "Los Angeles Chargers",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "4:25 PM",
+  //   "station": "CBS"
+  // },
+  // {
+  //   "awayteam": "Oakland Raiders",
+  //   "hometeam": "Washington Redskins",
+  //   "weekNo": 8,
+  //   "startdate": "Sunday, Sept. 24, 2017",
+  //   "starttime": "8:30 PM",
+  //   "station": "NBC"
+  // },
+  // {
+  //   "awayteam": "Dallas Cowboys",
+  //   "hometeam": "Arizona Cardinals",
+  //   "weekNo": 8,
+  //   "startdate": "Monday, Sept. 25, 2017",
+  //   "starttime": "8:30 PM",
+  //   "station": "ESPN"
+  // },
 //   {
 //     "awayteam": "Chicago Bears",
 //     "hometeam": "Green Bay Packers",
@@ -422,7 +422,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "9:30 AM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Buffalo Bills",
@@ -454,7 +454,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Tennessee Titans",
@@ -470,7 +470,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Carolina Panthers",
@@ -478,7 +478,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Jacksonville Jaguars",
@@ -494,7 +494,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Philadelphia Eagles",
@@ -502,7 +502,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New York Giants",
@@ -510,7 +510,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 9,
 //     "startdate": "Sunday, Oct. 1, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Oakland Raiders",
@@ -558,7 +558,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 10,
 //     "startdate": "Sunday, Oct. 8, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Carolina Panthers",
@@ -566,7 +566,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 10,
 //     "startdate": "Sunday, Oct. 8, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "San Francisco 49ers",
@@ -574,7 +574,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 10,
 //     "startdate": "Sunday, Oct. 8, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Tennessee Titans",
@@ -598,7 +598,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 10,
 //     "startdate": "Sunday, Oct. 8, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Jacksonville Jaguars",
@@ -630,7 +630,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 10,
 //     "startdate": "Sunday, Oct. 8, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Kansas City Chiefs",
@@ -670,7 +670,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 11,
 //     "startdate": "Sunday, Oct. 15, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cleveland Browns",
@@ -686,7 +686,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 11,
 //     "startdate": "Sunday, Oct. 15, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Detroit Lions",
@@ -694,7 +694,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 11,
 //     "startdate": "Sunday, Oct. 15, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New England Patriots",
@@ -710,7 +710,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 11,
 //     "startdate": "Sunday, Oct. 15, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Tampa Bay Buccaneers",
@@ -718,7 +718,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 11,
 //     "startdate": "Sunday, Oct. 15, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Los Angeles Rams",
@@ -726,7 +726,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 11,
 //     "startdate": "Sunday, Oct. 15, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Pittsburgh Steelers",
@@ -774,7 +774,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 12,
 //     "startdate": "Sunday, Oct. 22, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Carolina Panthers",
@@ -782,7 +782,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 12,
 //     "startdate": "Sunday, Oct. 22, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Tennessee Titans",
@@ -798,7 +798,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 12,
 //     "startdate": "Sunday, Oct. 22, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Jacksonville Jaguars",
@@ -814,7 +814,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 12,
 //     "startdate": "Sunday, Oct. 22, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New York Jets",
@@ -822,7 +822,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 12,
 //     "startdate": "Sunday, Oct. 22, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Baltimore Ravens",
@@ -846,7 +846,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 12,
 //     "startdate": "Sunday, Oct. 22, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Denver Broncos",
@@ -926,7 +926,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 13,
 //     "startdate": "Sunday, Oct. 29, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Atlanta Falcons",
@@ -934,7 +934,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 13,
 //     "startdate": "Sunday, Oct. 29, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "San Francisco 49ers",
@@ -942,7 +942,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 13,
 //     "startdate": "Sunday, Oct. 29, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Carolina Panthers",
@@ -950,7 +950,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 13,
 //     "startdate": "Sunday, Oct. 29, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Houston Texans",
@@ -966,7 +966,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 13,
 //     "startdate": "Sunday, Oct. 29, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Pittsburgh Steelers",
@@ -998,7 +998,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 14,
 //     "startdate": "Sunday, Nov. 5, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Indianapolis Colts",
@@ -1022,7 +1022,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 14,
 //     "startdate": "Sunday, Nov. 5, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Los Angeles Rams",
@@ -1030,7 +1030,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 14,
 //     "startdate": "Sunday, Nov. 5, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Denver Broncos",
@@ -1054,7 +1054,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 14,
 //     "startdate": "Sunday, Nov. 5, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Washington Redskins",
@@ -1062,7 +1062,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 14,
 //     "startdate": "Sunday, Nov. 5, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Kansas City Chiefs",
@@ -1102,7 +1102,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 15,
 //     "startdate": "Sunday, Nov. 12, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Green Bay Packers",
@@ -1110,7 +1110,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 15,
 //     "startdate": "Sunday, Nov. 12, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cleveland Browns",
@@ -1150,7 +1150,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 15,
 //     "startdate": "Sunday, Nov. 12, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Minnesota Vikings",
@@ -1158,7 +1158,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 15,
 //     "startdate": "Sunday, Nov. 12, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Houston Texans",
@@ -1174,7 +1174,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 15,
 //     "startdate": "Sunday, Nov. 12, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New York Giants",
@@ -1182,7 +1182,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 15,
 //     "startdate": "Sunday, Nov. 12, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New England Patriots",
@@ -1214,7 +1214,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 16,
 //     "startdate": "Sunday, Nov. 19, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Jacksonville Jaguars",
@@ -1238,7 +1238,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 16,
 //     "startdate": "Sunday, Nov. 19, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Los Angeles Rams",
@@ -1246,7 +1246,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 16,
 //     "startdate": "Sunday, Nov. 19, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Washington Redskins",
@@ -1254,7 +1254,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 16,
 //     "startdate": "Sunday, Nov. 19, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Kansas City Chiefs",
@@ -1270,7 +1270,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 16,
 //     "startdate": "Sunday, Nov. 19, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cincinnati Bengals",
@@ -1310,7 +1310,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 17,
 //     "startdate": "Thursday, Nov. 23, 2017",
 //     "starttime": "12:30 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Los Angeles Chargers",
@@ -1334,7 +1334,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 17,
 //     "startdate": "Sunday, Nov. 26, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cleveland Browns",
@@ -1374,7 +1374,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 17,
 //     "startdate": "Sunday, Nov. 26, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Chicago Bears",
@@ -1382,7 +1382,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 17,
 //     "startdate": "Sunday, Nov. 26, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New Orleans Saints",
@@ -1390,7 +1390,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 17,
 //     "startdate": "Sunday, Nov. 26, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Seattle Seahawks",
@@ -1398,7 +1398,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 17,
 //     "startdate": "Sunday, Nov. 26, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Jacksonville Jaguars",
@@ -1446,7 +1446,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 18,
 //     "startdate": "Sunday, Dec. 3, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Detroit Lions",
@@ -1454,7 +1454,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 18,
 //     "startdate": "Sunday, Dec. 3, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New England Patriots",
@@ -1478,7 +1478,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 18,
 //     "startdate": "Sunday, Dec. 3, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Indianapolis Colts",
@@ -1502,7 +1502,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 18,
 //     "startdate": "Sunday, Dec. 3, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Kansas City Chiefs",
@@ -1534,7 +1534,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 18,
 //     "startdate": "Sunday, Dec. 3, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New York Giants",
@@ -1542,7 +1542,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 18,
 //     "startdate": "Sunday, Dec. 3, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Philadelphia Eagles",
@@ -1590,7 +1590,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Green Bay Packers",
@@ -1598,7 +1598,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "San Francisco 49ers",
@@ -1606,7 +1606,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Seattle Seahawks",
@@ -1614,7 +1614,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Oakland Raiders",
@@ -1630,7 +1630,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Tennessee Titans",
@@ -1662,7 +1662,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Dallas Cowboys",
@@ -1670,7 +1670,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 19,
 //     "startdate": "Sunday, Dec. 10, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Baltimore Ravens",
@@ -1726,7 +1726,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 20,
 //     "startdate": "Sunday, Dec. 17, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Baltimore Ravens",
@@ -1766,7 +1766,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 20,
 //     "startdate": "Sunday, Dec. 17, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Arizona Cardinals",
@@ -1774,7 +1774,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 20,
 //     "startdate": "Sunday, Dec. 17, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Los Angeles Rams",
@@ -1782,7 +1782,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 20,
 //     "startdate": "Sunday, Dec. 17, 2017",
 //     "starttime": "4:05 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New England Patriots",
@@ -1838,7 +1838,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 21,
 //     "startdate": "Sunday, Dec. 24, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cleveland Browns",
@@ -1854,7 +1854,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 21,
 //     "startdate": "Sunday, Dec. 24, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Miami Dolphins",
@@ -1878,7 +1878,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 21,
 //     "startdate": "Sunday, Dec. 24, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Los Angeles Chargers",
@@ -1894,7 +1894,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 21,
 //     "startdate": "Sunday, Dec. 24, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Denver Broncos",
@@ -1918,7 +1918,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 21,
 //     "startdate": "Sunday, Dec. 24, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Seattle Seahawks",
@@ -1926,7 +1926,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 21,
 //     "startdate": "Sunday, Dec. 24, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Pittsburgh Steelers",
@@ -1950,7 +1950,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cincinnati Bengals",
@@ -1966,7 +1966,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Houston Texans",
@@ -1990,7 +1990,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "New York Jets",
@@ -2006,7 +2006,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Dallas Cowboys",
@@ -2014,7 +2014,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Cleveland Browns",
@@ -2030,7 +2030,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "1:00 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Jacksonville Jaguars",
@@ -2062,7 +2062,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   },
 //   {
 //     "awayteam": "Arizona Cardinals",
@@ -2070,7 +2070,7 @@ router.post('/creategames', function (req, res) {
 //     "weekNo": 22,
 //     "startdate": "Sunday, Dec. 31, 2017",
 //     "starttime": "4:25 PM",
-//     "station": "Fox"
+//     "station": "FOX"
 //   }
  ];
 

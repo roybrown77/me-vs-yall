@@ -104,6 +104,13 @@ import Spinner from './Spinner';
                         namePrefix: "Week",
                         beginDateTime: "2017-09-07T05:00:00+04:00",
                         endDateTime: "2017-09-12T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 7,
+                        weekNumberDisplay: 2,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-14T05:00:00+04:00",
+                        endDateTime: "2017-09-19T02:00:00+04:00"
                     }
                   ];
 
@@ -647,7 +654,7 @@ class LeagueSchedule extends Component {
                                                     >
                                                     <div 
                                                     style={{
-                                                        border: competitor.showCheck ? (game.isGameOver ? (game.winner ? (game.winner === competitor._id ? '8px solid green' : '8px solid red') : '8px solid #f0ad4e') : '8px solid #BA68C8') : '0', height: "91%",
+                                                        border: competitor.showCheck ? (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : '0', height: "91%",
                                                         color: competitor.color
                                                     }}>
                                                         <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
