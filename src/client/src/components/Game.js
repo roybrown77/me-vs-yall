@@ -52,8 +52,6 @@ class Game extends Component {
             gameAndPickLoading: false,
             pickProcessing: false
         };
-        
-        this.handlePick = this.handlePick.bind(this);
     }
 
     handlePick(gameId, pickId, showCheck) {
@@ -80,7 +78,7 @@ class Game extends Component {
                         title={competitor.name}
                         titleStyle={grid.titleStyle}
                         titleBackground={grid.titleBackground}
-                        onClick={this.handlePick(game._id, competitor._id, competitor.showCheck)}>
+                        onClick={() => this.handlePick(game._id, competitor._id, competitor.showCheck)}>
                         <div style={{border: competitor.showCheck ? 
                             (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : '0', height: "91%", color: competitor.color}}>
                                 <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
