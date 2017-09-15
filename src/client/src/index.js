@@ -19,7 +19,7 @@ import rootReducer from './reducers';
 injectTapEventPlugin();
 
 const history = createBrowserHistory();
-const initialState = Immutable.Map();
+const initialState = Immutable.Map({});
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const routerMiddlewareWithHistory = routerMiddleware(history);
 const loggerMiddleware = createLogger();

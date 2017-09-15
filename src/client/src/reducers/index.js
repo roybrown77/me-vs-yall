@@ -5,12 +5,13 @@ import merge from 'lodash/merge';
 //import paginate from './paginate';
 import { routerReducer as routing } from 'react-router-redux';
 //import { combineReducers } from 'redux';
+import { Map, List } from 'immutable';
 
 // Updates an entity cache in response to any action with response.entities.
-const games = (state = { games: [] }, action) => {
+const games = (state = Map({ games: List([]) }), action) => {
   //if (action.response && action.response.entities) {
   if (action.response) {
-    return merge({}, state, {games: action.response})
+    return state.set('games', List(action.response));
   }
 
   return state

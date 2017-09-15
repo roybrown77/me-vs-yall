@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 
-import _ from 'lodash';
+import get from 'lodash/get';
 import moment from 'moment';
+import Immutable from 'immutable';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -136,10 +137,10 @@ class SchedulePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const games = _.get(state, '_root.entries[0][1].games');
-  const picks = _.get(state, '_root.entries[0][1].picks');
-  const leagueId = _.get(state, '_root.entries[0][1].leagueId');
-  const weekNo = _.get(state, '_root.entries[0][1].weekNo');
+  const games = state.getIn(['games', 'games']).toJS();
+  const picks = get(state, '_root.entries[0][1].picks');
+  const leagueId = get(state, '_root.entries[0][1].leagueId');
+  const weekNo = get(state, '_root.entries[0][1].weekNo');
 
   return {
     //login,
