@@ -57,6 +57,7 @@ class Game extends Component {
     }
 
     handlePick(gameId, pickId, showCheck) {
+        let temp = 1;
     }
 
     render() {
@@ -81,8 +82,7 @@ class Game extends Component {
                         titleBackground={grid.titleBackground}
                         onClick={this.handlePick(game._id, competitor._id, competitor.showCheck)}>
                         <div style={{border: competitor.showCheck ? 
-                            (game.isGameOver ? (game.winner ? (game.winner === competitor._id ? '8px solid green' : '8px solid red')
-                            : '8px solid #f0ad4e') : '8px solid #BA68C8') : '0', height: "91%", color: competitor.color}}>
+                            (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : '0', height: "91%", color: competitor.color}}>
                                 <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
                                     {competitor.score}
                                 </div>

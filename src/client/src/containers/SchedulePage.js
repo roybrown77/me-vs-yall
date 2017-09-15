@@ -119,7 +119,7 @@ class SchedulePage extends Component {
     componentWillMount() {
         const query = {
             leagueId:"59723313734d1d6202a85f10",
-            weekNo: 5
+            weekNo: 7
         };
         this.props.loadGames(query);
         this.props.loadPicks(query);
