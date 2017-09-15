@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import counterReducer from './counter';
 import * as ActionTypes from '../actions';
-import merge from 'lodash/merge';
 //import paginate from './paginate';
 import { routerReducer as routing } from 'react-router-redux';
 //import { combineReducers } from 'redux';
@@ -10,33 +8,39 @@ import { Map, List } from 'immutable';
 // Updates an entity cache in response to any action with response.entities.
 const games = (state = Map({ games: List([]) }), action) => {
   //if (action.response && action.response.entities) {
-  if (action.response) {
-    return state.set('games', List(action.response));
+  switch (action.type) {
+    //case ActionTypes.GAMES_REQUEST:
+    case ActionTypes.GAMES_SUCCESS:
+      return state.set('games', List(action.response));
+    //case ActionTypes.GAMES_FAILURE:
+    default:
+      return state;
   }
+};
 
-  return state
-}
-
-const picks = (state = { picks: [] }, action) => {
-  if (action.response) {
-    return merge({}, state, {picks: action.response})
+const picks = (state = Map({ picks: List([]) }), action) => {
+  switch (action.type) {
+    //case ActionTypes.PICKS_REQUEST:
+    case ActionTypes.PICKS_SUCCESS:
+      return state.set('picks', List(action.response));
+    //case ActionTypes.GAMES_FAILURE:
+    default:
+      return state;
   }
-
-  return state
-}
+};
 
 // Updates error message to notify about the failed fetches.
 const errorMessage = (state = null, action) => {
-  const { type, error } = action
+  const { type, error } = action;
 
   if (type === ActionTypes.RESET_ERROR_MESSAGE) {
-    return null
+    return null;
   } else if (error) {
-    return error
+    return error;
   }
 
-  return state
-}
+  return state;
+};
 
 // const games = (state = { 
 //                           isFetching: false,
@@ -67,11 +71,10 @@ const errorMessage = (state = null, action) => {
 // }
 
 const rootReducer = combineReducers({
-	//games,
-  games,
+	games,
   picks,
 	errorMessage,
   routing
-})
+});
 
-export default rootReducer
+export default rootReducer;

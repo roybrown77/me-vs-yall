@@ -27,21 +27,56 @@ import { loadGames, loadPicks } from '../actions';
 const leagues = [ "NFL" ];
 
 const weeks = [
-                {
-                    weekNo: 1,
-                    weekNumberDisplay: "",
-                    namePrefix: "Hall of Fame Game",
-                    endDateTime: "2017-08-04T02:00:00+04:00",
-                    beginDateTime: "2017-08-03T05:00:00+04:00"
-                },
-                {
-                    weekNo: 2,
-                    weekNumberDisplay: 1,
-                    namePrefix: "Pre Week",
-                    endDateTime: "2017-08-14T02:00:00+04:00",
-                    beginDateTime: "2017-08-09T05:00:00+04:00"
-                }
-              ];
+                    {
+                        weekNo: 1,
+                        weekNumberDisplay: "",
+                        namePrefix: "Hall of Fame Game",
+                        beginDateTime: "2017-08-03T05:00:00+04:00",
+                        endDateTime: "2017-08-04T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 2,
+                        weekNumberDisplay: 1,
+                        namePrefix: "Pre Week",
+                        beginDateTime: "2017-08-09T05:00:00+04:00",
+                        endDateTime: "2017-08-14T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 3,
+                        weekNumberDisplay: 2,
+                        namePrefix: "Pre Week",
+                        beginDateTime: "2017-08-17T05:00:00+04:00",
+                        endDateTime: "2017-08-22T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 4,
+                        weekNumberDisplay: 3,
+                        namePrefix: "Pre Week",
+                        beginDateTime: "2017-08-24T05:00:00+04:00",
+                        endDateTime: "2017-08-28T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 5,
+                        weekNumberDisplay: 4,
+                        namePrefix: "Pre Week",
+                        beginDateTime: "2017-08-31T05:00:00+04:00",
+                        endDateTime: "2017-09-01T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 6,
+                        weekNumberDisplay: 1,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-07T05:00:00+04:00",
+                        endDateTime: "2017-09-12T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 7,
+                        weekNumberDisplay: 2,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-14T05:00:00+04:00",
+                        endDateTime: "2017-09-19T02:00:00+04:00"
+                    }
+                  ];
 
 // const loadData = ({ leagueId, weekNo }) => {
 //     const query = {
@@ -87,6 +122,7 @@ class SchedulePage extends Component {
             weekNo: 5
         };
         this.props.loadGames(query);
+        this.props.loadPicks(query);
     } 
 
     componentWillReceiveProps(nextProps) {
@@ -138,7 +174,7 @@ class SchedulePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const games = state.getIn(['games', 'games']).toJS();
-  const picks = get(state, '_root.entries[0][1].picks');
+  const picks = state.getIn(['picks', 'picks']).toJS();
   const leagueId = get(state, '_root.entries[0][1].leagueId');
   const weekNo = get(state, '_root.entries[0][1].weekNo');
 
@@ -164,11 +200,12 @@ SchedulePage.propTypes = {
         games: PropTypes.array,//.isRequired,
         picks: PropTypes.array,//.isRequired,
         loadGames: PropTypes.func.isRequired,
-        //loadPicks: PropTypes.func.isRequired
+        loadPicks: PropTypes.func.isRequired
     };
 
 export default connect(mapStateToProps,{
-  loadGames
+  loadGames,
+  loadPicks
 })(SchedulePage);
 
 // class Schedules2 extends Component {

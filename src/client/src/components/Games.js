@@ -346,7 +346,8 @@ class Games extends Component {
     }
 
     render() {
-        const { picks, games } = this.props;
+        const games = this.props.games;
+        const picks = this.props.picks;
 
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 

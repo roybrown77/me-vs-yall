@@ -1,8 +1,8 @@
-// /* eslint-disable no-undef */
-// import URLSearchParams from 'url-search-params';
-// import queryString from 'query-string';
+/* eslint-disable no-undef */
+import URLSearchParams from 'url-search-params';
+import queryString from 'query-string';
 
-// import { getAccessToken, serverLogout } from './AuthService';
+import { getAccessToken, serverLogout } from './AuthService';
 
 // function getGames(query, cb) {
 //     return fetch(`/api/gamemanagement/games?${queryString.stringify(query)}`, {
@@ -130,7 +130,12 @@ import { camelizeKeys } from 'humps';
 const callApi = (endpoint, schema) => {
   //const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
 
-  return fetch(endpoint)
+  return fetch(endpoint, {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
+        }
+    })
     .then(response =>
       response.json().then(json => {
         if (!response.ok) {
