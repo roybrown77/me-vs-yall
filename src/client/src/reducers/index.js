@@ -42,13 +42,10 @@ const updatePick = (state = Map({ picks: List([]) }), action) => {
   switch (action.type) {
     //case ActionTypes.PICKS_REQUEST:
     case ActionTypes.UPDATEPICK_SUCCESS:
-      return state.get('picks').update(
-        state.get('picks').findIndex(function(pick) { 
-          return pick.get("_id") === action.response._id;
-        }), function(pick) {
-          return pick.set("pickId", action.response.pickId);
-        }
-      );
+      const list = state.get('picks').toJS();
+      const index = list.findIndex(i => i._id === action.response._id);
+      list.splice(index, 1, action.response)
+      return state.set('picks', list);
     //case ActionTypes.GAMES_FAILURE:
     default:
       return state;
