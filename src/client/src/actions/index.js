@@ -51,21 +51,25 @@ export const loadPicks = (query, requiredFields = []) => (dispatch, getState) =>
   return dispatch(fetchPicks(query));
 };
 
-export const UPDATEPICK_REQUEST = 'UPDATEPICK_REQUEST';
-export const UPDATEPICK_SUCCESS = 'UPDATEPICK_SUCCESS';
-export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
+export const ADDPICK_REQUEST = 'ADDPICK_REQUEST';
+export const ADDPICK_SUCCESS = 'ADDPICK_SUCCESS';
+export const ADDPICK_FAILURE = 'ADDPICK_FAILURE';
 
 // Fetches data
 // Relies on the custom API middleware defined in ../middleware/api.js.
 const createPick = pick => ({
   [CALL_API]: {
-    types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
+    types: [ ADDPICK_REQUEST, ADDPICK_SUCCESS, ADDPICK_FAILURE ],
     endpoint: '/api/pickmanagement/picks',
     method: 'POST',
     body: pick,
     schema: Schemas.PICK
   }
 });
+
+export const UPDATEPICK_REQUEST = 'UPDATEPICK_REQUEST';
+export const UPDATEPICK_SUCCESS = 'UPDATEPICK_SUCCESS';
+export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
 
 // Fetches data
 // Relies on the custom API middleware defined in ../middleware/api.js.
