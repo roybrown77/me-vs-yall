@@ -18,8 +18,6 @@ import Footer from '../components/Footer';
 import Spinner from '../components/Spinner';
 import Game from '../components/Game';
 
-import api from '../middleware/api.js';
-
 const grid = {
     root: {
         marginTop: '12px'

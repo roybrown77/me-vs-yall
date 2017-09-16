@@ -5,7 +5,7 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 import moment from 'moment';
 import { connect } from 'react-redux'
-import { loadGames } from '../actions'
+
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -17,7 +17,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Spinner from '../components/Spinner';
 
-import api from '../middleware/api.js';
+import { makePick } from '../actions';
 
 const grid = {
     root: {
@@ -54,8 +54,14 @@ class Game extends Component {
         };
     }
 
-    handlePick(gameId, pickId, showCheck) {
-        let temp = 1;
+    handlePick(gameId, pickId) {
+        const pick = {
+            leagueId: '59723313734d1d6202a85f10', 
+            weekNo: 7,
+            gameId: gameId,
+            pickId: pickId
+        };
+        makePick(pick);
     }
 
     render() {
@@ -72,7 +78,7 @@ class Game extends Component {
                         title={competitor.name}
                         titleStyle={grid.titleStyle}
                         titleBackground={grid.titleBackground}
-                        onClick={() => this.handlePick(game._id, competitor._id, competitor.showCheck)}>
+                        onClick={() => this.handlePick(game._id, competitor._id)}>
                         <div style={{border: competitor.showCheck ? 
                             (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : '0', height: "91%", color: competitor.color}}>
                                 <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>

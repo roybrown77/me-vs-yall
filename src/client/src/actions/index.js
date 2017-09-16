@@ -49,6 +49,31 @@ export const loadPicks = (query, requiredFields = []) => (dispatch, getState) =>
   return dispatch(fetchPicks(query));
 };
 
+export const UPDATEPICK_REQUEST = 'UPDATEPICK_REQUEST';
+export const UPDATEPICK_SUCCESS = 'UPDATEPICK_SUCCESS';
+export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
+
+// Fetches data
+// Relies on the custom API middleware defined in ../middleware/api.js.
+const updatePick = query => ({
+  [CALL_API]: {
+    types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
+    endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
+    schema: Schemas.PICK
+  }
+});
+
+// Fetches a data unless it is cached.
+// Relies on Redux Thunk middleware.
+export const makePick = (pick) => (dispatch, getState) => {
+  //const picks = getState().entities.picks; //find by query
+  //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
+  //  return null
+  //}
+
+  //return dispatch(updatePick(pick));
+};
+
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
 // Resets the currently visible error message.

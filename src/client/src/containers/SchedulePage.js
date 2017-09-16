@@ -23,57 +23,57 @@ import Game from '../components/Game';
 
 import { loadGames, loadPicks } from '../actions';
 
-const leagues = [ "NFL" ];
+const leagues = [ {id: '59723313734d1d6202a85f10', name: 'NFL'} ];
 
 const weeks = [
                     {
                         weekNo: 1,
-                        weekNumberDisplay: "",
-                        namePrefix: "Hall of Fame Game",
-                        beginDateTime: "2017-08-03T05:00:00+04:00",
-                        endDateTime: "2017-08-04T02:00:00+04:00"
+                        weekNumberDisplay: '',
+                        namePrefix: 'Hall of Fame Game',
+                        beginDateTime: '2017-08-03T05:00:00+04:00',
+                        endDateTime: '2017-08-04T02:00:00+04:00'
                     },
                     {
                         weekNo: 2,
                         weekNumberDisplay: 1,
-                        namePrefix: "Pre Week",
-                        beginDateTime: "2017-08-09T05:00:00+04:00",
-                        endDateTime: "2017-08-14T02:00:00+04:00"
+                        namePrefix: 'Pre Week',
+                        beginDateTime: '2017-08-09T05:00:00+04:00',
+                        endDateTime: '2017-08-14T02:00:00+04:00'
                     },
                     {
                         weekNo: 3,
                         weekNumberDisplay: 2,
-                        namePrefix: "Pre Week",
-                        beginDateTime: "2017-08-17T05:00:00+04:00",
-                        endDateTime: "2017-08-22T02:00:00+04:00"
+                        namePrefix: 'Pre Week',
+                        beginDateTime: '2017-08-17T05:00:00+04:00',
+                        endDateTime: '2017-08-22T02:00:00+04:00'
                     },
                     {
                         weekNo: 4,
                         weekNumberDisplay: 3,
-                        namePrefix: "Pre Week",
-                        beginDateTime: "2017-08-24T05:00:00+04:00",
-                        endDateTime: "2017-08-28T02:00:00+04:00"
+                        namePrefix: 'Pre Week',
+                        beginDateTime: '2017-08-24T05:00:00+04:00',
+                        endDateTime: '2017-08-28T02:00:00+04:00'
                     },
                     {
                         weekNo: 5,
                         weekNumberDisplay: 4,
-                        namePrefix: "Pre Week",
-                        beginDateTime: "2017-08-31T05:00:00+04:00",
-                        endDateTime: "2017-09-01T02:00:00+04:00"
+                        namePrefix: 'Pre Week',
+                        beginDateTime: '2017-08-31T05:00:00+04:00',
+                        endDateTime: '2017-09-01T02:00:00+04:00'
                     },
                     {
                         weekNo: 6,
                         weekNumberDisplay: 1,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-09-07T05:00:00+04:00",
-                        endDateTime: "2017-09-12T02:00:00+04:00"
+                        namePrefix: 'Week',
+                        beginDateTime: '2017-09-07T05:00:00+04:00',
+                        endDateTime: '2017-09-12T02:00:00+04:00'
                     },
                     {
                         weekNo: 7,
                         weekNumberDisplay: 2,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-09-14T05:00:00+04:00",
-                        endDateTime: "2017-09-19T02:00:00+04:00"
+                        namePrefix: 'Week',
+                        beginDateTime: '2017-09-14T05:00:00+04:00',
+                        endDateTime: '2017-09-19T02:00:00+04:00'
                     }
                   ];
 
@@ -86,16 +86,16 @@ class SchedulePage extends Component {
             const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
 
             if (startDateTime !== endDateTime) {
-                week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D') + " - " + moment.utc(week.endDateTime).format('ddd M/D');
+                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D') + ' - ' + moment.utc(week.endDateTime).format('ddd M/D');
             } else {
-                week.displayName = week.namePrefix + " " + week.weekNumberDisplay + " " + moment.utc(week.beginDateTime).format('ddd M/D');
+                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D');
             }
 
             return week;
         });
 
         this.state = {
-            league: "NFL",
+            league: 'NFL',
             year: 2017,
             currentWeek: formattedWeeks.length-1,
             weeks: formattedWeeks
@@ -108,7 +108,7 @@ class SchedulePage extends Component {
 
     componentWillMount() {
         const query = {
-            leagueId:"59723313734d1d6202a85f10",
+            leagueId:'59723313734d1d6202a85f10',
             weekNo: 7
         };
         this.props.loadGames(query);
@@ -140,7 +140,7 @@ class SchedulePage extends Component {
         return (
             <div>
                 <Header></Header>
-                <div className="page-container">
+                <div className='page-container'>
                     <GameSearchBar 
                         league={this.state.league} 
                         year={this.state.year}
