@@ -21,7 +21,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 import Game from '../components/Game';
 
-import { loadGames, loadPicks, makePick } from '../actions';
+import { loadGames, loadPicks, addPick, updatePick } from '../actions';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'NFL'} ];
 
@@ -107,8 +107,8 @@ class SchedulePage extends Component {
 
     componentWillMount() {
         const query = {
-            leagueId: this.props.leagueId,
-            weekNo: this.props.weekNo
+            leagueId: '59723313734d1d6202a85f10',
+            weekNo: 7
         };
         this.props.loadGames(query);
         this.props.loadPicks(query);
@@ -127,7 +127,12 @@ class SchedulePage extends Component {
     }
 
     handleMakePick(pick) {
-        this.props.makePick(pick);
+        const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
+        if (pickFound) {
+            this.props.updatePick(pickFound._id, pick);
+        } else {
+            this.props.addPick(pick);
+        }
     }
 
     render() {
@@ -163,9 +168,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     games,
     picks,
-    leagueId,
-    weekNo,
-    year
+    leagueId
   }
 };
 
@@ -173,15 +176,15 @@ SchedulePage.propTypes = {
         games: PropTypes.array,
         picks: PropTypes.array,
         leagueId: PropTypes.string,
-        weekNo: PropTypes.integer,
-        year: PropTypes.integer,
         loadGames: PropTypes.func.isRequired,
         loadPicks: PropTypes.func.isRequired,
-        makePick: PropTypes.func.isRequired
+        addPick: PropTypes.func.isRequired,
+        updatePick: PropTypes.func.isRequired
     };
 
 export default connect(mapStateToProps, {
   loadGames,
   loadPicks,
-  makePick
+  addPick,
+  updatePick
 })(SchedulePage);

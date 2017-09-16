@@ -342,10 +342,6 @@ class Games extends Component {
         };
     }
 
-    handleMakePick(pick) {
-        this.props.handleMakePick(pick);
-    }
-
     render() {
         const games = this.props.games;
         const picks = this.props.picks;

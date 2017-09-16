@@ -1,5 +1,7 @@
-import { CALL_API, Schemas } from '../middleware/api';
 import queryString from 'query-string';
+import URLSearchParams from 'url-search-params';
+
+import { CALL_API, Schemas } from '../middleware/api';
 
 export const GAMES_REQUEST = 'GAMES_REQUEST';
 export const GAMES_SUCCESS = 'GAMES_SUCCESS';
@@ -55,23 +57,58 @@ export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
 
 // Fetches data
 // Relies on the custom API middleware defined in ../middleware/api.js.
-const updatePick = pick => ({
+const createPick = pick => ({
   [CALL_API]: {
     types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
-    endpoint: `/api/pickmanagement/picks`,
+    endpoint: '/api/pickmanagement/picks',
+    method: 'POST',
+    body: pick,
+    schema: Schemas.PICK
+  }
+});
+
+// Fetches data
+// Relies on the custom API middleware defined in ../middleware/api.js.
+const editPick = (id, pick) => ({
+  [CALL_API]: {
+    types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
+    endpoint: '/api/pickmanagement/picks/' + encodeURIComponent(id),
+    method: 'PUT',
+    body: pick,
     schema: Schemas.PICK
   }
 });
 
 // Fetches a data unless it is cached.
 // Relies on Redux Thunk middleware.
-export const makePick = (pick) => (dispatch, getState) => {
+export const addPick = (pick) => (dispatch, getState) => {
   //const picks = getState().entities.picks; //find by query
   //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
   //  return null
   //}
 
-  return dispatch(updatePick(pick));
+  const searchParams = new URLSearchParams();
+  searchParams.set('leagueId', pick.leagueId);
+  searchParams.set('weekNo', pick.weekNo);
+  searchParams.set('gameId', pick.gameId);
+  searchParams.set('pickId', pick.pickId);
+
+  return dispatch(createPick(searchParams));
+};
+
+// Fetches a data unless it is cached.
+// Relies on Redux Thunk middleware.
+export const updatePick = (id, pick) => (dispatch, getState) => {
+  //const picks = getState().entities.picks; //find by query
+  //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
+  //  return null
+  //}
+
+  const searchParams = new URLSearchParams();
+  searchParams.set('pickId', pick.pickId);
+  searchParams.set('gameId', pick.gameId);
+
+  return dispatch(editPick(id, searchParams));
 };
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
