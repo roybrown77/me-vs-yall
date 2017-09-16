@@ -17,8 +17,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Spinner from '../components/Spinner';
 
-import { makePick } from '../actions';
-
 const grid = {
     root: {
         marginTop: '12px'
@@ -54,14 +52,14 @@ class Game extends Component {
         };
     }
 
-    handlePick(gameId, pickId) {
+    handleMakePick(gameId, pickId) {
         const pick = {
             leagueId: '59723313734d1d6202a85f10', 
             weekNo: 7,
             gameId: gameId,
             pickId: pickId
         };
-        makePick(pick);
+        this.props.handleMakePick(pick);
     }
 
     render() {
@@ -78,7 +76,7 @@ class Game extends Component {
                         title={competitor.name}
                         titleStyle={grid.titleStyle}
                         titleBackground={grid.titleBackground}
-                        onClick={() => this.handlePick(game._id, competitor._id)}>
+                        onClick={() => this.handleMakePick(game._id, competitor._id)}>
                         <div style={{border: competitor.showCheck ? 
                             (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : '0', height: "91%", color: competitor.color}}>
                                 <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
@@ -104,7 +102,8 @@ class Game extends Component {
 
 Game.propTypes = {
   game: PropTypes.object,
-  pick: PropTypes.object
+  pick: PropTypes.object,
+  handleMakePick: PropTypes.func
 };
 
 export default Game;

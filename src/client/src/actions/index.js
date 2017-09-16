@@ -55,10 +55,10 @@ export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
 
 // Fetches data
 // Relies on the custom API middleware defined in ../middleware/api.js.
-const updatePick = query => ({
+const updatePick = pick => ({
   [CALL_API]: {
     types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
-    endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
+    endpoint: `/api/pickmanagement/picks`,
     schema: Schemas.PICK
   }
 });
@@ -71,7 +71,7 @@ export const makePick = (pick) => (dispatch, getState) => {
   //  return null
   //}
 
-  //return dispatch(updatePick(pick));
+  return dispatch(updatePick(pick));
 };
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';

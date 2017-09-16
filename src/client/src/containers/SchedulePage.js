@@ -21,7 +21,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 import Game from '../components/Game';
 
-import { loadGames, loadPicks } from '../actions';
+import { loadGames, loadPicks, makePick } from '../actions';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'NFL'} ];
 
@@ -95,8 +95,6 @@ class SchedulePage extends Component {
         });
 
         this.state = {
-            league: 'NFL',
-            year: 2017,
             currentWeek: formattedWeeks.length-1,
             weeks: formattedWeeks
         };
@@ -104,12 +102,13 @@ class SchedulePage extends Component {
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
+        this.handleMakePick = this.handleMakePick.bind(this);
     }
 
     componentWillMount() {
         const query = {
-            leagueId:'59723313734d1d6202a85f10',
-            weekNo: 7
+            leagueId: this.props.leagueId,
+            weekNo: this.props.weekNo
         };
         this.props.loadGames(query);
         this.props.loadPicks(query);
@@ -119,21 +118,16 @@ class SchedulePage extends Component {
     }
 
     handleFilterLeague(filterLeague) {
-        this.setState({
-            filterLeague: filterLeague
-        });
     }
 
     handleFilterYear(filterYear) {
-        this.setState({
-            filterYear: filterYear
-        });
     } 
   
     handleFilterWeek(filterWeek) {
-        this.setState({
-            filterWeek: filterWeek
-        });
+    }
+
+    handleMakePick(pick) {
+        this.props.makePick(pick);
     }
 
     render() {
@@ -142,15 +136,15 @@ class SchedulePage extends Component {
                 <Header></Header>
                 <div className='page-container'>
                     <GameSearchBar 
-                        league={this.state.league} 
-                        year={this.state.year}
+                        league={leagues.find(x=>x.id === this.props.leagueId).name}
+                        year={this.props.year}
                         currentWeek={this.state.currentWeek}
                         weeks={this.state.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}>
                     </GameSearchBar>
-                    <Games games={this.props.games ? this.props.games : []} picks={this.props.picks ? this.props.picks : []}> 
+                    <Games handleMakePick={this.handleMakePick} games={this.props.games ? this.props.games : []} picks={this.props.picks ? this.props.picks : []}> 
                     </Games>
                 </div>
                 <Footer></Footer>
@@ -162,25 +156,32 @@ class SchedulePage extends Component {
 const mapStateToProps = (state, ownProps) => {
   const games = state.getIn(['games', 'games']).toJS();
   const picks = state.getIn(['picks', 'picks']).toJS();
-  const leagueId = get(state, '_root.entries[0][1].leagueId');
-  const weekNo = get(state, '_root.entries[0][1].weekNo');
+  const leagueId = '59723313734d1d6202a85f10'; //state.getIn(['games', 'leagueId']).toJS();
+  const weekNo = 7; //state.getIn(['games', 'weekNo']).toJS();
+  const year = 2017;
 
   return {
     games,
     picks,
     leagueId,
-    weekNo
+    weekNo,
+    year
   }
 };
 
 SchedulePage.propTypes = {
         games: PropTypes.array,
         picks: PropTypes.array,
+        leagueId: PropTypes.string,
+        weekNo: PropTypes.integer,
+        year: PropTypes.integer,
         loadGames: PropTypes.func.isRequired,
-        loadPicks: PropTypes.func.isRequired
+        loadPicks: PropTypes.func.isRequired,
+        makePick: PropTypes.func.isRequired
     };
 
-export default connect(mapStateToProps,{
+export default connect(mapStateToProps, {
   loadGames,
-  loadPicks
+  loadPicks,
+  makePick
 })(SchedulePage);

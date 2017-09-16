@@ -5,7 +5,6 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 import moment from 'moment';
 import { connect } from 'react-redux'
-import { loadGames } from '../actions'
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -343,9 +342,14 @@ class Games extends Component {
         };
     }
 
+    handleMakePick(pick) {
+        this.props.handleMakePick(pick);
+    }
+
     render() {
         const games = this.props.games;
         const picks = this.props.picks;
+        const handleMakePick = this.props.handleMakePick;
 
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
@@ -369,7 +373,7 @@ class Games extends Component {
 
         const rows = formattedGames.map(function(game) {
             const pick = picks.find(x=>x.gameId === game._id);
-            return <Game game={game} pick={pick} key={game._id} />;
+            return <Game game={game} pick={pick} key={game._id} handleMakePick={handleMakePick}/>;
         });
 
         return (
@@ -383,7 +387,8 @@ class Games extends Component {
 
 Games.propTypes = {
   games: PropTypes.array,
-  picks: PropTypes.array
+  picks: PropTypes.array,
+  handleMakePick: PropTypes.func
 };
 
 export default Games;
