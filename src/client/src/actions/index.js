@@ -1,21 +1,10 @@
 import { CALL_API, Schemas } from '../middleware/api';
-// import URLSearchParams from 'url-search-params';
 import queryString from 'query-string';
 
 export const GAMES_REQUEST = 'GAMES_REQUEST';
 export const GAMES_SUCCESS = 'GAMES_SUCCESS';
 export const GAMES_FAILURE = 'GAMES_FAILURE';
 
-// const query = {
-//             leagueId:"59723313734d1d6202a85f10",
-//             weekNo: week.weekNo
-//         };
-
-// const getGamesPromise = api.getGames(query);
-// const getPickPromise = api.getPicks(query);
-
-// Fetches data
-// Relies on the custom API middleware defined in ../middleware/api.js.
 const fetchGames = query => ({
   [CALL_API]: {
     types: [ GAMES_REQUEST, GAMES_SUCCESS, GAMES_FAILURE ],

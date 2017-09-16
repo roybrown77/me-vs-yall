@@ -59,12 +59,6 @@ class Game extends Component {
     }
 
     render() {
-        // var name = this.props.product.stocked ?
-        //   this.props.product.name :
-        //   <span style={{color: 'red'}}>
-        //     {this.props.product.name}
-        //   </span>;
-
         const { game, pick } = this.props;
 
         return (
