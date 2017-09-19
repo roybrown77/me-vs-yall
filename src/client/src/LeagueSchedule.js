@@ -111,7 +111,21 @@ import Spinner from './Spinner';
                         namePrefix: "Week",
                         beginDateTime: "2017-09-14T05:00:00+04:00",
                         endDateTime: "2017-09-19T02:00:00+04:00"
-                    }
+                    },
+                    {
+                        weekNo: 8,
+                        weekNumberDisplay: 3,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-21T05:00:00+04:00",
+                        endDateTime: "2017-09-26T02:00:00+04:00"
+                    },
+                    // {
+                    //     weekNo: 9,
+                    //     weekNumberDisplay: 4,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-09-28T05:00:00+04:00",
+                    //     endDateTime: "2017-10-03T02:00:00+04:00"
+                    // }
                   ];
 
     const teamData = [
