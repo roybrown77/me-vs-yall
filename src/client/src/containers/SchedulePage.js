@@ -74,6 +74,13 @@ const weeks = [
                         namePrefix: 'Week',
                         beginDateTime: '2017-09-14T05:00:00+04:00',
                         endDateTime: '2017-09-19T02:00:00+04:00'
+                    },
+                    {
+                        weekNo: 8,
+                        weekNumberDisplay: 3,
+                        namePrefix: 'Week',
+                        beginDateTime: '2017-09-21T05:00:00+04:00',
+                        endDateTime: '2017-09-26T02:00:00+04:00'
                     }
                   ];
 
@@ -108,7 +115,7 @@ class SchedulePage extends Component {
     componentWillMount() {
         const query = {
             leagueId: '59723313734d1d6202a85f10',
-            weekNo: 7
+            weekNo: 8
         };
         this.props.loadGames(query);
         this.props.loadPicks(query);
