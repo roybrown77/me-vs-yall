@@ -493,7 +493,7 @@ class LeagueSchedule extends Component {
 
         const game = this.state.games.find(x=>x._id === gameId);
 
-        if (game.isGameOver) {
+        if (game.hasStarted) {
             return;
         }
 
@@ -542,6 +542,7 @@ class LeagueSchedule extends Component {
             let ties = 0;
 
             games.map((game)=>{
+                game.hasStarted = this.hasGameStarted(game.startDateTime);
                 game.startDateTimeDisplay = moment.utc(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
@@ -582,6 +583,22 @@ class LeagueSchedule extends Component {
                 ties: ties
             });
         });
+    }
+
+    hasGameStarted(dateTime) {
+        let offSetMinutes = 0;
+        const utcDiffMinutes = moment.utc(new Date(dateTime)).diff(moment(new Date()),'minutes');
+        const forwardOffSetSplit = dateTime.split('+');
+        if (!!forwardOffSetSplit && forwardOffSetSplit.length === 2) {
+            offSetMinutes = moment.duration(forwardOffSetSplit[1],'minutes').asMinutes();
+        } else {
+            const backwardOffSetSplit = dateTime.split('-');
+            if (!!backwardOffSetSplit && backwardOffSetSplit.length === 4) {
+                offSetMinutes = -(moment.duration(backwardOffSetSplit[backwardOffSetSplit.length-1],'minutes').asMinutes());
+            }
+        }
+
+        return (utcDiffMinutes + offSetMinutes) < 5;
     }
 
     updatePickInUI (game, competitorId) {
