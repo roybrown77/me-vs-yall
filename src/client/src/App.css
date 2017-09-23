@@ -281,6 +281,15 @@ body {
   color: white;
 }
 
+.preview {
+  background-color: #001f3f;
+  color: white;
+  font-size: 40px;
+  font-weight: 900;
+  font-family: sans-serif;
+  padding: 70px 20px;
+}
+
 /* --- login end --- */
 
 /* --- game start --- */
