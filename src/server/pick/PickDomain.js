@@ -27,16 +27,23 @@ function isValid(err, game, pick) {
 	if (err) throw new Error('Finding game id ' + pick.gameId + ' - ' + err.message);
     if (!game) throw new Error('Game id was not found: ' + pick.gameId);
 
-	const gameStartDateTime = moment.utc(new Date(game.startDateTime)).format("YYYY-MM-DD HH:mm:ss");
-	const pickDateTime = moment(new Date(pick.createDateTime)).format("YYYY-MM-DD HH:mm:ss");
-	const minuteDiffTime = moment(gameStartDateTime).diff(pickDateTime, 'minutes');
-	const minuteDifference = moment.duration(minuteDiffTime,'minutes').asMinutes();
+	const started = hasGameStarted(game.startDateTime, pick.createDateTime);
 
-	if (minuteDifference < 5) {
+	if (started) {
 		return false;
 	}
 
 	return true;
+}
+
+function hasGameStarted(gameDateTime, pickDateTime) {
+    const gameStartDateTime = moment(new Date(gameDateTime));
+    const currentDateTime = moment(pickDateTime);
+    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+
+    console.log('difference: ' + difference);
+
+    return difference < 5;
 }
 
 const domain = { createPick, updatePick };

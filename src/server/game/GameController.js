@@ -537,14 +537,6 @@ router.post('/creategames', function (req, res) {
 //     "station": "ESPN"
 //   },
 //   {
-//     "awayteam": "New England Patriots",
-//     "hometeam": "Tampa Bay Buccaneers",
-//     "weekNo": 10,
-//     "startdate": "Thursday, Oct. 5, 2017",
-//     "starttime": "8:25 PM",
-//     "station": "CBS/NFLN/Amazon"
-//   },
-//   {
 //     "awayteam": "Buffalo Bills",
 //     "hometeam": "Cincinnati Bengals",
 //     "weekNo": 10,
@@ -2521,9 +2513,9 @@ router.post('/creategames', function (req, res) {
         competitors.push(homecompetitor);
 
         let date = new Date(new Date(game.startdate + " " + game.starttime).toUTCString()).toISOString();
+        date = date.split('.')[0] + '+00:00';
+        date = new Date(date);
 
-        date = date.split('.')[0] + '+04:00';
-        
         const formattedGame = {
             startDateTime: date,
             station: game.station,

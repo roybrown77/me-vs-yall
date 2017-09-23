@@ -125,6 +125,13 @@ import Spinner from './Spinner';
                     //     namePrefix: "Week",
                     //     beginDateTime: "2017-09-28T05:00:00+04:00",
                     //     endDateTime: "2017-10-03T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 10,
+                    //     weekNumberDisplay: 5,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-09-28T05:00:00+04:00",
+                    //     endDateTime: "2017-10-03T02:00:00+04:00"
                     // }
                   ];
 
@@ -493,7 +500,9 @@ class LeagueSchedule extends Component {
 
         const game = this.state.games.find(x=>x._id === gameId);
 
-        if (game.hasStarted) {
+        const started = this.hasGameStarted(game.startDateTime);
+
+        if (started) {
             return;
         }
 
@@ -542,8 +551,7 @@ class LeagueSchedule extends Component {
             let ties = 0;
 
             games.map((game)=>{
-                game.hasStarted = this.hasGameStarted(game.startDateTime);
-                game.startDateTimeDisplay = moment.utc(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
+                game.startDateTimeDisplay = moment(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
                 game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
@@ -586,19 +594,11 @@ class LeagueSchedule extends Component {
     }
 
     hasGameStarted(dateTime) {
-        let offSetMinutes = 0;
-        const utcDiffMinutes = moment.utc(new Date(dateTime)).diff(moment(new Date()),'minutes');
-        const forwardOffSetSplit = dateTime.split('+');
-        if (!!forwardOffSetSplit && forwardOffSetSplit.length === 2) {
-            offSetMinutes = moment.duration(forwardOffSetSplit[1],'minutes').asMinutes();
-        } else {
-            const backwardOffSetSplit = dateTime.split('-');
-            if (!!backwardOffSetSplit && backwardOffSetSplit.length === 4) {
-                offSetMinutes = -(moment.duration(backwardOffSetSplit[backwardOffSetSplit.length-1],'minutes').asMinutes());
-            }
-        }
+        const gameStartDateTime = moment(new Date(dateTime));
+        const currentDateTime = moment(new Date());
+        const difference = gameStartDateTime.diff(currentDateTime,'minutes');
 
-        return (utcDiffMinutes + offSetMinutes) < 5;
+        return difference < 5;
     }
 
     updatePickInUI (game, competitorId) {

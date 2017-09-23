@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
 	weekNo: Number,
-    startDateTime: String,
+    startDateTime: 'date',
     station: String,
     competitors: Array
 });
