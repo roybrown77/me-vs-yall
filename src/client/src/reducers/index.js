@@ -25,16 +25,17 @@ const picks = (state = Map({ picks: List([]) }), action) => {
       });
       return state.set('picks', List(list));
     case ActionTypes.ADDPICK_SUCCESS:
-      return state.picks.push(Map(action.response));
+      const listWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response));
+      return state.set('picks', listWithNewValue);
     case ActionTypes.UPDATEPICK_SUCCESS:
-      const list2 = state.get('picks').update(
+      const listToUpdate = state.get('picks').update(
         state.get('picks').findIndex(function(item) { 
             return item.get("_id") === action.response._id; 
           }), function(item) {
             return item.set("pickId", action.response.pickId);
           }
       ); 
-      return state.set('picks', list2);
+      return state.set('picks', listToUpdate);
     //case ActionTypes.GAMES_FAILURE:
     default:
       return state;
