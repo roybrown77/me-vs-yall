@@ -30,29 +30,29 @@ const weeks = [
                         weekNo: 1,
                         weekNumberDisplay: '',
                         namePrefix: 'Hall of Fame Game',
-                        beginDateTime: '2017-08-03T05:00:00+04:00',
-                        endDateTime: '2017-08-04T02:00:00+04:00'
+                        beginDateTime: '2017-08-03T05:00:00+00:00',
+                        endDateTime: '2017-08-04T02:00:00+00:00'
                     },
                     {
                         weekNo: 2,
                         weekNumberDisplay: 1,
                         namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-09T05:00:00+04:00',
-                        endDateTime: '2017-08-14T02:00:00+04:00'
+                        beginDateTime: '2017-08-09T05:00:00+00:00',
+                        endDateTime: '2017-08-14T02:00:00+00:00'
                     },
                     {
                         weekNo: 3,
                         weekNumberDisplay: 2,
                         namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-17T05:00:00+04:00',
-                        endDateTime: '2017-08-22T02:00:00+04:00'
+                        beginDateTime: '2017-08-17T05:00:00+00:00',
+                        endDateTime: '2017-08-22T02:00:00+00:00'
                     },
                     {
                         weekNo: 4,
                         weekNumberDisplay: 3,
                         namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-24T05:00:00+04:00',
-                        endDateTime: '2017-08-28T02:00:00+04:00'
+                        beginDateTime: '2017-08-24T05:00:00+00:00',
+                        endDateTime: '2017-08-28T02:00:00+00:00'
                     },
                     {
                         weekNo: 5,
@@ -65,23 +65,30 @@ const weeks = [
                         weekNo: 6,
                         weekNumberDisplay: 1,
                         namePrefix: 'Week',
-                        beginDateTime: '2017-09-07T05:00:00+04:00',
-                        endDateTime: '2017-09-12T02:00:00+04:00'
+                        beginDateTime: '2017-09-07T05:00:00+00:00',
+                        endDateTime: '2017-09-12T02:00:00+00:00'
                     },
                     {
                         weekNo: 7,
                         weekNumberDisplay: 2,
                         namePrefix: 'Week',
-                        beginDateTime: '2017-09-14T05:00:00+04:00',
-                        endDateTime: '2017-09-19T02:00:00+04:00'
+                        beginDateTime: '2017-09-14T05:00:00+00:00',
+                        endDateTime: '2017-09-19T02:00:00+00:00'
                     },
                     {
                         weekNo: 8,
                         weekNumberDisplay: 3,
                         namePrefix: 'Week',
-                        beginDateTime: '2017-09-21T05:00:00+04:00',
-                        endDateTime: '2017-09-26T02:00:00+04:00'
-                    }
+                        beginDateTime: '2017-09-21T05:00:00+00:00',
+                        endDateTime: '2017-09-26T02:00:00+00:00'
+                    },
+                    // {
+                    //     weekNo: 9,
+                    //     weekNumberDisplay: 4,
+                    //     namePrefix: 'Week',
+                    //     beginDateTime: '2017-09-28T05:00:00+00:00',
+                    //     endDateTime: '2017-10-03T02:00:00+00:00'
+                    // }
                   ];
 
 class SchedulePage extends Component {
@@ -102,7 +109,7 @@ class SchedulePage extends Component {
         });
 
         this.state = {
-            currentWeek: formattedWeeks.length-1,
+            currentWeek: weeks[weeks.length-1].weekNo-1,
             weeks: formattedWeeks
         };
 
@@ -170,7 +177,7 @@ const mapStateToProps = (state, ownProps) => {
   const games = entities.games;
   const picks = entities.picks;
   const leagueId = '59723313734d1d6202a85f10'; //state.getIn(['games', 'leagueId']).toJS();
-  const weekNo = 7; //state.getIn(['games', 'weekNo']).toJS();
+  const weekNo = 8; //state.getIn(['games', 'weekNo']).toJS();
   const year = 2017;
 
   return {

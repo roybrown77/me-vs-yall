@@ -6,7 +6,6 @@ const history = createHistory();
 import moment from 'moment';
 import { connect } from 'react-redux'
 
-
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
@@ -55,7 +54,7 @@ class Game extends Component {
     handleMakePick(gameId, pickId) {
         const pick = {
             leagueId: '59723313734d1d6202a85f10', 
-            weekNo: 7,
+            weekNo: 8,
             gameId: gameId,
             pickId: pickId
         };
