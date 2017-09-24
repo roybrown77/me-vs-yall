@@ -20,32 +20,21 @@ const picks = (state = Map({ picks: List([]) }), action) => {
   switch (action.type) {
     //case ActionTypes.PICKS_REQUEST:
     case ActionTypes.PICKS_SUCCESS:
-      return state.set('picks', List(action.response));
-    //case ActionTypes.GAMES_FAILURE:
-    default:
-      return state;
-  }
-};
-
-const createPick = (state = Map({ picks: List([]) }), action) => {
-  switch (action.type) {
-    //case ActionTypes.PICKS_REQUEST:
+      const list = action.response.map(item=>{
+        return Map(item);
+      });
+      return state.set('picks', List(list));
     case ActionTypes.ADDPICK_SUCCESS:
       return state.picks.push(Map(action.response));
-    //case ActionTypes.GAMES_FAILURE:
-    default:
-      return state;
-  }
-};
-
-const updatePick = (state = Map({ picks: List([]) }), action) => {
-  switch (action.type) {
-    //case ActionTypes.PICKS_REQUEST:
     case ActionTypes.UPDATEPICK_SUCCESS:
-      const list = state.get('picks').toJS();
-      const index = list.findIndex(i => i._id === action.response._id);
-      list.splice(index, 1, action.response)
-      return state.set('picks', list);
+      const list2 = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.response._id; 
+          }), function(item) {
+            return item.set("pickId", action.response.pickId);
+          }
+      ); 
+      return state.set('picks', list2);
     //case ActionTypes.GAMES_FAILURE:
     default:
       return state;
@@ -68,8 +57,6 @@ const errorMessage = (state = null, action) => {
 const rootReducer = combineReducers({
 	games,
   picks,
-  createPick,
-  updatePick,
 	errorMessage,
   routing
 });
