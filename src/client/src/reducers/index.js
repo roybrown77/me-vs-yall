@@ -3,40 +3,34 @@ import * as ActionTypes from '../actions';
 import { routerReducer as routing } from 'react-router-redux';
 import { Map, List } from 'immutable';
 
-// Updates an entity cache in response to any action with response.entities.
-const games = (state = Map({ games: List([]) }), action) => {
-  //if (action.response && action.response.entities) {
+const entities = (state = Map({ games: List(), picks: List() }), action) => {
   switch (action.type) {
     //case ActionTypes.GAMES_REQUEST:
     case ActionTypes.GAMES_SUCCESS:
-      return state.set('games', List(action.response));
-    //case ActionTypes.GAMES_FAILURE:
-    default:
-      return state;
-  }
-};
-
-const picks = (state = Map({ picks: List([]) }), action) => {
-  switch (action.type) {
-    //case ActionTypes.PICKS_REQUEST:
-    case ActionTypes.PICKS_SUCCESS:
-      const list = action.response.map(item=>{
+      const gameList = action.response.map(item=>{
         return Map(item);
       });
-      return state.set('picks', List(list));
+      return state.set('games', List(gameList));
+    //case ActionTypes.GAMES_FAILURE:
+    //case ActionTypes.PICKS_REQUEST:
+    case ActionTypes.PICKS_SUCCESS:
+      const pickList = action.response.map(item=>{
+        return Map(item);
+      });
+      return state.set('picks', List(pickList));
+    //case ActionTypes.PICKS_FAILURE:
     case ActionTypes.ADDPICK_SUCCESS:
-      const listWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response));
-      return state.set('picks', listWithNewValue);
+      const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response));
+      return state.set('picks', pickListWithNewValue);
     case ActionTypes.UPDATEPICK_SUCCESS:
-      const listToUpdate = state.get('picks').update(
+      const pickListToUpdate = state.get('picks').update(
         state.get('picks').findIndex(function(item) { 
             return item.get("_id") === action.response._id; 
           }), function(item) {
             return item.set("pickId", action.response.pickId);
           }
-      ); 
-      return state.set('picks', listToUpdate);
-    //case ActionTypes.GAMES_FAILURE:
+      );
+      return state.set('picks', pickListToUpdate);
     default:
       return state;
   }
@@ -56,8 +50,7 @@ const errorMessage = (state = null, action) => {
 };
 
 const rootReducer = combineReducers({
-	games,
-  picks,
+	entities,
 	errorMessage,
   routing
 });

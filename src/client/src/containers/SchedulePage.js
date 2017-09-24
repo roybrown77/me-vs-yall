@@ -166,8 +166,9 @@ class SchedulePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const games = state.getIn(['games', 'games']).toJS();
-  const picks = state.getIn(['picks', 'picks']).toJS();
+  const entities = state.get('entities').toJS();
+  const games = entities.games;
+  const picks = entities.picks;
   const leagueId = '59723313734d1d6202a85f10'; //state.getIn(['games', 'leagueId']).toJS();
   const weekNo = 7; //state.getIn(['games', 'weekNo']).toJS();
   const year = 2017;
