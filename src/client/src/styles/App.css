@@ -110,6 +110,12 @@ body {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg); } }
 
+.pick-processing {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+}
+
 /* --- loader end --- */
 
 /* --- animation start --- */

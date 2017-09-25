@@ -19,18 +19,54 @@ const entities = (state = Map({ games: List(), picks: List() }), action) => {
       });
       return state.set('picks', List(pickList));
     //case ActionTypes.PICKS_FAILURE:
+    case ActionTypes.ADDPICK_REQUEST:
+      const pickListAddRequest = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.id; 
+          }), function(item) {
+            return item.set("inProgress", true);
+          }
+      );
+      return state.set('picks', pickListAddRequest);
     case ActionTypes.ADDPICK_SUCCESS:
-      const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response));
-      return state.set('picks', pickListWithNewValue);
+      const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response).set("inProgress", false));
+      return state.set('picks', pickListWithNewValue)
+    case ActionTypes.ADDPICK_FAILURE:
+      const pickListAddFailure = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.id; 
+          }), function(item) {
+            return item.set("inProgress", false);
+          }
+      );
+      return state.set('picks', pickListAddFailure);
+    case ActionTypes.UPDATEPICK_REQUEST:
+      const pickListUpdateRequest = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.id; 
+          }), function(item) {
+            return item.set("inProgress", true);
+          }
+      );
+      return state.set('picks', pickListUpdateRequest);
     case ActionTypes.UPDATEPICK_SUCCESS:
       const pickListToUpdate = state.get('picks').update(
         state.get('picks').findIndex(function(item) { 
             return item.get("_id") === action.response._id; 
           }), function(item) {
-            return item.set("pickId", action.response.pickId);
+            return item.set("pickId", action.response.pickId).set("inProgress", false);
           }
       );
       return state.set('picks', pickListToUpdate);
+    case ActionTypes.UPDATEPICK_FAILURE:
+      const pickListUpdateFailure = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.id; 
+          }), function(item) {
+            return item.set("inProgress", false);
+          }
+      );
+      return state.set('picks', pickListUpdateFailure);
     default:
       return state;
   }

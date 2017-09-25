@@ -44,14 +44,13 @@ const grid = {
 class Game extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            gameAndPickLoading: false,
-            pickProcessing: false
-        };
     }
 
     handleMakePick(gameId, pickId) {
+        if (this.props.pick.pickId === pickId || this.props.pick.inProgress) {
+            return;
+        }
+
         const pick = {
             leagueId: '59723313734d1d6202a85f10', 
             weekNo: 8,
@@ -64,8 +63,15 @@ class Game extends Component {
     render() {
         const { game, pick } = this.props;
 
+        // if (!!pick && !!pick.inProgress) {
+        //     console.log('game: ' + JSON.stringify(game));
+        // }
+
+        const inProgress = !!pick && !!pick.inProgress;
+
         return (
             <div key={game._id} style={{width:'100%', marginBottom: '12px'}}>
+                {inProgress && <div className='pick-processing'><Spinner/></div>}
                 <GridList key={game._id + "-gridlist"} style={grid.list}>
                     {game.competitors.map((competitor) => (
                         <GridTile

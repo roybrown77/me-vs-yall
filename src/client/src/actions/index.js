@@ -74,6 +74,7 @@ export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
 // Fetches data
 // Relies on the custom API middleware defined in ../middleware/api.js.
 const editPick = (id, pick) => ({
+  id,
   [CALL_API]: {
     types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
     endpoint: '/api/pickmanagement/picks/' + encodeURIComponent(id),
