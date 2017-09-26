@@ -40,30 +40,30 @@ const dropDownFull = {
 };
 
 class GameSearchBar extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+  }
+  
+  shouldComponenetUpdate() {
+    return false;
+  }
 
-        this.handleFilterLeagueInputChange = this.handleFilterLeagueInputChange.bind(this);
-        this.handleFilterYearInputChange = this.handleFilterYearInputChange.bind(this);
-        this.handleFilterWeekInputChange = this.handleFilterWeekInputChange.bind(this);
-      }
-      
-      handleFilterLeagueInputChange(e) {
-        this.props.onFilterLeague(e.target.value);
-      }
-      
-      handleFilterYearInputChange(e) {
-        this.props.handleFilterYear(e.target.value);
-      }
+  handleFilterLeagueInputChange(e) {
+    this.props.onFilterLeague(e.target.value);
+  }
+  
+  handleFilterYearInputChange(e) {
+    this.props.handleFilterYear(e.target.value);
+  }
 
-      handleFilterWeekInputChange(e) {
-        this.props.onFilterWeek(e.target.value);
-      }
-      
-      render() {
-        const weeks = this.props.weeks.map((week, index) =>
-                        <MenuItem key={index} value={index} primaryText={week.displayName}  />
-                      );
+  onFilterWeek(event, index) {
+    this.props.onFilterWeek(index);
+  }
+  
+  render() {
+    const weeks = this.props.weeks.map((week, index) =>
+                    <MenuItem key={index} value={index} primaryText={week.displayName}/>
+                  );
 
     return (
         <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
@@ -84,14 +84,14 @@ class GameSearchBar extends Component {
             </DropDownMenu>
             <DropDownMenu
                 value={0}
-                onChange={this.handleFilterYearInputChange}
+                onChange={this.onFilterWeek}
                 style={dropDown.root}
                 autoWidth={false}
                 >
-                <MenuItem value={0} primaryText="2017" />
+                <MenuItem value={0} primaryText={this.props.year} />
             </DropDownMenu>
             <DropDownMenu
-                value={this.props.currentWeek}
+                value={this.props.weekNo}
                 onChange={this.handleFilterWeekInputChange}
                 style={dropDownFull.root}
                 autoWidth={false}
@@ -101,5 +101,13 @@ class GameSearchBar extends Component {
         </div>);
     }
 }
+
+GameSearchBar.propTypes = {
+  league: PropTypes.string,
+  year: PropTypes.number,
+  weekNo: PropTypes.number,
+  weeks: PropTypes.array,
+  onFilterWeek: PropTypes.func
+};
 
 export default GameSearchBar;

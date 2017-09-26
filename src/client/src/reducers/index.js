@@ -72,6 +72,15 @@ const entities = (state = Map({ games: List(), picks: List() }), action) => {
   }
 };
 
+const ui = (state = Map({}), action) => {
+  switch (action.type) {
+    case 'GAMESEARCH_WEEKNO':
+      return state.set('weekNo', action.weekNo);
+    default:
+      return state;
+  }
+};
+
 // Updates error message to notify about the failed fetches.
 const errorMessage = (state = null, action) => {
   const { type, error } = action;
@@ -87,6 +96,7 @@ const errorMessage = (state = null, action) => {
 
 const rootReducer = combineReducers({
 	entities,
+  ui,
 	errorMessage,
   routing
 });

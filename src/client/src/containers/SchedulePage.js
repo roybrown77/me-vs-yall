@@ -25,42 +25,7 @@ import { loadGames, loadPicks, addPick, updatePick } from '../actions';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'NFL'} ];
 
-const weeks = [
-                    {
-                        weekNo: 1,
-                        weekNumberDisplay: '',
-                        namePrefix: 'Hall of Fame Game',
-                        beginDateTime: '2017-08-03T05:00:00+00:00',
-                        endDateTime: '2017-08-04T02:00:00+00:00'
-                    },
-                    {
-                        weekNo: 2,
-                        weekNumberDisplay: 1,
-                        namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-09T05:00:00+00:00',
-                        endDateTime: '2017-08-14T02:00:00+00:00'
-                    },
-                    {
-                        weekNo: 3,
-                        weekNumberDisplay: 2,
-                        namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-17T05:00:00+00:00',
-                        endDateTime: '2017-08-22T02:00:00+00:00'
-                    },
-                    {
-                        weekNo: 4,
-                        weekNumberDisplay: 3,
-                        namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-24T05:00:00+00:00',
-                        endDateTime: '2017-08-28T02:00:00+00:00'
-                    },
-                    {
-                        weekNo: 5,
-                        weekNumberDisplay: 4,
-                        namePrefix: 'Pre Week',
-                        beginDateTime: '2017-08-31T05:00:00+04:00',
-                        endDateTime: '2017-09-01T02:00:00+04:00'
-                    },
+const rawWeeks = [
                     {
                         weekNo: 6,
                         weekNumberDisplay: 1,
@@ -95,24 +60,6 @@ class SchedulePage extends Component {
     constructor(props) {
         super(props);
 
-        const formattedWeeks = weeks.map((week)=>{
-            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
-            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
-
-            if (startDateTime !== endDateTime) {
-                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D') + ' - ' + moment.utc(week.endDateTime).format('ddd M/D');
-            } else {
-                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D');
-            }
-
-            return week;
-        });
-
-        this.state = {
-            currentWeek: weeks[weeks.length-1].weekNo-1,
-            weeks: formattedWeeks
-        };
-
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
@@ -120,9 +67,11 @@ class SchedulePage extends Component {
     }
 
     componentWillMount() {
+        const weekToSearch = this.props.weeks[this.props.weekNo].weekNo;
+
         const query = {
-            leagueId: '59723313734d1d6202a85f10',
-            weekNo: 8
+            leagueId: this.props.leagueId,
+            weekNo: weekToSearch
         };
         this.props.loadGames(query);
         this.props.loadPicks(query);
@@ -135,9 +84,15 @@ class SchedulePage extends Component {
     }
 
     handleFilterYear(filterYear) {
-    } 
+    }
   
     handleFilterWeek(filterWeek) {
+        const weekToSearch = this.props.weeks[filterWeek].weekNo;
+
+        this.props.dispatch({
+            type: 'GAMESEARCH_WEEKNO',
+            weekNo: weekToSearch
+        });
     }
 
     handleMakePick(pick) {
@@ -157,8 +112,8 @@ class SchedulePage extends Component {
                     <GameSearchBar 
                         league={leagues.find(x=>x.id === this.props.leagueId).name}
                         year={this.props.year}
-                        currentWeek={this.state.currentWeek}
-                        weeks={this.state.weeks}
+                        weekNo={this.props.weekNo}
+                        weeks={this.props.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}>
@@ -174,16 +129,36 @@ class SchedulePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const entities = state.get('entities').toJS();
+  const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
+
   const games = entities.games;
   const picks = entities.picks;
-  const leagueId = '59723313734d1d6202a85f10'; //state.getIn(['games', 'leagueId']).toJS();
-  const weekNo = 8; //state.getIn(['games', 'weekNo']).toJS();
+  const weeks = rawWeeks.map((week)=>{
+            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
+            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
+
+            if (startDateTime !== endDateTime) {
+                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D') + ' - ' + moment.utc(week.endDateTime).format('ddd M/D');
+            } else {
+                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D');
+            }
+
+            return week;
+        });
+
+  const leagueName = get(ownProps, 'match.params.name');
+  const league = leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase());
+  const leagueId = !!league ? league.id : '59723313734d1d6202a85f10';
+  const weekNo = weeks.length-1;
   const year = 2017;
 
   return {
     games,
     picks,
-    leagueId
+    weeks,
+    leagueId,
+    weekNo,
+    year
   }
 };
 
