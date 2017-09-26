@@ -119,19 +119,19 @@ import Spinner from './Spinner';
                         beginDateTime: "2017-09-21T05:00:00+04:00",
                         endDateTime: "2017-09-26T02:00:00+04:00"
                     },
-                    // {
-                    //     weekNo: 9,
-                    //     weekNumberDisplay: 4,
-                    //     namePrefix: "Week",
-                    //     beginDateTime: "2017-09-28T05:00:00+04:00",
-                    //     endDateTime: "2017-10-03T02:00:00+04:00"
-                    // },
+                    {
+                        weekNo: 9,
+                        weekNumberDisplay: 4,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-28T05:00:00+04:00",
+                        endDateTime: "2017-10-03T02:00:00+04:00"
+                    },
                     // {
                     //     weekNo: 10,
                     //     weekNumberDisplay: 5,
                     //     namePrefix: "Week",
-                    //     beginDateTime: "2017-09-28T05:00:00+04:00",
-                    //     endDateTime: "2017-10-03T02:00:00+04:00"
+                    //     beginDateTime: "2017-10-05T05:00:00+04:00",
+                    //     endDateTime: "2017-10-10T02:00:00+04:00"
                     // }
                   ];
 
