@@ -47,7 +47,7 @@ class Game extends Component {
     }
 
     handleMakePick(gameId, pickId) {
-        if (this.props.pick.pickId === pickId || this.props.pick.inProgress) {
+        if (this.props.pick.pickId === pickId || this.props.pick.inProgress || this.hasGameStarted(this.props.game.startDateTime)) {
             return;
         }
 
@@ -58,6 +58,14 @@ class Game extends Component {
             pickId: pickId
         };
         this.props.handleMakePick(pick);
+    }
+
+    hasGameStarted(dateTime) {
+        const gameStartDateTime = moment(new Date(dateTime));
+        const currentDateTime = moment(new Date());
+        const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+
+        return difference < 5;
     }
 
     render() {
