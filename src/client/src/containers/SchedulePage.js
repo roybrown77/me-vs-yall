@@ -26,33 +26,75 @@ import { loadGames, loadPicks, addPick, updatePick } from '../actions';
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'NFL'} ];
 
 const rawWeeks = [
+                    // {
+                    //     weekNo: 1,
+                    //     weekNumberDisplay: "",
+                    //     namePrefix: "Hall of Fame Game",
+                    //     beginDateTime: "2017-08-03T05:00:00+04:00",
+                    //     endDateTime: "2017-08-04T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 2,
+                    //     weekNumberDisplay: 1,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-09T05:00:00+04:00",
+                    //     endDateTime: "2017-08-14T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 3,
+                    //     weekNumberDisplay: 2,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-17T05:00:00+04:00",
+                    //     endDateTime: "2017-08-22T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 4,
+                    //     weekNumberDisplay: 3,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-24T05:00:00+04:00",
+                    //     endDateTime: "2017-08-28T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 5,
+                    //     weekNumberDisplay: 4,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-31T05:00:00+04:00",
+                    //     endDateTime: "2017-09-01T02:00:00+04:00"
+                    // },
                     {
                         weekNo: 6,
                         weekNumberDisplay: 1,
-                        namePrefix: 'Week',
-                        beginDateTime: '2017-09-07T05:00:00+00:00',
-                        endDateTime: '2017-09-12T02:00:00+00:00'
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-07T05:00:00+04:00",
+                        endDateTime: "2017-09-12T02:00:00+04:00"
                     },
                     {
                         weekNo: 7,
                         weekNumberDisplay: 2,
-                        namePrefix: 'Week',
-                        beginDateTime: '2017-09-14T05:00:00+00:00',
-                        endDateTime: '2017-09-19T02:00:00+00:00'
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-14T05:00:00+04:00",
+                        endDateTime: "2017-09-19T02:00:00+04:00"
                     },
                     {
                         weekNo: 8,
                         weekNumberDisplay: 3,
-                        namePrefix: 'Week',
-                        beginDateTime: '2017-09-21T05:00:00+00:00',
-                        endDateTime: '2017-09-26T02:00:00+00:00'
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-21T05:00:00+04:00",
+                        endDateTime: "2017-09-26T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 9,
+                        weekNumberDisplay: 4,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-28T05:00:00+04:00",
+                        endDateTime: "2017-10-03T02:00:00+04:00"
                     },
                     // {
-                    //     weekNo: 9,
-                    //     weekNumberDisplay: 4,
-                    //     namePrefix: 'Week',
-                    //     beginDateTime: '2017-09-28T05:00:00+00:00',
-                    //     endDateTime: '2017-10-03T02:00:00+00:00'
+                    //     weekNo: 10,
+                    //     weekNumberDisplay: 5,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-10-05T05:00:00+04:00",
+                    //     endDateTime: "2017-10-10T02:00:00+04:00"
                     // }
                   ];
 
