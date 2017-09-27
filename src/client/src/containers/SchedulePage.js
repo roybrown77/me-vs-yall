@@ -128,13 +128,16 @@ class SchedulePage extends Component {
     handleFilterYear(filterYear) {
     }
   
-    handleFilterWeek(filterWeek) {
-        const weekToSearch = this.props.weeks[filterWeek].weekNo;
+    handleFilterWeek(event, index) {
+        const weekToSearch = this.props.weeks[index].weekNo;
 
-        this.props.dispatch({
-            type: 'GAMESEARCH_WEEKNO',
+        const query = {
+            leagueId: this.props.leagueId,
             weekNo: weekToSearch
-        });
+        };
+
+        this.props.loadGames(query);
+        this.props.loadPicks(query);
     }
 
     handleMakePick(pick) {

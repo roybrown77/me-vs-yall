@@ -74,8 +74,8 @@ const entities = (state = Map({ games: List(), picks: List() }), action) => {
 
 const ui = (state = Map({}), action) => {
   switch (action.type) {
-    case 'GAMESEARCH_WEEKNO':
-      return state.set('weekNo', action.weekNo);
+    case 'GAMESEARCH_WEEKNO_REQUEST':
+      return state.set('query', action.query);
     default:
       return state;
   }

@@ -55,10 +55,6 @@ class GameSearchBar extends Component {
   handleFilterYearInputChange(e) {
     this.props.handleFilterYear(e.target.value);
   }
-
-  onFilterWeek(event, index) {
-    this.props.onFilterWeek(index);
-  }
   
   render() {
     const weeks = this.props.weeks.map((week, index) =>
@@ -92,7 +88,7 @@ class GameSearchBar extends Component {
             </DropDownMenu>
             <DropDownMenu
                 value={this.props.weekNo}
-                onChange={this.handleFilterWeekInputChange}
+                onChange={this.props.onFilterWeek}
                 style={dropDownFull.root}
                 autoWidth={false}
                 >
