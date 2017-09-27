@@ -76,7 +76,7 @@ class GameSearchBar extends Component {
                 style={dropDown.root}
                 autoWidth={false}
                 >
-                <MenuItem value={0} primaryText={this.props.league}/>
+                <MenuItem value={0} primaryText={this.props.league.toUpperCase()}/>
             </DropDownMenu>
             <DropDownMenu
                 value={0}

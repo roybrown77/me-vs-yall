@@ -23,7 +23,7 @@ import Game from '../components/Game';
 
 import { loadGames, loadPicks, addPick, updatePick } from '../actions';
 
-const leagues = [ {id: '59723313734d1d6202a85f10', name: 'NFL'} ];
+const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
 const rawWeeks = [
                     // {
@@ -109,6 +109,9 @@ class SchedulePage extends Component {
     }
 
     componentWillMount() {
+        const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
+        history.push('/leagues/' + leagueName);
+
         const weekToSearch = this.props.weeks[this.props.weekNo].weekNo;
 
         const query = {
@@ -192,8 +195,8 @@ const mapStateToProps = (state, ownProps) => {
         });
 
   const leagueName = get(ownProps, 'match.params.name');
-  const league = leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase());
-  const leagueId = !!league ? league.id : '59723313734d1d6202a85f10';
+  const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : 'nfl';
+  const leagueId = league ? league.id : '59723313734d1d6202a85f10';
   const weekNo = weeks.length-1;
   const year = 2017;
 
