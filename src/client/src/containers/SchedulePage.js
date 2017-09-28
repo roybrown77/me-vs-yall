@@ -119,6 +119,7 @@ class SchedulePage extends Component {
             leagueId: this.props.leagueId,
             weekNo: weekToSearch
         };
+        
         this.props.loadGames(query);
         this.props.loadPicks(query);
     } 
@@ -185,6 +186,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const games = entities.games;
   const picks = entities.picks;
+
   const weeks = rawWeeks.map((week)=>{
             const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
             const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
@@ -215,14 +217,14 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 SchedulePage.propTypes = {
-        games: PropTypes.array,
-        picks: PropTypes.array,
-        leagueId: PropTypes.string,
-        loadGames: PropTypes.func.isRequired,
-        loadPicks: PropTypes.func.isRequired,
-        addPick: PropTypes.func.isRequired,
-        updatePick: PropTypes.func.isRequired
-    };
+    games: PropTypes.array,
+    picks: PropTypes.array,
+    leagueId: PropTypes.string,
+    loadGames: PropTypes.func.isRequired,
+    loadPicks: PropTypes.func.isRequired,
+    addPick: PropTypes.func.isRequired,
+    updatePick: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, {
   loadGames,
