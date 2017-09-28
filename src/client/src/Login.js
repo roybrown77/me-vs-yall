@@ -9,7 +9,7 @@ function Login(props) {
         	<div>
                 <Header/>
 	            <div className="page-container">
-	            <div style={{margin: '24px 0'}}></div>
+	            <div style={{fontSize:'25px', color:'gray', margin: '24px 0'}}>login</div>
 	            	<div className="fa fa-google" style={{cursor:'pointer'}} onClick={() => googleLogin()}></div>
 	            	<div style={{fontSize:'25px', color:'gray', margin: '24px 0'}}>or</div>
 	            	<div className="fa preview" style={{cursor:'pointer', color:'white'}} onClick={() => previewLogin()}>
