@@ -17,6 +17,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Spinner from '../components/Spinner';
+import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 import Game from '../components/Game';
@@ -155,7 +156,7 @@ class SchedulePage extends Component {
     render() {
         return (
             <div>
-                <Header></Header>
+                <Header/>
                 <div className='page-container'>
                     <GameSearchBar 
                         league={leagues.find(x=>x.id === this.props.leagueId).name}
@@ -166,7 +167,10 @@ class SchedulePage extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}>
                     </GameSearchBar>
-                    <Games handleMakePick={this.handleMakePick} games={this.props.games ? this.props.games : []} picks={this.props.picks ? this.props.picks : []}> 
+                    <PickResult games={this.props.games} picks={this.props.picks}/>
+                    <Games handleMakePick={this.handleMakePick} 
+                    games={this.props.games ? this.props.games : []} 
+                    picks={this.props.picks ? this.props.picks : []}> 
                     </Games>
                 </div>
                 <Footer></Footer>
