@@ -1,20 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import update from 'react-addons-update';
-import createHistory from 'history/createBrowserHistory'
-const history = createHistory();
 import moment from 'moment';
-import { connect } from 'react-redux'
 
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
 import {GridList, GridTile} from 'material-ui/GridList';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-import RaisedButton from 'material-ui/RaisedButton';
-
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Spinner from '../components/Spinner';
 
 const grid = {
     root: {
@@ -42,10 +30,6 @@ const grid = {
 };
 
 class Game extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleMakePick(gameId, pickId) {
         if (this.props.pick.pickId === pickId || this.props.pick.inProgress || this.hasGameStarted(this.props.game.startDateTime)) {
             return;

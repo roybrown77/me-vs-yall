@@ -6,7 +6,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import { AppContainer } from 'react-hot-loader'; // remove if not using
+//import { AppContainer } from 'react-hot-loader'; // remove if not using
 import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
 import { createBrowserHistory } from 'history';
 import Immutable from 'immutable';

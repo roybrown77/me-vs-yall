@@ -6,21 +6,12 @@ const history = createHistory();
 
 import get from 'lodash/get';
 import moment from 'moment';
-import Immutable from 'immutable';
-
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import {GridList, GridTile} from 'material-ui/GridList';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Spinner from '../components/Spinner';
 import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
-import Game from '../components/Game';
 
 import { loadGames, loadPicks, addPick, updatePick } from '../actions';
 
@@ -119,7 +110,7 @@ class SchedulePage extends Component {
             leagueId: this.props.leagueId,
             weekNo: weekToSearch
         };
-        
+
         this.props.loadGames(query);
         this.props.loadPicks(query);
     } 
@@ -182,7 +173,7 @@ class SchedulePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const entities = state.get('entities').toJS();
-  const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
+  //const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
   const games = entities.games;
   const picks = entities.picks;

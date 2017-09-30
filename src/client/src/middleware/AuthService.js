@@ -88,7 +88,7 @@
 //   }
 // }
 
-import decode from 'jwt-decode';
+//import decode from 'jwt-decode';
 import auth0 from 'auth0-js';
 import history from './history';
 

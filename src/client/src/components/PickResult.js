@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const PickResult = ({games, picks}) => {
@@ -9,14 +9,14 @@ const PickResult = ({games, picks}) => {
 	const areAnyGamesOver = games.some(x=>!!x.isGameOver);
 
 	if (areAnyGamesOver) {
-	    games.map((game)=>{
+	    games.forEach((game)=>{
 	        if (game.isGameOver && game.competitors[0].score === game.competitors[1].score ) {
 	            ++ties;
 	        }
 
 			const winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
-	        game.competitors.map((competitor, index)=> {
+	        game.competitors.forEach((competitor, index)=> {
 	            const winnerSelected = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
 
 	            if (winnerSelected && competitor._id === winner && game.isGameOver) {

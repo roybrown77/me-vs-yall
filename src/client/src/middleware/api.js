@@ -1,11 +1,13 @@
 /* eslint-disable no-undef */
-import URLSearchParams from 'url-search-params';
-import queryString from 'query-string';
+//import URLSearchParams from 'url-search-params';
+//import queryString from 'query-string';
 
-import { getAccessToken, serverLogout } from './AuthService';
+//import { serverLogout } from './AuthService';
+import { getAccessToken } from './AuthService';
 
-import { normalize, schema } from 'normalizr';
-import { camelizeKeys } from 'humps';
+//import { normalize } from 'normalizr';
+import { schema } from 'normalizr';
+//import { camelizeKeys } from 'humps';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
