@@ -4,15 +4,17 @@ import { routerReducer as routing } from 'react-router-redux';
 import { Map, List } from 'immutable';
 import get from 'lodash/get';
 
-const entities = (state = Map({ games: List(), picks: List() }), action) => {
+const entities = (state = Map({ games: List(), picks: List(), dataLoading: true }), action) => {
   switch (action.type) {
-    //case ActionTypes.GAMES_REQUEST:
+    case ActionTypes.GAMES_REQUEST:
+      return state.set('dataLoading', true);
     case ActionTypes.GAMES_SUCCESS:
       const gameList = action.response.map(item=>{
         return Map(item);
       });
-      return state.set('games', List(gameList));
-    //case ActionTypes.GAMES_FAILURE:
+      return state.set('games', List(gameList)).set("dataLoading", false);
+    case ActionTypes.GAMES_FAILURE:
+      return state.set('dataLoading', false);
     //case ActionTypes.PICKS_REQUEST:
     case ActionTypes.PICKS_SUCCESS:
       const pickList = action.response.map(item=>{

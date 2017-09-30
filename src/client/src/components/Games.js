@@ -322,14 +322,6 @@ const teamData = [
 ];
 
 class Games extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            dataLoading: false
-        };
-    }
-
     render() {
         const games = this.props.games;
         const picks = this.props.picks;
@@ -362,14 +354,15 @@ class Games extends Component {
 
         return (
             <div style={grid.root}>
-                {this.state.dataLoading && <Spinner/>}
-                {!this.state.dataLoading && rows}
+                {this.props.dataLoading && <Spinner/>}
+                {!this.props.dataLoading && rows}
             </div>
         );
     }
 }
 
 Games.propTypes = {
+  dataLoading: PropTypes.bool,
   games: PropTypes.array,
   picks: PropTypes.array,
   handleMakePick: PropTypes.func

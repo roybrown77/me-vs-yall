@@ -161,7 +161,8 @@ class SchedulePage extends Component {
                         onFilterWeek={this.handleFilterWeek}>
                     </GameSearchBar>
                     <PickResult games={this.props.games} picks={this.props.picks}/>
-                    <Games handleMakePick={this.handleMakePick} 
+                    <Games dataLoading={this.props.dataLoading}
+                    handleMakePick={this.handleMakePick} 
                     games={this.props.games ? this.props.games : []} 
                     picks={this.props.picks ? this.props.picks : []}> 
                     </Games>
@@ -197,8 +198,10 @@ const mapStateToProps = (state, ownProps) => {
   const leagueId = league ? league.id : '59723313734d1d6202a85f10';
   const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
   const year = 2017;
+  const dataLoading = entities.dataLoading;
 
   return {
+    dataLoading,
     games,
     picks,
     weeks,
@@ -209,9 +212,11 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 SchedulePage.propTypes = {
+    dataLoading: PropTypes.bool,
     games: PropTypes.array,
     picks: PropTypes.array,
     leagueId: PropTypes.string,
+    weekNo: PropTypes.integer,
     loadGames: PropTypes.func.isRequired,
     loadPicks: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
