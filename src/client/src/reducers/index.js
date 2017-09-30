@@ -2,6 +2,7 @@ import { combineReducers } from 'redux-immutable';
 import * as ActionTypes from '../actions';
 import { routerReducer as routing } from 'react-router-redux';
 import { Map, List } from 'immutable';
+import get from 'lodash/get';
 
 const entities = (state = Map({ games: List(), picks: List() }), action) => {
   switch (action.type) {
@@ -72,10 +73,10 @@ const entities = (state = Map({ games: List(), picks: List() }), action) => {
   }
 };
 
-const ui = (state = Map({}), action) => {
+const ui = (state = Map({weekNo: undefined}), action) => {
   switch (action.type) {
-    case 'GAMESEARCH_WEEKNO_REQUEST':
-      return state.set('query', action.query);
+    case 'GAMESEARCHUPDATE_WEEKNO':
+      return state.set('weekNo', get(action, 'weekNo'));
     default:
       return state;
   }

@@ -6,6 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import findIndex from 'lodash/findIndex';
+
 const filterButton = {
   button: {
     margin: 0,
@@ -40,6 +42,7 @@ class GameSearchBar extends Component {
   }
   
   render() {
+    const index = this.props.weeks.findIndex(x=>x.weekNo === this.props.weekNo);
     const weeks = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index} primaryText={week.displayName}/>
                   );
@@ -70,7 +73,7 @@ class GameSearchBar extends Component {
                 <MenuItem value={0} primaryText={this.props.year} />
             </DropDownMenu>
             <DropDownMenu
-                value={this.props.weekNo}
+                value={index}
                 onChange={this.props.onFilterWeek}
                 style={dropDownFull.root}
                 autoWidth={false}

@@ -116,6 +116,13 @@ export const updatePick = (id, pick) => (dispatch, getState) => {
   return dispatch(editPick(id, searchParams));
 };
 
+export const selectWeek = (weekNo) => (dispatch, getState) => {
+  return dispatch({
+    type: 'GAMESEARCHUPDATE_WEEKNO',
+    weekNo: weekNo
+  });
+};
+
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
 // Resets the currently visible error message.

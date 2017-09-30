@@ -13,7 +13,7 @@ import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 
-import { loadGames, loadPicks, addPick, updatePick } from '../actions';
+import { loadGames, loadPicks, addPick, updatePick, selectWeek } from '../actions';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
@@ -104,7 +104,7 @@ class SchedulePage extends Component {
         const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
         history.push('/leagues/' + leagueName);
 
-        const weekToSearch = this.props.weeks[this.props.weekNo].weekNo;
+        const weekToSearch = this.props.weekNo;
 
         const query = {
             leagueId: this.props.leagueId,
@@ -132,6 +132,7 @@ class SchedulePage extends Component {
             weekNo: weekToSearch
         };
 
+        this.props.selectWeek(weekToSearch);
         this.props.loadGames(query);
         this.props.loadPicks(query);
     }
@@ -173,7 +174,7 @@ class SchedulePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const entities = state.get('entities').toJS();
-  //const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
+  const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
   const games = entities.games;
   const picks = entities.picks;
@@ -194,7 +195,7 @@ const mapStateToProps = (state, ownProps) => {
   const leagueName = get(ownProps, 'match.params.name');
   const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : 'nfl';
   const leagueId = league ? league.id : '59723313734d1d6202a85f10';
-  const weekNo = weeks.length-1;
+  const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
   const year = 2017;
 
   return {
@@ -221,5 +222,6 @@ export default connect(mapStateToProps, {
   loadGames,
   loadPicks,
   addPick,
-  updatePick
+  updatePick,
+  selectWeek
 })(SchedulePage);

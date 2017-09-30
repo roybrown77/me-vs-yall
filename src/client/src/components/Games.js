@@ -363,7 +363,7 @@ class Games extends Component {
         return (
             <div style={grid.root}>
                 {this.state.dataLoading && <Spinner/>}
-                {rows}
+                {!this.state.dataLoading && rows}
             </div>
         );
     }
