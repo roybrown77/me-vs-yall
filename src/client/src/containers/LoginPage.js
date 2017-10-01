@@ -9,8 +9,7 @@ function LoginPage(props) {
         	<div>
                 <Header></Header>
 	            <div className="page-container">
-	            	<div style={{fontSize:'25px', color:'gray', marginTop: '24px'}}>Login</div>
-	            	<div style={{fontSize:'20px', color:'gray', margin: '24px 0'}}>with</div>
+	            	<div style={{fontSize:'25px', color:'gray', margin: '24px 0'}}>login</div>
 	            	<div className="fa fa-google" style={{cursor:'pointer'}} onClick={() => googleLogin()}></div>
 	            </div>
 	            <Footer></Footer>
