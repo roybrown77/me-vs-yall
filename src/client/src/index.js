@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+//import { createLogger } from 'redux-logger';
 //import { AppContainer } from 'react-hot-loader'; // remove if not using
 import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
 import { createBrowserHistory } from 'history';
@@ -20,9 +20,9 @@ injectTapEventPlugin();
 
 const history = createBrowserHistory();
 const initialState = Immutable.Map();
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancer = compose;
 const routerMiddlewareWithHistory = routerMiddleware(history);
-const loggerMiddleware = createLogger();
+//const loggerMiddleware = createLogger();
 
 const store = createStore(
   connectRouter(history)(rootReducer),
@@ -30,8 +30,7 @@ const store = createStore(
   composeEnhancer(
     applyMiddleware(thunkMiddleware,
       api, 
-      routerMiddlewareWithHistory,
-      loggerMiddleware)
+      routerMiddlewareWithHistory)
   )
 );
 
