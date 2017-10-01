@@ -6,8 +6,6 @@ import MenuItem from 'material-ui/MenuItem';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import findIndex from 'lodash/findIndex';
-
 const filterButton = {
   button: {
     margin: 0,

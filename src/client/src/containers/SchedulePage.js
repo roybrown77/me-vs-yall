@@ -15,6 +15,8 @@ import Games from '../components/Games';
 
 import { loadGames, loadPicks, addPick, updatePick, selectWeek } from '../actions';
 
+import { isLoggedIn } from '../middleware/authService';
+
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
 const rawWeeks = [
@@ -101,6 +103,11 @@ class SchedulePage extends Component {
     }
 
     componentWillMount() {
+        if (!isLoggedIn()) {
+            window.location.href = '/login';
+            return;
+        }
+        
         const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
         history.push('/leagues/' + leagueName);
 
@@ -113,9 +120,6 @@ class SchedulePage extends Component {
 
         this.props.loadGames(query);
         this.props.loadPicks(query);
-    } 
-
-    componentWillReceiveProps(nextProps) {
     }
 
     handleFilterLeague(filterLeague) {
@@ -217,7 +221,7 @@ SchedulePage.propTypes = {
     games: PropTypes.array,
     picks: PropTypes.array,
     leagueId: PropTypes.string,
-    weekNo: PropTypes.integer,
+    weekNo: PropTypes.number,
     loadGames: PropTypes.func.isRequired,
     loadPicks: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,

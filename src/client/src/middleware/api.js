@@ -3,7 +3,7 @@
 //import queryString from 'query-string';
 
 //import { serverLogout } from './AuthService';
-import { getAccessToken } from './AuthService';
+import { getAccessToken } from './authService';
 
 //import { normalize } from 'normalizr';
 import { schema } from 'normalizr';
