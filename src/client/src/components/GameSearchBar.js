@@ -54,30 +54,32 @@ class GameSearchBar extends Component {
               icon={<ActionAndroid />}
               style={filterButton.button}
             />
-            <DropDownMenu
-                value={0}
-                onChange={this.handleFilterLeagueInputChange}
-                style={dropDown.root}
-                autoWidth={false}
-                >
-                <MenuItem value={0} primaryText={this.props.league.toUpperCase()}/>
-            </DropDownMenu>
-            <DropDownMenu
-                value={0}
-                onChange={this.onFilterWeek}
-                style={dropDown.root}
-                autoWidth={false}
-                >
-                <MenuItem value={0} primaryText={this.props.year} />
-            </DropDownMenu>
-            <DropDownMenu
-                value={index}
-                onChange={this.props.onFilterWeek}
-                style={dropDownFull.root}
-                autoWidth={false}
-                >
-                {weeks}
-            </DropDownMenu>
+            <div className='game-search-container'>
+              <DropDownMenu
+                  value={0}
+                  onChange={this.handleFilterLeagueInputChange}
+                  style={dropDown.root}
+                  autoWidth={false}
+                  >
+                  <MenuItem value={0} primaryText={this.props.league.toUpperCase()}/>
+              </DropDownMenu>
+              <DropDownMenu
+                  value={0}
+                  onChange={this.onFilterWeek}
+                  style={dropDown.root}
+                  autoWidth={false}
+                  >
+                  <MenuItem value={0} primaryText={this.props.year} />
+              </DropDownMenu>
+              <DropDownMenu
+                  value={index}
+                  onChange={this.props.onFilterWeek}
+                  style={dropDownFull.root}
+                  autoWidth={false}
+                  >
+                  {weeks}
+              </DropDownMenu>
+            </div>
         </div>);
     }
 }
