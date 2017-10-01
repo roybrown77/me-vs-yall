@@ -9,6 +9,9 @@ import { getAccessToken } from './authService';
 import { schema } from 'normalizr';
 //import { camelizeKeys } from 'humps';
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, method, body, schema) => {
