@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import HomePage from '../containers/HomePage';
@@ -11,21 +11,23 @@ import LeaderPage from '../containers/LeaderPage';
 import Callback from '../components/Callback';
 
 const routes = (
-	 <MuiThemeProvider>
-	    <div className="App">
-	        <main>
-	            <Switch>
-	                <Route exact path='/' component={HomePage}/>
-	                <Route exact path='/login' component={LoginPage}/>
-	                <Route exact path='/leagues' component={LeagueSelectionPage}/>
-	                <Route path='/leagues/:name' component={SchedulePage}/>
-	                <Route path='/leaders' component={LeaderPage}/>
-	                <Route path='/about' component={AboutPage}/>
-	                <Route path='/callback' component={Callback}/>
-	            </Switch>
-	        </main>
-	    </div>
-	</MuiThemeProvider>
+	<BrowserRouter>
+		 <MuiThemeProvider>
+		    <div className="App">
+		        <main>
+		            <Switch>
+		                <Route exact path='/' component={HomePage}/>
+		                <Route exact path='/login' component={LoginPage}/>
+		                <Route exact path='/leagues' component={LeagueSelectionPage}/>
+		                <Route path='/leagues/:name' component={SchedulePage}/>
+		                <Route path='/leaders' component={LeaderPage}/>
+		                <Route path='/about' component={AboutPage}/>
+		                <Route path='/callback' component={Callback}/>
+		            </Switch>
+		        </main>
+		    </div>
+		</MuiThemeProvider>
+	</BrowserRouter>
 )
 
 export default routes
