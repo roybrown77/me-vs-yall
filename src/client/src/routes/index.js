@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import HomePage from '../containers/HomePage';
@@ -11,7 +11,6 @@ import LeaderPage from '../containers/LeaderPage';
 import Callback from '../components/Callback';
 
 const routes = (
-	<BrowserRouter>
 		 <MuiThemeProvider>
 		    <div className="App">
 		        <main>
@@ -27,7 +26,6 @@ const routes = (
 		        </main>
 		    </div>
 		</MuiThemeProvider>
-	</BrowserRouter>
 )
 
 export default routes
