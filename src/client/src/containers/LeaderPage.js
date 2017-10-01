@@ -5,8 +5,8 @@ import MenuItem from 'material-ui/MenuItem';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const filterButton = {
       button: {
@@ -45,7 +45,7 @@ const filterButton = {
         }
     ];
 
-class Leaders extends Component {
+class LeaderPage extends Component {
     constructor(props) {
         super(props);
         this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false};
@@ -148,4 +148,4 @@ class Leaders extends Component {
     }
 }
 
-export default Leaders;
+export default LeaderPage;

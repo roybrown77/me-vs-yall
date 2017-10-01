@@ -112,9 +112,23 @@ body {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg); } }
 
+.pick-processing {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+}
+
 /* --- loader end --- */
 
 /* --- animation start --- */
+
+.fast-flash {
+  -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: .5s; /* Safari 4.0 - 8.0 */
+  animation-name: flash-keyframe;
+  animation-duration: .5s;
+  animation-iteration-count:infinite;
+}
 
 .flash {
   -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
@@ -324,6 +338,10 @@ body {
 
 .grid-tile div div {
   margin-left: 0 !important;
+}
+
+.game-pick-in-progress {
+  border: '8px solid #BA68C8' !important;
 }
 
 /* --- game end --- */

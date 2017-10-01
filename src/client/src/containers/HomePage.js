@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 // <iframe width="100%" height="50%" src={"https://www.youtube.com/embed/vnfulwtcwKQ?rel=0&version=3&autoplay=1&loop=1&controls=0&&showinfo=0playlist=vnfulwtcwKQ"} allowFullScreen="">
 //     </iframe>
 
-function Home(props) {
+function HomePage(props) {
         return (
             <div id="home" className="fade-in">
                 <div id="home-title">Me vs Yall</div>
@@ -24,4 +24,4 @@ function Home(props) {
         );
 }
 
-export default Home;
+export default HomePage;

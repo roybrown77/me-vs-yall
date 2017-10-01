@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom'
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-function LeagueSelection(props) {
+function LeagueSelectionPage(props) {
         return (
             <div>
                 <Header/>
@@ -174,4 +174,4 @@ function LeagueSelection(props) {
         );
 }
 
-export default LeagueSelection;
+export default LeagueSelectionPage;

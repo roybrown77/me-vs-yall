@@ -10,6 +10,8 @@ Backend:
 
 - Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable.  Same goes for client.
 - Node / Javascript
+- Redux - state management
+- ImmutableJs - avoid side affects
 - Auth0
 - MongoDB
 

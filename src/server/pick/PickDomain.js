@@ -40,9 +40,6 @@ function hasGameStarted(gameDateTime, pickDateTime) {
     const gameStartDateTime = moment(new Date(gameDateTime));
     const currentDateTime = moment(pickDateTime);
     const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-
-    console.log('difference: ' + difference);
-
     return difference < 5;
 }
 
