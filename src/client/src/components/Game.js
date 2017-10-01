@@ -80,7 +80,7 @@ class Game extends Component {
                                 <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
                                     {competitor.score}
                                 </div>
-                                <div style={{paddingTop: '10px'}}>
+                                <div style={{paddingTop: !!game.isGameOver ? '10px' : competitor.showCheck ? '20px' : '30px'}}>
                                     {competitor.shortLocation}
                                 </div>
                         </div>
