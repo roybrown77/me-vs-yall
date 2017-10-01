@@ -18,7 +18,9 @@ import rootReducer from './reducers';
 
 injectTapEventPlugin();
 
-const history = createBrowserHistory();
+const history = createBrowserHistory({
+  forceRefresh: true
+});
 const initialState = Immutable.Map();
 const composeEnhancer = compose;
 //const routerMiddlewareWithHistory = routerMiddleware(history);
