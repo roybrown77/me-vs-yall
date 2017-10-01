@@ -7,7 +7,6 @@
     "auth0-js": "^8.8.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "connected-react-router": "^4.2.3",
-    "font-awesome": "^4.7.0",
     "history": "^4.6.3",
     "humps": "^2.0.1",
     "immutable": "^3.8.1",
