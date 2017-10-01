@@ -4,16 +4,14 @@ Pick winners of sporting events and compete with others around the world.
 
 https://mevsyall.herokuapp.com
 
-# Launch
-
-Midnight Tuesday, September 5, 2017 (2 days before NFL season kickoff!)
-
 # Tek Stak
   
 Backend:
 
 - Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable.  Same goes for client.
 - Node / Javascript
+- Redux - state management
+- ImmutableJs - avoid side affects
 - Auth0
 - MongoDB
 
