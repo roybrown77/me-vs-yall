@@ -40,7 +40,9 @@ body {
 
 .page-container {
   margin: 0 20%;
-  margin-bottom: 120px;
+  margin-bottom: 144px;
+  height: 100%;
+  position: relative;
 }
 
 @media screen and (max-width: 900px) {
@@ -291,6 +293,15 @@ body {
 .fa-google {
   background: #dd4b39;
   color: white;
+}
+
+.preview {
+  background-color: #3D9970;
+  color: white;
+  font-size: 40px;
+  font-weight: 900;
+  font-family: sans-serif;
+  padding: 65px 20px;
 }
 
 /* --- login end --- */
