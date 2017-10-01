@@ -21,16 +21,18 @@ injectTapEventPlugin();
 const history = createBrowserHistory();
 const initialState = Immutable.Map();
 const composeEnhancer = compose;
-const routerMiddlewareWithHistory = routerMiddleware(history);
+//const routerMiddlewareWithHistory = routerMiddleware(history);
 //const loggerMiddleware = createLogger();
 
 const store = createStore(
-  connectRouter(history)(rootReducer),
+  rootReducer,
+  //connectRouter(history)(rootReducer),
   initialState,
   composeEnhancer(
-    applyMiddleware(thunkMiddleware,
-      api, 
-      routerMiddlewareWithHistory)
+    applyMiddleware(
+      thunkMiddleware,
+      api
+      )
   )
 );
 

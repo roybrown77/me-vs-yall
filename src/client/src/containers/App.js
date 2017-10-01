@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ConnectedRouter } from 'connected-react-router/immutable';
+//import { ConnectedRouter } from 'connected-react-router/immutable';
 import routes from '../routes';
+import { Route, Router } from 'react-router-dom';
 
 const App = ({ history }) => {
   return (
-    <ConnectedRouter history={history}>
+    <Router history={history}>
     {routes}
-    </ConnectedRouter>
+    </Router>
   )
 }
 
