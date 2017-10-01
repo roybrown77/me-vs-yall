@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //import { ConnectedRouter } from 'connected-react-router/immutable';
 import routes from '../routes';
-import { Route, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 
 const App = ({ history }) => {
   return (
