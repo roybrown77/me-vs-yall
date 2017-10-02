@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux-immutable';
 import * as ActionTypes from '../actions';
-import { routerReducer as routing } from 'react-router-redux';
+//import { routerReducer as routing } from 'react-router-redux';
 import { Map, List } from 'immutable';
 import get from 'lodash/get';
 
@@ -100,8 +100,7 @@ const errorMessage = (state = null, action) => {
 const rootReducer = combineReducers({
 	entities,
   ui,
-	errorMessage,
-  routing
+	errorMessage
 });
 
 export default rootReducer;

@@ -28,4 +28,4 @@ const routes = (
 		</MuiThemeProvider>
 )
 
-export default routes
+export default routes;
