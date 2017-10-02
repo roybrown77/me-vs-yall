@@ -9,10 +9,10 @@ import { getAccessToken } from './authService';
 import { schema } from 'normalizr';
 //import { camelizeKeys } from 'humps';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+// require('es6-promise').polyfill();
+// require('isomorphic-fetch');
 
-const API_ROOT = 'http://mevsyall.herokuapp.com';
+const API_ROOT = 'https://mevsyall.herokuapp.com';
 const DEV_API_ROOT = '';
 
 // Fetches an API response and normalizes the result JSON according to schema.
