@@ -9,18 +9,24 @@ const entities = (state = Map({ games: List(), picks: List(), dataLoading: true 
     case ActionTypes.GAMES_REQUEST:
       return state.set('dataLoading', true);
     case ActionTypes.GAMES_SUCCESS:
-      const gameList = action.response.map(item=>{
-        return Map(item);
-      });
-      return state.set('games', List(gameList)).set("dataLoading", false);
+      if (action.response) {
+        const gameList = action.response.map(item=>{
+          return Map(item);
+        });
+        return state.set('games', List(gameList)).set("dataLoading", false);
+      }
+      return state;
     case ActionTypes.GAMES_FAILURE:
       return state.set('dataLoading', false);
     //case ActionTypes.PICKS_REQUEST:
     case ActionTypes.PICKS_SUCCESS:
-      const pickList = action.response.map(item=>{
-        return Map(item);
-      });
-      return state.set('picks', List(pickList));
+      if (action.response) {
+        const pickList = action.response.map(item=>{
+          return Map(item);
+        });
+        return state.set('picks', List(pickList));
+      }
+      return state;
     //case ActionTypes.PICKS_FAILURE:
     case ActionTypes.ADDPICK_REQUEST:
       const pickListAddRequest = state.get('picks').update(
