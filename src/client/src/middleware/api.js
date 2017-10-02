@@ -13,12 +13,17 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 const API_ROOT = 'https://mevsyall.herokuapp.com';
+const DEV_API_ROOT = '';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, method, body, schema) => {
-  const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
+  let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
+  if (process.env.NODE_ENV !== 'production') {
+    //fullUrl = endpoint;
+  }
+  
   return fetch(fullUrl, {
         headers: {
             'Accept': 'application/json',
@@ -42,7 +47,9 @@ const callApi = (endpoint, method, body, schema) => {
         //   { nextPageUrl }
         // )
       })
-    );
+    ).catch((error, xhr, response) => {
+      let temp = 1;
+    });
 };
 
 const gameSchema = new schema.Entity('games', {}, {
