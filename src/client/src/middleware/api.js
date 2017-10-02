@@ -12,12 +12,14 @@ import { schema } from 'normalizr';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
+const API_ROOT = 'https://mevsyall.herokuapp.com';
+
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, method, body, schema) => {
-  //const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
+  const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
 
-  return fetch(endpoint, {
+  return fetch(fullUrl, {
         headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
