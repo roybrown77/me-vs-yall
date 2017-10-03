@@ -9,8 +9,8 @@ import { getAccessToken } from './authService';
 import { schema } from 'normalizr';
 //import { camelizeKeys } from 'humps';
 
-// require('es6-promise').polyfill();
-// require('isomorphic-fetch');
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 const API_ROOT = 'https://mevsyall.herokuapp.com';
 const DEV_API_ROOT = '';
@@ -18,13 +18,13 @@ const DEV_API_ROOT = '';
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, method, body, schema) => {
-  let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
+  //let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
-  if (process.env.NODE_ENV !== 'production') {
+  //if (process.env.NODE_ENV !== 'production') {
     //fullUrl = endpoint;
-  }
+  //}
   
-  return fetch(fullUrl, {
+  return fetch(endpoint, {
         headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
@@ -33,23 +33,21 @@ const callApi = (endpoint, method, body, schema) => {
         body: body ? body : {}
     })
     .then(response =>
-      response.json().then(json => {
-        if (!response.ok) {
-          return Promise.reject(json)
-        }
+        response.json().then(json => {
+          if (!response.ok) {
+            return Promise.reject(json);
+          }
 
-        return Promise.resolve(json);
-        // const camelizedJson = camelizeKeys(json)
-        // const nextPageUrl = getNextPageUrl(response)
+          return Promise.resolve(json);
+          // const camelizedJson = camelizeKeys(json)
+          // const nextPageUrl = getNextPageUrl(response)
 
-        // return Object.assign({},
-        //   normalize(camelizedJson, schema),
-        //   { nextPageUrl }
-        // )
-      })
-    ).catch((error, xhr, response) => {
-      let temp = 1;
-    });
+          // return Object.assign({},
+          //   normalize(camelizedJson, schema),
+          //   { nextPageUrl }
+          // )
+        })
+    );
 };
 
 const gameSchema = new schema.Entity('games', {}, {

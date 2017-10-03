@@ -104,7 +104,7 @@ class SchedulePage extends Component {
 
     componentWillMount() {
         if (!isLoggedIn()) {
-            //window.location.href = '/login';
+            window.location.href = '/login';
             return;
         }
         
