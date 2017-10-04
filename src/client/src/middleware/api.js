@@ -1,16 +1,13 @@
 /* eslint-disable no-undef */
 //import URLSearchParams from 'url-search-params';
 //import queryString from 'query-string';
-
 //import { serverLogout } from './AuthService';
-import { getAccessToken } from './authService';
-
 //import { normalize } from 'normalizr';
-import { schema } from 'normalizr';
 //import { camelizeKeys } from 'humps';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import { getAccessToken } from './authService';
+import { schema } from 'normalizr';
+import axios from 'axios';
 
 const API_ROOT = 'https://mevsyall.herokuapp.com';
 const DEV_API_ROOT = '';
@@ -18,27 +15,23 @@ const DEV_API_ROOT = '';
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, method, body, schema) => {
-  let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
+  //let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
   //if (process.env.NODE_ENV !== 'production') {
     //fullUrl = endpoint;
   //}
   
-  return fetch(fullUrl, {
+  return axios({
+        url: endpoint,
         headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
         },
-        method: method ? method : 'GET',
-        body: body ? body : {}
+        method: method ? method : 'get',
+        data: body ? body : {}
     })
-    .then(response =>
-        response.json().then(json => {
-          if (!response.ok) {
-            return Promise.reject(json);
-          }
-
-          return Promise.resolve(json);
+    .then(function(response) {
+      return Promise.resolve(response.data);
           // const camelizedJson = camelizeKeys(json)
           // const nextPageUrl = getNextPageUrl(response)
 
@@ -46,8 +39,7 @@ const callApi = (endpoint, method, body, schema) => {
           //   normalize(camelizedJson, schema),
           //   { nextPageUrl }
           // )
-        })
-    );
+    });
 };
 
 const gameSchema = new schema.Entity('games', {}, {

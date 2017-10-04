@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 const App = ({ history }) => {
   return (
-    <BrowserRouter history={history}>
+    <BrowserRouter>
     {routes}
     </BrowserRouter>
   )

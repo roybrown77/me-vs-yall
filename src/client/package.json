@@ -5,7 +5,9 @@
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "auth0-js": "^8.8.0",
+    "axios": "^0.16.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "es6-promise": "^4.1.1",
     "history": "^4.6.3",
     "humps": "^2.0.1",
     "immutable": "^3.8.1",

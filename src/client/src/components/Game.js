@@ -31,7 +31,7 @@ const grid = {
 
 class Game extends Component {
     handleMakePick(gameId, pickId) {
-        if (this.props.pick.pickId === pickId || this.props.pick.inProgress || this.hasGameStarted(this.props.game.startDateTime)) {
+        if ((!!this.props.pick && (this.props.pick.pickId === pickId || this.props.pick.inProgress)) || this.hasGameStarted(this.props.game.startDateTime)) {
             return;
         }
 
