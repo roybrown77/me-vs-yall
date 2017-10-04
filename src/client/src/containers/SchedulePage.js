@@ -83,13 +83,13 @@ const rawWeeks = [
                         beginDateTime: "2017-09-28T05:00:00+04:00",
                         endDateTime: "2017-10-03T02:00:00+04:00"
                     },
-                    // {
-                    //     weekNo: 10,
-                    //     weekNumberDisplay: 5,
-                    //     namePrefix: "Week",
-                    //     beginDateTime: "2017-10-05T05:00:00+04:00",
-                    //     endDateTime: "2017-10-10T02:00:00+04:00"
-                    // }
+                    {
+                        weekNo: 10,
+                        weekNumberDisplay: 5,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-10-05T05:00:00+04:00",
+                        endDateTime: "2017-10-10T02:00:00+04:00"
+                    }
                   ];
 
 class SchedulePage extends Component {
@@ -142,6 +142,9 @@ class SchedulePage extends Component {
     }
 
     handleMakePick(pick) {
+        pick.leagueId = this.props.leagueId;
+        pick.weekNo = this.props.weekNo;
+
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
         if (pickFound) {
             this.props.updatePick(pickFound._id, pick);

@@ -36,8 +36,6 @@ class Game extends Component {
         }
 
         const pick = {
-            leagueId: '59723313734d1d6202a85f10', 
-            weekNo: 8,
             gameId: gameId,
             pickId: pickId
         };
