@@ -9,18 +9,18 @@ https://mevsyall.herokuapp.com
 Backend:
 
 - Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable.  Same goes for client.
-- Node / Javascript
-- Auth0
-- MongoDB
+- Node / Javascript - lightweight and efficient web server that is testable, fast and increases speed of development
+- Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel; increases speed of development
+- MongoDB - document based data storage that allows for schemaless architecture for less bug prone features; increases speed of development
 
 Client:
 
-- Mobile first design
-- React / Javascript
-- Redux
-- ImmutableJs
-- Auth0
-- Google Material Design
+- Mobile first design - to work well on phones exceptionally well in addition to other screen sizes; increases speed of development
+- React / Javascript - to build user interfaces that are composable, testable, fast and increases speed of development
+- Redux - data state management that is reliable, testable, fast and increases speed of development
+- ImmutableJs - avoid mutating data and thus unexpected side effects for less bug prone features and increase speed of application
+- Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel; increases speed of development
+- Google Material Design - framework to create beautiful, customizable ui components; increases speed of development
 - Progressive Web App capabilities to be
   1. Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
   2. Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
