@@ -14,7 +14,6 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 
 import { loadGames, loadPicks, addPick, updatePick, selectWeek } from '../actions';
-
 import { isLoggedIn } from '../middleware/authService';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];

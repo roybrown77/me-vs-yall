@@ -4,6 +4,9 @@ import moment from 'moment';
 
 import {GridList, GridTile} from 'material-ui/GridList';
 
+import angry from '../styles/images/angry.png';
+import money from '../styles/images/money.png';
+
 const grid = {
     root: {
         marginTop: '12px'
@@ -70,6 +73,12 @@ class Game extends Component {
                             className={inProgress && !competitor.showCheck ? 'fast-flash' : ''}
                             style={{border: competitor.showCheck ? 
                             (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : (inProgress ? '8px solid #BA68C8' : '0'), height: "91%", color: competitor.color}}>
+                                <div style={{position:'absolute', display: game.isGameOver ? (game.winner !== competitor._id && competitor.showCheck ? 'block' : 'none') : 'none'}}>
+                                    <img className="emoji-image" src={angry} alt=""/>
+                                </div>
+                                <div style={{position:'absolute', display: game.isGameOver ? (game.winner === competitor._id && competitor.showCheck ? 'block' : 'none') : 'none'}}>
+                                    <img className="emoji-image" src={money} alt=""/>
+                                </div>
                                 <div style={{fontSize:'36px', paddingTop:'10px', block: competitor.score ? 'block' : 'none'}}>
                                     {competitor.score}
                                 </div>
