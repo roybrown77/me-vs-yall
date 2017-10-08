@@ -1,16 +1,7 @@
-/* eslint-disable no-undef */
-//import URLSearchParams from 'url-search-params';
-//import queryString from 'query-string';
-//import { serverLogout } from './AuthService';
-//import { normalize } from 'normalizr';
-//import { camelizeKeys } from 'humps';
-
 import { getAccessToken } from './authService';
 import { schema } from 'normalizr';
 import axios from 'axios';
 
-// Fetches an API response and normalizes the result JSON according to schema.
-// This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, method, body, schema) => {  
   return axios({
         url: endpoint,
@@ -23,13 +14,6 @@ const callApi = (endpoint, method, body, schema) => {
     })
     .then(function(response) {
       return Promise.resolve(response.data);
-          // const camelizedJson = camelizeKeys(json)
-          // const nextPageUrl = getNextPageUrl(response)
-
-          // return Object.assign({},
-          //   normalize(camelizedJson, schema),
-          //   { nextPageUrl }
-          // )
     });
 };
 
@@ -41,7 +25,6 @@ const pickSchema = new schema.Entity('picks', {}, {
   idAttribute: pick => pick._id
 });
 
-// Schemas for Github API responses.
 export const Schemas = {
   GAME: gameSchema,
   GAME_ARRAY: [gameSchema],
@@ -49,11 +32,8 @@ export const Schemas = {
   PICK_ARRAY: [pickSchema]
 };
 
-// Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_API = 'Call API';
 
-// A Redux middleware that interprets actions with CALL_API info specified.
-// Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') {

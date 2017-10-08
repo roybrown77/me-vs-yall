@@ -5,10 +5,6 @@ import { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-//import { createLogger } from 'redux-logger';
-//import { AppContainer } from 'react-hot-loader'; // remove if not using
-//import { routerMiddleware, connectRouter } from 'connected-react-router/immutable';
-import { createBrowserHistory } from 'history';
 import Immutable from 'immutable';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -18,17 +14,11 @@ import rootReducer from './reducers';
 
 injectTapEventPlugin();
 
-const history = createBrowserHistory({
-  forceRefresh: true
-});
 const initialState = Immutable.Map();
 const composeEnhancer = compose;
-//const routerMiddlewareWithHistory = routerMiddleware(history);
-//const loggerMiddleware = createLogger();
 
 const store = createStore(
   rootReducer,
-  //connectRouter(history)(rootReducer),
   initialState,
   composeEnhancer(
     applyMiddleware(
@@ -40,20 +30,7 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <App history={history} />
+    <App/>
   </Provider>,
   document.getElementById('root')
 );
-
-// Hot reloading
-// if (module.hot) {
-//   // Reload components
-//   module.hot.accept('./containers/App', () => {
-//     render()
-//   })
-
-//   // Reload reducers
-//   module.hot.accept('./reducers', () => {
-//     store.replaceReducer(connectRouter(history)(rootReducer))
-//   })
-// }

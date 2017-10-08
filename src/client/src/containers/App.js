@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import { ConnectedRouter } from 'connected-react-router/immutable';
 import routes from '../routes';
 import { BrowserRouter } from 'react-router-dom';
 
-const App = ({ history }) => {
+const App = () => {
   return (
     <BrowserRouter>
-    {routes}
+    	{routes}
     </BrowserRouter>
   )
 }

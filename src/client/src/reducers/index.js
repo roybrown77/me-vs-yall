@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux-immutable';
 import * as ActionTypes from '../actions';
-//import { routerReducer as routing } from 'react-router-redux';
 import { Map, List } from 'immutable';
 import get from 'lodash/get';
 
@@ -18,7 +17,6 @@ const entities = (state = Map({ games: List(), picks: List(), dataLoading: true 
       return state;
     case ActionTypes.GAMES_FAILURE:
       return state.set('dataLoading', false);
-    //case ActionTypes.PICKS_REQUEST:
     case ActionTypes.PICKS_SUCCESS:
       if (action.response) {
         const pickList = action.response.map(item=>{
@@ -27,28 +25,9 @@ const entities = (state = Map({ games: List(), picks: List(), dataLoading: true 
         return state.set('picks', List(pickList));
       }
       return state;
-    //case ActionTypes.PICKS_FAILURE:
-    //case ActionTypes.ADDPICK_REQUEST:
-      // const pickListAddRequest = state.get('picks').update(
-      //   state.get('picks').findIndex(function(item) { 
-      //       return item.get("_id") === action.id; 
-      //     }), function(item) {
-      //       return item.set("inProgress", true);
-      //     }
-      // );
-      // return state.set('picks', pickListAddRequest);
     case ActionTypes.ADDPICK_SUCCESS:
       const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response).set("inProgress", false));
       return state.set('picks', pickListWithNewValue)
-    //case ActionTypes.ADDPICK_FAILURE:
-      // const pickListAddFailure = state.get('picks').update(
-      //   state.get('picks').findIndex(function(item) { 
-      //       return item.get("_id") === action.id; 
-      //     }), function(item) {
-      //       return item.set("inProgress", false);
-      //     }
-      // );
-      // return state.set('picks', pickListAddFailure);
     case ActionTypes.UPDATEPICK_REQUEST:
       const pickListUpdateRequest = state.get('picks').update(
         state.get('picks').findIndex(function(item) { 
@@ -90,7 +69,6 @@ const ui = (state = Map({weekNo: undefined}), action) => {
   }
 };
 
-// Updates error message to notify about the failed fetches.
 const errorMessage = (state = null, action) => {
   const { type, error } = action;
 

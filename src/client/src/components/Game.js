@@ -52,11 +52,6 @@ class Game extends Component {
 
     render() {
         const { game, pick } = this.props;
-
-        // if (!!pick && !!pick.inProgress) {
-        //     console.log('game: ' + JSON.stringify(game));
-        // }
-
         const inProgress = !!pick && !!pick.inProgress;
         
         return (
