@@ -88,7 +88,21 @@ const rawWeeks = [
                         namePrefix: "Week",
                         beginDateTime: "2017-10-05T05:00:00+04:00",
                         endDateTime: "2017-10-10T02:00:00+04:00"
-                    }
+                    },
+                    {
+                        weekNo: 11,
+                        weekNumberDisplay: 6,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-10-12T05:00:00+04:00",
+                        endDateTime: "2017-10-17T02:00:00+04:00"
+                    },
+                    // {
+                    //     weekNo: 12,
+                    //     weekNumberDisplay: 7,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-10-19T05:00:00+04:00",
+                    //     endDateTime: "2017-10-24T02:00:00+04:00"
+                    // },
                   ];
 
 class SchedulePage extends Component {
