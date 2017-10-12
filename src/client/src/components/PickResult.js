@@ -31,7 +31,7 @@ const PickResult = ({games, picks}) => {
 	}
     
 	return (areAnyGamesOver && 
-		<div style={{margin: '12px 0', fontSize: '40px', color: 'gray'}}>
+		<div style={{margin: '12px 0', fontSize: '40px', color: '#FFC107'}}>
 			{wins +  " - " + losses + " - " + ties}
 		</div>
 	);

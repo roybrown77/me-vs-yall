@@ -72,7 +72,7 @@ class Game extends Component {
                         <div 
                             className={inProgress && !competitor.showCheck ? 'fast-flash' : ''}
                             style={{border: competitor.showCheck ? 
-                            (game.isGameOver ? '8px solid gray' : '8px solid #BA68C8') : (inProgress ? '8px solid #BA68C8' : '0'), height: "91%", color: competitor.color}}>
+                            (game.isGameOver ? '8px solid rgb(0, 188, 212)' : '8px solid #BA68C8') : (inProgress ? '8px solid #BA68C8' : '0'), height: "91%", color: competitor.color}}>
                                 <div style={{position:'absolute', display: game.isGameOver ? (game.winner !== competitor._id && competitor.showCheck ? 'block' : 'none') : 'none'}}>
                                     <img className="emoji-image" src={angry} alt=""/>
                                 </div>
@@ -89,11 +89,13 @@ class Game extends Component {
                         </GridTile>
                     ))}                            
                 </GridList>
-                <div style={{width: '100%',fontSize: '14px',fontWeight: 'bold',color: 'gray'}}>
-                    <div style={{float: 'left', marginRight:'24px'}}>{game.startDateTimeDisplay}</div>
-                    <div style={{float: 'left', marginRight:'24px'}}>{game.station}</div>
-                    <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumName}</div>
-                    <div style={{float: 'left', marginRight:'24px'}}>{game.stadiumCity}</div>
+                <div style={{width: '100%',fontSize: '14px',fontWeight: 'bold',color: 'rgb(0, 188, 212)'}}>
+                    <div style={{
+                        float: 'left', 
+                        marginRight:'24px',
+                        height: '24px',
+                        paddingTop: '8px'
+                    }}>{game.startDateTimeDisplay}</div>
                 </div>
             </div>
         );

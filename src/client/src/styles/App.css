@@ -256,10 +256,10 @@ body {
   justify-content: center;
 }
 
-.list-item:hover {
+/*.list-item:hover {
   -webkit-transform:translate(0,-2px);
   transform:translate(0,-2px);opacity:.85;
-}
+}*/
 
 .list-item-text {
   cursor: pointer;
