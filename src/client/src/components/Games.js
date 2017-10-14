@@ -1,31 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import Spinner from '../components/Spinner';
 import Game from '../components/Game';
-
-const grid = {
-    list: {
-        width: '100%',
-        backgroundColor: '#fff',
-        margin: '0 !important'
-    },
-    tile: {
-        width: '100%',
-        cursor: 'pointer',
-        font: '4rem/1 Permanent Marker,sans-serif', 
-        color: '#000'
-    },
-    subTitleStyle: {
-        margin: '0'
-    },
-    titleStyle: {
-        font:'1.4rem/1 Permanent Marker,sans-serif', 
-        color: '#000'
-    },
-    titleBackground: 'transparent'
-};
 
 const teamData = [
         {
@@ -327,7 +305,7 @@ class Games extends Component {
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
         const formattedGames = sortedGames.map((game)=>{
-                game.startDateTimeDisplay = moment(new Date(game.startDateTime)).format('dddd MMM D YYYY h:mm a') + ' ET';
+                game.startDateTimeDisplay = moment(new Date(game.startDateTime)).tz('America/New_York').format('dddd MMM D YYYY h:mm a') + ' ET';
                 game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
                 game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
                 game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
