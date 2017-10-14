@@ -1,151 +1,207 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory();
 
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-import RaisedButton from 'material-ui/RaisedButton';
+import get from 'lodash/get';
+import moment from 'moment';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import GameSearchBar from '../components/GameSearchBar';
 
-const filterButton = {
-      button: {
-        margin: 0,
-        width: '100%'
-      }
-    };
+import { selectWeek } from '../actions';
+import { isLoggedIn } from '../middleware/authService';
 
-    const dropDown = {
-        root: {
-            width: '50%'
-        }
-    };
+const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
-    const dropDownFull = {
-        root: {
-            width: '100%',
-            marginBottom: '16px'
-        }
-    };
-
-    let players = [
-        {
-            _id: 1,
-            username: 'Roy',
-            wins: 5,
-            losses: 1,
-            ties: 1
-        },
-        {
-            _id: 2,
-            username: 'Scott',
-            wins: 3,
-            losses: 3,
-            ties: 1
-        }
-    ];
+const rawWeeks = [
+                    // {
+                    //     weekNo: 1,
+                    //     weekNumberDisplay: "",
+                    //     namePrefix: "Hall of Fame Game",
+                    //     beginDateTime: "2017-08-03T05:00:00+04:00",
+                    //     endDateTime: "2017-08-04T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 2,
+                    //     weekNumberDisplay: 1,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-09T05:00:00+04:00",
+                    //     endDateTime: "2017-08-14T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 3,
+                    //     weekNumberDisplay: 2,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-17T05:00:00+04:00",
+                    //     endDateTime: "2017-08-22T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 4,
+                    //     weekNumberDisplay: 3,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-24T05:00:00+04:00",
+                    //     endDateTime: "2017-08-28T02:00:00+04:00"
+                    // },
+                    // {
+                    //     weekNo: 5,
+                    //     weekNumberDisplay: 4,
+                    //     namePrefix: "Pre Week",
+                    //     beginDateTime: "2017-08-31T05:00:00+04:00",
+                    //     endDateTime: "2017-09-01T02:00:00+04:00"
+                    // },
+                    {
+                        weekNo: 6,
+                        weekNumberDisplay: 1,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-07T05:00:00+04:00",
+                        endDateTime: "2017-09-12T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 7,
+                        weekNumberDisplay: 2,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-14T05:00:00+04:00",
+                        endDateTime: "2017-09-19T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 8,
+                        weekNumberDisplay: 3,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-21T05:00:00+04:00",
+                        endDateTime: "2017-09-26T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 9,
+                        weekNumberDisplay: 4,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-09-28T05:00:00+04:00",
+                        endDateTime: "2017-10-03T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 10,
+                        weekNumberDisplay: 5,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-10-05T05:00:00+04:00",
+                        endDateTime: "2017-10-10T02:00:00+04:00"
+                    },
+                    {
+                        weekNo: 11,
+                        weekNumberDisplay: 6,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-10-12T05:00:00+04:00",
+                        endDateTime: "2017-10-17T02:00:00+04:00"
+                    },
+                    // {
+                    //     weekNo: 12,
+                    //     weekNumberDisplay: 7,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-10-19T05:00:00+04:00",
+                    //     endDateTime: "2017-10-24T02:00:00+04:00"
+                    // },
+                  ];
 
 class LeaderPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {value1: 1, value2: 1, value3: 1, winnerSelected: false};
+
+        this.handleFilterLeague = this.handleFilterLeague.bind(this);
+        this.handleFilterYear = this.handleFilterYear.bind(this);
+        this.handleFilterWeek = this.handleFilterWeek.bind(this);
     }
 
-    handleChange1 = (event, index, value1) => this.setState({value1});
-    handleChange2 = (event, index, value2) => this.setState({value2});
-    handleChange3 = (event, index, value3) => this.setState({value3});
+    componentWillMount() {
+        const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
+        history.push('/leagues/' + leagueName);
+
+        const weekToSearch = this.props.weekNo;
+
+        const query = {
+            leagueId: this.props.leagueId,
+            weekNo: weekToSearch
+        };
+    }
+
+    handleFilterLeague(filterLeague) {
+    }
+
+    handleFilterYear(filterYear) {
+    }
+  
+    handleFilterWeek(event, index) {
+        const weekToSearch = this.props.weeks[index].weekNo;
+
+        const query = {
+            leagueId: this.props.leagueId,
+            weekNo: weekToSearch
+        };
+
+        this.props.selectWeek(weekToSearch);
+    }
 
     render() {
         return (
             <div>
                 <Header/>
-                <div className="page-container" style={{marginTop: '8px'}}>
-                    <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
-                        <RaisedButton
-                          label="Filtration"
-                          labelPosition="before"
-                          primary={true}
-                          icon={<ActionAndroid />}
-                          style={filterButton.button}
-                        />
-                        <DropDownMenu
-                            value={this.state.value1}
-                            onChange={this.handleChange1}
-                            style={dropDown.root}
-                            autoWidth={false}
-                            >
-                            <MenuItem value={1} primaryText="NFL"/>
-                        </DropDownMenu>
-                        <DropDownMenu
-                            value={this.state.value2}
-                            onChange={this.handleChange2}
-                            style={dropDown.root}
-                            autoWidth={false}
-                            >
-                            <MenuItem value={1} primaryText="2017" />
-                        </DropDownMenu>
-                        <DropDownMenu
-                            value={this.state.value3}
-                            onChange={this.handleChange3}
-                            style={dropDownFull.root}
-                            autoWidth={false}
-                            >
-                            <MenuItem value={1} primaryText="Week 1 Thursday 9/7 - Monday 9/11" />
-                        </DropDownMenu>
-                    </div>
-                    <table style={{width:"100%", marginTop: "12px", backgroundColor: '#fff', padding: '12px'}}>
-                        <tbody>
-                            <tr>
-                                <th>
-                                </th>
-                                <th>
-                                    <div className="leader-win-loss-tie-header" style={{backgroundColor: "#388E3C"}}>
-                                        W
-                                    </div>
-                                 </th>
-                                 <th>
-                                    <div className="leader-win-loss-tie-header" style={{backgroundColor: "#D32F2F"}}>
-                                        L
-                                    </div>
-                                 </th>
-                                 <th>
-                                    <div className="leader-win-loss-tie-header" style={{backgroundColor: "#f0ad4e"}}>
-                                        T
-                                    </div>
-                                 </th>
-                            </tr>
-                            {players.map((player, index) => (
-                                <tr key={player._id}
-                                    style={{paddingBottom:"16px"}}>
-                                    <td>
-                                        <div className="leader-item">
-                                            {player.username}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="leader-item">
-                                            {player.wins}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="leader-item">
-                                            {player.losses}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="leader-item">
-                                            {player.ties}
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className='page-container'>
+                    <GameSearchBar 
+                        league={leagues.find(x=>x.id === this.props.leagueId).name}
+                        year={this.props.year}
+                        weekNo={this.props.weekNo}
+                        weeks={this.props.weeks}
+                        onFilterLeague={this.handleFilterLeague}
+                        onFilterYear={this.handleFilterYear}
+                        onFilterWeek={this.handleFilterWeek}>
+                    </GameSearchBar>
                 </div>
-                <Footer/>
+                <Footer></Footer>
             </div>
-        );
+        )
     }
 }
 
-export default LeaderPage;
+const mapStateToProps = (state, ownProps) => {
+  const entities = state.get('entities').toJS();
+  const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
+
+  const weeks = rawWeeks.map((week)=>{
+            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
+            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
+
+            if (startDateTime !== endDateTime) {
+                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D') + ' - ' + moment.utc(week.endDateTime).format('ddd M/D');
+            } else {
+                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D');
+            }
+
+            return week;
+        });
+
+  const defaultLeague = 'nfl';
+  const leagueName = 'nfl';
+  const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
+  const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
+  const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
+  const year = 2017;
+  const dataLoading = entities.dataLoading;
+
+  return {
+    dataLoading,
+    weeks,
+    leagueId,
+    weekNo,
+    year
+  }
+};
+
+LeaderPage.propTypes = {
+    dataLoading: PropTypes.bool,
+    leagueId: PropTypes.string,
+    weekNo: PropTypes.number,
+};
+
+export default connect(mapStateToProps, {
+  selectWeek
+})(LeaderPage);

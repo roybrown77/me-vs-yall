@@ -19,7 +19,7 @@ const routes = (
 		                <Route exact path='/login' component={LoginPage}/>
 		                <Route exact path='/leagues' component={LeagueSelectionPage}/>
 		                <Route path='/leagues/:name' component={SchedulePage}/>
-		                <Route path='/leaders' component={LeaderPage}/>
+		                <Route path='/leaders/:name' component={LeaderPage}/>
 		                <Route path='/about' component={AboutPage}/>
 		                <Route path='/callback' component={Callback}/>
 		            </Switch>
