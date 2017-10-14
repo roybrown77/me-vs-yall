@@ -179,7 +179,7 @@ const mapStateToProps = (state, ownProps) => {
         });
 
   const defaultLeague = 'nfl';
-  const leagueName = 'get(ownProps, 'match.params.name')';
+  const leagueName = get(ownProps, 'match.params.name');
   const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
   const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
   const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
