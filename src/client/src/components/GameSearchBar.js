@@ -22,7 +22,7 @@ const dropDown = {
 const dropDownFull = {
     root: {
         width: '100%',
-        marginBottom: '16px'
+        marginBottom: '12px'
     }
 };
 

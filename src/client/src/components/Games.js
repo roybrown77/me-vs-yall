@@ -6,9 +6,6 @@ import Spinner from '../components/Spinner';
 import Game from '../components/Game';
 
 const grid = {
-    root: {
-        marginTop: '12px'
-    },
     list: {
         width: '100%',
         backgroundColor: '#fff',
@@ -353,7 +350,7 @@ class Games extends Component {
         });
 
         return (
-            <div style={grid.root}>
+            <div>
                 {this.props.dataLoading && <Spinner/>}
                 {!this.props.dataLoading && rows}
             </div>

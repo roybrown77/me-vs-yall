@@ -89,12 +89,15 @@ class Game extends Component {
                         </GridTile>
                     ))}                            
                 </GridList>
-                <div style={{width: '100%',fontSize: '14px',fontWeight: 'bold',color: 'rgb(0, 188, 212)'}}>
+                <div style={{width: '100%'}}>
                     <div style={{
                         float: 'left', 
-                        marginRight:'24px',
+                        marginRight:'26px',
                         height: '24px',
-                        paddingTop: '8px'
+                        paddingTop: '12px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        color: 'rgb(0, 188, 212)'
                     }}>{game.startDateTimeDisplay}</div>
                 </div>
             </div>

@@ -167,6 +167,8 @@ class SchedulePage extends Component {
     }
 
     render() {
+        const areAnyGamesOver = this.props.games.some(x=>!!x.isGameOver);
+
         return (
             <div>
                 <Header/>
@@ -180,7 +182,8 @@ class SchedulePage extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}>
                     </GameSearchBar>
-                    <PickResult games={this.props.games} picks={this.props.picks}/>
+                    {areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
+                    {!areAnyGamesOver && <div style={{height:'12px'}}></div>}
                     <Games dataLoading={this.props.dataLoading}
                     handleMakePick={this.handleMakePick} 
                     games={this.props.games ? this.props.games : []} 
