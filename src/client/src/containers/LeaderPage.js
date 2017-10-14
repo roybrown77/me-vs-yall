@@ -12,7 +12,6 @@ import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
 
 import { selectWeek } from '../actions';
-import { isLoggedIn } from '../middleware/authService';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
@@ -180,7 +179,7 @@ const mapStateToProps = (state, ownProps) => {
         });
 
   const defaultLeague = 'nfl';
-  const leagueName = 'nfl';
+  const leagueName = 'get(ownProps, 'match.params.name')';
   const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
   const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
   const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
