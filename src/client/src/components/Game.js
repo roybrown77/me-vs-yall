@@ -92,7 +92,7 @@ class Game extends Component {
                 <div style={{width: '100%'}}>
                     <div style={{
                         float: 'left', 
-                        height: '26px',
+                        height: '28px',
                         paddingTop: '12px',
                         fontSize: '14px',
                         fontWeight: 'bold',
