@@ -58,7 +58,7 @@ class Game extends Component {
         const inProgress = !!pick && !!pick.inProgress;
         
         return (
-            <div key={game._id} style={{width:'100%', marginBottom: '12px'}}>
+            <div key={game._id} style={{width:'100%'}}>
                 <GridList key={game._id + "-gridlist"} style={grid.list}>
                     {game.competitors.map((competitor) => (
                         <GridTile
@@ -89,16 +89,13 @@ class Game extends Component {
                         </GridTile>
                     ))}                            
                 </GridList>
-                <div style={{width: '100%'}}>
-                    <div style={{
-                        float: 'left', 
-                        height: '29px',
-                        paddingTop: '12px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        color: 'rgb(0, 188, 212)'
-                    }}>{game.startDateTimeDisplay}</div>
-                </div>
+                <div style={{
+                    height: '29px',
+                    paddingTop: '12px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    color: 'rgb(0, 188, 212)'
+                }}>{game.startDateTimeDisplay}</div>
             </div>
         );
     }
