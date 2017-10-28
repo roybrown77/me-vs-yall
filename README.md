@@ -4,6 +4,8 @@ Pick winners of sporting events and compete with others around the world.
 
 https://mevsyall.herokuapp.com
 
+![splash](https://user-images.githubusercontent.com/1335262/32139118-dcee42e8-bc0e-11e7-9316-7bc77380f74d.PNG)
+
 # Tek Stak
   
 Backend:
