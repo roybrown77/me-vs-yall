@@ -83,10 +83,11 @@ class Game extends Component {
                                 display: game.isGameOver ? (game.winner === competitor._id && competitor.showCheck ? 'block' : 'none') : 'none'}}>
                                     <img className="emoji-image" src={money} alt=""/>
                                 </div>
-                                <div style={{fontSize:'36px', block: competitor.score ? 'block' : 'none'}}>
+                                <div style={{paddingTop: game.isGameOver ? (competitor.showCheck ? '0px' : '8px') : '0px',
+                                    fontSize:'36px', block: competitor.score ? 'block' : 'none'}}>
                                     {competitor.score}
                                 </div>
-                                <div style={{paddingTop: game.isGameOver ? (competitor.showCheck ? '12px' : '20px') : (competitor.showCheck ? '42px' : '50px')}}>
+                                <div style={{paddingTop: game.isGameOver ? '12px' : (competitor.showCheck ? '42px' : '46px')}}>
                                     {competitor.shortLocation}
                                 </div>
                         </div>
