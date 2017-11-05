@@ -9,6 +9,11 @@ https://mevsyall.herokuapp.com
 ![games copy](https://user-images.githubusercontent.com/1335262/32139256-a22cadf4-bc11-11e7-8bd3-7bf08eac8dc4.PNG)
 ![login copy](https://user-images.githubusercontent.com/1335262/32139289-6a7f46a4-bc12-11e7-8624-587051426c58.PNG)
 ![menu copy](https://user-images.githubusercontent.com/1335262/32139257-a86f7df4-bc11-11e7-9847-0109914fb3f5.PNG)
+![splash 50](https://user-images.githubusercontent.com/1335262/32418040-9d0fe974-c230-11e7-8825-54f90166f5f6.PNG)
+![leagues 50](https://user-images.githubusercontent.com/1335262/32418044-a3a7abaa-c230-11e7-9d06-4aa57381d0a9.PNG)
+![games 50](https://user-images.githubusercontent.com/1335262/32418048-ab2e3222-c230-11e7-952d-94e5d9b23b8d.PNG)
+![login 50](https://user-images.githubusercontent.com/1335262/32418055-b321bed6-c230-11e7-964f-9f7a6ea10cd3.PNG)
+![menu 50](https://user-images.githubusercontent.com/1335262/32418057-bb154392-c230-11e7-9830-7532560669b2.PNG)
 
 # Tek Stak
   
