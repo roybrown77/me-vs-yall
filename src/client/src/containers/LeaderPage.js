@@ -11,96 +11,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
 
-import { selectWeek } from '../actions';
+import { loadLeaders, selectWeek } from '../actions';
 
-const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
-
-const rawWeeks = [
-                    // {
-                    //     weekNo: 1,
-                    //     weekNumberDisplay: "",
-                    //     namePrefix: "Hall of Fame Game",
-                    //     beginDateTime: "2017-08-03T05:00:00+04:00",
-                    //     endDateTime: "2017-08-04T02:00:00+04:00"
-                    // },
-                    // {
-                    //     weekNo: 2,
-                    //     weekNumberDisplay: 1,
-                    //     namePrefix: "Pre Week",
-                    //     beginDateTime: "2017-08-09T05:00:00+04:00",
-                    //     endDateTime: "2017-08-14T02:00:00+04:00"
-                    // },
-                    // {
-                    //     weekNo: 3,
-                    //     weekNumberDisplay: 2,
-                    //     namePrefix: "Pre Week",
-                    //     beginDateTime: "2017-08-17T05:00:00+04:00",
-                    //     endDateTime: "2017-08-22T02:00:00+04:00"
-                    // },
-                    // {
-                    //     weekNo: 4,
-                    //     weekNumberDisplay: 3,
-                    //     namePrefix: "Pre Week",
-                    //     beginDateTime: "2017-08-24T05:00:00+04:00",
-                    //     endDateTime: "2017-08-28T02:00:00+04:00"
-                    // },
-                    // {
-                    //     weekNo: 5,
-                    //     weekNumberDisplay: 4,
-                    //     namePrefix: "Pre Week",
-                    //     beginDateTime: "2017-08-31T05:00:00+04:00",
-                    //     endDateTime: "2017-09-01T02:00:00+04:00"
-                    // },
-                    {
-                        weekNo: 6,
-                        weekNumberDisplay: 1,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-09-07T05:00:00+04:00",
-                        endDateTime: "2017-09-12T02:00:00+04:00"
-                    },
-                    {
-                        weekNo: 7,
-                        weekNumberDisplay: 2,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-09-14T05:00:00+04:00",
-                        endDateTime: "2017-09-19T02:00:00+04:00"
-                    },
-                    {
-                        weekNo: 8,
-                        weekNumberDisplay: 3,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-09-21T05:00:00+04:00",
-                        endDateTime: "2017-09-26T02:00:00+04:00"
-                    },
-                    {
-                        weekNo: 9,
-                        weekNumberDisplay: 4,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-09-28T05:00:00+04:00",
-                        endDateTime: "2017-10-03T02:00:00+04:00"
-                    },
-                    {
-                        weekNo: 10,
-                        weekNumberDisplay: 5,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-10-05T05:00:00+04:00",
-                        endDateTime: "2017-10-10T02:00:00+04:00"
-                    },
-                    {
-                        weekNo: 11,
-                        weekNumberDisplay: 6,
-                        namePrefix: "Week",
-                        beginDateTime: "2017-10-12T05:00:00+04:00",
-                        endDateTime: "2017-10-17T02:00:00+04:00"
-                    },
-                    // {
-                    //     weekNo: 12,
-                    //     weekNumberDisplay: 7,
-                    //     namePrefix: "Week",
-                    //     beginDateTime: "2017-10-19T05:00:00+04:00",
-                    //     endDateTime: "2017-10-24T02:00:00+04:00"
-                    // },
-                  ];
+import { rawWeeks, leagues } from '../selectors/data';
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -113,7 +26,7 @@ class LeaderPage extends Component {
 
     componentWillMount() {
         const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
-        history.push('/leagues/' + leagueName);
+        history.push('/leaders/' + leagueName);
 
         const weekToSearch = this.props.weekNo;
 
@@ -121,6 +34,8 @@ class LeaderPage extends Component {
             leagueId: this.props.leagueId,
             weekNo: weekToSearch
         };
+
+        this.props.loadLeaders(query);
     }
 
     handleFilterLeague(filterLeague) {
@@ -199,8 +114,10 @@ LeaderPage.propTypes = {
     dataLoading: PropTypes.bool,
     leagueId: PropTypes.string,
     weekNo: PropTypes.number,
+    loadLeaders: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
-  selectWeek
+  selectWeek,
+  loadLeaders
 })(LeaderPage);

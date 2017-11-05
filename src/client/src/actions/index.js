@@ -3,6 +3,29 @@ import URLSearchParams from 'url-search-params';
 
 import { CALL_API, Schemas } from '../middleware/api';
 
+export const LEADERS_REQUEST = 'LEADERS_REQUEST';
+export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
+export const LEADERS_FAILURE = 'LEADERS_FAILURE';
+
+const fetchLeaders = query => ({
+  [CALL_API]: {
+    types: [ LEADERS_REQUEST, LEADERS_SUCCESS, LEADERS_FAILURE ],
+    endpoint: `/api/pickmanagement/pickResults?${queryString.stringify(query)}`,
+    schema: Schemas.GAME_ARRAY
+  }
+});
+
+// Fetches data unless it is cached.
+// Relies on Redux Thunk middleware.
+export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
+  //const games = getState().entities.games; //find by query
+  //if (games && requiredFields.every(key => game.hasOwnProperty(key))) {
+  //  return null
+  //}
+
+  return dispatch(fetchLeaders(query));
+};
+
 export const GAMES_REQUEST = 'GAMES_REQUEST';
 export const GAMES_SUCCESS = 'GAMES_SUCCESS';
 export const GAMES_FAILURE = 'GAMES_FAILURE';

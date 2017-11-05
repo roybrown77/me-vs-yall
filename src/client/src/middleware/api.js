@@ -25,11 +25,17 @@ const pickSchema = new schema.Entity('picks', {}, {
   idAttribute: pick => pick._id
 });
 
+const leaderSchema = new schema.Entity('leaders', {}, {
+  idAttribute: leader => leader._id
+});
+
 export const Schemas = {
   GAME: gameSchema,
   GAME_ARRAY: [gameSchema],
   PICK: pickSchema,
-  PICK_ARRAY: [pickSchema]
+  PICK_ARRAY: [pickSchema],
+  LEADER: leaderSchema,
+  LEADER_ARRAY: [leaderSchema]
 };
 
 export const CALL_API = 'Call API';

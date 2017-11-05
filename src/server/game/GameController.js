@@ -2362,16 +2362,6 @@ router.post('/creategames', function (req, res) {
     }
   ];
 
-  const search = {
-    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-    weekNo: req.query.weekNo
-  };
-
-  gameRepository.find(search, function (err, games) {
-      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
-      res.status(200).send(games);
-  });
-
   for (var i = 0, len = games.length; i < len; i++) {
       let game = games[i];
       
