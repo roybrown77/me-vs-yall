@@ -53,6 +53,7 @@ class LeaderPage extends Component {
         };
 
         this.props.selectWeek(weekToSearch);
+        this.props.loadLeaders(query);
     }
 
     render() {
@@ -69,6 +70,35 @@ class LeaderPage extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}>
                     </GameSearchBar>
+                    <table style={{width:"100%", marginTop: "12px", backgroundColor: '#fff', padding: '12px'}}>
+                        <tbody>
+                            {this.props.pickResults.map((pickResult, index) => (
+                                <tr key={pickResult._id}
+                                    style={{paddingBottom:"16px"}}>
+                                    <td>
+                                        <div className="leader-item">
+                                            {pickResult.username}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="leader-item">
+                                            {pickResult.wins}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="leader-item">
+                                            {pickResult.losses}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="leader-item">
+                                            {pickResult.ties}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
                 <Footer></Footer>
             </div>
@@ -100,8 +130,29 @@ const mapStateToProps = (state, ownProps) => {
   const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
   const year = 2017;
   const dataLoading = entities.dataLoading;
+  const pickResults = [{
+    "_id": "59ff56fc734d1d63bdd28793",
+    "leagueId": "59723313734d1d6202a85f10",
+    "weekNo": 14,
+    "userId": "google-oauth2|114172296334563495985",
+    "username": "roy",
+    "wins": 1,
+    "losses": 2,
+    "ties": 3
+    },
+    {
+    "_id": "59ff56fc734d1d63bdd28794",
+    "leagueId": "59723313734d1d6202a85f10",
+    "weekNo": 14,
+    "userId": "google-oauth2|114172296334563495985",
+    "username": "scott",
+    "wins": 1,
+    "losses": 2,
+    "ties": 3
+    }];
 
   return {
+    pickResults,
     dataLoading,
     weeks,
     leagueId,
@@ -111,6 +162,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 LeaderPage.propTypes = {
+    pickResults: PropTypes.array,
     dataLoading: PropTypes.bool,
     leagueId: PropTypes.string,
     weekNo: PropTypes.number,

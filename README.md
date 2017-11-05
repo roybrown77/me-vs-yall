@@ -19,15 +19,15 @@ Backend:
 - Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable.  Same goes for client.
 - Node / Javascript - lightweight and efficient web server
 - Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel
-- MongoDB - document based data storage that allows for schemaless architecture for less bug prone features
+- MongoDB - document based data storage that allows for schemaless architecture
 
 Client:
 
-- Mobile first design - to work well on phones exceptionally well in addition to other screen sizes
-- React / Javascript - to build user interfaces
+- React / Javascript - to build composable user interfaces
 - Redux - fast data state management
 - ImmutableJs - faster way to avoid mutating data and thus unexpected side effects for less bug prone features
 - Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel
+- Mobile first ui design - to work well on phones exceptionally well in addition to other screen sizes
 - Google Material Design - framework to create beautiful, customizable ui components
 - Progressive Web App capabilities to be
   1. Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
