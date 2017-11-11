@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var PickResultSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
+	year: Number,
 	weekNo: Number,
 	userId: String,
 	wins: Number,

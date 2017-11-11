@@ -27,7 +27,7 @@ Client:
 - Redux - fast data state management
 - ImmutableJs - faster way to avoid mutating data and thus unexpected side effects for less bug prone features
 - Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel
-- Mobile first ui design - to work well on phones exceptionally well in addition to other screen sizes
+- Mobile first ui design - to work exceptionally well on phones first in addition to other screen sizes
 - Google Material Design - framework to create beautiful, customizable ui components
 - Progressive Web App capabilities to be
   1. Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.

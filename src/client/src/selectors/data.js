@@ -99,6 +99,20 @@ const rawWeeks = [
                         beginDateTime: "2017-11-02T05:00:00+04:00",
                         endDateTime: "2017-11-07T02:00:00+04:00"
                     },
+                    {
+                        weekNo: 15,
+                        weekNumberDisplay: 10,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-11-09T05:00:00+04:00",
+                        endDateTime: "2017-11-14T02:00:00+04:00"
+                    },
+                    // {
+                    //     weekNo: 16,
+                    //     weekNumberDisplay: 11,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-11-16T05:00:00+04:00",
+                    //     endDateTime: "2017-11-21T02:00:00+04:00"
+                    // },
                   ];
 
 export {
