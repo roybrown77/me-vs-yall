@@ -16,6 +16,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
 import { loadGames, loadPicks, selectWeek } from '../actions';
+import { isLoggedIn } from '../middleware/authService';
 import { rawWeeks, leagues, getResults } from '../selectors/data';
 
 const users = [
@@ -43,6 +44,11 @@ class LeaderPage extends Component {
     }
 
     componentWillMount() {
+        if (!isLoggedIn()) {
+            window.location.href = '/login';
+            return;
+        }
+
         const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
         history.push('/leaders/' + leagueName);
 
