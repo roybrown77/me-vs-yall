@@ -11,7 +11,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
 
-import { loadLeaders, selectWeek } from '../actions';
+import { loadGames, loadPicks, selectWeek } from '../actions';
 
 import { rawWeeks, leagues } from '../selectors/data';
 
@@ -35,7 +35,8 @@ class LeaderPage extends Component {
             weekNo: weekToSearch
         };
 
-        this.props.loadLeaders(query);
+        this.props.loadGames(query);
+        this.props.loadPicks(query);
     }
 
     handleFilterLeague(filterLeague) {
@@ -53,7 +54,8 @@ class LeaderPage extends Component {
         };
 
         this.props.selectWeek(weekToSearch);
-        this.props.loadLeaders(query);
+        this.props.loadGames(query);
+        this.props.loadPicks(query);
     }
 
     render() {
@@ -166,10 +168,12 @@ LeaderPage.propTypes = {
     dataLoading: PropTypes.bool,
     leagueId: PropTypes.string,
     weekNo: PropTypes.number,
-    loadLeaders: PropTypes.func.isRequired,
+    loadGames: PropTypes.func.isRequired,
+    loadPicks: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
   selectWeek,
-  loadLeaders
+  loadGames,
+  loadPicks
 })(LeaderPage);

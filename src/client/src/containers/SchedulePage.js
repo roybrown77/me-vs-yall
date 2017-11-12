@@ -14,7 +14,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 
 import { loadGames, loadPicks, addPick, updatePick, selectWeek } from '../actions';
-import { isLoggedIn } from '../middleware/authService';
+import { isLoggedIn, getUserProfile } from '../middleware/authService';
 
 import { rawWeeks, leagues } from '../selectors/data';
 
@@ -44,8 +44,16 @@ class SchedulePage extends Component {
             weekNo: weekToSearch
         };
 
-        this.props.loadGames(query);
-        this.props.loadPicks(query);
+        getUserProfile((err, profile) => {
+            const query = {
+                userId: profile.sub,
+                leagueId: this.props.leagueId,
+                weekNo: weekToSearch
+            };
+
+            this.props.loadGames(query);
+            this.props.loadPicks(query);
+        });
     }
 
     handleFilterLeague(filterLeague) {
@@ -57,14 +65,18 @@ class SchedulePage extends Component {
     handleFilterWeek(event, index) {
         const weekToSearch = this.props.weeks[index].weekNo;
 
-        const query = {
-            leagueId: this.props.leagueId,
-            weekNo: weekToSearch
-        };
-
         this.props.selectWeek(weekToSearch);
-        this.props.loadGames(query);
-        this.props.loadPicks(query);
+
+        getUserProfile((err, profile) => {
+            const query = {
+                userId: profile.sub,
+                leagueId: this.props.leagueId,
+                weekNo: weekToSearch
+            };
+
+            this.props.loadGames(query);
+            this.props.loadPicks(query);
+        });
     }
 
     handleMakePick(pick) {

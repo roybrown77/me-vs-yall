@@ -25,7 +25,10 @@ function updatePick(id, pick, cb) {
 
 function isValid(err, game, pick) {
 	if (err) throw new Error('Finding game id ' + pick.gameId + ' - ' + err.message);
-    if (!game) throw new Error('Game id was not found: ' + pick.gameId);
+    if (!game) throw new Error('Game is required.');
+    if (!pick) throw new Error('Pick is required.');
+    if (!pick.gameId) throw new Error('Game id is required.');
+    if (!pick.pickId) throw new Error('Pick id is required.');
 
 	const started = hasGameStarted(game.startDateTime, pick.createDateTime);
 
