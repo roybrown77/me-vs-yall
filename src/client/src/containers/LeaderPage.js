@@ -5,15 +5,33 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 
 import get from 'lodash/get';
+import groupBy from 'lodash/groupBy';
+import transform from 'lodash/transform';
+import orderBy from 'lodash/orderBy';
 import moment from 'moment';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
+import Spinner from '../components/Spinner';
 
 import { loadGames, loadPicks, selectWeek } from '../actions';
+import { rawWeeks, leagues, getResults } from '../selectors/data';
 
-import { rawWeeks, leagues } from '../selectors/data';
+const users = [
+    {
+        id: 'google-oauth2|114172296334563495985',
+        name: 'Beezy'
+    },
+    {
+        id: 'google-oauth2|114007081690870704922',
+        name: 'Scotty Mack'
+    }
+];
+
+// <div style={{fontSize: '40px', color: '#FFC107'}}>
+                            //     <span>W</span>
+                            // </div>
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -59,6 +77,29 @@ class LeaderPage extends Component {
     }
 
     render() {
+        const {picks, games} = this.props;
+
+        const picksByUser = transform(groupBy(picks, x=>x.userId), (result, value, key)=>{
+            result.push({
+                userId: key,
+                picks: value
+            });
+        }, []);
+
+        const pickResults = picksByUser.map((item) => {
+            const pickResult = getResults(games,item.picks);
+            const user = users.find(x=>x.id === item.userId);
+
+            return {
+                userName: user ? user.name : 'unknown',
+                wins: pickResult.wins,
+                losses: pickResult.losses,
+                ties: pickResult.ties
+            };
+        });
+
+        const pickResultsOrdered = orderBy(pickResults, ['wins', 'userName'], ['desc', 'asc']);
+
         return (
             <div>
                 <Header/>
@@ -70,39 +111,48 @@ class LeaderPage extends Component {
                         weeks={this.props.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
-                        onFilterWeek={this.handleFilterWeek}>
-                    </GameSearchBar>
-                    <table style={{width:"100%", marginTop: "12px", backgroundColor: '#fff', padding: '12px'}}>
-                        <tbody>
-                            {this.props.pickResults.map((pickResult, index) => (
-                                <tr key={pickResult._id}
-                                    style={{paddingBottom:"16px"}}>
-                                    <td>
-                                        <div className="leader-item">
-                                            {pickResult.username}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="leader-item">
-                                            {pickResult.wins}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="leader-item">
-                                            {pickResult.losses}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="leader-item">
-                                            {pickResult.ties}
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        onFilterWeek={this.handleFilterWeek}/>
+                    {this.props.dataLoading && <Spinner/>}
+                    {!this.props.dataLoading && 
+                        <div>
+                            <div style={{height:'12px'}}/>
+                            <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
+                                <tbody>
+                                    {pickResultsOrdered.map((pickResult, index) => (
+                                        <tr key={pickResult._id}
+                                            style={{paddingBottom:"16px"}}>
+                                            <td>
+                                                <div className="leader-item" style={{color: index === 0 ? '#FFC107' : '#000'}}>
+                                                    {index+1}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="leader-item">
+                                                    {pickResult.userName}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="leader-item">
+                                                    {pickResult.wins}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="leader-item">
+                                                    {pickResult.losses}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="leader-item">
+                                                    {pickResult.ties}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>}
                 </div>
-                <Footer></Footer>
+                <Footer/>
             </div>
         )
     }
@@ -137,7 +187,7 @@ const mapStateToProps = (state, ownProps) => {
     "leagueId": "59723313734d1d6202a85f10",
     "weekNo": 14,
     "userId": "google-oauth2|114172296334563495985",
-    "username": "roy",
+    "userName": "roy",
     "wins": 1,
     "losses": 2,
     "ties": 3
@@ -147,13 +197,18 @@ const mapStateToProps = (state, ownProps) => {
     "leagueId": "59723313734d1d6202a85f10",
     "weekNo": 14,
     "userId": "google-oauth2|114172296334563495985",
-    "username": "scott",
+    "userName": "scott",
     "wins": 1,
     "losses": 2,
     "ties": 3
     }];
 
+  const picks = entities.picks;
+  const games = entities.games;
+
   return {
+    picks,
+    games,
     pickResults,
     dataLoading,
     weeks,
@@ -164,6 +219,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 LeaderPage.propTypes = {
+    picks: PropTypes.array,
+    games: PropTypes.array,
     pickResults: PropTypes.array,
     dataLoading: PropTypes.bool,
     leagueId: PropTypes.string,

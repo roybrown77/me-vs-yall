@@ -105,17 +105,15 @@ class SchedulePage extends Component {
                         weeks={this.props.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
-                        onFilterWeek={this.handleFilterWeek}>
-                    </GameSearchBar>
+                        onFilterWeek={this.handleFilterWeek}/>
                     {areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
-                    {!areAnyGamesOver && <div style={{height:'12px'}}></div>}
+                    {!areAnyGamesOver && <div style={{height:'12px'}}/>}
                     <Games dataLoading={this.props.dataLoading}
                     handleMakePick={this.handleMakePick} 
                     games={this.props.games ? this.props.games : []} 
-                    picks={this.props.picks ? this.props.picks : []}> 
-                    </Games>
+                    picks={this.props.picks ? this.props.picks : []}/>
                 </div>
-                <Footer></Footer>
+                <Footer/>
             </div>
         )
     }
