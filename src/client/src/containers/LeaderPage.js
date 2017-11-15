@@ -17,6 +17,7 @@ import Spinner from '../components/Spinner';
 
 import { loadGames, loadPicks, selectWeek } from '../actions';
 import { isLoggedIn } from '../middleware/authService';
+
 import { rawWeeks, leagues, getResults } from '../selectors/data';
 
 const users = [

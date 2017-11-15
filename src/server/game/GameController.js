@@ -2,16 +2,61 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var moment = require('moment-timezone');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
 var gameRepository = require('./GameRepository');
+
+let gameScoreUpdate = [
+  {
+    day:'Thursday',
+    times: ['20:30', '22:30'],
+    count: 0
+  },
+  {
+    day:'Friday',
+    times: ['12:30', '2:30'],
+    count: 0
+  },
+  {
+    day:'Saturday',
+    times: ['10:30', '14:30', '16:30', '18:30', '20:30', '22:30'],
+    count: 0
+  },
+  {
+    day:'Sunday',
+    times: ['10:30', '14:30', '16:30', '18:30', '20:30', '22:30'],
+    count: 0
+  },
+  {
+    day:'Monday',
+    times: ['20:30', '22:30'],
+    count: 0
+  },
+  {
+    day:'Tuesday',
+    times: ['12:30', '2:30'],
+    count: 0
+  },
+  {
+    day:'Wednesday',
+    times: ['12:30', '2:30'],
+    count: 0
+  }
+];
 
 router.get('/games/', function (req, res) {
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
     weekNo: req.query.weekNo
   };
+
+  const now = new Date(new Date().toUTCString()).toISOString();
+  console.log('now: ' + now);
+
+  const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
+  console.log('nowEastern: ' + nowEastern);
 
   gameRepository.find(search, function (err, games) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
