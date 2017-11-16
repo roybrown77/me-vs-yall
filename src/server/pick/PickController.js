@@ -1,13 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+const express = require('express');
+let router = express.Router();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
-var pickDomain = require('./PickDomain');
-var pickRepository = require('./PickRepository');
-var omit = require('lodash/omit');
+const pickDomain = require('./PickDomain');
+const pickRepository = require('./PickRepository');
+const omit = require('lodash/omit');
+const get = require('lodash/get');
 
 router.post('/picks/', function (req, res) {
 
@@ -42,16 +43,13 @@ router.put('/picks/:id', function (req, res) {
 });
 
 router.get('/picks/', function (req, res) {
-    // console.log("req.query.startDateTime1:" + req.query.beginDateTime);
-    // console.log("req.query.endDateTime1:" + req.query.endDateTime);
-
     const search = {
         userId: req.query.userId,
         leagueId: mongoose.Types.ObjectId(req.query.leagueId),
         weekNo: req.query.weekNo
     };
         
-    const finalSearch = req.query.userId ? search : omit(search,'userId');
+    const finalSearch = omit(search, [get(req,'query.userId','userId'), get(req,'query.weekNo','weekNo')]);
 
     pickRepository.find(finalSearch, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");

@@ -93,12 +93,15 @@ class LeaderPage extends Component {
             });
         }, []);
 
-        const pickResults = picksByUser.map((item) => {
+        const pickResults = picksByUser.filter((item) => {
+            return !!users.find(x=>x.id === item.userId)
+        }).map(item =>{
             const pickResult = getResults(games,item.picks);
             const user = users.find(x=>x.id === item.userId);
 
             return {
-                userName: user ? user.name : 'unknown',
+                id: item.userId,
+                userName: get(user,'name','unknown'),
                 wins: pickResult.wins,
                 losses: pickResult.losses,
                 ties: pickResult.ties
@@ -126,7 +129,7 @@ class LeaderPage extends Component {
                             <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
                                 <tbody>
                                     {pickResultsOrdered.map((pickResult, index) => (
-                                        <tr key={pickResult._id}
+                                        <tr key={pickResult.id}
                                             style={{paddingBottom:"16px"}}>
                                             <td>
                                                 <div className="leader-item" style={{color: index === 0 ? '#FFC107' : '#000'}}>
@@ -166,10 +169,10 @@ class LeaderPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const entities = state.get('entities').toJS();
-  const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
+    const entities = state.get('entities').toJS();
+    const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
-  const weeks = rawWeeks.map((week)=>{
+    const formattedWeeks = rawWeeks.map((week)=>{
             const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
             const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
 
@@ -182,47 +185,38 @@ const mapStateToProps = (state, ownProps) => {
             return week;
         });
 
-  const defaultLeague = 'nfl';
-  const leagueName = get(ownProps, 'match.params.name');
-  const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
-  const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
-  const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
-  const year = 2017;
-  const dataLoading = entities.dataLoading;
-  const pickResults = [{
-    "_id": "59ff56fc734d1d63bdd28793",
-    "leagueId": "59723313734d1d6202a85f10",
-    "weekNo": 14,
-    "userId": "google-oauth2|114172296334563495985",
-    "userName": "roy",
-    "wins": 1,
-    "losses": 2,
-    "ties": 3
-    },
-    {
-    "_id": "59ff56fc734d1d63bdd28794",
-    "leagueId": "59723313734d1d6202a85f10",
-    "weekNo": 14,
-    "userId": "google-oauth2|114172296334563495985",
-    "userName": "scott",
-    "wins": 1,
-    "losses": 2,
-    "ties": 3
-    }];
+    const weeks = [
+        ...formattedWeeks.slice(0, formattedWeeks.length-1),
+        {
+            displayName: "All Season"
+        }
+    ];
 
-  const picks = entities.picks;
-  const games = entities.games;
+    const pickResults = [];
 
-  return {
-    picks,
-    games,
-    pickResults,
-    dataLoading,
-    weeks,
-    leagueId,
-    weekNo,
-    year
-  }
+    const dataLoading = entities.dataLoading;
+
+    const defaultLeague = 'nfl';
+    const leagueName = get(ownProps, 'match.params.name');
+    const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
+    const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
+    
+    const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
+    const year = 2017;
+    
+    const picks = entities.picks;
+    const games = entities.games;
+
+    return {
+        picks,
+        games,
+        pickResults,
+        dataLoading,
+        weeks,
+        leagueId,
+        weekNo,
+        year
+    }
 };
 
 LeaderPage.propTypes = {
