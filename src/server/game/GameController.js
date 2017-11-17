@@ -143,12 +143,6 @@ router.get('/games/', function (req, res) {
     weekNo: req.query.weekNo
   };
 
-  // const now = new Date(new Date().toUTCString()).toISOString();
-  // console.log('now: ' + now);
-
-  // const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
-  // console.log('nowEastern: ' + nowEastern);
-
   const finalSearch = omit(search, [get(req,'query.weekNo','weekNo')]);
 
   gameRepository.find(finalSearch, function (err, games) {
@@ -158,6 +152,12 @@ router.get('/games/', function (req, res) {
 });
 
 router.post('/updatescores', function (req, res) {
+    // const now = new Date(new Date().toUTCString()).toISOString();
+  // console.log('now: ' + now);
+
+  // const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
+  // console.log('nowEastern: ' + nowEastern);
+  
   //if (get(req,'user.sub') === 'google-oauth2|114172296334563495985') {
     run();
   //}
