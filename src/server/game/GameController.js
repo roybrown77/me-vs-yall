@@ -138,8 +138,6 @@ async function run() {
 }
 
 router.get('/games/', function (req, res) {
-  run();
-
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
     weekNo: req.query.weekNo
@@ -157,6 +155,12 @@ router.get('/games/', function (req, res) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       res.status(200).send(games);
   });
+});
+
+router.post('/updatescores', function (req, res) {
+  //if (get(req,'user.sub') === 'google-oauth2|114172296334563495985') {
+    run();
+  //}
 });
 
 router.post('/creategames', function (req, res) {
