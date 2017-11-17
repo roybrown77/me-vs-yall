@@ -123,18 +123,24 @@ const getResults = (games, picks) => {
     const gamesOver = areAnyGamesOver(games);
 
     if (gamesOver) {
-        games.filter(game=>{
+        const filteredGames = games.filter(game=>{
             return !!game.isGameOver && game.weekNo > 5;
-        }).map(game=>{
+        });
+
+        const filteredPicks = picks.filter(pick=>{
+            return pick.weekNo > 5;
+        });
+
+        filteredGames.map(game=>{
             if (game.competitors[0].score === game.competitors[1].score) {
                 ++ties;
             }
 
-            const winner = game.competitors[0].score === game.competitors[1].score ? null : 
+            const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
             (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
             game.competitors.map((competitor, index)=> {
-                const winnerSelected = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
+                const winnerSelected = !!filteredPicks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
 
                 if (winnerSelected && competitor._id === winner) {
                     ++wins;
