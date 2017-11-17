@@ -186,7 +186,7 @@ const mapStateToProps = (state, ownProps) => {
         });
 
     const weeks = [
-        ...formattedWeeks.slice(0, formattedWeeks.length-1),
+        ...formattedWeeks,
         {
             displayName: "All Season"
         }
