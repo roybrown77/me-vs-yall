@@ -11,6 +11,8 @@ var gameRepository = require('./GameRepository');
 const omit = require('lodash/omit');
 const get = require('lodash/get');
 
+const PRE_SEASON_FINAL_WEEK = 5;
+
 // let gameScoreUpdate = [
 //   {
 //     day:'Thursday',
@@ -49,7 +51,7 @@ const get = require('lodash/get');
 //   }
 // ];
 
-async function run() {
+async function run(weekNo) {
   const browser = await puppeteer.launch({
     headless: false
   });
@@ -59,7 +61,7 @@ async function run() {
   // await page.goto('https://github.com');
   // await page.screenshot path: 'screenshots/github.png' });
 
-  await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/11');
+  await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + weekNo);
 
   // // dom element selectors
   // const USERNAME_SELECTOR = '#login_field';
@@ -80,14 +82,49 @@ async function run() {
   // // let searchUrl = 'https://github.com/search?utf8=%E2%9C%93&q=bashua&type=Users';
 
   // await page.goto(searchUrl);
+
   await page.waitFor(10 * 1000);
 
-  let score = await page.evaluate((sel) => {
-    let element = document.querySelector(sel);
-    return element ? element.innerHTML : null;
-  }, '#teams > tr.home > td.total > span');
+  
 
-  console.log('score: ', score);
+  let listLength = await page.evaluate((sel) => {
+    return document.getElementsByClassName(sel).length;
+  }, 'scoreboard final');
+
+  console.log('listLength: ' + listLength);
+
+  const LIST_SCORE_SELECTOR = 'div#events > article:nth-child(INDEX) > div > div > section.sb-score.final > div.sb-content.competitors.HOMEAWAY-winner.final > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+  const LIST_NAME_SELECTOR = 'div#events > article:nth-child(INDEX) > div > div > section.sb-score.final > div.sb-content.competitors.HOMEAWAY-winner.final > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+
+  for (let i = 1; i <= listLength; i++) {
+    const awayscore = await page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away')); //'#teams > tr.away > td.total > span');
+
+    console.log('awayscore: ', awayscore);
+
+    const awayteam = await page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));//'#teams > tr.away > td.away > div.sb-meta > h2 > a > span.sb-team-short');
+
+    console.log('awayteam: ', awayteam);
+
+    const homescore = await page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));//'#teams > tr.home > td.total > span');
+
+    console.log('homescore: ', homescore);
+
+    const hometeam = await page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));//'#teams > tr.home > td.home > div.sb-meta > h2 > a > span.sb-team-short');
+
+    console.log('hometeam: ', hometeam);
+  }
 
   // // const LIST_USERNAME_SELECTOR = '#user_search_results > div.user-list > div:nth-child(1) > div.d-flex > div > a';
   // const LIST_USERNAME_SELECTOR = '#user_search_results > div.user-list > div:nth-child(INDEX) > div.d-flex > div > a';
@@ -157,10 +194,31 @@ router.post('/updatescores', function (req, res) {
 
   // const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
   // console.log('nowEastern: ' + nowEastern);
-  
+
   //if (get(req,'user.sub') === 'google-oauth2|114172296334563495985') {
-    run();
+    //run();
   //}
+
+  const search = {
+    isGameOver: {
+      $ne: true
+    },
+    weekNo: {
+      $gt: PRE_SEASON_FINAL_WEEK
+    },
+    startDateTime: {
+      $lt: new Date(new Date().toUTCString()).toISOString()
+    },
+    postponed: {
+      $ne: true
+    }
+  };
+
+  gameRepository.find(search, function (err, games) {
+      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+      games.map(game=>run(game.weekNo - PRE_SEASON_FINAL_WEEK));
+      res.status(200).send(games);
+  });
 });
 
 router.post('/creategames', function (req, res) {
