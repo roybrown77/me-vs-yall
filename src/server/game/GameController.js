@@ -64,7 +64,7 @@ async function run(weekNo) {
   // await page.goto('https://github.com');
   // await page.screenshot path: 'screenshots/github.png' });
 
-  await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/10');
+  await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + weekNo);
 
   // // dom element selectors
   // const USERNAME_SELECTOR = '#login_field';
@@ -98,6 +98,8 @@ async function run(weekNo) {
   let LIST_NAME_SELECTOR = 'div#events > article:nth-child(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
 
   for (let i = 1; i <= listLength; i++) {
+    await page.waitFor(1 * 1000);
+
     const awayscore = await page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
@@ -108,7 +110,7 @@ async function run(weekNo) {
     const awayteam = await page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));//'#teams > tr.away > td.away > div.sb-meta > h2 > a > span.sb-team-short');
+    }, '#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short'.replace("INDEX", i).replace("HOMEAWAY",'away'));//'#teams > tr.away > td.away > div.sb-meta > h2 > a > span.sb-team-short');
 
     console.log('awayteam: ', awayteam);
 
