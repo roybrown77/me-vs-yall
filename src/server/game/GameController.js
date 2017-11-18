@@ -61,32 +61,9 @@ async function run(weekNo) {
 
   const page = await browser.newPage();
 
-  // await page.goto('https://github.com');
-  // await page.screenshot path: 'screenshots/github.png' });
-
   await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + weekNo);
 
-  // // dom element selectors
-  // const USERNAME_SELECTOR = '#login_field';
-  // const PASSWORD_SELECTOR = '#password';
-  // const BUTTON_SELECTOR = '#login > form > div.auth-form-body.mt-3 > input.btn.btn-primary.btn-block';
-
-  // await page.click(USERNAME_SELECTOR);
-  // await page.keyboard.type(CREDS.username);
-
-  // await page.click(PASSWORD_SELECTOR);
-  // await page.keyboard.type(CREDS.password);
-
-  // await page.click(BUTTON_SELECTOR);
-  // await page.waitForNavigation();
-
-  // const userToSearch = 'john';
-  // const searchUrl = `https://github.com/search?q=${userToSearch}&type=Users&utf8=%E2%9C%93`;
-  // // let searchUrl = 'https://github.com/search?utf8=%E2%9C%93&q=bashua&type=Users';
-
-  // await page.goto(searchUrl);
-
-  await page.waitFor(10 * 1000);
+  await page.waitForSelector('#events');
 
   let listLength = await page.evaluate((sel) => {
     return document.getElementsByClassName(sel).length;
@@ -94,83 +71,37 @@ async function run(weekNo) {
 
   console.log('listLength: ' + listLength);
 
-  let LIST_SCORE_SELECTOR = 'div#events > article:nth-child(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-  let LIST_NAME_SELECTOR = 'div#events > article:nth-child(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+  let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
 
   for (let i = 1; i <= listLength; i++) {
-    await page.waitFor(1 * 1000);
-
     const awayscore = await page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away')); //'#teams > tr.away > td.total > span');
+    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
     console.log('awayscore: ', awayscore);
 
     const awayteam = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, '#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short'.replace("INDEX", i).replace("HOMEAWAY",'away'));//'#teams > tr.away > td.away > div.sb-meta > h2 > a > span.sb-team-short');
+      return document.querySelector(sel).getAttribute('data-awayid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
     console.log('awayteam: ', awayteam);
 
     const homescore = await page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));//'#teams > tr.home > td.total > span');
+    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
     console.log('homescore: ', homescore);
 
     const hometeam = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));//'#teams > tr.home > td.home > div.sb-meta > h2 > a > span.sb-team-short');
+      return document.querySelector(sel).getAttribute('data-homeid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
     console.log('hometeam: ', hometeam);
   }
-
-  // const LIST_USERNAME_SELECTOR = '#user_search_results > div.user-list > div:nth-child(INDEX) > div.d-flex > div > a';
-  // const LIST_EMAIL_SELECTOR = '#user_search_results > div.user-list > div:nth-child(INDEX) > div.d-flex > div > ul > li:nth-child(2) > a';
-  // const LENGTH_SELECTOR_CLASS = 'user-list-item';
-  // const numPages = await getNumPages(page);
-
-  // console.log('Numpages: ', numPages);
-
-  // for (let h = 1; h <= numPages; h++) {
-  //   let pageUrl = searchUrl + '&p=' + h;
-  //   await page.goto(pageUrl);
-
-  //   let listLength = await page.evaluate((sel) => {
-  //     return document.getElementsByClassName(sel).length;
-  //   }, LENGTH_SELECTOR_CLASS);
-
-  //   for (let i = 1; i <= listLength; i++) {
-  //     // change the index to the next child
-  //     let usernameSelector = LIST_USERNAME_SELECTOR.replace("INDEX", i);
-  //     let emailSelector = LIST_EMAIL_SELECTOR.replace("INDEX", i);
-
-  //     let username = await page.evaluate((sel) => {
-  //       return document.querySelector(sel).getAttribute('href').replace('/', '');
-  //     }, usernameSelector);
-
-  //     let email = await page.evaluate((sel) => {
-  //       let element = document.querySelector(sel);
-  //       return element ? element.innerHTML : null;
-  //     }, emailSelector);
-
-  //     // not all users have emails visible
-  //     if (!email)
-  //       continue;
-
-  //     console.log(username, ' -> ', email);
-
-  //     upsertUser({
-  //       username: username,
-  //       email: email,
-  //       dateCrawled: new Date()
-  //     });
-  //   }
-  // }
 
   browser.close();
 }
