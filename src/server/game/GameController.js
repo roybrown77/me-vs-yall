@@ -166,22 +166,18 @@ async function updateScores(games) {
     const awayScore = scores.find(x=>awayId === x.awayTeam).awayScore;
     const homeScore = scores.find(x=>homeId === x.homeTeam).homeScore;
 
-    const updatedGame = Object.assign(
-        {},
-        game,
-        {
-          isGameOver: true,
-          competitors: [
-            Object.assign({},game.competitors[0],{score:awayScore}),
-            Object.assign({},game.competitors[1],{score:homeScore})
-          ]
-        }
-      );
+    const updatedGame = {
+        isGameOver: true,
+        competitors: [
+          Object.assign({},game.competitors[0],{score:awayScore}),
+          Object.assign({},game.competitors[1],{score:homeScore})
+        ]
+      };
 
     console.log('updatedGame: ' + JSON.stringify(updatedGame));
 
-    // gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, function(err,game){
-    // });
+    gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, function(err,game){
+    });
 
     return updatedGame;
   });

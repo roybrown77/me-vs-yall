@@ -4,6 +4,7 @@ var GameSchema = new mongoose.Schema({
 	weekNo: Number,
     startDateTime: 'date',
     station: String,
+    isGameOver: mongoose.Schema.Types.Boolean,
     competitors: Array
 });
 module.exports = mongoose.model('Game', GameSchema);
