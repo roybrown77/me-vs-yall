@@ -14,21 +14,26 @@ const {getTeams} = require('./teams');
 const omit = require('lodash/omit');
 const get = require('lodash/get');
 
-const PRE_SEASON_FINAL_WEEK = 5;
+const REG_SEASON_START_WEEK = 6;
 
 const espnToMeVsYallTeams = [
   {
-    id: 34,
-    name: 'Houston Texans',
-    mvyId: '19823783734d1d04a1b39007'
+    id: '26',
+    name: 'Seattle Seahawks',
+    mvyId: '19823783734d1d04a1b3901f'
   },
   {
-    id: 23,
+    id: '22',
+    name: 'Arizona Cardinals',
+    mvyId: '19823783734d1d04a1b39005'
+  },
+  {
+    id: '23',
     name: 'Pittsburgh Steelers',
     mvyId: '19823783734d1d04a1b39014'
   },
   {
-    id: 10,
+    id: '10',
     name: 'Tennessee Titans',
     mvyId: '19823783734d1d04a1b39019'
   }
@@ -72,18 +77,30 @@ const espnToMeVsYallTeams = [
 //   }
 // ];
 
-async function getScores(weekNo) {
+async function updateScores(games) {
   const browser = await puppeteer.launch({
     headless: false
   });
 
+  console.log('games: ' + JSON.stringify(games));
+
+  const weeks = games.map(x=>{ return x.weekNo - (REG_SEASON_START_WEEK-1); });
+  
+  console.log('weeks: ' + JSON.stringify(weeks));
+
   let scores = [];
   
-  //try {
+  try {
     const page = await browser.newPage();
 
-    //weeks.map(weekNo => {
-      await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + 11);
+    for (let w = 0; w < weeks-1; w++) {
+      const weekNo = weeks[w];
+
+      if (!weekNo) {
+        continue;
+      }
+
+      await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + weekNo);
 
       await page.waitForSelector('#events');
 
@@ -131,14 +148,47 @@ async function getScores(weekNo) {
           homeScore: homeScore
         });
       }
-    //});
-  //} catch(err) {
-
-  //}
+    };
+  } catch(err) {
+    console.log('ERROR: ' + err.message);
+  }
 
   browser.close();
 
-  return scores;
+  console.log('scores: ' + JSON.stringify(scores));
+
+  console.log('espnToMeVsYallTeams: ' + JSON.stringify(espnToMeVsYallTeams));
+
+  const updatedGames = games.map(game=>{
+    const awayId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
+    const homeId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[1]._id.toString()).id;
+
+    const awayScore = scores.find(x=>awayId === x.awayTeam).awayScore;
+    const homeScore = scores.find(x=>homeId === x.homeTeam).homeScore;
+
+    const updatedGame = Object.assign(
+        {},
+        game,
+        {
+          isGameOver: true,
+          competitors: [
+            Object.assign({},game.competitors[0],{score:awayScore}),
+            Object.assign({},game.competitors[1],{score:homeScore})
+          ]
+        }
+      );
+
+    console.log('updatedGame: ' + JSON.stringify(updatedGame));
+
+    // gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, function(err,game){
+    // });
+
+    return updatedGame;
+  });
+
+  console.log('updatedGames: ' + JSON.stringify(updatedGames));
+
+  //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), game, null));
 }
 
 router.get('/games/', function (req, res) {
@@ -171,7 +221,7 @@ router.post('/updatescores', function (req, res) {
       $ne: true
     },
     weekNo: {
-      $gt: PRE_SEASON_FINAL_WEEK
+      $gt: REG_SEASON_START_WEEK - 1
     },
     startDateTime: {
       $lt: new Date(new Date().toUTCString()).toISOString()
@@ -180,10 +230,8 @@ router.post('/updatescores', function (req, res) {
 
   gameRepository.find(search, function (err, games) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
-      const weeks = games.map(x=>{return x.weekNo - PRE_SEASON_FINAL_WEEK});
-      const scores = getScores(weeks[0]);
-      console.log('scores: ' + scores);
-      res.status(200).send(scores);
+      updateScores(games);
+      res.status(200).send(games);
   });
 });
 
