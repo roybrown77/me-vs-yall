@@ -16,6 +16,24 @@ const get = require('lodash/get');
 
 const PRE_SEASON_FINAL_WEEK = 5;
 
+const espnToMeVsYallTeams = [
+  {
+    id: 34,
+    name: 'Houston Texans',
+    mvyId: '19823783734d1d04a1b39007'
+  },
+  {
+    id: 23,
+    name: 'Pittsburgh Steelers',
+    mvyId: '19823783734d1d04a1b39014'
+  },
+  {
+    id: 10,
+    name: 'Tennessee Titans',
+    mvyId: '19823783734d1d04a1b39019'
+  }
+];
+
 // let gameScoreUpdate = [
 //   {
 //     day:'Thursday',
@@ -54,56 +72,73 @@ const PRE_SEASON_FINAL_WEEK = 5;
 //   }
 // ];
 
-async function run(weekNo) {
+async function getScores(weekNo) {
   const browser = await puppeteer.launch({
     headless: false
   });
 
-  const page = await browser.newPage();
+  let scores = [];
+  
+  //try {
+    const page = await browser.newPage();
 
-  await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + weekNo);
+    //weeks.map(weekNo => {
+      await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + 11);
 
-  await page.waitForSelector('#events');
+      await page.waitForSelector('#events');
 
-  let listLength = await page.evaluate((sel) => {
-    return document.getElementsByClassName(sel).length;
-  }, 'scoreboard football final');
+      let listLength = await page.evaluate((sel) => {
+        return document.getElementsByClassName(sel).length;
+      }, 'scoreboard football final');
 
-  console.log('listLength: ' + listLength);
+      console.log('listLength: ' + listLength);
 
-  let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
-  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+      let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+      let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+      let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
 
-  for (let i = 1; i <= listLength; i++) {
-    const awayscore = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      for (let i = 1; i <= listLength; i++) {
+        const awayTeam = await page.evaluate((sel) => {
+          return document.querySelector(sel).getAttribute('data-awayid');
+        }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-    console.log('awayscore: ', awayscore);
+        console.log('awayTeam: ', awayTeam);
 
-    const awayteam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-awayid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const awayScore = await page.evaluate((sel) => {
+          const element = document.querySelector(sel);
+          return element ? element.innerHTML : null;
+        }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
-    console.log('awayteam: ', awayteam);
+        console.log('awayScore: ', awayScore);
 
-    const homescore = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+        const homeTeam = await page.evaluate((sel) => {
+          return document.querySelector(sel).getAttribute('data-homeid');
+        }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-    console.log('homescore: ', homescore);
+        console.log('homeTeam: ', homeTeam);
 
-    const hometeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-homeid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const homeScore = await page.evaluate((sel) => {
+          const element = document.querySelector(sel);
+          return element ? element.innerHTML : null;
+        }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
-    console.log('hometeam: ', hometeam);
-  }
+        console.log('homeScore: ', homeScore);
+
+        scores.push({
+          awayTeam: awayTeam,
+          awayScore: awayScore,
+          homeTeam: homeTeam,
+          homeScore: homeScore
+        });
+      }
+    //});
+  //} catch(err) {
+
+  //}
 
   browser.close();
+
+  return scores;
 }
 
 router.get('/games/', function (req, res) {
@@ -140,16 +175,15 @@ router.post('/updatescores', function (req, res) {
     },
     startDateTime: {
       $lt: new Date(new Date().toUTCString()).toISOString()
-    },
-    postponed: {
-      $ne: true
     }
   };
 
   gameRepository.find(search, function (err, games) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
-      games.map(game=>run(game.weekNo - PRE_SEASON_FINAL_WEEK));
-      res.status(200).send(games);
+      const weeks = games.map(x=>{return x.weekNo - PRE_SEASON_FINAL_WEEK});
+      const scores = getScores(weeks[0]);
+      console.log('scores: ' + scores);
+      res.status(200).send(scores);
   });
 });
 

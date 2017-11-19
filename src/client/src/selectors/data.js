@@ -115,6 +115,10 @@ const rawWeeks = [
                     },
                   ];
 
+const areAnyGamesOver = (games) => {
+    return games.some(x=>!!x.isGameOver);
+};
+
 const getResults = (games, picks) => {
     let wins = 0;
     let losses = 0;
@@ -131,7 +135,7 @@ const getResults = (games, picks) => {
             return pick.weekNo > 5;
         });
 
-        filteredGames.map(game=>{
+        filteredGames.forEach(game=>{
             if (game.competitors[0].score === game.competitors[1].score) {
                 ++ties;
             }
@@ -139,7 +143,7 @@ const getResults = (games, picks) => {
             const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
             (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
-            game.competitors.map((competitor, index)=> {
+            game.competitors.forEach((competitor, index)=> {
                 const winnerSelected = !!filteredPicks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
 
                 if (winnerSelected && competitor._id === winner) {
@@ -158,10 +162,6 @@ const getResults = (games, picks) => {
         losses,
         ties
     };
-};
-
-const areAnyGamesOver = (games) => {
-    return games.some(x=>!!x.isGameOver);
 };
 
 export {

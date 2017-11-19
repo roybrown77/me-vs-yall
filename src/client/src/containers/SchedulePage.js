@@ -39,11 +39,6 @@ class SchedulePage extends Component {
 
         const weekToSearch = this.props.weekNo;
 
-        const query = {
-            leagueId: this.props.leagueId,
-            weekNo: weekToSearch
-        };
-
         getUserProfile((err, profile) => {
             const query = {
                 userId: profile.sub,
