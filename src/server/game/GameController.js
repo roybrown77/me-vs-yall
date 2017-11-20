@@ -13,6 +13,7 @@ const {getTeams} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
+const uniq = require('lodash/uniq');
 
 const REG_SEASON_START_WEEK = 6;
 
@@ -36,6 +37,146 @@ const espnToMeVsYallTeams = [
     id: '10',
     name: 'Tennessee Titans',
     mvyId: '19823783734d1d04a1b39019'
+  },
+  {
+    id: '18',
+    name: 'New Orleans Saints',
+    mvyId: '19823783734d1d04a1b3900f'
+  },
+  {
+    id: '2',
+    name: 'Buffalo Bills',
+    mvyId: '19823783734d1d04a1b3900b'
+  },
+  {
+    id: '3',
+    name: 'Chicago Bears',
+    mvyId: '19823783734d1d04a1b39004'
+  },
+  {
+    id: '9',
+    name: 'Green Bay Packers',
+    mvyId: '19823783734d1d04a1b39012'
+  },
+  {
+    id: '8',
+    name: 'Detroit Lions',
+    mvyId: '19823783734d1d04a1b3901d'
+  },
+  {
+    id: '5',
+    name: 'Cleveland Browns',
+    mvyId: '19823783734d1d04a1b39010'
+  },
+  {
+    id: '4',
+    name: 'Cincinnati Bengals',
+    mvyId: '19823783734d1d04a1b39017'
+  },
+  {
+    id: '11',
+    name: 'Indianapolis Colts',
+    mvyId: '19823783734d1d04a1b3901e'
+  },
+  {
+    id: '27',
+    name: 'Tampa Bay Buccaneers',
+    mvyId: '19823783734d1d04a1b39016'
+  },
+  {
+    id: '20',
+    name: 'New York Jets',
+    mvyId: '19823783734d1d04a1b3901a'
+  },
+  {
+    id: '28',
+    name: 'Washington Redskins',
+    mvyId: '19823783734d1d04a1b3900c'
+  },
+  {
+    id: '16',
+    name: 'Minnesota Vikings',
+    mvyId: '19823783734d1d04a1b3900a'
+  },
+  {
+    id: '30',
+    name: 'Jacksonville Jaguars',
+    mvyId: '19823783734d1d04a1b3900e'
+  },
+  {
+    id: '24',
+    name: 'Los Angeles Chargers',
+    mvyId: '19823783734d1d04a1b39000'
+  },
+  {
+    id: '14',
+    name: 'Los Angeles Rams',
+    mvyId: '19823783734d1d04a1b3901b'
+  },
+  {
+    id: '34',
+    name: 'Houston Texans',
+    mvyId: '19823783734d1d04a1b39007'
+  },
+  {
+    id: '1',
+    name: 'Atlanta Falcons',
+    mvyId: '19823783734d1d04a1b39003'
+  },
+  {
+    id: '6',
+    name: 'Dallas Cowboys',
+    mvyId: '19823783734d1d04a1b39006'
+  },
+  {
+    id: '7',
+    name: 'Denver Broncos',
+    mvyId: '19823783734d1d04a1b39013'
+  },
+  {
+    id: '29',
+    name: 'Carolina Panthers',
+    mvyId: '19823783734d1d04a1b39008'
+  },
+  {
+    id: '15',
+    name: 'Miami Dolphins',
+    mvyId: '19823783734d1d04a1b39009'
+  },
+  {
+    id: '25',
+    name: 'San Francisco 49ers',
+    mvyId: '19823783734d1d04a1b39018'
+  },
+  {
+    id: '33',
+    name: 'Baltimore Ravens',
+    mvyId: '19823783734d1d04a1b3900d'
+  },
+  {
+    id: '13',
+    name: 'Oakland Raiders',
+    mvyId: '19823783734d1d04a1b3901c'
+  },
+  {
+    id: '21',
+    name: 'Philadelphia Eagles',
+    mvyId: '19823783734d1d04a1b39011'
+  },
+  {
+    id: '12',
+    name: 'Kansas City Chiefs',
+    mvyId: '19823783734d1d04a1b39001'
+  },
+  {
+    id: '17',
+    name: 'New England Patriots',
+    mvyId: '19823783734d1d04a1b39002'
+  },
+  {
+    id: '19',
+    name: 'New York Giants',
+    mvyId: '19823783734d1d04a1b39015'
   }
 ];
 
@@ -84,7 +225,7 @@ async function updateScores(games) {
 
   console.log('games: ' + JSON.stringify(games));
 
-  const weeks = games.map(x=>{ return x.weekNo - (REG_SEASON_START_WEEK-1); });
+  const weeks = uniq(games.map(x=>{ return x.weekNo - (REG_SEASON_START_WEEK-1); }));
   
   console.log('weeks: ' + JSON.stringify(weeks));
 
@@ -145,7 +286,8 @@ async function updateScores(games) {
           awayTeam: awayTeam,
           awayScore: awayScore,
           homeTeam: homeTeam,
-          homeScore: homeScore
+          homeScore: homeScore,
+          weekNo: parseInt(weekNo)
         });
       }
     };
@@ -158,33 +300,29 @@ async function updateScores(games) {
   console.log('scores: ' + JSON.stringify(scores));
 
   console.log('espnToMeVsYallTeams: ' + JSON.stringify(espnToMeVsYallTeams));
+  console.log('espnToMeVsYallTeams.length: ' + espnToMeVsYallTeams.length);
 
-  const updatedGames = games.map(game=>{
-    const awayId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
-    const homeId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[1]._id.toString()).id;
+  scores.forEach(score=>{
+    if (!!score.awayScore && !!score.homeScore) {
+      const awayId = espnToMeVsYallTeams.find(y=>y.id.toString() === score.awayTeam.toString()).mvyId;
+      const game = games.find(x=>awayId.toString() === x.competitors[0]._id.toString() && (score.weekNo + (REG_SEASON_START_WEEK - 1)) === x.weekNo);
+      const updatedGame = {
+          isGameOver: true,
+          competitors: [
+            Object.assign({},game.competitors[0],{score:score.awayScore}),
+            Object.assign({},game.competitors[1],{score:score.homeScore})
+          ]
+        };
 
-    const awayScore = scores.find(x=>awayId === x.awayTeam).awayScore;
-    const homeScore = scores.find(x=>homeId === x.homeTeam).homeScore;
+      console.log('updatedGame: ' + JSON.stringify(updatedGame));
 
-    const updatedGame = {
-        isGameOver: true,
-        competitors: [
-          Object.assign({},game.competitors[0],{score:awayScore}),
-          Object.assign({},game.competitors[1],{score:homeScore})
-        ]
-      };
-
-    console.log('updatedGame: ' + JSON.stringify(updatedGame));
-
-    gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, function(err,game){
-    });
-
-    return updatedGame;
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
+    }
   });
 
-  console.log('updatedGames: ' + JSON.stringify(updatedGames));
+  //console.log('updatedGames: ' + JSON.stringify(updatedGames));
 
-  //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), game, null));
+  //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game.id.toString()), game.change, {new: true}));
 }
 
 router.get('/games/', function (req, res) {
