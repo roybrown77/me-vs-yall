@@ -325,7 +325,7 @@ async function updateScores(games) {
   //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game.id.toString()), game.change, {new: true}));
 }
 
-const executeUpdateScores = (res) => {
+const executeUpdateScores = () => {
   const search = {
     isGameOver: {
       $ne: true
@@ -339,14 +339,12 @@ const executeUpdateScores = (res) => {
   };
 
   gameRepository.find(search, function (err, games) {
-      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       updateScores(games);
-      res.status(200).send(games);
   });
 }
 
 router.get('/games/', function (req, res) {
-  executeUpdateScores(res);
+  executeUpdateScores();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
@@ -372,7 +370,7 @@ router.post('/updatescores', function (req, res) {
     //run();
   //}
 
-  executeUpdateScores(res);
+  executeUpdateScores();
 });
 
 router.post('/creategames', function (req, res) {
