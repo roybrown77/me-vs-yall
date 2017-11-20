@@ -284,9 +284,9 @@ async function updateScores(games) {
 
         scores.push({
           awayTeam: awayTeam,
-          awayScore: awayScore,
+          awayScore: parseInt(awayScore),
           homeTeam: homeTeam,
-          homeScore: homeScore,
+          homeScore: parseInt(homeScore),
           weekNo: parseInt(weekNo)
         });
       }
@@ -325,31 +325,7 @@ async function updateScores(games) {
   //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game.id.toString()), game.change, {new: true}));
 }
 
-router.get('/games/', function (req, res) {
-  const search = {
-    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-    weekNo: req.query.weekNo
-  };
-
-  const finalSearch = omit(search, [get(req,'query.weekNo','weekNo')]);
-
-  gameRepository.find(finalSearch, function (err, games) {
-      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
-      res.status(200).send(games);
-  });
-});
-
-router.post('/updatescores', function (req, res) {
-    // const now = new Date(new Date().toUTCString()).toISOString();
-  // console.log('now: ' + now);
-
-  // const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
-  // console.log('nowEastern: ' + nowEastern);
-
-  //if (get(req,'user.sub') === 'google-oauth2|114172296334563495985') {
-    //run();
-  //}
-
+const executeUpdateScores = (res) => {
   const search = {
     isGameOver: {
       $ne: true
@@ -367,6 +343,36 @@ router.post('/updatescores', function (req, res) {
       updateScores(games);
       res.status(200).send(games);
   });
+}
+
+router.get('/games/', function (req, res) {
+  executeUpdateScores(res);
+
+  const search = {
+    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+    weekNo: req.query.weekNo
+  };
+
+  const finalSearch = omit(search, [get(req,'query.weekNo','weekNo')]);
+  
+  gameRepository.find(finalSearch, function (err, games) {
+      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+      res.status(200).send(games);
+  });
+});
+
+router.post('/updatescores', function (req, res) {
+    // const now = new Date(new Date().toUTCString()).toISOString();
+  // console.log('now: ' + now);
+
+  // const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
+  // console.log('nowEastern: ' + nowEastern);
+
+  //if (get(req,'user.sub') === 'google-oauth2|114172296334563495985') {
+    //run();
+  //}
+
+  executeUpdateScores(res);
 });
 
 router.post('/creategames', function (req, res) {
