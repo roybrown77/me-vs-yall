@@ -220,7 +220,7 @@ const espnToMeVsYallTeams = [
 
 async function updateScores(games) {
   const browser = await puppeteer.launch({
-    headless: false
+    //headless: false
   });
 
   console.log('games: ' + JSON.stringify(games));
@@ -249,13 +249,13 @@ async function updateScores(games) {
         return document.getElementsByClassName(sel).length;
       }, 'scoreboard football final');
 
-      console.log('listLength: ' + listLength);
+      console.log('listLength: ' + listLength+1);
 
       let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
       let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
       let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
 
-      for (let i = 1; i <= listLength; i++) {
+      for (let i = 1; i <= listLength+1; i++) {
         const awayTeam = await page.evaluate((sel) => {
           return document.querySelector(sel).getAttribute('data-awayid');
         }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
@@ -298,14 +298,17 @@ async function updateScores(games) {
   browser.close();
 
   console.log('scores: ' + JSON.stringify(scores));
-
   console.log('espnToMeVsYallTeams: ' + JSON.stringify(espnToMeVsYallTeams));
   console.log('espnToMeVsYallTeams.length: ' + espnToMeVsYallTeams.length);
 
-  scores.forEach(score=>{
-    if (!!score.awayScore && !!score.homeScore) {
-      const awayId = espnToMeVsYallTeams.find(y=>y.id.toString() === score.awayTeam.toString()).mvyId;
-      const game = games.find(x=>awayId.toString() === x.competitors[0]._id.toString() && (score.weekNo + (REG_SEASON_START_WEEK - 1)) === x.weekNo);
+  games.forEach(game=>{
+    const awayId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
+    console.log('awayId: ' + awayId);
+
+    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && (game.weekNo - (REG_SEASON_START_WEEK - 1)) === x.weekNo);
+    console.log('score: ' + JSON.stringify(score));
+
+    if (!!get(score,'awayScore') && !!get(score,'homeScore')) {
       const updatedGame = {
           isGameOver: true,
           competitors: [
@@ -321,7 +324,6 @@ async function updateScores(games) {
   });
 
   //console.log('updatedGames: ' + JSON.stringify(updatedGames));
-
   //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game.id.toString()), game.change, {new: true}));
 }
 
