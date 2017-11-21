@@ -220,7 +220,8 @@ const espnToMeVsYallTeams = [
 
 async function updateScores(games) {
   const browser = await puppeteer.launch({
-    //headless: false
+    //headless: false,
+    args: ['--no-sandbox']
   });
 
   console.log('games: ' + JSON.stringify(games));
