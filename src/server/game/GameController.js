@@ -298,8 +298,6 @@ async function updateScores(games) {
   browser.close();
 
   console.log('scores: ' + JSON.stringify(scores));
-  console.log('espnToMeVsYallTeams: ' + JSON.stringify(espnToMeVsYallTeams));
-  console.log('espnToMeVsYallTeams.length: ' + espnToMeVsYallTeams.length);
 
   games.forEach(game=>{
     const awayId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
