@@ -247,15 +247,15 @@ async function updateScores(games) {
 
       let listLength = await page.evaluate((sel) => {
         return document.getElementsByClassName(sel).length;
-      }, 'scoreboard football final');
+      }, 'scoreboard football');
 
-      console.log('listLength: ' + listLength+1);
+      console.log('listLength: ' + listLength);
 
       let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
       let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
       let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
 
-      for (let i = 1; i <= listLength+1; i++) {
+      for (let i = 1; i <= listLength; i++) {
         const awayTeam = await page.evaluate((sel) => {
           return document.querySelector(sel).getAttribute('data-awayid');
         }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
