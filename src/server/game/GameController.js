@@ -219,6 +219,10 @@ const espnToMeVsYallTeams = [
 // ];
 
 async function updateScores(games) {
+  if (games.length === 0) {
+    return;
+  }
+
   const browser = await puppeteer.launch({
     //headless: false,
     args: ['--no-sandbox']
@@ -261,27 +265,19 @@ async function updateScores(games) {
           return document.querySelector(sel).getAttribute('data-awayid');
         }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-        console.log('awayTeam: ', awayTeam);
-
         const awayScore = await page.evaluate((sel) => {
           const element = document.querySelector(sel);
           return element ? element.innerHTML : null;
         }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
-        console.log('awayScore: ', awayScore);
-
         const homeTeam = await page.evaluate((sel) => {
           return document.querySelector(sel).getAttribute('data-homeid');
         }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-        console.log('homeTeam: ', homeTeam);
 
         const homeScore = await page.evaluate((sel) => {
           const element = document.querySelector(sel);
           return element ? element.innerHTML : null;
         }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-        console.log('homeScore: ', homeScore);
 
         scores.push({
           awayTeam: awayTeam,
