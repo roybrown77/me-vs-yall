@@ -225,7 +225,7 @@ async function updateScores(games) {
 
   const browser = await puppeteer.launch({
     //headless: false,
-    args: ['--no-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
   console.log('games: ' + JSON.stringify(games));
