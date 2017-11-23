@@ -433,7 +433,7 @@ router.post('/creategameweeks', function (req, res) {
             });
         }, []);
 
-  gamesByWeek.forEach((item, key) => {
+  const gameWeeks = gamesByWeek.map((item, key) => {
       const gameStartDateTimes = item.games.map(x=>{
         return new Date(x.startdate + " " + x.starttime);
       });
@@ -453,12 +453,38 @@ router.post('/creategameweeks', function (req, res) {
 
       console.log('week: ' + JSON.stringify(formattedGameWeek));
 
+      return formattedGameWeek;
+
       // gameWeekRepository.create(formattedGameWeek, function (err, gameCreated) {
       //     if (err) {
       //         console.log("There was a problem adding the information to the database: " + err.message);
       //     }  
       // });
   });
+
+  const viewableNextGameWeeks = gameWeeks.filter(x=>{
+    return x.beginDateTime >= moment();
+  }).map(x=>{
+    return x;
+  });
+
+  const viewableNextGameDateTimes = viewableNextGameWeeks.map(x=>{
+    return x.beginDateTime;
+  });
+
+  const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameDateTimes));
+
+  const viewableGameWeeks = gameWeeks.filter(x=>{
+    if (x.beginDateTime < moment()) {
+      return true;
+    } else {
+      return moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
+    }
+  }).map(x=>{
+    return x;
+  });
+
+  console.log('viewableGameWeeks: ' + JSON.stringify(viewableGameWeeks));
 
   res.status(200).send({message: "done", code: 200});
 });
