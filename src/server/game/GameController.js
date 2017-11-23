@@ -14,6 +14,8 @@ const {getTeams} = require('./teams');
 const omit = require('lodash/omit');
 const get = require('lodash/get');
 const uniq = require('lodash/uniq');
+const transform = require('lodash/transform');
+const groupBy = require('lodash/groupBy');
 
 const REG_SEASON_START_WEEK = 6;
 
@@ -417,6 +419,46 @@ router.post('/creategames', function (req, res) {
           console.log("Success Creating: " + gameCreated._id);
       });
   };
+
+  res.status(200).send({message: "done", code: 200});
+});
+
+router.post('/creategameweeks', function (req, res) {
+  const games = getGames();
+  
+  const gamesByWeek = transform(groupBy(games, x=>x.weekNo), (result, value, key)=>{
+            result.push({
+                weekNo: parseInt(key),
+                games: value
+            });
+        }, []);
+
+  gamesByWeek.forEach((item, key) => {
+      const gameStartDateTimes = item.games.map(x=>{
+        return new Date(x.startdate + " " + x.starttime);
+      });
+
+      const earliestGameTime = new Date(Math.min.apply(null,gameStartDateTimes));
+      const latestGameTime = new Date(Math.max.apply(null,gameStartDateTimes));
+
+      const formattedGameWeek = {
+          leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
+          weekNo: item.weekNo,
+          weekNumberDisplay: item.weekNo - (REG_SEASON_START_WEEK-1),
+          namePrefix: "Week",
+          year: 2017,
+          beginDateTime: earliestGameTime,
+          endDateTime: latestGameTime
+      };
+
+      console.log('week: ' + JSON.stringify(formattedGameWeek));
+
+      // gameWeekRepository.create(formattedGameWeek, function (err, gameCreated) {
+      //     if (err) {
+      //         console.log("There was a problem adding the information to the database: " + err.message);
+      //     }  
+      // });
+  });
 
   res.status(200).send({message: "done", code: 200});
 });
