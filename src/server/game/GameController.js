@@ -221,7 +221,7 @@ const espnToMeVsYallTeams = [
 // ];
 
 async function updateScores(games) {
-  if (games.length === 0) {
+  if (!!games && games.length === 0) {
     return;
   }
 
