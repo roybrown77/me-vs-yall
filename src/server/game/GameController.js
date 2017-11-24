@@ -463,8 +463,10 @@ router.post('/creategameweeks', function (req, res) {
       // });
   });
 
+  const currentDateTime = moment();
+
   const viewableNextGameWeeks = gameWeeks.filter(x=>{
-    return x.beginDateTime > moment();
+    return x.beginDateTime > currentDateTime;
   }).map(x=>{
     return x;
   });
@@ -476,7 +478,6 @@ router.post('/creategameweeks', function (req, res) {
   const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameDateTimes));
 
   const areGamesInProgress = some(gameWeeks, x=>{
-    const currentDateTime = moment();
     if (currentDateTime >= x.beginDateTime && currentDateTime <= x.endDateTime) {
       return true;
     }
@@ -485,7 +486,7 @@ router.post('/creategameweeks', function (req, res) {
   });
 
   const viewableGameWeeks = gameWeeks.filter(x=>{
-    if (x.beginDateTime <= moment()) {
+    if (x.beginDateTime <= currentDateTime) {
       return true;
     } else {
       return !areGamesInProgress && moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
