@@ -23,11 +23,15 @@ import { rawWeeks, leagues, getResults } from '../selectors/data';
 const users = [
     {
         id: 'google-oauth2|114172296334563495985',
-        name: 'Beezy'
+        name: 'Roy B.'
     },
     {
         id: 'google-oauth2|114007081690870704922',
-        name: 'Scotty Mack'
+        name: 'Scott T.'
+    },
+    {
+        id: 'google-oauth2|110505723196499693171',
+        name: 'Keith H.'
     }
 ];
 
