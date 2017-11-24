@@ -16,6 +16,7 @@ const get = require('lodash/get');
 const uniq = require('lodash/uniq');
 const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
+const some = require('lodash/some');
 
 const REG_SEASON_START_WEEK = 6;
 
@@ -463,7 +464,7 @@ router.post('/creategameweeks', function (req, res) {
   });
 
   const viewableNextGameWeeks = gameWeeks.filter(x=>{
-    return x.beginDateTime >= moment();
+    return x.beginDateTime > moment();
   }).map(x=>{
     return x;
   });
@@ -474,11 +475,20 @@ router.post('/creategameweeks', function (req, res) {
 
   const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameDateTimes));
 
+  const areGamesInProgress = some(gameWeeks, x=>{
+    const currentDateTime = moment();
+    if (currentDateTime >= x.beginDateTime && currentDateTime <= x.endDateTime) {
+      return true;
+    }
+
+    return false;
+  });
+
   const viewableGameWeeks = gameWeeks.filter(x=>{
-    if (x.beginDateTime < moment()) {
+    if (x.beginDateTime <= moment()) {
       return true;
     } else {
-      return moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
+      return !areGamesInProgress && moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
     }
   }).map(x=>{
     return x;

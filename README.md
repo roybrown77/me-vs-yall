@@ -17,14 +17,15 @@ https://mevsyall.herokuapp.com
 Backend:
 
 - Architected with a composition over inheritance mindset for less code coupling and Domain Driven Design principles to keep api and backing code modules pluggable, testable and scaleable.  Same goes for client.
-- Node / Javascript - lightweight and efficient web server
+- NodeJs - lightweight and efficient javascript web server
 - Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel
 - MongoDB - document based data storage that allows for schemaless architecture
+- Puppeteer - api to control headless chrome in order to auto update game scores
 
 Client:
 
-- React / Javascript - to build composable user interfaces
-- Redux - fast data state management
+- ReactJs - javascript framework to build composable user interfaces
+- ReduxJs - fast data state management
 - ImmutableJs - faster way to avoid mutating data and thus unexpected side effects for less bug prone features
 - Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel
 - Mobile first ui design - to work exceptionally well on phones first in addition to other screen sizes
@@ -37,12 +38,12 @@ Client:
 
 Hosting server:
 
-- tbd
+- Heroku / Amazon Web Services (AWS)
 
 # To run application locally
 
-1. npm install
+1. npm i
 2. cd src/client
-3. npm install
+3. npm i
 4. cd ../../
 5. npm start
