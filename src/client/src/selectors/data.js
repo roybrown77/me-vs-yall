@@ -120,6 +120,20 @@ const rawWeeks = [
                         beginDateTime: "2017-11-23T05:00:00+04:00",
                         endDateTime: "2017-11-28T02:00:00+04:00"
                     },
+                    {
+                        weekNo: 18,
+                        weekNumberDisplay: 13,
+                        namePrefix: "Week",
+                        beginDateTime: "2017-11-30T05:00:00+04:00",
+                        endDateTime: "2017-12-05T02:00:00+04:00"
+                    },
+                    // {
+                    //     weekNo: 19,
+                    //     weekNumberDisplay: 14,
+                    //     namePrefix: "Week",
+                    //     beginDateTime: "2017-12-07T05:00:00+04:00",
+                    //     endDateTime: "2017-12-12T02:00:00+04:00"
+                    // },
                   ];
 
 const areAnyGamesOver = (games) => {
