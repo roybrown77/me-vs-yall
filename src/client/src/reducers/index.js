@@ -62,7 +62,7 @@ const entities = (state = Map({ games: List(), picks: List(), gameWeeks: List(),
         const gameWeekList = action.response.map(item=>{
           return Map(item);
         });
-        return state.set('gameWeeks', List(gameWeekList)).set("dataLoading", false);
+        return state.set('gameWeeks', List(gameWeekList));
       }
       return state;
     case ActionTypes.GAMEWEEKS_FAILURE:
