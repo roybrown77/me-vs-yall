@@ -8,6 +8,7 @@ let router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
 const gameRepository = require('./GameRepository');
+const gameWeekRepository = require('./GameWeekRepository');
 const {getGames} = require('./games');
 const {getTeams} = require('./teams');
 
@@ -412,13 +413,13 @@ router.post('/creategames', function (req, res) {
           competitors: competitors
       };
 
-      gameRepository.create(formattedGame, function (err, gameCreated) {
-          if (err) {
-              console.log("There was a problem adding the information to the database: " + err.message);
-          }  
+      // gameRepository.create(formattedGame, function (err, gameCreated) {
+      //     if (err) {
+      //         console.log("There was a problem adding the information to the database: " + err.message);
+      //     }  
           
-          console.log("Success Creating: " + gameCreated._id);
-      });
+      //     console.log("Success Creating: " + gameCreated._id);
+      // });
   };
 
   res.status(200).send({message: "done", code: 200});
@@ -434,7 +435,9 @@ router.post('/creategameweeks', function (req, res) {
             });
         }, []);
 
-  const gameWeeks = gamesByWeek.map((item, key) => {
+  console.log('gamesByWeek: ' + JSON.stringify(gamesByWeek));
+
+  gamesByWeek.forEach((item) => {
       const gameStartDateTimes = item.games.map(x=>{
         return new Date(x.startdate + " " + x.starttime);
       });
@@ -454,50 +457,62 @@ router.post('/creategameweeks', function (req, res) {
 
       console.log('week: ' + JSON.stringify(formattedGameWeek));
 
-      return formattedGameWeek;
-
-      // gameWeekRepository.create(formattedGameWeek, function (err, gameCreated) {
+      // gameWeekRepository.create(formattedGameWeek, function (err, gameWeekCreated) {
       //     if (err) {
       //         console.log("There was a problem adding the information to the database: " + err.message);
-      //     }  
+      //     }
+
+      //     console.log("Success Creating: " + gameWeekCreated._id);
       // });
   });
 
-  const currentDateTime = moment();
-
-  const viewableNextGameWeeks = gameWeeks.filter(x=>{
-    return x.beginDateTime > currentDateTime;
-  }).map(x=>{
-    return x;
-  });
-
-  const viewableNextGameDateTimes = viewableNextGameWeeks.map(x=>{
-    return x.beginDateTime;
-  });
-
-  const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameDateTimes));
-
-  const areGamesInProgress = some(gameWeeks, x=>{
-    if (currentDateTime >= x.beginDateTime && currentDateTime <= x.endDateTime) {
-      return true;
-    }
-
-    return false;
-  });
-
-  const viewableGameWeeks = gameWeeks.filter(x=>{
-    if (x.beginDateTime <= currentDateTime) {
-      return true;
-    } else {
-      return !areGamesInProgress && moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
-    }
-  }).map(x=>{
-    return x;
-  });
-
-  console.log('viewableGameWeeks: ' + JSON.stringify(viewableGameWeeks));
-
   res.status(200).send({message: "done", code: 200});
+});
+
+router.get('/gameweeks', function (req, res) {
+  const search = {
+    leagueId: mongoose.Types.ObjectId(req.query.leagueId)
+  };
+
+  const finalSearch = omit(search, [get(req,'query.leagueId','leagueId')]);
+  
+  gameWeekRepository.find(finalSearch, function (err, gameWeeks) {
+      if (err) return res.status(500).send("There was a problem finding the game weeks: " + err.message);
+
+      const currentDateTime = moment();
+
+      const viewableNextGameWeeks = gameWeeks.filter(x=>{
+        return x.beginDateTime > currentDateTime;
+      }).map(x=>{
+        return x;
+      });
+
+      const viewableNextGameDateTimes = viewableNextGameWeeks.map(x=>{
+        return x.beginDateTime;
+      });
+
+      const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameDateTimes));
+
+      const areGamesInProgress = some(gameWeeks, x=>{
+        if (currentDateTime >= x.beginDateTime && currentDateTime <= x.endDateTime) {
+          return true;
+        }
+
+        return false;
+      });
+
+      const viewableGameWeeks = gameWeeks.filter(x=>{
+        if (x.beginDateTime <= currentDateTime) {
+          return true;
+        } else {
+          return !areGamesInProgress && moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
+        }
+      }).map(x=>{
+        return x;
+      });
+
+      res.status(200).send(viewableGameWeeks);
+  });
 });
 
 module.exports = router;

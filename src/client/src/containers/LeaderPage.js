@@ -8,17 +8,16 @@ import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
-import moment from 'moment';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
-import { loadGames, loadPicks, selectWeek } from '../actions';
+import { loadGames, loadPicks, selectWeek, loadGameWeeks } from '../actions';
 import { isLoggedIn } from '../middleware/authService';
 
-import { rawWeeks, leagues, getResults } from '../selectors/data';
+import { leagues, getResults, getWeeks } from '../selectors/data';
 
 const users = [
     {
@@ -66,6 +65,7 @@ class LeaderPage extends Component {
 
         this.props.loadGames(query);
         this.props.loadPicks(query);
+        this.props.loadGameWeeks(query);
     }
 
     handleFilterLeague(filterLeague) {
@@ -75,6 +75,10 @@ class LeaderPage extends Component {
     }
   
     handleFilterWeek(event, index) {
+        if (this.props.weeks.length === 0) {
+            return;
+        }
+
         const weekToSearch = this.props.weeks[index].weekNo;
 
         const query = {
@@ -85,6 +89,7 @@ class LeaderPage extends Component {
         this.props.selectWeek(weekToSearch);
         this.props.loadGames(query);
         this.props.loadPicks(query);
+        this.props.loadGameWeeks(query);
     }
 
     render() {
@@ -176,40 +181,27 @@ const mapStateToProps = (state, ownProps) => {
     const entities = state.get('entities').toJS();
     const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
-    const formattedWeeks = rawWeeks.map((week)=>{
-            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
-            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
-
-            if (startDateTime !== endDateTime) {
-                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D') + ' - ' + moment.utc(week.endDateTime).format('ddd M/D');
-            } else {
-                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D');
-            }
-
-            return week;
-        });
-
-    const weeks = [
-        ...formattedWeeks,
-        {
-            displayName: "All Season"
-        }
-    ];
-
-    const pickResults = [];
-
     const dataLoading = entities.dataLoading;
-
+    
     const defaultLeague = 'nfl';
     const leagueName = get(ownProps, 'match.params.name');
     const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
     const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
     
-    const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
-    const year = 2017;
+    const weeks = [
+        {
+            displayName: "All Season"
+        },
+        ...getWeeks(entities)
+    ];
+
+    const weekIndex = weeks.length-1;
+    const weekNo = get(ui,'weekNo') || get(weeks, '[' + weekIndex + '].weekNo');
     
+    const year = 2017;
     const picks = entities.picks;
     const games = entities.games;
+    const pickResults = [];
 
     return {
         picks,
@@ -232,10 +224,12 @@ LeaderPage.propTypes = {
     weekNo: PropTypes.number,
     loadGames: PropTypes.func.isRequired,
     loadPicks: PropTypes.func.isRequired,
+    loadGameWeeks: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, {
   selectWeek,
   loadGames,
-  loadPicks
+  loadPicks,
+  loadGameWeeks
 })(LeaderPage);

@@ -5,7 +5,6 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 
 import get from 'lodash/get';
-import moment from 'moment';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -13,10 +12,10 @@ import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 
-import { loadGames, loadPicks, addPick, updatePick, selectWeek } from '../actions';
+import { loadGames, loadPicks, loadGameWeeks, addPick, updatePick, selectWeek } from '../actions';
 import { isLoggedIn, getUserProfile } from '../middleware/authService';
 
-import { rawWeeks, leagues } from '../selectors/data';
+import { leagues, getWeeks } from '../selectors/data';
 
 class SchedulePage extends Component {
     constructor(props) {
@@ -33,21 +32,23 @@ class SchedulePage extends Component {
             window.location.href = '/login';
             return;
         }
-        
-        const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
-        history.push('/leagues/' + leagueName);
 
-        const weekToSearch = this.props.weekNo;
+        this.props.loadGameWeeks({leagueId: this.props.leagueId}).then(()=>{
+            const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
+            history.push('/leagues/' + leagueName);
 
-        getUserProfile((err, profile) => {
-            const query = {
-                userId: profile.sub,
-                leagueId: this.props.leagueId,
-                weekNo: weekToSearch
-            };
+            const weekToSearch = this.props.weekNo;
 
-            this.props.loadGames(query);
-            this.props.loadPicks(query);
+            getUserProfile((err, profile) => {
+                const query = {
+                    userId: profile.sub,
+                    leagueId: this.props.leagueId,
+                    weekNo: weekToSearch
+                };
+
+                this.props.loadGames(query);
+                this.props.loadPicks(query);
+            });
         });
     }
 
@@ -58,6 +59,10 @@ class SchedulePage extends Component {
     }
   
     handleFilterWeek(event, index) {
+        if (this.props.weeks.length === 0) {
+            return;
+        }
+
         const weekToSearch = this.props.weeks[index].weekNo;
 
         this.props.selectWeek(weekToSearch);
@@ -71,6 +76,7 @@ class SchedulePage extends Component {
 
             this.props.loadGames(query);
             this.props.loadPicks(query);
+            this.props.loadGameWeeks(query);
         });
     }
 
@@ -120,25 +126,16 @@ const mapStateToProps = (state, ownProps) => {
 
   const games = entities.games;
   const picks = entities.picks;
-
-  const weeks = rawWeeks.map((week)=>{
-            const startDateTime = moment.utc(week.beginDateTime).format('ddd M/D');
-            const endDateTime = moment.utc(week.endDateTime).format('ddd M/D');
-
-            if (startDateTime !== endDateTime) {
-                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D') + ' - ' + moment.utc(week.endDateTime).format('ddd M/D');
-            } else {
-                week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment.utc(week.beginDateTime).format('ddd M/D');
-            }
-
-            return week;
-        });
+  const weeks = getWeeks(entities);
 
   const defaultLeague = 'nfl';
   const leagueName = get(ownProps, 'match.params.name');
   const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
   const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
-  const weekNo = ui.weekNo ? ui.weekNo : weeks[weeks.length-1].weekNo;
+  
+  const weekIndex = weeks.length-1;
+  const weekNo = get(ui,'weekNo') || get(weeks, '[' + weekIndex + '].weekNo');
+  
   const year = 2017;
   const dataLoading = entities.dataLoading;
 
@@ -161,6 +158,7 @@ SchedulePage.propTypes = {
     weekNo: PropTypes.number,
     loadGames: PropTypes.func.isRequired,
     loadPicks: PropTypes.func.isRequired,
+    loadGameWeeks: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
     updatePick: PropTypes.func.isRequired
 };
@@ -168,6 +166,7 @@ SchedulePage.propTypes = {
 export default connect(mapStateToProps, {
   loadGames,
   loadPicks,
+  loadGameWeeks,
   addPick,
   updatePick,
   selectWeek

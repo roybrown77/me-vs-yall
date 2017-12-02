@@ -3,7 +3,7 @@ import * as ActionTypes from '../actions';
 import { Map, List } from 'immutable';
 import get from 'lodash/get';
 
-const entities = (state = Map({ games: List(), picks: List(), dataLoading: true }), action) => {
+const entities = (state = Map({ games: List(), picks: List(), gameWeeks: List(), dataLoading: true }), action) => {
   switch (action.type) {
     case ActionTypes.GAMES_REQUEST:
       return state.set('dataLoading', true);
@@ -55,6 +55,18 @@ const entities = (state = Map({ games: List(), picks: List(), dataLoading: true 
           }
       );
       return state.set('picks', pickListUpdateFailure);
+    case ActionTypes.GAMEWEEKS_REQUEST:
+      return state.set('dataLoading', true);
+    case ActionTypes.GAMEWEEKS_SUCCESS:
+      if (action.response) {
+        const gameWeekList = action.response.map(item=>{
+          return Map(item);
+        });
+        return state.set('gameWeeks', List(gameWeekList)).set("dataLoading", false);
+      }
+      return state;
+    case ActionTypes.GAMEWEEKS_FAILURE:
+      return state.set('dataLoading', false);
     default:
       return state;
   }

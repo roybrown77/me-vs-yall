@@ -49,6 +49,29 @@ export const loadGames = (query, requiredFields = []) => (dispatch, getState) =>
   return dispatch(fetchGames(query));
 };
 
+export const GAMEWEEKS_REQUEST = 'GAMEWEEKS_REQUEST';
+export const GAMEWEEKS_SUCCESS = 'GAMEWEEKS_SUCCESS';
+export const GAMEWEEKS_FAILURE = 'GAMEWEEKS_FAILURE';
+
+const fetchGameWeeks = query => ({
+  [CALL_API]: {
+    types: [ GAMEWEEKS_REQUEST, GAMEWEEKS_SUCCESS, GAMEWEEKS_FAILURE ],
+    endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(query)}`,
+    schema: Schemas.GAME_ARRAY
+  }
+});
+
+// Fetches data unless it is cached.
+// Relies on Redux Thunk middleware.
+export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState) => {
+  //const games = getState().entities.games; //find by query
+  //if (games && requiredFields.every(key => game.hasOwnProperty(key))) {
+  //  return null
+  //}
+
+  return dispatch(fetchGameWeeks(query));
+};
+
 export const PICKS_REQUEST = 'PICKS_REQUEST';
 export const PICKS_SUCCESS = 'PICKS_SUCCESS';
 export const PICKS_FAILURE = 'PICKS_FAILURE';
