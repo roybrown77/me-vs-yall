@@ -184,51 +184,12 @@ const espnToMeVsYallTeams = [
   }
 ];
 
-// let gameScoreUpdate = [
-//   {
-//     day:'Thursday',
-//     times: ['20:30', '22:30'],
-//     count: 0
-//   },
-//   {
-//     day:'Friday',
-//     times: ['12:30', '2:30'],
-//     count: 0
-//   },
-//   {
-//     day:'Saturday',
-//     times: ['10:30', '14:30', '16:30', '18:30', '20:30', '22:30'],
-//     count: 0
-//   },
-//   {
-//     day:'Sunday',
-//     times: ['10:30', '14:30', '16:30', '18:30', '20:30', '22:30'],
-//     count: 0
-//   },
-//   {
-//     day:'Monday',
-//     times: ['20:30', '22:30'],
-//     count: 0
-//   },
-//   {
-//     day:'Tuesday',
-//     times: ['12:30', '2:30'],
-//     count: 0
-//   },
-//   {
-//     day:'Wednesday',
-//     times: ['12:30', '2:30'],
-//     count: 0
-//   }
-// ];
-
 async function updateScores(games) {
   if (!!games && games.length === 0) {
     return;
   }
 
   const browser = await puppeteer.launch({
-    //headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
@@ -321,9 +282,6 @@ async function updateScores(games) {
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
     }
   });
-
-  //console.log('updatedGames: ' + JSON.stringify(updatedGames));
-  //updatedGames.map(game=>gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game.id.toString()), game.change, {new: true}));
 }
 
 const executeUpdateScores = () => {
@@ -361,16 +319,6 @@ router.get('/games/', function (req, res) {
 });
 
 router.post('/updatescores', function (req, res) {
-    // const now = new Date(new Date().toUTCString()).toISOString();
-  // console.log('now: ' + now);
-
-  // const nowEastern = moment(new Date(now)).tz('America/New_York').format('dddd MMM D YYYY h:mm a')
-  // console.log('nowEastern: ' + nowEastern);
-
-  //if (get(req,'user.sub') === 'google-oauth2|114172296334563495985') {
-    //run();
-  //}
-
   executeUpdateScores();
 });
 
@@ -481,14 +429,15 @@ router.get('/gameweeks', function (req, res) {
 
       const currentDateTime = moment();
 
-      const viewableNextGameWeeks = gameWeeks.filter(x=>{
-        return x.beginDateTime > currentDateTime;
-      }).map(x=>{
-        return x;
-      });
+      const viewableNextGameWeeks = gameWeeks.reduce((total, week)=>{
+        if (week.endDateTime > currentDateTime) {
+          total.push(week);
+        }
+        return total;
+      },[]);
 
       const viewableNextGameDateTimes = viewableNextGameWeeks.map(x=>{
-        return x.beginDateTime;
+        return x.endDateTime;
       });
 
       const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameDateTimes));
@@ -502,10 +451,10 @@ router.get('/gameweeks', function (req, res) {
       });
 
       const viewableGameWeeks = gameWeeks.filter(x=>{
-        if (x.beginDateTime <= currentDateTime) {
+        if (x.endDateTime <= currentDateTime) {
           return true;
         } else {
-          return !areGamesInProgress && moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
+          return !areGamesInProgress && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0 ? true : false;
         }
       }).map(x=>{
         return x;

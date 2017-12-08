@@ -189,10 +189,10 @@ const mapStateToProps = (state, ownProps) => {
     const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
     
     const weeks = [
+        ...getWeeks(entities),
         {
-            displayName: "All Season"
-        },
-        ...getWeeks(entities)
+            displayName: "All Season",
+        }
     ];
 
     const weekIndex = weeks.length-1;
