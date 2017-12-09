@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import get from 'lodash/get';
 
@@ -60,9 +60,9 @@ const getWeeks = (entities) => {
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
 
         if (startDateTime !== endDateTime) {
-            week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment(week.beginDateTime).format('ddd M/D') + ' - ' + moment(week.endDateTime).format('ddd M/D');
+            week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D') + ' - ' + moment(new Date(week.endDateTime)).tz('America/New_York').format('ddd M/D');
         } else {
-            week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment(week.beginDateTime).format('ddd M/D');
+            week.displayName = week.namePrefix + ' ' + week.weekNumberDisplay + ' ' + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
         }
 
         return week;
