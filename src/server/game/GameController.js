@@ -193,11 +193,7 @@ async function updateScores(games) {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
-  console.log('games: ' + JSON.stringify(games));
-
   const weeks = uniq(games.map(x=>{ return x.weekNo - (REG_SEASON_START_WEEK-1); }));
-  
-  console.log('weeks: ' + JSON.stringify(weeks));
 
   let scores = [];
   
@@ -218,8 +214,6 @@ async function updateScores(games) {
       let listLength = await page.evaluate((sel) => {
         return document.getElementsByClassName(sel).length;
       }, 'scoreboard football');
-
-      console.log('listLength: ' + listLength);
 
       let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
       let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
@@ -259,11 +253,8 @@ async function updateScores(games) {
 
   browser.close();
 
-  console.log('scores: ' + JSON.stringify(scores));
-
   games.forEach(game=>{
     const awayId = espnToMeVsYallTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
-    console.log('awayId: ' + awayId);
 
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && (game.weekNo - (REG_SEASON_START_WEEK - 1)) === x.weekNo);
     console.log('score: ' + JSON.stringify(score));
@@ -276,8 +267,6 @@ async function updateScores(games) {
             Object.assign({},game.competitors[1],{score:score.homeScore})
           ]
         };
-
-      console.log('updatedGame: ' + JSON.stringify(updatedGame));
 
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
     }
@@ -303,6 +292,12 @@ const executeUpdateScores = () => {
 }
 
 router.get('/games/', function (req, res) {
+  // get games after 1 particular time has passed to limit getting games
+  // const onePm = moment('01:00p', "HH:mm a");
+  // const fourPm = moment('04:00p', "HH:mm a");
+  // const sevenPm = moment('07:00p', "HH:mm a");
+  // const oneAm = moment('01:00a', "HH:mm a");
+
   executeUpdateScores();
 
   const search = {
@@ -383,8 +378,6 @@ router.post('/creategameweeks', function (req, res) {
             });
         }, []);
 
-  console.log('gamesByWeek: ' + JSON.stringify(gamesByWeek));
-
   gamesByWeek.forEach((item) => {
       const gameStartDateTimes = item.games.map(x=>{
         return new Date(x.startdate + " " + x.starttime);
@@ -402,8 +395,6 @@ router.post('/creategameweeks', function (req, res) {
           beginDateTime: earliestGameTime,
           endDateTime: latestGameTime
       };
-
-      console.log('week: ' + JSON.stringify(formattedGameWeek));
 
       // gameWeekRepository.create(formattedGameWeek, function (err, gameWeekCreated) {
       //     if (err) {
