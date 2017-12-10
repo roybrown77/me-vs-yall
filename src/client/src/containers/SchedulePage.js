@@ -13,7 +13,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 
 import { loadGames, loadPicks, loadGameWeeks, addPick, updatePick, selectWeek } from '../actions';
-import { isLoggedIn, getUserProfile } from '../middleware/authService';
+import { isLoggedIn, getUserProfile } from '../middleware/authenticationService';
 
 import { leagues, getWeeks } from '../selectors/data';
 

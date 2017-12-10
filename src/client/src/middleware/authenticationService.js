@@ -17,7 +17,7 @@ const auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
   domain: CLIENT_DOMAIN,
   responseType: RESPONSE_TYPE,
-  redirectUri: window.location.protocol + "//" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/callback",
+  redirectUri: window.location.protocol + "//" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/authenticationCallback",
   audience: AUDIENCE,
   scope: SCOPE
 });

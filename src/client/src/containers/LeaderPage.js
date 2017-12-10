@@ -15,7 +15,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
 import { loadGames, loadPicks, selectWeek, loadGameWeeks } from '../actions';
-import { isLoggedIn } from '../middleware/authService';
+import { isLoggedIn } from '../middleware/authenticationService';
 
 import { leagues, getResults, getWeeks } from '../selectors/data';
 

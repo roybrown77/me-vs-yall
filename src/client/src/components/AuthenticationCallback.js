@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { setIdToken, setAccessToken, setExpiration } from '../middleware/authService';
+import { setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 
-class Callback extends Component {
+class AuthenticationCallback extends Component {
   componentDidMount() {
     setAccessToken();
     setIdToken();
@@ -14,4 +14,4 @@ class Callback extends Component {
   }
 }
 
-export default Callback;
+export default AuthenticationCallback;

@@ -8,7 +8,7 @@ import AboutPage from '../containers/AboutPage';
 import LoginPage from '../containers/LoginPage';
 import LeagueSelectionPage from '../containers/LeagueSelectionPage';
 import LeaderPage from '../containers/LeaderPage';
-import Callback from '../components/Callback';
+import AuthenticationCallback from '../components/AuthenticationCallback';
 
 const routes = (
 		 <MuiThemeProvider>
@@ -21,7 +21,7 @@ const routes = (
 		                <Route path='/leagues/:name' component={SchedulePage}/>
 		                <Route path='/leaders/:name' component={LeaderPage}/>
 		                <Route path='/about' component={AboutPage}/>
-		                <Route path='/callback' component={Callback}/>
+		                <Route path='/authenticationCallback' component={AuthenticationCallback}/>
 		            </Switch>
 		        </main>
 		    </div>
