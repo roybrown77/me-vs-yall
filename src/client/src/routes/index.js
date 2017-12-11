@@ -8,7 +8,7 @@ import AboutPage from '../containers/AboutPage';
 import LoginPage from '../containers/LoginPage';
 import LeagueSelectionPage from '../containers/LeagueSelectionPage';
 import LeaderPage from '../containers/LeaderPage';
-import AuthenticationCallback from '../components/AuthenticationCallback';
+import AuthenticationCallback from '../containers/AuthenticationCallback';
 
 const routes = (
 		 <MuiThemeProvider>

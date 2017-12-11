@@ -2,10 +2,10 @@ import './styles/App.css';
 
 import React from 'react';
 import { render } from 'react-dom';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+//import { composeWithDevTools } from 'redux-devtools-extension';
 
 import Immutable from 'immutable';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -21,7 +21,7 @@ const initialState = Immutable.Map();
 const store = createStore(
   rootReducer,
   initialState,
-  composeWithDevTools(
+  compose(
     applyMiddleware(
       thunkMiddleware,
       api
