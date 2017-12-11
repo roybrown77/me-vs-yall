@@ -259,7 +259,7 @@ async function updateScores(games) {
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && (game.weekNo - (REG_SEASON_START_WEEK - 1)) === x.weekNo);
     console.log('score: ' + JSON.stringify(score));
 
-    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && (!!get(score,'homeScore') || get(score,'homeScore') === 0) {
+    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && (!!get(score,'homeScore') || get(score,'homeScore') === 0)) {
       const updatedGame = {
           isGameOver: true,
           competitors: [
