@@ -430,7 +430,7 @@ router.get('/gameweeks', function (req, res) {
       const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameWeeks));
 
       const areGamesInProgress = some(gameWeeks, x=>{
-        if (currentDateTime >= x.beginDateTime && currentDateTime <= moment(x.endDateTime).add('hours',12)) {
+        if (currentDateTime >= x.beginDateTime && currentDateTime <= moment(x.endDateTime).add('hours',17)) {
           return true;
         }
         return false;
