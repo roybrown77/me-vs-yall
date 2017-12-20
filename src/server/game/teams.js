@@ -290,6 +290,171 @@ const getTeams = () => { return [
   ];
 }
 
+const getEspnTeams = () => { return [
+      {
+        id: '26',
+        name: 'Seattle Seahawks',
+        mvyId: '19823783734d1d04a1b3901f'
+      },
+      {
+        id: '22',
+        name: 'Arizona Cardinals',
+        mvyId: '19823783734d1d04a1b39005'
+      },
+      {
+        id: '23',
+        name: 'Pittsburgh Steelers',
+        mvyId: '19823783734d1d04a1b39014'
+      },
+      {
+        id: '10',
+        name: 'Tennessee Titans',
+        mvyId: '19823783734d1d04a1b39019'
+      },
+      {
+        id: '18',
+        name: 'New Orleans Saints',
+        mvyId: '19823783734d1d04a1b3900f'
+      },
+      {
+        id: '2',
+        name: 'Buffalo Bills',
+        mvyId: '19823783734d1d04a1b3900b'
+      },
+      {
+        id: '3',
+        name: 'Chicago Bears',
+        mvyId: '19823783734d1d04a1b39004'
+      },
+      {
+        id: '9',
+        name: 'Green Bay Packers',
+        mvyId: '19823783734d1d04a1b39012'
+      },
+      {
+        id: '8',
+        name: 'Detroit Lions',
+        mvyId: '19823783734d1d04a1b3901d'
+      },
+      {
+        id: '5',
+        name: 'Cleveland Browns',
+        mvyId: '19823783734d1d04a1b39010'
+      },
+      {
+        id: '4',
+        name: 'Cincinnati Bengals',
+        mvyId: '19823783734d1d04a1b39017'
+      },
+      {
+        id: '11',
+        name: 'Indianapolis Colts',
+        mvyId: '19823783734d1d04a1b3901e'
+      },
+      {
+        id: '27',
+        name: 'Tampa Bay Buccaneers',
+        mvyId: '19823783734d1d04a1b39016'
+      },
+      {
+        id: '20',
+        name: 'New York Jets',
+        mvyId: '19823783734d1d04a1b3901a'
+      },
+      {
+        id: '28',
+        name: 'Washington Redskins',
+        mvyId: '19823783734d1d04a1b3900c'
+      },
+      {
+        id: '16',
+        name: 'Minnesota Vikings',
+        mvyId: '19823783734d1d04a1b3900a'
+      },
+      {
+        id: '30',
+        name: 'Jacksonville Jaguars',
+        mvyId: '19823783734d1d04a1b3900e'
+      },
+      {
+        id: '24',
+        name: 'Los Angeles Chargers',
+        mvyId: '19823783734d1d04a1b39000'
+      },
+      {
+        id: '14',
+        name: 'Los Angeles Rams',
+        mvyId: '19823783734d1d04a1b3901b'
+      },
+      {
+        id: '34',
+        name: 'Houston Texans',
+        mvyId: '19823783734d1d04a1b39007'
+      },
+      {
+        id: '1',
+        name: 'Atlanta Falcons',
+        mvyId: '19823783734d1d04a1b39003'
+      },
+      {
+        id: '6',
+        name: 'Dallas Cowboys',
+        mvyId: '19823783734d1d04a1b39006'
+      },
+      {
+        id: '7',
+        name: 'Denver Broncos',
+        mvyId: '19823783734d1d04a1b39013'
+      },
+      {
+        id: '29',
+        name: 'Carolina Panthers',
+        mvyId: '19823783734d1d04a1b39008'
+      },
+      {
+        id: '15',
+        name: 'Miami Dolphins',
+        mvyId: '19823783734d1d04a1b39009'
+      },
+      {
+        id: '25',
+        name: 'San Francisco 49ers',
+        mvyId: '19823783734d1d04a1b39018'
+      },
+      {
+        id: '33',
+        name: 'Baltimore Ravens',
+        mvyId: '19823783734d1d04a1b3900d'
+      },
+      {
+        id: '13',
+        name: 'Oakland Raiders',
+        mvyId: '19823783734d1d04a1b3901c'
+      },
+      {
+        id: '21',
+        name: 'Philadelphia Eagles',
+        mvyId: '19823783734d1d04a1b39011'
+      },
+      {
+        id: '12',
+        name: 'Kansas City Chiefs',
+        mvyId: '19823783734d1d04a1b39001'
+      },
+      {
+        id: '17',
+        name: 'New England Patriots',
+        mvyId: '19823783734d1d04a1b39002'
+      },
+      {
+        id: '19',
+        name: 'New York Giants',
+        mvyId: '19823783734d1d04a1b39015'
+      }
+    ];
+}
+
 module.exports = {
-	getTeams
+	getTeams,
+    getEspnTeams
 };
