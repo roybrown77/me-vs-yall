@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route }from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -146,4 +148,17 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state, ownProps) => {
+    const entities = state.get('entities').toJS();
+    const isAuthenticated = entities.authentication.isAuthenticated;
+
+    return {
+        isAuthenticated
+    }
+};
+
+Header.propTypes = {
+    isAuthenticated: PropTypes.bool
+};
+
+export default connect(mapStateToProps)(Header);

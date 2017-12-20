@@ -3,7 +3,7 @@ import * as ActionTypes from '../actions';
 import { Map, List } from 'immutable';
 import get from 'lodash/get';
 
-const entities = (state = Map({ games: List(), picks: List(), gameWeeks: List(), dataLoading: true }), action) => {
+const entities = (state = Map({ games: List(), picks: List(), gameWeeks: List(), authentication: Map({isAuthenticated: false}), dataLoading: true }), action) => {
   switch (action.type) {
     case ActionTypes.GAMES_REQUEST:
       return state.set('dataLoading', true);

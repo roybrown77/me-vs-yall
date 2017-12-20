@@ -138,6 +138,7 @@ const mapStateToProps = (state, ownProps) => {
   
   const year = 2017;
   const dataLoading = entities.dataLoading;
+  const isAuthenticated = entities.authentication.isAuthenticated;
 
   return {
     dataLoading,
@@ -146,7 +147,8 @@ const mapStateToProps = (state, ownProps) => {
     weeks,
     leagueId,
     weekNo,
-    year
+    year,
+    isAuthenticated
   }
 };
 
@@ -160,7 +162,8 @@ SchedulePage.propTypes = {
     loadPicks: PropTypes.func.isRequired,
     loadGameWeeks: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
-    updatePick: PropTypes.func.isRequired
+    updatePick: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, {
