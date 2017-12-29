@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
+import Spinner from '../components/Spinner';
 
 import { loadGames, loadPicks, loadGameWeeks, addPick, updatePick, selectWeek } from '../actions';
 import { isLoggedIn, getUserProfile } from '../middleware/authenticationService';
@@ -46,6 +47,7 @@ class SchedulePage extends Component {
                     weekNo: weekToSearch
                 };
 
+                this.props.selectWeek(weekToSearch);
                 this.props.loadGames(query);
                 this.props.loadPicks(query);
             });
@@ -74,6 +76,7 @@ class SchedulePage extends Component {
                 weekNo: weekToSearch
             };
 
+            this.props.selectWeek(weekToSearch);
             this.props.loadGames(query);
             this.props.loadPicks(query);
             this.props.loadGameWeeks(query);
@@ -107,12 +110,15 @@ class SchedulePage extends Component {
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}/>
-                    {areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
+                    {this.props.dataLoading && <Spinner/>}
+                    {!this.props.dataLoading && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
                     {!areAnyGamesOver && <div style={{height:'12px'}}/>}
-                    <Games dataLoading={this.props.dataLoading}
-                    handleMakePick={this.handleMakePick} 
-                    games={this.props.games ? this.props.games : []} 
-                    picks={this.props.picks ? this.props.picks : []}/>
+                    {!this.props.dataLoading && 
+                        <Games
+                            handleMakePick={this.handleMakePick} 
+                            games={this.props.games ? this.props.games : []} 
+                            picks={this.props.picks ? this.props.picks : []}/>
+                    }
                 </div>
                 <Footer/>
             </div>

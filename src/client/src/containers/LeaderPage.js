@@ -5,38 +5,16 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 
 import get from 'lodash/get';
-import groupBy from 'lodash/groupBy';
-import transform from 'lodash/transform';
-import orderBy from 'lodash/orderBy';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
-import { loadGames, loadPicks, selectWeek, loadGameWeeks } from '../actions';
+import { loadLeaders, selectWeek, loadGameWeeks } from '../actions';
 import { isLoggedIn } from '../middleware/authenticationService';
 
-import { leagues, getResults, getWeeks } from '../selectors/data';
-
-const users = [
-    {
-        id: 'google-oauth2|114172296334563495985',
-        name: 'Roy B.'
-    },
-    {
-        id: 'google-oauth2|114007081690870704922',
-        name: 'Scott T.'
-    },
-    {
-        id: 'google-oauth2|110505723196499693171',
-        name: 'Keith H.'
-    }
-];
-
-// <div style={{fontSize: '40px', color: '#FFC107'}}>
-                            //     <span>W</span>
-                            // </div>
+import { leagues, getWeeks } from '../selectors/data';
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -63,8 +41,8 @@ class LeaderPage extends Component {
             weekNo: weekToSearch
         };
 
-        this.props.loadGames(query);
-        this.props.loadPicks(query);
+        this.props.selectWeek(weekToSearch);
+        this.props.loadLeaders(query);
         this.props.loadGameWeeks(query);
     }
 
@@ -87,37 +65,12 @@ class LeaderPage extends Component {
         };
 
         this.props.selectWeek(weekToSearch);
-        this.props.loadGames(query);
-        this.props.loadPicks(query);
+        this.props.loadLeaders(query);
         this.props.loadGameWeeks(query);
     }
 
     render() {
-        const {picks, games} = this.props;
-
-        const picksByUser = transform(groupBy(picks, x=>x.userId), (result, value, key)=>{
-            result.push({
-                userId: key,
-                picks: value
-            });
-        }, []);
-
-        const pickResults = picksByUser.filter((item) => {
-            return !!users.find(x=>x.id === item.userId)
-        }).map(item =>{
-            const pickResult = getResults(games,item.picks);
-            const user = users.find(x=>x.id === item.userId);
-
-            return {
-                id: item.userId,
-                userName: get(user,'name','unknown'),
-                wins: pickResult.wins,
-                losses: pickResult.losses,
-                ties: pickResult.ties
-            };
-        });
-
-        const pickResultsOrdered = orderBy(pickResults, ['wins', 'userName'], ['desc', 'asc']);
+        const {leaders} = this.props;
 
         return (
             <div>
@@ -137,8 +90,8 @@ class LeaderPage extends Component {
                             <div style={{height:'12px'}}/>
                             <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
                                 <tbody>
-                                    {pickResultsOrdered.map((pickResult, index) => (
-                                        <tr key={pickResult.id}
+                                    {leaders.map((leader, index) => (
+                                        <tr key={leader.id}
                                             style={{paddingBottom:"16px"}}>
                                             <td>
                                                 <div className="leader-item" style={{color: index === 0 ? '#FFC107' : '#000'}}>
@@ -147,22 +100,22 @@ class LeaderPage extends Component {
                                             </td>
                                             <td>
                                                 <div className="leader-item">
-                                                    {pickResult.userName}
+                                                    {leader.userName}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div className="leader-item">
-                                                    {pickResult.wins}
+                                                    {leader.wins}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div className="leader-item">
-                                                    {pickResult.losses}
+                                                    {leader.losses}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div className="leader-item">
-                                                    {pickResult.ties}
+                                                    {leader.ties}
                                                 </div>
                                             </td>
                                         </tr>
@@ -199,14 +152,10 @@ const mapStateToProps = (state, ownProps) => {
     const weekNo = get(ui,'weekNo') || get(weeks, '[' + weekIndex + '].weekNo');
     
     const year = 2017;
-    const picks = entities.picks;
-    const games = entities.games;
-    const pickResults = [];
+    const leaders = entities.leaders;
 
     return {
-        picks,
-        games,
-        pickResults,
+        leaders,
         dataLoading,
         weeks,
         leagueId,
@@ -216,20 +165,16 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 LeaderPage.propTypes = {
-    picks: PropTypes.array,
-    games: PropTypes.array,
-    pickResults: PropTypes.array,
+    leaders: PropTypes.array,
     dataLoading: PropTypes.bool,
     leagueId: PropTypes.string,
     weekNo: PropTypes.number,
-    loadGames: PropTypes.func.isRequired,
-    loadPicks: PropTypes.func.isRequired,
+    loadLeaders: PropTypes.func.isRequired,
     loadGameWeeks: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, {
   selectWeek,
-  loadGames,
-  loadPicks,
+  loadLeaders,
   loadGameWeeks
 })(LeaderPage);

@@ -101,7 +101,7 @@ const getTeams = () => { return [
     {
         _id: "19823783734d1d04a1b3900c",
         location: 'Washington',
-        shortLocation: "WAS",
+        shortLocation: "WSH",
         name: "Redskins",
         color: "#7C1415",
         stadiumName: "FedExField",
@@ -182,7 +182,7 @@ const getTeams = () => { return [
     {
         _id: "19823783734d1d04a1b39015",
         location: 'New York',
-        shortLocation: "NY",
+        shortLocation: "NYJ",
         name: "Giants",
         color: "#192E6C",
         stadiumName: "MetLife Stadium",
@@ -227,7 +227,7 @@ const getTeams = () => { return [
     {
         _id: "19823783734d1d04a1b3901a",
         location: 'New York',
-        shortLocation: "NY",
+        shortLocation: "NYG",
         name: "Jets",
         color: "#203731",
         stadiumName: "MetLife Stadium",
@@ -236,7 +236,7 @@ const getTeams = () => { return [
     {
         _id: "19823783734d1d04a1b3901b",
         location: 'Los Angeles',
-        shortLocation: "LA",
+        shortLocation: "LAR",
         name: "Rams",
         color: "#95774C",
         stadiumName: "Los Angeles Stadium",
@@ -281,7 +281,7 @@ const getTeams = () => { return [
     {
         _id: "19823783734d1d04a1b39000",
         location: 'Los Angeles',
-        shortLocation: "LA",
+        shortLocation: "LAC",
         name: "Chargers",
         color: "#2072BA",
         stadiumName: "Los Angeles Stadium",

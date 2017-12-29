@@ -90,10 +90,10 @@ async function updateScores(games) {
 
   browser.close();
 
-  games.forEach(game=>{
-    const espnTeams = getEspnTeams();
-    const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
+  const espnTeams = getEspnTeams();
 
+  games.forEach(game=>{
+    const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && (game.weekNo - (REG_SEASON_START_WEEK - 1)) === x.weekNo);
     console.log('score: ' + JSON.stringify(score));
 
@@ -129,12 +129,153 @@ const executeUpdateScores = () => {
   });
 }
 
+async function getEspnGames(leagueId) {
+  let games = [];
+
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const page = await browser.newPage();
+
+  await page.goto('http://www.espn.com/nfl/scoreboard');
+
+  await page.waitForSelector('#events');
+
+  let listLength = await page.evaluate((sel) => {
+    return document.getElementsByClassName(sel).length;
+  }, 'scoreboard football');
+
+  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+  let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
+  let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+  let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+  
+  for (let i = 1; i <= listLength; i++) {
+    const awayTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-awayid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+    const homeTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-homeid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+    const startDateTime = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-date');
+    }, STARTDATETIME_SELECTOR.replace("INDEX", i));
+
+    const spread = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+    }, SPREAD_SELECTOR.replace("INDEX", i));
+
+    games.push({
+      startDateTime: startDateTime,
+      spread: {
+       team: spread.replace('Line: ','').split(' ')[0],
+       amount: parseInt(spread.replace('Line: ','').split(' ')[1])
+      },
+      awayTeam: awayTeam,
+      homeTeam: homeTeam
+    });
+  }
+
+  const year = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+    }, YEAR_SELECTOR);
+
+  const currentWeek = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+    }, CURRENTWEEK_SELECTOR);
+
+  browser.close();
+  
+  const espnTeams = getEspnTeams();
+  const mvyTeams = getTeams();
+
+  const mvyGames = games.map(game=>{
+    const espnAwayTeam = espnTeams.find(x=>x.id.toString() === game.awayTeam.toString());
+    const espnHomeTeam = espnTeams.find(x=>x.id.toString() === game.homeTeam.toString());
+    const awayTeam = mvyTeams.find(x=>x._id === espnAwayTeam.mvyId);
+    const homeTeam = mvyTeams.find(x=>x._id === espnHomeTeam.mvyId);
+    const spreadTeam = mvyTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+
+    const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
+    const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
+    currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
+    currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
+    currentWeek.toLowerCase().includes('wild') ? 1 : 
+    currentWeek.toLowerCase().includes('divisional') ? 2 : 
+    currentWeek.toLowerCase().includes('conference') ? 3 : 
+    currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
+
+    return {
+      year: parseInt(year),
+      seasonType: seasonType,
+      weekNo: weekNo,
+      startDateTime: game.startDateTime,
+      spread: {
+       teamId: spreadTeam._id,
+       amount: game.spread.amount
+      },
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      competitors: [
+        {_id: awayTeam._id, name: awayTeam.location + ' ' + awayTeam.name},
+        {_id: homeTeam._id, name: homeTeam.location + ' ' + homeTeam.name}
+      ]
+    };
+  });
+
+  console.log('mvyGames: ' + JSON.stringify(mvyGames));
+
+  // const gamesByWeek = transform(groupBy(mvyGames, ['year','seasonType','weekNo']), (result, value, key)=>{
+  //           result.push({
+  //               weekNo: parseInt(key),
+  //               games: value
+  //           });
+  //       }, []);
+
+  // gamesByWeek.forEach((item) => {
+  //     const gameStartDateTimes = item.games.map(x=>{
+  //       return new Date(x.startDateTime);
+  //     });
+
+  //     const earliestGameTime = new Date(Math.min.apply(null,gameStartDateTimes));
+  //     const latestGameTime = new Date(Math.max.apply(null,gameStartDateTimes));
+
+  //     const formattedGameWeek = {
+  //         leagueId: item.leagueId,
+  //         year: item.year,
+  //         seasonType: item.seasonType,
+  //         weekNo: item.weekNo,
+  //         weekNumberDisplay: item.weekNo,
+  //         beginDateTime: earliestGameTime,
+  //         endDateTime: latestGameTime
+  //     };
+  // });
+
+  //console.log('gamesByWeek: ' + JSON.stringify(gamesByWeek));
+
+  //     // gameWeekRepository.create(formattedGameWeek, function (err, gameWeekCreated) {
+  //     //     if (err) {
+  //     //         console.log("There was a problem adding the information to the database: " + err.message);
+  //     //     }
+
+  //     //     console.log("Success Creating: " + gameWeekCreated._id);
+  //     // });
+
+  //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
+}
+
 router.get('/games/', function (req, res) {
   // get games after 1 particular time has passed to limit getting games
   // const onePm = moment('01:00p', "HH:mm a");
   // const fourPm = moment('04:00p', "HH:mm a");
   // const sevenPm = moment('07:00p', "HH:mm a");
   // const oneAm = moment('01:00a', "HH:mm a");
+
+  //getEspnGames(req.query.leagueId);
 
   executeUpdateScores();
 
@@ -268,7 +409,7 @@ router.get('/gameweeks', function (req, res) {
       const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameWeeks));
 
       const areGamesInProgress = some(gameWeeks, x=>{
-        if (currentDateTime >= x.beginDateTime && currentDateTime <= moment(x.endDateTime).add('hours',24)) {
+        if (currentDateTime >= x.beginDateTime && currentDateTime <= moment(x.endDateTime).add(24, 'hours')) {
           return true;
         }
         return false;

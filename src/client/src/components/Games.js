@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 
-import Spinner from '../components/Spinner';
 import Game from '../components/Game';
 
 const teamData = [
@@ -329,15 +328,13 @@ class Games extends Component {
 
         return (
             <div>
-                {this.props.dataLoading && <Spinner/>}
-                {!this.props.dataLoading && rows}
+                {rows}
             </div>
         );
     }
 }
 
 Games.propTypes = {
-  dataLoading: PropTypes.bool,
   games: PropTypes.array,
   picks: PropTypes.array,
   handleMakePick: PropTypes.func
