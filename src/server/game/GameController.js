@@ -191,6 +191,15 @@ async function getEspnGames(leagueId) {
 
   browser.close();
   
+  const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
+  const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
+  currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
+  currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
+  currentWeek.toLowerCase().includes('wild') ? 1 : 
+  currentWeek.toLowerCase().includes('divisional') ? 2 : 
+  currentWeek.toLowerCase().includes('conference') ? 3 : 
+  currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
+
   const espnTeams = getEspnTeams();
   const mvyTeams = getTeams();
 
@@ -201,16 +210,8 @@ async function getEspnGames(leagueId) {
     const homeTeam = mvyTeams.find(x=>x._id === espnHomeTeam.mvyId);
     const spreadTeam = mvyTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
 
-    const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
-    const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
-    currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
-    currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
-    currentWeek.toLowerCase().includes('wild') ? 1 : 
-    currentWeek.toLowerCase().includes('divisional') ? 2 : 
-    currentWeek.toLowerCase().includes('conference') ? 3 : 
-    currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
-
     return {
+      leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
       seasonType: seasonType,
       weekNo: weekNo,
@@ -219,7 +220,6 @@ async function getEspnGames(leagueId) {
        teamId: spreadTeam._id,
        amount: game.spread.amount
       },
-      leagueId: mongoose.Types.ObjectId(leagueId),
       competitors: [
         {_id: awayTeam._id, name: awayTeam.location + ' ' + awayTeam.name},
         {_id: homeTeam._id, name: homeTeam.location + ' ' + homeTeam.name}
@@ -229,43 +229,42 @@ async function getEspnGames(leagueId) {
 
   console.log('mvyGames: ' + JSON.stringify(mvyGames));
 
-  // const gamesByWeek = transform(groupBy(mvyGames, ['year','seasonType','weekNo']), (result, value, key)=>{
-  //           result.push({
-  //               weekNo: parseInt(key),
-  //               games: value
-  //           });
-  //       }, []);
+  //mvyGames.forEach(game=>{
+    // gameRepository.create(game, function (err, gameCreated) {
+    //     if (err) {
+    //         console.log("There was a problem adding the information to the database: " + err.message);
+    //     }  
+        
+    //     console.log("Success Creating: " + gameCreated._id);
+    // });
+  //});
 
-  // gamesByWeek.forEach((item) => {
-  //     const gameStartDateTimes = item.games.map(x=>{
-  //       return new Date(x.startDateTime);
-  //     });
+  const gameStartDateTimes = mvyGames.map(x=>{
+    return new Date(x.startDateTime);
+  });
 
-  //     const earliestGameTime = new Date(Math.min.apply(null,gameStartDateTimes));
-  //     const latestGameTime = new Date(Math.max.apply(null,gameStartDateTimes));
+  const earliestGameTime = new Date(Math.min.apply(null, gameStartDateTimes));
+  const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
 
-  //     const formattedGameWeek = {
-  //         leagueId: item.leagueId,
-  //         year: item.year,
-  //         seasonType: item.seasonType,
-  //         weekNo: item.weekNo,
-  //         weekNumberDisplay: item.weekNo,
-  //         beginDateTime: earliestGameTime,
-  //         endDateTime: latestGameTime
-  //     };
+  const gameWeek = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: parseInt(year),
+      seasonType: seasonType,
+      weekNo: weekNo,
+      displayName: currentWeek,
+      beginDateTime: earliestGameTime,
+      endDateTime: latestGameTime
+  };
+
+  console.log('gameWeek: ' + JSON.stringify(gameWeek));
+
+  // gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+  //     if (err) {
+  //         console.log("There was a problem adding the information to the database: " + err.message);
+  //     }
+
+  //     console.log("Success Creating: " + gameWeekCreated._id);
   // });
-
-  //console.log('gamesByWeek: ' + JSON.stringify(gamesByWeek));
-
-  //     // gameWeekRepository.create(formattedGameWeek, function (err, gameWeekCreated) {
-  //     //     if (err) {
-  //     //         console.log("There was a problem adding the information to the database: " + err.message);
-  //     //     }
-
-  //     //     console.log("Success Creating: " + gameWeekCreated._id);
-  //     // });
-
-  //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
 }
 
 router.get('/games/', function (req, res) {
