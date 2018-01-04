@@ -60,7 +60,9 @@ const getWeeks = (entities) => {
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
 
         if (startDateTime !== endDateTime) {
-            week.displayName = week.description + ' ' + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D') + ' - ' + moment(new Date(week.endDateTime)).tz('America/New_York').format('ddd M/D');
+            week.displayName = week.description + ' ' + 
+            moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D') + ' - ' + 
+            moment(new Date(week.endDateTime)).tz('America/New_York').format('ddd M/D');
         } else {
             week.displayName = week.description + ' ' + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
         }

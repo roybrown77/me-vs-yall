@@ -21,8 +21,6 @@ const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 
-const REG_SEASON_START_WEEK = 6;
-
 async function updateScores(games) {
   if (!!games && games.length === 0) {
     return;
@@ -32,21 +30,23 @@ async function updateScores(games) {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
-  const weeks = uniq(games.map(x=>{ return x.weekNo; }));
+  const weeks = uniq(games.map(x=>{ return {year: x.year, seasonType: x.seasonType, weekNo: x.weekNo}; }));
 
   let scores = [];
   
   try {
     const page = await browser.newPage();
 
-    for (let w = 0; w < weeks-1; w++) {
-      const weekNo = weeks[w];
+    for (let w = 0; w < weeks.length; w++) {
+      const year = weeks[w].weekNo;
+      const seasonType = weeks[w].seasonType;
+      const weekNo = weeks[w].weekNo;
 
-      if (!weekNo) {
+      if (!year || !seasonType || !weekNo) {
         continue;
       }
 
-      await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2017/seasontype/2/week/' + weekNo);
+      await page.goto('http://www.espn.com/nfl/scoreboard/_/year/' + year + '/seasontype/' + seasonType + '/week/' + weekNo);
 
       await page.waitForSelector('#events');
 
@@ -96,7 +96,8 @@ async function updateScores(games) {
 
   games.forEach(game=>{
     const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
-    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && (game.weekNo - (REG_SEASON_START_WEEK - 1)) === x.weekNo);
+    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && game.weekNo === x.weekNo);
+
     console.log('score: ' + JSON.stringify(score));
 
     if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && (!!get(score,'homeScore') || get(score,'homeScore') === 0)) {
@@ -119,7 +120,7 @@ const executeUpdateScores = () => {
       $ne: true
     },
     weekNo: {
-      $gt: REG_SEASON_START_WEEK - 1
+      $gt: 0
     },
     startDateTime: {
       $lt: new Date(new Date().toUTCString()).toISOString()
@@ -428,7 +429,7 @@ router.post('/creategameweeks', function (req, res) {
       const formattedGameWeek = {
           leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
           weekNo: item.weekNo,
-          weekNumberDisplay: item.weekNo - (REG_SEASON_START_WEEK-1),
+          weekNumberDisplay: item.weekNo,
           namePrefix: "Week",
           year: 2017,
           beginDateTime: earliestGameTime,

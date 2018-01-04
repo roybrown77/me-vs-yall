@@ -39,13 +39,16 @@ class SchedulePage extends Component {
             history.push('/leagues/' + leagueName);
 
             const weekToSearch = this.props.weekNo;
+            const seasonType = this.props.seasonType;
+            const year = this.props.year;
 
             getUserProfile((err, profile) => {
                 const query = {
                     userId: profile.sub,
                     leagueId: this.props.leagueId,
                     weekNo: weekToSearch,
-                    year: 2017
+                    seasonType: seasonType,
+                    year: year
                 };
 
                 this.props.selectWeek(weekToSearch);
@@ -67,6 +70,8 @@ class SchedulePage extends Component {
         }
 
         const weekToSearch = this.props.weeks[index].weekNo;
+        const seasonType = this.props.weeks[index].seasonType;
+        const year = this.props.weeks[index].year;
 
         this.props.selectWeek(weekToSearch);
 
@@ -75,7 +80,8 @@ class SchedulePage extends Component {
                 userId: profile.sub,
                 leagueId: this.props.leagueId,
                 weekNo: weekToSearch,
-                year: 2017
+                seasonType: seasonType,
+                year: year
             };
 
             this.props.selectWeek(weekToSearch);
@@ -118,8 +124,8 @@ class SchedulePage extends Component {
                     {!this.props.dataLoading && 
                         <Games
                             handleMakePick={this.handleMakePick} 
-                            games={this.props.games ? this.props.games : []} 
-                            picks={this.props.picks ? this.props.picks : []}/>
+                            games={this.props.games} 
+                            picks={this.props.picks}/>
                     }
                 </div>
                 <Footer/>
@@ -132,8 +138,8 @@ const mapStateToProps = (state, ownProps) => {
   const entities = state.get('entities').toJS();
   const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
-  const games = entities.games;
-  const picks = entities.picks;
+  const games = get(entities, 'games', []);
+  const picks = get(entities, 'picks', []);
   const weeks = getWeeks(entities);
 
   const defaultLeague = 'nfl';
@@ -145,6 +151,7 @@ const mapStateToProps = (state, ownProps) => {
   const weekNo = get(ui,'weekNo') || get(weeks, '[' + weekIndex + '].weekNo');
   
   const year = 2017;
+  const seasonType = 2;
   const dataLoading = entities.dataLoading;
   const isAuthenticated = entities.authentication.isAuthenticated;
 
@@ -156,6 +163,7 @@ const mapStateToProps = (state, ownProps) => {
     leagueId,
     weekNo,
     year,
+    seasonType,
     isAuthenticated
   }
 };
@@ -166,6 +174,8 @@ SchedulePage.propTypes = {
     picks: PropTypes.array,
     leagueId: PropTypes.string,
     weekNo: PropTypes.number,
+    year: PropTypes.number,
+    seasonType: PropTypes.number,
     loadGames: PropTypes.func.isRequired,
     loadPicks: PropTypes.func.isRequired,
     loadGameWeeks: PropTypes.func.isRequired,

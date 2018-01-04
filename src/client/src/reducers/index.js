@@ -23,7 +23,13 @@ const users = [
     }
 ];
 
-const entities = (state = Map({ games: List(), picks: List(), leaders: List(), gameWeeks: List(), authentication: Map({isAuthenticated: false}), dataLoading: true }), action) => {
+const entities = (state = Map({ 
+  games: List(), 
+  picks: List(), 
+  leaders: List(), 
+  gameWeeks: List(), 
+  authentication: Map({isAuthenticated: false
+  }), dataLoading: true }), action) => {
   switch (action.type) {
     case ActionTypes.GAMES_REQUEST:
       return state.set('dataLoading', true);
