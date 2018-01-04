@@ -9,6 +9,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
+const pickRepository = require('../pick/PickRepository');
+
 const {getGames} = require('./games');
 const {getTeams, getEspnTeams} = require('./teams');
 
@@ -30,7 +32,7 @@ async function updateScores(games) {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
-  const weeks = uniq(games.map(x=>{ return x.weekNo - (REG_SEASON_START_WEEK-1); }));
+  const weeks = uniq(games.map(x=>{ return x.weekNo; }));
 
   let scores = [];
   
@@ -251,7 +253,7 @@ async function getEspnGames(leagueId) {
       year: parseInt(year),
       seasonType: seasonType,
       weekNo: weekNo,
-      displayName: currentWeek,
+      description: currentWeek,
       beginDateTime: earliestGameTime,
       endDateTime: latestGameTime
   };
@@ -280,10 +282,12 @@ router.get('/games/', function (req, res) {
 
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+    year: req.query.year,
+    seasonType: req.query.seasonType,
     weekNo: req.query.weekNo
   };
 
-  const finalSearch = omit(search, [get(req,'query.weekNo','weekNo')]);
+  const finalSearch = omit(search, [get(req,'query.year','year'), get(req,'query.seasonType','seasonType'), get(req,'query.weekNo','weekNo')]);
   
   gameRepository.find(finalSearch, function (err, games) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
@@ -294,6 +298,63 @@ router.get('/games/', function (req, res) {
 router.post('/updatescores', function (req, res) {
   executeUpdateScores();
 });
+
+// router.post('/updategames', function (req, res) {
+//   gameRepository.find({}, function (err, games) {
+//     games.forEach(game=>{
+//       if (game.weekNo > 10 && game.weekNo < 23) {
+//         console.log('game: ' + JSON.stringify(game));
+
+//         const updatedGame = {
+//               weekNo: game.weekNo - 5,
+//               seasonType: 2,
+//               year: 2017
+//             };
+
+//         console.log('updatedGame: ' + JSON.stringify(updatedGame));
+
+//         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
+//       }
+//     });
+//   });
+
+//   gameWeekRepository.find({}, function (err, weeks) {
+//     weeks.forEach(week=>{
+//       if (week.weekNo > 10 && week.weekNo < 23) {
+//         console.log('week: ' + JSON.stringify(week));
+
+//         const updatedWeek = {
+//               weekNo: week.weekNo - 5,
+//               seasonType: 2,
+//               year: 2017,
+//               description: 'Week ' + (week.weekNo - 5).toString()
+//             };
+
+//         console.log('updatedWeek: ' + JSON.stringify(updatedWeek));
+
+//         gameWeekRepository.findByIdAndUpdate(mongoose.Types.ObjectId(week._id.toString()), updatedWeek, {new: true}, x=>()=>{});
+//       }
+//     });
+//   });
+
+//   pickRepository.find({}, function (err, picks) {
+//     picks.forEach(pick=>{
+//       if (pick.weekNo > 10 && pick.weekNo < 23) {
+//         console.log('pick: ' + JSON.stringify(pick));
+
+//         const updatedPick = {
+//               weekNo: pick.weekNo - 5,
+//               seasonType: 2,
+//               year: 2017
+//             };
+
+//         console.log('updatedPick: ' + JSON.stringify(updatedPick));
+
+//         pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(pick._id.toString()), updatedPick, {new: true}, x=>()=>{});
+//       }
+//     });
+//   });
+// });
 
 router.post('/creategames', function (req, res) {
   const games = getGames();

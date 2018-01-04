@@ -5,6 +5,8 @@ var GameSchema = new mongoose.Schema({
     startDateTime: 'date',
     station: String,
     isGameOver: mongoose.Schema.Types.Boolean,
-    competitors: Array
+    competitors: Array,
+    seasonType: Number,
+    year: Number
 });
 module.exports = mongoose.model('Game', GameSchema);

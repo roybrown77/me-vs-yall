@@ -6,6 +6,8 @@ var PickSchema = new mongoose.Schema({
 	weekNo: Number,
     gameId: mongoose.Schema.Types.ObjectId,
     pickId: mongoose.Schema.Types.ObjectId,
-    createDateTime: 'date'
+    createDateTime: 'date',
+    year: Number,
+    seasonType: Number
 });
 module.exports = mongoose.model('Pick', PickSchema)

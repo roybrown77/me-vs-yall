@@ -38,7 +38,8 @@ class LeaderPage extends Component {
 
         const query = {
             leagueId: this.props.leagueId,
-            weekNo: weekToSearch
+            weekNo: weekToSearch,
+            year: 2017
         };
 
         this.props.selectWeek(weekToSearch);
@@ -61,7 +62,8 @@ class LeaderPage extends Component {
 
         const query = {
             leagueId: this.props.leagueId,
-            weekNo: weekToSearch
+            weekNo: weekToSearch,
+            year: 2017
         };
 
         this.props.selectWeek(weekToSearch);

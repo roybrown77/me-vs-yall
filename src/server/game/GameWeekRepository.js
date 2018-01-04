@@ -6,6 +6,9 @@ var GameSchema = new mongoose.Schema({
 	namePrefix: String,
 	year: Number,
     beginDateTime: 'date',
-    endDateTime: 'date'
+    endDateTime: 'date',
+    year: Number,
+    seasonType: Number,
+    description: String
 });
 module.exports = mongoose.model('Game_Week', GameSchema);

@@ -44,7 +44,8 @@ class SchedulePage extends Component {
                 const query = {
                     userId: profile.sub,
                     leagueId: this.props.leagueId,
-                    weekNo: weekToSearch
+                    weekNo: weekToSearch,
+                    year: 2017
                 };
 
                 this.props.selectWeek(weekToSearch);
@@ -73,7 +74,8 @@ class SchedulePage extends Component {
             const query = {
                 userId: profile.sub,
                 leagueId: this.props.leagueId,
-                weekNo: weekToSearch
+                weekNo: weekToSearch,
+                year: 2017
             };
 
             this.props.selectWeek(weekToSearch);
