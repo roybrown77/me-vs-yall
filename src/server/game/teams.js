@@ -119,7 +119,7 @@ const getTeams = () => { return [
     {
         _id: "19823783734d1d04a1b3900e",
         location: 'Jacksonville',
-        shortLocation: "JAC",
+        shortLocation: "JAX",
         name: "Jaguars",
         color: "#136677",
         stadiumName: "EverBank Field",

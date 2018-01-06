@@ -133,6 +133,30 @@ const executeUpdateScores = () => {
 }
 
 async function getEspnGames(leagueId) {
+  const gameSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    },
+    seasonType: {
+      $gt: 1
+    }
+  };
+
+  const gamesStillInProgress = await gameRepository.find(gameSearch);
+
+  const currentWeekDay = moment().weekday();
+
+  if (currentWeekDay < 3) {
+    console.log("Unable to load games since it's still Monday-Wednesday: " + currentWeekDay);
+    return;
+  }
+
+  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
+    console.log("Unable to load games since some are still in progress: " + JSON.stringify(gameSearch));
+    return;
+  }
+
   let games = [];
 
   const browser = await puppeteer.launch({
@@ -232,15 +256,28 @@ async function getEspnGames(leagueId) {
 
   console.log('mvyGames: ' + JSON.stringify(mvyGames));
 
-  //mvyGames.forEach(game=>{
-    // gameRepository.create(game, function (err, gameCreated) {
-    //     if (err) {
-    //         console.log("There was a problem adding the information to the database: " + err.message);
-    //     }  
-        
-    //     console.log("Success Creating: " + gameCreated._id);
-    // });
-  //});
+  mvyGames.forEach(game=>{
+    const gameSearch = {
+      leagueId: leagueId,
+      year: game.year,
+      seasonType: game.seasonType,
+      weekNo: game.weekNo
+    };
+
+    gameRepository.find(gameSearch, function (err, games) {
+      if (!!games && games.length > 0) {
+        console.log("Game already exists: " + JSON.stringify(gameSearch));
+      } else {
+        gameRepository.create(game, function (err, gameCreated) {
+          if (err) {
+              console.log("There was a problem adding the information to the database: " + err.message);
+          }  
+          
+          console.log("Success Creating: " + gameCreated._id);
+        });
+      }
+    });
+  });
 
   const gameStartDateTimes = mvyGames.map(x=>{
     return new Date(x.startDateTime);
@@ -250,34 +287,41 @@ async function getEspnGames(leagueId) {
   const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
 
   const gameWeek = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
-      seasonType: seasonType,
-      weekNo: weekNo,
-      description: currentWeek,
-      beginDateTime: earliestGameTime,
-      endDateTime: latestGameTime
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: parseInt(year),
+    seasonType: seasonType,
+    weekNo: weekNo,
+    description: currentWeek,
+    beginDateTime: earliestGameTime,
+    endDateTime: latestGameTime
   };
 
   console.log('gameWeek: ' + JSON.stringify(gameWeek));
 
-  // gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-  //     if (err) {
-  //         console.log("There was a problem adding the information to the database: " + err.message);
-  //     }
+  const gameWeekSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: parseInt(year),
+    seasonType: seasonType,
+    weekNo: weekNo
+  };
 
-  //     console.log("Success Creating: " + gameWeekCreated._id);
-  // });
+  gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
+    if (!!gameWeeks && gameWeeks.length > 0) {
+      console.log("Game week already exists: " + JSON.stringify(gameWeekSearch));
+    } else {
+      gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+          if (err) {
+              console.log("There was a problem adding the information to the database: " + err.message);
+          }
+
+          console.log("Success Creating: " + gameWeekCreated._id);
+      });
+    }
+  });
 }
 
 router.get('/games/', function (req, res) {
-  // get games after 1 particular time has passed to limit getting games
-  // const onePm = moment('01:00p', "HH:mm a");
-  // const fourPm = moment('04:00p', "HH:mm a");
-  // const sevenPm = moment('07:00p', "HH:mm a");
-  // const oneAm = moment('01:00a', "HH:mm a");
-
-  //getEspnGames(req.query.leagueId);
+  getEspnGames(req.query.leagueId);
 
   executeUpdateScores();
 
