@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 
 import get from 'lodash/get';
+import sortBy from 'lodash/sortBy';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
@@ -70,9 +71,7 @@ const getWeeks = (entities) => {
         return week;
     });
 
-    const weeks = formattedGameWeeks.sort((a,b)=>{
-        return a.weekNo - b.weekNo;
-    });
+    const weeks = sortBy(formattedGameWeeks, ['seasonType', 'weekNo']);
 
     return weeks;
 };

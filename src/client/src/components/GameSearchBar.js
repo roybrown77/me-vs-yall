@@ -40,7 +40,7 @@ class GameSearchBar extends Component {
   }
   
   render() {
-    const index = this.props.weeks.findIndex(x=>x.weekNo === this.props.weekNo);
+    const index = this.props.weeks.findIndex(x=>x.seasonType === this.props.seasonType && x.weekNo === this.props.weekNo);
     const weeks = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index} primaryText={week.displayName}/>
                   );
@@ -88,6 +88,7 @@ GameSearchBar.propTypes = {
   league: PropTypes.string,
   year: PropTypes.number,
   weekNo: PropTypes.number,
+  seasonType: PropTypes.number,
   weeks: PropTypes.array,
   onFilterWeek: PropTypes.func
 };

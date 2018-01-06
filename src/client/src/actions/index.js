@@ -139,10 +139,10 @@ export const updatePick = (id, pick) => (dispatch, getState) => {
   return dispatch(editPick(id, searchParams));
 };
 
-export const selectWeek = (weekNo) => (dispatch, getState) => {
+export const selectWeek = (week) => (dispatch, getState) => {
   return dispatch({
-    type: 'GAMESEARCHUPDATE_WEEKNO',
-    weekNo: weekNo
+    type: 'GAMESEARCHUPDATE',
+    week: week
   });
 };
 

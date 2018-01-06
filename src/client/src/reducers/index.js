@@ -137,10 +137,10 @@ const entities = (state = Map({
   }
 };
 
-const ui = (state = Map({weekNo: undefined}), action) => {
+const ui = (state = Map({week: Map()}), action) => {
   switch (action.type) {
-    case 'GAMESEARCHUPDATE_WEEKNO':
-      return state.set('weekNo', get(action, 'weekNo'));
+    case 'GAMESEARCHUPDATE':
+      return state.set('week', get(action, 'week'));
     default:
       return state;
   }

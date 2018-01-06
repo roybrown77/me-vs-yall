@@ -38,7 +38,7 @@ class SchedulePage extends Component {
             const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
             history.push('/leagues/' + leagueName);
 
-            const weekToSearch = this.props.weekNo;
+            const weekNo = this.props.weekNo;
             const seasonType = this.props.seasonType;
             const year = this.props.year;
 
@@ -46,12 +46,12 @@ class SchedulePage extends Component {
                 const query = {
                     userId: profile.sub,
                     leagueId: this.props.leagueId,
-                    weekNo: weekToSearch,
+                    weekNo: weekNo,
                     seasonType: seasonType,
                     year: year
                 };
 
-                this.props.selectWeek(weekToSearch);
+                this.props.selectWeek(this.props.weeks.find(x=>x.year===year && x.seasonType === seasonType && x.weekNo === weekNo));
                 this.props.loadGames(query);
                 this.props.loadPicks(query);
             });
@@ -69,22 +69,20 @@ class SchedulePage extends Component {
             return;
         }
 
-        const weekToSearch = this.props.weeks[index].weekNo;
-        const seasonType = this.props.weeks[index].seasonType;
-        const year = this.props.weeks[index].year;
+        const week = this.props.weeks[index];
 
-        this.props.selectWeek(weekToSearch);
+        this.props.selectWeek(week);
 
         getUserProfile((err, profile) => {
             const query = {
                 userId: profile.sub,
                 leagueId: this.props.leagueId,
-                weekNo: weekToSearch,
-                seasonType: seasonType,
-                year: year
+                weekNo: week.weekNo,
+                seasonType: week.seasonType,
+                year: week.year
             };
 
-            this.props.selectWeek(weekToSearch);
+            this.props.selectWeek(week);
             this.props.loadGames(query);
             this.props.loadPicks(query);
             this.props.loadGameWeeks(query);
@@ -114,6 +112,7 @@ class SchedulePage extends Component {
                         league={leagues.find(x=>x.id === this.props.leagueId).name}
                         year={this.props.year}
                         weekNo={this.props.weekNo}
+                        seasonType={this.props.seasonType}
                         weeks={this.props.weeks}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
@@ -148,10 +147,11 @@ const mapStateToProps = (state, ownProps) => {
   const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
   
   const weekIndex = weeks.length-1;
-  const weekNo = get(ui,'weekNo') || get(weeks, '[' + weekIndex + '].weekNo');
-  
-  const year = 2017;
-  const seasonType = 2;
+  const week = get(ui,'week') || get(weeks, '[' + weekIndex + ']');
+  const year = week.year || get(weeks, '[' + weekIndex + '].year');
+  const seasonType = week.seasonType || get(weeks, '[' + weekIndex + '].seasonType');
+  const weekNo = week.weekNo || get(weeks, '[' + weekIndex + '].weekNo');
+
   const dataLoading = entities.dataLoading;
   const isAuthenticated = entities.authentication.isAuthenticated;
 
@@ -161,9 +161,9 @@ const mapStateToProps = (state, ownProps) => {
     picks,
     weeks,
     leagueId,
-    weekNo,
     year,
     seasonType,
+    weekNo,
     isAuthenticated
   }
 };
@@ -173,9 +173,9 @@ SchedulePage.propTypes = {
     games: PropTypes.array,
     picks: PropTypes.array,
     leagueId: PropTypes.string,
-    weekNo: PropTypes.number,
     year: PropTypes.number,
     seasonType: PropTypes.number,
+    weekNo: PropTypes.number,
     loadGames: PropTypes.func.isRequired,
     loadPicks: PropTypes.func.isRequired,
     loadGameWeeks: PropTypes.func.isRequired,

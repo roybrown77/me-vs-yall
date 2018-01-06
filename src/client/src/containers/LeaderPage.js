@@ -34,15 +34,18 @@ class LeaderPage extends Component {
         const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
         history.push('/leaders/' + leagueName);
 
-        const weekToSearch = this.props.weekNo;
+        const year = this.props.year;
+        const seasonType = this.props.seasonType;
+        const weekNo = this.props.weekNo;
 
         const query = {
             leagueId: this.props.leagueId,
-            weekNo: weekToSearch,
-            year: 2017
+            year: year,
+            seasonType: seasonType,
+            weekNo: weekNo
         };
 
-        this.props.selectWeek(weekToSearch);
+        this.props.selectWeek(this.props.weeks.find(x=>x.year===year && x.seasonType === seasonType && x.weekNo === weekNo));
         this.props.loadLeaders(query);
         this.props.loadGameWeeks(query);
     }
@@ -58,15 +61,16 @@ class LeaderPage extends Component {
             return;
         }
 
-        const weekToSearch = this.props.weeks[index].weekNo;
+        const week = this.props.weeks[index];
 
         const query = {
             leagueId: this.props.leagueId,
-            weekNo: weekToSearch,
-            year: 2017
+            year: week.year,
+            seasonType: week.seasonType,
+            weekNo: week.weekNo
         };
 
-        this.props.selectWeek(weekToSearch);
+        this.props.selectWeek(week);
         this.props.loadLeaders(query);
         this.props.loadGameWeeks(query);
     }
@@ -81,6 +85,7 @@ class LeaderPage extends Component {
                     <GameSearchBar 
                         league={leagues.find(x=>x.id === this.props.leagueId).name}
                         year={this.props.year}
+                        seasonType={this.props.seasonType}
                         weekNo={this.props.weekNo}
                         weeks={this.props.weeks}
                         onFilterLeague={this.handleFilterLeague}
@@ -151,9 +156,11 @@ const mapStateToProps = (state, ownProps) => {
     ];
 
     const weekIndex = weeks.length-1;
-    const weekNo = get(ui,'weekNo') || get(weeks, '[' + weekIndex + '].weekNo');
+    const week = get(ui,'week') || get(weeks, '[' + weekIndex + ']');
+    const year = week.year || get(weeks, '[' + weekIndex + '].year');
+    const seasonType = week.seasonType || get(weeks, '[' + weekIndex + '].seasonType');
+    const weekNo = week.weekNo || get(weeks, '[' + weekIndex + '].weekNo');
     
-    const year = 2017;
     const leaders = entities.leaders;
 
     return {
@@ -161,8 +168,9 @@ const mapStateToProps = (state, ownProps) => {
         dataLoading,
         weeks,
         leagueId,
-        weekNo,
-        year
+        year,
+        seasonType,
+        weekNo
     }
 };
 
@@ -170,7 +178,9 @@ LeaderPage.propTypes = {
     leaders: PropTypes.array,
     dataLoading: PropTypes.bool,
     leagueId: PropTypes.string,
+    year: PropTypes.number,
     weekNo: PropTypes.number,
+    seasonType: PropTypes.number,
     loadLeaders: PropTypes.func.isRequired,
     loadGameWeeks: PropTypes.func.isRequired
 };

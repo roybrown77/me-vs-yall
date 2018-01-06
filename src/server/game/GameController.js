@@ -96,7 +96,7 @@ async function updateScores(games) {
 
   games.forEach(game=>{
     const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
-    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && game.weekNo === x.weekNo);
+    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString() && game.year && x.year && game.seasonType === x.seasonType && game.weekNo === x.weekNo);
 
     console.log('score: ' + JSON.stringify(score));
 
@@ -133,6 +133,14 @@ const executeUpdateScores = () => {
 }
 
 async function getEspnGames(leagueId) {
+  // const temp = await gameRepository.find({});
+  // const temp2 = await pickRepository.find({});
+  // const temp3 = await gameWeekRepository.find({});
+
+  // console.log("games: " + temp);
+  // console.log("picks: " + temp2);
+  // console.log("weeks: " + temp3);
+
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
@@ -148,7 +156,7 @@ async function getEspnGames(leagueId) {
   const currentWeekDay = moment().weekday();
 
   if (currentWeekDay < 3) {
-    console.log("Unable to load games since it's still Monday-Wednesday: " + currentWeekDay);
+    console.log("Unable to load games since it's still Monday-Tuesday: " + currentWeekDay);
     return;
   }
 
