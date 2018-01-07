@@ -7,6 +7,7 @@ var GameSchema = new mongoose.Schema({
     isGameOver: mongoose.Schema.Types.Boolean,
     competitors: Array,
     seasonType: Number,
-    year: Number
+    year: Number,
+    spread: mongoose.Schema.Types.Mixed
 });
 module.exports = mongoose.model('Game', GameSchema);
