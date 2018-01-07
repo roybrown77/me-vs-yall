@@ -71,8 +71,6 @@ class SchedulePage extends Component {
 
         const week = this.props.weeks[index];
 
-        this.props.selectWeek(week);
-
         getUserProfile((err, profile) => {
             const query = {
                 userId: profile.sub,

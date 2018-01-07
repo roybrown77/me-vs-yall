@@ -152,6 +152,7 @@ const mapStateToProps = (state, ownProps) => {
         ...getWeeks(entities),
         {
             displayName: "All Season",
+            year: 2017
         }
     ];
 
