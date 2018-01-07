@@ -24,6 +24,7 @@ const some = require('lodash/some');
 async function updateScores(games) {
   if (!!games && games.length === 0) {
     console.log("All scores are updated.");
+    console.log('c1');
     return;
   }
 
@@ -99,6 +100,8 @@ async function updateScores(games) {
   console.log('games: ' + JSON.stringify(games));
   console.log('scores: ' + JSON.stringify(scores));
 
+  let promises = [];
+
   games.forEach(game=>{
     const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
@@ -118,12 +121,16 @@ async function updateScores(games) {
           ]
         };
 
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
+      promises.push(gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{}));
     }
+  });
+
+  return Promise.all(promises).then(()=>{
+    console.log('c1');
   });
 }
 
-const executeUpdateScores = () => {
+const executeUpdateScores = async () => {
   const search = {
     isGameOver: {
       $ne: true
@@ -136,9 +143,11 @@ const executeUpdateScores = () => {
     }
   };
 
-  gameRepository.find(search, function (err, games) {
-      updateScores(games);
-  });
+  const games = await gameRepository.find(search);
+
+  await updateScores(games);
+
+  console.log('c2');
 }
 
 async function getEspnGames(leagueId) {
@@ -166,11 +175,13 @@ async function getEspnGames(leagueId) {
 
   if (currentWeekDay < 3) {
     console.log('New games will load on Wednesday.');
+    console.log('b1');
     return;
   }
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
     console.log("Unable to load games since some are still in progress: " + JSON.stringify(gameSearch));
+    console.log('b1');
     return;
   }
 
@@ -335,25 +346,33 @@ async function getEspnGames(leagueId) {
       });
     }
   });
+
+  console.log('b1');
 }
 
 router.get('/games', function (req, res) {
-  getEspnGames(req.query.leagueId);
+  console.log('a1');
 
-  executeUpdateScores();
+  getEspnGames(req.query.leagueId).then(()=>{
+    console.log('b2');
 
-  const search = {
-    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-    year: req.query.year,
-    seasonType: req.query.seasonType,
-    weekNo: req.query.weekNo
-  };
+    executeUpdateScores().then(()=>{
+      console.log('c3');
 
-  const finalSearch = omit(search, [get(req,'query.year','year'), get(req,'query.seasonType','seasonType'), get(req,'query.weekNo','weekNo')]);
-  
-  gameRepository.find(finalSearch, function (err, games) {
-      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
-      res.status(200).send(games);
+      const search = {
+        leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+        year: req.query.year,
+        seasonType: req.query.seasonType,
+        weekNo: req.query.weekNo
+      };
+
+      const finalSearch = omit(search, [get(req,'query.year','year'), get(req,'query.seasonType','seasonType'), get(req,'query.weekNo','weekNo')]);
+      
+      gameRepository.find(finalSearch, function (err, games) {
+          if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+          res.status(200).send(games);
+      });
+    });
   });
 });
 
