@@ -28,11 +28,13 @@ async function updateScores(games) {
     return;
   }
 
+  let scores = [];
+
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
-  let scores = [];
+  const page = await browser.newPage();
 
   await page.goto('http://www.espn.com/nfl/scoreboard');
 
@@ -71,8 +73,7 @@ async function updateScores(games) {
       awayTeam: awayTeam,
       awayScore: parseInt(awayScore),
       homeTeam: homeTeam,
-      homeScore: parseInt(homeScore),
-      weekNo: parseInt(weekNo)
+      homeScore: parseInt(homeScore)
     });
   }
 
@@ -96,9 +97,6 @@ async function updateScores(games) {
   currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
 
   const espnTeams = getEspnTeams();
-
-  console.log('games: ' + JSON.stringify(games));
-  console.log('scores: ' + JSON.stringify(scores));
 
   let promises = [];
 
@@ -125,9 +123,9 @@ async function updateScores(games) {
     }
   });
 
-  return Promise.all(promises).then(()=>{
-    console.log('c1');
-  });
+  console.log('c2');
+
+  return Promise.all(promises);
 }
 
 const executeUpdateScores = async () => {
@@ -145,9 +143,9 @@ const executeUpdateScores = async () => {
 
   const games = await gameRepository.find(search);
 
-  await updateScores(games);
+  console.log('c1');
 
-  console.log('c2');
+  return updateScores(games);
 }
 
 async function getEspnGames(leagueId) {
