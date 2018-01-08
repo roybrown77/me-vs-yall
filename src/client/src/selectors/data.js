@@ -22,7 +22,7 @@ const getResults = (games, picks) => {
         });
 
         const filteredPicks = picks.filter(pick=>{
-            return pick.seasonType > 1;
+            return pick.seasonType > 1 && pick.weekNo !== 4;
         });
 
         filteredGames.forEach(game=>{
