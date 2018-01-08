@@ -117,6 +117,8 @@ export const addPick = (pick) => (dispatch, getState) => {
 
   const searchParams = new URLSearchParams();
   searchParams.set('leagueId', pick.leagueId);
+  searchParams.set('year', pick.year);
+  searchParams.set('seasonType', pick.seasonType);
   searchParams.set('weekNo', pick.weekNo);
   searchParams.set('gameId', pick.gameId);
   searchParams.set('pickId', pick.pickId);

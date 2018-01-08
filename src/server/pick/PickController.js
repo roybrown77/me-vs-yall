@@ -18,6 +18,8 @@ router.post('/picks/', function (req, res) {
         weekNo: req.body.weekNo,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: req.body.pickId,
+        year: req.body.year,
+        seasonType: req.body.seasonType,
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 

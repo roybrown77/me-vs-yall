@@ -90,6 +90,8 @@ class SchedulePage extends Component {
     handleMakePick(pick) {
         pick.leagueId = this.props.leagueId;
         pick.weekNo = this.props.weekNo;
+        pick.year = this.props.year;
+        pick.seasonType = this.props.seasonType;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
         if (pickFound) {

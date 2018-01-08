@@ -21,7 +21,7 @@ const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 
-async function updateScores(games) {
+async function updateAllScores(games) {
   if (!!games && games.length === 0) {
     console.log("All scores are updated.");
     return;
@@ -123,7 +123,7 @@ async function updateScores(games) {
   });
 }
 
-const executeUpdateScores = async () => {
+const updateScores = async () => {
   const search = {
     isGameOver: {
       $ne: true
@@ -138,10 +138,10 @@ const executeUpdateScores = async () => {
 
   const games = await gameRepository.find(search);
 
-  updateScores(games);
+  updateAllScores(games);
 }
 
-async function getEspnGames(leagueId) {
+async function loadGames(leagueId) {
   // const temp = await gameRepository.find({});
   // const temp2 = await pickRepository.find({});
   // const temp3 = await gameWeekRepository.find({});
@@ -265,8 +265,8 @@ async function getEspnGames(leagueId) {
        amount: game.spread.amount
       },
       competitors: [
-        {_id: awayTeam._id, name: awayTeam.location + ' ' + awayTeam.name},
-        {_id: homeTeam._id, name: homeTeam.location + ' ' + homeTeam.name}
+        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name},
+        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name}
       ]
     };
   });
@@ -338,8 +338,8 @@ async function getEspnGames(leagueId) {
 }
 
 router.get('/games', function (req, res) {
-  getEspnGames(req.query.leagueId);
-  executeUpdateScores();
+  loadGames(req.query.leagueId);
+  updateScores();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
