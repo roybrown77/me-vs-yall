@@ -18,11 +18,11 @@ const getResults = (games, picks) => {
 
     if (gamesOver) {
         const filteredGames = games.filter(game=>{
-            return !!game.isGameOver && game.seasonType > 1;
+            return !!game.isGameOver && game.seasonType > 1 && !(game.seasonType === 3 && game.weekNo === 4);
         });
 
         const filteredPicks = picks.filter(pick=>{
-            return pick.seasonType > 1 && pick.weekNo !== 4;
+            return pick.seasonType > 1 && !(pick.seasonType === 3 && pick.weekNo === 4);
         });
 
         filteredGames.forEach(game=>{
