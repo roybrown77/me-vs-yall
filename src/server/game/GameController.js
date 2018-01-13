@@ -23,7 +23,7 @@ const some = require('lodash/some');
 
 async function updateAllScores(games) {
   if (!!games && games.length === 0) {
-    console.log("All scores are updated.");
+    console.log("All scores have been updated.");
     return;
   }
 
@@ -170,7 +170,7 @@ async function loadGames(leagueId) {
   }
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log("Unable to load games since some are still in progress: " + JSON.stringify(gameSearch));
+    console.log('Unable to load new games until all games have ended.');
     return;
   }
 
