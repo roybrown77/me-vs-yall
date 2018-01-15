@@ -5,6 +5,26 @@ import sortBy from 'lodash/sortBy';
 
 const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
 
+const getBet = (results) => {
+    return (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
+};
+
+const getWinnings = (results) => {
+    return (results.wins * 100) - (results.losses * 110) - (results.ties * 110);
+};
+
+const formatMoney = (number, places, symbol, thousand, decimal) => {
+    number = number || 0;
+    places = !isNaN(places = Math.abs(places)) ? places : 2;
+    symbol = symbol !== undefined ? symbol : "$";
+    thousand = thousand || ",";
+    decimal = decimal || ".";
+    var negative = number < 0 ? "-" : "",
+        i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return (negative === '-' ? negative + symbol : symbol + negative) + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+};
+
 const areAnyGamesOver = (games) => {
     return games.some(x=>!!x.isGameOver);
 };
@@ -80,5 +100,8 @@ export {
     leagues,
     getResults,
     areAnyGamesOver,
-    getWeeks
+    getWeeks,
+    formatMoney,
+    getWinnings,
+    getBet
 };

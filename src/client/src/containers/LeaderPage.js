@@ -14,7 +14,7 @@ import Spinner from '../components/Spinner';
 import { loadLeaders, selectWeek, loadGameWeeks } from '../actions';
 import { isLoggedIn } from '../middleware/authenticationService';
 
-import { leagues, getWeeks } from '../selectors/data';
+import { getWinnings, formatMoney, leagues, getWeeks } from '../selectors/data';
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -123,6 +123,11 @@ class LeaderPage extends Component {
                                             <td>
                                                 <div className="leader-item">
                                                     {leader.ties}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="leader-item">
+                                                    {formatMoney(getWinnings(leader))}
                                                 </div>
                                             </td>
                                         </tr>
