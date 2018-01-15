@@ -218,7 +218,8 @@ async function loadGames(leagueId) {
       startDateTime: startDateTime,
       spread: {
        team: spread.replace('Line: ','').split(' ')[0],
-       amount: parseInt(spread.replace('Line: ','').split(' ')[1])
+       amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+       spreadDateTime: new Date(new Date().toUTCString()).toISOString()
       },
       awayTeam: awayTeam,
       homeTeam: homeTeam
