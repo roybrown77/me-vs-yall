@@ -14,7 +14,7 @@ const PickResult = ({games, picks}) => {
 			{results.wins +  " - " + results.losses + " - " + results.ties}
 
 			<div style={{fontSize: '20px', color: '#FFC107'}}>
-				{formatMoney(winnings)} on {formatMoney(bet)}
+				won {formatMoney(winnings)} betting {formatMoney(bet)}
 			</div>
 		</div>
 	);
