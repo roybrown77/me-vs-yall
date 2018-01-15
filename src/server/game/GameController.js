@@ -150,6 +150,20 @@ async function loadGames(leagueId) {
   // console.log("picks: " + temp2);
   // console.log("weeks: " + temp3);
 
+  const currentMonth = moment().add(1,'months').month();
+
+  if (![7,8,9,10,11,0,1].indexOf(currentMonth)) {
+    console.log('New NFL games will be loaded during season.');
+    return;
+  }
+
+  const currentWeekDay = moment().weekday();
+
+  if (currentWeekDay < 3) {
+    console.log('New NFL games will be loaded on Wednesday.');
+    return;
+  }
+
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
@@ -161,13 +175,6 @@ async function loadGames(leagueId) {
   };
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
-
-  const currentWeekDay = moment().weekday();
-
-  if (currentWeekDay < 3) {
-    console.log('New NFL games will be loaded on Wednesday.');
-    return;
-  }
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
     console.log('Unable to load new games until all games have ended.');
