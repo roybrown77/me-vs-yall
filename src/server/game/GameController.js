@@ -23,7 +23,7 @@ const some = require('lodash/some');
 
 async function updateAllScores(games) {
   if (!!games && games.length === 0) {
-    console.log("All scores have been updated.");
+    console.log("All NFL scores have been updated.");
     return;
   }
 
@@ -165,7 +165,7 @@ async function loadGames(leagueId) {
   const currentWeekDay = moment().weekday();
 
   if (currentWeekDay < 3) {
-    console.log('New games will be loaded on Wednesday.');
+    console.log('New NFL games will be loaded on Wednesday.');
     return;
   }
 

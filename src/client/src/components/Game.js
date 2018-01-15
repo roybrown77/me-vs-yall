@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import get from 'lodash/get';
 
 import {GridList, GridTile} from 'material-ui/GridList';
 
@@ -70,24 +71,28 @@ class Game extends Component {
                         titleBackground={grid.titleBackground}
                         onClick={() => this.handleMakePick(game._id, competitor._id)}>
                         <div 
-                            className={inProgress && !competitor.showCheck ? 'fast-flash' : ''}
-                            style={{border: competitor.showCheck ? 
+                            className={inProgress && !competitor.Ï ? 'fast-flash' : ''}
+                            style={{border: competitor.selected ? 
                             (game.isGameOver ? '8px solid rgb(0, 188, 212)' : '8px solid #BA68C8') : (inProgress ? '8px solid #BA68C8' : '0'), 
                             height: "91%", 
                             color: competitor.color}}>
                                 <div style={{position:'absolute', 
-                                display: game.isGameOver ? (game.winner !== competitor._id && competitor.showCheck ? 'block' : 'none') : 'none'}}>
+                                display: game.isGameOver ? (game.winner !== competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
                                     <img className="emoji-image" src={angry} alt=""/>
                                 </div>
                                 <div style={{position:'absolute', 
-                                display: game.isGameOver ? (game.winner === competitor._id && competitor.showCheck ? 'block' : 'none') : 'none'}}>
+                                display: game.isGameOver ? (game.winner === competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
                                     <img className="emoji-image" src={money} alt=""/>
                                 </div>
-                                <div style={{paddingTop: game.isGameOver ? (competitor.showCheck ? '0px' : '8px') : '0px',
+                                <div style={{paddingTop: game.isGameOver ? (competitor.selected ? '0px' : '8px') : '0px',
                                     fontSize:'36px', block: competitor.score ? 'block' : 'none'}}>
                                     {competitor.score}
                                 </div>
-                                <div style={{paddingTop: game.isGameOver ? '12px' : (competitor.showCheck ? '42px' : '46px')}}>
+                                <div style={{position:'absolute', fontSize: '20px', color: 'black', right: '10px', top: '10px',
+                                display: game.isGameOver ? (get(game,'spread.teamId') === competitor._id ? 'block' : 'none') : 'none'}}>
+                                    {get(game,'spread.amount')}
+                                </div>
+                                <div style={{paddingTop: game.isGameOver ? '12px' : (competitor.selected ? '42px' : '46px')}}>
                                     {competitor.shortLocation}
                                 </div>
                         </div>

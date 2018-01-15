@@ -314,7 +314,7 @@ class Games extends Component {
                     competitor.shortLocation = team.shortLocation;
                     competitor.name = team.name;
                     competitor.color = team.color;
-                    competitor.showCheck = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
+                    competitor.selected = picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false;
                     return competitor;
                 });
 
