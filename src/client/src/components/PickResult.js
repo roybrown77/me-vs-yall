@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getWinnings, formatMoney, getResults, areAnyGamesOver } from '../selectors/data';
+import { getBet, getWinnings, formatMoney, getResults, areAnyGamesOver } from '../selectors/data';
 
 const PickResult = ({games, picks}) => {
 	const results = getResults(games, picks);
 	const winnings = getWinnings(results);
-	const bet = (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
+	const bet = getBet(results);
 	const gamesOver = areAnyGamesOver(games);
 
 	return (gamesOver && 
