@@ -45,7 +45,7 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#f0ad4e'}}
                                         >
-                                        <div className='list-item-text'>FIFA Confederations Cup</div>
+                                        <div className='list-item-text'>FIFA Conf Cup</div>
                                         </div>
                                       )} />
                         )}
