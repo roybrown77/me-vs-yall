@@ -35,7 +35,7 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#f0ad4e'}}
                                         >
-                                        <div className='list-item-text'>Premier League</div>
+                                        <div className='list-item-text'>English Premier League</div>
                                         </div>
                                       )} />
                         )}
@@ -88,16 +88,6 @@ function LeagueSelectionPage(props) {
                                           <div className='list-item-text'>MLB Playoffs</div>
                                         </div>
                                       )} />
-                        )}
-                        {(
-                        <Route render={({ history }) => (
-                        <div
-                            className='list-item'
-                            style={{backgroundColor: '#283593'}}
-                        >
-                        <div className='list-item-text'>Indian Premier League</div>
-                            </div>
-                        )} />
                         )}
                         {(
                         <Route render={({ history }) => (
