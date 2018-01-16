@@ -25,7 +25,7 @@ function LeagueSelectionPage(props) {
                             <div
                                 className='list-item'
                             >
-                            <div className='list-item-text'>NCAAF</div>
+                            <div className='list-item-text'>NCAA Football</div>
                                 </div>
                             )} />
                         )}
