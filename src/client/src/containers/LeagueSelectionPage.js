@@ -35,6 +35,36 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#f0ad4e'}}
                                         >
+                                        <div className='list-item-text'>UEFA Champions League</div>
+                                        </div>
+                                      )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
+                                        <div
+                                          className='list-item'
+                                          style={{backgroundColor: '#f0ad4e'}}
+                                        >
+                                        <div className='list-item-text'>FIFA Confederations Cup</div>
+                                        </div>
+                                      )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
+                                        <div
+                                          className='list-item'
+                                          style={{backgroundColor: '#f0ad4e'}}
+                                        >
+                                        <div className='list-item-text'>World Cup</div>
+                                        </div>
+                                      )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
+                                        <div
+                                          className='list-item'
+                                          style={{backgroundColor: '#f0ad4e'}}
+                                        >
                                         <div className='list-item-text'>English Premier League</div>
                                         </div>
                                       )} />
@@ -55,7 +85,37 @@ function LeagueSelectionPage(props) {
                             className='list-item'
                             style={{backgroundColor: '#00695C'}}
                         >
+                        <div className='list-item-text'>Aussie Open</div>
+                            </div>
+                        )} />
+                        )}
+                        {(
+                        <Route render={({ history }) => (
+                        <div
+                            className='list-item'
+                            style={{backgroundColor: '#00695C'}}
+                        >
                         <div className='list-item-text'>French Open</div>
+                            </div>
+                        )} />
+                        )}
+                        {(
+                        <Route render={({ history }) => (
+                        <div
+                            className='list-item'
+                            style={{backgroundColor: '#00695C'}}
+                        >
+                        <div className='list-item-text'>US Open</div>
+                            </div>
+                        )} />
+                        )}
+                        {(
+                        <Route render={({ history }) => (
+                        <div
+                            className='list-item'
+                            style={{backgroundColor: '#00695C'}}
+                        >
+                        <div className='list-item-text'>Wimbledon</div>
                             </div>
                         )} />
                         )}
@@ -98,6 +158,16 @@ function LeagueSelectionPage(props) {
                         <div className='list-item-text'>Little League World Series</div>
                             </div>
                         )} />
+                        )}
+                        {(
+                            <Route render={({ history }) => (
+                                        <div
+                                          className='list-item'
+                                          style={{backgroundColor: '#556b2f'}}
+                                        >
+                                          <div className='list-item-text'>NHL Stanley Cup Playoffs</div>
+                                        </div>
+                                      )} />
                         )}
                         {(
                             <Route render={({ history }) => (
