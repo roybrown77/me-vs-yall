@@ -15,14 +15,7 @@ const fetchGames = query => ({
   }
 });
 
-// Fetches data unless it is cached.
-// Relies on Redux Thunk middleware.
 export const loadGames = (query, requiredFields = []) => (dispatch, getState) => {
-  //const games = getState().entities.games; //find by query
-  //if (games && requiredFields.every(key => game.hasOwnProperty(key))) {
-  //  return null
-  //}
-
   return dispatch(fetchGames(query));
 };
 
@@ -38,14 +31,7 @@ const fetchGameWeeks = query => ({
   }
 });
 
-// Fetches data unless it is cached.
-// Relies on Redux Thunk middleware.
 export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState) => {
-  //const games = getState().entities.games; //find by query
-  //if (games && requiredFields.every(key => game.hasOwnProperty(key))) {
-  //  return null
-  //}
-
   return dispatch(fetchGameWeeks(query));
 };
 
@@ -53,8 +39,6 @@ export const PICKS_REQUEST = 'PICKS_REQUEST';
 export const PICKS_SUCCESS = 'PICKS_SUCCESS';
 export const PICKS_FAILURE = 'PICKS_FAILURE';
 
-// Fetches data
-// Relies on the custom API middleware defined in ../middleware/api.js.
 const fetchPicks = query => ({
   [CALL_API]: {
     types: [ PICKS_REQUEST, PICKS_SUCCESS, PICKS_FAILURE ],
@@ -63,14 +47,7 @@ const fetchPicks = query => ({
   }
 });
 
-// Fetches a data unless it is cached.
-// Relies on Redux Thunk middleware.
 export const loadPicks = (query, requiredFields = []) => (dispatch, getState) => {
-  //const picks = getState().entities.picks; //find by query
-  //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
-  //  return null
-  //}
-
   return dispatch(fetchPicks(query));
 };
 
@@ -78,8 +55,6 @@ export const ADDPICK_REQUEST = 'ADDPICK_REQUEST';
 export const ADDPICK_SUCCESS = 'ADDPICK_SUCCESS';
 export const ADDPICK_FAILURE = 'ADDPICK_FAILURE';
 
-// Fetches data
-// Relies on the custom API middleware defined in ../middleware/api.js.
 const createPick = pick => ({
   [CALL_API]: {
     types: [ ADDPICK_REQUEST, ADDPICK_SUCCESS, ADDPICK_FAILURE ],
@@ -94,8 +69,6 @@ export const UPDATEPICK_REQUEST = 'UPDATEPICK_REQUEST';
 export const UPDATEPICK_SUCCESS = 'UPDATEPICK_SUCCESS';
 export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
 
-// Fetches data
-// Relies on the custom API middleware defined in ../middleware/api.js.
 const editPick = (id, pick) => ({
   id,
   [CALL_API]: {
@@ -107,14 +80,7 @@ const editPick = (id, pick) => ({
   }
 });
 
-// Fetches a data unless it is cached.
-// Relies on Redux Thunk middleware.
 export const addPick = (pick) => (dispatch, getState) => {
-  //const picks = getState().entities.picks; //find by query
-  //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
-  //  return null
-  //}
-
   const searchParams = new URLSearchParams();
   searchParams.set('leagueId', pick.leagueId);
   searchParams.set('year', pick.year);
@@ -126,14 +92,7 @@ export const addPick = (pick) => (dispatch, getState) => {
   return dispatch(createPick(searchParams));
 };
 
-// Fetches a data unless it is cached.
-// Relies on Redux Thunk middleware.
 export const updatePick = (id, pick) => (dispatch, getState) => {
-  //const picks = getState().entities.picks; //find by query
-  //if (picks && requiredFields.every(key => pick.hasOwnProperty(key))) {
-  //  return null
-  //}
-
   const searchParams = new URLSearchParams();
   searchParams.set('pickId', pick.pickId);
   searchParams.set('gameId', pick.gameId);
@@ -150,7 +109,6 @@ export const selectWeek = (week) => (dispatch, getState) => {
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
-// Resets the currently visible error message.
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE
 });
@@ -183,22 +141,7 @@ export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
 export const LEADERS_FAILURE = 'LEADERS_FAILURE';
 
-// const fetchLeaders = query => ({
-//   [CALL_API]: {
-//     types: [ LEADERS_REQUEST, LEADERS_SUCCESS, LEADERS_FAILURE ],
-//     endpoint: `/api/pickmanagement/pickResults?${queryString.stringify(query)}`,
-//     schema: Schemas.GAME_ARRAY
-//   }
-// });
-
-// Fetches data unless it is cached.
-// Relies on Redux Thunk middleware.
 export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
-  //const games = getState().entities.games; //find by query
-  //if (games && requiredFields.every(key => game.hasOwnProperty(key))) {
-  //  return null
-  //}
-
   dispatch({type: LEADERS_REQUEST});
 
   return Promise.all([
