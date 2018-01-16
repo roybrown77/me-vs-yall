@@ -30,22 +30,14 @@ function LeagueSelectionPage(props) {
                             )} />
                         )}
                         {(
-                        <Route render={({ history }) => (
-                        <div
-                            className='list-item'
-                        >
-                        <div className='list-item-text'>RUGBY</div>
-                            </div>
-                        )} />
-                        )}
-                        {(
                             <Route render={({ history }) => (
-                            <div
-                                className='list-item'
-                            >
-                            <div className='list-item-text'>AFFL</div>
-                                </div>
-                            )} />
+                                        <div
+                                          className='list-item'
+                                          style={{backgroundColor: '#f0ad4e'}}
+                                        >
+                                        <div className='list-item-text'>Premier League</div>
+                                        </div>
+                                      )} />
                         )}
                         {(
                             <Route render={({ history }) => (
@@ -53,7 +45,7 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#f0ad4e'}}
                                         >
-                                        <div className='list-item-text'>FUTBOL</div>
+                                        <div className='list-item-text'>Major League Soccer</div>
                                         </div>
                                       )} />
                         )}
@@ -63,7 +55,7 @@ function LeagueSelectionPage(props) {
                             className='list-item'
                             style={{backgroundColor: '#00695C'}}
                         >
-                        <div className='list-item-text'>TENNIS</div>
+                        <div className='list-item-text'>French Open</div>
                             </div>
                         )} />
                         )}
@@ -73,7 +65,7 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#a52a2a'}}
                                         >
-                                        <div className='list-item-text'>NBA</div>
+                                        <div className='list-item-text'>NBA Playoffs</div>
                                         </div>
                                       )} />
                         )}
@@ -83,27 +75,7 @@ function LeagueSelectionPage(props) {
                                 className='list-item'
                                 style={{backgroundColor: '#a52a2a'}}
                             >
-                            <div className='list-item-text'>WNBA</div>
-                            </div>
-                            )} />
-                        )}
-                        {(
-                            <Route render={({ history }) => (
-                            <div
-                                className='list-item'
-                                style={{backgroundColor: '#a52a2a'}}
-                            >
-                            <div className='list-item-text'>NCAAM</div>
-                                </div>
-                            )} />
-                        )}
-                        {(
-                            <Route render={({ history }) => (
-                            <div
-                                className='list-item'
-                                style={{backgroundColor: '#a52a2a'}}
-                            >
-                            <div className='list-item-text'>NCAAW</div>
+                            <div className='list-item-text'>NCAAM March Madness</div>
                                 </div>
                             )} />
                         )}
@@ -113,17 +85,7 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#283593'}}
                                         >
-                                          <div className='list-item-text'>MLB</div>
-                                        </div>
-                                      )} />
-                        )}
-                        {(
-                            <Route render={({ history }) => (
-                                        <div
-                                          className='list-item'
-                                          style={{backgroundColor: '#283593'}}
-                                        >
-                                          <div className='list-item-text'>NPB</div>
+                                          <div className='list-item-text'>MLB Playoffs</div>
                                         </div>
                                       )} />
                         )}
@@ -133,7 +95,7 @@ function LeagueSelectionPage(props) {
                             className='list-item'
                             style={{backgroundColor: '#283593'}}
                         >
-                        <div className='list-item-text'>CRICKET</div>
+                        <div className='list-item-text'>Indian Premier League</div>
                             </div>
                         )} />
                         )}
@@ -143,7 +105,7 @@ function LeagueSelectionPage(props) {
                             className='list-item'
                             style={{backgroundColor: '#283593'}}
                         >
-                        <div className='list-item-text'>LLWS</div>
+                        <div className='list-item-text'>Little League World Series</div>
                             </div>
                         )} />
                         )}
@@ -153,7 +115,7 @@ function LeagueSelectionPage(props) {
                                           className='list-item'
                                           style={{backgroundColor: '#556b2f'}}
                                         >
-                                          <div className='list-item-text'>BOXING</div>
+                                          <div className='list-item-text'>Boxing</div>
                                         </div>
                                       )} />
                         )}
