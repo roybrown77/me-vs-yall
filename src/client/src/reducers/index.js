@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux-immutable';
 import * as ActionTypes from '../actions';
-import { getResults } from '../selectors/data';
+import { getResults, getUsers } from '../selectors/data';
 
 import { Map, List } from 'immutable';
 import get from 'lodash/get';
@@ -8,28 +8,16 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
-const users = [
-    {
-        id: 'google-oauth2|114172296334563495985',
-        name: 'Roy B.'
-    },
-    {
-        id: 'google-oauth2|114007081690870704922',
-        name: 'Scott T.'
-    },
-    {
-        id: 'google-oauth2|110505723196499693171',
-        name: 'Keith H.'
-    }
-];
-
-const entities = (state = Map({ 
-  games: List(), 
-  picks: List(), 
-  leaders: List(), 
-  gameWeeks: List(), 
-  authentication: Map({isAuthenticated: false
-  }), dataLoading: true }), action) => {
+const entities = (
+  state = Map({ 
+    games: List(), 
+    picks: List(), 
+    leaders: List(), 
+    gameWeeks: List(), 
+    authentication: Map({isAuthenticated: false}), 
+    dataLoading: true 
+  }), 
+  action) => {
   switch (action.type) {
     case ActionTypes.GAMES_REQUEST:
       return state.set('dataLoading', true);
@@ -58,6 +46,7 @@ const entities = (state = Map({
         const gameList = get(action, 'response[0].response', [])
         const pickList = get(action, 'response[1].response', []);
         const grouping = groupBy(pickList, 'userId');
+        const users = getUsers();
 
         const picksByUser = transform(grouping, (result, value, key)=>{
             result.push({
