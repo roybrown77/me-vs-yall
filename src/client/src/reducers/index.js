@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux-immutable';
-import * as ActionTypes from '../actions';
-import { getResults, getUsers } from '../selectors/data';
-
 import { Map, List } from 'immutable';
+
 import get from 'lodash/get';
 import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
-const entities = (
+import * as ActionTypes from '../actions';
+import { getResults, getUsers } from '../selectors/data';
+
+const scoreboardDomain = (
   state = Map({ 
     games: List(), 
     picks: List(),
@@ -16,26 +17,22 @@ const entities = (
   }), 
   action) => {
   switch (action.type) {
-    case ActionTypes.GAMES_REQUEST:
+    case ActionTypes.SCOREBOARD_REQUEST:
       return state.set('dataLoading', true);
-    case ActionTypes.GAMES_SUCCESS:
+    case ActionTypes.SCOREBOARD_SUCCESS:
       if (action.response) {
-        const gameList = action.response.map(item=>{
+        const gameList = get(action, 'response[0].response', []).map(item=>{
           return Map(item);
         });
-        return state.set('games', List(gameList)).set("dataLoading", false);
+        const pickList = get(action, 'response[1].response', []).map(item=>{
+          return Map(item);
+        });
+
+        return state.set('games', List(gameList)).set('picks', List(pickList)).set('dataLoading', false);
       }
       return state;
-    case ActionTypes.GAMES_FAILURE:
+    case ActionTypes.SCOREBOARD_FAILURE:
       return state.set('dataLoading', false);
-    case ActionTypes.PICKS_SUCCESS:
-      if (action.response) {
-        const pickList = action.response.map(item=>{
-          return Map(item);
-        });
-        return state.set('picks', List(pickList));
-      }
-      return state;
     case ActionTypes.ADDPICK_SUCCESS:
       const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response).set("inProgress", false));
       return state.set('picks', pickListWithNewValue)
@@ -118,7 +115,7 @@ const leaderDomain = (
       return state.set('dataLoading', true);
     case ActionTypes.LEADERS_SUCCESS:  
       if (action.response) {
-        const gameList = get(action, 'response[0].response', [])
+        const gameList = get(action, 'response[0].response', []);
         const pickList = get(action, 'response[1].response', []);
         const grouping = groupBy(pickList, 'userId');
         const users = getUsers();
@@ -182,9 +179,9 @@ const errorMessage = (state = null, action) => {
 
 const rootReducer = combineReducers({
   authenticationDomain,
-  weeksDomain,
+  scoreboardDomain,
   leaderDomain,
-	entities,
+  weeksDomain,
   ui,
 	errorMessage
 });

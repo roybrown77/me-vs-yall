@@ -13,7 +13,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 import Spinner from '../components/Spinner';
 
-import { loadGames, loadPicks, loadGameWeeks, addPick, updatePick, selectWeek } from '../actions';
+import { loadScoreboard, loadGameWeeks, addPick, updatePick, selectWeek } from '../actions';
 import { isLoggedIn, getUserProfile } from '../middleware/authenticationService';
 
 import { leagues, getWeeks } from '../selectors/data';
@@ -52,8 +52,7 @@ class ScoreboardPage extends Component {
                 };
 
                 this.props.selectWeek(this.props.weeks.find(x=>x.year===year && x.seasonType === seasonType && x.weekNo === weekNo));
-                this.props.loadGames(query);
-                this.props.loadPicks(query);
+                this.props.loadScoreboard(query);
             });
         });
     }
@@ -81,8 +80,7 @@ class ScoreboardPage extends Component {
             };
 
             this.props.selectWeek(week);
-            this.props.loadGames(query);
-            this.props.loadPicks(query);
+            this.props.loadScoreboard(query);
             this.props.loadGameWeeks(query);
         });
     }
@@ -134,12 +132,12 @@ class ScoreboardPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const entities = state.get('entities').toJS();
+  const scoreboardDomain = state.get('scoreboardDomain').toJS();
   const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
-  const dataLoading = get(entities, 'dataLoading');
-  const games = get(entities, 'games', []);
-  const picks = get(entities, 'picks', []);
+  const dataLoading = get(scoreboardDomain, 'dataLoading');
+  const games = get(scoreboardDomain, 'games', []);
+  const picks = get(scoreboardDomain, 'picks', []);
 
   const weeksDomain = state.get('weeksDomain').toJS();
   const weeks = getWeeks(weeksDomain);
@@ -179,8 +177,7 @@ ScoreboardPage.propTypes = {
     year: PropTypes.number,
     seasonType: PropTypes.number,
     weekNo: PropTypes.number,
-    loadGames: PropTypes.func.isRequired,
-    loadPicks: PropTypes.func.isRequired,
+    loadScoreboard: PropTypes.func.isRequired,
     loadGameWeeks: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
     updatePick: PropTypes.func.isRequired,
@@ -188,8 +185,7 @@ ScoreboardPage.propTypes = {
 };
 
 export default connect(mapStateToProps, {
-  loadGames,
-  loadPicks,
+  loadScoreboard,
   loadGameWeeks,
   addPick,
   updatePick,
