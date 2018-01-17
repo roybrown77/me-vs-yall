@@ -18,7 +18,7 @@ import { isLoggedIn, getUserProfile } from '../middleware/authenticationService'
 
 import { leagues, getWeeks } from '../selectors/data';
 
-class SchedulePage extends Component {
+class ScoreboardPage extends Component {
     constructor(props) {
         super(props);
 
@@ -36,7 +36,7 @@ class SchedulePage extends Component {
 
         this.props.loadGameWeeks({leagueId: this.props.leagueId}).then(()=>{
             const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
-            history.push('/leagues/' + leagueName);
+            history.push('/scoreboards/' + leagueName);
 
             const weekNo = this.props.weekNo;
             const seasonType = this.props.seasonType;
@@ -137,9 +137,12 @@ const mapStateToProps = (state, ownProps) => {
   const entities = state.get('entities').toJS();
   const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
+  const dataLoading = get(entities, 'dataLoading');
   const games = get(entities, 'games', []);
   const picks = get(entities, 'picks', []);
-  const weeks = getWeeks(entities);
+
+  const weeksDomain = state.get('weeksDomain').toJS();
+  const weeks = getWeeks(weeksDomain);
 
   const defaultLeague = 'nfl';
   const leagueName = get(ownProps, 'match.params.name');
@@ -152,8 +155,8 @@ const mapStateToProps = (state, ownProps) => {
   const seasonType = week.seasonType || get(weeks, '[' + weekIndex + '].seasonType');
   const weekNo = week.weekNo || get(weeks, '[' + weekIndex + '].weekNo');
 
-  const dataLoading = entities.dataLoading;
-  const isAuthenticated = entities.authentication.isAuthenticated;
+  const authenticationDomain = state.get('authenticationDomain').toJS();
+  const isAuthenticated = get(authenticationDomain, 'authentication.isAuthenticated');
 
   return {
     dataLoading,
@@ -168,7 +171,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-SchedulePage.propTypes = {
+ScoreboardPage.propTypes = {
     dataLoading: PropTypes.bool,
     games: PropTypes.array,
     picks: PropTypes.array,
@@ -191,4 +194,4 @@ export default connect(mapStateToProps, {
   addPick,
   updatePick,
   selectWeek
-})(SchedulePage);
+})(ScoreboardPage);

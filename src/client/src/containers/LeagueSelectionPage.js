@@ -14,7 +14,7 @@ function LeagueSelectionPage(props) {
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
-                                          onClick={() => { history.push('/leagues/nfl') }}
+                                          onClick={() => { history.push('/scoreboards/nfl') }}
                                         >
                                         <div className='list-item-text'>NFL</div>
                                         </div>
@@ -163,7 +163,7 @@ function LeagueSelectionPage(props) {
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
-                                          style={{backgroundColor: '#556b2f'}}
+                                          style={{backgroundColor: '#000000'}}
                                         >
                                           <div className='list-item-text'>NHL Stanley Cup Playoffs</div>
                                         </div>

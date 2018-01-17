@@ -11,11 +11,8 @@ import orderBy from 'lodash/orderBy';
 const entities = (
   state = Map({ 
     games: List(), 
-    picks: List(), 
-    leaders: List(), 
-    gameWeeks: List(), 
-    authentication: Map({isAuthenticated: false}), 
-    dataLoading: true 
+    picks: List(),
+    dataLoading: false 
   }), 
   action) => {
   switch (action.type) {
@@ -39,6 +36,84 @@ const entities = (
         return state.set('picks', List(pickList));
       }
       return state;
+    case ActionTypes.ADDPICK_SUCCESS:
+      const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response).set("inProgress", false));
+      return state.set('picks', pickListWithNewValue)
+    case ActionTypes.UPDATEPICK_REQUEST:
+      const pickListUpdateRequest = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.id; 
+          }), function(item) {
+            return item.set("inProgress", true);
+          }
+      );
+      return state.set('picks', pickListUpdateRequest);
+    case ActionTypes.UPDATEPICK_SUCCESS:
+      const pickListToUpdate = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.response._id; 
+          }), function(item) {
+            return item.set("pickId", action.response.pickId).set("inProgress", false);
+          }
+      );
+      return state.set('picks', pickListToUpdate);
+    case ActionTypes.UPDATEPICK_FAILURE:
+      const pickListUpdateFailure = state.get('picks').update(
+        state.get('picks').findIndex(function(item) { 
+            return item.get("_id") === action.id; 
+          }), function(item) {
+            return item.set("inProgress", false);
+          }
+      );
+      return state.set('picks', pickListUpdateFailure);
+    default:
+      return state;
+  }
+};
+
+const authenticationDomain = (
+  state = Map({ 
+    authentication: Map({isAuthenticated: false}), 
+    dataLoading: false 
+  }), 
+  action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+const weeksDomain = (
+  state = Map({ 
+    gameWeeks: List(), 
+    dataLoading: false 
+  }), 
+  action) => {
+  switch (action.type) {
+    case ActionTypes.GAMEWEEKS_REQUEST:
+      return state.set('dataLoading', true);
+    case ActionTypes.GAMEWEEKS_SUCCESS:
+      if (action.response) {
+        const gameWeekList = action.response.map(item=>{
+          return Map(item);
+        });
+        return state.set('gameWeeks', List(gameWeekList)).set("dataLoading", false);
+      }
+      return state;
+    case ActionTypes.GAMEWEEKS_FAILURE:
+      return state.set('dataLoading', false);
+    default:
+      return state;
+  }
+};
+
+const leaderDomain = (
+  state = Map({ 
+    leaders: List(), 
+    dataLoading: false 
+  }), 
+  action) => {
+  switch (action.type) {
     case ActionTypes.LEADERS_REQUEST:
       return state.set('dataLoading', true);
     case ActionTypes.LEADERS_SUCCESS:  
@@ -79,48 +154,6 @@ const entities = (
       return state;
     case ActionTypes.LEADERS_FAILURE:
       return state.set('dataLoading', false);
-    case ActionTypes.ADDPICK_SUCCESS:
-      const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response).set("inProgress", false));
-      return state.set('picks', pickListWithNewValue)
-    case ActionTypes.UPDATEPICK_REQUEST:
-      const pickListUpdateRequest = state.get('picks').update(
-        state.get('picks').findIndex(function(item) { 
-            return item.get("_id") === action.id; 
-          }), function(item) {
-            return item.set("inProgress", true);
-          }
-      );
-      return state.set('picks', pickListUpdateRequest);
-    case ActionTypes.UPDATEPICK_SUCCESS:
-      const pickListToUpdate = state.get('picks').update(
-        state.get('picks').findIndex(function(item) { 
-            return item.get("_id") === action.response._id; 
-          }), function(item) {
-            return item.set("pickId", action.response.pickId).set("inProgress", false);
-          }
-      );
-      return state.set('picks', pickListToUpdate);
-    case ActionTypes.UPDATEPICK_FAILURE:
-      const pickListUpdateFailure = state.get('picks').update(
-        state.get('picks').findIndex(function(item) { 
-            return item.get("_id") === action.id; 
-          }), function(item) {
-            return item.set("inProgress", false);
-          }
-      );
-      return state.set('picks', pickListUpdateFailure);
-    case ActionTypes.GAMEWEEKS_REQUEST:
-      return state.set('dataLoading', true);
-    case ActionTypes.GAMEWEEKS_SUCCESS:
-      if (action.response) {
-        const gameWeekList = action.response.map(item=>{
-          return Map(item);
-        });
-        return state.set('gameWeeks', List(gameWeekList));
-      }
-      return state;
-    case ActionTypes.GAMEWEEKS_FAILURE:
-      return state.set('dataLoading', false);
     default:
       return state;
   }
@@ -148,6 +181,9 @@ const errorMessage = (state = null, action) => {
 };
 
 const rootReducer = combineReducers({
+  authenticationDomain,
+  weeksDomain,
+  leaderDomain,
 	entities,
   ui,
 	errorMessage

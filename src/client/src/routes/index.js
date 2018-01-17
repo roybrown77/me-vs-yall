@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import HomePage from '../containers/HomePage';
-import SchedulePage from '../containers/SchedulePage';
+import ScoreboardPage from '../containers/ScoreboardPage';
 import AboutPage from '../containers/AboutPage';
 import LoginPage from '../containers/LoginPage';
 import LeagueSelectionPage from '../containers/LeagueSelectionPage';
@@ -18,7 +18,7 @@ const routes = (
 		                <Route exact path='/' component={HomePage}/>
 		                <Route exact path='/login' component={LoginPage}/>
 		                <Route exact path='/leagues' component={LeagueSelectionPage}/>
-		                <Route path='/leagues/:name' component={SchedulePage}/>
+		                <Route path='/scoreboards/:name' component={ScoreboardPage}/>
 		                <Route path='/leaders/:name' component={LeaderPage}/>
 		                <Route path='/about' component={AboutPage}/>
 		                <Route path='/authenticationCallback' component={AuthenticationCallback}/>

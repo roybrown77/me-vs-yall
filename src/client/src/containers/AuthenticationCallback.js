@@ -6,7 +6,7 @@ class AuthenticationCallback extends Component {
     setAccessToken();
     setIdToken();
     setExpiration();
-    window.location.href = "/leagues/nfl";
+    window.location.href = "/scoreboards/nfl";
   }
 
   render() {

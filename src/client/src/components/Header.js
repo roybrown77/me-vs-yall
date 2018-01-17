@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route }from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -67,9 +68,9 @@ class Header extends Component {
                     <Route render={({ history}) => (
                       <MenuItem
                          onTouchTap={this.handleClose}
-                         onClick={() => { history.push('/leagues/nfl') }}
+                         onClick={() => { history.push('/scoreboards/nfl') }}
                          >
-                         Schedules
+                         Scoreboards
                          </MenuItem>
                      )} />
                   )}
@@ -149,8 +150,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const entities = state.get('entities').toJS();
-    const isAuthenticated = entities.authentication.isAuthenticated;
+    const authenticationDomain = state.get('authenticationDomain').toJS();
+    const isAuthenticated = get(authenticationDomain, 'authentication.isAuthenticated');
 
     return {
         isAuthenticated

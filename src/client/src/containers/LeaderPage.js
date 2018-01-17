@@ -143,18 +143,21 @@ class LeaderPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const entities = state.get('entities').toJS();
+    const leaderDomain = state.get('leaderDomain').toJS();
     const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
 
-    const dataLoading = entities.dataLoading;
+    const dataLoading = get(leaderDomain, 'dataLoading');
+    const leaders = get(leaderDomain, 'leaders');
     
     const defaultLeague = 'nfl';
     const leagueName = get(ownProps, 'match.params.name');
     const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
     const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
     
+    const weeksDomain = state.get('weeksDomain').toJS();
+
     const weeks = [
-        ...getWeeks(entities),
+        ...getWeeks(weeksDomain),
         {
             displayName: "All Season",
             year: 2017
@@ -166,8 +169,6 @@ const mapStateToProps = (state, ownProps) => {
     const year = week.year || get(weeks, '[' + weekIndex + '].year');
     const seasonType = week.seasonType || get(weeks, '[' + weekIndex + '].seasonType');
     const weekNo = week.weekNo || get(weeks, '[' + weekIndex + '].weekNo');
-    
-    const leaders = entities.leaders;
 
     return {
         leaders,
