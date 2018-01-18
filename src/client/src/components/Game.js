@@ -89,7 +89,7 @@ class Game extends Component {
                                     {competitor.score}
                                 </div>
                                 <div style={{position:'absolute', fontSize: '1.4rem', color: 'black', right: '10px', top: '10px',
-                                display: game.isGameOver ? (get(game,'spread.teamId') === competitor._id ? 'block' : 'none') : 'none'}}>
+                                display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
                                     {get(game,'spread.amount')}
                                 </div>
                                 <div style={{paddingTop: game.isGameOver ? '12px' : (competitor.selected ? '42px' : '46px')}}>

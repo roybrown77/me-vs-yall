@@ -155,6 +155,26 @@ function LeagueSelectionPage(props) {
                             className='list-item'
                             style={{backgroundColor: '#283593'}}
                         >
+                        <div className='list-item-text'>Mens College World Series</div>
+                            </div>
+                        )} />
+                        )}
+                        {(
+                        <Route render={({ history }) => (
+                        <div
+                            className='list-item'
+                            style={{backgroundColor: '#283593'}}
+                        >
+                        <div className='list-item-text'>Womens College World Series</div>
+                            </div>
+                        )} />
+                        )}
+                        {(
+                        <Route render={({ history }) => (
+                        <div
+                            className='list-item'
+                            style={{backgroundColor: '#283593'}}
+                        >
                         <div className='list-item-text'>Little League World Series</div>
                             </div>
                         )} />
