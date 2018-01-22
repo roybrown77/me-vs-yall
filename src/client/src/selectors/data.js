@@ -91,8 +91,7 @@ const getResults = (games, picks) => {
     };
 };
 
-const getWeeks = (domain) => {
-    const gameWeeks = get(domain,'gameWeeks',[]);
+const getWeeks = (gameWeeks) => {
     const formattedGameWeeks = gameWeeks.map((week)=>{
         const startDateTime = moment(week.beginDateTime).format('ddd M/D');
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
@@ -108,9 +107,7 @@ const getWeeks = (domain) => {
         return week;
     });
 
-    const weeks = sortBy(formattedGameWeeks, ['seasonType', 'weekNo']);
-
-    return weeks;
+    return formattedGameWeeks;
 };
 
 const getTeams = () => {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import createHistory from 'history/createBrowserHistory'
-const history = createHistory();
 
 import get from 'lodash/get';
 
@@ -13,7 +11,6 @@ import Spinner from '../components/Spinner';
 
 import { loadLeaders, selectWeek, loadGameWeeks } from '../actions';
 import { isLoggedIn } from '../middleware/authenticationService';
-
 import { getWinnings, formatMoney, leagues, getWeeks } from '../selectors/data';
 
 class LeaderPage extends Component {
@@ -27,7 +24,7 @@ class LeaderPage extends Component {
 
     componentWillMount() {
         if (!isLoggedIn()) {
-            window.location.href = '/login';
+            this.props.history.push('/login');
             return;
         }
 

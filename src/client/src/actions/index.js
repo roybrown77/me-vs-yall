@@ -1,12 +1,28 @@
 import queryString from 'query-string';
 import URLSearchParams from 'url-search-params';
 
+import get from 'lodash/get';
+import last from 'lodash/last';
+
 import { CALL_API, Schemas } from '../middleware/api';
+import { leagues } from '../selectors/data';
+import { getUserProfile } from '../middleware/authenticationService';
+
+export const loadUser = () => (dispatch, getState) => {
+  return getUserProfile((err, profile) => {
+    Promise.all([
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        user: profile
+      })
+    ]);
+  });
+};
 
 export const selectWeek = (week) => (dispatch, getState) => {
   return dispatch({
     type: 'GAMESEARCHUPDATE',
-    week: week
+    week
   });
 };
 
@@ -140,15 +156,39 @@ export const SCOREBOARD_PICKS_FAILURE = 'SCOREBOARD_PICKS_FAILURE';
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
   dispatch({type: SCOREBOARD_REQUEST});
 
-  return Promise.all([
-      dispatch(fetchGames(query, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-      dispatch(fetchPicks(query, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ]))
+  const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+
+  return dispatch(fetchGameWeeks({leagueId})).then(result=>{
+    const weeksDomain = getState().get('weeksDomain').toJS();
+    const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
+    const ui = getState().get('ui').toJS();
+    const selectedWeek = last(get(ui,'week'));
+    const currentWeek = selectedWeek || mostRecentWeek;
+    const authenticationDomain = getState().get('authenticationDomain').toJS();
+
+    const initialQuery = Object.assign(
+      {},
+      {
+        userId: get(authenticationDomain,'user.sub'),
+        leagueId: get(currentWeek, 'leagueId'),
+        year: get(currentWeek, 'year'),
+        seasonType: get(currentWeek, 'seasonType'),
+        weekNo: get(currentWeek, 'weekNo')
+      }
+    );
+
+    Promise.all([
+      dispatch(fetchGames(query || initialQuery, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
+      dispatch(fetchPicks(query || initialQuery, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ]))
     ]).then(
     result=>{ 
       dispatch({type: SCOREBOARD_SUCCESS, response: result});
     },
     error=>{
       dispatch({type: SCOREBOARD_FAILURE});
-    }
-  );
+    });
+    },
+    error=>{
+      dispatch({type: SCOREBOARD_FAILURE});
+    });
 };

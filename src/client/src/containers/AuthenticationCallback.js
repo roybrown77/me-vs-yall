@@ -1,12 +1,17 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
+import { loadUser } from '../actions';
 
 class AuthenticationCallback extends Component {
-  componentDidMount() {
+  componentWillMount() {
     setAccessToken();
     setIdToken();
     setExpiration();
-    window.location.href = "/scoreboards/nfl";
+    this.props.loadUser();
+    this.props.history.push('/scoreboards/nfl');
   }
 
   render() {
@@ -14,4 +19,10 @@ class AuthenticationCallback extends Component {
   }
 }
 
-export default AuthenticationCallback;
+AuthenticationCallback.propTypes = {
+    loadUser: PropTypes.func.isRequired
+};
+
+export default connect(undefined, {
+  loadUser
+})(AuthenticationCallback);

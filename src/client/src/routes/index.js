@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import HomePage from '../containers/HomePage';
@@ -14,15 +14,15 @@ const routes = (
 		 <MuiThemeProvider>
 		    <div className="App">
 		        <main>
-		            <Switch>
-		                <Route exact path='/' component={HomePage}/>
-		                <Route exact path='/login' component={LoginPage}/>
-		                <Route exact path='/leagues' component={LeagueSelectionPage}/>
-		                <Route path='/scoreboards/:name' component={ScoreboardPage}/>
-		                <Route path='/leaders/:name' component={LeaderPage}/>
-		                <Route path='/about' component={AboutPage}/>
-		                <Route path='/authenticationCallback' component={AuthenticationCallback}/>
-		            </Switch>
+			            <Switch>
+			                <Route exact path='/' component={HomePage}/>
+			                <Route exact path='/login' component={LoginPage}/>
+			                <Route exact path='/leagues' component={LeagueSelectionPage}/>
+			                <Route path='/scoreboards/:name' component={ScoreboardPage}/>
+			                <Route path='/leaders/:name' component={LeaderPage}/>
+			                <Route path='/about' component={AboutPage}/>
+			                <Route path='/authenticationCallback' component={AuthenticationCallback}/>
+			            </Switch>
 		        </main>
 		    </div>
 		</MuiThemeProvider>

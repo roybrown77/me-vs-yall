@@ -20,6 +20,7 @@ const uniq = require('lodash/uniq');
 const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
+const sortBy = require('lodash/sortBy');
 
 async function updateAllScores(games) {
 
@@ -414,7 +415,9 @@ router.get('/gameweeks', function (req, res) {
         return x;
       });
 
-      res.status(200).send(viewableGameWeeks);
+      const weeks = sortBy(viewableGameWeeks, ['seasonType', 'weekNo']);
+
+      res.status(200).send(weeks);
   });
 });
 

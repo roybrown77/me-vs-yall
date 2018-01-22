@@ -65,7 +65,7 @@ class Header extends Component {
                       )} />
                   )}
                   {(
-                    <Route render={({ history}) => (
+                    <Route render={({history}) => (
                       <MenuItem
                          onTouchTap={this.handleClose}
                          onClick={() => { history.push('/scoreboards/nfl') }}

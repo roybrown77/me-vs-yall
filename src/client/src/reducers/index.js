@@ -7,7 +7,7 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, getUsers } from '../selectors/data';
+import { getResults, getUsers, leagues } from '../selectors/data';
 
 const scoreboardDomain = (
   state = Map({ 
@@ -70,11 +70,18 @@ const scoreboardDomain = (
 
 const authenticationDomain = (
   state = Map({ 
-    authentication: Map({isAuthenticated: false}), 
-    dataLoading: false 
+    isAuthenticated: false, 
+    dataLoading: false,
+    user: Map()
   }), 
   action) => {
   switch (action.type) {
+    case 'LOGIN_REQUEST':
+      return state.set('dataLoading', true);
+    case 'LOGIN_SUCCESS':
+      return state.set('user', Map(get(action, 'user'))).set('dataLoading', false);
+    case 'LOGIN_FAILURE':
+      return state.set('dataLoading', false);
     default:
       return state;
   }
@@ -94,6 +101,7 @@ const weeksDomain = (
         const gameWeekList = action.response.map(item=>{
           return Map(item);
         });
+
         return state.set('gameWeeks', List(gameWeekList)).set("dataLoading", false);
       }
       return state;
