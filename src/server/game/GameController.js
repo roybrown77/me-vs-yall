@@ -162,9 +162,23 @@ async function loadGames(leagueId) {
 
   const currentMonth = moment().add(1,'months').month();
 
-  if (![7,8,9,10,11,0,1].indexOf(currentMonth)) {
+  if (![8,9,10,11,12,1,2].indexOf(currentMonth)) {
     console.log('New NFL games will be loaded during season.');
     return;
+  }
+
+  console.log('currentMonth: ' + currentMonth);
+
+  if (currentMonth === 2) {
+    const date = new Date();
+    const dayOfMonth = date.getDate();
+
+    console.log('dayOfMonth: ' + dayOfMonth);
+
+    if (dayOfMonth > 8) {
+      console.log('New NFL games will be loaded during season.');
+      return;
+    }
   }
 
   const currentWeekDay = moment().weekday();
@@ -186,7 +200,9 @@ async function loadGames(leagueId) {
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
-  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
+  console.log('gamesStillInProgress: ' + JSON.stringify(gamesStillInProgress));
+
+  if ((gamesStillInProgress || []).length > 0) {
     console.log('Unable to load new games until all games have ended.');
     return;
   }
