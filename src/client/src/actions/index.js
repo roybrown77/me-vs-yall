@@ -6,10 +6,11 @@ import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/api';
 import { leagues } from '../selectors/data';
-import { getUserProfile } from '../middleware/authenticationService';
+import { getUserProfile, getUser } from '../middleware/authenticationService';
 
 export const loadUser = () => (dispatch, getState) => {
   return getUserProfile((err, profile) => {
+    localStorage.setItem('user', JSON.stringify(profile));
     Promise.all([
       dispatch({
         type: 'LOGIN_SUCCESS',
@@ -164,18 +165,15 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
     const ui = getState().get('ui').toJS();
     const selectedWeek = last(get(ui,'week'));
     const currentWeek = selectedWeek || mostRecentWeek;
-    const authenticationDomain = getState().get('authenticationDomain').toJS();
+    const user = getUser();
 
-    const initialQuery = Object.assign(
-      {},
-      {
-        userId: get(authenticationDomain,'user.sub'),
-        leagueId: get(currentWeek, 'leagueId'),
-        year: get(currentWeek, 'year'),
-        seasonType: get(currentWeek, 'seasonType'),
-        weekNo: get(currentWeek, 'weekNo')
-      }
-    );
+    const initialQuery = {
+      userId: get(user,'sub'),
+      leagueId: get(currentWeek, 'leagueId'),
+      year: get(currentWeek, 'year'),
+      seasonType: get(currentWeek, 'seasonType'),
+      weekNo: get(currentWeek, 'weekNo')
+    };
 
     Promise.all([
       dispatch(fetchGames(query || initialQuery, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 

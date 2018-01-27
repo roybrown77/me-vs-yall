@@ -50,6 +50,18 @@ async function updateAllScores(games) {
 
   await page.waitForSelector('#events');
 
+  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+  const currentWeek = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+      browser.close();
+    }, CURRENTWEEK_SELECTOR);
+
+  if (currentWeek.toLowerCase().includes('pro bowl')) {
+    console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    return;
+  }
+
   let listLength = await page.evaluate((sel) => {
     return document.getElementsByClassName(sel).length;
   }, 'scoreboard football');
@@ -58,7 +70,6 @@ async function updateAllScores(games) {
   let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
   let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
   let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
 
   for (let i = 1; i <= listLength; i++) {
     const awayTeam = await page.evaluate((sel) => {
@@ -91,10 +102,6 @@ async function updateAllScores(games) {
       return document.querySelector(sel).innerText;
     }, YEAR_SELECTOR);
 
-  const currentWeek = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, CURRENTWEEK_SELECTOR);
-
   browser.close();
 
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
@@ -103,8 +110,7 @@ async function updateAllScores(games) {
   currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
   currentWeek.toLowerCase().includes('wild') ? 1 : 
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
-  currentWeek.toLowerCase().includes('conference') ? 3 : 
-  currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
+  currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
   const espnTeams = getEspnTeams();
 
@@ -204,6 +210,18 @@ async function loadGames(leagueId) {
 
   await page.waitForSelector('#events');
 
+  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+  const currentWeek = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+      browser.close();
+    }, CURRENTWEEK_SELECTOR);
+
+  if (currentWeek.toLowerCase().includes('pro bowl')) {
+    console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    return;
+  }
+
   let listLength = await page.evaluate((sel) => {
     return document.getElementsByClassName(sel).length;
   }, 'scoreboard football');
@@ -213,7 +231,6 @@ async function loadGames(leagueId) {
   let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
   let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
   let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
   
   for (let i = 1; i <= listLength; i++) {
     const awayTeam = await page.evaluate((sel) => {
@@ -247,10 +264,6 @@ async function loadGames(leagueId) {
   const year = await page.evaluate((sel) => {
       return document.querySelector(sel).innerText;
     }, YEAR_SELECTOR);
-
-  const currentWeek = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, CURRENTWEEK_SELECTOR);
 
   browser.close();
   
