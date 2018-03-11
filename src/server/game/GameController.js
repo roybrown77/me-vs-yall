@@ -59,6 +59,7 @@ async function updateAllScores(games) {
 
   if (currentWeek.toLowerCase().includes('pro bowl')) {
     console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    browser.close();
     return;
   }
 
@@ -167,9 +168,13 @@ async function loadGames(leagueId) {
   // console.log("picks: " + temp2);
   // console.log("weeks: " + temp3);
 
-  const currentMonth = moment().add(1,'months').month();
+  const currentMonth = moment().month();
+  console.log('currentMonth: ' + currentMonth);
 
-  if (![7,8,9,10,11,0,1].indexOf(currentMonth)) {
+  const currentDay = moment().date();
+  console.log('currentDay: ' + currentDay);
+
+  if (![7,8,9,10,11,0,1].includes(currentMonth) || (currentMonth === 1 && currentDay > 8)) {
     console.log('New NFL games will be loaded during season.');
     return;
   }
@@ -219,6 +224,7 @@ async function loadGames(leagueId) {
 
   if (currentWeek.toLowerCase().includes('pro bowl')) {
     console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    browser.close();
     return;
   }
 
@@ -273,8 +279,7 @@ async function loadGames(leagueId) {
   currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
   currentWeek.toLowerCase().includes('wild') ? 1 : 
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
-  currentWeek.toLowerCase().includes('conference') ? 3 : 
-  currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
+  currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
   const espnTeams = getEspnTeams();
   const mvyTeams = getTeams();
