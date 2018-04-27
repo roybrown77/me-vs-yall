@@ -165,7 +165,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
     const ui = getState().get('ui').toJS();
     const selectedWeek = last(get(ui,'week'));
     const currentWeek = selectedWeek || mostRecentWeek;
-    const user = getUser();
+    const user = JSON.parse(getUser());
 
     const initialQuery = {
       userId: get(user,'sub'),
