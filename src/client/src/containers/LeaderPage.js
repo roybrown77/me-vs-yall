@@ -124,7 +124,7 @@ class LeaderPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const leaderDomain = state.get('leaderDomain').toJS();
     const dataLoading = get(leaderDomain, 'dataLoading');
-    const leaders = get(leaderDomain, 'games', []);
+    const leaders = get(leaderDomain, 'leaders', []);
 
     const weeksDomain = state.get('weeksDomain').toJS();
     const rawWeeks = get(weeksDomain,'gameWeeks', []);

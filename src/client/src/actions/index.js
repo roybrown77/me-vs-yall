@@ -126,22 +126,6 @@ export const LEADER_PICKS_REQUEST = 'LEADER_PICKS_REQUEST';
 export const LEADER_PICKS_SUCCESS = 'LEADER_PICKS_SUCCESS';
 export const LEADER_PICKS_FAILURE = 'LEADER_PICKS_FAILURE';
 
-// export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
-//   dispatch({type: LEADERS_REQUEST});
-
-//   return Promise.all([
-//       dispatch(fetchGames(query, [ LEADER_GAMES_REQUEST, LEADER_GAMES_SUCCESS, LEADER_GAMES_FAILURE ])), 
-//       dispatch(fetchPicks(query, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ]))
-//     ]).then(
-//     result=>{ 
-//       dispatch({type: LEADERS_SUCCESS, response: result});
-//     },
-//     error=>{
-//       dispatch({type: LEADERS_FAILURE});
-//     }
-//   );
-// };
-
 export const SCOREBOARD_REQUEST = 'SCOREBOARD_REQUEST';
 export const SCOREBOARD_SUCCESS = 'SCOREBOARD_SUCCESS';
 export const SCOREBOARD_FAILURE = 'SCOREBOARD_FAILURE';
