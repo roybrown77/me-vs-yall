@@ -46,12 +46,13 @@ router.put('/picks/:id', function (req, res) {
 
 router.get('/picks/', function (req, res) {
     const search = {
-        userId: req.query.userId,
         leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-        weekNo: req.query.weekNo
+        userId: req.query.userId,
+        weekNo: req.query.weekNo,
+        seasonType: req.query.seasonType
     };
         
-    const finalSearch = omit(search, [get(req,'query.userId','userId'), get(req,'query.weekNo','weekNo')]);
+    const finalSearch = omit(search, [get(req,'query.userId','userId'), get(req,'query.weekNo','seasonType'), get(req,'query.seasonType','seasonType')]);
 
     pickRepository.find(finalSearch, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");

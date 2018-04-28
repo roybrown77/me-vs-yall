@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import get from 'lodash/get';
+import last from 'lodash/last';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
-import { loadLeaders, selectWeek, loadGameWeeks } from '../actions';
+import { loadLeaders } from '../actions';
 import { isLoggedIn } from '../middleware/authenticationService';
 import { getWinnings, formatMoney, leagues, getWeeks } from '../selectors/data';
 
@@ -28,23 +29,7 @@ class LeaderPage extends Component {
             return;
         }
 
-        const leagueName = leagues.find(x=>x.id === this.props.leagueId).name.toLowerCase();
-        history.push('/leaders/' + leagueName);
-
-        const year = this.props.year;
-        const seasonType = this.props.seasonType;
-        const weekNo = this.props.weekNo;
-
-        const query = {
-            leagueId: this.props.leagueId,
-            year: year,
-            seasonType: seasonType,
-            weekNo: weekNo
-        };
-
-        this.props.selectWeek(this.props.weeks.find(x=>x.year===year && x.seasonType === seasonType && x.weekNo === weekNo));
-        this.props.loadLeaders(query);
-        this.props.loadGameWeeks(query);
+        this.props.loadLeaders();
     }
 
     handleFilterLeague(filterLeague) {
@@ -67,14 +52,11 @@ class LeaderPage extends Component {
             weekNo: week.weekNo
         };
 
-        this.props.selectWeek(week);
         this.props.loadLeaders(query);
-        this.props.loadGameWeeks(query);
     }
 
     render() {
-        const {leaders} = this.props;
-
+        const leaders = this.props.leaders;
         return (
             <div>
                 <Header/>
@@ -141,31 +123,23 @@ class LeaderPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const leaderDomain = state.get('leaderDomain').toJS();
-    const ui = !!state.get('ui') ? state.get('ui').toJS() : undefined;
-
     const dataLoading = get(leaderDomain, 'dataLoading');
-    const leaders = get(leaderDomain, 'leaders');
-    
-    const defaultLeague = 'nfl';
-    const leagueName = get(ownProps, 'match.params.name');
-    const league = leagueName ? leagues.find(x=>x.name.toLowerCase() === leagueName.toLowerCase()) : defaultLeague;
-    const leagueId = league ? league.id : leagues.find(x=>x.name.toLowerCase() === defaultLeague).id;
-    
+    const leaders = get(leaderDomain, 'games', []);
+
     const weeksDomain = state.get('weeksDomain').toJS();
+    const rawWeeks = get(weeksDomain,'gameWeeks', []);
+    const weeks = getWeeks(rawWeeks);
+    const mostRecentWeek = last(rawWeeks);
+    const ui = state.get('ui').toJS();
+    const request = get(ui,'request');
+    const currentWeek = request || mostRecentWeek;
+    const leagueId = get(currentWeek, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const year = get(currentWeek, 'year');
+    const seasonType = get(currentWeek, 'seasonType');
+    const weekNo = get(currentWeek, 'weekNo');
 
-    const weeks = [
-        ...getWeeks(weeksDomain),
-        {
-            displayName: "All Season",
-            year: 2017
-        }
-    ];
-
-    const weekIndex = weeks.length-1;
-    const week = get(ui,'week') || get(weeks, '[' + weekIndex + ']');
-    const year = week.year || get(weeks, '[' + weekIndex + '].year');
-    const seasonType = week.seasonType || get(weeks, '[' + weekIndex + '].seasonType');
-    const weekNo = week.weekNo || get(weeks, '[' + weekIndex + '].weekNo');
+    const authenticationDomain = state.get('authenticationDomain').toJS();
+    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     return {
         leaders,
@@ -174,7 +148,8 @@ const mapStateToProps = (state, ownProps) => {
         leagueId,
         year,
         seasonType,
-        weekNo
+        weekNo,
+        isAuthenticated
     }
 };
 
@@ -185,12 +160,10 @@ LeaderPage.propTypes = {
     year: PropTypes.number,
     weekNo: PropTypes.number,
     seasonType: PropTypes.number,
+    isAuthenticated: PropTypes.bool.isRequired,
     loadLeaders: PropTypes.func.isRequired,
-    loadGameWeeks: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, {
-  selectWeek,
-  loadLeaders,
-  loadGameWeeks
+  loadLeaders
 })(LeaderPage);

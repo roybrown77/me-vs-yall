@@ -126,21 +126,21 @@ export const LEADER_PICKS_REQUEST = 'LEADER_PICKS_REQUEST';
 export const LEADER_PICKS_SUCCESS = 'LEADER_PICKS_SUCCESS';
 export const LEADER_PICKS_FAILURE = 'LEADER_PICKS_FAILURE';
 
-export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
-  dispatch({type: LEADERS_REQUEST});
+// export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
+//   dispatch({type: LEADERS_REQUEST});
 
-  return Promise.all([
-      dispatch(fetchGames(query, [ LEADER_GAMES_REQUEST, LEADER_GAMES_SUCCESS, LEADER_GAMES_FAILURE ])), 
-      dispatch(fetchPicks(query, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ]))
-    ]).then(
-    result=>{ 
-      dispatch({type: LEADERS_SUCCESS, response: result});
-    },
-    error=>{
-      dispatch({type: LEADERS_FAILURE});
-    }
-  );
-};
+//   return Promise.all([
+//       dispatch(fetchGames(query, [ LEADER_GAMES_REQUEST, LEADER_GAMES_SUCCESS, LEADER_GAMES_FAILURE ])), 
+//       dispatch(fetchPicks(query, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ]))
+//     ]).then(
+//     result=>{ 
+//       dispatch({type: LEADERS_SUCCESS, response: result});
+//     },
+//     error=>{
+//       dispatch({type: LEADERS_FAILURE});
+//     }
+//   );
+// };
 
 export const SCOREBOARD_REQUEST = 'SCOREBOARD_REQUEST';
 export const SCOREBOARD_SUCCESS = 'SCOREBOARD_SUCCESS';
@@ -155,19 +155,20 @@ export const SCOREBOARD_PICKS_SUCCESS = 'SCOREBOARD_PICKS_SUCCESS';
 export const SCOREBOARD_PICKS_FAILURE = 'SCOREBOARD_PICKS_FAILURE';
 
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
-  dispatch({type: SCOREBOARD_REQUEST});
-
   const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
 
   return dispatch(fetchGameWeeks({leagueId})).then(result=>{
-    const weeksDomain = getState().get('weeksDomain').toJS();
-    const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
     const ui = getState().get('ui').toJS();
     const selectedWeek = last(get(ui,'week'));
+    const weeksDomain = getState().get('weeksDomain').toJS();
+    const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
     const currentWeek = selectedWeek || mostRecentWeek;
     const user = JSON.parse(getUser());
 
-    const initialQuery = {
+    const request = query ? {
+        ...query,
+        userId: get(user,'sub')
+      } : {
       userId: get(user,'sub'),
       leagueId: get(currentWeek, 'leagueId'),
       year: get(currentWeek, 'year'),
@@ -175,9 +176,11 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
       weekNo: get(currentWeek, 'weekNo')
     };
 
+    dispatch({type: SCOREBOARD_REQUEST, request});
+
     Promise.all([
-      dispatch(fetchGames(query || initialQuery, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-      dispatch(fetchPicks(query || initialQuery, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ]))
+      dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
+      dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ]))
     ]).then(
     result=>{ 
       dispatch({type: SCOREBOARD_SUCCESS, response: result});
@@ -188,5 +191,43 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
     },
     error=>{
       dispatch({type: SCOREBOARD_FAILURE});
+    });
+};
+
+export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
+  const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+
+  return dispatch(fetchGameWeeks({leagueId})).then(result=>{
+    const ui = getState().get('ui').toJS();
+    const selectedWeek = last(get(ui,'week'));
+    const weeksDomain = getState().get('weeksDomain').toJS();
+    const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
+    const currentWeek = selectedWeek || mostRecentWeek;
+    const user = JSON.parse(getUser());
+
+    const request = query ? {
+        ...query
+      } : {
+      leagueId: get(currentWeek, 'leagueId'),
+      year: get(currentWeek, 'year'),
+      seasonType: get(currentWeek, 'seasonType'),
+      weekNo: get(currentWeek, 'weekNo')
+    };
+
+    dispatch({type: LEADERS_REQUEST, request});
+
+    Promise.all([
+      dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
+      dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ]))
+    ]).then(
+    result=>{ 
+      dispatch({type: LEADERS_SUCCESS, response: result});
+    },
+    error=>{
+      dispatch({type: LEADERS_FAILURE});
+    });
+    },
+    error=>{
+      dispatch({type: LEADERS_FAILURE});
     });
 };

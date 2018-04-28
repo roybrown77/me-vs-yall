@@ -48,15 +48,12 @@ class ScoreboardPage extends Component {
 
         const week = this.props.weeks[index];
         
-        const query = Object.assign(
-          {},
-          {
-            userId: this.props.userId,
-            leagueId: week.leagueId,
+        const query = {
+            leagueId: this.props.leagueId,
             year: week.year,
             seasonType: week.seasonType,
             weekNo: week.weekNo
-          });
+        };
 
         this.props.loadScoreboard(query);
     }
@@ -119,15 +116,14 @@ const mapStateToProps = (state, ownProps) => {
     const weeks = getWeeks(rawWeeks);
     const mostRecentWeek = last(rawWeeks);
     const ui = state.get('ui').toJS();
-    const selectedWeek = last(get(ui,'week'));
-    const currentWeek = selectedWeek || mostRecentWeek;
+    const request = get(ui,'request');
+    const currentWeek = request || mostRecentWeek;
     const leagueId = get(currentWeek, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const year = get(currentWeek, 'year');
     const seasonType = get(currentWeek, 'seasonType');
     const weekNo = get(currentWeek, 'weekNo');
 
     const authenticationDomain = state.get('authenticationDomain').toJS();
-    const userId = get(authenticationDomain,'user.sub');
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     return {
@@ -139,7 +135,6 @@ const mapStateToProps = (state, ownProps) => {
         year,
         seasonType,
         weekNo,
-        userId,
         isAuthenticated
     }
 };
@@ -153,7 +148,6 @@ ScoreboardPage.propTypes = {
     year: PropTypes.number,
     seasonType: PropTypes.number,
     weekNo: PropTypes.number,
-    userId: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,

@@ -166,8 +166,10 @@ const leaderDomain = (
 
 const ui = (state = Map({week: Map()}), action) => {
   switch (action.type) {
-    case 'GAMESEARCHUPDATE':
-      return state.set('week', get(action, 'week'));
+    case 'SCOREBOARD_REQUEST':
+      return state.set('request', get(action, 'request'));
+    case 'LEADERS_REQUEST':
+      return state.set('request', get(action, 'request'));
     default:
       return state;
   }
