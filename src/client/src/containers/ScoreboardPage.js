@@ -93,7 +93,6 @@ class ScoreboardPage extends Component {
                           labelPosition="before"
                           primary={true}
                           style={{
-                            margin: 0,
                             width: '100%',
                             backgroundColor: 'green',
                             margin:'10px 0'
