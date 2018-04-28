@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PickResult from '../components/PickResult';
@@ -84,7 +86,20 @@ class ScoreboardPage extends Component {
                         onFilterWeek={this.handleFilterWeek}/>
                     }
                     {this.props.dataLoading && <Spinner/>}
-                    {!this.props.dataLoading && !this.props.isAuthenticated && <div style={{height: '20px'}}/>}
+                    {
+                        !this.props.dataLoading && !this.props.isAuthenticated && 
+                        <RaisedButton
+                          label="Press Start to Play!"
+                          labelPosition="before"
+                          primary={true}
+                          style={{
+                            margin: 0,
+                            width: '100%',
+                            backgroundColor: 'green',
+                            margin:'10px 0'
+                          }}
+                        />
+                    }
                     {!this.props.dataLoading && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
                     {!areAnyGamesOver && <div style={{height:'12px'}}/>}
                     {!this.props.dataLoading && 
