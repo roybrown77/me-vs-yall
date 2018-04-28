@@ -24,14 +24,14 @@ const sortBy = require('lodash/sortBy');
 
 async function updateAllScores(games) {
 
-  const month = moment().add(2, 'months');
-  const firstDayOfMarch = month.startOf('month');
-  const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
-  const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
-  const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
+  // const month = moment().add(2, 'months');
+  // const firstDayOfMarch = month.startOf('month');
+  // const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
+  // const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
+  // const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
 
-  console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
-  console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
+  // console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
+  // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
   
   if (!!games && games.length === 0) {
     console.log("All NFL scores have been updated.");
@@ -169,7 +169,7 @@ async function loadGames(leagueId) {
   // console.log("weeks: " + temp3);
 
   const currentMonth = moment().month();
-  console.log('currentMonth: ' + currentMonth);
+  console.log('currentMonth: ' + (currentMonth+1));
 
   const currentDay = moment().date();
   console.log('currentDay: ' + currentDay);
