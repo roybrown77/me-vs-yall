@@ -67,7 +67,7 @@ class LeaderPage extends Component {
                     {this.props.dataLoading && <Spinner/>}
                     {!this.props.dataLoading && 
                         <div>
-                            <div style={{height:'12px'}}/>
+                            <div style={{height:'20px'}}/>
                             <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
                                 <tbody>
                                     {leaders.map((leader, index) => (
