@@ -147,7 +147,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
     const weeksDomain = getState().get('weeksDomain').toJS();
     const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
     const currentWeek = selectedWeek || mostRecentWeek;
-    const user = JSON.parse(getUser());
+    const user = getUser();
 
     const request = query ? {
         ...query,
@@ -187,7 +187,7 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
     const weeksDomain = getState().get('weeksDomain').toJS();
     const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
     const currentWeek = selectedWeek || mostRecentWeek;
-    const user = JSON.parse(getUser());
+    const user = getUser();
 
     const request = query ? {
         ...query

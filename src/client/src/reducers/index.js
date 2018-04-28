@@ -8,6 +8,7 @@ import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
 import { getResults, getUsers, leagues } from '../selectors/data';
+import { getUser } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
   state = Map({ 
@@ -70,9 +71,9 @@ const scoreboardDomain = (
 
 const authenticationDomain = (
   state = Map({ 
-    isAuthenticated: false, 
+    isAuthenticated: !!getUser(), 
     dataLoading: false,
-    user: Map()
+    user: Map(getUser())
   }), 
   action) => {
   switch (action.type) {
@@ -164,7 +165,7 @@ const leaderDomain = (
   }
 };
 
-const ui = (state = Map({week: Map()}), action) => {
+const ui = (state = Map({request: Map()}), action) => {
   switch (action.type) {
     case 'SCOREBOARD_REQUEST':
       return state.set('request', get(action, 'request'));

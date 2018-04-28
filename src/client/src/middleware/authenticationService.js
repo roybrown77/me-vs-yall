@@ -93,7 +93,8 @@ export function getUserProfile(cb) {
 }
 
 export function getUser() {
-  return localStorage.getItem(USER_KEY);
+  const userString = localStorage.getItem(USER_KEY);
+  return JSON.parse(userString);
 }
 
 function getTokenExpirationDate() {
