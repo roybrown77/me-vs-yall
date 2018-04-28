@@ -11,7 +11,6 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 
-const {getGames} = require('./games');
 const {getTeams, getEspnTeams} = require('./teams');
 
 const omit = require('lodash/omit');
@@ -23,14 +22,6 @@ const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
 const loadGames = async (leagueId) => {
-  // const temp = await gameRepository.find({});
-  // const temp2 = await pickRepository.find({});
-  // const temp3 = await gameWeekRepository.find({});
-
-  // console.log("games: " + temp);
-  // console.log("picks: " + temp2);
-  // console.log("weeks: " + temp3);
-
   const currentMonth = moment().month();
   console.log('currentMonth: ' + (currentMonth+1));
 
@@ -434,156 +425,8 @@ router.get('/gameweeks', function (req, res) {
   });
 });
 
-// router.post('/updatescores', function (req, res) {
-//   executeUpdateScores();
-// });
-
-// router.post('/updategames', function (req, res) {
-//   gameRepository.find({}, function (err, games) {
-//     games.forEach(game=>{
-//       if (game.weekNo > 10 && game.weekNo < 23) {
-//         console.log('game: ' + JSON.stringify(game));
-
-//         const updatedGame = {
-//               weekNo: game.weekNo - 5,
-//               seasonType: 2,
-//               year: 2017
-//             };
-
-//         console.log('updatedGame: ' + JSON.stringify(updatedGame));
-
-//         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
-//       }
-//     });
-//   });
-
-//   gameWeekRepository.find({}, function (err, weeks) {
-//     weeks.forEach(week=>{
-//       if (week.weekNo > 10 && week.weekNo < 23) {
-//         console.log('week: ' + JSON.stringify(week));
-
-//         const updatedWeek = {
-//               weekNo: week.weekNo - 5,
-//               seasonType: 2,
-//               year: 2017,
-//               description: 'Week ' + (week.weekNo - 5).toString()
-//             };
-
-//         console.log('updatedWeek: ' + JSON.stringify(updatedWeek));
-
-//         gameWeekRepository.findByIdAndUpdate(mongoose.Types.ObjectId(week._id.toString()), updatedWeek, {new: true}, x=>()=>{});
-//       }
-//     });
-//   });
-
-//   pickRepository.find({}, function (err, picks) {
-//     picks.forEach(pick=>{
-//       if (pick.weekNo > 10 && pick.weekNo < 23) {
-//         console.log('pick: ' + JSON.stringify(pick));
-
-//         const updatedPick = {
-//               weekNo: pick.weekNo - 5,
-//               seasonType: 2,
-//               year: 2017
-//             };
-
-//         console.log('updatedPick: ' + JSON.stringify(updatedPick));
-
-//         pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(pick._id.toString()), updatedPick, {new: true}, x=>()=>{});
-//       }
-//     });
-//   });
-// });
-
-// router.post('/creategames', function (req, res) {
-//   const games = getGames();
-//   const teamData = getTeams();
-
-//   for (var i = 0, len = games.length; i < len; i++) {
-//       let game = games[i];
-      
-//       let competitors = [];
-
-//       let awayteam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.awayteam);
-
-//       let awaycompetitor = {
-//           _id: mongoose.Types.ObjectId(awayteam._id),
-//           name: awayteam.location + " " + awayteam.name
-//       };
-
-//       competitors.push(awaycompetitor);
-
-//       let hometeam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.hometeam) || x.location + " " + x.name === game.hometeam);
-
-//       let homecompetitor = {
-//           _id: mongoose.Types.ObjectId(hometeam._id),
-//           name: hometeam.location + " " + hometeam.name
-//       };
-
-//       competitors.push(homecompetitor);
-
-//       let date = new Date(new Date(game.startdate + " " + game.starttime).toUTCString()).toISOString();
-//       date = date.split('.')[0] + '+00:00';
-//       date = new Date(date);
-
-//       const formattedGame = {
-//           startDateTime: date,
-//           station: game.station,
-//           leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
-//           weekNo: game.weekNo,
-//           competitors: competitors
-//       };
-
-//       // gameRepository.create(formattedGame, function (err, gameCreated) {
-//       //     if (err) {
-//       //         console.log("There was a problem adding the information to the database: " + err.message);
-//       //     }  
-          
-//       //     console.log("Success Creating: " + gameCreated._id);
-//       // });
-//   };
-
-//   res.status(200).send({message: "done", code: 200});
-// });
-
-// router.post('/creategameweeks', function (req, res) {
-//   const games = getGames();
+router.get('/years', function (req, res) {
   
-//   const gamesByWeek = transform(groupBy(games, x=>x.weekNo), (result, value, key)=>{
-//             result.push({
-//                 weekNo: parseInt(key),
-//                 games: value
-//             });
-//         }, []);
-
-//   gamesByWeek.forEach((item) => {
-//       const gameStartDateTimes = item.games.map(x=>{
-//         return new Date(x.startdate + " " + x.starttime);
-//       });
-
-//       const earliestGameTime = new Date(Math.min.apply(null,gameStartDateTimes));
-//       const latestGameTime = new Date(Math.max.apply(null,gameStartDateTimes));
-
-//       const formattedGameWeek = {
-//           leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
-//           weekNo: item.weekNo,
-//           weekNumberDisplay: item.weekNo,
-//           namePrefix: "Week",
-//           year: 2017,
-//           beginDateTime: earliestGameTime,
-//           endDateTime: latestGameTime
-//       };
-
-//       // gameWeekRepository.create(formattedGameWeek, function (err, gameWeekCreated) {
-//       //     if (err) {
-//       //         console.log("There was a problem adding the information to the database: " + err.message);
-//       //     }
-
-//       //     console.log("Success Creating: " + gameWeekCreated._id);
-//       // });
-//   });
-
-//   res.status(200).send({message: "done", code: 200});
-// });
+});
 
 module.exports = router;
