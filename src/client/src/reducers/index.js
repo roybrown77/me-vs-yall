@@ -7,7 +7,8 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, getUsers } from '../selectors/data';
+import { getResults, getUsers, leagues } from '../selectors/data';
+import { getUser } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
   state = Map({ 
@@ -70,11 +71,18 @@ const scoreboardDomain = (
 
 const authenticationDomain = (
   state = Map({ 
-    authentication: Map({isAuthenticated: false}), 
-    dataLoading: false 
+    isAuthenticated: !!getUser(), 
+    dataLoading: false,
+    user: Map(getUser())
   }), 
   action) => {
   switch (action.type) {
+    case 'LOGIN_REQUEST':
+      return state.set('dataLoading', true).set('isAuthenticated', false);
+    case 'LOGIN_SUCCESS':
+      return state.set('user', Map(get(action, 'user'))).set('dataLoading', false).set('isAuthenticated', true);
+    case 'LOGIN_FAILURE':
+      return state.set('dataLoading', false);
     default:
       return state;
   }
@@ -94,6 +102,7 @@ const weeksDomain = (
         const gameWeekList = action.response.map(item=>{
           return Map(item);
         });
+
         return state.set('gameWeeks', List(gameWeekList)).set("dataLoading", false);
       }
       return state;
@@ -156,10 +165,12 @@ const leaderDomain = (
   }
 };
 
-const ui = (state = Map({week: Map()}), action) => {
+const ui = (state = Map({request: Map()}), action) => {
   switch (action.type) {
-    case 'GAMESEARCHUPDATE':
-      return state.set('week', get(action, 'week'));
+    case 'SCOREBOARD_REQUEST':
+      return state.set('request', get(action, 'request'));
+    case 'LEADERS_REQUEST':
+      return state.set('request', get(action, 'request'));
     default:
       return state;
   }

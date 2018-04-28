@@ -20,7 +20,7 @@ Backend:
 - NodeJs - lightweight and efficient javascript web server
 - Auth0 - service based authentication for securing login that is tested on billions of logins instead of reinventing wheel
 - MongoDB - document based data storage that allows for schemaless architecture
-- Puppeteer - api to control headless chrome in order to auto update game scores
+- Puppeteer - api to control headless chrome in order to automatically load games and update game scores
 
 Client:
 

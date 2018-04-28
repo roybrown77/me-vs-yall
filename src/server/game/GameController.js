@@ -11,7 +11,6 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 
-const {getGames} = require('./games');
 const {getTeams, getEspnTeams} = require('./teams');
 
 const omit = require('lodash/omit');
@@ -20,165 +19,18 @@ const uniq = require('lodash/uniq');
 const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
+const sortBy = require('lodash/sortBy');
 
-async function updateAllScores(games) {
+const loadGames = async (leagueId) => {
+  const currentMonth = moment().month();
+  console.log('currentMonth: ' + (currentMonth+1));
 
-  const month = moment().add(2, 'months');
-  const firstDayOfMarch = month.startOf('month');
-  const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
-  const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
-  const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
+  const currentDay = moment().date();
+  console.log('currentDay: ' + currentDay);
 
-  console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
-  console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
-  
-  if (!!games && games.length === 0) {
-    console.log("All NFL scores have been updated.");
-    return;
-  }
-
-  let scores = [];
-
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-
-  const page = await browser.newPage();
-
-  await page.goto('http://www.espn.com/nfl/scoreboard');
-
-  await page.waitForSelector('#events');
-
-  let listLength = await page.evaluate((sel) => {
-    return document.getElementsByClassName(sel).length;
-  }, 'scoreboard football');
-
-  let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
-  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-  let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-  for (let i = 1; i <= listLength; i++) {
-    const awayTeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-awayid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-    const awayScore = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
-    const homeTeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-homeid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-    const homeScore = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-    scores.push({
-      awayTeam: awayTeam,
-      awayScore: parseInt(awayScore),
-      homeTeam: homeTeam,
-      homeScore: parseInt(homeScore)
-    });
-  }
-
-  const year = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, YEAR_SELECTOR);
-
-  const currentWeek = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, CURRENTWEEK_SELECTOR);
-
-  browser.close();
-
-  const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
-  const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
-  currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
-  currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
-  currentWeek.toLowerCase().includes('wild') ? 1 : 
-  currentWeek.toLowerCase().includes('divisional') ? 2 : 
-  currentWeek.toLowerCase().includes('conference') ? 3 : 
-  currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
-
-  const espnTeams = getEspnTeams();
-
-  let promises = [];
-
-  games.forEach(game=>{
-    const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
-    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
-
-    console.log('score: ' + JSON.stringify(score));
-
-    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
-      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
-      game.year === parseInt(year) && 
-      game.seasonType === seasonType && 
-      game.weekNo === weekNo) {
-      const updatedGame = {
-          isGameOver: true,
-          competitors: [
-            Object.assign({},game.competitors[0],{score:score.awayScore}),
-            Object.assign({},game.competitors[1],{score:score.homeScore})
-          ]
-        };
-
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
-    }
-  });
-}
-
-const updateScores = async () => {
-  const search = {
-    isGameOver: {
-      $ne: true
-    },
-    weekNo: {
-      $gt: 0
-    },
-    startDateTime: {
-      $lt: new Date(new Date().toUTCString()).toISOString()
-    }
-  };
-
-  const games = await gameRepository.find(search);
-
-  updateAllScores(games);
-}
-
-async function loadGames(leagueId) {
-  // const temp = await gameRepository.find({});
-  // const temp2 = await pickRepository.find({});
-  // const temp3 = await gameWeekRepository.find({});
-
-  // console.log("games: " + temp);
-  // console.log("picks: " + temp2);
-  // console.log("weeks: " + temp3);
-
-  const currentMonth = moment().add(1,'months').month();
-
-  if (![8,9,10,11,12,1,2].indexOf(currentMonth)) {
+  if (![7,8,9,10,11,0,1].includes(currentMonth) || (currentMonth === 1 && currentDay > 8)) {
     console.log('New NFL games will be loaded during season.');
     return;
-  }
-
-  console.log('currentMonth: ' + currentMonth);
-
-  if (currentMonth === 2) {
-    const date = new Date();
-    const dayOfMonth = date.getDate();
-
-    console.log('dayOfMonth: ' + dayOfMonth);
-
-    if (dayOfMonth > 8) {
-      console.log('New NFL games will be loaded during season.');
-      return;
-    }
   }
 
   const currentWeekDay = moment().weekday();
@@ -200,9 +52,7 @@ async function loadGames(leagueId) {
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
-  console.log('gamesStillInProgress: ' + JSON.stringify(gamesStillInProgress));
-
-  if ((gamesStillInProgress || []).length > 0) {
+  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
     console.log('Unable to load new games until all games have ended.');
     return;
   }
@@ -219,6 +69,19 @@ async function loadGames(leagueId) {
 
   await page.waitForSelector('#events');
 
+  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+  const currentWeek = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+      browser.close();
+    }, CURRENTWEEK_SELECTOR);
+
+  if (currentWeek.toLowerCase().includes('pro bowl')) {
+    console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    browser.close();
+    return;
+  }
+
   let listLength = await page.evaluate((sel) => {
     return document.getElementsByClassName(sel).length;
   }, 'scoreboard football');
@@ -228,7 +91,6 @@ async function loadGames(leagueId) {
   let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
   let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
   let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
   
   for (let i = 1; i <= listLength; i++) {
     const awayTeam = await page.evaluate((sel) => {
@@ -263,10 +125,6 @@ async function loadGames(leagueId) {
       return document.querySelector(sel).innerText;
     }, YEAR_SELECTOR);
 
-  const currentWeek = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, CURRENTWEEK_SELECTOR);
-
   browser.close();
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
@@ -275,8 +133,7 @@ async function loadGames(leagueId) {
   currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
   currentWeek.toLowerCase().includes('wild') ? 1 : 
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
-  currentWeek.toLowerCase().includes('conference') ? 3 : 
-  currentWeek.toLowerCase().includes('pro bowl') ? 4 : 5;
+  currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
   const espnTeams = getEspnTeams();
   const mvyTeams = getTeams();
@@ -369,7 +226,139 @@ async function loadGames(leagueId) {
       });
     }
   });
-}
+};
+
+const updateScores = async () => {
+  // const month = moment().add(2, 'months');
+  // const firstDayOfMarch = month.startOf('month');
+  // const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
+  // const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
+  // const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
+
+  // console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
+  // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
+
+  const search = {
+    isGameOver: {
+      $ne: true
+    },
+    weekNo: {
+      $gt: 0
+    },
+    startDateTime: {
+      $lt: new Date(new Date().toUTCString()).toISOString()
+    }
+  };
+
+  const games = await gameRepository.find(search);
+
+  if (!!games && games.length === 0) {
+    console.log("All NFL scores have been updated.");
+    return;
+  }
+
+  let scores = [];
+
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const page = await browser.newPage();
+
+  await page.goto('http://www.espn.com/nfl/scoreboard');
+
+  await page.waitForSelector('#events');
+
+  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+  const currentWeek = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+      browser.close();
+    }, CURRENTWEEK_SELECTOR);
+
+  if (currentWeek.toLowerCase().includes('pro bowl')) {
+    console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    browser.close();
+    return;
+  }
+
+  let listLength = await page.evaluate((sel) => {
+    return document.getElementsByClassName(sel).length;
+  }, 'scoreboard football');
+
+  let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+  let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+
+  for (let i = 1; i <= listLength; i++) {
+    const awayTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-awayid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+    const awayScore = await page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+    const homeTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-homeid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+    const homeScore = await page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+    scores.push({
+      awayTeam: awayTeam,
+      awayScore: parseInt(awayScore),
+      homeTeam: homeTeam,
+      homeScore: parseInt(homeScore)
+    });
+  }
+
+  const year = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+    }, YEAR_SELECTOR);
+
+  browser.close();
+
+  const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
+  const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
+  currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
+  currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
+  currentWeek.toLowerCase().includes('wild') ? 1 : 
+  currentWeek.toLowerCase().includes('divisional') ? 2 : 
+  currentWeek.toLowerCase().includes('conference') ? 3 : 5;
+
+  const espnTeams = getEspnTeams();
+
+  let promises = [];
+
+  games.forEach(game=>{
+    const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
+    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
+
+    console.log('score: ' + JSON.stringify(score));
+
+    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
+      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
+      game.year === parseInt(year) && 
+      game.seasonType === seasonType && 
+      game.weekNo === weekNo) {
+      const updatedGame = {
+          isGameOver: true,
+          competitors: [
+            Object.assign({},game.competitors[0],{score:score.awayScore}),
+            Object.assign({},game.competitors[1],{score:score.homeScore})
+          ]
+        };
+
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
+    }
+  });
+};
 
 router.get('/games', function (req, res) {
   loadGames(req.query.leagueId);
@@ -430,160 +419,14 @@ router.get('/gameweeks', function (req, res) {
         return x;
       });
 
-      res.status(200).send(viewableGameWeeks);
+      const weeks = sortBy(viewableGameWeeks, ['seasonType', 'weekNo']);
+
+      res.status(200).send(weeks);
   });
 });
 
-// router.post('/updatescores', function (req, res) {
-//   executeUpdateScores();
-// });
-
-// router.post('/updategames', function (req, res) {
-//   gameRepository.find({}, function (err, games) {
-//     games.forEach(game=>{
-//       if (game.weekNo > 10 && game.weekNo < 23) {
-//         console.log('game: ' + JSON.stringify(game));
-
-//         const updatedGame = {
-//               weekNo: game.weekNo - 5,
-//               seasonType: 2,
-//               year: 2017
-//             };
-
-//         console.log('updatedGame: ' + JSON.stringify(updatedGame));
-
-//         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
-//       }
-//     });
-//   });
-
-//   gameWeekRepository.find({}, function (err, weeks) {
-//     weeks.forEach(week=>{
-//       if (week.weekNo > 10 && week.weekNo < 23) {
-//         console.log('week: ' + JSON.stringify(week));
-
-//         const updatedWeek = {
-//               weekNo: week.weekNo - 5,
-//               seasonType: 2,
-//               year: 2017,
-//               description: 'Week ' + (week.weekNo - 5).toString()
-//             };
-
-//         console.log('updatedWeek: ' + JSON.stringify(updatedWeek));
-
-//         gameWeekRepository.findByIdAndUpdate(mongoose.Types.ObjectId(week._id.toString()), updatedWeek, {new: true}, x=>()=>{});
-//       }
-//     });
-//   });
-
-//   pickRepository.find({}, function (err, picks) {
-//     picks.forEach(pick=>{
-//       if (pick.weekNo > 10 && pick.weekNo < 23) {
-//         console.log('pick: ' + JSON.stringify(pick));
-
-//         const updatedPick = {
-//               weekNo: pick.weekNo - 5,
-//               seasonType: 2,
-//               year: 2017
-//             };
-
-//         console.log('updatedPick: ' + JSON.stringify(updatedPick));
-
-//         pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(pick._id.toString()), updatedPick, {new: true}, x=>()=>{});
-//       }
-//     });
-//   });
-// });
-
-// router.post('/creategames', function (req, res) {
-//   const games = getGames();
-//   const teamData = getTeams();
-
-//   for (var i = 0, len = games.length; i < len; i++) {
-//       let game = games[i];
-      
-//       let competitors = [];
-
-//       let awayteam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.awayteam) || x.location + " " + x.name === game.awayteam);
-
-//       let awaycompetitor = {
-//           _id: mongoose.Types.ObjectId(awayteam._id),
-//           name: awayteam.location + " " + awayteam.name
-//       };
-
-//       competitors.push(awaycompetitor);
-
-//       let hometeam = teamData.find(x=>((x.location != 'Los Angeles' && x.location != 'New York') && x.location === game.hometeam) || x.location + " " + x.name === game.hometeam);
-
-//       let homecompetitor = {
-//           _id: mongoose.Types.ObjectId(hometeam._id),
-//           name: hometeam.location + " " + hometeam.name
-//       };
-
-//       competitors.push(homecompetitor);
-
-//       let date = new Date(new Date(game.startdate + " " + game.starttime).toUTCString()).toISOString();
-//       date = date.split('.')[0] + '+00:00';
-//       date = new Date(date);
-
-//       const formattedGame = {
-//           startDateTime: date,
-//           station: game.station,
-//           leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
-//           weekNo: game.weekNo,
-//           competitors: competitors
-//       };
-
-//       // gameRepository.create(formattedGame, function (err, gameCreated) {
-//       //     if (err) {
-//       //         console.log("There was a problem adding the information to the database: " + err.message);
-//       //     }  
-          
-//       //     console.log("Success Creating: " + gameCreated._id);
-//       // });
-//   };
-
-//   res.status(200).send({message: "done", code: 200});
-// });
-
-// router.post('/creategameweeks', function (req, res) {
-//   const games = getGames();
+router.get('/years', function (req, res) {
   
-//   const gamesByWeek = transform(groupBy(games, x=>x.weekNo), (result, value, key)=>{
-//             result.push({
-//                 weekNo: parseInt(key),
-//                 games: value
-//             });
-//         }, []);
-
-//   gamesByWeek.forEach((item) => {
-//       const gameStartDateTimes = item.games.map(x=>{
-//         return new Date(x.startdate + " " + x.starttime);
-//       });
-
-//       const earliestGameTime = new Date(Math.min.apply(null,gameStartDateTimes));
-//       const latestGameTime = new Date(Math.max.apply(null,gameStartDateTimes));
-
-//       const formattedGameWeek = {
-//           leagueId: mongoose.Types.ObjectId("59723313734d1d6202a85f10"),
-//           weekNo: item.weekNo,
-//           weekNumberDisplay: item.weekNo,
-//           namePrefix: "Week",
-//           year: 2017,
-//           beginDateTime: earliestGameTime,
-//           endDateTime: latestGameTime
-//       };
-
-//       // gameWeekRepository.create(formattedGameWeek, function (err, gameWeekCreated) {
-//       //     if (err) {
-//       //         console.log("There was a problem adding the information to the database: " + err.message);
-//       //     }
-
-//       //     console.log("Success Creating: " + gameWeekCreated._id);
-//       // });
-//   });
-
-//   res.status(200).send({message: "done", code: 200});
-// });
+});
 
 module.exports = router;

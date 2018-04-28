@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import routes from '../routes';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
+const history = createHistory();
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <Router history={history}>
     	{routes}
-    </BrowserRouter>
+    </Router>
   )
 }
 

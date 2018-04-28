@@ -5,6 +5,7 @@ import moment from 'moment';
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
 const EXPIRATION_KEY = 'expires_in';
+const USER_KEY = 'user';
 
 const CLIENT_ID = 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d';
 const CLIENT_DOMAIN = 'mevsyall.auth0.com';
@@ -46,9 +47,10 @@ export function serverLogout() {
 }
 
 export function logout() {
-  clearIdToken();
-  clearAccessToken();
-  clearExpiration();
+  // clearIdToken();
+  // clearAccessToken();
+  // clearExpiration();
+  localStorage.clear();
   history.push('/');
 }
 
@@ -83,10 +85,16 @@ export function setExpiration() {
 }
 
 export function getUserProfile(cb) {
-  let token = getAccessToken();
+  const token = getAccessToken();
+
   auth.client.userInfo(token, (err, profile) => {
     cb(err, profile);
   });
+}
+
+export function getUser() {
+  const userString = localStorage.getItem(USER_KEY);
+  return JSON.parse(userString);
 }
 
 function getTokenExpirationDate() {

@@ -35,10 +35,10 @@ var GameController = require('./game/GameController');
 app.use('/api/gamemanagement', GameController);
 
 var PickController = require('./pick/PickController');
-app.use('/api/pickmanagement', authCheck, PickController);
+app.use('/api/pickmanagement', PickController);
 
 var PickResultController = require('./pick/PickResultController');
-app.use('/api/pickmanagement', authCheck, PickResultController);
+app.use('/api/pickmanagement', PickResultController);
 
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
