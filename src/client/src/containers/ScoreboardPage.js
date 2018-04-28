@@ -13,7 +13,6 @@ import Games from '../components/Games';
 import Spinner from '../components/Spinner';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
-import { isLoggedIn } from '../middleware/authenticationService';
 import { leagues, getWeeks } from '../selectors/data';
 
 class ScoreboardPage extends Component {
@@ -27,11 +26,6 @@ class ScoreboardPage extends Component {
     }
 
     componentWillMount() {
-        if (!isLoggedIn()) {
-            this.props.history.push('/login');
-            return;
-        }
-
         this.props.loadScoreboard();
     }
 
@@ -90,7 +84,8 @@ class ScoreboardPage extends Component {
                         onFilterWeek={this.handleFilterWeek}/>
                     }
                     {this.props.dataLoading && <Spinner/>}
-                    {!this.props.dataLoading && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
+                    {!this.props.dataLoading && !this.props.isAuthenticated && <div style={{height: '20px'}}/>}
+                    {!this.props.dataLoading && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
                     {!areAnyGamesOver && <div style={{height:'12px'}}/>}
                     {!this.props.dataLoading && 
                         <Games

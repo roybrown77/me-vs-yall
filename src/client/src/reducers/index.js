@@ -77,9 +77,9 @@ const authenticationDomain = (
   action) => {
   switch (action.type) {
     case 'LOGIN_REQUEST':
-      return state.set('dataLoading', true);
+      return state.set('dataLoading', true).set('isAuthenticated', false);
     case 'LOGIN_SUCCESS':
-      return state.set('user', Map(get(action, 'user'))).set('dataLoading', false);
+      return state.set('user', Map(get(action, 'user'))).set('dataLoading', false).set('isAuthenticated', true);
     case 'LOGIN_FAILURE':
       return state.set('dataLoading', false);
     default:

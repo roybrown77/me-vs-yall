@@ -11,7 +11,6 @@ import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
 import { loadLeaders } from '../actions';
-import { isLoggedIn } from '../middleware/authenticationService';
 import { getWinnings, formatMoney, leagues, getWeeks } from '../selectors/data';
 
 class LeaderPage extends Component {
@@ -24,11 +23,6 @@ class LeaderPage extends Component {
     }
 
     componentWillMount() {
-        if (!isLoggedIn()) {
-            this.props.history.push('/login');
-            return;
-        }
-
         this.props.loadLeaders();
     }
 
@@ -138,9 +132,6 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(currentWeek, 'seasonType');
     const weekNo = get(currentWeek, 'weekNo');
 
-    const authenticationDomain = state.get('authenticationDomain').toJS();
-    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
-
     return {
         leaders,
         dataLoading,
@@ -148,8 +139,7 @@ const mapStateToProps = (state, ownProps) => {
         leagueId,
         year,
         seasonType,
-        weekNo,
-        isAuthenticated
+        weekNo
     }
 };
 
@@ -160,7 +150,6 @@ LeaderPage.propTypes = {
     year: PropTypes.number,
     weekNo: PropTypes.number,
     seasonType: PropTypes.number,
-    isAuthenticated: PropTypes.bool.isRequired,
     loadLeaders: PropTypes.func.isRequired,
 };
 
