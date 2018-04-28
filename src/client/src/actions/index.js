@@ -142,12 +142,15 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
   const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
 
   return dispatch(fetchGameWeeks({leagueId})).then(result=>{
-    const ui = getState().get('ui').toJS();
+    const currentState = getState();
+    const ui = currentState.get('ui').toJS();
     const selectedWeek = last(get(ui,'week'));
-    const weeksDomain = getState().get('weeksDomain').toJS();
+    const weeksDomain = currentState.get('weeksDomain').toJS();
     const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
     const currentWeek = selectedWeek || mostRecentWeek;
-    const user = getUser();
+    const authenticationDomain = currentState.get('authenticationDomain').toJS();
+    const userInSession = getUser();
+    const user = get(authenticationDomain,'user',userInSession);
 
     const request = query ? {
         ...query,
@@ -164,7 +167,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
 
     Promise.all([
       dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-      user ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined
+      get(user,'sub') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined
     ]).then(
     result=>{ 
       dispatch({type: SCOREBOARD_SUCCESS, response: result});
@@ -182,12 +185,12 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
   const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
 
   return dispatch(fetchGameWeeks({leagueId})).then(result=>{
-    const ui = getState().get('ui').toJS();
+    const currentState = getState();
+    const ui = currentState.get('ui').toJS();
     const selectedWeek = last(get(ui,'week'));
-    const weeksDomain = getState().get('weeksDomain').toJS();
+    const weeksDomain = currentState.get('weeksDomain').toJS();
     const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
     const currentWeek = selectedWeek || mostRecentWeek;
-    const user = getUser();
 
     const request = query ? {
         ...query
