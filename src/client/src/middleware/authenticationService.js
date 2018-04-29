@@ -32,12 +32,8 @@ export function isLoggedIn() {
 
 export function googleLogin() {
   auth.authorize({
-    connection: 'google-oauth2',
-    //prompt: 'select_account'
+    connection: 'google-oauth2'
   });
-}
-
-export function previewLogin() {
 }
 
 export function serverLogout() {
@@ -47,9 +43,6 @@ export function serverLogout() {
 }
 
 export function logout() {
-  // clearIdToken();
-  // clearAccessToken();
-  // clearExpiration();
   localStorage.clear();
   history.push('/');
 }

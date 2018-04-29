@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
-import { logout, isLoggedIn } from '../middleware/authenticationService';
+import { logout } from '../middleware/authenticationService';
 
 class Header extends Component {
   constructor(props) {
@@ -122,7 +122,7 @@ class Header extends Component {
                         )} />
                   )}
                   {
-                    isLoggedIn() ? (
+                    this.props.isAuthenticated ? (
                       <Route render={({ history}) => (
                           <MenuItem
                             onTouchTap={this.handleClose}
@@ -151,7 +151,7 @@ class Header extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const authenticationDomain = state.get('authenticationDomain').toJS();
-    const isAuthenticated = get(authenticationDomain, 'authentication.isAuthenticated');
+    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     return {
         isAuthenticated
