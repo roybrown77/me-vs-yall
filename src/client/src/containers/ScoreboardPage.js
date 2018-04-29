@@ -75,7 +75,9 @@ class ScoreboardPage extends Component {
             <div>
                 <Header/>
                 <div className='page-container'>
-                    {!this.props.dataLoading && <GameSearchBar 
+                    {
+                        !this.props.weeksDataLoading && 
+                        <GameSearchBar 
                         league={leagues.find(x=>x.id === this.props.leagueId).name}
                         year={this.props.year}
                         weekNo={this.props.weekNo}
@@ -87,21 +89,21 @@ class ScoreboardPage extends Component {
                     }
                     {this.props.dataLoading && <Spinner/>}
                     {
-                        !this.props.dataLoading && !this.props.isAuthenticated && 
+                        !this.props.weeksDataLoading && !this.props.dataLoading && !this.props.isAuthenticated && 
                         <RaisedButton
                           label="Press Start to Play!"
                           labelPosition="before"
                           primary={true}
                           style={{
                             width: '100%',
-                            backgroundColor: 'green',
                             margin:'10px 0'
-                          }}
-                        />
+                          }}/>
                     }
-                    {!this.props.dataLoading && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
+                    {!this.props.weeksDataLoading && !this.props.dataLoading && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
                     {!areAnyGamesOver && <div style={{height:'12px'}}/>}
-                    {!this.props.dataLoading && 
+                    {
+                        !this.props.weeksDataLoading && 
+                        !this.props.dataLoading && 
                         <Games
                             handleMakePick={this.handleMakePick} 
                             games={this.props.games} 
@@ -122,6 +124,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const weeksDomain = state.get('weeksDomain').toJS();
     const rawWeeks = get(weeksDomain,'gameWeeks', []);
+    const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const weeks = getWeeks(rawWeeks);
     const mostRecentWeek = last(rawWeeks);
     const ui = state.get('ui').toJS();
@@ -137,6 +140,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         dataLoading,
+        weeksDataLoading,
         games,
         picks,
         weeks,
@@ -150,6 +154,7 @@ const mapStateToProps = (state, ownProps) => {
 
 ScoreboardPage.propTypes = {
     dataLoading: PropTypes.bool,
+    weeksDataLoading: PropTypes.bool,
     games: PropTypes.array,
     picks: PropTypes.array,
     weeks: PropTypes.array,

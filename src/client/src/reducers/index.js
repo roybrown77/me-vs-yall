@@ -14,7 +14,7 @@ const scoreboardDomain = (
   state = Map({ 
     games: List(), 
     picks: List(),
-    dataLoading: false 
+    dataLoading: true 
   }), 
   action) => {
   switch (action.type) {
@@ -91,7 +91,7 @@ const authenticationDomain = (
 const weeksDomain = (
   state = Map({ 
     gameWeeks: List(), 
-    dataLoading: false 
+    dataLoading: true 
   }), 
   action) => {
   switch (action.type) {
@@ -116,7 +116,7 @@ const weeksDomain = (
 const leaderDomain = (
   state = Map({ 
     leaders: List(), 
-    dataLoading: false 
+    dataLoading: true 
   }), 
   action) => {
   switch (action.type) {
