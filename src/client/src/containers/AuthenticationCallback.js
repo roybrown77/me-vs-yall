@@ -11,7 +11,6 @@ class AuthenticationCallback extends Component {
     setIdToken();
     setExpiration();
     this.props.loadUser();
-    this.props.history.push('/scoreboards/nfl');
   }
 
   render() {

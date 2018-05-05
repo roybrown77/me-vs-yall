@@ -7,6 +7,7 @@ import last from 'lodash/last';
 import { CALL_API, Schemas } from '../middleware/api';
 import { leagues } from '../selectors/data';
 import { getUserProfile, getUser } from '../middleware/authenticationService';
+import history from '../middleware/history';
 
 export const loadUser = () => (dispatch, getState) => {
   return getUserProfile((err, profile) => {
@@ -16,7 +17,9 @@ export const loadUser = () => (dispatch, getState) => {
         type: 'LOGIN_SUCCESS',
         user: profile
       })
-    ]);
+    ]).then(result=>{
+      history.push('/scoreboards/nfl');
+    });
   });
 };
 
