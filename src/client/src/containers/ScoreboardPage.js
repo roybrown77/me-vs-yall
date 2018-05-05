@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route }from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import get from 'lodash/get';
@@ -90,14 +91,17 @@ class ScoreboardPage extends Component {
                     {this.props.dataLoading && <Spinner/>}
                     {
                         !this.props.weeksDataLoading && !this.props.dataLoading && !this.props.isAuthenticated && 
+                        <Route render={({ history }) => (
                         <RaisedButton
                           label="Press Start to Play!"
                           labelPosition="before"
                           primary={true}
+                          onClick={() => { history.push('/login') }}
                           style={{
                             width: '100%',
                             margin:'10px 0'
                           }}/>
+                          )}/>
                     }
                     {!this.props.weeksDataLoading && !this.props.dataLoading && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
                     {!areAnyGamesOver && <div style={{height:'12px'}}/>}
