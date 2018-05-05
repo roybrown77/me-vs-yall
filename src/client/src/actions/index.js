@@ -6,10 +6,13 @@ import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/api';
 import { leagues } from '../selectors/data';
-import { getUserProfile, getUser } from '../middleware/authenticationService';
+import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 import history from '../middleware/history';
 
 export const loadUser = () => (dispatch, getState) => {
+  setAccessToken();
+  setIdToken();
+  setExpiration();
   return getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
     Promise.all([
