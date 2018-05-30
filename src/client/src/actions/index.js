@@ -13,16 +13,17 @@ export const loadUser = () => (dispatch, getState) => {
   setAccessToken();
   setIdToken();
   setExpiration();
-  return getUserProfile((err, profile) => {
+  getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
     Promise.all([
       dispatch({
         type: 'LOGIN_SUCCESS',
         user: profile
-      })
-    ]).then(result=>{
-      history.push('/scoreboards/nfl');
-    });
+      }),
+      dispatch(createUser(profile)),
+    ]);
+
+    history.push('/scoreboards/nfl');
   });
 };
 
@@ -37,6 +38,26 @@ export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE
+});
+
+export const CREATEUSER_REQUEST = 'CREATEUSER_REQUEST';
+export const CREATEUSER_SUCCESS = 'CREATEUSER_SUCCESS';
+export const CREATEUSER_FAILURE = 'CREATEUSER_FAILURE';
+
+const createUser = profile => ({
+  [CALL_API]: {
+    types: [ CREATEUSER_REQUEST, CREATEUSER_SUCCESS, CREATEUSER_FAILURE ],
+    endpoint: '/api/usermanagement/users',
+    method: 'post',
+    schema: Schemas.USER,
+    body: {
+      sub: profile.sub,
+      email: profile.email,
+      nickname: profile.nickname,
+      family_name: profile.family_name,
+      given_name: profile.given_name
+    }
+  }
 });
 
 export const ADDPICK_REQUEST = 'ADDPICK_REQUEST';

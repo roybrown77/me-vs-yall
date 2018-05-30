@@ -1,12 +1,13 @@
 const express = require('express');
-let router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+let router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
 const pickDomain = require('./PickDomain');
 const pickRepository = require('./PickRepository');
+
 const omit = require('lodash/omit');
 const get = require('lodash/get');
 

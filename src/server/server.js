@@ -35,7 +35,10 @@ var GameController = require('./game/GameController');
 app.use('/api/gamemanagement', GameController);
 
 var PickController = require('./pick/PickController');
-app.use('/api/pickmanagement', PickController);
+app.use('/api/pickmanagement', authCheck, PickController);
+
+var UserController = require('./user/UserController');
+app.use('/api/usermanagement', authCheck, UserController);
 
 var PickResultController = require('./pick/PickResultController');
 app.use('/api/pickmanagement', PickResultController);

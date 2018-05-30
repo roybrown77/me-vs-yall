@@ -1,16 +1,16 @@
-import { getAccessToken } from './authenticationService';
+import { getAccessToken, getUser } from './authenticationService';
 import { schema } from 'normalizr';
 import axios from 'axios';
 
-const callApi = (endpoint, method, body, schema) => {  
+const callApi = ({endpoint, method, body, schema}) => {  
   return axios({
         url: endpoint,
         headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
         },
-        method: method ? method : 'get',
-        data: body ? body : {}
+        method: !method ? 'get' : method,
+        data: body
     })
     .then(function(response) {
       return Promise.resolve(response.data);
@@ -29,13 +29,19 @@ const leaderSchema = new schema.Entity('leaders', {}, {
   idAttribute: leader => leader._id
 });
 
+const userSchema = new schema.Entity('users', {}, {
+  idAttribute: user => user._id
+});
+
 export const Schemas = {
   GAME: gameSchema,
   GAME_ARRAY: [gameSchema],
   PICK: pickSchema,
   PICK_ARRAY: [pickSchema],
   LEADER: leaderSchema,
-  LEADER_ARRAY: [leaderSchema]
+  LEADER_ARRAY: [leaderSchema],
+  USER: userSchema,
+  USER_ARRAY: [userSchema]
 };
 
 export const CALL_API = 'Call API';
@@ -75,7 +81,7 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types;
   next(actionWith({ type: requestType }));
 
-  return callApi(endpoint, method, body, schema).then(
+  return callApi({endpoint, method, body, schema}).then(
     response => next(actionWith({
       response,
       type: successType

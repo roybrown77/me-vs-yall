@@ -1,21 +1,31 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
 
+let router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
-var userRepository = require('./UserRepository');
+const userRepository = require('./UserRepository');
+
+const get = require('lodash/get');
 
 router.post('/users/', function (req, res) {
-    userRepository.create({
-            name : req.body.name,
-            email : req.body.email,
-            password : req.body.password
-        },
-        function (err, user) {
-            if (err) return res.status(500).send("There was a problem adding the information to the database.");
-            res.status(200).send(user);
-        });
+    const user = req.body;
+    const userToCreate = {
+            authServiceId: get(user, 'sub'),
+            email: get(user, 'email'),
+            userName: get(user, 'nickname'),
+            firstName: get(user, 'given_name'),
+            lastName: get(user, 'family_name'),
+        };
+
+    console.log('userToCreate: ' + JSON.stringify(userToCreate));
+
+    userRepository.create(userToCreate, (err, user) => {
+        if (err) return res.status(500).send("There was a problem adding the user to the database.");
+        console.log('user: ' + JSON.stringify(user));
+        res.status(200).send(user);
+    });
 });
 
 router.get('/users/', function (req, res) {
