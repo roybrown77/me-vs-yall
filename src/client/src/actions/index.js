@@ -53,7 +53,6 @@ const createUser = profile => ({
     body: {
       sub: profile.sub,
       email: profile.email,
-      nickname: profile.nickname,
       family_name: profile.family_name,
       given_name: profile.given_name
     }

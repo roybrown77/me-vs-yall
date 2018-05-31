@@ -14,7 +14,6 @@ router.post('/users/', function (req, res) {
     const userToCreate = {
             authServiceId: get(user, 'sub'),
             email: get(user, 'email'),
-            userName: get(user, 'nickname'),
             firstName: get(user, 'given_name'),
             lastName: get(user, 'family_name'),
         };
