@@ -15,14 +15,8 @@ export const loadUser = () => (dispatch, getState) => {
   setExpiration();
   getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
-    Promise.all([
-      dispatch({
-        type: 'LOGIN_SUCCESS',
-        user: profile
-      }),
-      dispatch(createUser(profile)),
-    ]);
-
+    dispatch({type: 'LOGIN_SUCCESS', user: profile}),
+    dispatch(createUser(profile)),
     history.push('/scoreboards/nfl');
   });
 };

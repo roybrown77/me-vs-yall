@@ -11,16 +11,16 @@ const get = require('lodash/get');
 
 router.post('/users/', function (req, res) {
     const user = req.body;
-    const userToCreate = {
+    const userToUpsert = {
             authServiceId: get(user, 'sub'),
             email: get(user, 'email'),
             firstName: get(user, 'given_name'),
             lastName: get(user, 'family_name'),
         };
 
-    console.log('userToCreate: ' + JSON.stringify(userToCreate));
+    console.log('userToUpsert: ' + JSON.stringify(userToUpsert));
 
-    userRepository.findOneAndUpdate({authServiceId: userToCreate.authServiceId}, userToCreate, {upsert: true}, (err, user) => {
+    userRepository.findOneAndUpdate({authServiceId: userToUpsert.authServiceId}, userToUpsert, {upsert: true}, (err, user) => {
         if (err) return res.status(500).send("There was a problem adding the user to the database.");
         console.log('user: ' + JSON.stringify(user));
         res.status(200).send(user);
