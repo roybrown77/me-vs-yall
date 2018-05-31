@@ -20,7 +20,7 @@ router.post('/users/', function (req, res) {
 
     console.log('userToCreate: ' + JSON.stringify(userToCreate));
 
-    userRepository.create(userToCreate, (err, user) => {
+    userRepository.findOneAndUpdate({authServiceId: userToCreate.authServiceId}, userToCreate, {upsert: true}, (err, user) => {
         if (err) return res.status(500).send("There was a problem adding the user to the database.");
         console.log('user: ' + JSON.stringify(user));
         res.status(200).send(user);
