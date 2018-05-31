@@ -14,7 +14,7 @@ const get = require('lodash/get');
 router.post('/picks/', function (req, res) {
 
     const pick = {
-        userId: req.user.sub,
+        userId: req.body.userId,
         leagueId: mongoose.Types.ObjectId(req.body.leagueId),
         weekNo: req.body.weekNo,
         gameId: mongoose.Types.ObjectId(req.body.gameId),

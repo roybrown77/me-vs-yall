@@ -8,7 +8,7 @@ import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
 import { getResults, leagues } from '../selectors/data';
-import { getUser } from '../middleware/authenticationService';
+import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
   state = Map({ 
@@ -71,7 +71,7 @@ const scoreboardDomain = (
 
 const authenticationDomain = (
   state = Map({ 
-    isAuthenticated: !!getUser(), 
+    isAuthenticated: isLoggedIn(), 
     dataLoading: false,
     user: Map(getUser())
   }), 
