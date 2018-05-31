@@ -1,6 +1,6 @@
 import './styles/App.css';
 import './styles/permanent-marker.css';
-import './styles/press-start-2p.css';
+//import './styles/press-start-2p.css';
 
 import React from 'react';
 import { render } from 'react-dom';
