@@ -7,7 +7,7 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, getUsers, leagues } from '../selectors/data';
+import { getResults, leagues } from '../selectors/data';
 import { getUser } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
@@ -126,9 +126,9 @@ const leaderDomain = (
       if (action.response) {
         const gameList = get(action, 'response[0].response', []);
         const pickList = get(action, 'response[1].response', []);
+        const userList = get(action, 'response[2].response', []);
         const grouping = groupBy(pickList, 'userId');
-        const users = getUsers();
-
+        
         const picksByUser = transform(grouping, (result, value, key)=>{
             result.push({
                 userId: key,
@@ -137,13 +137,12 @@ const leaderDomain = (
         }, []);
 
         const pickResults = picksByUser.reduce((total, item) => {
-            if (!!users.find(x=>x.id === item.userId)) {
+            const user = userList.find(x=>x.authServiceId === item.userId);
+            if (!!user) {
               const pickResult = getResults(gameList,item.picks);
-              const user = users.find(x=>x.id === item.userId);
-
               total.push({
                   id: item.userId,
-                  userName: get(user,'name','unknown'),
+                  userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
                   wins: pickResult.wins,
                   losses: pickResult.losses,
                   ties: pickResult.ties

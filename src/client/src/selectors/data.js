@@ -29,23 +29,6 @@ const areAnyGamesOver = (games) => {
     return games.some(x=>!!x.isGameOver);
 };
 
-const getUsers = () => {
-    return [
-        {
-            id: 'google-oauth2|114172296334563495985',
-            name: 'Roy B.'
-        },
-        {
-            id: 'google-oauth2|114007081690870704922',
-            name: 'Scott T.'
-        },
-        {
-            id: 'google-oauth2|110505723196499693171',
-            name: 'Keith H.'
-        }
-    ];
-}
-
 const getResults = (games, picks) => {
     let wins = 0;
     let losses = 0;
@@ -411,6 +394,5 @@ export {
     getWeeks,
     formatMoney,
     getWinnings,
-    getBet,
-    getUsers
+    getBet
 };

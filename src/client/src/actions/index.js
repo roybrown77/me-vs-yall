@@ -134,6 +134,14 @@ const fetchPicks = (query, types) => ({
   }
 });
 
+const fetchAllUsers = (types) => ({
+  [CALL_API]: {
+    types,
+    endpoint: `/api/usermanagement/users`,
+    schema: Schemas.USER_ARRAY
+  }
+});
+
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
 export const LEADERS_FAILURE = 'LEADERS_FAILURE';
@@ -157,6 +165,10 @@ export const SCOREBOARD_GAMES_FAILURE = 'SCOREBOARD_GAMES_FAILURE';
 export const SCOREBOARD_PICKS_REQUEST = 'SCOREBOARD_PICKS_REQUEST';
 export const SCOREBOARD_PICKS_SUCCESS = 'SCOREBOARD_PICKS_SUCCESS';
 export const SCOREBOARD_PICKS_FAILURE = 'SCOREBOARD_PICKS_FAILURE';
+
+export const USERS_REQUEST = 'USERS_REQUEST';
+export const USERS_SUCCESS = 'USERS_SUCCESS';
+export const USERS_FAILURE = 'USERS_FAILURE';
 
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
@@ -225,7 +237,8 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
 
     Promise.all([
       dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
-      dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ]))
+      dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
+      dispatch(fetchAllUsers([ USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE ]))
     ]).then(
     result=>{ 
       dispatch({type: LEADERS_SUCCESS, response: result});

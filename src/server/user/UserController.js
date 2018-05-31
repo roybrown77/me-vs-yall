@@ -27,7 +27,7 @@ router.post('/users/', function (req, res) {
     });
 });
 
-router.get('/users/', function (req, res) {
+router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
         res.status(200).send(users);
