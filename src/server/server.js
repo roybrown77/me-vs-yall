@@ -28,9 +28,6 @@ var authCheck = jwt({
     algorithms: ['RS256']
 });
 
-var UserController = require('./user/UserController');
-app.use('/api/usermanagement', UserController);
-
 var GameController = require('./game/GameController');
 app.use('/api/gamemanagement', GameController);
 
