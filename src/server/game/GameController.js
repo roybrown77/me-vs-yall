@@ -21,7 +21,7 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const loadGames = async (leagueId) => {
+const loadNflGames = async (leagueId) => {
   const currentMonth = moment().month();
   console.log('currentMonth: ' + (currentMonth+1));
 
@@ -228,7 +228,7 @@ const loadGames = async (leagueId) => {
   });
 };
 
-const updateScores = async () => {
+const updateNflScores = async () => {
   // const month = moment().add(2, 'months');
   // const firstDayOfMarch = month.startOf('month');
   // const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
@@ -355,14 +355,14 @@ const updateScores = async () => {
           ]
         };
 
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {new: true}, x=>()=>{});
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
 };
 
 router.get('/games', function (req, res) {
-  loadGames(req.query.leagueId);
-  updateScores();
+  loadNflGames(req.query.leagueId);
+  updateNflScores();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),

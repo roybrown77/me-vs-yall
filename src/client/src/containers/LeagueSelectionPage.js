@@ -20,7 +20,7 @@ function LeagueSelectionPage(props) {
                                         </div>
                                       )} />
                         )}
-                        {(
+                        {/*{(
                             <Route render={({ history }) => (
                             <div
                                 className='list-item'
@@ -48,18 +48,19 @@ function LeagueSelectionPage(props) {
                                         <div className='list-item-text'>FIFA Conf Cup</div>
                                         </div>
                                       )} />
-                        )}
+                        )}*/}
                         {(
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
                                           style={{backgroundColor: '#f0ad4e'}}
+                                          onClick={() => { history.push('/scoreboards/fifaworldcup') }}
                                         >
-                                        <div className='list-item-text'>World Cup</div>
+                                        <div className='list-item-text'>Fifa World Cup</div>
                                         </div>
                                       )} />
                         )}
-                        {(
+                        {/*{(
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
@@ -88,18 +89,19 @@ function LeagueSelectionPage(props) {
                         <div className='list-item-text'>Aussie Open</div>
                             </div>
                         )} />
-                        )}
+                        )}*/}
                         {(
                         <Route render={({ history }) => (
                         <div
                             className='list-item'
                             style={{backgroundColor: '#00695C'}}
+                            onClick={() => { history.push('/scoreboards/frenchopen') }}
                         >
                         <div className='list-item-text'>French Open</div>
                             </div>
                         )} />
                         )}
-                        {(
+                        {/*{(
                         <Route render={({ history }) => (
                         <div
                             className='list-item'
@@ -208,7 +210,7 @@ function LeagueSelectionPage(props) {
                         <div className='list-item-text'>MMA</div>
                             </div>
                         )} />
-                        )}
+                        )}*/}
                     </div>
                 </div>
                 <Footer/>

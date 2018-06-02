@@ -3,7 +3,13 @@ import moment from 'moment-timezone';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 
-const leagues = [ {id: '59723313734d1d6202a85f10', name: 'nfl'} ];
+const leagues = [ 
+    {id: '59723313734d1d6202a85f10', name: 'nfl'},
+    {id: '59723313734d1d6202a85f11', name: 'french open'},
+    {id: '59723313734d1d6202a85f12', name: 'fifa world cup'},
+];
+
+const years = [2017,2018];
 
 const getBet = (results) => {
     return (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
@@ -389,6 +395,7 @@ const getTeams = () => {
 export {
     getTeams,
     leagues,
+    years,
     getResults,
     areAnyGamesOver,
     getWeeks,

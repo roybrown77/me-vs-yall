@@ -30,19 +30,19 @@ class GameSearchBar extends Component {
   shouldComponenetUpdate() {
     return false;
   }
-
-  handleFilterLeagueInputChange(e) {
-    this.props.onFilterLeague(e.target.value);
-  }
-  
-  handleFilterYearInputChange(e) {
-    this.props.handleFilterYear(e.target.value);
-  }
   
   render() {
-    const index = this.props.weeks.findIndex(x=>x.seasonType === this.props.seasonType && x.weekNo === this.props.weekNo);
+    const weekIndex = this.props.weeks.findIndex(x=>x.seasonType === this.props.seasonType && x.weekNo === this.props.weekNo);
     const weeks = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index} primaryText={week.displayName}/>
+                  );
+
+    const years = this.props.years.map((year, index) =>
+                    <MenuItem key={year} value={year} primaryText={year}/>
+                  );
+
+    const leagues = this.props.leagues.map((league, index) =>
+                    <MenuItem key={league.id} value={league.id} primaryText={league.name.toUpperCase()}/>
                   );
 
     return (
@@ -56,23 +56,23 @@ class GameSearchBar extends Component {
             />
             <div className='game-search-container'>
               <DropDownMenu
-                  value={0}
-                  onChange={this.handleFilterLeagueInputChange}
+                  value={this.props.league}
+                  onChange={this.props.onFilterLeague}
                   style={dropDown.root}
                   autoWidth={false}
                   >
-                  <MenuItem value={0} primaryText={this.props.league.toUpperCase()}/>
+                  {leagues}
               </DropDownMenu>
               <DropDownMenu
-                  value={0}
-                  onChange={this.onFilterWeek}
+                  value={this.props.year}
+                  onChange={this.props.onFilterYear}
                   style={dropDown.root}
                   autoWidth={false}
                   >
-                  <MenuItem value={0} primaryText={this.props.year} />
+                  {years}
               </DropDownMenu>
               <DropDownMenu
-                  value={index}
+                  value={weekIndex}
                   onChange={this.props.onFilterWeek}
                   style={dropDownFull.root}
                   autoWidth={false}
@@ -86,10 +86,14 @@ class GameSearchBar extends Component {
 
 GameSearchBar.propTypes = {
   league: PropTypes.string,
+  leagues: PropTypes.array,
   year: PropTypes.number,
+  years: PropTypes.array,
   weekNo: PropTypes.number,
-  seasonType: PropTypes.number,
   weeks: PropTypes.array,
+  seasonType: PropTypes.number,
+  onFilterLeague: PropTypes.func,
+  onFilterYear: PropTypes.func,
   onFilterWeek: PropTypes.func
 };
 

@@ -73,7 +73,7 @@ router.delete('/picks/:id', function (req, res) {
     const pick = {
         deleted: true
     };
-    pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), pick, {new: true}, function (err, pick) {
+    pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), pick, {}, function (err, pick) {
         if (err) return res.status(500).send("There was a problem deleting the pick.");
         res.status(200).send(pick);
     });

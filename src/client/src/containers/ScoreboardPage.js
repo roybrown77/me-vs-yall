@@ -16,7 +16,7 @@ import Games from '../components/Games';
 import Spinner from '../components/Spinner';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
-import { leagues, getWeeks } from '../selectors/data';
+import { leagues, getWeeks, years } from '../selectors/data';
 
 class ScoreboardPage extends Component {
     constructor(props) {
@@ -32,14 +32,36 @@ class ScoreboardPage extends Component {
         this.props.loadScoreboard();
     }
 
-    handleFilterLeague(filterLeague) {
+    handleFilterLeague(event, index) {
+        if (get(this.props, 'leagues', []).length === 0) {
+            return;
+        }
+
+        const league = this.props.leagues[index];
+        
+        const query = {
+            league: league
+        };
+
+        this.props.loadScoreboard(query);
     }
 
-    handleFilterYear(filterYear) {
+    handleFilterYear(event, index) {
+        if (get(this.props, 'years', []).length === 0) {
+            return;
+        }
+
+        const year = this.props.years[index];
+        
+        const query = {
+            year: year
+        };
+
+        this.props.loadScoreboard(query);
     }
   
     handleFilterWeek(event, index) {
-        if (this.props.weeks.length === 0) {
+        if (get(this.props, 'weeks', []).length === 0) {
             return;
         }
 
@@ -79,11 +101,13 @@ class ScoreboardPage extends Component {
                     {
                         !this.props.weeksDataLoading && 
                         <GameSearchBar 
-                        league={leagues.find(x=>x.id === this.props.leagueId).name}
+                        league={leagues.find(x=>x.id === this.props.leagueId).id}
+                        leagues={leagues}
                         year={this.props.year}
+                        years={years}
                         weekNo={this.props.weekNo}
-                        seasonType={this.props.seasonType}
                         weeks={this.props.weeks}
+                        seasonType={this.props.seasonType}
                         onFilterLeague={this.handleFilterLeague}
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}/>
@@ -138,7 +162,6 @@ const mapStateToProps = (state, ownProps) => {
     const year = get(currentWeek, 'year');
     const seasonType = get(currentWeek, 'seasonType');
     const weekNo = get(currentWeek, 'weekNo');
-
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
@@ -162,6 +185,7 @@ ScoreboardPage.propTypes = {
     games: PropTypes.array,
     picks: PropTypes.array,
     weeks: PropTypes.array,
+    years: PropTypes.array,
     leagueId: PropTypes.string,
     year: PropTypes.number,
     seasonType: PropTypes.number,

@@ -19,7 +19,7 @@ function updatePick(id, pick, cb) {
         	return cb(new Error('It is too late to make a pick.  Picks must be made 5 minutes before game starts.'));
         }
 		
-		return pickRepository.findByIdAndUpdate(id, pick, {new: true}, cb);
+		return pickRepository.findByIdAndUpdate(id, pick, {}, cb);
     });
 }
 

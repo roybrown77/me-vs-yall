@@ -21,7 +21,7 @@ router.post('/users/', function (req, res) {
     console.log('userToUpsert: ' + JSON.stringify(userToUpsert));
 
     userRepository.findOneAndUpdate({authServiceId: userToUpsert.authServiceId}, userToUpsert, {upsert: true}, (err, user) => {
-        if (err) return res.status(500).send("There was a problem adding the user to the database.");
+        if (err) return res.status(500).send("There was a problem upserting the user to the database.");
         console.log('user: ' + JSON.stringify(user));
         res.status(200).send(user);
     });
@@ -43,14 +43,14 @@ router.get('/users/:id', function (req, res) {
 });
 
 router.delete('/users/:id', function (req, res) {
-    userRepository.findByIdAndUpdate(req.params.id, req.body, {deleted: true}, function (err, user) {
+    userRepository.findByIdAndUpdate(req.params.id, req.body, {}, function (err, user) {
         if (err) return res.status(500).send("There was a problem deleting the user.");
         res.status(200).send(user);
     });
 });
 
 router.put('/users/:id', function (req, res) {
-    userRepository.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
+    userRepository.findByIdAndUpdate(req.params.id, req.body, {}, function (err, user) {
         if (err) return res.status(500).send("There was a problem updating the user.");
         res.status(200).send(user);
     });

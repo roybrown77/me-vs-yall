@@ -11,7 +11,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
 import { loadLeaders } from '../actions';
-import { getWinnings, formatMoney, leagues, getWeeks } from '../selectors/data';
+import { getWinnings, formatMoney, leagues, getWeeks, years } from '../selectors/data';
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -26,19 +26,41 @@ class LeaderPage extends Component {
         this.props.loadLeaders();
     }
 
-    handleFilterLeague(filterLeague) {
+    handleFilterLeague(event, index) {
+        if (get(this.props, 'leagues', []).length === 0) {
+            return;
+        }
+
+        const league = this.props.leagues[index];
+        
+        const query = {
+            league: league
+        };
+
+        this.props.loadLeaders(query);
     }
 
-    handleFilterYear(filterYear) {
+    handleFilterYear(event, index) {
+        if (get(this.props, 'years', []).length === 0) {
+            return;
+        }
+
+        const year = this.props.years[index];
+        
+        const query = {
+            year: year
+        };
+
+        this.props.loadLeaders(query);
     }
   
     handleFilterWeek(event, index) {
-        if (this.props.weeks.length === 0) {
+        if (get(this.props, 'weeks', []).length === 0) {
             return;
         }
 
         const week = this.props.weeks[index];
-
+        
         const query = {
             leagueId: this.props.leagueId,
             year: week.year,
@@ -56,8 +78,10 @@ class LeaderPage extends Component {
                 <Header/>
                 <div className='page-container'>
                     <GameSearchBar 
-                        league={leagues.find(x=>x.id === this.props.leagueId).name}
+                        league={leagues.find(x=>x.id === this.props.leagueId).id}
+                        leagues={leagues}
                         year={this.props.year}
+                        years={years}
                         seasonType={this.props.seasonType}
                         weekNo={this.props.weekNo}
                         weeks={this.props.weeks}
@@ -149,6 +173,9 @@ LeaderPage.propTypes = {
     leagueId: PropTypes.string,
     year: PropTypes.number,
     weekNo: PropTypes.number,
+    weeks: PropTypes.array,
+    years: PropTypes.array,
+    leagues: PropTypes.array,
     seasonType: PropTypes.number,
     loadLeaders: PropTypes.func.isRequired,
 };
