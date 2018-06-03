@@ -6,6 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import get from 'lodash/get';
+
 const filterButton = {
   button: {
     margin: 0,
@@ -42,7 +44,7 @@ class GameSearchBar extends Component {
                   );
 
     const leagues = this.props.leagues.map((league, index) =>
-                    <MenuItem key={league.id} value={league.id} primaryText={league.name.toUpperCase()}/>
+                    <MenuItem key={league.id} value={league.id} primaryText={get(league, 'description', '').toUpperCase()}/>
                   );
 
     return (

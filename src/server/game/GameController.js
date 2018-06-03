@@ -381,10 +381,11 @@ router.get('/games', function (req, res) {
 
 router.get('/gameweeks', function (req, res) {
   const search = {
-    leagueId: mongoose.Types.ObjectId(req.query.leagueId)
+    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+    year: req.query.year
   };
 
-  const finalSearch = omit(search, [get(req,'query.leagueId','leagueId')]);
+  const finalSearch = omit(search, [get(req,'query.leagueId','leagueId'), get(req,'query.year','year')]);
   
   gameWeekRepository.find(finalSearch, function (err, gameWeeks) {
       if (err) return res.status(500).send("There was a problem finding the game weeks: " + err.message);

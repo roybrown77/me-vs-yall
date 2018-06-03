@@ -172,26 +172,20 @@ export const USERS_SUCCESS = 'USERS_SUCCESS';
 export const USERS_FAILURE = 'USERS_FAILURE';
 
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
-  const leagueId = get(query,'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+  const leagueId = get(query,'leagueId');
+  const year = get(query,'year');
 
-  return dispatch(fetchGameWeeks({leagueId})).then(result=>{
+  return dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
     const currentState = getState();
-    const ui = currentState.get('ui').toJS();
-    const selectedWeek = last(get(ui,'week'));
-    const weeksDomain = currentState.get('weeksDomain').toJS();
-    const mostRecentWeek = last(get(weeksDomain,'gameWeeks'));
-    const currentWeek = selectedWeek || mostRecentWeek;
     const authenticationDomain = currentState.get('authenticationDomain').toJS();
     const userInSession = getUser();
     const user = get(authenticationDomain,'user',userInSession);
+    const currentWeek = last(get(result,'response',[]));
 
-    const request = query ? {
-        ...query,
-        userId: get(user,'sub')
-      } : {
+    const request = {
       userId: get(user,'sub'),
-      leagueId: get(currentWeek, 'leagueId'),
-      year: get(currentWeek, 'year'),
+      leagueId: get(query, 'leagueId'),
+      year: get(query, 'year'),
       seasonType: get(currentWeek, 'seasonType'),
       weekNo: get(currentWeek, 'weekNo')
     };

@@ -18,7 +18,7 @@ const routes = (
 			                <Route exact path='/' component={HomePage}/>
 			                <Route exact path='/login' component={LoginPage}/>
 			                <Route exact path='/leagues' component={LeagueSelectionPage}/>
-			                <Route path='/scoreboards/:name' component={ScoreboardPage}/>
+			                <Route path='/scoreboards/:leagueName' component={ScoreboardPage}/>
 			                <Route path='/leaders/:name' component={LeaderPage}/>
 			                <Route path='/about' component={AboutPage}/>
 			                <Route path='/authenticationCallback' component={AuthenticationCallback}/>

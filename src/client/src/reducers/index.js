@@ -7,14 +7,14 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, leagues } from '../selectors/data';
+import { getResults, leagues, years } from '../selectors/data';
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
   state = Map({ 
     games: List(), 
     picks: List(),
-    dataLoading: true 
+    dataLoading: true
   }), 
   action) => {
   switch (action.type) {
@@ -164,12 +164,21 @@ const leaderDomain = (
   }
 };
 
-const ui = (state = Map({request: Map()}), action) => {
+const ui = (state = Map({
+  request: Map()
+}), action) => {
   switch (action.type) {
     case 'SCOREBOARD_REQUEST':
       return state.set('request', get(action, 'request'));
     case 'LEADERS_REQUEST':
       return state.set('request', get(action, 'request'));
+    default:
+      return state;
+  }
+};
+
+const lookup = (state = Map({leagues, years}), action) => {
+  switch (action.type) {
     default:
       return state;
   }
@@ -193,6 +202,7 @@ const rootReducer = combineReducers({
   leaderDomain,
   weeksDomain,
   ui,
+  lookup,
 	errorMessage
 });
 

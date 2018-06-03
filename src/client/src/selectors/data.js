@@ -4,12 +4,34 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 
 const leagues = [ 
-    {id: '59723313734d1d6202a85f10', name: 'nfl'},
-    {id: '59723313734d1d6202a85f11', name: 'french open'},
-    {id: '59723313734d1d6202a85f12', name: 'fifa world cup'},
+    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl'},
+    {id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open'},
+    {id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup'},
+    {id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs'},
 ];
 
-const years = [2017,2018];
+const years = [
+    {
+        leagueId: '59723313734d1d6202a85f10',
+        years: [2017]
+    },
+    {
+        leagueId: '59723313734d1d6202a85f11',
+        years: [2018]
+    },
+    {
+        leagueId: '59723313734d1d6202a85f12',
+        years: [2018]
+    },
+    {
+        leagueId: '59723313734d1d6202a85f13',
+        years: [2018]
+    }
+];
+
+const getYears = (leagueId) => {
+    return get(years.find(x=>x.leagueId === leagueId), 'years', []);
+};
 
 const getBet = (results) => {
     return (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
@@ -80,7 +102,7 @@ const getResults = (games, picks) => {
     };
 };
 
-const getWeeks = (gameWeeks) => {
+const formatWeeks = (gameWeeks) => {
     const formattedGameWeeks = gameWeeks.map((week)=>{
         const startDateTime = moment(week.beginDateTime).format('ddd M/D');
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
@@ -396,9 +418,10 @@ export {
     getTeams,
     leagues,
     years,
+    getYears,
     getResults,
     areAnyGamesOver,
-    getWeeks,
+    formatWeeks,
     formatMoney,
     getWinnings,
     getBet

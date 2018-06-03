@@ -16,7 +16,8 @@ import Games from '../components/Games';
 import Spinner from '../components/Spinner';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
-import { leagues, getWeeks, years } from '../selectors/data';
+import { formatWeeks, getYears } from '../selectors/data';
+import history from '../middleware/history';
 
 class ScoreboardPage extends Component {
     constructor(props) {
@@ -28,8 +29,15 @@ class ScoreboardPage extends Component {
         this.handleMakePick = this.handleMakePick.bind(this);
     }
 
-    componentWillMount() {
-        this.props.loadScoreboard();
+    componentDidMount() {
+        const query = {
+            leagueId: this.props.leagueId,
+            year: this.props.year,
+            seasonType: this.props.seasonType,
+            weekNo: this.props.weekNo
+        }
+
+        this.props.loadScoreboard(query);
     }
 
     handleFilterLeague(event, index) {
@@ -38,9 +46,12 @@ class ScoreboardPage extends Component {
         }
 
         const league = this.props.leagues[index];
+        const years = getYears(league.id);
+        const year = last(years);
         
         const query = {
-            league: league
+            leagueId: league.id,
+            year
         };
 
         this.props.loadScoreboard(query);
@@ -54,6 +65,7 @@ class ScoreboardPage extends Component {
         const year = this.props.years[index];
         
         const query = {
+            leagueId: this.props.leagueId,
             year: year
         };
 
@@ -69,7 +81,7 @@ class ScoreboardPage extends Component {
         
         const query = {
             leagueId: this.props.leagueId,
-            year: week.year,
+            year: this.props.year,
             seasonType: week.seasonType,
             weekNo: week.weekNo
         };
@@ -99,12 +111,11 @@ class ScoreboardPage extends Component {
                 <Header/>
                 <div className='page-container'>
                     {
-                        !this.props.weeksDataLoading && 
                         <GameSearchBar 
-                        league={leagues.find(x=>x.id === this.props.leagueId).id}
-                        leagues={leagues}
+                        league={this.props.leagueId}
+                        leagues={this.props.leagues}
                         year={this.props.year}
-                        years={years}
+                        years={this.props.years}
                         weekNo={this.props.weekNo}
                         weeks={this.props.weeks}
                         seasonType={this.props.seasonType}
@@ -112,9 +123,9 @@ class ScoreboardPage extends Component {
                         onFilterYear={this.handleFilterYear}
                         onFilterWeek={this.handleFilterWeek}/>
                     }
-                    {this.props.dataLoading && <Spinner/>}
+                    {(this.props.weeksDataLoading || this.props.dataLoading) && <Spinner/>}
                     {
-                        !this.props.weeksDataLoading && !this.props.dataLoading && !this.props.isAuthenticated && 
+                        !this.props.dataLoading && !this.props.isAuthenticated && 
                         <Route render={({ history }) => (
                         <RaisedButton
                           label="Press Start to Play!"
@@ -127,11 +138,10 @@ class ScoreboardPage extends Component {
                           }}/>
                           )}/>
                     }
-                    {!this.props.weeksDataLoading && !this.props.dataLoading && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
+                    {!(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
                     {!areAnyGamesOver && <div style={{height:'12px'}}/>}
                     {
-                        !this.props.weeksDataLoading && 
-                        !this.props.dataLoading && 
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         <Games
                             handleMakePick={this.handleMakePick} 
                             games={this.props.games} 
@@ -145,23 +155,36 @@ class ScoreboardPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const lookup = state.get('lookup').toJS();
+    
     const scoreboardDomain = state.get('scoreboardDomain').toJS();
     const dataLoading = get(scoreboardDomain, 'dataLoading');
     const games = get(scoreboardDomain, 'games', []);
     const picks = get(scoreboardDomain, 'picks', []);
 
-    const weeksDomain = state.get('weeksDomain').toJS();
-    const rawWeeks = get(weeksDomain,'gameWeeks', []);
-    const weeksDataLoading = get(weeksDomain, 'dataLoading');
-    const weeks = getWeeks(rawWeeks);
-    const mostRecentWeek = last(rawWeeks);
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
-    const currentWeek = request || mostRecentWeek;
-    const leagueId = get(currentWeek, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
-    const year = get(currentWeek, 'year');
-    const seasonType = get(currentWeek, 'seasonType');
-    const weekNo = get(currentWeek, 'weekNo');
+
+    const leagues = get(lookup, 'leagues', []);
+    const { leagueName } = ownProps.match.params;
+    const urlLeague = leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+    const urlLeagueId = get(urlLeague,'id')
+    const leagueId = (get(request, 'leagueId') || urlLeagueId) || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    if (!urlLeague) {
+        history.replace('/scoreboards/nfl');
+    }
+    
+    const years = getYears(leagueId);
+    const year = get(request, 'year') || last(years);
+
+    const weeksDomain = state.get('weeksDomain').toJS();
+    const weeksDataLoading = get(weeksDomain, 'dataLoading');
+    const rawWeeks = get(weeksDomain,'gameWeeks', []);
+    const weeks = formatWeeks(rawWeeks);
+    const weekNo = get(request, 'weekNo') || get(last(rawWeeks), 'weekNo');
+
+    const seasonType = get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
+    
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
@@ -171,6 +194,8 @@ const mapStateToProps = (state, ownProps) => {
         games,
         picks,
         weeks,
+        leagues,
+        years,
         leagueId,
         year,
         seasonType,
@@ -185,6 +210,7 @@ ScoreboardPage.propTypes = {
     games: PropTypes.array,
     picks: PropTypes.array,
     weeks: PropTypes.array,
+    leagues: PropTypes.array,
     years: PropTypes.array,
     leagueId: PropTypes.string,
     year: PropTypes.number,
