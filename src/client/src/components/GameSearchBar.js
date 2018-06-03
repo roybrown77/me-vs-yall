@@ -5,8 +5,23 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from '@material-ui/core/TextField';
 
+import moment from 'moment-timezone';
 import get from 'lodash/get';
+
+const dateStyle = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '20px',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+});
 
 const filterButton = {
   button: {
@@ -46,6 +61,7 @@ class GameSearchBar extends Component {
     const leagues = this.props.leagues.map((league, index) =>
                     <MenuItem key={league.id} value={league.id} primaryText={get(league, 'description', '').toUpperCase()}/>
                   );
+    const date = moment().format('YYYY-MM-DD');
 
     return (
         <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
@@ -65,22 +81,40 @@ class GameSearchBar extends Component {
                   >
                   {leagues}
               </DropDownMenu>
-              <DropDownMenu
+              {this.props.isDaily && 
+                <div style={dateStyle.container}>
+                <TextField
+                  id="date"
+                  type="date"
+                  defaultValue={this.props.date || date}
+                  className={dateStyle.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={this.props.onFilterDate}
+                />
+                </div>
+              }
+              {!this.props.isDaily && 
+                <DropDownMenu
                   value={this.props.year}
                   onChange={this.props.onFilterYear}
                   style={dropDown.root}
                   autoWidth={false}
                   >
                   {years}
-              </DropDownMenu>
-              <DropDownMenu
+                </DropDownMenu>
+              }
+              {!this.props.isDaily && 
+                <DropDownMenu
                   value={weekIndex}
                   onChange={this.props.onFilterWeek}
                   style={dropDownFull.root}
                   autoWidth={false}
                   >
                   {weeks}
-              </DropDownMenu>
+                </DropDownMenu>
+              }
             </div>
         </div>);
     }
@@ -89,14 +123,17 @@ class GameSearchBar extends Component {
 GameSearchBar.propTypes = {
   league: PropTypes.string,
   leagues: PropTypes.array,
+  date: PropTypes.string,
   year: PropTypes.number,
   years: PropTypes.array,
   weekNo: PropTypes.number,
   weeks: PropTypes.array,
   seasonType: PropTypes.number,
+  isDaily: PropTypes.bool,
   onFilterLeague: PropTypes.func,
   onFilterYear: PropTypes.func,
-  onFilterWeek: PropTypes.func
+  onFilterWeek: PropTypes.func,
+  onFilterDate: PropTypes.func
 };
 
 export default GameSearchBar;

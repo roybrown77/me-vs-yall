@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 
 import Game from '../components/Game';
 
-import { getTeams } from '../selectors/data';
+import { getTeams } from '../selectors';
 
 class Games extends Component {
     render() {

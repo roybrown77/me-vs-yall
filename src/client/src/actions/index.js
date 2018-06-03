@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/api';
-import { leagues } from '../selectors/data';
+import { leagues } from '../selectors';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 import history from '../middleware/history';
 
@@ -187,7 +187,8 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
       leagueId: get(query, 'leagueId'),
       year: get(query, 'year'),
       seasonType: get(currentWeek, 'seasonType'),
-      weekNo: get(currentWeek, 'weekNo')
+      weekNo: get(currentWeek, 'weekNo'),
+      date: get(query,'date')
     };
 
     dispatch({type: SCOREBOARD_REQUEST, request});
@@ -206,6 +207,33 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
     error=>{
       dispatch({type: SCOREBOARD_FAILURE});
     });
+};
+
+export const loadDailyScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
+  const currentState = getState();
+  const authenticationDomain = currentState.get('authenticationDomain').toJS();
+  const userInSession = getUser();
+  const user = get(authenticationDomain,'user',userInSession);
+  const leagueId = get(query,'leagueId');
+
+  const request = {
+    userId: get(user,'sub'),
+    leagueId: get(query, 'leagueId'),
+    date: get(query,'date')
+  };
+
+  dispatch({type: SCOREBOARD_REQUEST, request});
+
+  Promise.all([
+    dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
+    !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined
+  ]).then(
+  result=>{ 
+    dispatch({type: SCOREBOARD_SUCCESS, response: result});
+  },
+  error=>{
+    dispatch({type: SCOREBOARD_FAILURE});
+  });
 };
 
 export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {

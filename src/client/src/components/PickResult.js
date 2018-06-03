@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getBet, getWinnings, formatMoney, getResults, areAnyGamesOver } from '../selectors/data';
+import { getBet, getWinnings, formatMoney, getResults, areAnyGamesOver } from '../selectors';
 
 const PickResult = ({games, picks}) => {
 	const results = getResults(games, picks);

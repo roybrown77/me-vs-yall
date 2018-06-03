@@ -4,34 +4,11 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 
 const leagues = [ 
-    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl'},
-    {id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open'},
-    {id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup'},
-    {id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs'},
+    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl', years: [2017], isDaily: false},
+    {id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open', years: [2018], isDaily: true},
+    {id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup', years: [2018], isDaily: true},
+    {id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs', years: [2018], isDaily: true},
 ];
-
-const years = [
-    {
-        leagueId: '59723313734d1d6202a85f10',
-        years: [2017]
-    },
-    {
-        leagueId: '59723313734d1d6202a85f11',
-        years: [2018]
-    },
-    {
-        leagueId: '59723313734d1d6202a85f12',
-        years: [2018]
-    },
-    {
-        leagueId: '59723313734d1d6202a85f13',
-        years: [2018]
-    }
-];
-
-const getYears = (leagueId) => {
-    return get(years.find(x=>x.leagueId === leagueId), 'years', []);
-};
 
 const getBet = (results) => {
     return (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
@@ -415,10 +392,8 @@ const getTeams = () => {
 };
 
 export {
-    getTeams,
     leagues,
-    years,
-    getYears,
+    getTeams,
     getResults,
     areAnyGamesOver,
     formatWeeks,

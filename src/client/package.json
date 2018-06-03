@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "@material-ui/core": "^1.2.0",
     "auth0-js": "^9.0.2",
     "axios": "^0.16.2",
     "babel-plugin-transform-class-properties": "^6.24.1",

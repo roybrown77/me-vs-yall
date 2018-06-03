@@ -14,6 +14,7 @@ function LeagueSelectionPage(props) {
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
+                                          style={{backgroundColor: '#a52a2a'}}
                                           onClick={() => { history.push('/scoreboards/nfl') }}
                                         >
                                         <div className='list-item-text'>NFL</div>
@@ -24,6 +25,7 @@ function LeagueSelectionPage(props) {
                             <Route render={({ history }) => (
                             <div
                                 className='list-item'
+                                style={{backgroundColor: '#a52a2a'}}
                             >
                             <div className='list-item-text'>NCAA Football</div>
                                 </div>
@@ -140,18 +142,19 @@ function LeagueSelectionPage(props) {
                             <div className='list-item-text'>NCAAM March Madness</div>
                                 </div>
                             )} />
-                        )}
+                        )}*/}
                         {(
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
                                           style={{backgroundColor: '#283593'}}
+                                          onClick={() => { history.push('/scoreboards/mlbplayoffs') }}
                                         >
                                           <div className='list-item-text'>MLB Playoffs</div>
                                         </div>
                                       )} />
                         )}
-                        {(
+                        {/*{(
                         <Route render={({ history }) => (
                         <div
                             className='list-item'

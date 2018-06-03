@@ -11,7 +11,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Spinner from '../components/Spinner';
 
 import { loadLeaders } from '../actions';
-import { getWinnings, formatMoney, leagues, getWeeks, years } from '../selectors/data';
+import { getWinnings, formatMoney, leagues, getWeeks, years } from '../selectors';
 
 class LeaderPage extends Component {
     constructor(props) {

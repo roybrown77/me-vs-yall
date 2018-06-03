@@ -7,14 +7,14 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, leagues, years } from '../selectors/data';
+import { getResults, leagues, years } from '../selectors';
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
   state = Map({ 
     games: List(), 
     picks: List(),
-    dataLoading: true
+    dataLoading: false
   }), 
   action) => {
   switch (action.type) {
@@ -91,7 +91,7 @@ const authenticationDomain = (
 const weeksDomain = (
   state = Map({ 
     gameWeeks: List(), 
-    dataLoading: true 
+    dataLoading: false 
   }), 
   action) => {
   switch (action.type) {
@@ -116,7 +116,7 @@ const weeksDomain = (
 const leaderDomain = (
   state = Map({ 
     leaders: List(), 
-    dataLoading: true 
+    dataLoading: false 
   }), 
   action) => {
   switch (action.type) {
