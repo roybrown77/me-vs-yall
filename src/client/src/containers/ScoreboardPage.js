@@ -138,7 +138,7 @@ class ScoreboardPage extends Component {
                     }
                     {(this.props.weeksDataLoading || this.props.dataLoading) && <Spinner/>}
                     {
-                        !this.props.dataLoading && !this.props.isAuthenticated && 
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && !this.props.isAuthenticated && 
                         <Route render={({ history }) => (
                         <RaisedButton
                           label="Press Start to Play!"
@@ -183,12 +183,12 @@ const mapStateToProps = (state, ownProps) => {
     const urlLeague = leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
     const urlLeagueId = get(urlLeague,'id')
     const leagueId = (get(request, 'leagueId') || urlLeagueId) || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const league = leagues.find(x=>x.id === leagueId);
 
     if (!urlLeague) {
         history.replace('/scoreboards/nfl');
     }
-    
-    const league = leagues.find(x=>x.id === leagueId);
+
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
 
