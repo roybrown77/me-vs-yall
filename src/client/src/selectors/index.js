@@ -98,8 +98,7 @@ const formatWeeks = (gameWeeks) => {
     return formattedGameWeeks;
 };
 
-const getTeams = () => {
-    return [
+const teams = [
         {
             _id: "19823783734d1d04a1b39001",
             location: 'Kansas City',
@@ -389,11 +388,10 @@ const getTeams = () => {
             stadiumCity: "Inglewood, CA"
         }
     ];
-};
 
 export {
     leagues,
-    getTeams,
+    teams,
     getResults,
     areAnyGamesOver,
     formatWeeks,

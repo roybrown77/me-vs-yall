@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 
 import Game from '../components/Game';
 
-import { getTeams } from '../selectors';
+import { teams } from '../selectors';
 
 class Games extends Component {
     render() {
@@ -13,16 +13,15 @@ class Games extends Component {
         const handleMakePick = this.props.handleMakePick;
 
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
-        const teamData = getTeams();
         
         const formattedGames = sortedGames.map((game)=>{
                 game.startDateTimeDisplay = moment(new Date(game.startDateTime)).tz('America/New_York').format('dddd MMM D YYYY h:mm a') + ' ET';
-                game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teamData.find(x=>x._id === game.competitors[1]._id).stadiumCity;
-                game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teamData.find(x=>x._id === game.competitors[1]._id).stadiumName;
+                game.stadiumCity = game.overrideStadiumCity ? game.overrideStadiumCity : teams.find(x=>x._id === game.competitors[1]._id).stadiumCity;
+                game.stadiumName = game.overrideStadiumName ? game.overrideStadiumName : teams.find(x=>x._id === game.competitors[1]._id).stadiumName;
                 game.winner = game.competitors[0].score === game.competitors[1].score ? null : (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
                 game.competitors = game.competitors.map((competitor, index)=> {
-                    const team = teamData.find(x=>x._id === competitor._id);
+                    const team = teams.find(x=>x._id === competitor._id);
                     competitor.shortLocation = team.shortLocation;
                     competitor.name = team.name;
                     competitor.color = team.color;

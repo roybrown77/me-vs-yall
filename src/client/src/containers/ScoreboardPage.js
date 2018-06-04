@@ -18,7 +18,8 @@ import Spinner from '../components/Spinner';
 
 import { loadScoreboard, loadDailyScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks } from '../selectors';
-import history from '../middleware/history';
+import createHistory from 'history/createBrowserHistory';
+const history = createHistory();
 
 class ScoreboardPage extends Component {
     constructor(props) {
@@ -185,10 +186,6 @@ const mapStateToProps = (state, ownProps) => {
     const leagueId = (get(request, 'leagueId') || urlLeagueId) || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
-    if (!urlLeague) {
-        history.replace('/scoreboards/nfl');
-    }
-
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
 
@@ -204,6 +201,14 @@ const mapStateToProps = (state, ownProps) => {
     
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
+
+    if (!urlLeague) {
+        history.replace('/scoreboards/nfl');
+    } else {
+        if (!!league && leagueName !== get(league, 'name', '')) {
+            history.push('/scoreboards/' + get(league, 'name', ''));
+        }
+    }
 
     return {
         dataLoading,
