@@ -3,13 +3,6 @@ import moment from 'moment-timezone';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 
-const leagues = [ 
-    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl', years: [2017], isDaily: false},
-    {id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open', years: [2018], isDaily: true},
-    {id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup', years: [2018], isDaily: true},
-    {id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs', years: [2018], isDaily: true},
-];
-
 const getBet = (results) => {
     return (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
 };
@@ -28,10 +21,6 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
         i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
         j = (j = i.length) > 3 ? j % 3 : 0;
     return (negative === '-' ? negative + symbol : symbol + negative) + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
-};
-
-const areAnyGamesOver = (games) => {
-    return games.some(x=>!!x.isGameOver);
 };
 
 const getResults = (games, picks) => {
@@ -97,6 +86,17 @@ const formatWeeks = (gameWeeks) => {
 
     return formattedGameWeeks;
 };
+
+const areAnyGamesOver = (games) => {
+    return games.some(x=>!!x.isGameOver);
+};
+
+const leagues = [ 
+    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl', years: [2017], isDaily: false},
+    {id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open', years: [2018], isDaily: true},
+    {id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup', years: [2018], isDaily: true},
+    {id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs', years: [2018], isDaily: true},
+];
 
 const teams = [
         {

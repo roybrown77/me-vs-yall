@@ -1,4 +1,4 @@
-const getTeams = () => { return [
+const mvyTeams = [
     {
         _id: "19823783734d1d04a1b39001",
         location: 'Kansas City',
@@ -288,9 +288,8 @@ const getTeams = () => { return [
         stadiumCity: "Inglewood, CA"
     }
   ];
-}
 
-const getEspnTeams = () => { return [
+const espnTeams = [
       {
         id: '26',
         name: 'Seattle Seahawks',
@@ -452,9 +451,8 @@ const getEspnTeams = () => { return [
         mvyId: '19823783734d1d04a1b39015'
       }
     ];
-}
 
 module.exports = {
-	getTeams,
-    getEspnTeams
+	mvyTeams,
+    espnTeams
 };

@@ -11,7 +11,7 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 
-const {getTeams, getEspnTeams} = require('./teams');
+const {mvyTeams, espnTeams} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
@@ -134,9 +134,6 @@ const loadNflGames = async (leagueId) => {
   currentWeek.toLowerCase().includes('wild') ? 1 : 
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
-
-  const espnTeams = getEspnTeams();
-  const mvyTeams = getTeams();
 
   const mvyGames = games.map(game=>{
     const espnAwayTeam = espnTeams.find(x=>x.id.toString() === game.awayTeam.toString());
@@ -331,8 +328,6 @@ const updateNflScores = async () => {
   currentWeek.toLowerCase().includes('wild') ? 1 : 
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
-
-  const espnTeams = getEspnTeams();
 
   let promises = [];
 

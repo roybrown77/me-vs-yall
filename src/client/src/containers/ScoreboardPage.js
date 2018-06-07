@@ -202,13 +202,7 @@ const mapStateToProps = (state, ownProps) => {
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
-    if (!urlLeague) {
-        history.replace('/scoreboards/nfl');
-    } else {
-        if (!!league && leagueName !== get(league, 'name', '')) {
-            history.push('/scoreboards/' + get(league, 'name', ''));
-        }
-    }
+    history.push('/scoreboards/' + get(league,'name',''));
 
     return {
         dataLoading,

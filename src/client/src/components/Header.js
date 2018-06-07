@@ -78,7 +78,6 @@ class Header extends Component {
                     <Route render={({ history}) => (
                         <MenuItem
                           onTouchTap={this.handleClose}
-                          onClick={() => { history.push('/leaders/nfl') }}
                         >
                           Leaders
                         </MenuItem>
