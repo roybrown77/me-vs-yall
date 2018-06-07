@@ -39,8 +39,12 @@ class ScoreboardPage extends Component {
                 date: this.props.date || moment().format('YYYY-MM-DD')
             });
         } else {
+            const { leagueName } = this.props.match.params;
+            const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+            const urlLeagueId = get(urlLeague,'id') || this.props.leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+
             this.props.loadScoreboard({
-                leagueId: this.props.leagueId,
+                leagueId: urlLeagueId,
                 year: this.props.year,
                 seasonType: this.props.seasonType,
                 weekNo: this.props.weekNo
@@ -180,10 +184,7 @@ const mapStateToProps = (state, ownProps) => {
     const request = get(ui,'request');
 
     const leagues = get(lookup, 'leagues', []);
-    const { leagueName } = ownProps.match.params;
-    const urlLeague = leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-    const urlLeagueId = get(urlLeague,'id')
-    const leagueId = (get(request, 'leagueId') || urlLeagueId) || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
     const years = get(league, 'years',[]);
