@@ -11,7 +11,7 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 
-const {mvyTeams, espnTeams} = require('./teams');
+const {mvyTeams, espnTeams, mvyCountries} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
@@ -21,7 +21,8 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const loadNflGames = async (leagueId) => {
+const loadNflGames = async () => {
+  const leagueId = '59723313734d1d6202a85f10';
   const currentMonth = moment().month();
   console.log('currentMonth: ' + (currentMonth+1));
 
@@ -225,6 +226,135 @@ const loadNflGames = async (leagueId) => {
   });
 };
 
+const loadFifaWorldCupGames = async () => {
+  const leagueId = '59723313734d1d6202a85f12';
+  const currentMonth = moment().month();
+  console.log('currentMonth: ' + (currentMonth+1));
+
+  const currentDay = moment().date();
+  console.log('currentDay: ' + currentDay);
+
+  // if (![7,8,9,10,11,0,1].includes(currentMonth) || (currentMonth === 1 && currentDay > 8)) {
+  //   console.log('New NFL games will be loaded during season.');
+  //   return;
+  // }
+
+  // const currentWeekDay = moment().weekday();
+
+  // if (currentWeekDay < 3) {
+  //   console.log('New NFL games will be loaded on Wednesday.');
+  //   return;
+  // }
+
+  const gameSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    }
+  };
+
+  const gamesStillInProgress = await gameRepository.find(gameSearch);
+
+  // if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
+  //   console.log('Unable to load new games until all games have ended.');
+  //   return;
+  // }
+
+  let games = [];
+
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const page = await browser.newPage();
+
+  await page.goto('http://www.espn.com/soccer/scoreboard/_/league/fifa.world');
+
+  await page.waitForSelector('#events');
+
+  let listLength = await page.evaluate((sel) => {
+    return document.getElementsByClassName(sel).length;
+  }, 'scoreboard soccer');
+  
+  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE.tied > div > div.team-container > div.team-info > div > a > span.short-name';
+  let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
+  //let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+  
+  for (let i = 1; i <= listLength; i++) {
+    const awayTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+    }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
+
+    const homeTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).innerText;
+    }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
+
+    const startDateTime = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-date');
+    }, STARTDATETIME_SELECTOR.replace("INDEX", i));
+
+    // const spread = await page.evaluate((sel) => {
+    //   return document.querySelector(sel).innerText;
+    // }, SPREAD_SELECTOR.replace("INDEX", i));
+
+    games.push({
+      startDateTime: moment(startDateTime),
+      // spread: {
+      //  team: spread.replace('Line: ','').split(' ')[0],
+      //  amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+      //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+      // },
+      awayTeam: awayTeam,
+      homeTeam: homeTeam
+    });
+  }
+
+  console.log('games: ' + JSON.stringify(games));
+
+  browser.close();
+
+  const mvyGames = games.map(game=>{
+    const awayTeam = mvyCountries.find(x=>x.name === game.awayTeam);
+    const homeTeam = mvyCountries.find(x=>x.name === game.homeTeam);
+    //const spreadTeam = mvyCountries.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+
+    return {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      startDateTime: game.startDateTime,
+      // spread: {
+      //  teamId: spreadTeam._id,
+      //  amount: game.spread.amount
+      // },
+      competitors: [
+        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.name},
+        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.name}
+      ]
+    };
+  });
+
+  console.log('mvyGames: ' + JSON.stringify(mvyGames));
+
+  // mvyGames.forEach(game=>{
+  //   const gameSearch = {
+  //     leagueId: leagueId
+  //   };
+
+    // gameRepository.find(gameSearch, function (err, games) {
+    //   if (!!games && games.length > 0) {
+    //     console.log("Game already exists: " + JSON.stringify(gameSearch));
+    //   } else {
+    //     gameRepository.create(game, function (err, gameCreated) {
+    //       if (err) {
+    //           console.log("There was a problem adding the information to the database: " + err.message);
+    //       }  
+          
+    //       console.log("Success Creating: " + gameCreated._id);
+    //     });
+    //   }
+    // });
+  //});
+};
+
 const updateNflScores = async () => {
   // const month = moment().add(2, 'months');
   // const firstDayOfMarch = month.startOf('month');
@@ -356,7 +486,8 @@ const updateNflScores = async () => {
 };
 
 router.get('/games', function (req, res) {
-  loadNflGames(req.query.leagueId);
+  loadNflGames();
+  loadFifaWorldCupGames();
   updateNflScores();
 
   const search = {

@@ -1,3 +1,14 @@
+const mvyCountries = [
+    {
+        _id: "19823783734d1d04a1b39020",
+        name: 'Russia'
+    },
+    {
+        _id: "19823783734d1d04a1b39021",
+        name: 'Saudi Arabia'
+    }
+];
+
 const mvyTeams = [
     {
         _id: "19823783734d1d04a1b39001",
@@ -454,5 +465,6 @@ const espnTeams = [
 
 module.exports = {
 	mvyTeams,
-    espnTeams
+    espnTeams,
+    mvyCountries
 };

@@ -33,16 +33,16 @@ class ScoreboardPage extends Component {
     }
 
     componentDidMount() {
+        const { leagueName } = this.props.match.params;
+        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+        const urlLeagueId = get(urlLeague,'id') || this.props.leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+
         if (this.props.isDaily) {
             this.props.loadDailyScoreboard({
                 leagueId: this.props.leagueId,
                 date: this.props.date || moment().format('YYYY-MM-DD')
             });
         } else {
-            const { leagueName } = this.props.match.params;
-            const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-            const urlLeagueId = get(urlLeague,'id') || this.props.leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
-
             this.props.loadScoreboard({
                 leagueId: urlLeagueId,
                 year: this.props.year,
