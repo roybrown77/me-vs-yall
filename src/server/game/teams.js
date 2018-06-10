@@ -1,15 +1,27 @@
 const mvyCountries = [
     {
         _id: "19823783734d1d04a1b39020",
-        name: 'Russia'
+        name: 'Russia',
+        shortName: 'RUS'
     },
     {
         _id: "19823783734d1d04a1b39021",
-        name: 'Saudi Arabia'
+        name: 'Saudi Arabia',
+        shortName: 'KSA'
+    },
+    {
+        _id: "19823783734d1d04a1b39022",
+        name: 'Egypt',
+        shortName: 'EGY'
+    },
+    {
+        _id: "19823783734d1d04a1b39023",
+        name: 'IRAN',
+        shortName: 'IRN'
     }
 ];
 
-const mvyTeams = [
+const mvyNflTeams = [
     {
         _id: "19823783734d1d04a1b39001",
         location: 'Kansas City',
@@ -300,7 +312,7 @@ const mvyTeams = [
     }
   ];
 
-const espnTeams = [
+const espnNflTeams = [
       {
         id: '26',
         name: 'Seattle Seahawks',
@@ -464,7 +476,7 @@ const espnTeams = [
     ];
 
 module.exports = {
-	mvyTeams,
-    espnTeams,
+	mvyNflTeams,
+    espnNflTeams,
     mvyCountries
 };

@@ -11,7 +11,7 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 
-const {mvyTeams, espnTeams, mvyCountries} = require('./teams');
+const {mvyNflTeams, espnNflTeams, mvyCountries} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
@@ -23,13 +23,13 @@ const sortBy = require('lodash/sortBy');
 
 const loadNflGames = async () => {
   const leagueId = '59723313734d1d6202a85f10';
-  const currentMonth = moment().month();
-  console.log('currentMonth: ' + (currentMonth+1));
+  const currentMonth = moment().month()+1;
+  console.log('nfl currentMonth: ' + currentMonth);
 
   const currentDay = moment().date();
-  console.log('currentDay: ' + currentDay);
+  console.log('nfl currentDay: ' + currentDay);
 
-  if (![7,8,9,10,11,0,1].includes(currentMonth) || (currentMonth === 1 && currentDay > 8)) {
+  if (![8,9,10,11,0,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
     console.log('New NFL games will be loaded during season.');
     return;
   }
@@ -54,7 +54,7 @@ const loadNflGames = async () => {
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('Unable to load new games until all games have ended.');
+    console.log('Unable to load new nfl games until all games have ended.');
     return;
   }
 
@@ -137,11 +137,11 @@ const loadNflGames = async () => {
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
   const mvyGames = games.map(game=>{
-    const espnAwayTeam = espnTeams.find(x=>x.id.toString() === game.awayTeam.toString());
-    const espnHomeTeam = espnTeams.find(x=>x.id.toString() === game.homeTeam.toString());
-    const awayTeam = mvyTeams.find(x=>x._id === espnAwayTeam.mvyId);
-    const homeTeam = mvyTeams.find(x=>x._id === espnHomeTeam.mvyId);
-    const spreadTeam = mvyTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+    const espnAwayTeam = espnNflTeams.find(x=>x.id.toString() === game.awayTeam.toString());
+    const espnHomeTeam = espnNflTeams.find(x=>x.id.toString() === game.homeTeam.toString());
+    const awayTeam = mvyNflTeams.find(x=>x._id === espnAwayTeam.mvyId);
+    const homeTeam = mvyNflTeams.find(x=>x._id === espnHomeTeam.mvyId);
+    const spreadTeam = mvyNflTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
 
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
@@ -172,14 +172,14 @@ const loadNflGames = async () => {
 
     gameRepository.find(gameSearch, function (err, games) {
       if (!!games && games.length > 0) {
-        console.log("Game already exists: " + JSON.stringify(gameSearch));
+        console.log("Nfl game already exists: " + JSON.stringify(gameSearch));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
-              console.log("There was a problem adding the information to the database: " + err.message);
+              console.log("There was a problem adding nfl game to the database: " + err.message);
           }  
           
-          console.log("Success Creating: " + gameCreated._id);
+          console.log("Success Creating Nfl Game: " + gameCreated._id);
         });
       }
     });
@@ -213,14 +213,14 @@ const loadNflGames = async () => {
 
   gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
     if (!!gameWeeks && gameWeeks.length > 0) {
-      console.log("Game week already exists: " + JSON.stringify(gameWeekSearch));
+      console.log("Nfl game week already exists: " + JSON.stringify(gameWeekSearch));
     } else {
       gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
           if (err) {
-              console.log("There was a problem adding the information to the database: " + err.message);
+              console.log("There was a problem adding nfl week to the database: " + err.message);
           }
 
-          console.log("Success Creating: " + gameWeekCreated._id);
+          console.log("Success Creating Nfl Week: " + gameWeekCreated._id);
       });
     }
   });
@@ -228,23 +228,13 @@ const loadNflGames = async () => {
 
 const loadFifaWorldCupGames = async () => {
   const leagueId = '59723313734d1d6202a85f12';
-  const currentMonth = moment().month();
-  console.log('currentMonth: ' + (currentMonth+1));
+  const currentMonth = moment().month()+1;
+  console.log('fifa world cup currentMonth: ' + currentMonth);
 
-  const currentDay = moment().date();
-  console.log('currentDay: ' + currentDay);
-
-  // if (![7,8,9,10,11,0,1].includes(currentMonth) || (currentMonth === 1 && currentDay > 8)) {
-  //   console.log('New NFL games will be loaded during season.');
-  //   return;
-  // }
-
-  // const currentWeekDay = moment().weekday();
-
-  // if (currentWeekDay < 3) {
-  //   console.log('New NFL games will be loaded on Wednesday.');
-  //   return;
-  // }
+  if (![6,7].includes(currentMonth)) {
+    console.log('New Fifa World Cup games will be loaded during season.');
+    return;
+  }
 
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -255,10 +245,10 @@ const loadFifaWorldCupGames = async () => {
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
-  // if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-  //   console.log('Unable to load new games until all games have ended.');
-  //   return;
-  // }
+  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
+    console.log('Unable to load new fifa world cup games until all games have ended.');
+    return;
+  }
 
   let games = [];
 
@@ -334,25 +324,26 @@ const loadFifaWorldCupGames = async () => {
 
   console.log('mvyGames: ' + JSON.stringify(mvyGames));
 
-  // mvyGames.forEach(game=>{
-  //   const gameSearch = {
-  //     leagueId: leagueId
-  //   };
+  mvyGames.forEach(game=>{
+    const gameSearch = {
+      leagueId: game.leagueId,
+      startDateTime: game.startDateTime
+    };
 
-    // gameRepository.find(gameSearch, function (err, games) {
-    //   if (!!games && games.length > 0) {
-    //     console.log("Game already exists: " + JSON.stringify(gameSearch));
-    //   } else {
-    //     gameRepository.create(game, function (err, gameCreated) {
-    //       if (err) {
-    //           console.log("There was a problem adding the information to the database: " + err.message);
-    //       }  
+    gameRepository.find(gameSearch, function (err, games) {
+      if (!!games && games.length > 0) {
+        console.log("Fifa World Cup Game already exists: " + JSON.stringify(gameSearch));
+      } else {
+        gameRepository.create(game, function (err, gameCreated) {
+          if (err) {
+              console.log("There was a problem adding fifa world cup game to the database: " + err.message);
+          }  
           
-    //       console.log("Success Creating: " + gameCreated._id);
-    //     });
-    //   }
-    // });
-  //});
+          console.log("Success Creating Fifa World Cup Game: " + gameCreated._id);
+        });
+      }
+    });
+  });
 };
 
 const updateNflScores = async () => {
@@ -462,7 +453,7 @@ const updateNflScores = async () => {
   let promises = [];
 
   games.forEach(game=>{
-    const awayId = espnTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
+    const awayId = espnNflTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
 
     console.log('score: ' + JSON.stringify(score));
