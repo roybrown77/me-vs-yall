@@ -19,15 +19,39 @@ const mvyCountries = [
     },
     {
         _id: "19823783734d1d04a1b39023",
+        name: 'Uruguay',
+        shortName: 'URU',
+        colors: ['#FCD116', '#FFFFFF', '#0038A8']
+    },
+    {
+        _id: "19823783734d1d04a1b39024",
+        name: 'Morocco',
+        shortName: 'MAR',
+        colors: ['#C1272D', '#006233']
+    },
+    {
+        _id: "19823783734d1d04a1b39025",
         name: 'IRAN',
         shortName: 'IRN',
         colors: ['#239F40', '#FFFFFF', '#DA0000']
     },
     {
-        _id: "19823783734d1d04a1b39023",
-        name: 'MEXICO',
+        _id: "19823783734d1d04a1b39026",
+        name: 'Mexico',
         shortName: 'MXO',
         colors: ['#006847', '#FFFFFF', '#CE1126']
+    },
+    {
+        _id: "19823783734d1d04a1b39027",
+        name: 'Portugal',
+        shortName: 'POR',
+        colors: ['#006600', '#FF0000', '#FFFF00']
+    },
+    {
+        _id: "19823783734d1d04a1b39028",
+        name: 'Spain',
+        shortName: 'ESP',
+        colors: ['#C60B1E', '#FFC400']
     }
 ];
 
