@@ -33,6 +33,13 @@ const grid = {
     titleBackground: 'transparent'
 };
 
+// <div style={{position:'absolute', top: '10px', left: '10px'}}>
+                                //     <div style={{width: '20px', height: '20px', background: '#CE1126'}}/>
+                                //     <div style={{width: '20px', height: '20px', background: '#FFFFFF'}}/>
+                                //     <div style={{width: '20px', height: '20px', background: '#000000'}}/>
+                                //     <div style={{width: '20px', height: '20px', background: '#C09300'}}/>
+                                // </div>
+                                
 class Game extends Component {
     handleMakePick(gameId, pickId) {
         if ((!!this.props.pick && (this.props.pick.pickId === pickId || this.props.pick.inProgress)) || this.hasGameStarted(this.props.game.startDateTime)) {
@@ -57,7 +64,7 @@ class Game extends Component {
     render() {
         const { game, pick } = this.props;
         const inProgress = !!pick && !!pick.inProgress;
-        
+
         return (
             <div key={game._id} style={{width:'100%'}}>
                 <GridList key={game._id + "-gridlist"} style={grid.list}>

@@ -2,23 +2,36 @@ const mvyCountries = [
     {
         _id: "19823783734d1d04a1b39020",
         name: 'Russia',
-        shortName: 'RUS'
+        shortName: 'RUS',
+        colors: ['#FFFFFF', '#0039A6', '#D52B1E']
     },
     {
         _id: "19823783734d1d04a1b39021",
         name: 'Saudi Arabia',
-        shortName: 'KSA'
+        shortName: 'KSA',
+        colors: ['#006C35', '#FFFFFF']
     },
     {
         _id: "19823783734d1d04a1b39022",
         name: 'Egypt',
-        shortName: 'EGY'
+        shortName: 'EGY',
+        colors: ['#CE1126', '#FFFFFF', '#000000', '#C09300']
     },
     {
         _id: "19823783734d1d04a1b39023",
         name: 'IRAN',
-        shortName: 'IRN'
+        shortName: 'IRN',
+        colors: ['#239F40', '#FFFFFF', '#DA0000']
+    },
+    {
+        _id: "19823783734d1d04a1b39023",
+        name: 'MEXICO',
+        shortName: 'MXO',
+        colors: ['#006847', '#FFFFFF', '#CE1126']
     }
+];
+
+const mvyTennisPlayers = [
 ];
 
 const mvyNflTeams = [
