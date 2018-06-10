@@ -24,7 +24,7 @@ router.post('/picks/', function (req, res) {
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
-    pickDomain.createPick(pick, function (err, pickCreated) {
+    pickDomain.findOneAndUpdate({userId: pick.userId, gameId: pick.gameId}, userToUpsert, pick, {upsert: false}, (err, pickCreated) => {
         if (err) {
             return res.status(500).json("There was a problem adding the information to the database: " + err.message);
         }  

@@ -327,6 +327,8 @@ const loadFifaWorldCupGames = async () => {
   mvyGames.forEach(game=>{
     const gameSearch = {
       leagueId: game.leagueId,
+      awayTeam: game.competitors[0]._id,
+      homeTeam: game.competitors[1]._id,
       startDateTime: game.startDateTime
     };
 
