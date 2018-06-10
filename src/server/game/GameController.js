@@ -29,7 +29,7 @@ const loadNflGames = async () => {
   const currentDay = moment().date();
   console.log('nfl currentDay: ' + currentDay);
 
-  if (![8,9,10,11,0,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
+  if (![8,9,10,11,12,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
     console.log('New NFL games will be loaded during season.');
     return;
   }
