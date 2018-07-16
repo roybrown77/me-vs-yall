@@ -484,15 +484,29 @@ router.get('/games', function (req, res) {
   updateNflScores();
 
   const search = {
-    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-    year: req.query.year,
-    seasonType: req.query.seasonType,
-    weekNo: req.query.weekNo
+    leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
+    year: get(req, 'query.year'),
+    seasonType: get(req, 'query.seasonType'),
+    weekNo: get(req, 'query.weekNo'),
+    startDateTime: get(req, 'query.date') ? {
+      $gte: new Date(moment(get(req, 'query.date')).startOf('day')),
+      $lte: new Date(moment(get(req, 'query.date')).endOf('day'))
+    } : undefined
   };
 
-  const finalSearch = omit(search, [get(req,'query.year','year'), get(req,'query.seasonType','seasonType'), get(req,'query.weekNo','weekNo')]);
+  const finalSearch = omit(search, 
+    [
+      get(req,'query.year','year'),
+      get(req,'query.seasonType','seasonType'), 
+      get(req,'query.weekNo','weekNo'),
+      get(req,'query.date','startDateTime')
+    ]
+  );
+
+  console.log('finalSearch: ' + JSON.stringify(finalSearch));
   
   gameRepository.find(finalSearch, function (err, games) {
+      console.log('games found: ' + JSON.stringify(games));
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       res.status(200).send(games);
   });
@@ -518,7 +532,7 @@ router.get('/gameweeks', function (req, res) {
         return total;
       },[]);
 
-      const earliestNextGameTime = new Date(Math.min.apply(null,viewableNextGameWeeks));
+      const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGameWeeks));
 
       const areGamesInProgress = some(gameWeeks, x=>{
         if (currentDateTime >= x.beginDateTime && currentDateTime <= moment(x.endDateTime).add(24, 'hours')) {

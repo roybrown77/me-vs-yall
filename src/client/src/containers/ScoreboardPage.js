@@ -40,7 +40,8 @@ class ScoreboardPage extends Component {
         if (this.props.isDaily) {
             this.props.loadDailyScoreboard({
                 leagueId: this.props.leagueId,
-                date: this.props.date || moment().format('YYYY-MM-DD')
+                date: this.props.date || moment().format('YYYY-MM-DD'),
+                year: undefined
             });
         } else {
             this.props.loadScoreboard({

@@ -6,6 +6,8 @@ import Game from '../components/Game';
 
 import { teams } from '../selectors';
 
+import get from 'lodash/get';
+
 class Games extends Component {
     render() {
         const games = this.props.games;
@@ -18,8 +20,8 @@ class Games extends Component {
                 return {
                     ...game,
                     startDateTimeDisplay: moment(new Date(game.startDateTime)).tz('America/New_York').format('dddd MMM D YYYY h:mm a') + ' ET',
-                    stadiumCity: game.overrideStadiumCity ? game.overrideStadiumCity : teams.find(x=>x._id === game.competitors[1]._id).stadiumCity,
-                    stadiumName: game.overrideStadiumName ? game.overrideStadiumName : teams.find(x=>x._id === game.competitors[1]._id).stadiumName,
+                    //stadiumCity: get(game, 'overrideStadiumCity', teams.find(x=>x._id === game.competitors[1]._id).stadiumCity),
+                    //stadiumName: get(game ,'overrideStadiumName', teams.find(x=>x._id === game.competitors[1]._id).stadiumName),
                     winner: game.competitors[0].score === game.competitors[1].score ? 
                     null : (game.competitors[0].score > game.competitors[1].score ? 
                         game.competitors[0]._id : game.competitors[1]._id),
