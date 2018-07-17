@@ -64,7 +64,7 @@ class GameSearchBar extends Component {
     const date = moment().format('YYYY-MM-DD');
 
     return (
-        <div style={{marginTop: '12px', backgroundColor: '#fff'}}>
+        <div style={{marginTop: '12px', backgroundColor: '#fff', paddingBottom: '10px'}}>
             <RaisedButton
               label="Filtration"
               labelPosition="before"
@@ -76,7 +76,7 @@ class GameSearchBar extends Component {
               <DropDownMenu
                   value={this.props.league}
                   onChange={this.props.onFilterLeague}
-                  style={dropDown.root}
+                  style={{width: this.props.isDaily ? 'auto' : '50%'}}
                   autoWidth={false}
                   >
                   {leagues}
