@@ -143,6 +143,7 @@ const teams = [
             shortLocation: "NE",
             name: "Patriots",
             color: "#0A2342",
+            colors: ['#002244', '#C60C30', '#B0B7BC'],
             stadiumName: "Gillette Stadium",
             stadiumCity: "Foxborough, MA"
         },
@@ -278,6 +279,7 @@ const teams = [
             shortLocation: "PHI",
             name: "Eagles",
             color: "#014A53",
+            colors: ['#004953', '#A5ACAF', '#ACC0C6', '#000000', '#565A5C'],
             stadiumName: "Lincoln Financial Field",
             stadiumCity: "Philadelphia, PA"
         },
