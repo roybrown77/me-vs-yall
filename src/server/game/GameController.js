@@ -176,10 +176,10 @@ const loadNflGames = async () => {
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
-              console.log("There was a problem adding nfl game to the database: " + err.message);
-          }  
-          
-          console.log("Success Creating Nfl Game: " + gameCreated._id);
+            console.log("There was a problem adding nfl game to the database: " + err.message);
+          } else {
+            console.log("Success Creating Nfl Game: " + gameCreated._id);
+          }
         });
       }
     });
@@ -218,9 +218,9 @@ const loadNflGames = async () => {
       gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
           if (err) {
               console.log("There was a problem adding nfl week to the database: " + err.message);
+          } else {
+            console.log("Success Creating Nfl Week: " + gameWeekCreated._id);
           }
-
-          console.log("Success Creating Nfl Week: " + gameWeekCreated._id);
       });
     }
   });
@@ -266,10 +266,20 @@ const loadFifaWorldCupGames = async () => {
     return document.getElementsByClassName(sel).length;
   }, 'scoreboard soccer');
   
-  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE.tied > div > div.team-container > div.team-info > div > a > span.short-name';
-  let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
+  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
+  //let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
   //let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
   
+  let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
+  
+  const startDateTime = await page.evaluate((sel) => {
+    return document.querySelector(sel).getAttribute('data-id');
+  }, STARTDATETIME_SELECTOR);
+
+  console.log('fifa startDateTime: ' + startDateTime);
+
+  console.log('# of fifa games to load: ' + listLength);
+
   for (let i = 1; i <= listLength; i++) {
     const awayTeam = await page.evaluate((sel) => {
       return document.querySelector(sel).innerText;
@@ -278,10 +288,6 @@ const loadFifaWorldCupGames = async () => {
     const homeTeam = await page.evaluate((sel) => {
       return document.querySelector(sel).innerText;
     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
-
-    const startDateTime = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-date');
-    }, STARTDATETIME_SELECTOR.replace("INDEX", i));
 
     // const spread = await page.evaluate((sel) => {
     //   return document.querySelector(sel).innerText;
@@ -338,10 +344,10 @@ const loadFifaWorldCupGames = async () => {
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
-              console.log("There was a problem adding fifa world cup game to the database: " + err.message);
-          }  
-          
-          console.log("Success Creating Fifa World Cup Game: " + gameCreated._id);
+            console.log("There was a problem adding fifa world cup game to the database: " + err.message);
+          } else {
+            console.log("Success Creating Fifa World Cup Game: " + gameCreated._id);
+          }
         });
       }
     });

@@ -93,17 +93,17 @@ class Game extends Component {
                                 </div>
                                 <div style={{paddingTop: game.isGameOver ? '12px' : (competitor.selected ? '42px' : '46px')}}>
                                     {competitor.shortLocation}
+                                    {
+                                        get(competitor, 'colors', []).length > 0 && 
+                                        <div style={{paddingLeft: '35%'}}>
+                                            {
+                                                get(competitor, 'colors', []).map(color => (
+                                                    <div key={color} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
+                                                ))
+                                            }
+                                        </div>
+                                    }
                                 </div>
-                                {
-                                    get(competitor, 'colors', []).length > 0 && 
-                                    <div style={{top: '120px', position: 'absolute', border: '1px solid #f4f7f6'}}>
-                                        {
-                                            get(competitor, 'colors', []).map(color => (
-                                                <div style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
-                                            ))
-                                        }
-                                    </div>
-                                }
                         </div>
                         </GridTile>
                     ))}                            

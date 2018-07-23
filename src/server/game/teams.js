@@ -52,6 +52,18 @@ const mvyCountries = [
         name: 'Spain',
         shortName: 'ESP',
         colors: ['#C60B1E', '#FFC400']
+    },
+    {
+        _id: "19823783734d1d04a1b39029",
+        name: 'France',
+        shortName: 'FR',
+        colors: ['#002395', '#FFFFFF', '#ED2939']
+    },
+    {
+        _id: "19823783734d1d04a1b39030",
+        name: 'Croatia',
+        shortName: 'CRO',
+        colors: ['#C60B1E', '#FFC400']
     }
 ];
 

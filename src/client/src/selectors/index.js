@@ -101,6 +101,20 @@ const leagues = [
 
 const teams = [
         {
+            _id: "19823783734d1d04a1b39029",
+            location: 'France',
+            shortLocation: 'FR',
+            name: 'France',
+            colors: ['#002395', '#FFFFFF', '#ED2939']
+        },
+        {
+            _id: "19823783734d1d04a1b39030",
+            location: 'Croatia',
+            shortLocation: 'CRO',
+            name: 'Croatia',
+            colors: ['#FF0000', '#FFFFFF', '#0093DD', '#F7DB17', '#171796']
+        },
+        {
             _id: '19823783734d1d04a1b39020',
             location: 'Russia',
             shortLocation: "RUS",
