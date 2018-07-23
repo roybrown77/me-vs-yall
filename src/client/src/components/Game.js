@@ -95,7 +95,7 @@ class Game extends Component {
                                     {competitor.shortLocation}
                                     {
                                         get(competitor, 'colors', []).length > 0 && 
-                                        <div style={{paddingLeft: '35%'}}>
+                                        <div style={{}}>
                                             {
                                                 get(competitor, 'colors', []).map(color => (
                                                     <div key={color} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
