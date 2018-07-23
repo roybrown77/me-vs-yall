@@ -126,7 +126,7 @@ const teams = [
             location: 'Saudi Arabia',
             shortLocation: "SA",
             name: "Saudi Arabia",
-            colors: ['#006C35', '#FFFFFF']
+            colors: ['#006C35', '#FFFFFF', '#f4f7f6']
         },
         {
             _id: "19823783734d1d04a1b39001",
