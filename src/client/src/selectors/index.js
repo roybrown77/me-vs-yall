@@ -119,7 +119,7 @@ const teams = [
             location: 'Russia',
             shortLocation: "RUS",
             name: "Russia",
-            colors: ['#FFFFFF', '#0039A6', '#D52B1E']
+            colors: ['#f4f7f6', '#FFFFFF', '#0039A6', '#D52B1E']
         },
         {
             _id: '19823783734d1d04a1b39021',

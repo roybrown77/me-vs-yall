@@ -509,7 +509,7 @@ router.get('/games', function (req, res) {
     ]
   );
 
-  console.log('finalSearch: ' + JSON.stringify(finalSearch));
+  console.log('game search criteria: ' + JSON.stringify(finalSearch));
   
   gameRepository.find(finalSearch, function (err, games) {
       console.log('games found: ' + JSON.stringify(games));
