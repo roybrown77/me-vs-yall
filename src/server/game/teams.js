@@ -63,7 +63,7 @@ const mvyCountries = [
         _id: "19823783734d1d04a1b39030",
         name: 'Croatia',
         shortName: 'CRO',
-        colors: ['#C60B1E', '#FFC400']
+        colors: ['#FF0000', '#FFFFFF', '#0093DD', '#F7DB17', '#171796']
     }
 ];
 
@@ -92,6 +92,7 @@ const mvyNflTeams = [
         shortLocation: "NE",
         name: "Patriots",
         color: "#0A2342",
+        colors: ['#002244','#C60C30','#B0B7BC'],
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxborough, MA"
     },
