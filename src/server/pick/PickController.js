@@ -29,7 +29,7 @@ router.post('/picks/', function (req, res) {
             return res.status(500).json("There was a problem adding the information to the database: " + err.message);
         }  
         
-        res.status(200).send(pickCreated);
+        return res.status(200).send(pickCreated);
     });
 });
 
@@ -42,7 +42,7 @@ router.put('/picks/:id', function (req, res) {
     };
     pickDomain.upsert(pick, (err, pick) => {
         if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
-        res.status(200).send(pick);
+        return res.status(200).send(pick);
     });
 });
 
