@@ -47,7 +47,10 @@ const loadNflGames = async () => {
       $ne: true
     },
     seasonType: {
-      $gt: 1
+      $gte: 1
+    },
+    year: {
+      $gte: 2018
     }
   };
 
@@ -106,7 +109,8 @@ const loadNflGames = async () => {
       return document.querySelector(sel).getAttribute('data-date');
     }, STARTDATETIME_SELECTOR.replace("INDEX", i));
 
-    const spread = await page.evaluate((sel) => {
+    const spread = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 'Line: 0' : 
+    await page.evaluate((sel) => {
       return document.querySelector(sel).innerText;
     }, SPREAD_SELECTOR.replace("INDEX", i));
 
@@ -127,6 +131,8 @@ const loadNflGames = async () => {
     }, YEAR_SELECTOR);
 
   browser.close();
+
+  console.log('games: ' + JSON.stringify(games));
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
@@ -150,8 +156,8 @@ const loadNflGames = async () => {
       weekNo: weekNo,
       startDateTime: game.startDateTime,
       spread: {
-       teamId: spreadTeam._id,
-       amount: game.spread.amount
+       teamId: get(spreadTeam,'_id'),
+       amount: get(game,'spread.amount', 0)
       },
       competitors: [
         {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name},
