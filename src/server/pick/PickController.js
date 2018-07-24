@@ -24,7 +24,7 @@ router.post('/picks/', function (req, res) {
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
-    pickDomain.findOneAndUpdate({userId: pick.userId, gameId: pick.gameId}, userToUpsert, pick, {upsert: false}, (err, pickCreated) => {
+    pickDomain.upsert(pick, (err, pickCreated) => {
         if (err) {
             return res.status(500).json("There was a problem adding the information to the database: " + err.message);
         }  
@@ -35,11 +35,12 @@ router.post('/picks/', function (req, res) {
 
 router.put('/picks/:id', function (req, res) {
     const pick = {
+        userId: req.body.userId,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
-    pickDomain.updatePick(req.params.id, pick, function (err, pick) {
+    pickDomain.upsert(pick, (err, pick) => {
         if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
         res.status(200).send(pick);
     });

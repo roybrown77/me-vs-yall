@@ -23,6 +23,16 @@ function updatePick(id, pick, cb) {
     });
 }
 
+function upsert(pick, cb) {
+    gameRepository.findById(pick.gameId, function (err, game) {
+        if (!isValid(err, game, pick)) {
+            return cb(new Error('It is too late to make a pick.  Picks must be made 5 minutes before game starts.'));
+        }
+        
+        return pickRepository.findOneAndUpdate({userId: pick.userId, gameId: pick.gameId}, pick, {upsert: true}, cb);
+    });
+}
+
 function isValid(err, game, pick) {
 	if (err) throw new Error('Finding game id ' + pick.gameId + ' - ' + err.message);
     if (!game) throw new Error('Game is required.');
@@ -46,6 +56,6 @@ function hasGameStarted(gameDateTime, pickDateTime) {
     return difference < 5;
 }
 
-const domain = { createPick, updatePick };
+const domain = { createPick, updatePick, upsert };
 
 module.exports = domain;
