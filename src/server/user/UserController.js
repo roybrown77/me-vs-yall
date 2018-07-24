@@ -16,6 +16,7 @@ router.post('/users/', function (req, res) {
             email: get(user, 'email'),
             firstName: get(user, 'given_name'),
             lastName: get(user, 'family_name'),
+            picture: get(user, 'picture'),
         };
 
     console.log('userToUpsert: ' + JSON.stringify(userToUpsert));

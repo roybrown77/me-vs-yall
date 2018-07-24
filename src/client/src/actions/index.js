@@ -48,7 +48,8 @@ const createUser = profile => ({
       sub: profile.sub,
       email: profile.email,
       family_name: profile.family_name,
-      given_name: profile.given_name
+      given_name: profile.given_name,
+      picture: profile.picture
     }
   }
 });
