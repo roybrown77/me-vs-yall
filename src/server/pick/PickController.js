@@ -25,11 +25,8 @@ router.post('/picks/', function (req, res) {
     };
 
     pickDomain.upsert(pick, (err, pickCreated) => {
-        if (err) {
-            return res.status(500).json("There was a problem adding the information to the database: " + err.message);
-        }  
-        
-        return res.status(200).send(pickCreated);
+        if (err) return res.status(500).json("There was a problem adding the information to the database: " + err.message);
+        res.status(200).send(pickCreated);
     });
 });
 
@@ -40,9 +37,10 @@ router.put('/picks/:id', function (req, res) {
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
-    pickDomain.upsert(pick, (err, pick) => {
+
+    pickDomain.upsert(pick, (err, updatedPick) => {
         if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
-        return res.status(200).send(pick);
+        res.status(200).send(pick);
     });
 });
 

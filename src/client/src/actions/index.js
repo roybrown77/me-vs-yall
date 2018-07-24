@@ -97,6 +97,7 @@ const editPick = (id, pick) => ({
 
 export const updatePick = (id, pick) => (dispatch, getState) => {
   const searchParams = new URLSearchParams();
+  searchParams.set('userId', getUser().sub);
   searchParams.set('pickId', pick.pickId);
   searchParams.set('gameId', pick.gameId);
 

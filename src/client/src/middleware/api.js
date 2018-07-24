@@ -13,7 +13,7 @@ const callApi = ({endpoint, method, body, schema}) => {
         data: body
     })
     .then(function(response) {
-      return Promise.resolve(response.data);
+      return response.data;
     });
 };
 
