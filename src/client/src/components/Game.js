@@ -30,6 +30,9 @@ const grid = {
         font:'1.4rem/1 Permanent Marker,sans-serif', 
         color: '#000'
     },
+    colors: {
+        marginLeft: "auto", marginRight: "auto", width: "60px"
+    },
     titleBackground: 'transparent'
 };
                                 
@@ -96,10 +99,10 @@ class Game extends Component {
                                 </div>
                                 {
                                     get(competitor, 'colors', []).length > 0 && 
-                                    <div style={{paddingLeft:'20%'}}>
+                                    <div style={grid.colors}>
                                         {
-                                            get(competitor, 'colors', []).map(color => (
-                                                <div key={color} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
+                                            get(competitor, 'colors', []).map((color, index) => (
+                                                <div key={index} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
                                             ))
                                         }
                                     </div>

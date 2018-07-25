@@ -112,14 +112,14 @@ const teams = [
             location: 'Croatia',
             shortLocation: 'CRO',
             name: 'Croatia',
-            colors: ['#FF0000', '#FFFFFF', '#0093DD', '#F7DB17', '#171796']
+            colors: ['#FF0000', '#FFFFFF', '#0093DD']
         },
         {
             _id: '19823783734d1d04a1b39020',
             location: 'Russia',
             shortLocation: "RUS",
             name: "Russia",
-            colors: ['#f4f7f6', '#FFFFFF', '#0039A6', '#D52B1E']
+            colors: ['#FFFFFF', '#0039A6', '#D52B1E']
         },
         {
             _id: '19823783734d1d04a1b39021',
@@ -279,7 +279,7 @@ const teams = [
             shortLocation: "PHI",
             name: "Eagles",
             color: "#014A53",
-            colors: ['#004953', '#A5ACAF', '#ACC0C6', '#000000', '#565A5C'],
+            colors: ['#004953', '#A5ACAF', '#ACC0C6'],
             stadiumName: "Lincoln Financial Field",
             stadiumCity: "Philadelphia, PA"
         },
