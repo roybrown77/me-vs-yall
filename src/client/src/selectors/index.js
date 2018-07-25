@@ -134,6 +134,7 @@ const teams = [
             shortLocation: "KC",
             name: "Chiefs",
             color: "#CA2430",
+            colors: ['#C8102E', '#FFB81C', '#000000'],
             stadiumName: "Arrowhead Stadium",
             stadiumCity: "Kansas City, MO"
         },
@@ -153,6 +154,7 @@ const teams = [
             shortLocation: "ATL",
             name: "Falcons",
             color: "#A71930",
+            colors: ['#A71930', '#000000', '#A5ACAF'],
             stadiumName: "Mercedes-Benz Stadium",
             stadiumCity: "Atlanta, GA"
         },
@@ -162,6 +164,7 @@ const teams = [
             shortLocation: "CHI",
             name: "Bears",
             color: "#00143F",
+            colors: ['#0B162A', '#C83803', '#f4f7f6'],
             stadiumName: "Soldier Field",
             stadiumCity: "Chicago, IL"
         },
@@ -243,6 +246,7 @@ const teams = [
             shortLocation: "BAL",
             name: "Ravens",
             color: "#241773",
+            colors: ['#241773', '#000000', '#9E7C0C'],
             stadiumName: "M&T Bank Stadium",
             stadiumCity: "Baltimore, MD"
         },
@@ -307,6 +311,7 @@ const teams = [
             shortLocation: "PIT",
             name: "Steelers",
             color: "#FFC20E",
+            colors: ['#FFB81C', '#101820', '#A2AAAD'],
             stadiumName: "Heinz Field",
             stadiumCity: "Pittsburgh, PA"
         },

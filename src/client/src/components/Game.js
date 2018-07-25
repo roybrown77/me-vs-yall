@@ -28,7 +28,8 @@ const grid = {
     },
     titleStyle: {
         font:'1.4rem/1 Permanent Marker,sans-serif', 
-        color: '#000'
+        color: '#000',
+        paddingRight: '16px'
     },
     colors: {
         marginLeft: "auto", marginRight: "auto", width: "60px"
