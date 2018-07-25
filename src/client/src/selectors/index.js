@@ -134,7 +134,7 @@ const teams = [
             shortLocation: "KC",
             name: "Chiefs",
             color: "#CA2430",
-            colors: ['#C8102E', '#FFB81C', '#000000'],
+            colors: ['#C8102E', '#FFFFFF', '#FFB81C'],
             stadiumName: "Arrowhead Stadium",
             stadiumCity: "Kansas City, MO"
         },
@@ -164,7 +164,7 @@ const teams = [
             shortLocation: "CHI",
             name: "Bears",
             color: "#00143F",
-            colors: ['#0B162A', '#C83803', '#f4f7f6'],
+            colors: ['#0B162A', '#FFFFFF', '#C83803'],
             stadiumName: "Soldier Field",
             stadiumCity: "Chicago, IL"
         },
@@ -174,6 +174,7 @@ const teams = [
             shortLocation: "ARI",
             name: "Cardinals",
             color: "#97233F",
+            colors: ['#97233F', '#000000', '#FFB612'],
             stadiumName: "University of Phoenix Stadium",
             stadiumCity: "Glendale, AZ"
         },
@@ -293,6 +294,7 @@ const teams = [
             shortLocation: "GB",
             name: "Packers",
             color: "#24423c",
+            colors: ['#183028', '#FFFFFF', '#FFB81C'],
             stadiumName: "Lambeau Field",
             stadiumCity: "Green Bay, WI"
         },
