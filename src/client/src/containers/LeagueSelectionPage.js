@@ -50,7 +50,7 @@ function LeagueSelectionPage(props) {
                                         <div className='list-item-text'>FIFA Conf Cup</div>
                                         </div>
                                       )} />
-                        )}*/}
+                        )}
                         {(
                             <Route render={({ history }) => (
                                         <div
@@ -62,7 +62,7 @@ function LeagueSelectionPage(props) {
                                         </div>
                                       )} />
                         )}
-                        {/*{(
+                        {(
                             <Route render={({ history }) => (
                                         <div
                                           className='list-item'
@@ -91,7 +91,7 @@ function LeagueSelectionPage(props) {
                         <div className='list-item-text'>Aussie Open</div>
                             </div>
                         )} />
-                        )}*/}
+                        )}
                         {(
                         <Route render={({ history }) => (
                         <div
@@ -103,7 +103,7 @@ function LeagueSelectionPage(props) {
                             </div>
                         )} />
                         )}
-                        {/*{(
+                        {(
                         <Route render={({ history }) => (
                         <div
                             className='list-item'
