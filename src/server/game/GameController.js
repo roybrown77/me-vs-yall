@@ -11,7 +11,7 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 
-const {mvyNflTeams, espnNflTeams, mvyCountries} = require('./teams');
+const {mvyNflTeams, espnNflTeams, mvyMlbTeams, espnMlbTeams, mvyCountries} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
@@ -30,14 +30,14 @@ const loadNflGames = async () => {
   console.log('nfl currentDay: ' + currentDay);
 
   if (![8,9,10,11,12,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
-    console.log('New NFL games will be loaded during season.');
+    console.log('new nfl games will be loaded during season.');
     return;
   }
 
   const currentWeekDay = moment().weekday();
 
   if (currentWeekDay < 3) {
-    console.log('New NFL games will be loaded on Wednesday.');
+    console.log('new nfl games will be loaded on wednesday.');
     return;
   }
 
@@ -57,7 +57,7 @@ const loadNflGames = async () => {
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('Unable to load new nfl games until all games have ended.');
+    console.log('unable to load new nfl games until all games have ended.');
     return;
   }
 
@@ -81,7 +81,7 @@ const loadNflGames = async () => {
     }, CURRENTWEEK_SELECTOR);
 
   if (currentWeek.toLowerCase().includes('pro bowl')) {
-    console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+    console.log("pro bowl will not be added; super bowl will load next wednesday.");
     browser.close();
     return;
   }
@@ -90,7 +90,7 @@ const loadNflGames = async () => {
     return document.getElementsByClassName(sel).length;
   }, 'scoreboard football');
 
-  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+  //let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
   let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
   let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
   let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
@@ -132,7 +132,7 @@ const loadNflGames = async () => {
 
   browser.close();
 
-  console.log('games: ' + JSON.stringify(games));
+  console.log('nfl games: ' + JSON.stringify(games));
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
@@ -166,7 +166,7 @@ const loadNflGames = async () => {
     };
   });
 
-  console.log('mvyGames: ' + JSON.stringify(mvyGames));
+  console.log('nfl mvyGames: ' + JSON.stringify(mvyGames));
 
   mvyGames.forEach(game=>{
     const gameSearch = {
@@ -182,9 +182,9 @@ const loadNflGames = async () => {
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
-            console.log("There was a problem adding nfl game to the database: " + err.message);
+            console.log("there was a problem adding nfl game to the database: " + err.message);
           } else {
-            console.log("Success Creating Nfl Game: " + gameCreated._id);
+            console.log("success creating nfl game: " + gameCreated._id);
           }
         });
       }
@@ -208,7 +208,7 @@ const loadNflGames = async () => {
     endDateTime: latestGameTime
   };
 
-  console.log('gameWeek: ' + JSON.stringify(gameWeek));
+  console.log('nfl gameWeek: ' + JSON.stringify(gameWeek));
 
   const gameWeekSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -219,13 +219,13 @@ const loadNflGames = async () => {
 
   gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
     if (!!gameWeeks && gameWeeks.length > 0) {
-      console.log("Nfl game week already exists: " + JSON.stringify(gameWeekSearch));
+      console.log("nfl game week already exists: " + JSON.stringify(gameWeekSearch));
     } else {
       gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
           if (err) {
-              console.log("There was a problem adding nfl week to the database: " + err.message);
+              console.log("there was a problem adding nfl week to the database: " + err.message);
           } else {
-            console.log("Success Creating Nfl Week: " + gameWeekCreated._id);
+            console.log("success creating nfl week: " + gameWeekCreated._id);
           }
       });
     }
@@ -238,7 +238,7 @@ const loadFifaWorldCupGames = async () => {
   console.log('fifa world cup currentMonth: ' + currentMonth);
 
   if (![6,7].includes(currentMonth)) {
-    console.log('New Fifa World Cup games will be loaded during season.');
+    console.log('new fifa world cup games will be loaded during season.');
     return;
   }
 
@@ -252,7 +252,7 @@ const loadFifaWorldCupGames = async () => {
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('Unable to load new fifa world cup games until all games have ended.');
+    console.log('unable to load new fifa world cup games until all games have ended.');
     return;
   }
 
@@ -311,7 +311,7 @@ const loadFifaWorldCupGames = async () => {
     });
   }
 
-  console.log('games: ' + JSON.stringify(games));
+  console.log('fifa world cup games: ' + JSON.stringify(games));
 
   browser.close();
 
@@ -334,7 +334,7 @@ const loadFifaWorldCupGames = async () => {
     };
   });
 
-  console.log('mvyGames: ' + JSON.stringify(mvyGames));
+  console.log('fifa world cup mvyGames: ' + JSON.stringify(mvyGames));
 
   mvyGames.forEach(game=>{
     const gameSearch = {
@@ -346,18 +346,160 @@ const loadFifaWorldCupGames = async () => {
 
     gameRepository.find(gameSearch, function (err, games) {
       if (!!games && games.length > 0) {
-        console.log("Fifa World Cup Game already exists: " + JSON.stringify(gameSearch));
+        console.log("fifa world cup game already exists: " + JSON.stringify(gameSearch));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
-            console.log("There was a problem adding fifa world cup game to the database: " + err.message);
+            console.log("there was a problem adding fifa world cup game to the database: " + err.message);
           } else {
-            console.log("Success Creating Fifa World Cup Game: " + gameCreated._id);
+            console.log("success creating fifa world cup game: " + gameCreated._id);
           }
         });
       }
     });
   });
+};
+
+const loadMlbGames = async () => {
+  const leagueId = '59723313734d1d6202a85f13';
+  const currentMonth = moment().month()+1;
+  console.log('mlb currentMonth: ' + currentMonth);
+
+  const currentDay = moment().date();
+  console.log('mlb currentDay: ' + currentDay);
+
+  if (![8].includes(currentMonth)) {
+    console.log('new mlb games will be loaded during season.');
+    return;
+  }
+
+  const gameSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    }
+  };
+
+  const gamesStillInProgress = await gameRepository.find(gameSearch);
+
+  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
+    console.log('unable to load new mlb games until all games have ended.');
+    return;
+  }
+
+  let games = [];
+
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const page = await browser.newPage();
+
+  await page.goto('http://www.espn.com/mlb/scoreboard');
+
+  await page.waitForSelector('#events');
+
+  let listLength = await page.evaluate((sel) => {
+    return document.getElementsByClassName(sel).length;
+  }, 'scoreboard baseball');
+
+  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+  let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
+  let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+  
+  const startDateTime = await page.evaluate((sel) => {
+    return document.querySelector(sel).getAttribute('data-id');
+  }, STARTDATETIME_SELECTOR);
+
+  console.log('mlb startDateTime: ' + startDateTime);
+
+  console.log('# of mlb games to load: ' + listLength);
+
+  for (let i = 1; i <= 1; i++) {
+    const awayTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-awayid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+    const homeTeam = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-homeid');
+    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+    // const spread = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 'Line: 0' : 
+    // await page.evaluate((sel) => {
+    //   return document.querySelector(sel).innerText;
+    // }, SPREAD_SELECTOR.replace("INDEX", i));
+
+    games.push({
+      startDateTime: moment(startDateTime),
+      // spread: {
+      //  team: spread.replace('Line: ','').split(' ')[0],
+      //  amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+      //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+      // },
+      awayTeam: awayTeam,
+      homeTeam: homeTeam
+    });
+  }
+
+  browser.close();
+
+  console.log('mlb games: ' + JSON.stringify(games));
+  
+  // const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
+  // const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
+  // currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
+  // currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
+  // currentWeek.toLowerCase().includes('wild') ? 1 : 
+  // currentWeek.toLowerCase().includes('divisional') ? 2 : 
+  // currentWeek.toLowerCase().includes('conference') ? 3 : 5;
+
+  const mvyGames = games.map(game=>{
+    const espnAwayTeam = espnMlbTeams.find(x=>x.id.toString() === game.awayTeam.toString());
+    const espnHomeTeam = espnMlbTeams.find(x=>x.id.toString() === game.homeTeam.toString());
+    const awayTeam = mvyMlbTeams.find(x=>x._id === espnAwayTeam.mvyId);
+    const homeTeam = mvyMlbTeams.find(x=>x._id === espnHomeTeam.mvyId);
+    //const spreadTeam = mvyMlbTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+
+    return {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      //seasonType: seasonType,
+      //weekNo: weekNo,
+      startDateTime: game.startDateTime,
+      // spread: {
+      //  teamId: get(spreadTeam,'_id'),
+      //  amount: get(game,'spread.amount', 0)
+      // },
+      competitors: [
+        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name},
+        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name}
+      ]
+    };
+  });
+
+  console.log('mlb mvyGames: ' + JSON.stringify(mvyGames));
+
+  // mvyGames.forEach(game=>{
+  //   const gameSearch = {
+  //     leagueId: leagueId,
+  //     year: game.year,
+  //     seasonType: game.seasonType,
+  //     weekNo: game.weekNo
+  //   };
+
+  //   gameRepository.find(gameSearch, function (err, games) {
+  //     if (!!games && games.length > 0) {
+  //       console.log("Nfl game already exists: " + JSON.stringify(gameSearch));
+  //     } else {
+  //       gameRepository.create(game, function (err, gameCreated) {
+  //         if (err) {
+  //           console.log("there was a problem adding nfl game to the database: " + err.message);
+  //         } else {
+  //           console.log("success creating nfl game: " + gameCreated._id);
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
 };
 
 const updateNflScores = async () => {
@@ -493,6 +635,7 @@ const updateNflScores = async () => {
 router.get('/games', function (req, res) {
   loadNflGames();
   loadFifaWorldCupGames();
+  loadMlbGames();
   updateNflScores();
 
   const search = {

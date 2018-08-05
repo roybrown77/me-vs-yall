@@ -531,8 +531,38 @@ const espnNflTeams = [
       }
     ];
 
+const espnMlbTeams = [
+    {
+        id: '8',
+        name: 'Colorado Rockies',
+        mvyId: '19823783734d1d04a1b3a002'
+    },
+    {
+        id: '27',
+        name: 'Milwaukee Brewers',
+        mvyId: '19823783734d1d04a1b3a001'
+    }
+];
+
+const mvyMlbTeams = [
+    {
+        _id: "19823783734d1d04a1b3a001",
+        location: 'Milwaukee',
+        shortLocation: "MIL",
+        name: "Brewers"
+    },
+    {
+        _id: "19823783734d1d04a1b3a002",
+        location: 'Colorado',
+        shortLocation: "CO",
+        name: "Rockies"
+    }
+];
+
 module.exports = {
 	mvyNflTeams,
     espnNflTeams,
+    mvyMlbTeams,
+    espnMlbTeams,
     mvyCountries
 };

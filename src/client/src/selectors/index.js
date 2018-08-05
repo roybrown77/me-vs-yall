@@ -101,6 +101,18 @@ const leagues = [
 
 const teams = [
         {
+            _id: "19823783734d1d04a1b3a001",
+            location: 'Milwaukee',
+            shortLocation: "MIL",
+            name: "Brewers"
+        },
+        {
+            _id: "19823783734d1d04a1b3a002",
+            location: 'Colorado',
+            shortLocation: "CO",
+            name: "Rockies"
+        },
+        {
             _id: "19823783734d1d04a1b39029",
             location: 'France',
             shortLocation: 'FR',
