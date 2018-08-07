@@ -714,8 +714,4 @@ router.get('/gameweeks', function (req, res) {
   });
 });
 
-router.get('/years', function (req, res) {
-  
-});
-
 module.exports = router;
