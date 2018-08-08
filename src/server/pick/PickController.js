@@ -26,7 +26,7 @@ router.post('/picks/', function (req, res) {
 
     pickDomain.upsert(pick, (err, pickCreated) => {
         if (err) return res.status(500).json("There was a problem adding the information to the database: " + err.message);
-        res.status(200).send(pickCreated);
+        res.status(200).send(pick);
     });
 });
 
