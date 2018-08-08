@@ -195,7 +195,7 @@ const mapStateToProps = (state, ownProps) => {
     const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []);
     const weeks = formatWeeks(rawWeeks);
-    const weekNo = get(request, 'weekNo') || get(last(rawWeeks), 'weekNo');
+    const weekNo = get(request, 'weekNo', get(last(rawWeeks), 'weekNo'));
 
     const seasonType = get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
 

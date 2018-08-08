@@ -189,7 +189,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
       leagueId: get(query, 'leagueId'),
       year: get(query, 'year'),
       seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
-      weekNo: get(query, 'weekNo') || get(currentWeek, 'weekNo'),
+      weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
       date: get(query, 'date') || get(currentWeek,'date')
     };
 
