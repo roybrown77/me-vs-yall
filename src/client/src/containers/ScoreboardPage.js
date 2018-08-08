@@ -106,6 +106,8 @@ class ScoreboardPage extends Component {
     }
 
     handleMakePick(pick) {
+        if (!this.props.isAuthenticated) return;
+
         pick.leagueId = this.props.leagueId;
         pick.weekNo = this.props.weekNo;
         pick.year = this.props.year;
