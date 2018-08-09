@@ -261,7 +261,7 @@ const mvyNflTeams = [
     {
         _id: "19823783734d1d04a1b39015",
         location: 'New York',
-        shortLocation: "NYJ",
+        shortLocation: "NYG",
         name: "Giants",
         color: "#192E6C",
         stadiumName: "MetLife Stadium",
@@ -306,7 +306,7 @@ const mvyNflTeams = [
     {
         _id: "19823783734d1d04a1b3901a",
         location: 'New York',
-        shortLocation: "NYG",
+        shortLocation: "NYJ",
         name: "Jets",
         color: "#203731",
         stadiumName: "MetLife Stadium",
