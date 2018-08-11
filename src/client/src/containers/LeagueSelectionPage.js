@@ -142,7 +142,7 @@ function LeagueSelectionPage(props) {
                             <div className='list-item-text'>NCAAM March Madness</div>
                                 </div>
                             )} />
-                        )}*/}
+                        )}
                         {(
                             <Route render={({ history }) => (
                                         <div
@@ -154,7 +154,7 @@ function LeagueSelectionPage(props) {
                                         </div>
                                       )} />
                         )}
-                        {/*{(
+                        {(
                         <Route render={({ history }) => (
                         <div
                             className='list-item'
