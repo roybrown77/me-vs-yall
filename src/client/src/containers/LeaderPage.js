@@ -1,18 +1,3 @@
-// import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-
-// import get from 'lodash/get';
-// import last from 'lodash/last';
-
-// import Header from '../components/Header';
-// import Footer from '../components/Footer';
-// import GameSearchBar from '../components/GameSearchBar';
-// import Spinner from '../components/Spinner';
-
-// import { loadLeaders } from '../actions';
-// import { getWinnings, formatMoney, leagues, getWeeks, years } from '../selectors';
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route }from 'react-router-dom';
@@ -209,22 +194,6 @@ class LeaderPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    // const leaderDomain = state.get('leaderDomain').toJS();
-    // const dataLoading = get(leaderDomain, 'dataLoading');
-    // const leaders = get(leaderDomain, 'leaders', []);
-
-    // const weeksDomain = state.get('weeksDomain').toJS();
-    // const rawWeeks = get(weeksDomain,'gameWeeks', []);
-    // const weeks = getWeeks(rawWeeks);
-    // const mostRecentWeek = last(rawWeeks);
-    // const ui = state.get('ui').toJS();
-    // const request = get(ui,'request');
-    // const currentWeek = request || mostRecentWeek;
-    // const leagueId = get(currentWeek, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
-    // const year = get(currentWeek, 'year');
-    // const seasonType = get(currentWeek, 'seasonType');
-    // const weekNo = get(currentWeek, 'weekNo');
-
     const lookup = state.get('lookup').toJS();
 
     const leaderDomain = state.get('leaderDomain').toJS();
@@ -257,13 +226,6 @@ const mapStateToProps = (state, ownProps) => {
     history.push('/leaders/' + get(league,'name',''));
 
     return {
-        // leaders,
-        // dataLoading,
-        // weeks,
-        // leagueId,
-        // year,
-        // seasonType,
-        // weekNo
         dataLoading,
         weeksDataLoading,
         isDaily,
@@ -280,16 +242,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 LeaderPage.propTypes = {
-    // leaders: PropTypes.array,
-    // dataLoading: PropTypes.bool,
-    // leagueId: PropTypes.string,
-    // year: PropTypes.number,
-    // weekNo: PropTypes.number,
-    // weeks: PropTypes.array,
-    // years: PropTypes.array,
-    // leagues: PropTypes.array,
-    // seasonType: PropTypes.number,
-    // loadLeaders: PropTypes.func.isRequired,
     dataLoading: PropTypes.bool,
     weeksDataLoading: PropTypes.bool,
     isDaily: PropTypes.bool,
