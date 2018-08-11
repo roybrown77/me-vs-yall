@@ -37,20 +37,12 @@ class ScoreboardPage extends Component {
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id') || this.props.leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
 
-        if (this.props.isDaily) {
-            this.props.loadDailyScoreboard({
-                leagueId: this.props.leagueId,
-                date: this.props.date || moment().format('YYYY-MM-DD'),
-                year: undefined
-            });
-        } else {
-            this.props.loadScoreboard({
-                leagueId: urlLeagueId,
-                year: this.props.year,
-                seasonType: this.props.seasonType,
-                weekNo: this.props.weekNo
-            });
-        }
+        this.props.loadScoreboard({
+            leagueId: urlLeagueId,
+            year: this.props.year,
+            seasonType: this.props.seasonType,
+            weekNo: this.props.weekNo
+        });
     }
 
     handleFilterLeague(event, index) {
@@ -137,7 +129,6 @@ class ScoreboardPage extends Component {
                             weekNo={this.props.weekNo}
                             weeks={this.props.weeks}
                             seasonType={this.props.seasonType}
-                            isDaily={this.props.isDaily}
                             onFilterLeague={this.handleFilterLeague}
                             onFilterYear={this.handleFilterYear}
                             onFilterWeek={this.handleFilterWeek}
@@ -200,8 +191,6 @@ const mapStateToProps = (state, ownProps) => {
     const weekNo = get(request, 'weekNo', get(last(rawWeeks), 'weekNo'));
 
     const seasonType = get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
-
-    const isDaily = get(league, 'isDaily', true);
     
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
@@ -211,7 +200,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         dataLoading,
         weeksDataLoading,
-        isDaily,
         games,
         picks,
         weeks,
@@ -228,7 +216,6 @@ const mapStateToProps = (state, ownProps) => {
 ScoreboardPage.propTypes = {
     dataLoading: PropTypes.bool,
     weeksDataLoading: PropTypes.bool,
-    isDaily: PropTypes.bool,
     games: PropTypes.array,
     picks: PropTypes.array,
     weeks: PropTypes.array,
