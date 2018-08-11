@@ -4,11 +4,11 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 
 const getBet = (results) => {
-    return (results.wins * 110) + (results.losses * 110) + (results.ties * 110);
+    return (results['wins'] * 110) + (results['losses'] * 110) + (results['ties'] * 110);
 };
 
 const getWinnings = (results) => {
-    return (results.wins * 100) - (results.losses * 110) - (results.ties * 110);
+    return (results['wins'] * 100) - (results['losses'] * 110) - (results['ties'] * 110);
 };
 
 const formatMoney = (number, places, symbol, thousand, decimal) => {
@@ -20,52 +20,42 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     var negative = number < 0 ? "-" : "",
         i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
         j = (j = i.length) > 3 ? j % 3 : 0;
-    return symbol + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+
+    const format = symbol + 
+    (j ? i.substr(0, j) + thousand : "") + 
+    i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + 
+    (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+
+    return format;
 };
 
 const getResults = (games, picks) => {
-    let wins = 0;
-    let losses = 0;
-    let ties = 0;
-
-    const gamesOver = areAnyGamesOver(games);
-
-    if (gamesOver) {
-        const filteredGames = games.filter(game=>{
-            return !!game.isGameOver && game.seasonType > 1 && !(game.seasonType === 3 && game.weekNo === 4);
-        });
-
-        const filteredPicks = picks.filter(pick=>{
-            return pick.seasonType > 1 && !(pick.seasonType === 3 && pick.weekNo === 4);
-        });
-
-        filteredGames.forEach(game=>{
+    const result = games.reduce((total,game)=>{
+        if (get(game,'isGameOver',false)) {
             if (game.competitors[0].score === game.competitors[1].score) {
-                ++ties;
+                total['ties']++;
             }
 
             const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
             (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
             game.competitors.forEach((competitor, index)=> {
-                const winnerSelected = !!filteredPicks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
+                const winnerSelected = !!picks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
 
                 if (winnerSelected && competitor._id === winner) {
-                    ++wins;
+                    total['wins']++;
                 }
 
                 if (winnerSelected && competitor._id !== winner) {
-                    ++losses;
+                    total['losses']++;
                 }
             });
-        });
-    }
+        }
 
-    return {
-        wins,
-        losses,
-        ties
-    };
+        return total;
+    }, {wins: 0, losses: 0, ties: 0});
+
+    return result;
 };
 
 const formatWeeks = (gameWeeks) => {
