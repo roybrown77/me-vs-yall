@@ -1,7 +1,6 @@
 import moment from 'moment-timezone';
 
 import get from 'lodash/get';
-import sortBy from 'lodash/sortBy';
 
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110) + (results['ties'] * 110);

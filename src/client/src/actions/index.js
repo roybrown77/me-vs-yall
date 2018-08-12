@@ -5,9 +5,24 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/api';
-import { leagues } from '../selectors';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 import history from '../middleware/history';
+
+const createUser = profile => ({
+  [CALL_API]: {
+    types: [ CREATEUSER_REQUEST, CREATEUSER_SUCCESS, CREATEUSER_FAILURE ],
+    endpoint: '/api/usermanagement/users',
+    method: 'post',
+    schema: Schemas.USER,
+    body: {
+      sub: profile.sub,
+      email: profile.email,
+      family_name: profile.family_name,
+      given_name: profile.given_name,
+      picture: profile.picture
+    }
+  }
+});
 
 export const loadUser = () => (dispatch, getState) => {
   setAccessToken();
@@ -37,22 +52,6 @@ export const resetErrorMessage = () => ({
 export const CREATEUSER_REQUEST = 'CREATEUSER_REQUEST';
 export const CREATEUSER_SUCCESS = 'CREATEUSER_SUCCESS';
 export const CREATEUSER_FAILURE = 'CREATEUSER_FAILURE';
-
-const createUser = profile => ({
-  [CALL_API]: {
-    types: [ CREATEUSER_REQUEST, CREATEUSER_SUCCESS, CREATEUSER_FAILURE ],
-    endpoint: '/api/usermanagement/users',
-    method: 'post',
-    schema: Schemas.USER,
-    body: {
-      sub: profile.sub,
-      email: profile.email,
-      family_name: profile.family_name,
-      given_name: profile.given_name,
-      picture: profile.picture
-    }
-  }
-});
 
 export const ADDPICK_REQUEST = 'ADDPICK_REQUEST';
 export const ADDPICK_SUCCESS = 'ADDPICK_SUCCESS';
@@ -243,7 +242,6 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
   const year = get(query,'year');
 
   return dispatch(fetchGameWeeks({leagueId})).then(result=>{
-    const currentState = getState();
     const currentWeek = last(get(result,'response',[]).filter(x=>x.year===year));
 
     const request = {

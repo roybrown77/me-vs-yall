@@ -7,7 +7,7 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, leagues, years } from '../selectors';
+import { getResults, leagues } from '../selectors';
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
@@ -177,7 +177,7 @@ const ui = (state = Map({
   }
 };
 
-const lookup = (state = Map({leagues, years}), action) => {
+const lookup = (state = Map({leagues}), action) => {
   switch (action.type) {
     default:
       return state;

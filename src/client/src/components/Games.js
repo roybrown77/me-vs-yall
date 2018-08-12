@@ -6,8 +6,6 @@ import Game from '../components/Game';
 
 import { teams } from '../selectors';
 
-import get from 'lodash/get';
-
 class Games extends Component {
     render() {
         const games = this.props.games;

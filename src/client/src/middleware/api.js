@@ -1,4 +1,4 @@
-import { getAccessToken, getUser } from './authenticationService';
+import { getAccessToken } from './authenticationService';
 import { schema } from 'normalizr';
 import axios from 'axios';
 

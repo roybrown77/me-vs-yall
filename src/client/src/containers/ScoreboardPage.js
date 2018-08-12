@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Route }from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import moment from 'moment-timezone';
 import get from 'lodash/get';
 import last from 'lodash/last';
 

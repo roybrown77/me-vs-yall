@@ -797,6 +797,8 @@ router.get('/games', function (req, res) {
   updateNflScores();
   //loadHomes();
 
+  console.log('username: ' + process.env.db_username);
+
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
     year: get(req, 'query.year'),
