@@ -58,77 +58,86 @@ const loadNflGames = async () => {
     return;
   }
 
-  let games = [];
+  let browser;
+  let page;
 
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-
-  const page = await browser.newPage();
-
-  await page.goto('http://www.espn.com/nfl/scoreboard');
-
-  await page.waitForSelector('#events');
-
-  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-  const currentWeek = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-      browser.close();
-    }, CURRENTWEEK_SELECTOR);
-
-  if (currentWeek.toLowerCase().includes('pro bowl')) {
-    console.log("pro bowl will not be added; super bowl will load next wednesday.");
-    browser.close();
-    return;
-  }
-
-  let listLength = await page.evaluate((sel) => {
-    return document.getElementsByClassName(sel).length;
-  }, 'scoreboard football');
-
-  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-  let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
-  let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-  let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-  
-  for (let i = 1; i <= listLength; i++) {
-    const awayTeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-awayid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-    const homeTeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-homeid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-    const startDateTime = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-date');
-    }, STARTDATETIME_SELECTOR.replace("INDEX", i));
-
-    const spread = currentWeek.toLowerCase().includes('hall of fame') ? 'Line: 0' : 
-    await page.evaluate((sel) => {
-      return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
-    }, SPREAD_SELECTOR.replace("INDEX", i));
-
-    console.log('nfl spread: ' + JSON.stringify(spread));
-
-    games.push({
-      startDateTime: startDateTime,
-      spread: {
-       team: spread.replace('Line: ','').split(' ')[0],
-       amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
-       spreadDateTime: new Date(new Date().toUTCString()).toISOString()
-      },
-      awayTeam: awayTeam,
-      homeTeam: homeTeam
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
+
+    page = await browser.newPage();
+
+    await page.goto('http://www.espn.com/nfl/scoreboard');
+
+    await page.waitForSelector('#events');
+
+    let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+    const currentWeek = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, CURRENTWEEK_SELECTOR);
+
+    if (currentWeek.toLowerCase().includes('pro bowl')) {
+      console.log("pro bowl will not be added; super bowl will load next wednesday.");
+      await browser.close();
+      return;
+    }
+
+    let listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, 'scoreboard football');
+
+    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
+    let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+    
+    let games = [];
+
+    for (let i = 1; i <= listLength; i++) {
+      const awayTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-awayid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const homeTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-homeid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const startDateTime = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-date');
+      }, STARTDATETIME_SELECTOR.replace("INDEX", i));
+
+      const spread = currentWeek.toLowerCase().includes('hall of fame') ? 'Line: 0' : 
+      await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+      }, SPREAD_SELECTOR.replace("INDEX", i));
+
+      console.log('nfl spread: ' + JSON.stringify(spread));
+
+      games.push({
+        startDateTime: startDateTime,
+        spread: {
+         team: spread.replace('Line: ','').split(' ')[0],
+         amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+         spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+        },
+        awayTeam: awayTeam,
+        homeTeam: homeTeam
+      });
+    }
+
+    const year = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, YEAR_SELECTOR);
+
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    page ? await page.close() : undefined;
+    browser ? await browser.close() : undefined;
+    console.log('loadNflGames browser error: ' + JSON.stringify(err));
   }
-
-  const year = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, YEAR_SELECTOR);
-
-  browser.close();
 
   console.log('nfl games: ' + JSON.stringify(games[0]));
   
@@ -314,7 +323,7 @@ const loadFifaWorldCupGames = async () => {
 
   console.log('fifa world cup games: ' + JSON.stringify(games));
 
-  browser.close();
+  await browser.close();
 
   const mvyGames = games.map(game=>{
     const awayTeam = mvyCountries.find(x=>x.name === game.awayTeam);
@@ -442,7 +451,7 @@ const loadMlbGames = async () => {
     });
   }
 
-  browser.close();
+  await browser.close();
 
   console.log('mlb games: ' + JSON.stringify(games));
   
@@ -534,70 +543,79 @@ const updateNflScores = async () => {
 
   let scores = [];
 
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  let browser;
+  let page;
 
-  const page = await browser.newPage();
-
-  await page.goto('http://www.espn.com/nfl/scoreboard');
-
-  await page.waitForSelector('#events');
-
-  let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-  const currentWeek = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-      browser.close();
-    }, CURRENTWEEK_SELECTOR);
-
-  if (currentWeek.toLowerCase().includes('pro bowl')) {
-    console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
-    browser.close();
-    return;
-  }
-
-  let listLength = await page.evaluate((sel) => {
-    return document.getElementsByClassName(sel).length;
-  }, 'scoreboard football');
-
-  let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-  let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
-  let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-  let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-
-  for (let i = 1; i <= listLength; i++) {
-    const awayTeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-awayid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-    const awayScore = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
-    const homeTeam = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-homeid');
-    }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-    const homeScore = await page.evaluate((sel) => {
-      const element = document.querySelector(sel);
-      return element ? element.innerHTML : null;
-    }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-    scores.push({
-      awayTeam: awayTeam,
-      awayScore: parseInt(awayScore),
-      homeTeam: homeTeam,
-      homeScore: parseInt(homeScore)
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
+
+    page = await browser.newPage();
+
+    await page.goto('http://www.espn.com/nfl/scoreboard');
+
+    await page.waitForSelector('#events');
+
+    let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+    const currentWeek = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, CURRENTWEEK_SELECTOR);
+
+    if (currentWeek.toLowerCase().includes('pro bowl')) {
+      console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+      await browser.close();
+      return;
+    }
+
+    let listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, 'scoreboard football');
+
+    let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+
+    for (let i = 1; i <= listLength; i++) {
+      const awayTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-awayid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const awayScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const homeTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-homeid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const homeScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      scores.push({
+        awayTeam: awayTeam,
+        awayScore: parseInt(awayScore),
+        homeTeam: homeTeam,
+        homeScore: parseInt(homeScore)
+      });
+    }
+
+    const year = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, YEAR_SELECTOR);
+
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    page ? await page.close() : undefined;
+    browser ? await browser.close() : undefined;
+    console.log('updateNflScores browser error: ' + JSON.stringify(err));
   }
-
-  const year = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, YEAR_SELECTOR);
-
-  browser.close();
 
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
