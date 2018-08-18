@@ -127,8 +127,9 @@ class LeaderPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {this.props.dataLoading && <Spinner/>}
-                    {!this.props.dataLoading && 
+                    {(this.props.weeksDataLoading || this.props.dataLoading) && <Spinner/>}
+                    {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) &&
                         <div>
                             <div style={{height:'20px'}}/>
                             <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
