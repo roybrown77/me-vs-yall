@@ -49,7 +49,7 @@ const scoreboardDomain = (
     case ActionTypes.UPDATEPICK_SUCCESS:
       const pickListToUpdate = state.get('picks').update(
         state.get('picks').findIndex(function(item) { 
-            return item.get("_id") === action.response._id; 
+            return item.get("gameId") === action.response.gameId; 
           }), function(item) {
             return item.set("pickId", action.response.pickId).set("inProgress", false);
           }
