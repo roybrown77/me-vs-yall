@@ -634,10 +634,18 @@ const updateNflScores = async () => {
 };
 
 router.get('/games', function (req, res) {
-  loadNflGames();
+  try {
+    loadNflGames();
+  } catch(err) {
+    console.log('loadNflGames error: ' + JSON.stringify(err));
+  }
   //loadFifaWorldCupGames();
   //loadMlbGames();
-  updateNflScores();
+  try {
+    updateNflScores();
+  } catch(err) {
+    console.log('updateNflScores error: ' + JSON.stringify(err));
+  }
 
   console.log('username: ' + process.env.db_username);
 
