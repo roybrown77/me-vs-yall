@@ -74,7 +74,7 @@ class Game extends Component {
                         titleBackground={grid.titleBackground}
                         onClick={() => this.handleMakePick(game._id, competitor._id)}>
                         <div 
-                            className={inProgress && !competitor.Ï ? 'fast-flash' : ''}
+                            className={inProgress ? 'fast-flash' : ''}
                             style={{border: competitor.selected ? 
                             (game.isGameOver ? '8px solid rgb(0, 188, 212)' : '8px solid #BA68C8') : (inProgress ? '8px solid #BA68C8' : '0'), 
                             height: "91%", 
