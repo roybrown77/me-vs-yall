@@ -80,6 +80,7 @@ const loadNflGames = async () => {
 
     if (currentWeek.toLowerCase().includes('pro bowl')) {
       console.log("pro bowl will not be added; super bowl will load next wednesday.");
+      await page.close();
       await browser.close();
       return;
     }
@@ -565,6 +566,7 @@ const updateNflScores = async () => {
 
     if (currentWeek.toLowerCase().includes('pro bowl')) {
       console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+      await page.close();
       await browser.close();
       return;
     }
