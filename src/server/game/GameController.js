@@ -564,10 +564,7 @@ const updateNflScores = async () => {
 
     page = await browser.newPage();
 
-    await page.goto('http://www.espn.com/nfl/scoreboard',{
-      waitUntil: 'networkidle2',
-      timeout: 0
-    });
+    await page.goto('http://www.espn.com/nfl/scoreboard');
 
     await page.waitForSelector('#events');
 
@@ -597,6 +594,8 @@ const updateNflScores = async () => {
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+
+    console.log('listLength: ' + listLength);
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -646,6 +645,9 @@ const updateNflScores = async () => {
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
   let promises = [];
+
+  console.log('games: ' + JSON.stringify(games));
+  console.log('scores: ' + JSON.stringify(scores));
 
   games.forEach(game=>{
     const awayId = espnNflTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
