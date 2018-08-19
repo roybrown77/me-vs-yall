@@ -58,8 +58,11 @@ const loadNflGames = async () => {
     return;
   }
 
+  let games = [];
   let browser;
   let page;
+  let currentWeek;
+  let year;
 
   try {
     browser = await puppeteer.launch({
@@ -68,15 +71,23 @@ const loadNflGames = async () => {
 
     page = await browser.newPage();
 
-    await page.goto('http://www.espn.com/nfl/scoreboard');
+    await page.goto('http://www.espn.com/nfl/scoreboard',{
+      waitUntil: 'networkidle2',
+      timeout: 0
+    });
 
     await page.waitForSelector('#events');
 
     let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
 
-    const currentWeek = await page.evaluate((sel) => {
+    currentWeek = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, CURRENTWEEK_SELECTOR);
+
+    if (!currentWeek) {
+      console.log("loadNflGames currentWeek error");
+      return;
+    }
 
     if (currentWeek.toLowerCase().includes('pro bowl')) {
       console.log("pro bowl will not be added; super bowl will load next wednesday.");
@@ -93,8 +104,6 @@ const loadNflGames = async () => {
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-    
-    let games = [];
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -128,7 +137,7 @@ const loadNflGames = async () => {
       });
     }
 
-    const year = await page.evaluate((sel) => {
+    year = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, YEAR_SELECTOR);
 
@@ -543,9 +552,10 @@ const updateNflScores = async () => {
   }
 
   let scores = [];
-
   let browser;
   let page;
+  let currentWeek;
+  let year;
 
   try {
     browser = await puppeteer.launch({
@@ -554,15 +564,23 @@ const updateNflScores = async () => {
 
     page = await browser.newPage();
 
-    await page.goto('http://www.espn.com/nfl/scoreboard');
+    await page.goto('http://www.espn.com/nfl/scoreboard',{
+      waitUntil: 'networkidle2',
+      timeout: 0
+    });
 
     await page.waitForSelector('#events');
 
     let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
 
-    const currentWeek = await page.evaluate((sel) => {
+    currentWeek = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, CURRENTWEEK_SELECTOR);
+
+    if (!currentWeek) {
+      console.log("updateNflScores currentWeek error");
+      return;
+    }
 
     if (currentWeek.toLowerCase().includes('pro bowl')) {
       console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
@@ -607,7 +625,7 @@ const updateNflScores = async () => {
       });
     }
 
-    const year = await page.evaluate((sel) => {
+    year = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, YEAR_SELECTOR);
 
@@ -657,17 +675,19 @@ router.get('/games', function (req, res) {
   try {
     loadNflGames();
   } catch(err) {
-    console.log('loadNflGames error: ' + JSON.stringify(err));
+    console.log('loadNflGames: ' + JSON.stringify(err))
   }
-  //loadFifaWorldCupGames();
-  //loadMlbGames();
+
   try {
     updateNflScores();
   } catch(err) {
-    console.log('updateNflScores error: ' + JSON.stringify(err));
+    console.log('updateNflScores: ' + JSON.stringify(err))
   }
 
-  console.log('username: ' + process.env.db_username);
+  //loadFifaWorldCupGames();
+  //loadMlbGames();
+
+  console.log('db_username: ' + process.env.db_username);
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
