@@ -144,8 +144,14 @@ const loadNflGames = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    page ? await page.close() : undefined;
-    browser ? await browser.close() : undefined;
+    if (page) {
+      await page.close()
+    }
+
+    if (browser) {
+      await browser.close()
+    }
+
     console.log('loadNflGames browser error: ' + JSON.stringify(err));
   }
 
@@ -631,8 +637,13 @@ const updateNflScores = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    page ? await page.close() : undefined;
-    browser ? await browser.close() : undefined;
+    if (page) {
+      await page.close()
+    }
+
+    if (browser) {
+      await browser.close()
+    }
     console.log('updateNflScores browser error: ' + JSON.stringify(err));
   }
 
