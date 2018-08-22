@@ -27,7 +27,6 @@ class Footer extends Component {
                             <BottomNavigationItem
                                 label="Leagues"
                                 icon={leaguesIcon}
-                                onTouchTap={() => { history.push('/leagues') }}
                                 />
                         )} />
                     )}

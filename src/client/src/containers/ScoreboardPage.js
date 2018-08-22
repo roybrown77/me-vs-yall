@@ -13,7 +13,7 @@ import Footer from '../components/Footer';
 import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
-import Spinner from '../components/Spinner';
+import LinearProgress from '../components/LinearProgress';
 
 import { loadScoreboard, loadDailyScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks } from '../selectors';
@@ -136,7 +136,7 @@ class ScoreboardPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {(this.props.weeksDataLoading || this.props.dataLoading) && <Spinner/>}
+                    {(this.props.weeksDataLoading || this.props.dataLoading) && <LinearProgress/>}
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && !this.props.isAuthenticated && 
                         <Route render={({ history }) => (

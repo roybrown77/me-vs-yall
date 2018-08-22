@@ -8,8 +8,11 @@ class AboutPage extends Component {
         return (
             <div>
                 <Header/>
-                <div className="page-container" style={{marginTop: '1em'}}>
-                    Pick winners of sporting events and compete with others around the world.
+                <br />
+                <div style={{textSlign: 'left'}}>
+                    In 2007, a buddy of mine and I would simply text who we thought would win the
+                    upcoming week nfl games for bragging rights or dinner.  After a few weeks 
+                    he said hey ur a dev make an app.  So here we are many eons later.  Enjoy!
                 </div>
                 <Footer/>
             </div>

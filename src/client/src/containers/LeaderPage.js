@@ -8,7 +8,7 @@ import last from 'lodash/last';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GameSearchBar from '../components/GameSearchBar';
-import Spinner from '../components/Spinner';
+import LinearProgress from '../components/LinearProgress';
 
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings } from '../selectors';
@@ -129,7 +129,7 @@ class LeaderPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {(this.props.weeksDataLoading || this.props.dataLoading) && <Spinner/>}
+                    {(this.props.weeksDataLoading || this.props.dataLoading) && <LinearProgress/>}
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) &&
                         <div>
@@ -166,7 +166,7 @@ class LeaderPage extends Component {
                                             </td>
                                             <td>
                                                 <div className="leader-item">
-                                                    {formatMoney(getWinnings(leader))}
+                                                    {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                 </div>
                                             </td>
                                         </tr>
