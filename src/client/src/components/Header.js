@@ -29,47 +29,20 @@ class Header extends Component {
                 id="app-bar"
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
                 onTouchTap={this.handleToggle}
+                title={'Me vs Yall'}
+                style={{fontWeight: 'bold', color:'#000000'}}
                 />
               <Drawer docked={false}
                 open={this.state.open}
                 style={{fontWeight: 'bold', textAlign:'left'}}
                 onRequestChange={(open) => this.setState({open})}>
                   {(
-                    <Route render={({ history}) => (
-                      <MenuItem
-                        onTouchTap={this.handleClose}
-                        style={{marginTop:'2em'}}
-                        onClick={() => { history.push('/') }}
-                        >
-                        Home
-                      </MenuItem>
-                      )} />
-                  )}
-                  {(
-                    <Route render={({ history}) => (
-                        <MenuItem
-                          onTouchTap={this.handleClose}
-                        >
-                          How to Play
-                        </MenuItem>
-                      )} />
-                    )}
-                  {(
-                    <Route render={({ history}) => (
-                        <MenuItem
-                          onTouchTap={this.handleClose}
-                        >
-                          Leagues
-                        </MenuItem>
-                      )} />
-                  )}
-                  {(
                     <Route render={({history}) => (
                       <MenuItem
                          onTouchTap={this.handleClose}
                          onClick={() => { history.push('/scoreboards/nfl') }}
                          >
-                         Scoreboards
+                         Scores
                          </MenuItem>
                      )} />
                   )}
@@ -88,18 +61,18 @@ class Header extends Component {
                           <MenuItem
                             onTouchTap={this.handleClose}
                           >
-                            Me
+                            News
                           </MenuItem>
                         )} />
                   )}
                   {(
-                      <Route render={({ history}) => (
-                          <MenuItem
-                            onTouchTap={this.handleClose}
-                          >
-                            Yall
-                          </MenuItem>
-                        )} />
+                    <Route render={({ history}) => (
+                      <MenuItem
+                        onTouchTap={this.handleClose}
+                      >
+                        How to Play
+                      </MenuItem>
+                    )} />
                   )}
                   {(
                       <Route render={({ history}) => (
