@@ -37,6 +37,16 @@ class Header extends Component {
                 style={{fontWeight: 'bold', textAlign:'left'}}
                 onRequestChange={(open) => this.setState({open})}>
                   {(
+                    <Route render={({ history}) => (
+                      <MenuItem
+                        onTouchTap={this.handleClose}
+                        onClick={() => { history.push('/howtoplay') }}
+                      >
+                        How to Play
+                      </MenuItem>
+                    )} />
+                  )}
+                  {(
                     <Route render={({history}) => (
                       <MenuItem
                          onTouchTap={this.handleClose}
@@ -64,15 +74,6 @@ class Header extends Component {
                             News
                           </MenuItem>
                         )} />
-                  )}
-                  {(
-                    <Route render={({ history}) => (
-                      <MenuItem
-                        onTouchTap={this.handleClose}
-                      >
-                        How to Play
-                      </MenuItem>
-                    )} />
                   )}
                   {(
                       <Route render={({ history}) => (

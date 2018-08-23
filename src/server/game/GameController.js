@@ -24,20 +24,20 @@ const sortBy = require('lodash/sortBy');
 const loadNflGames = async () => {
   const leagueId = '59723313734d1d6202a85f10';
   const currentMonth = moment().month()+1;
-  console.log('nfl currentMonth: ' + currentMonth);
+  console.log('loadNflGames nfl currentMonth: ' + currentMonth);
 
   const currentDay = moment().date();
   console.log('nfl currentDay: ' + currentDay);
 
   if (![8,9,10,11,12,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
-    console.log('new nfl games will be loaded during season.');
+    console.log('loadNflGames new nfl games will be loaded during season.');
     return;
   }
 
   const currentWeekDay = moment().weekday();
 
   if (currentWeekDay < 3) {
-    console.log('new nfl games will be loaded on wednesday.');
+    console.log('loadNflGames new nfl games will be loaded on wednesday.');
     return;
   }
 
@@ -54,7 +54,7 @@ const loadNflGames = async () => {
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('unable to load new nfl games until all games have ended.');
+    console.log('loadNflGames unable to load new nfl games until all games have ended.');
     return;
   }
 
@@ -71,10 +71,7 @@ const loadNflGames = async () => {
 
     page = await browser.newPage();
 
-    await page.goto('http://www.espn.com/nfl/scoreboard',{
-      waitUntil: 'networkidle2',
-      timeout: 0
-    });
+    await page.goto('http://www.espn.com/nfl/scoreboard');
 
     await page.waitForSelector('#events');
 
@@ -90,7 +87,7 @@ const loadNflGames = async () => {
     }
 
     if (currentWeek.toLowerCase().includes('pro bowl')) {
-      console.log("pro bowl will not be added; super bowl will load next wednesday.");
+      console.log("loadNflGames pro bowl will not be added; super bowl will load next wednesday.");
       await page.close();
       await browser.close();
       return;
@@ -99,6 +96,15 @@ const loadNflGames = async () => {
     let listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard football');
+
+    console.log('loadNflGames listLength: ' + listLength);
+
+    if (listLength === 0) {
+      console.log("loadNflGames no nfl games found");
+      await page.close();
+      await browser.close();
+      return;
+    }
 
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
@@ -123,7 +129,7 @@ const loadNflGames = async () => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, SPREAD_SELECTOR.replace("INDEX", i));
 
-      console.log('nfl spread: ' + JSON.stringify(spread));
+      console.log('loadNflGames nfl spread: ' + JSON.stringify(spread));
 
       games.push({
         startDateTime: startDateTime,
@@ -155,7 +161,7 @@ const loadNflGames = async () => {
     console.log('loadNflGames browser error: ' + JSON.stringify(err));
   }
 
-  console.log('nfl games: ' + JSON.stringify(games[0]));
+  console.log('loadNflGames nfl games: ' + JSON.stringify(games[0]));
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 0 : 
@@ -190,7 +196,7 @@ const loadNflGames = async () => {
     };
   });
 
-  console.log('nfl mvyGames: ' + JSON.stringify(mvyGames[0]));
+  console.log('loadNflGames nfl mvyGames: ' + JSON.stringify(mvyGames[0]));
 
   mvyGames.forEach(game=>{
     const gameSearch = {
@@ -200,17 +206,17 @@ const loadNflGames = async () => {
       weekNo: game.weekNo
     };
 
-    console.log('nfl gameSearch: ' + JSON.stringify(gameSearch));
+    console.log('loadNflGames nfl gameSearch: ' + JSON.stringify(gameSearch));
 
     gameRepository.find(gameSearch, function (err, games) {
       if ((games || []).length > 0) {
-        console.log("nfl games already exists: " + JSON.stringify(gameSearch));
+        console.log("loadNflGames nfl games already exists: " + JSON.stringify(gameSearch));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
-            console.log("there was a problem adding nfl game to the database: " + err.message);
+            console.log("loadNflGames there was a problem adding nfl game to the database: " + err.message);
           } else {
-            console.log("success creating nfl game: " + gameCreated._id);
+            console.log("loadNflGames success creating nfl game: " + gameCreated._id);
           }
         });
       }
@@ -234,7 +240,7 @@ const loadNflGames = async () => {
     endDateTime: latestGameTime
   };
 
-  console.log('nfl gameWeek: ' + JSON.stringify(gameWeek));
+  console.log('loadNflGames nfl gameWeek: ' + JSON.stringify(gameWeek));
 
   const gameWeekSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -245,13 +251,13 @@ const loadNflGames = async () => {
 
   gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
     if ((gameWeeks || []).length > 0) {
-      console.log("nfl game week already exists: " + JSON.stringify(gameWeeks));
+      console.log("loadNflGames nfl game week already exists: " + JSON.stringify(gameWeeks));
     } else {
       gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
           if (err) {
-              console.log("there was a problem adding nfl week to the database: " + err.message);
+              console.log("loadNflGames there was a problem adding nfl week to the database: " + err.message);
           } else {
-            console.log("success creating nfl week: " + gameWeekCreated._id);
+            console.log("loadNflGames success creating nfl week: " + gameWeekCreated._id);
           }
       });
     }
@@ -553,7 +559,7 @@ const updateNflScores = async () => {
   const games = await gameRepository.find(search);
 
   if (!!games && games.length === 0) {
-    console.log("all nfl scores have been updated.");
+    console.log("updateNflScores all nfl scores have been updated.");
     return;
   }
 
@@ -586,7 +592,7 @@ const updateNflScores = async () => {
     }
 
     if (currentWeek.toLowerCase().includes('pro bowl')) {
-      console.log("Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
+      console.log("updateNflScores Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
       await page.close();
       await browser.close();
       return;
@@ -601,7 +607,14 @@ const updateNflScores = async () => {
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
-    console.log('listLength: ' + listLength);
+    console.log('updateNflScores listLength: ' + listLength);
+
+    if (listLength === 0) {
+      console.log("updateNflScores no nfl games found");
+      await page.close();
+      await browser.close();
+      return;
+    }
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -657,14 +670,14 @@ const updateNflScores = async () => {
 
   let promises = [];
 
-  console.log('games: ' + JSON.stringify(games));
-  console.log('scores: ' + JSON.stringify(scores));
+  console.log('updateNflScores games: ' + JSON.stringify(games));
+  console.log('updateNflScores scores: ' + JSON.stringify(scores));
 
   games.forEach(game=>{
     const awayId = espnNflTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
 
-    console.log('score: ' + JSON.stringify(score));
+    console.log('updateNflScores score: ' + JSON.stringify(score));
 
     if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
       (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
