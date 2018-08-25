@@ -701,19 +701,19 @@ router.get('/games', function (req, res) {
   try {
     loadNflGames();
   } catch(err) {
-    console.log('loadNflGames: ' + JSON.stringify(err))
+    console.log('games loadNflGames: ' + JSON.stringify(err))
   }
 
   try {
     updateNflScores();
   } catch(err) {
-    console.log('updateNflScores: ' + JSON.stringify(err))
+    console.log('games updateNflScores: ' + JSON.stringify(err))
   }
 
   //loadFifaWorldCupGames();
   //loadMlbGames();
 
-  console.log('db_username: ' + process.env.db_username);
+  console.log('games db_username: ' + process.env.db_username);
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
@@ -735,10 +735,10 @@ router.get('/games', function (req, res) {
     ]
   );
 
-  console.log('game search criteria: ' + JSON.stringify(finalSearch));
+  console.log('games search criteria: ' + JSON.stringify(finalSearch));
   
   gameRepository.find(finalSearch, function (err, games) {
-      //console.log('games found: ' + JSON.stringify(games));
+      //console.log('games games found: ' + JSON.stringify(games));
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       res.status(200).send(games);
   });
