@@ -12,7 +12,7 @@ class HowToPlayPage extends Component {
                     1.  On Scores page, click 'Press Start To Play!' and Login with Google Account.
                 </div>
                 <div style={{textAlign: 'left', padding:'16px'}}>
-                    2.  Select your winners before game starts.
+                    2.  Select your winners before game starts.  New games are loaded the day before.
                 </div>
                 <div style={{textAlign: 'left', padding:'16px'}}>
                     3.  Watch your numbers grow on Scores and Leaders pages.
