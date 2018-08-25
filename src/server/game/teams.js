@@ -1,69 +1,69 @@
 const mvyCountries = [
     {
         _id: "19823783734d1d04a1b39020",
-        name: 'Russia',
-        shortName: 'RUS',
+        location: 'Russia',
+        shortLocation: 'RUS',
         colors: ['#FFFFFF', '#0039A6', '#D52B1E']
     },
     {
         _id: "19823783734d1d04a1b39021",
-        name: 'Saudi Arabia',
-        shortName: 'KSA',
+        location: 'Saudi Arabia',
+        shortLocation: 'KSA',
         colors: ['#006C35', '#FFFFFF']
     },
     {
         _id: "19823783734d1d04a1b39022",
-        name: 'Egypt',
-        shortName: 'EGY',
+        location: 'Egypt',
+        shortLocation: 'EGY',
         colors: ['#CE1126', '#FFFFFF', '#000000', '#C09300']
     },
     {
         _id: "19823783734d1d04a1b39023",
-        name: 'Uruguay',
-        shortName: 'URU',
+        location: 'Uruguay',
+        shortLocation: 'URU',
         colors: ['#FCD116', '#FFFFFF', '#0038A8']
     },
     {
         _id: "19823783734d1d04a1b39024",
-        name: 'Morocco',
-        shortName: 'MAR',
+        location: 'Morocco',
+        shortLocation: 'MAR',
         colors: ['#C1272D', '#006233']
     },
     {
         _id: "19823783734d1d04a1b39025",
-        name: 'IRAN',
-        shortName: 'IRN',
+        location: 'IRAN',
+        shortLocation: 'IRN',
         colors: ['#239F40', '#FFFFFF', '#DA0000']
     },
     {
         _id: "19823783734d1d04a1b39026",
-        name: 'Mexico',
-        shortName: 'MXO',
+        location: 'Mexico',
+        shortLocation: 'MXO',
         colors: ['#006847', '#FFFFFF', '#CE1126']
     },
     {
         _id: "19823783734d1d04a1b39027",
-        name: 'Portugal',
-        shortName: 'POR',
+        location: 'Portugal',
+        shortLocation: 'POR',
         colors: ['#006600', '#FF0000', '#FFFF00']
     },
     {
         _id: "19823783734d1d04a1b39028",
-        name: 'Spain',
-        shortName: 'ESP',
+        location: 'Spain',
+        shortLocation: 'ESP',
         colors: ['#C60B1E', '#FFC400']
     },
     {
         _id: "19823783734d1d04a1b39029",
-        name: 'France',
-        shortName: 'FR',
+        location: 'France',
+        shortLocation: 'FR',
         colors: ['#002395', '#FFFFFF', '#ED2939']
     },
     {
         _id: "19823783734d1d04a1b39030",
-        name: 'Croatia',
-        shortName: 'CRO',
-        colors: ['#FF0000', '#FFFFFF', '#0093DD', '#F7DB17', '#171796']
+        location: 'Croatia',
+        shortLocation: 'CRO',
+        colors: ['#FF0000', '#FFFFFF', '#0093DD']
     }
 ];
 

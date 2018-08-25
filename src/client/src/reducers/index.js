@@ -113,6 +113,31 @@ const weeksDomain = (
   }
 };
 
+const teamDomain = (
+  state = Map({ 
+    teams: List(), 
+    dataLoading: false 
+  }), 
+  action) => {
+  switch (action.type) {
+    case ActionTypes.TEAMS_REQUEST:
+      return state.set('dataLoading', true);
+    case ActionTypes.TEAMS_SUCCESS:
+      if (action.response) {
+        const teamList = action.response.map(item=>{
+          return Map(item);
+        });
+
+        return state.set('teams', List(teamList)).set("dataLoading", false);
+      }
+      return state;
+    case ActionTypes.TEAMS_FAILURE:
+      return state.set('dataLoading', false);
+    default:
+      return state;
+  }
+};
+
 const leaderDomain = (
   state = Map({ 
     leaders: List(), 
@@ -201,6 +226,7 @@ const rootReducer = combineReducers({
   scoreboardDomain,
   leaderDomain,
   weeksDomain,
+  teamDomain,
   ui,
   lookup,
 	errorMessage

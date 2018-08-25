@@ -4,12 +4,14 @@ import moment from 'moment-timezone';
 
 import Game from '../components/Game';
 
-import { teams } from '../selectors';
+import get from 'lodash/get';
 
 class Games extends Component {
     render() {
         const games = this.props.games;
         const picks = this.props.picks;
+        const teams = get(this.props, 'teams', []);
+
         const handleMakePick = this.props.handleMakePick;
 
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
@@ -28,9 +30,9 @@ class Games extends Component {
                         return {
                             ...competitor,
                             shortLocation: team.shortLocation,
-                            name: team.name,
+                            name: team.name || team.location,
                             color: team.color,
-                            //colors: team.colors,
+                            colors: team.name ? undefined : team.colors,
                             selected: picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false
                         };
                     })
@@ -53,6 +55,7 @@ class Games extends Component {
 Games.propTypes = {
   games: PropTypes.array,
   picks: PropTypes.array,
+  teams: PropTypes.array,
   handleMakePick: PropTypes.func
 };
 

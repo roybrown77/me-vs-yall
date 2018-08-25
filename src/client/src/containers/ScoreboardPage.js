@@ -158,7 +158,9 @@ class ScoreboardPage extends Component {
                         <Games
                             handleMakePick={this.handleMakePick} 
                             games={this.props.games} 
-                            picks={this.props.picks}/>
+                            picks={this.props.picks}
+                            teams={this.props.teams}
+                            />
                     }
                 </div>
                 <Footer/>
@@ -193,6 +195,9 @@ const mapStateToProps = (state, ownProps) => {
 
     const seasonType = get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
     
+    const teamDomain = state.get('teamDomain').toJS();
+    const teams = get(teamDomain, 'teams', []);
+
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
@@ -210,6 +215,7 @@ const mapStateToProps = (state, ownProps) => {
         year,
         seasonType,
         weekNo,
+        teams,
         isAuthenticated
     }
 };
@@ -222,6 +228,7 @@ ScoreboardPage.propTypes = {
     weeks: PropTypes.array,
     leagues: PropTypes.array,
     years: PropTypes.array,
+    teams: PropTypes.array,
     leagueId: PropTypes.string,
     year: PropTypes.number,
     seasonType: PropTypes.number,

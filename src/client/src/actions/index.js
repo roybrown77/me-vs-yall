@@ -144,6 +144,14 @@ const fetchAllUsers = (types) => ({
   }
 });
 
+const fetchAllTeams = (types) => ({
+  [CALL_API]: {
+    types,
+    endpoint: `/api/gamemanagement/teams`,
+    schema: Schemas.TEAM_ARRAY
+  }
+});
+
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
 export const LEADERS_FAILURE = 'LEADERS_FAILURE';
@@ -172,6 +180,10 @@ export const USERS_REQUEST = 'USERS_REQUEST';
 export const USERS_SUCCESS = 'USERS_SUCCESS';
 export const USERS_FAILURE = 'USERS_FAILURE';
 
+export const TEAMS_REQUEST = 'TEAMS_REQUEST';
+export const TEAMS_SUCCESS = 'TEAMS_SUCCESS';
+export const TEAMS_FAILURE = 'TEAMS_FAILURE';
+
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
   const year = get(query,'year');
@@ -196,7 +208,8 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
 
     Promise.all([
       dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-      !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined
+      !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
+      dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
     ]).then(
     result=>{ 
       dispatch({type: SCOREBOARD_SUCCESS, response: result});

@@ -791,4 +791,13 @@ router.get('/gameweeks', function (req, res) {
   });
 });
 
+router.get('/teams', function (req, res) {
+  const teams = [
+    ...mvyNflTeams, 
+    ...mvyMlbTeams,
+    ...mvyCountries
+  ];
+  res.status(200).send(teams);
+});
+
 module.exports = router;
