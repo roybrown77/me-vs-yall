@@ -81,7 +81,7 @@ class Header extends Component {
                             onTouchTap={this.handleClose}
                             onClick={() => { history.push('/feedback') }}
                           >
-                            Tell Us How To Get Better
+                            Tell MvY How To Get Better
                           </MenuItem>
                         )} />
                   )}
