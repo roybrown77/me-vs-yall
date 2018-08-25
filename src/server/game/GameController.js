@@ -25,7 +25,7 @@ const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
 const loadNflGames = async () => {
-  if (isUpdateNflScoresRunning) {
+  if (isLoadNflGamesRunning) {
     console.log("loadNflGames already running.");
     return;
   }
