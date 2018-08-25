@@ -9,9 +9,9 @@ class AboutPage extends Component {
             <div>
                 <Header/>
                 <div style={{textAlign: 'left', padding:'16px'}}>
-                    In 2007, a buddy of mine and I would simply text each other who we thought would win the
-                    upcoming week nfl games.  This was just for bragging rights or dinner.  After a few weeks, 
-                    he said 'hey, ur a dev make an app'.  So here we are many eons later.  Enjoy!
+                    In 2007, a buddy of mine and I would simply texted each other who we thought would win the
+                    upcoming week's nfl games.  This was just for bragging rights or a meal.  After a few weeks, 
+                    he said 'hey, ur a dev make an app'.  Enjoy!
                 </div>
                 <Footer/>
             </div>

@@ -136,7 +136,7 @@ class ScoreboardPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {(this.props.weeksDataLoading || this.props.dataLoading) && <LinearProgress/>}
+                    {(this.props.dataLoading) && <LinearProgress/>}
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && !this.props.isAuthenticated && 
                         <Route render={({ history }) => (

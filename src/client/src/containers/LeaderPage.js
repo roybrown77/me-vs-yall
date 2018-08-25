@@ -129,7 +129,7 @@ class LeaderPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {(this.props.weeksDataLoading || this.props.dataLoading) && <LinearProgress/>}
+                    {(this.props.dataLoading) && <LinearProgress/>}
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) &&
                         <div>
