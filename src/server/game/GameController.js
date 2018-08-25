@@ -1,3 +1,6 @@
+let isUpdateNflScoresRunning = false;
+let isLoadNflGamesRunning = false;
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -22,6 +25,11 @@ const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
 const loadNflGames = async () => {
+  if (isUpdateNflScoresRunning) {
+    console.log("loadNflGames already running.");
+    return;
+  }
+
   const leagueId = '59723313734d1d6202a85f10';
   const currentMonth = moment().month()+1;
   console.log('loadNflGames nfl currentMonth: ' + currentMonth);
@@ -63,6 +71,8 @@ const loadNflGames = async () => {
   let page;
   let currentWeek;
   let year;
+
+  isLoadNflGamesRunning = true;
 
   try {
     browser = await puppeteer.launch({
@@ -262,6 +272,8 @@ const loadNflGames = async () => {
       });
     }
   });
+
+  isLoadNflGamesRunning = false;
 };
 
 // const loadFifaWorldCupGames = async () => {
@@ -544,6 +556,11 @@ const loadNflGames = async () => {
   // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
 const updateNflScores = async () => {
+  if (isUpdateNflScoresRunning) {
+    console.log("updateNflScores already running.")
+    return;
+  }
+
   const search = {
     isGameOver: {
       $ne: true
@@ -591,6 +608,8 @@ const updateNflScores = async () => {
   let page;
   let currentWeek;
   let year;
+
+  isUpdateNflScoresRunning = true;
 
   try {
     browser = await puppeteer.launch({
@@ -718,6 +737,8 @@ const updateNflScores = async () => {
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
+
+  isUpdateNflScoresRunning = false;
 };
 
 router.get('/games', function (req, res) {
