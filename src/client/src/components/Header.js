@@ -30,7 +30,12 @@ class Header extends Component {
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
                 onTouchTap={this.handleToggle}
                 title={'Me vs Yall'}
-                style={{fontWeight: 'bold', color:'#000000'}}
+                titleStyle={{
+                    fontSize: 17,
+                    color: '#000000',
+                    fontWeight: '600',
+                    fontStyle: 'italic'
+                  }}
                 />
               <Drawer docked={false}
                 open={this.state.open}
