@@ -8,7 +8,7 @@ class AboutPage extends Component {
         return (
             <div>
                 <Header/>
-                <div style={{padding:'16px'}}>
+                <div style={{margin:'16px', marginTop: '91px'}}>
                     Send ways we can improve at mevsyallsports@gmail.com!
                 </div>
                 <Footer/>
