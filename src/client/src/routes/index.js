@@ -14,6 +14,7 @@ const routes = (
 		 <MuiThemeProvider>
 		    <div className="App">
 		        <main>
+		        	<div style={{height:'100%'}}>
 			            <Switch>
 			                <Route exact path='/' component={ScoreboardPage}/>
 			                <Route path='/howtoplay' component={HowToPlayPage}/>
@@ -24,6 +25,7 @@ const routes = (
 			                <Route exact path='/login' component={LoginPage}/>
 			                <Route path='/authenticationCallback' component={AuthenticationCallback}/>
 			            </Switch>
+			        </div>
 		        </main>
 		    </div>
 		</MuiThemeProvider>
