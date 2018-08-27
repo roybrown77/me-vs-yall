@@ -36,6 +36,10 @@ class Header extends Component {
                     fontWeight: '600',
                     fontStyle: 'italic'
                   }}
+                style={{
+                  position: 'fixed',
+                  top: 0
+                }}
                 />
               <Drawer docked={false}
                 open={this.state.open}
