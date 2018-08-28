@@ -32,7 +32,7 @@ class Games extends Component {
                             shortLocation: team.shortLocation,
                             name: team.name || team.location,
                             color: team.color,
-                            colors: team.name ? undefined : team.colors,
+                            //colors: team.name ? undefined : team.colors,
                             selected: picks.find(x=>x.gameId === game._id && x.pickId === competitor._id) ? true : false
                         };
                     })
