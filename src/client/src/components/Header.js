@@ -24,6 +24,8 @@ class Header extends Component {
   };
 
   render() {
+    const leagueName = this.props.leagueName;
+
     return (<div>
               <AppBar
                 id="app-bar"
@@ -59,7 +61,7 @@ class Header extends Component {
                     <Route render={({history}) => (
                       <MenuItem
                          onTouchTap={this.handleClose}
-                         onClick={() => { history.push('/scoreboards/nfl') }}
+                         onClick={() => { history.push('/scoreboards/' + leagueName) }}
                          >
                          Scores
                          </MenuItem>
@@ -69,7 +71,7 @@ class Header extends Component {
                     <Route render={({ history}) => (
                         <MenuItem
                           onTouchTap={this.handleClose}
-                          onClick={() => { history.push('/leaders/nfl') }}
+                          onClick={() => { history.push('/leaders/' + leagueName) }}
                         >
                           Leaders
                         </MenuItem>
@@ -136,13 +138,25 @@ const mapStateToProps = (state, ownProps) => {
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
+    const ui = state.get('ui').toJS();
+    const request = get(ui,'request');
+
+    const lookup = state.get('lookup').toJS();
+    const leagues = get(lookup, 'leagues', []);
+    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const league = leagues.find(x=>x.id === leagueId);
+
+    const leagueName = get(league,'name','nfl');
+
     return {
-        isAuthenticated
+        isAuthenticated,
+        leagueName
     }
 };
 
 Header.propTypes = {
-    isAuthenticated: PropTypes.bool
+    isAuthenticated: PropTypes.bool,
+    leagueName: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(Header);

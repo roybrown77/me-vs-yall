@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom'
+import get from 'lodash/get';
 
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
@@ -19,6 +22,8 @@ class Footer extends Component {
     select = (index) => this.setState({selectedIndex: index});
 
     render() {
+        const leagueName = this.props.leagueName;
+
         return (
             <Paper zDepth={1}>
                 <BottomNavigation selectedIndex={this.state.selectedIndex} style={{position:"fixed", bottom:"0", backgroundColor: "#f4f7f6", borderTop: "1px solid #000"}}>
@@ -27,7 +32,7 @@ class Footer extends Component {
                             <BottomNavigationItem
                                 label="Scores"
                                 icon={scoreboardsIcon}
-                                onTouchTap={() => { history.push('/scoreboards/nfl') }}
+                                onTouchTap={() => { history.push('/scoreboards/' + leagueName) }}
                                         />
                         )} />
                     )}
@@ -36,7 +41,7 @@ class Footer extends Component {
                             <BottomNavigationItem
                             label="Leaders"
                             icon={leadersIcon}
-                            onTouchTap={() => { history.push('/leaders/nfl') }}
+                            onTouchTap={() => { history.push('/leaders/' + leagueName) }}
                                 />
                     )} />
                     )}
@@ -54,4 +59,24 @@ class Footer extends Component {
     }
 }
 
-export default Footer;
+const mapStateToProps = (state, ownProps) => {
+    const ui = state.get('ui').toJS();
+    const request = get(ui,'request');
+
+    const lookup = state.get('lookup').toJS();
+    const leagues = get(lookup, 'leagues', []);
+    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const league = leagues.find(x=>x.id === leagueId);
+
+    const leagueName = get(league,'name','nfl');
+
+    return {
+        leagueName
+    }
+};
+
+Footer.propTypes = {
+    leagueName: PropTypes.string,
+};
+
+export default connect(mapStateToProps)(Footer);

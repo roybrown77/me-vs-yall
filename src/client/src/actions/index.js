@@ -25,6 +25,18 @@ const createUser = profile => ({
 });
 
 export const loadUser = () => (dispatch, getState) => {
+  const state = getState();
+
+  const ui = state.get('ui').toJS();
+  const request = get(ui,'request');
+
+  const lookup = state.get('lookup').toJS();
+  const leagues = get(lookup, 'leagues', []);
+  const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+  const league = leagues.find(x=>x.id === leagueId);
+
+  const leagueName = get(league,'name','nfl');
+
   setAccessToken();
   setIdToken();
   setExpiration();
@@ -32,7 +44,7 @@ export const loadUser = () => (dispatch, getState) => {
     localStorage.setItem('user', JSON.stringify(profile));
     dispatch({type: 'LOGIN_SUCCESS', user: profile}),
     dispatch(createUser(profile)),
-    history.push('/scoreboards/nfl');
+    history.push('/scoreboards/' + leagueName);
   });
 };
 

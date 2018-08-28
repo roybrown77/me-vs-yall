@@ -33,13 +33,9 @@ class ScoreboardPage extends Component {
 
     componentDidMount() {
         if (this.props.weeksDataLoading || this.props.dataLoading) return;
-        
-        const { leagueName } = this.props.match.params;
-        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-        const urlLeagueId = get(urlLeague,'id') || this.props.leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
 
         this.props.loadScoreboard({
-            leagueId: urlLeagueId,
+            leagueId: this.props.leagueId,
             year: this.props.year,
             seasonType: this.props.seasonType,
             weekNo: this.props.weekNo
@@ -200,8 +196,6 @@ const mapStateToProps = (state, ownProps) => {
 
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
-
-    history.push('/scoreboards/' + get(league,'name',''));
 
     return {
         dataLoading,
