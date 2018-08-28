@@ -8,6 +8,6 @@ var TeamSchema = new mongoose.Schema({
 	firstName: String,
 	LastName: String,
 	colors: Array,
-	espnId: String,
+	externalId: String,
 });
 module.exports = mongoose.model('Team', TeamSchema);
