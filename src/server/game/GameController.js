@@ -1172,7 +1172,7 @@ const loadNCAAFootballGames = async () => {
 
 const updateNCAAFootballScores = async () => {
   const leagueId = '59723313734d1d6202a85f15';
-  
+
   if (isUpdateNCAAFootballScoresRunning) {
     console.log("updateNCAAFootballScores already running.")
     return;
@@ -1327,7 +1327,7 @@ const updateNCAAFootballScores = async () => {
   console.log('updateNCAAFootballScores games: ' + JSON.stringify(games));
   console.log('updateNCAAFootballScores scores: ' + JSON.stringify(scores));
 
-  const teams = teamRepository.find({leagueId: mongoose.Types.ObjectId(leagueId)}, function (err, dbTeams) {
+  const teams = await teamRepository.find({leagueId: mongoose.Types.ObjectId(leagueId)});
 
   games.forEach(game=>{
     const awayId = teams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).id;
