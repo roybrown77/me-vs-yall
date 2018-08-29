@@ -96,6 +96,7 @@ class Game extends Component {
                                     {get(game,'spread.amount')}
                                 </div>
                                 <div style={{fontSize: game.leagueId === '59723313734d1d6202a85f15' ? '40px' : '4rem/1', paddingTop: game.isGameOver ? '12px' : (competitor.selected ? '42px' : '46px')}}>
+                                    <span style={{marginRight:'8px', fontSize:'20px',color:'rgba(0, 0, 0, 0.54)'}}>{parseInt(competitor.rank).toString() === 'NaN' ? '' : parseInt(competitor.rank)}</span>
                                     {competitor.shortLocation}
                                 </div>
                                 {
