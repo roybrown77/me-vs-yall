@@ -1,6 +1,7 @@
 let isUpdateNflScoresRunning = false;
 let isLoadNflGamesRunning = false;
 let isLoadNCAAFootballGamesRunning = false;
+let isUpdateNCAAFootballScoresRunning = false;
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -1169,27 +1170,219 @@ const loadNCAAFootballGames = async () => {
   isLoadNCAAFootballGamesRunning = false;
 };
 
-router.get('/games', function (req, res) {
-  // try {
-  //   loadNflGames();
-  // } catch(err) {
-  //   isLoadNflGamesRunning = false;
-  //   console.log('get games loadNflGames error: ' + err.message)
-  // }
+const updateNCAAFootballScores = async () => {
+  const leagueId = '59723313734d1d6202a85f15';
+  
+  if (isUpdateNCAAFootballScoresRunning) {
+    console.log("updateNCAAFootballScores already running.")
+    return;
+  }
 
-  // try {
-  //   updateNflScores();
-  // } catch(err) {
-  //   isUpdateNflScoresRunning = false;
-  //   console.log('get games updateNflScores error: ' + err.message)
-  // }
+  const search = {
+    isGameOver: {
+      $ne: true
+    },
+    weekNo: {
+      $gt: 0
+    },
+    startDateTime: {
+      $lt: new Date(new Date().toUTCString()).toISOString()
+    }
+  };
+
+  const games = await gameRepository.find(search);
+
+  if (!!games && games.length === 0) {
+    console.log("updateNCAAFootballScores all scores have been updated.");
+    return;
+  }
+
+  const currentDateTime = moment();
+
+  const viewableNextGames = games.reduce((total, game)=>{
+    if (moment(game.startDateTime) > currentDateTime) {
+      total.push(game.startDateTime);
+    }
+    return total;
+  },[]);
+
+  const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGames));
+
+  const areGamesInProgress = some(games, x=>{
+    if (currentDateTime >= x.startDateTime) {
+      return true;
+    }
+    return false;
+  });
+
+  if (!areGamesInProgress) {
+    console.log("updateNCAAFootballScores games are not in progress");
+    return;
+  }
+
+  let scores = [];
+  let browser;
+  let page;
+  let currentWeek;
+  let year;
+
+  isUpdateNCAAFootballScoresRunning = true;
 
   try {
-    loadNCAAFootballGames();
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    page = await browser.newPage();
+
+    await page.goto('http://www.espn.com/college-football/scoreboard');
+
+    await page.waitForSelector('#events');
+
+    let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+    currentWeek = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, CURRENTWEEK_SELECTOR);
+
+    if (!currentWeek) {
+      console.log("updateNCAAFootballScores currentWeek error");
+      return;
+    }
+
+    if (currentWeek.toLowerCase().includes('all star')) {
+      console.log("updateNCAAFootballScores All Star will not be added.");
+      await page.close();
+      await browser.close();
+      return;
+    }
+
+    let listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, 'scoreboard football');
+
+    let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
+    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+
+    console.log('updateNCAAFootballScores listLength: ' + listLength);
+
+    if (listLength === 0) {
+      console.log("updateNCAAFootballScores no nfl games found");
+      await page.close();
+      await browser.close();
+      return;
+    }
+
+    for (let i = 1; i <= listLength; i++) {
+      const awayTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-awayid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const awayScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const homeTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-homeid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const homeScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      scores.push({
+        awayTeam: awayTeam,
+        awayScore: parseInt(awayScore),
+        homeTeam: homeTeam,
+        homeScore: parseInt(homeScore)
+      });
+    }
+
+    year = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, YEAR_SELECTOR);
+
+    await page.close();
+    await browser.close();
   } catch(err) {
-    isLoadNCAAFootballGamesRunning = false;
-    console.log('get games loadNCAAFootballGames error: ' + err.message)
+    if (page) {
+      await page.close()
+    }
+
+    if (browser) {
+      await browser.close()
+    }
+    console.log('updateNCAAFootballScores browser error: ' + err.message);
   }
+
+  const seasonType = currentWeek.toLowerCase().includes('week') ? 1 : currentWeek.toLowerCase().includes('bowls') ? 2 : 3;
+  const weekNo = currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 1;
+
+  let promises = [];
+
+  console.log('updateNCAAFootballScores games: ' + JSON.stringify(games));
+  console.log('updateNCAAFootballScores scores: ' + JSON.stringify(scores));
+
+  const teams = teamRepository.find({leagueId: mongoose.Types.ObjectId(leagueId)}, function (err, dbTeams) {
+
+  games.forEach(game=>{
+    const awayId = teams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).id;
+    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
+
+    console.log('updateNCAAFootballScores score: ' + JSON.stringify(score));
+
+    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
+      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
+      game.year === parseInt(year) && 
+      game.seasonType === seasonType && 
+      game.weekNo === weekNo) {
+      const updatedGame = {
+          isGameOver: true,
+          competitors: [
+            Object.assign({},game.competitors[0],{score:score.awayScore}),
+            Object.assign({},game.competitors[1],{score:score.homeScore})
+          ]
+        };
+
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+    }
+  });
+
+  isUpdateNCAAFootballScoresRunning = false;
+};
+
+router.get('/games', function (req, res) {
+  try {
+    loadNflGames();
+  } catch(err) {
+    isLoadNflGamesRunning = false;
+    console.log('load loadNflGames error: ' + err.message)
+  }
+
+  try {
+    updateNflScores();
+  } catch(err) {
+    isUpdateNflScoresRunning = false;
+    console.log('updateNflScores error: ' + err.message)
+  }
+
+  // try {
+  //   updateNCAAFootballScores();
+  // } catch(err) {
+  //   isUpdateNCAAFootballScoresRunning = false;
+  //   console.log(' updateNCAAFootballScores error: ' + err.message)
+  // }
+
+  // try {
+  //   loadNCAAFootballGames();
+  // } catch(err) {
+  //   isLoadNCAAFootballGamesRunning = false;
+  //   console.log('loadNCAAFootballGames error: ' + err.message)
+  // }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
