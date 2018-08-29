@@ -29,8 +29,13 @@ class LeaderPage extends Component {
     componentDidMount() {
         if (this.props.weeksDataLoading || this.props.dataLoading) return;
 
+        const { leagueName } = this.props.match.params;
+
+        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+
         this.props.loadLeaders({
-            leagueId: this.props.leagueId,
+            leagueId: urlLeagueId,
             year: this.props.year,
             seasonType: this.props.seasonType,
             weekNo: this.props.weekNo
@@ -45,6 +50,15 @@ class LeaderPage extends Component {
         const league = this.props.leagues[index];
         const years = get(league,'years',[]);
         const year = last(years);
+
+        const { leagueName } = this.props.match.params;
+
+        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+
+        if (urlLeagueId !== this.props.leagueId) {
+            //history.push('/leaders/' + league.name);
+        }
         
         this.props.loadLeaders({
             leagueId: league.id,

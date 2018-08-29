@@ -19,7 +19,7 @@ const routes = (
 			                <Route exact path='/' component={ScoreboardPage}/>
 			                <Route path='/howtoplay' component={HowToPlayPage}/>
 			                <Route path='/scoreboards/:leagueName' component={ScoreboardPage}/>
-			                <Route path='/leaders/:name' component={LeaderPage}/>	
+			                <Route path='/leaders/:leagueName' component={LeaderPage}/>	
 			                <Route path='/feedback' component={Feedback}/>		   
 			                <Route path='/about' component={AboutPage}/>
 			                <Route exact path='/login' component={LoginPage}/>
