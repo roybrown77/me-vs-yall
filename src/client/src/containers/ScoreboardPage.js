@@ -157,7 +157,7 @@ class ScoreboardPage extends Component {
                           onClick={() => { history.push('/login') }}
                           style={{
                             width: '100%',
-                            margin:'10px 0'
+                            marginTop:'12px'
                           }}/>
                           )}/>
                     }
