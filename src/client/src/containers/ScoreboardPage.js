@@ -161,16 +161,22 @@ class ScoreboardPage extends Component {
                           }}/>
                           )}/>
                     }
-                    {!(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && <PickResult games={this.props.games} picks={this.props.picks}/>}
-                    {!areAnyGamesOver && <div style={{height:'12px'}}/>}
+                    {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && 
+                        <div style={{marginTop:'5px'}}>
+                            <PickResult games={this.props.games} picks={this.props.picks}/>
+                        </div>
+                    }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        <Games
-                            handleMakePick={this.handleMakePick} 
-                            games={this.props.games} 
-                            picks={this.props.picks}
-                            teams={this.props.teams}
-                            />
+                        <div style={{marginTop: '12px'}}>
+                            <Games
+                                handleMakePick={this.handleMakePick} 
+                                games={this.props.games} 
+                                picks={this.props.picks}
+                                teams={this.props.teams}
+                                />
+                        </div>
                     }
                 </div>
                 <Footer/>

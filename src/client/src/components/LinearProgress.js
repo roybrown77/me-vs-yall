@@ -26,6 +26,8 @@ function LinearIndeterminate(props) {
       <br />
       <LinearProgress color="secondary" />
       <br />
+      <LinearProgress />
+      <br />
     </div>
   );
 }

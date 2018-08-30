@@ -142,8 +142,7 @@ class LeaderPage extends Component {
                     {(this.props.dataLoading) && <LinearProgress/>}
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) &&
-                        <div>
-                            <div style={{height:'20px'}}/>
+                        <div style={{marginTop: '12px'}}>
                             <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
                                 <tbody>
                                     {this.props.leaders.map((leader, index) => (
