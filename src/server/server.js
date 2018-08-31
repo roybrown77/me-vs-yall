@@ -31,8 +31,11 @@ var authCheck = jwt({
 var GameController = require('./game/GameController');
 app.use('/api/gamemanagement', GameController);
 
-var PickController = require('./pick/PickController');
-app.use('/api/pickmanagement', PickController);
+var PickReadController = require('./pick/PickReadController');
+app.use('/api/pickmanagement', PickReadController);
+
+var PickWriteController = require('./pick/PickWriteController');
+app.use('/api/pickmanagement', authCheck, PickWriteController);
 
 var UserController = require('./user/UserController');
 app.use('/api/usermanagement', UserController);

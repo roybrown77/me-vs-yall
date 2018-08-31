@@ -1409,75 +1409,113 @@ const loadEnglishPremierLeagueGames = async () => {
       return;
     }
 
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-AWAY_HOME.tied > div > div.team-container > div.team-info > div > a > span.short-name';
+    //let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-AWAY_HOME.tied > div > div.team-container > div.team-info > div > a > span.short-name';
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
     // let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.AWAY_HOME > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     // let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     // let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     // let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
     //let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
+  //   for (let i = 1; i <= listLength; i++) {
+  //     // const awayId = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel).getAttribute('data-awayid');
+  //     // }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+  //     // const homeId = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel).getAttribute('data-homeid');
+  //     // }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+  //     const awayLocation = await page.evaluate((sel) => {
+  //       return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+  //     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
+
+  //     const homeLocation = await page.evaluate((sel) => {
+  //       return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+  //     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
+
+  //     // const awayShortLocation = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+  //     // }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'away'));
+
+  //     // const homeShortLocation = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+  //     // }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'home'));
+
+  //     // const awayRank = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+  //     // }, RANK_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'away'));
+
+  //     // const homeRank = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+  //     // }, RANK_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'home'));
+
+  //     // const startDateTime = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel).getAttribute('data-date');
+  //     // }, STARTDATETIME_SELECTOR.replace("INDEX", i));
+
+  //     // const spread = await page.evaluate((sel) => {
+  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+  //     // }, SPREAD_SELECTOR.replace("INDEX", i));
+
+  //     //console.log('loadEnglishPremierLeagueGames spread: ' + JSON.stringify(spread));
+
+  //     games.push({
+  //       // startDateTime: startDateTime,
+  //       // spread: {
+  //       //  team: spread.split(' ').length === 3 ? spread.replace('Line: ','').split(' ')[0] : '',
+  //       //  amount: spread.split(' ').length === 3 ? parseInt(spread.replace('Line: ','').split(' ')[1]) : '',
+  //       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+  //       // },
+  //       // awayId: awayId,
+  //       awayLocation: awayLocation,
+  //       // awayShortLocation: awayShortLocation,
+  //       // homeId: homeId,
+  //       homeLocation: homeLocation,
+  //       //homeShortLocation: homeShortLocation,
+  //     });
+  //   }
+
+  //   // year = await page.evaluate((sel) => {
+  //   //     return document.querySelector(sel).innerText;
+  //   //   }, YEAR_SELECTOR);
+
+  // console.log('loadEnglishPremierLeagueGames games: ' + JSON.stringify(games));
+
+    let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
+    
+    const startDateTime = await page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-id');
+    }, STARTDATETIME_SELECTOR);
+
+    console.log('loadEnglishPremierLeagueGames startDateTime: ' + startDateTime);
+
+    console.log('loadEnglishPremierLeagueGames listLength: ' + listLength);
+
     for (let i = 1; i <= listLength; i++) {
-      // const awayId = await page.evaluate((sel) => {
-      //   return document.querySelector(sel).getAttribute('data-awayid');
-      // }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+      const awayTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
 
-      // const homeId = await page.evaluate((sel) => {
-      //   return document.querySelector(sel).getAttribute('data-homeid');
-      // }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-      const awayLocation = await page.evaluate((sel) => {
-        return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'a'));
-
-      const homeLocation = await page.evaluate((sel) => {
-        return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'b'));
-
-      // const awayShortLocation = await page.evaluate((sel) => {
-      //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-      // }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'away'));
-
-      // const homeShortLocation = await page.evaluate((sel) => {
-      //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-      // }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'home'));
-
-      // const awayRank = await page.evaluate((sel) => {
-      //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-      // }, RANK_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'away'));
-
-      // const homeRank = await page.evaluate((sel) => {
-      //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-      // }, RANK_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'home'));
-
-      // const startDateTime = await page.evaluate((sel) => {
-      //   return document.querySelector(sel).getAttribute('data-date');
-      // }, STARTDATETIME_SELECTOR.replace("INDEX", i));
+      const homeTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).innerText;
+      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
 
       // const spread = await page.evaluate((sel) => {
-      //   return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+      //   return document.querySelector(sel).innerText;
       // }, SPREAD_SELECTOR.replace("INDEX", i));
 
-      //console.log('loadEnglishPremierLeagueGames spread: ' + JSON.stringify(spread));
-
       games.push({
-        // startDateTime: startDateTime,
+        startDateTime: moment(startDateTime),
         // spread: {
-        //  team: spread.split(' ').length === 3 ? spread.replace('Line: ','').split(' ')[0] : '',
-        //  amount: spread.split(' ').length === 3 ? parseInt(spread.replace('Line: ','').split(' ')[1]) : '',
+        //  team: spread.replace('Line: ','').split(' ')[0],
+        //  amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
         //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
         // },
-        // awayId: awayId,
-        awayLocation: awayLocation,
-        // awayShortLocation: awayShortLocation,
-        // homeId: homeId,
-        homeLocation: homeLocation,
-        //homeShortLocation: homeShortLocation,
+        awayTeam: awayTeam,
+        homeTeam: homeTeam
       });
     }
-
-    // year = await page.evaluate((sel) => {
-    //     return document.querySelector(sel).innerText;
-    //   }, YEAR_SELECTOR);
 
     await page.close();
     await browser.close();
@@ -1494,6 +1532,27 @@ const loadEnglishPremierLeagueGames = async () => {
   }
 
   console.log('loadEnglishPremierLeagueGames games: ' + JSON.stringify(games));
+
+  const mvyGames = games.map(game=>{
+    const awayTeam = mvyCountries.find(x=>x.name === game.awayTeam);
+    const homeTeam = mvyCountries.find(x=>x.name === game.homeTeam);
+    //const spreadTeam = mvyCountries.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+
+    return {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      startDateTime: game.startDateTime,
+      // spread: {
+      //  teamId: spreadTeam._id,
+      //  amount: game.spread.amount
+      // },
+      competitors: [
+        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.name},
+        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.name}
+      ]
+    };
+  });
+
+  console.log('loadEnglishPremierLeagueGames mvyGames: ' + JSON.stringify(mvyGames));
   
   // if (!year) {
   //   console.log('loadNCAAFootballGames no year');

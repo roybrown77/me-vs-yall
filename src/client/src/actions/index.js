@@ -81,7 +81,9 @@ const createPick = pick => ({
 
 export const addPick = (pick) => (dispatch, getState) => {
   const searchParams = new URLSearchParams();
-  searchParams.set('userId', getUser().sub);
+  const userInSession = getUser();
+  const userId = get(userInSession,'sub');
+  searchParams.set('userId', userId);
   searchParams.set('leagueId', pick.leagueId);
   searchParams.set('year', pick.year);
   searchParams.set('seasonType', pick.seasonType);
@@ -108,8 +110,10 @@ const editPick = (id, pick) => ({
 });
 
 export const updatePick = (id, pick) => (dispatch, getState) => {
+  const userInSession = getUser();
+  const userId = get(userInSession,'sub');
   const searchParams = new URLSearchParams();
-  searchParams.set('userId', getUser().sub);
+  searchParams.set('userId', userId);
   searchParams.set('pickId', pick.pickId);
   searchParams.set('gameId', pick.gameId);
 
