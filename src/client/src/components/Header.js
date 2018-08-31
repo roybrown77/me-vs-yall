@@ -51,6 +51,15 @@ class Header extends Component {
                     <Route render={({ history}) => (
                       <MenuItem
                         onTouchTap={this.handleClose}
+                      >
+                        MvY
+                      </MenuItem>
+                    )} />
+                  )}
+                  {(
+                    <Route render={({ history}) => (
+                      <MenuItem
+                        onTouchTap={this.handleClose}
                         onClick={() => { history.push('/howtoplay') }}
                       >
                         How to Play

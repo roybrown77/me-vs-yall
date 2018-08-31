@@ -21,7 +21,7 @@ class HowToPlayPage extends Component {
                     4.  Invite friends and family to compete with and brag on how much yall could have won in Vegas!
                 </div>
                 <div style={{textAlign: 'left', padding:'16px'}}>
-                    * New games are loaded the day before.
+                    * New games are loaded the day before they start.  If weekly games, games load the day before week starts.
                 </div>
                 <div style={{textAlign: 'left', padding:'16px'}}>
                     ** Simulated betting assume $110 bet and $100 payout on each game.  Total Vegas payout would equal what you won plus

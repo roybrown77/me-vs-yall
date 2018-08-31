@@ -30,6 +30,14 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
+                                label="MvY"
+                                icon={scoreboardsIcon}
+                                        />
+                        )} />
+                    )}
+                    {(
+                        <Route render={({ history}) => (
+                            <BottomNavigationItem
                                 label="Scores"
                                 icon={scoreboardsIcon}
                                 onTouchTap={() => { history.push('/scoreboards/' + leagueName) }}
