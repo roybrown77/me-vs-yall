@@ -566,7 +566,10 @@ const updateNflScores = async () => {
     return;
   }
 
+  const leagueId = '59723313734d1d6202a85f10';
+
   const search = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
@@ -1125,14 +1128,15 @@ const loadNCAAFootballGames = async () => {
 };
 
 const updateNCAAFootballScores = async () => {
-  const leagueId = '59723313734d1d6202a85f15';
-
   if (isUpdateNCAAFootballScoresRunning) {
     console.log("updateNCAAFootballScores already running.")
     return;
   }
 
+  const leagueId = '59723313734d1d6202a85f15';
+
   const search = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
