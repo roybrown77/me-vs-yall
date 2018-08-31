@@ -1287,8 +1287,10 @@ const updateNCAAFootballScores = async () => {
 
   const teams = await teamRepository.find({leagueId: mongoose.Types.ObjectId(leagueId)});
 
+  console.log('updateNCAAFootballScores teams: ' + JSON.stringify(teams));
+
   games.forEach(game=>{
-    const awayId = teams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).id;
+    const awayId = teams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).externalId;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
 
     console.log('updateNCAAFootballScores score: ' + JSON.stringify(score));
@@ -1695,12 +1697,12 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
   
-  // try {
-  //   updateNCAAFootballScores();
-  // } catch(err) {
-  //   isUpdateNCAAFootballScoresRunning = false;
-  //   console.log(' updateNCAAFootballScores error: ' + err.message)
-  // }
+  try {
+    updateNCAAFootballScores();
+  } catch(err) {
+    isUpdateNCAAFootballScoresRunning = false;
+    console.log(' updateNCAAFootballScores error: ' + err.message)
+  }
 
   // try {
   //   loadEnglishPremierLeagueGames();
