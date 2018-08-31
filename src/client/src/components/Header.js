@@ -52,7 +52,7 @@ class Header extends Component {
                       <MenuItem
                         onTouchTap={this.handleClose}
                       >
-                        MvY
+                        <div style={{fontStyle: 'italic'}}>MvY</div>
                       </MenuItem>
                     )} />
                   )}
