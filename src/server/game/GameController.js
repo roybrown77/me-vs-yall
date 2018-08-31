@@ -1735,12 +1735,12 @@ const loadEnglishPremierLeagueGames = async () => {
 };
 
 router.get('/games', function (req, res) {
-  try {
-    loadNflGames();
-  } catch(err) {
-    isLoadNflGamesRunning = false;
-    console.log('load loadNflGames error: ' + err.message)
-  }
+  // try {
+  //   loadNflGames();
+  // } catch(err) {
+  //   isLoadNflGamesRunning = false;
+  //   console.log('load loadNflGames error: ' + err.message)
+  // }
 
   try {
     updateNflScores();
