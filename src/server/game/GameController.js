@@ -1735,12 +1735,12 @@ const loadEnglishPremierLeagueGames = async () => {
 };
 
 router.get('/games', function (req, res) {
-  // try {
-  //   loadNflGames();
-  // } catch(err) {
-  //   isLoadNflGamesRunning = false;
-  //   console.log('load loadNflGames error: ' + err.message)
-  // }
+  try {
+    loadNflGames();
+  } catch(err) {
+    isLoadNflGamesRunning = false;
+    console.log('load loadNflGames error: ' + err.message)
+  }
 
   try {
     updateNflScores();
@@ -1756,12 +1756,12 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
   
-  try {
-    updateNCAAFootballScores();
-  } catch(err) {
-    isUpdateNCAAFootballScoresRunning = false;
-    console.log(' updateNCAAFootballScores error: ' + err.message)
-  }
+  // try {
+  //   updateNCAAFootballScores();
+  // } catch(err) {
+  //   isUpdateNCAAFootballScoresRunning = false;
+  //   console.log(' updateNCAAFootballScores error: ' + err.message)
+  // }
 
   // try {
   //   loadEnglishPremierLeagueGames();
