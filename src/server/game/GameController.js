@@ -1742,12 +1742,12 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
   
-  // try {
-  //   updateNCAAFootballScores();
-  // } catch(err) {
-  //   isUpdateNCAAFootballScoresRunning = false;
-  //   console.log(' updateNCAAFootballScores error: ' + err.message)
-  // }
+  try {
+    updateNCAAFootballScores();
+  } catch(err) {
+    isUpdateNCAAFootballScoresRunning = false;
+    console.log('updateNCAAFootballScores error: ' + err.message)
+  }
 
   // try {
   //   loadEnglishPremierLeagueGames();
