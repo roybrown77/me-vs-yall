@@ -1324,83 +1324,16 @@ const loadEnglishPremierLeagueGames = async () => {
       return;
     }
 
-    //let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-AWAY_HOME.tied > div > div.team-container > div.team-info > div > a > span.short-name';
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
     // let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.AWAY_HOME > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     // let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-    // let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     // let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-    //let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+    // let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
     let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
     startDateTime = await page.evaluate((sel) => {
       return document.querySelector(sel).getAttribute('data-id');
     }, STARTDATETIME_SELECTOR);
-
-  //   for (let i = 1; i <= listLength; i++) {
-  //     // const awayId = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel).getAttribute('data-awayid');
-  //     // }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-  //     // const homeId = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel).getAttribute('data-homeid');
-  //     // }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-  //     const awayLocation = await page.evaluate((sel) => {
-  //       return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-  //     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
-
-  //     const homeLocation = await page.evaluate((sel) => {
-  //       return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-  //     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
-
-  //     // const awayShortLocation = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-  //     // }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'away'));
-
-  //     // const homeShortLocation = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-  //     // }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'home'));
-
-  //     // const awayRank = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-  //     // }, RANK_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'away'));
-
-  //     // const homeRank = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
-  //     // }, RANK_SELECTOR.replace("INDEX", i).replace("AWAY_HOME", 'home'));
-
-  //     // const startDateTime = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel).getAttribute('data-date');
-  //     // }, STARTDATETIME_SELECTOR.replace("INDEX", i));
-
-  //     // const spread = await page.evaluate((sel) => {
-  //     //   return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
-  //     // }, SPREAD_SELECTOR.replace("INDEX", i));
-
-  //     //console.log('loadEnglishPremierLeagueGames spread: ' + JSON.stringify(spread));
-
-  //     games.push({
-  //       // startDateTime: startDateTime,
-  //       // spread: {
-  //       //  team: spread.split(' ').length === 3 ? spread.replace('Line: ','').split(' ')[0] : '',
-  //       //  amount: spread.split(' ').length === 3 ? parseFloat(spread.replace('Line: ','').split(' ')[1]) : '',
-  //       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
-  //       // },
-  //       // awayId: awayId,
-  //       awayLocation: awayLocation,
-  //       // awayShortLocation: awayShortLocation,
-  //       // homeId: homeId,
-  //       homeLocation: homeLocation,
-  //       //homeShortLocation: homeShortLocation,
-  //     });
-  //   }
-
-  //   // year = await page.evaluate((sel) => {
-  //   //     return document.querySelector(sel).innerText;
-  //   //   }, YEAR_SELECTOR);
-
-  // console.log('loadEnglishPremierLeagueGames games: ' + JSON.stringify(games));
 
     console.log('loadEnglishPremierLeagueGames startDateTime: ' + startDateTime);
 
@@ -1486,75 +1419,10 @@ const loadEnglishPremierLeagueGames = async () => {
   // const seasonType = currentWeek.toLowerCase().includes('week') ? 1 : currentWeek.toLowerCase().includes('bowls') ? 2 : 3;
   // const weekNo = currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 1;
 
-  // const teamsToOverwrite = [
-  //   {
-  //     externalId: '2582',
-  //     location: 'Southern',
-  //     shortLocation: 'SOU'
-  //   },
-  //   {
-  //     externalId: '231',
-  //     location: 'Furman',
-  //     shortLocation: 'FUR'
-  //   },
-  //   {
-  //     externalId: '2046',
-  //     location: 'Austin Peay',
-  //     shortLocation: 'PEAY'
-  //   },
-  //   {
-  //     externalId: '2617',
-  //     location: 'Stephen F. Austin',
-  //     shortLocation: 'SFA'
-  //   }
-  // ];
-
-  // games.map(game=>{
-  //     let = teamAwayOverwrites = teamsToOverwrite.find(x=>x.externalId === game.awayId.toString());
-
-  //     const teamAway = {
-  //       leagueId: mongoose.Types.ObjectId(leagueId),
-  //       location: game.awayLocation !== '' ? game.awayLocation : get(teamAwayOverwrites, 'location'),
-  //       shortLocation: game.awayShortLocation !== '' ?  game.awayShortLocation : get(teamAwayOverwrites, 'shortLocation'),
-  //       externalId: game.awayId.toString()
-  //     };
-
-  //     teamRepository.findOneAndUpdate({externalId: teamAway.externalId}, teamAway, {upsert: true}, (err, updatedTeam) => {
-  //       if (err) {
-  //         console.log('loadNCAAFootballGames findOneAndUpdate error: ' + err.message);
-  //       } else {
-  //         console.log('loadNCAAFootballGames findOneAndUpdate updatedTeam: ' + JSON.stringify(updatedTeam));
-  //       }
-  //     });
-
-  //     let = teamHomeOverwrites = teamsToOverwrite.find(x=>x.externalId === game.homeId.toString());
-
-  //     const teamHome = {
-  //       leagueId: mongoose.Types.ObjectId(leagueId),
-  //       location: game.homeLocation !== '' ? game.homeLocation : get(teamHomeOverwrites, 'location'),
-  //       shortLocation: game.homeShortLocation !== '' ? game.homeShortLocation : get(teamHomeOverwrites, 'shortLocation'),
-  //       externalId: game.homeId.toString()
-  //     };
-
-  //     teamRepository.findOneAndUpdate({externalId: teamHome.externalId}, teamHome, {upsert: true}, (err, updatedTeam) => {
-  //       if (err) {
-  //         console.log('loadNCAAFootballGames findOneAndUpdate error: ' + err.message);
-  //       } else {
-  //         console.log('loadNCAAFootballGames findOneAndUpdate updatedTeam: ' + JSON.stringify(updatedTeam));
-  //       }
-  //     });
-  // });
-
-  // const teamSearch = {
-  //   leagueId: mongoose.Types.ObjectId(leagueId),
-  // };
-
-  // const teams = await teamRepository.find(teamSearch);
-
   // const mvyGames = games.reduce((total, game)=>{
-  //   const awayTeam = teams.find(x=>x.externalId.toString() === game.awayId.toString());
-  //   const homeTeam = teams.find(x=>x.externalId.toString() === game.homeId.toString());
-  //   const spreadTeam = teams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+  //   const awayTeam = eplTeams.find(x=>x.externalId.toString() === game.awayId.toString());
+  //   const homeTeam = eplTeams.find(x=>x.externalId.toString() === game.homeId.toString());
+  //   const spreadTeam = eplTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
 
   //   if (awayTeam && homeTeam) {
   //     total.push({
