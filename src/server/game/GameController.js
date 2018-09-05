@@ -1833,24 +1833,12 @@ router.get('/gameweeks', function (req, res) {
 });
 
 router.get('/teams', function (req, res) {
-  teamRepository.find({}, function (err, dbTeams) {
-      if (err) return res.status(500).send("There was a problem finding the teams.");
-      const teams = [
-        ...mvyNflTeams, 
-        //...mvyMlbTeams,
-        //...mvyCountries,
-        ...dbTeams,
-      ];
-      res.status(200).send(teams);
-  });
+  const teams = [
+    ...mvyNflTeams, 
+    ...ncaafTeams
+  ];
 
-  // const teams = [
-  //   ...mvyNflTeams, 
-  //   //...mvyMlbTeams,
-  //   //...mvyCountries,
-  // ];
-
-  // res.status(200).send(teams);
+  res.status(200).send(teams);
 });
 
 module.exports = router;

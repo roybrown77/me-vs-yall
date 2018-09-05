@@ -769,7 +769,7 @@ const ncaafTeams = [{
     "_id": "5b9060e59a4c08bca6d8020b",
     "externalId": "2729",
     "leagueId": "59723313734d1d6202a85f15",
-    "location": "William Mary",
+    "location": "William & Mary",
     "shortLocation": "W&M"
 }, {
     "colors": [],
