@@ -769,15 +769,15 @@ const ncaafTeams = [{
     "_id": "5b9060e59a4c08bca6d8020b",
     "externalId": "2729",
     "leagueId": "59723313734d1d6202a85f15",
-    "location": "William & Mary",
+    "location": "William Mary",
     "shortLocation": "W&M"
 }, {
     "colors": [],
     "_id": "5b9060e59a4c08bca6d8020f",
     "externalId": "2502",
     "leagueId": "59723313734d1d6202a85f15",
-    "location": "William & Mary",
-    "shortLocation": "W&M"
+    "location": "Portland State",
+    "shortLocation": "PRST"
 }, {
     "colors": [],
     "_id": "5b9060e59a4c08bca6d80226",
@@ -790,8 +790,8 @@ const ncaafTeams = [{
     "_id": "5b9060e59a4c08bca6d8022a",
     "externalId": "2754",
     "leagueId": "59723313734d1d6202a85f15",
-    "location": "Portland State",
-    "shortLocation": "PRST"
+    "location": "Youngstown State",
+    "shortLocation": "YSU"
 }, {
     "colors": [],
     "_id": "5b84a2879a4c08bca6ab940a",
