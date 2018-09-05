@@ -150,7 +150,7 @@ const loadNflGames = async () => {
         startDateTime: startDateTime,
         spread: {
          team: spread.replace('Line: ','').split(' ')[0],
-         amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
          spreadDateTime: new Date(new Date().toUTCString()).toISOString()
         },
         awayTeam: awayTeam,
@@ -352,7 +352,7 @@ const loadNflGames = async () => {
 //       startDateTime: moment(startDateTime),
 //       // spread: {
 //       //  team: spread.replace('Line: ','').split(' ')[0],
-//       //  amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+//       //  amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
 //       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
 //       // },
 //       awayTeam: awayTeam,
@@ -482,7 +482,7 @@ const loadNflGames = async () => {
 //       startDateTime: moment(startDateTime),
 //       // spread: {
 //       //  team: spread.replace('Line: ','').split(' ')[0],
-//       //  amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+//       //  amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
 //       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
 //       // },
 //       awayTeam: awayTeam,
@@ -1384,7 +1384,7 @@ const loadEnglishPremierLeagueGames = async () => {
   //       // startDateTime: startDateTime,
   //       // spread: {
   //       //  team: spread.split(' ').length === 3 ? spread.replace('Line: ','').split(' ')[0] : '',
-  //       //  amount: spread.split(' ').length === 3 ? parseInt(spread.replace('Line: ','').split(' ')[1]) : '',
+  //       //  amount: spread.split(' ').length === 3 ? parseFloat(spread.replace('Line: ','').split(' ')[1]) : '',
   //       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
   //       // },
   //       // awayId: awayId,
@@ -1423,7 +1423,7 @@ const loadEnglishPremierLeagueGames = async () => {
         startDateTime: moment(startDateTime),
         // spread: {
         //  team: spread.replace('Line: ','').split(' ')[0],
-        //  amount: parseInt(spread.replace('Line: ','').split(' ')[1]),
+        //  amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
         //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
         // },
         awayTeam: awayTeam,
