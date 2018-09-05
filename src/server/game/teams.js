@@ -561,76 +561,6 @@ const mvyMlbTeams = [
 
 const ncaafTeams = [{
     "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9449",
-    "externalId": "164",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Rutgers",
-    "shortLocation": "RUTG"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9448",
-    "externalId": "2579",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "South Carolina",
-    "shortLocation": "SC"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9447",
-    "externalId": "2032",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Arkansas State",
-    "shortLocation": "ARKST"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9446",
-    "externalId": "2502",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Portland State",
-    "shortLocation": "PRST"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9445",
-    "externalId": "2729",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "William & Mary",
-    "shortLocation": "W&M"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9444",
-    "externalId": "26",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "UCLA",
-    "shortLocation": "UCLA"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9443",
-    "externalId": "2711",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Western Michigan",
-    "shortLocation": "WMU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9442",
-    "externalId": "2306",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Kanas State",
-    "shortLocation": "KSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9441",
-    "externalId": "2567",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "SMU",
-    "shortLocation": "SMU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9440",
-    "externalId": "167",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "New Mexico",
-    "shortLocation": "UNM"
-}, {
-    "colors": [],
     "_id": "5b84a2889a4c08bca6ab9430",
     "externalId": "2226",
     "leagueId": "59723313734d1d6202a85f15",
@@ -836,6 +766,34 @@ const ncaafTeams = [{
     "shortLocation": "VT"
 }, {
     "colors": [],
+    "_id": "5b9060e59a4c08bca6d8020b",
+    "externalId": "2729",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "William & Mary",
+    "shortLocation": "W&M"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8020f",
+    "externalId": "2502",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "William & Mary",
+    "shortLocation": "W&M"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80226",
+    "externalId": "155",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "North Dakota",
+    "shortLocation": "UND"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8022a",
+    "externalId": "2754",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Portland State",
+    "shortLocation": "PRST"
+}, {
+    "colors": [],
     "_id": "5b84a2879a4c08bca6ab940a",
     "externalId": "2116",
     "leagueId": "59723313734d1d6202a85f15",
@@ -927,6 +885,132 @@ const ncaafTeams = [{
     "leagueId": "59723313734d1d6202a85f15",
     "location": "Furman",
     "shortLocation": "FUR"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d801ed",
+    "externalId": "167",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "New Mexico",
+    "shortLocation": "UNM"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d801ee",
+    "externalId": "2567",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "SMU",
+    "shortLocation": "SMU"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d801f9",
+    "externalId": "2711",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Western Michigan",
+    "shortLocation": "WMU"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d801fc",
+    "externalId": "2306",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Kansas State",
+    "shortLocation": "KSU"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8020c",
+    "externalId": "26",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "UCLA",
+    "shortLocation": "UCLA"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80214",
+    "externalId": "2032",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Arkansas State",
+    "shortLocation": "ARKST"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8021c",
+    "externalId": "2579",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "South Carolina",
+    "shortLocation": "SC"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80220",
+    "externalId": "164",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Rutgers",
+    "shortLocation": "RUTG"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8022d",
+    "externalId": "2569",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "South Carolina State",
+    "shortLocation": "SCST"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80230",
+    "externalId": "2050",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Ball State",
+    "shortLocation": "BALL"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80235",
+    "externalId": "2542",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Savannah State",
+    "shortLocation": "SAV"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8023a",
+    "externalId": "245",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Texas A&M",
+    "shortLocation": "TA&M"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80244",
+    "externalId": "96",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Kentucky",
+    "shortLocation": "UK"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80248",
+    "externalId": "2011",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Alabama State",
+    "shortLocation": "ALST"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8024d",
+    "externalId": "2545",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Southeastern Louisiana",
+    "shortLocation": "SELA"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d8024e",
+    "externalId": "221",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Pittsburgh",
+    "shortLocation": "PITT"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80251",
+    "externalId": "57",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Florida",
+    "shortLocation": "FLA"
+}, {
+    "colors": [],
+    "_id": "5b9060e59a4c08bca6d80260",
+    "externalId": "9",
+    "leagueId": "59723313734d1d6202a85f15",
+    "location": "Arizona State",
+    "shortLocation": "ASU"
 }];
 
 module.exports = {
