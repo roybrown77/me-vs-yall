@@ -21,8 +21,8 @@ router.get('/picks/', function (req, res) {
     const finalSearch = omit(search, 
         [
             get(req,'query.userId','userId'), 
-            get(req,'query.weekNo','weekNo'), 
-            get(req,'query.seasonType','seasonType')
+            !get(req,'query.weekNo') || get(req,'query.weekNo') === '-1' ? 'weekNo' : undefined, 
+            !get(req,'query.seasonType') || get(req,'query.seasonType') === '-1' ? 'seasonType' : undefined, 
         ]
     );
 
