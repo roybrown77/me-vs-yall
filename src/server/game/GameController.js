@@ -1820,19 +1820,12 @@ router.get('/gameweeks', function (req, res) {
             (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) ||
             (!areGamesInProgress && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
             x.description === 'Whole Year') {
-
-          if (x.description === 'Whole Year') {
-            x.sortOrder = 1;
-          } else {
-            x.sortOrder = 2;
-          }
-
           total.push(x);
         }
         return total;
       }, []);
 
-      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo']);
+      const weeks = sortBy(viewableGameWeeks, ['seasonType', 'weekNo']);
 
       res.status(200).send(weeks);
   });
