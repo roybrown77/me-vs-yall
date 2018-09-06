@@ -76,7 +76,7 @@ class Game extends Component {
                         <div 
                             className={inProgress ? 'fast-flash' : ''}
                             style={{border: competitor.selected ? 
-                            (game.isGameOver ? '8px solid rgb(0, 188, 212)' : '8px solid #BA68C8') : (inProgress ? '8px solid #BA68C8' : '0'), 
+                            (game.isGameOver ? '8px solid #707070' : '8px solid #707070') : (inProgress ? '8px solid #707070' : '0'), 
                             height: "91%", 
                             color: competitor.color}}>
                                 <div style={{position:'absolute', 
@@ -118,7 +118,7 @@ class Game extends Component {
                     paddingTop: '12px',
                     fontSize: '14px',
                     fontWeight: 'bold',
-                    color: 'rgb(0, 188, 212)'
+                    color: '#707070'
                 }}>{game.startDateTimeDisplay}</div>
             </div>
         );

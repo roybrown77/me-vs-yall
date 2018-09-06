@@ -26,7 +26,8 @@ const dateStyle = theme => ({
 const filterButton = {
   button: {
     margin: 0,
-    width: '100%'
+    width: '100%',
+    color: '#707070'
   }
 };
 
@@ -68,7 +69,6 @@ class GameSearchBar extends Component {
             <RaisedButton
               label="Filtration"
               labelPosition="before"
-              primary={true}
               icon={<ActionAndroid />}
               style={filterButton.button}
             />
