@@ -18,7 +18,13 @@ router.get('/picks/', function (req, res) {
         seasonType: req.query.seasonType
     };
         
-    const finalSearch = omit(search, [get(req,'query.userId','userId'), get(req,'query.weekNo','seasonType'), get(req,'query.seasonType','seasonType')]);
+    const finalSearch = omit(search, 
+        [
+            get(req,'query.userId','userId'), 
+            get(req,'query.weekNo','weekNo'), 
+            get(req,'query.seasonType','seasonType')
+        ]
+    );
 
     pickRepository.find(finalSearch, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
