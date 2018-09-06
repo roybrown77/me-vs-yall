@@ -9,7 +9,7 @@ class AboutPage extends Component {
             <div>
                 <Header/>
                 <div style={{margin:'16px', marginTop: '91px'}}>
-                    Send us ways we can improve at https://github.com/roybrown77/me-vs-yall/issues
+                    Send us ways we can improve at mevsyallsports@gmail.com
                 </div>
                 <Footer/>
             </div>
