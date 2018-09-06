@@ -1787,7 +1787,12 @@ router.get('/gameweeks', function (req, res) {
     year: req.query.year
   };
 
-  const finalSearch = omit(search, [get(req,'query.leagueId','leagueId'), get(req,'query.year','year')]);
+  const finalSearch = omit(search, 
+    [
+      get(req,'query.leagueId','leagueId'),
+      get(req,'query.year','year')
+    ]
+  );
   
   gameWeekRepository.find(finalSearch, function (err, gameWeeks) {
       if (err) return res.status(500).send("There was a problem finding the game weeks: " + err.message);
@@ -1810,19 +1815,24 @@ router.get('/gameweeks', function (req, res) {
         return false;
       });
 
-      const viewableGameWeeks = gameWeeks.filter(x=>{
-        if (moment(x.endDateTime) <= currentDateTime) {
-          return true;
-        } else if (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) {
-          return true;
-        } else if (!areGamesInProgress && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) {
-          return true;
-        }
-      }).map(x=>{
-        return x;
-      });
+      const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
+        if (moment(x.endDateTime) <= currentDateTime ||
+            (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) ||
+            (!areGamesInProgress && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
+            x.description === 'Whole Year') {
 
-      const weeks = sortBy(viewableGameWeeks, ['seasonType', 'weekNo']);
+          if (x.description === 'Whole Year') {
+            x.sortOrder = 1;
+          } else {
+            x.sortOrder = 2;
+          }
+
+          total.push(x);
+        }
+        return total;
+      }, []);
+
+      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo']);
 
       res.status(200).send(weeks);
   });
