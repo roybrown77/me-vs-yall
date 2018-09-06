@@ -1417,12 +1417,8 @@ const updateNCAAFootballScores = async () => {
   console.log('updateNCAAFootballScores games: ' + JSON.stringify(games));
   console.log('updateNCAAFootballScores scores: ' + JSON.stringify(scores));
 
-  const teams = await teamRepository.find({leagueId: mongoose.Types.ObjectId(leagueId)});
-
-  console.log('updateNCAAFootballScores teams: ' + JSON.stringify(teams));
-
   games.forEach(game=>{
-    const awayId = teams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).externalId;
+    const awayId = ncaafTeams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).externalId;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
 
     console.log('updateNCAAFootballScores score: ' + JSON.stringify(score));
