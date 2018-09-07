@@ -41,7 +41,7 @@ var UserReadController = require('./user/UserReadController');
 app.use('/api/usermanagement', UserReadController);
 
 var UserWriteController = require('./user/UserWriteController');
-app.use('/api/usermanagement', authCheck, UserWriteController);
+app.use('/api/usermanagement', UserWriteController);
 
 var PickResultController = require('./pick/PickResultController');
 app.use('/api/pickmanagement', PickResultController);
