@@ -8,7 +8,7 @@ class AboutPage extends Component {
         return (
             <div>
                 <Header/>
-                <div style={{margin:'16px', marginTop: '91px'}}>
+                <div className='page-container'>
                     Send us ways we can improve at mevsyallsports@gmail.com
                 </div>
                 <Footer/>
