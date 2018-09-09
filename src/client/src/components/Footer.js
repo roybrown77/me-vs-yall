@@ -30,7 +30,7 @@ class Footer extends Component {
                     selectedIndex={this.state.selectedIndex} 
                     style={{
                         position: "fixed", 
-                        bottom: "0", 
+                        bottom: "-1px", 
                         backgroundColor: "#f4f7f6", 
                         zIndex: "1",
                         boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
