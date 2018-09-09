@@ -7,7 +7,7 @@ const getBet = (results) => {
 };
 
 const getWinnings = (results) => {
-    return (results['wins'] * 100) - (results['losses'] * 110) - (results['ties'] * 110);
+    return (results['wins'] * 100) - (results['losses'] * 110);
 };
 
 const formatMoney = (number, places, symbol, thousand, decimal) => {
