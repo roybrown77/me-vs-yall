@@ -26,7 +26,15 @@ class Footer extends Component {
 
         return (
             <Paper zDepth={1}>
-                <BottomNavigation selectedIndex={this.state.selectedIndex} style={{position:"fixed", bottom:"0", backgroundColor: "#f4f7f6", borderTop: "1px solid #000", zIndex: "1"}}>
+                <BottomNavigation 
+                    selectedIndex={this.state.selectedIndex} 
+                    style={{
+                        position: "fixed", 
+                        bottom: "0", 
+                        backgroundColor: "#f4f7f6", 
+                        zIndex: "1",
+                        boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
+                }}>
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem

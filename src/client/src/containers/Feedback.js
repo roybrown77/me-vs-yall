@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import PageContainer from './PageContainer';
 
 class AboutPage extends Component {
     render() {
         return (
             <div>
-                <Header/>
-                <div className='page-container'>
+                <PageContainer>
                     Send us ways we can improve at mevsyallsports@gmail.com
-                </div>
-                <Footer/>
+                </PageContainer>
             </div>
         );
     }

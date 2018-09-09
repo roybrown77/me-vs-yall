@@ -8,8 +8,7 @@ import last from 'lodash/last';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import PageContainer from './PageContainer';
 import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
@@ -129,8 +128,7 @@ class ScoreboardPage extends Component {
 
         return (
             <div>
-                <Header/>
-                <div className='page-container'>
+                <PageContainer>
                     {
                         <GameSearchBar 
                             league={this.props.leagueId}
@@ -178,8 +176,7 @@ class ScoreboardPage extends Component {
                                 />
                         </div>
                     }
-                </div>
-                <Footer/>
+                </PageContainer>
             </div>
         )
     }

@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import LinearProgress from '../components/LinearProgress';
 
@@ -122,8 +121,7 @@ class LeaderPage extends Component {
     render() {
         return (
             <div>
-                <Header/>
-                <div className='page-container'>
+                <PageContainer>
                     {
                         <GameSearchBar 
                             league={this.props.leagueId}
@@ -183,8 +181,7 @@ class LeaderPage extends Component {
                                 </tbody>
                             </table>
                         </div>}
-                </div>
-                <Footer/>
+                </PageContainer>
             </div>
         )
     }

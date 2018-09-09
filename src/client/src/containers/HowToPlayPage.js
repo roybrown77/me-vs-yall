@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import PageContainer from './PageContainer';
 
 class HowToPlayPage extends Component {
     render() {
         return (
             <div>
-                <Header/>
-                <div className='page-container'>
+                <PageContainer>
                     <div style={{textAlign: 'left'}}>
                         1.  On Scores page, click 'Press Start To Play!' and Login with Google Account.
                     </div>
@@ -38,8 +36,7 @@ class HowToPlayPage extends Component {
                     <div style={{textAlign: 'left'}}>
                         *** Spreads are not considered at this time.
                     </div>
-                </div>
-                <Footer/>
+                </PageContainer>
             </div>
         );
     }

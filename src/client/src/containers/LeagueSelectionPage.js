@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom'
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import PageContainer from './PageContainer';
 
 function LeagueSelectionPage(props) {
         return (
             <div>
-                <Header/>
-                <div className="page-container">
+                <PageContainer>
                     <div className="list js-list">
                         {(
                             <Route render={({ history }) => (
@@ -215,8 +213,7 @@ function LeagueSelectionPage(props) {
                         )} />
                         )}*/}
                     </div>
-                </div>
-                <Footer/>
+                </PageContainer>
             </div>
         );
 }
