@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from '@material-ui/core/TextField';
 
 import moment from 'moment-timezone';
@@ -64,14 +62,12 @@ class GameSearchBar extends Component {
     const date = moment().format('YYYY-MM-DD');
 
     return (
-        <div style={{marginTop: '12px', backgroundColor: '#fff', paddingBottom: '10px'}}>
-            <RaisedButton
-              label="Filtration"
-              labelPosition="before"
-              primary={true}
-              icon={<ActionAndroid />}
-              style={filterButton.button}
-            />
+        <div style={{
+          marginTop: '12px', 
+          backgroundColor: '#f4f7f6', 
+          paddingBottom: '10px',
+          boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
+        }}>
             <div className='game-search-container'>
               <DropDownMenu
                   value={this.props.league}

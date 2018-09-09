@@ -5,8 +5,8 @@ import PageContainer from './PageContainer';
 class AboutPage extends Component {
     render() {
         return (
-            <div>
-                <PageContainer>
+            <PageContainer>
+                <div style={{margin: '75px 16px'}}> 
                     <div style={{textAlign: 'left'}}>
                         Lose fake money here before losing real money there.
                     </div>
@@ -21,8 +21,8 @@ class AboutPage extends Component {
                         few weeks, he said 'hey, ur a dev make an app'.  10 years later and many seasons of 
                         texts, I finally got around to doing it. :D Enjoy!
                     </div>
-                </PageContainer>
-            </div>
+                </div>
+            </PageContainer>
         );
     }
 }

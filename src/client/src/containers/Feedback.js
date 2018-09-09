@@ -7,7 +7,9 @@ class AboutPage extends Component {
         return (
             <div>
                 <PageContainer>
-                    Send us ways we can improve at mevsyallsports@gmail.com
+                	<div style={{margin: '75px 16px'}}>
+                    	Send us ways we can improve at mevsyallsports@gmail.com
+                    </div>
                 </PageContainer>
             </div>
         );

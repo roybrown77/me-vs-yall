@@ -118,7 +118,7 @@ class Game extends Component {
                     paddingTop: '12px',
                     fontSize: '14px',
                     fontWeight: 'bold',
-                    color: 'rgb(0, 188, 212)'
+                    color: '#000000'
                 }}>{game.startDateTimeDisplay}</div>
             </div>
         );
