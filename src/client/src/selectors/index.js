@@ -33,22 +33,22 @@ const getResults = (games, picks) => {
         if (get(game,'isGameOver',false)) {
             if (game.competitors[0].score === game.competitors[1].score) {
                 total['ties']++;
+            } else {
+                const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
+                (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
+
+                game.competitors.forEach((competitor, index)=> {
+                    const winnerSelected = !!picks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
+
+                    if (winnerSelected && competitor._id === winner) {
+                        total['wins']++;
+                    }
+
+                    if (winnerSelected && competitor._id !== winner) {
+                        total['losses']++;
+                    }
+                });
             }
-
-            const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
-            (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
-
-            game.competitors.forEach((competitor, index)=> {
-                const winnerSelected = !!picks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
-
-                if (winnerSelected && competitor._id === winner) {
-                    total['wins']++;
-                }
-
-                if (winnerSelected && competitor._id !== winner) {
-                    total['losses']++;
-                }
-            });
         }
 
         return total;
