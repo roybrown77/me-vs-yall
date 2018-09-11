@@ -327,29 +327,6 @@ const updateNflScores = async () => {
     return;
   }
 
-  const currentDateTime = moment();
-
-  const viewableNextGames = games.reduce((total, game)=>{
-    if (moment(game.startDateTime) > currentDateTime) {
-      total.push(game.startDateTime);
-    }
-    return total;
-  },[]);
-
-  const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGames));
-
-  const areGamesInProgress = some(games, x=>{
-    if (currentDateTime >= x.startDateTime) {
-      return true;
-    }
-    return false;
-  });
-
-  if (!areGamesInProgress) {
-    //console.log("updateNflScores games are not in progress");
-    //return;
-  }
-
   let scores = [];
   let browser;
   let page;
@@ -1029,29 +1006,6 @@ const updateNCAAFootballScores = async () => {
   if (!!games && games.length === 0) {
     console.log("updateNCAAFootballScores all scores have been updated.");
     return;
-  }
-
-  const currentDateTime = moment();
-
-  const viewableNextGames = games.reduce((total, game)=>{
-    if (moment(game.startDateTime) > currentDateTime) {
-      total.push(game.startDateTime);
-    }
-    return total;
-  },[]);
-
-  const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGames));
-
-  const areGamesInProgress = some(games, x=>{
-    if (currentDateTime >= x.startDateTime) {
-      return true;
-    }
-    return false;
-  });
-
-  if (!areGamesInProgress) {
-    //console.log("updateNCAAFootballScores games are not in progress");
-    //return;
   }
 
   let scores = [];

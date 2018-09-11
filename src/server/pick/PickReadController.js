@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
 
 let router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -15,14 +16,19 @@ router.get('/picks/', function (req, res) {
         leagueId: mongoose.Types.ObjectId(req.query.leagueId),
         userId: req.query.userId,
         weekNo: req.query.weekNo,
-        seasonType: req.query.seasonType
-    };
+        seasonType: req.query.seasonType,
+        gameDateTime: get(req, 'query.date') ? {
+          $gte: new Date(moment(get(req, 'query.date')).startOf('day')),
+          $lte: new Date(moment(get(req, 'query.date')).endOf('day'))
+        } : undefined
+      };
         
     const finalSearch = omit(search, 
         [
             get(req,'query.userId','userId'), 
             !get(req,'query.weekNo') || get(req,'query.weekNo') === '-1' ? 'weekNo' : undefined, 
             !get(req,'query.seasonType') || get(req,'query.seasonType') === '-1' ? 'seasonType' : undefined, 
+            !get(req,'query.date') || get(req,'query.date') === '-1' ? 'gameDateTime' : undefined
         ]
     );
 

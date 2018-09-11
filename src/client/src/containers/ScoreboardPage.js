@@ -14,7 +14,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import Games from '../components/Games';
 import LinearProgress from '../components/LinearProgress';
 
-import { loadScoreboard, loadDailyScoreboard, addPick, updatePick } from '../actions';
+import { loadScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
@@ -26,7 +26,6 @@ class ScoreboardPage extends Component {
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
-        this.handleFilterDate = this.handleFilterDate.bind(this);
         this.handleMakePick = this.handleMakePick.bind(this);
     }
 
@@ -99,22 +98,14 @@ class ScoreboardPage extends Component {
         });
     }
 
-    handleFilterDate(event) {
-        const { value } = event.target;
-
-        this.props.loadDailyScoreboard({
-            leagueId: this.props.leagueId,
-            date: value
-        });
-    }
-
     handleMakePick(pick) {
         if (!this.props.isAuthenticated) return;
 
         pick.leagueId = this.props.leagueId;
-        pick.weekNo = this.props.weekNo;
         pick.year = this.props.year;
+        pick.weekNo = this.props.weekNo;
         pick.seasonType = this.props.seasonType;
+        pick.date = this.props.date;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
         if (pickFound) {
@@ -211,8 +202,8 @@ const mapStateToProps = (state, ownProps) => {
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);;
     const weeks = formatWeeks(rawWeeks);
     const weekNo = get(request, 'weekNo', get(last(rawWeeks), 'weekNo'));
-
     const seasonType = get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
+    const date = get(request, 'date') || get(last(rawWeeks), 'date');
     
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
@@ -232,6 +223,7 @@ const mapStateToProps = (state, ownProps) => {
         year,
         seasonType,
         weekNo,
+        date,
         teams,
         isAuthenticated
     }
@@ -250,16 +242,15 @@ ScoreboardPage.propTypes = {
     year: PropTypes.number,
     seasonType: PropTypes.number,
     weekNo: PropTypes.number,
+    date: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
-    loadDailyScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
     updatePick: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, {
   loadScoreboard,
-  loadDailyScoreboard,
   addPick,
   updatePick
 })(ScoreboardPage);

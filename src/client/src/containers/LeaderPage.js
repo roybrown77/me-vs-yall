@@ -89,7 +89,8 @@ class LeaderPage extends Component {
             leagueId: this.props.leagueId,
             year: this.props.year,
             seasonType: week.seasonType,
-            weekNo: week.weekNo
+            weekNo: week.weekNo,
+            date: week.date
         });
     }
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
 
 let router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -20,10 +21,25 @@ router.post('/picks/', function (req, res) {
         pickId: req.body.pickId,
         year: req.body.year,
         seasonType: req.body.seasonType,
-        createDateTime: new Date(new Date().toUTCString()).toISOString()
+        createDateTime: new Date(new Date().toUTCString()).toISOString(),
+        gameDateTime: get(req,'body.date')
     };
 
-    pickDomain.upsert(pick, (err, pickCreated) => {
+    console.log('postPicks date: ' + get(req,'body.date'));
+
+    console.log('postPicks pick: ' + JSON.stringify(pick));
+
+    const finalPick = omit(pick, 
+        [
+            !get(req,'body.weekNo') || get(req,'body.weekNo') === 'undefined' ? 'weekNo' : get(req,'body.weekNo'), 
+            !get(req,'body.seasonType') || get(req,'body.seasonType') === 'undefined' ? 'seasonType' : get(req,'body.seasonType'),  
+            !get(req,'body.date') || get(req,'body.date') === 'undefined' ? 'gameDateTime' : get(req,'body.date'), 
+        ]
+    );
+
+    console.log('postPicks finalPick: ' + JSON.stringify(finalPick));
+
+    pickDomain.upsert(finalPick, (err, pickCreated) => {
         if (err) return res.status(500).json("There was a problem adding the information to the database: " + err.message);
         res.status(200).send(pick);
     });
