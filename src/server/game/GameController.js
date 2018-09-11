@@ -1417,7 +1417,7 @@ router.get('/games', function (req, res) {
       get(req,'query.year','year'),
       !get(req,'query.weekNo') || get(req,'query.weekNo') === '-1' ? 'weekNo' : undefined, 
       !get(req,'query.seasonType') || get(req,'query.seasonType') === '-1' ? 'seasonType' : undefined, 
-      get(req,'query.date','startDateTime')
+      !get(req,'query.date') || get(req,'query.date') === '-1' ? 'startDateTime' : undefined, 
     ]
   );
 
