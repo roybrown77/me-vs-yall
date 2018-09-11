@@ -1440,12 +1440,12 @@ router.get('/games', function (req, res) {
   //   console.log('updateNCAAFootballScores error: ' + err.message)
   // }
 
-  try {
-    loadEnglishPremierLeagueGames();
-  } catch(err) {
-    isLoadEnglishPremierLeagueGamesRunning = false;
-    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  }
+  // try {
+  //   loadEnglishPremierLeagueGames();
+  // } catch(err) {
+  //   isLoadEnglishPremierLeagueGamesRunning = false;
+  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  // }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
