@@ -1019,9 +1019,9 @@ const eplTeams = [
         "_id": "5b9060e59a4c08bca6d80500",
         "externalId": "364",
         "leagueId": "59723313734d1d6202a85f17",
-        "location": "Tottenham HotSpur",
+        "location": "Tottenham",
         "shortLocation": "TOT",
-        "name": ""
+        "name": "Spurs"
     },
     {
         "color": "#00B2A9",
@@ -1030,7 +1030,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Liverpool",
         "shortLocation": "LIV",
-        "name": ""
+        "name": "The Reds"
     },
     {
         "color": "#B50E12",
@@ -1039,7 +1039,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "AFC Bournemouth",
         "shortLocation": "BOU",
-        "name": ""
+        "name": "The Cherries"
     },
     {
         "color": "#FDBE11",
@@ -1048,7 +1048,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Leicester City",
         "shortLocation": "LEI",
-        "name": ""
+        "name": "The Foxes"
     },
     {
         "color": "#034694",
@@ -1057,7 +1057,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Chelsea",
         "shortLocation": "CHE",
-        "name": "Pensioner"
+        "name": "The Blues"
     },
     {
         "color": "#005995",
@@ -1066,7 +1066,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Cardiff City",
         "shortLocation": "CAR",
-        "name": ""
+        "name": "The Bluebirds"
     },
     {
         "color": "#0E63AD",
@@ -1074,7 +1074,8 @@ const eplTeams = [
         "externalId": "384",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Huddersfield Town",
-        "shortLocation": "HUD"
+        "shortLocation": "HUD",
+        "name": "The Terriers"
     },
     {
         "color": "#1B458F",
@@ -1083,7 +1084,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Crystal Palace",
         "shortLocation": "CRY",
-        "name": ""
+        "name": "The Eagles"
     },
     {
         "color": "#1C2C5B",
@@ -1092,7 +1093,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Manchester City",
         "shortLocation": "MNC",
-        "name": ""
+        "name": "Citizens"
     },
     {
         "color": "#CC0000",
@@ -1101,7 +1102,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Fulham",
         "shortLocation": "FUL",
-        "name": ""
+        "name": "The Cottagers"
     },
     {
         "color": "#41B6E6",
@@ -1119,7 +1120,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Arsenal",
         "shortLocation": "ARS",
-        "name": ""
+        "name": "The Gunners"
     },
     {
         "color": "#FBEE23",
@@ -1128,7 +1129,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Watford",
         "shortLocation": "WAT",
-        "name": ""
+        "name": "The Hornets"
     },
     {
         "color": "#DA291C",
@@ -1137,14 +1138,14 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Manchester United",
         "shortLocation": "MAN",
-        "name": ""
+        "name": "Red Devils"
     },
     {
         "color": "#FDB913",
         "_id": "5b9060e59a4c08bca6d8050e",
         "externalId": "379",
         "leagueId": "59723313734d1d6202a85f17",
-        "location": "Wolverhampton Wanderers",
+        "location": "Wolverhampton",
         "shortLocation": "WOL",
         "name": "Wanderers"
     },
@@ -1155,7 +1156,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Burnley",
         "shortLocation": "BUR",
-        "name": ""
+        "name": "The Clarets"
     },
     {
         "color": "#003399",
@@ -1164,7 +1165,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Everton",
         "shortLocation": "EVE",
-        "name": ""
+        "name": "The Blues"
     },
     {
         "color": "#7A263A",
@@ -1173,7 +1174,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "West Ham United",
         "shortLocation": "WHU",
-        "name": ""
+        "name": "The Hammers"
     },
     {
         "color": "#D71920",
@@ -1191,7 +1192,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Brighton & Hove Albion",
         "shortLocation": "BHA",
-        "name": "Seagulls"
+        "name": "The Seagulls"
     }
 ];
 

@@ -7,6 +7,7 @@ var GameSchema = new mongoose.Schema({
 	year: Number,
     beginDateTime: 'date',
     endDateTime: 'date',
+    date: 'date',
     year: Number,
     seasonType: Number,
     description: String

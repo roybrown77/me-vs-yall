@@ -1205,12 +1205,12 @@ const loadEnglishPremierLeagueGames = async () => {
     return;
   }
 
-  // const currentWeekDay = moment().weekday();
+  const currentWeekDay = moment().weekday();
 
-  // if (currentWeekDay > 1) {
-  //   console.log('loadEnglishPremierLeagueGames new games will be loaded on monday.');
-  //   return;
-  // }
+  if (currentWeekDay > 1) {
+    console.log('loadEnglishPremierLeagueGames new games will be loaded on monday.');
+    return;
+  }
 
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -1225,8 +1225,8 @@ const loadEnglishPremierLeagueGames = async () => {
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    //console.log('loadEnglishPremierLeagueGames unable to load new games until all games have ended.');
-    //return;
+    console.log('loadEnglishPremierLeagueGames unable to load new games until all games have ended.');
+    return;
   }
 
   let games = [];
@@ -1246,7 +1246,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
     await page.setDefaultNavigationTimeout(60000);
 
-    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/20180916');
+    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1');
 
     await page.waitForSelector('#events');
 
@@ -1374,6 +1374,7 @@ const loadEnglishPremierLeagueGames = async () => {
   const gameWeek = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: parseInt(year),
+    date: new Date(moment(earliestGameTime).startOf('day')),
     beginDateTime: new Date(moment(earliestGameTime).startOf('day')),
     endDateTime: new Date(moment(latestGameTime).endOf('day'))
   };
@@ -1383,8 +1384,7 @@ const loadEnglishPremierLeagueGames = async () => {
   const gameWeekSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: parseInt(year),
-    beginDateTime: new Date(moment(earliestGameTime).startOf('day')),
-    endDateTime: new Date(moment(latestGameTime).endOf('day'))
+    date: new Date(moment(earliestGameTime).startOf('day')),
   };
 
   gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
@@ -1440,12 +1440,12 @@ router.get('/games', function (req, res) {
   //   console.log('updateNCAAFootballScores error: ' + err.message)
   // }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  // }
+  try {
+    loadEnglishPremierLeagueGames();
+  } catch(err) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
