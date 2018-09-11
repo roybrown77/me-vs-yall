@@ -138,9 +138,13 @@ class LeaderPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {(this.props.dataLoading) && <LinearProgress/>}
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) &&
+                        (this.props.dataLoading) && 
+                        <LinearProgress/>
+                    }
+                    {
+                        this.props.leaders.length > 0 && 
+                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <div style={{marginTop: '12px'}}>
                             <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
                                 <tbody>
