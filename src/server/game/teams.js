@@ -1013,11 +1013,194 @@ const ncaafTeams = [{
     "shortLocation": "ASU"
 }];
 
+const eplTeams = [
+    {
+        "color": "#132257",
+        "_id": "5b9060e59a4c08bca6d80500",
+        "externalId": "364",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Tottenham HotSpur",
+        "shortLocation": "TOT",
+        "name": ""
+    },
+    {
+        "color": "#00B2A9",
+        "_id": "5b9060e59a4c08bca6d80501",
+        "externalId": "367",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Liverpool",
+        "shortLocation": "LIV",
+        "name": ""
+    },
+    {
+        "color": "#B50E12",
+        "_id": "5b9060e59a4c08bca6d80502",
+        "externalId": "375",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "AFC Bournemouth",
+        "shortLocation": "BOU",
+        "name": ""
+    },
+    {
+        "color": "#FDBE11",
+        "_id": "5b9060e59a4c08bca6d80503",
+        "externalId": "349",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Leicester City",
+        "shortLocation": "LEI",
+        "name": ""
+    },
+    {
+        "color": "#034694",
+        "_id": "5b9060e59a4c08bca6d80504",
+        "externalId": "347",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Chelsea",
+        "shortLocation": "CHE",
+        "name": "Pensioner"
+    },
+    {
+        "color": "#005995",
+        "_id": "5b9060e59a4c08bca6d80505",
+        "externalId": "363",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Cardiff City",
+        "shortLocation": "CAR",
+        "name": ""
+    },
+    {
+        "color": "#0E63AD",
+        "_id": "5b9060e59a4c08bca6d80506",
+        "externalId": "384",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Huddersfield Town",
+        "shortLocation": "HUD"
+    },
+    {
+        "color": "#1B458F",
+        "_id": "5b9060e59a4c08bca6d80507",
+        "externalId": "355",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Crystal Palace",
+        "shortLocation": "CRY",
+        "name": ""
+    },
+    {
+        "color": "#1C2C5B",
+        "_id": "5b9060e59a4c08bca6d80508",
+        "externalId": "370",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Manchester City",
+        "shortLocation": "MNC",
+        "name": ""
+    },
+    {
+        "color": "#CC0000",
+        "_id": "5b9060e59a4c08bca6d80509",
+        "externalId": "382",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Fulham",
+        "shortLocation": "FUL",
+        "name": ""
+    },
+    {
+        "color": "#41B6E6",
+        "_id": "5b9060e59a4c08bca6d8050a",
+        "externalId": "359",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Newcastle United",
+        "shortLocation": "NEW",
+        "name": "Red Devils"
+    },
+    {
+        "color": "#DB0007",
+        "_id": "5b9060e59a4c08bca6d8050b",
+        "externalId": "361",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Arsenal",
+        "shortLocation": "ARS",
+        "name": ""
+    },
+    {
+        "color": "#FBEE23",
+        "_id": "5b9060e59a4c08bca6d8050c",
+        "externalId": "360",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Watford",
+        "shortLocation": "WAT",
+        "name": ""
+    },
+    {
+        "color": "#DA291C",
+        "_id": "5b9060e59a4c08bca6d8050d",
+        "externalId": "395",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Manchester United",
+        "shortLocation": "MAN",
+        "name": ""
+    },
+    {
+        "color": "#FDB913",
+        "_id": "5b9060e59a4c08bca6d8050e",
+        "externalId": "379",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Wolverhampton Wanderers",
+        "shortLocation": "WOL",
+        "name": "Wanderers"
+    },
+    {
+        "color": "#6C1D45",
+        "_id": "5b9060e59a4c08bca6d8050f",
+        "externalId": "380",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Burnley",
+        "shortLocation": "BUR",
+        "name": ""
+    },
+    {
+        "color": "#003399",
+        "_id": "5b9060e59a4c08bca6d80510",
+        "externalId": "371",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Everton",
+        "shortLocation": "EVE",
+        "name": ""
+    },
+    {
+        "color": "#7A263A",
+        "_id": "5b9060e59a4c08bca6d80511",
+        "externalId": "368",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "West Ham United",
+        "shortLocation": "WHU",
+        "name": ""
+    },
+    {
+        "color": "#D71920",
+        "_id": "5b9060e59a4c08bca6d80512",
+        "externalId": "331",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Southampton",
+        "shortLocation": "SOU",
+        "name": "The Saints"
+    },
+    {
+        "color": "#0057B8",
+        "_id": "5b9060e59a4c08bca6d80513",
+        "externalId": "376",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Brighton & Hove Albion",
+        "shortLocation": "BHA",
+        "name": "Seagulls"
+    }
+];
+
 module.exports = {
 	mvyNflTeams,
     espnNflTeams,
     mvyMlbTeams,
     espnMlbTeams,
     mvyCountries,
-    ncaafTeams
+    ncaafTeams,
+    eplTeams
 };

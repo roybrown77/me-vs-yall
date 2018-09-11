@@ -144,20 +144,25 @@ class ScoreboardPage extends Component {
                             onFilterDate={this.handleFilterDate}
                         />
                     }
-                    {(this.props.dataLoading) && <LinearProgress/>}
+                    {
+                        (this.props.dataLoading) && 
+                        <LinearProgress/>
+                    }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && !this.props.isAuthenticated && 
-                        <Route render={({ history }) => (
-                        <RaisedButton
-                          label="Press Start to Play!"
-                          labelPosition="before"
-                          primary={true}
-                          onClick={() => { history.push('/login') }}
-                          style={{
-                            width: '100%',
-                            marginTop:'12px'
-                          }}/>
-                          )}/>
+                        <div style={{margin:'0 12px'}}>
+                            <Route render={({ history }) => (
+                            <RaisedButton
+                              label="Press Start to Play!"
+                              labelPosition="before"
+                              primary={true}
+                              onClick={() => { history.push('/login') }}
+                              style={{
+                                width: '100%',
+                                marginTop:'12px'
+                              }}/>
+                              )}/>
+                        </div>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && 

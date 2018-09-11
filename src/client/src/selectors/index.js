@@ -63,11 +63,11 @@ const formatWeeks = (gameWeeks) => {
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
 
         if (startDateTime !== endDateTime) {
-            week.displayName = week.description + ' ' + 
+            week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + 
             moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D') + ' - ' + 
             moment(new Date(week.endDateTime)).tz('America/New_York').format('ddd M/D');
         } else {
-            week.displayName = week.description + ' ' + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
+            week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
         }
 
         return week;
@@ -86,7 +86,8 @@ const leagues = [
     //{id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup', years: [2018], isDaily: true},
     //{id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs', years: [2018], isDaily: true},
     //{id: '59723313734d1d6202a85f14', name: 'wimbledon', description: 'wimbledon', years: [2018], isDaily: true},
-    {id: '59723313734d1d6202a85f15', name: 'ncaaf', description: 'ncaaf', years: [2018], isDaily: false}
+    {id: '59723313734d1d6202a85f15', name: 'ncaaf', description: 'ncaaf', years: [2018], isDaily: false},
+    //{id: '59723313734d1d6202a85f17', name: 'premier', description: 'premier', years: [2018], isDaily: false}
 ];
 
 export {

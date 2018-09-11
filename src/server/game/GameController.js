@@ -19,7 +19,15 @@ const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const teamRepository = require('../game/TeamRepository');
 
-const {ncaafTeams, mvyNflTeams, espnNflTeams, mvyMlbTeams, espnMlbTeams, mvyCountries} = require('./teams');
+const {
+  eplTeams, 
+  ncaafTeams, 
+  mvyNflTeams, 
+  espnNflTeams, 
+  mvyMlbTeams, 
+  espnMlbTeams, 
+  mvyCountries
+} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
@@ -281,276 +289,6 @@ const loadNflGames = async () => {
 
   isLoadNflGamesRunning = false;
 };
-
-// const loadFifaWorldCupGames = async () => {
-//   const leagueId = '59723313734d1d6202a85f12';
-//   const currentMonth = moment().month()+1;
-//   console.log('fifa world cup currentMonth: ' + currentMonth);
-
-//   if (![6,7].includes(currentMonth)) {
-//     console.log('new fifa world cup games will be loaded during season.');
-//     return;
-//   }
-
-//   const gameSearch = {
-//     leagueId: mongoose.Types.ObjectId(leagueId),
-//     isGameOver: {
-//       $ne: true
-//     }
-//   };
-
-//   const gamesStillInProgress = await gameRepository.find(gameSearch);
-
-//   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-//     console.log('unable to load new fifa world cup games until all games have ended.');
-//     return;
-//   }
-
-//   let games = [];
-
-//   const browser = await puppeteer.launch({
-//     args: ['--no-sandbox', '--disable-setuid-sandbox']
-//   });
-
-//   const page = await browser.newPage();
-
-//   await page.goto('http://www.espn.com/soccer/scoreboard/_/league/fifa.world');
-
-//   await page.waitForSelector('#events');
-
-//   let listLength = await page.evaluate((sel) => {
-//     return document.getElementsByClassName(sel).length;
-//   }, 'scoreboard soccer');
-  
-//   let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
-//   //let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
-//   //let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-  
-//   let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
-  
-//   const startDateTime = await page.evaluate((sel) => {
-//     return document.querySelector(sel).getAttribute('data-id');
-//   }, STARTDATETIME_SELECTOR);
-
-//   console.log('fifa startDateTime: ' + startDateTime);
-
-//   console.log('# of fifa games to load: ' + listLength);
-
-//   for (let i = 1; i <= listLength; i++) {
-//     const awayTeam = await page.evaluate((sel) => {
-//       return document.querySelector(sel).innerText;
-//     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
-
-//     const homeTeam = await page.evaluate((sel) => {
-//       return document.querySelector(sel).innerText;
-//     }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
-
-//     // const spread = await page.evaluate((sel) => {
-//     //   return document.querySelector(sel).innerText;
-//     // }, SPREAD_SELECTOR.replace("INDEX", i));
-
-//     games.push({
-//       startDateTime: moment(startDateTime),
-//       // spread: {
-//       //  team: spread.replace('Line: ','').split(' ')[0],
-//       //  amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-//       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
-//       // },
-//       awayTeam: awayTeam,
-//       homeTeam: homeTeam
-//     });
-//   }
-
-//   console.log('fifa world cup games: ' + JSON.stringify(games));
-
-//   await browser.close();
-
-//   const mvyGames = games.map(game=>{
-//     const awayTeam = mvyCountries.find(x=>x.name === game.awayTeam);
-//     const homeTeam = mvyCountries.find(x=>x.name === game.homeTeam);
-//     //const spreadTeam = mvyCountries.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
-
-//     return {
-//       leagueId: mongoose.Types.ObjectId(leagueId),
-//       startDateTime: game.startDateTime,
-//       // spread: {
-//       //  teamId: spreadTeam._id,
-//       //  amount: game.spread.amount
-//       // },
-//       competitors: [
-//         {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.name},
-//         {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.name}
-//       ]
-//     };
-//   });
-
-//   console.log('fifa world cup mvyGames: ' + JSON.stringify(mvyGames));
-
-//   mvyGames.forEach(game=>{
-//     const gameSearch = {
-//       leagueId: game.leagueId,
-//       awayTeam: game.competitors[0]._id,
-//       homeTeam: game.competitors[1]._id,
-//       startDateTime: game.startDateTime
-//     };
-
-//     gameRepository.find(gameSearch, function (err, games) {
-//       if (!!games && games.length > 0) {
-//         console.log("fifa world cup game already exists: " + JSON.stringify(gameSearch));
-//       } else {
-//         gameRepository.create(game, function (err, gameCreated) {
-//           if (err) {
-//             console.log("there was a problem adding fifa world cup game to the database: " + err.message);
-//           } else {
-//             console.log("success creating fifa world cup game: " + gameCreated._id);
-//           }
-//         });
-//       }
-//     });
-//   });
-// };
-
-// const loadMlbGames = async () => {
-//   const leagueId = '59723313734d1d6202a85f13';
-//   const currentMonth = moment().month()+1;
-//   console.log('mlb currentMonth: ' + currentMonth);
-
-//   const currentDay = moment().date();
-//   console.log('mlb currentDay: ' + currentDay);
-
-//   if (![8].includes(currentMonth)) {
-//     console.log('new mlb games will be loaded during season.');
-//     return;
-//   }
-
-//   const gameSearch = {
-//     leagueId: mongoose.Types.ObjectId(leagueId),
-//     isGameOver: {
-//       $ne: true
-//     }
-//   };
-
-//   const gamesStillInProgress = await gameRepository.find(gameSearch);
-
-//   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-//     console.log('unable to load new mlb games until all games have ended.');
-//     return;
-//   }
-
-//   let games = [];
-
-//   const browser = await puppeteer.launch({
-//     args: ['--no-sandbox', '--disable-setuid-sandbox']
-//   });
-
-//   const page = await browser.newPage();
-
-//   await page.goto('http://www.espn.com/mlb/scoreboard');
-
-//   await page.waitForSelector('#events');
-
-//   let listLength = await page.evaluate((sel) => {
-//     return document.getElementsByClassName(sel).length;
-//   }, 'scoreboard baseball');
-
-//   let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-//   let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
-//   let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-  
-//   const startDateTime = await page.evaluate((sel) => {
-//     return document.querySelector(sel).getAttribute('data-id');
-//   }, STARTDATETIME_SELECTOR);
-
-//   console.log('mlb startDateTime: ' + startDateTime);
-
-//   console.log('# of mlb games to load: ' + listLength);
-
-//   for (let i = 1; i <= 1; i++) {
-//     const awayTeam = await page.evaluate((sel) => {
-//       return document.querySelector(sel).getAttribute('data-awayid');
-//     }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-//     const homeTeam = await page.evaluate((sel) => {
-//       return document.querySelector(sel).getAttribute('data-homeid');
-//     }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-//     // const spread = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 'Line: 0' : 
-//     // await page.evaluate((sel) => {
-//     //   return document.querySelector(sel).innerText;
-//     // }, SPREAD_SELECTOR.replace("INDEX", i));
-
-//     games.push({
-//       startDateTime: moment(startDateTime),
-//       // spread: {
-//       //  team: spread.replace('Line: ','').split(' ')[0],
-//       //  amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-//       //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
-//       // },
-//       awayTeam: awayTeam,
-//       homeTeam: homeTeam
-//     });
-//   }
-
-//   await browser.close();
-
-//   console.log('mlb games: ' + JSON.stringify(games));
-  
-//   // const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
-//   // const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 1 : 
-//   // currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
-//   // currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
-//   // currentWeek.toLowerCase().includes('wild') ? 1 : 
-//   // currentWeek.toLowerCase().includes('divisional') ? 2 : 
-//   // currentWeek.toLowerCase().includes('conference') ? 3 : 5;
-
-//   const mvyGames = games.map(game=>{
-//     const espnAwayTeam = espnMlbTeams.find(x=>x.id.toString() === game.awayTeam.toString());
-//     const espnHomeTeam = espnMlbTeams.find(x=>x.id.toString() === game.homeTeam.toString());
-//     const awayTeam = mvyMlbTeams.find(x=>x._id === espnAwayTeam.mvyId);
-//     const homeTeam = mvyMlbTeams.find(x=>x._id === espnHomeTeam.mvyId);
-//     //const spreadTeam = mvyMlbTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
-
-//     return {
-//       leagueId: mongoose.Types.ObjectId(leagueId),
-//       //seasonType: seasonType,
-//       //weekNo: weekNo,
-//       startDateTime: game.startDateTime,
-//       // spread: {
-//       //  teamId: get(spreadTeam,'_id'),
-//       //  amount: get(game,'spread.amount', 0)
-//       // },
-//       competitors: [
-//         {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name},
-//         {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name}
-//       ]
-//     };
-//   });
-
-//   console.log('mlb mvyGames: ' + JSON.stringify(mvyGames));
-
-//   // mvyGames.forEach(game=>{
-//   //   const gameSearch = {
-//   //     leagueId: leagueId,
-//   //     year: game.year,
-//   //     seasonType: game.seasonType,
-//   //     weekNo: game.weekNo
-//   //   };
-
-//   //   gameRepository.find(gameSearch, function (err, games) {
-//   //     if (!!games && games.length > 0) {
-//   //       console.log("game already exists: " + JSON.stringify(gameSearch));
-//   //     } else {
-//   //       gameRepository.create(game, function (err, gameCreated) {
-//   //         if (err) {
-//   //           console.log("there was a problem adding game to the database: " + err.message);
-//   //         } else {
-//   //           console.log("success creating game: " + gameCreated._id);
-//   //         }
-//   //       });
-//   //     }
-//   //   });
-//   // });
-// };
 
   // const month = moment().add(2, 'months');
   // const firstDayOfMarch = month.startOf('month');
@@ -1469,8 +1207,8 @@ const loadEnglishPremierLeagueGames = async () => {
 
   // const currentWeekDay = moment().weekday();
 
-  // if (currentWeekDay < 3) {
-  //   console.log('loadEnglishPremierLeagueGames new games will be loaded on wednesday.');
+  // if (currentWeekDay > 1) {
+  //   console.log('loadEnglishPremierLeagueGames new games will be loaded on monday.');
   //   return;
   // }
 
@@ -1487,15 +1225,15 @@ const loadEnglishPremierLeagueGames = async () => {
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('loadEnglishPremierLeagueGames unable to load new games until all games have ended.');
-    return;
+    //console.log('loadEnglishPremierLeagueGames unable to load new games until all games have ended.');
+    //return;
   }
 
   let games = [];
   let browser;
   let page;
   let startDateTime;
-  let year;
+  const year = 2018;
 
   isLoadEnglishPremierLeagueGamesRunning = true;
 
@@ -1508,7 +1246,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
     await page.setDefaultNavigationTimeout(60000);
 
-    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1');
+    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/20180916');
 
     await page.waitForSelector('#events');
 
@@ -1524,21 +1262,14 @@ const loadEnglishPremierLeagueGames = async () => {
     }
 
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
-    // let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.AWAY_HOME > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    // let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-    // let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-    // let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-
-    let STARTDATETIME_SELECTOR = '#scoreboard-page > div.carousel-wrap > div.date-picker-carousel.slick-initialized.slick-slider > div > div > div.day.slick-slide.slick-current.slick-center';
-    startDateTime = await page.evaluate((sel) => {
-      return document.querySelector(sel).getAttribute('data-id');
-    }, STARTDATETIME_SELECTOR);
-
-    console.log('loadEnglishPremierLeagueGames startDateTime: ' + startDateTime);
-
-    console.log('loadEnglishPremierLeagueGames listLength: ' + listLength);
+    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
 
     for (let i = 1; i <= listLength; i++) {
+      startDateTime = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-date');
+      }, STARTDATETIME_SELECTOR.replace("INDEX", i));
+
       const awayTeam = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
@@ -1547,19 +1278,20 @@ const loadEnglishPremierLeagueGames = async () => {
         return document.querySelector(sel).innerText;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
 
-      // const spread = await page.evaluate((sel) => {
-      //   return document.querySelector(sel).innerText;
-      // }, SPREAD_SELECTOR.replace("INDEX", i));
+      const awayTeamId = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-awayid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      const homeTeamId = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-homeid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
       games.push({
         startDateTime: moment(startDateTime),
-        // spread: {
-        //  team: spread.replace('Line: ','').split(' ')[0],
-        //  amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-        //  spreadDateTime: new Date(new Date().toUTCString()).toISOString()
-        // },
         awayTeam: awayTeam,
-        homeTeam: homeTeam
+        awayTeamId: awayTeamId,
+        homeTeam: homeTeam,
+        homeTeamId: homeTeamId
       });
     }
 
@@ -1579,138 +1311,95 @@ const loadEnglishPremierLeagueGames = async () => {
 
   console.log('loadEnglishPremierLeagueGames games: ' + JSON.stringify(games));
 
-  // const mvyGames = games.map(game=>{
-  //   const awayTeam = mvyCountries.find(x=>x.name === game.awayTeam);
-  //   const homeTeam = mvyCountries.find(x=>x.name === game.homeTeam);
-  //   //const spreadTeam = mvyCountries.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+  if (!startDateTime) {
+    console.log('loadEnglishPremierLeagueGames no startDateTime');
+    return;
+  }
 
-  //   return {
-  //     leagueId: mongoose.Types.ObjectId(leagueId),
-  //     startDateTime: game.startDateTime,
-  //     // spread: {
-  //     //  teamId: spreadTeam._id,
-  //     //  amount: game.spread.amount
-  //     // },
-  //     competitors: [
-  //       {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.name},
-  //       {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.name}
-  //     ]
-  //   };
-  // });
+  if (!games) {
+    console.log('loadEnglishPremierLeagueGames no games');
+    return;
+  }
 
-  // console.log('loadEnglishPremierLeagueGames mvyGames: ' + JSON.stringify(mvyGames));
-  
-  // if (!year) {
-  //   console.log('loadNCAAFootballGames no year');
-  //   return;
-  // }
+  const mvyGames = games.reduce((total, game)=>{
+    const awayTeam = eplTeams.find(x=>x.externalId.toString() === game.awayTeamId.toString());
+    const homeTeam = eplTeams.find(x=>x.externalId.toString() === game.homeTeamId.toString());
 
-  // if (!currentWeek) {
-  //   console.log('loadNCAAFootballGames no currentWeek');
-  //   return;
-  // }
+    if (awayTeam && homeTeam) {
+      total.push({
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        year: parseInt(year),
+        startDateTime: game.startDateTime,
+        competitors: [
+          {_id: mongoose.Types.ObjectId(awayTeam._id), shortLocation: awayTeam.shortLocation},
+          {_id: mongoose.Types.ObjectId(homeTeam._id), shortLocation: homeTeam.shortLocation}
+        ]
+      });
+    }
 
-  // if (!games) {
-  //   console.log('loadNCAAFootballGames no games');
-  //   return;
-  // }
+    return total;
+  }, []);
 
-  // const seasonType = currentWeek.toLowerCase().includes('week') ? 1 : currentWeek.toLowerCase().includes('bowls') ? 2 : 3;
-  // const weekNo = currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 1;
+  console.log('loadEnglishPremierLeagueGames mvyGames: ' + JSON.stringify(mvyGames));
 
-  // const mvyGames = games.reduce((total, game)=>{
-  //   const awayTeam = eplTeams.find(x=>x.externalId.toString() === game.awayId.toString());
-  //   const homeTeam = eplTeams.find(x=>x.externalId.toString() === game.homeId.toString());
-  //   const spreadTeam = eplTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+  mvyGames.forEach(game=>{
+    const gameSearch = {
+      leagueId: leagueId,
+      year: parseInt(year),
+      startDateTime: game.startDateTime
+    };
 
-  //   if (awayTeam && homeTeam) {
-  //     total.push({
-  //       leagueId: mongoose.Types.ObjectId(leagueId),
-  //       year: parseInt(year),
-  //       seasonType: seasonType,
-  //       weekNo: weekNo,
-  //       startDateTime: game.startDateTime,
-  //       spread: {
-  //        teamId: get(spreadTeam,'_id'),
-  //        amount: get(game,'spread.amount', 0),
-  //        spreadDateTime: game.spread.spreadDateTime
-  //       },
-  //       competitors: [
-  //         {_id: mongoose.Types.ObjectId(awayTeam._id), shortLocation: awayTeam.shortLocation, rank: parseInt(game.awayRank).toString() === 'Nan' ? '' : parseInt(game.awayRank)},
-  //         {_id: mongoose.Types.ObjectId(homeTeam._id), shortLocation: homeTeam.shortLocation, rank: parseInt(game.homeRank).toString() === 'Nan' ? '' : parseInt(game.homeRank)}
-  //       ]
-  //     });
-  //   }
+    gameRepository.find(gameSearch, function (err, games) {
+      if ((games || []).length > 0) {
+        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gameSearch));
+      } else {
+        gameRepository.create(game, function (err, gameCreated) {
+          if (err) {
+            console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
+          } else {
+            console.log("loadEnglishPremierLeagueGames success creating game: " + gameCreated._id);
+          }
+        });
+      }
+    });
+  });
 
-  //   return total;
-  // }, []);
+  const gameStartDateTimes = mvyGames.map(x=>{
+    return new Date(x.startDateTime);
+  });
 
-  // console.log('loadNCAAFootballGames mvyGames: ' + JSON.stringify(mvyGames));
+  const earliestGameTime = new Date(Math.min.apply(null, gameStartDateTimes));
+  const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
 
-  // mvyGames.forEach(game=>{
-  //   const gameSearch = {
-  //     leagueId: leagueId,
-  //     year: parseInt(year),
-  //     seasonType: game.seasonType,
-  //     weekNo: game.weekNo
-  //   };
+  const gameWeek = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: parseInt(year),
+    beginDateTime: new Date(moment(earliestGameTime).startOf('day')),
+    endDateTime: new Date(moment(latestGameTime).endOf('day'))
+  };
 
-  //   console.log('loadNCAAFootballGames gameSearch: ' + JSON.stringify(gameSearch));
+  console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
 
-  //   gameRepository.find(gameSearch, function (err, games) {
-  //     if ((games || []).length > 0) {
-  //       console.log("loadNCAAFootballGames games already exists: " + JSON.stringify(gameSearch));
-  //     } else {
-  //       gameRepository.create(game, function (err, gameCreated) {
-  //         if (err) {
-  //           console.log("loadNCAAFootballGames there was a problem adding game to the database: " + err.message);
-  //         } else {
-  //           console.log("loadNCAAFootballGames success creating game: " + gameCreated._id);
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
+  const gameWeekSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: parseInt(year),
+    beginDateTime: new Date(moment(earliestGameTime).startOf('day')),
+    endDateTime: new Date(moment(latestGameTime).endOf('day'))
+  };
 
-  // const gameStartDateTimes = mvyGames.map(x=>{
-  //   return new Date(x.startDateTime);
-  // });
-
-  // const earliestGameTime = new Date(Math.min.apply(null, gameStartDateTimes));
-  // const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
-
-  // const gameWeek = {
-  //   leagueId: mongoose.Types.ObjectId(leagueId),
-  //   year: parseInt(year),
-  //   seasonType: seasonType,
-  //   weekNo: weekNo,
-  //   description: currentWeek,
-  //   beginDateTime: earliestGameTime,
-  //   endDateTime: latestGameTime
-  // };
-
-  // console.log('loadNCAAFootballGames gameWeek: ' + JSON.stringify(gameWeek));
-
-  // const gameWeekSearch = {
-  //   leagueId: mongoose.Types.ObjectId(leagueId),
-  //   year: parseInt(year),
-  //   seasonType: seasonType,
-  //   weekNo: weekNo
-  // };
-
-  // gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
-  //   if ((gameWeeks || []).length > 0) {
-  //     console.log("loadNCAAFootballGames game week already exists: " + JSON.stringify(gameWeeks));
-  //   } else {
-  //     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-  //         if (err) {
-  //             console.log("loadNCAAFootballGames there was a problem adding week to the database: " + err.message);
-  //         } else {
-  //           console.log("loadNCAAFootballGames success creating week: " + gameWeekCreated._id);
-  //         }
-  //     });
-  //   }
-  // });
+  gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
+    if ((gameWeeks || []).length > 0) {
+      console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
+    } else {
+      gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+          if (err) {
+              console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
+          } else {
+            console.log("loadEnglishPremierLeagueGames success creating week: " + gameWeekCreated._id);
+          }
+      });
+    }
+  });
 
   isLoadEnglishPremierLeagueGamesRunning = false;
 };
@@ -1744,12 +1433,12 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
   
-  try {
-    updateNCAAFootballScores();
-  } catch(err) {
-    isUpdateNCAAFootballScoresRunning = false;
-    console.log('updateNCAAFootballScores error: ' + err.message)
-  }
+  // try {
+  //   updateNCAAFootballScores();
+  // } catch(err) {
+  //   isUpdateNCAAFootballScoresRunning = false;
+  //   console.log('updateNCAAFootballScores error: ' + err.message)
+  // }
 
   // try {
   //   loadEnglishPremierLeagueGames();
@@ -1845,7 +1534,8 @@ router.get('/gameweeks', function (req, res) {
 router.get('/teams', function (req, res) {
   const teams = [
     ...mvyNflTeams, 
-    ...ncaafTeams
+    ...ncaafTeams,
+    ...eplTeams
   ];
 
   res.status(200).send(teams);
