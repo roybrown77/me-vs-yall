@@ -392,7 +392,7 @@ const updateNflScores = async () => {
     }, 'scoreboard football');
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-    let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.score';
+    //let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.score';
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
@@ -411,10 +411,9 @@ const updateNflScores = async () => {
         return document.querySelector(sel).getAttribute('data-awayid');
       }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-      const awayInProgressScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      // const awayInProgressScore = await page.evaluate((sel) => {
+      //   return document.getElementsByClassName(sel);
+      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -425,10 +424,9 @@ const updateNflScores = async () => {
         return document.querySelector(sel).getAttribute('data-homeid');
       }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-      const homeInProgressScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      // const homeInProgressScore = await page.evaluate((sel) => {
+      //   return document.getElementsByClassName(sel);
+      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -437,8 +435,10 @@ const updateNflScores = async () => {
 
       scores.push({
         awayTeam: awayTeam,
+        //awayInProgressScore: awayInProgressScore,
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam,
+        //homeInProgressScore: homeInProgressScore,
         homeScore: parseInt(homeScore)
       });
     }
