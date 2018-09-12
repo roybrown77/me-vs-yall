@@ -57,7 +57,6 @@ class Game extends Component {
         const gameStartDateTime = moment(new Date(dateTime));
         const currentDateTime = moment(new Date());
         const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-
         return difference < 5;
     }
 
