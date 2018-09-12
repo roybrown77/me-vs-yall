@@ -67,9 +67,8 @@ class Game extends Component {
             <div key={game._id} style={{width:'100%'}}>
                 <GridList key={game._id + "-gridlist"} style={grid.list}>
                     {game.competitors.map((competitor) => (
-                        <Grow in={true} timeout={500}>
+                        <Grow key={game._id + "." + competitor._id} in={true} timeout={500}>
                             <GridTile
-                                key={game._id + "." + competitor._id}
                                 className="grid-tile"
                                 style={grid.tile}
                                 title={competitor.name}

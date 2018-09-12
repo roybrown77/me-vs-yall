@@ -1458,7 +1458,7 @@ router.get('/gameweeks', function (req, res) {
       const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGameWeeks));
 
       const areGamesInProgress = some(gameWeeks, x=>{
-        if (currentDateTime >= x.beginDateTime && currentDateTime <= moment(x.endDateTime).add(24, 'hours')) {
+        if (currentDateTime >= x.beginDateTime) {
           return true;
         }
         return false;
@@ -1481,7 +1481,7 @@ router.get('/gameweeks', function (req, res) {
 
       const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo']);
 
-      res.status(200).send(weeks);
+      res.status(200).send(gameWeeks);
   });
 });
 
