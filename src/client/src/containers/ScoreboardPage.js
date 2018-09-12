@@ -41,7 +41,8 @@ class ScoreboardPage extends Component {
             leagueId: urlLeagueId,
             year: this.props.year,
             seasonType: this.props.seasonType,
-            weekNo: this.props.weekNo
+            weekNo: this.props.weekNo,
+            date: this.props.date
         });
     }
 
