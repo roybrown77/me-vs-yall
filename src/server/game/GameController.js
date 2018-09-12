@@ -1457,17 +1457,10 @@ router.get('/gameweeks', function (req, res) {
 
       const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGameWeeks));
 
-      const areGamesInProgress = some(gameWeeks, x=>{
-        if (currentDateTime >= x.beginDateTime) {
-          return true;
-        }
-        return false;
-      });
-
       const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
         if (moment(x.endDateTime) <= currentDateTime ||
             (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) ||
-            (!areGamesInProgress && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
+            (currentDateTime <= moment(x.endDateTime).add(7, 'hours') && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
             x.description === 'Whole Year') {
           if (x.description === 'Whole Year') {
             x.sortOrder = 1;
@@ -1479,9 +1472,9 @@ router.get('/gameweeks', function (req, res) {
         return total;
       }, []);
 
-      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo']);
+      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo', 'startDateTime']);
 
-      res.status(200).send(gameWeeks);
+      res.status(200).send(weeks);
   });
 });
 
