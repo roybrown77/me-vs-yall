@@ -1159,12 +1159,12 @@ const loadEnglishPremierLeagueGames = async () => {
     return;
   }
 
-  const currentWeekDay = moment().weekday();
+  //const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay > 1) {
-    console.log('loadEnglishPremierLeagueGames new games will be loaded on monday.');
-    return;
-  }
+  //if (currentWeekDay < 3) {
+    //console.log('loadEnglishPremierLeagueGames new games will be loaded on wednesday.');
+    //return;
+  //}
 
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -1472,7 +1472,7 @@ router.get('/gameweeks', function (req, res) {
         return total;
       }, []);
 
-      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo', 'startDateTime']);
+      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo', 'date']);
 
       res.status(200).send(weeks);
   });

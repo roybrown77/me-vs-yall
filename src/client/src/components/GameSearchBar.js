@@ -47,7 +47,9 @@ class GameSearchBar extends Component {
   }
   
   render() {
-    const weekIndex = this.props.weeks.findIndex(x=>x.seasonType === this.props.seasonType && x.weekNo === this.props.weekNo);
+    const weekIndex = this.props.weeks.findIndex(x=>x.seasonType === this.props.seasonType && x.weekNo === this.props.weekNo) ||
+                      this.props.weeks.findIndex(x=>x.date === this.props.date);
+                      
     const weeks = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index} primaryText={week.displayName}/>
                   );
@@ -77,40 +79,22 @@ class GameSearchBar extends Component {
                   >
                   {leagues}
               </DropDownMenu>
-              {this.props.isDaily && 
-                <div style={dateStyle.container}>
-                <TextField
-                  id="date"
-                  type="date"
-                  defaultValue={this.props.date || date}
-                  className={dateStyle.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={this.props.onFilterDate}
-                />
-                </div>
-              }
-              {!this.props.isDaily && 
-                <DropDownMenu
+              <DropDownMenu
                   value={this.props.year}
                   onChange={this.props.onFilterYear}
                   style={dropDown.root}
                   autoWidth={false}
                   >
                   {years}
-                </DropDownMenu>
-              }
-              {!this.props.isDaily && 
-                <DropDownMenu
+              </DropDownMenu>
+              <DropDownMenu
                   value={weekIndex}
                   onChange={this.props.onFilterWeek}
                   style={dropDownFull.root}
                   autoWidth={false}
                   >
                   {weeks}
-                </DropDownMenu>
-              }
+              </DropDownMenu>
             </div>
         </div>);
     }

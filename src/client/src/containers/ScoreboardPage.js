@@ -130,6 +130,7 @@ class ScoreboardPage extends Component {
                             weekNo={this.props.weekNo}
                             weeks={this.props.weeks}
                             seasonType={this.props.seasonType}
+                            date={this.props.date}
                             onFilterLeague={this.handleFilterLeague}
                             onFilterYear={this.handleFilterYear}
                             onFilterWeek={this.handleFilterWeek}
@@ -201,8 +202,8 @@ const mapStateToProps = (state, ownProps) => {
     const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);;
     const weeks = formatWeeks(rawWeeks);
-    const weekNo = get(request, 'weekNo', get(last(rawWeeks), 'weekNo'));
-    const seasonType = get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
+    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') || get(last(rawWeeks), 'weekNo');
+    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
     const date = get(request, 'date') || get(last(rawWeeks), 'date');
     
     const teamDomain = state.get('teamDomain').toJS();
