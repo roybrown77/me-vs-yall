@@ -1460,7 +1460,7 @@ router.get('/gameweeks', function (req, res) {
       const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
         if (moment(x.endDateTime) <= currentDateTime ||
             (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) ||
-            (currentDateTime <= moment(x.endDateTime).add(7, 'hours') && moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
+            (moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
             x.description === 'Whole Year') {
           if (x.description === 'Whole Year') {
             x.sortOrder = 1;
