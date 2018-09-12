@@ -9,6 +9,8 @@ import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import LinearProgress from '../components/LinearProgress';
 
+import Grow from '@material-ui/core/Grow';
+
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
@@ -145,47 +147,50 @@ class LeaderPage extends Component {
                     {
                         this.props.leaders.length > 0 && 
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
-                        <div style={{marginTop: '12px'}}>
-                            <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
-                                <tbody>
-                                    {this.props.leaders.map((leader, index) => (
-                                        <tr key={leader.id}
-                                            style={{paddingBottom:"16px"}}>
-                                            <td>
-                                                <div className="leader-item" style={{color: index === 0 ? '#FFC107' : '#000'}}>
-                                                    {index+1}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="leader-item">
-                                                    {leader.userName}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="leader-item">
-                                                    {leader.wins}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="leader-item">
-                                                    {leader.losses}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="leader-item">
-                                                    {leader.ties}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="leader-item">
-                                                    {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>}
+                        <Grow in={true} timeout={500}>
+                            <div style={{marginTop: '12px'}}>
+                                <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
+                                    <tbody>
+                                        {this.props.leaders.map((leader, index) => (
+                                            <tr key={leader.id}
+                                                style={{paddingBottom:"16px"}}>
+                                                <td>
+                                                    <div className="leader-item" style={{color: index === 0 ? '#FFC107' : '#000'}}>
+                                                        {index+1}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="leader-item">
+                                                        {leader.userName}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="leader-item">
+                                                        {leader.wins}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="leader-item">
+                                                        {leader.losses}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="leader-item">
+                                                        {leader.ties}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="leader-item">
+                                                        {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </Grow>
+                    }
                 </PageContainer>
             </div>
         )
