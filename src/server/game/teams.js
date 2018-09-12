@@ -1111,7 +1111,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Newcastle United",
         "shortLocation": "NEW",
-        "name": "Red Devils"
+        "name": "The Magpies"
     },
     {
         "color": "#DB0007",

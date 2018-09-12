@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import get from 'lodash/get';
 
+import Grow from '@material-ui/core/Grow';
 import {GridList, GridTile} from 'material-ui/GridList';
 
 import angry from '../styles/images/angry.png';
@@ -66,52 +67,54 @@ class Game extends Component {
             <div key={game._id} style={{width:'100%'}}>
                 <GridList key={game._id + "-gridlist"} style={grid.list}>
                     {game.competitors.map((competitor) => (
-                        <GridTile
-                        key={game._id + "." + competitor._id}
-                        className="grid-tile"
-                        style={grid.tile}
-                        title={competitor.name}
-                        titleStyle={grid.titleStyle}
-                        titleBackground={grid.titleBackground}
-                        onClick={() => this.handleMakePick(game._id, competitor._id)}>
-                        <div 
-                            className={inProgress ? 'fast-flash' : ''}
-                            style={{border: competitor.selected ? 
-                            (game.isGameOver ? '8px solid rgb(0, 188, 212)' : '8px solid rgb(0, 188, 212)') : (inProgress ? '8px solid rgb(0, 188, 212)' : '0'), 
-                            height: "91%", 
-                            color: competitor.color}}>
-                                <div style={{position:'absolute', 
-                                display: game.isGameOver ? (game.winner !== competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
-                                    <img className="emoji-image" src={angry} alt=""/>
-                                </div>
-                                <div style={{position:'absolute', 
-                                display: game.isGameOver ? (game.winner === competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
-                                    <img className="emoji-image" src={money} alt=""/>
-                                </div>
-                                <div style={{paddingTop: game.isGameOver ? (competitor.selected ? '0px' : '8px') : '0px',
-                                    fontSize:'36px', block: competitor.score ? 'block' : 'none'}}>
-                                    {competitor.score}
-                                </div>
-                                <div style={{position:'absolute', fontSize: '1.4rem', color: 'black', right: '10px', top: '10px',
-                                display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
-                                    {get(game,'spread.amount')}
-                                </div>
-                                <div style={{fontSize: game.leagueId === '59723313734d1d6202a85f15' ? '40px' : '4rem/1', paddingTop: game.isGameOver ? '12px' : (competitor.selected ? '42px' : '46px')}}>
-                                    <span style={{marginRight:'4px', fontSize:'20px',color:'rgba(0, 0, 0, 0.54)'}}>{parseInt(competitor.rank).toString() === 'NaN' ? '' : parseInt(competitor.rank)}</span>
-                                    {competitor.shortLocation}
-                                </div>
-                                {
-                                    get(competitor, 'colors', []).length > 0 && 
-                                    <div style={grid.colors}>
-                                        {
-                                            get(competitor, 'colors', []).map((color, index) => (
-                                                <div key={index} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
-                                            ))
-                                        }
+                        <Grow in={true} timeout={500}>
+                            <GridTile
+                            key={game._id + "." + competitor._id}
+                            className="grid-tile"
+                            style={grid.tile}
+                            title={competitor.name}
+                            titleStyle={grid.titleStyle}
+                            titleBackground={grid.titleBackground}
+                            onClick={() => this.handleMakePick(game._id, competitor._id)}>
+                            <div 
+                                className={inProgress ? 'fast-flash' : ''}
+                                style={{border: competitor.selected ? 
+                                (game.isGameOver ? '8px solid rgb(0, 188, 212)' : '8px solid rgb(0, 188, 212)') : (inProgress ? '8px solid rgb(0, 188, 212)' : '0'), 
+                                height: "91%", 
+                                color: competitor.color}}>
+                                    <div style={{position:'absolute', 
+                                    display: game.isGameOver ? (game.winner !== competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
+                                        <img className="emoji-image" src={angry} alt=""/>
                                     </div>
-                                }
-                        </div>
-                        </GridTile>
+                                    <div style={{position:'absolute', 
+                                    display: game.isGameOver ? (game.winner === competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
+                                        <img className="emoji-image" src={money} alt=""/>
+                                    </div>
+                                    <div style={{paddingTop: game.isGameOver ? (competitor.selected ? '0px' : '8px') : '0px',
+                                        fontSize:'36px', block: competitor.score ? 'block' : 'none'}}>
+                                        {competitor.score}
+                                    </div>
+                                    <div style={{position:'absolute', fontSize: '1.4rem', color: 'black', right: '10px', top: '10px',
+                                    display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
+                                        {get(game,'spread.amount')}
+                                    </div>
+                                    <div style={{fontSize: game.leagueId === '59723313734d1d6202a85f15' ? '40px' : '4rem/1', paddingTop: game.isGameOver ? '12px' : (competitor.selected ? '42px' : '46px')}}>
+                                        <span style={{marginRight:'4px', fontSize:'20px',color:'rgba(0, 0, 0, 0.54)'}}>{parseInt(competitor.rank).toString() === 'NaN' ? '' : parseInt(competitor.rank)}</span>
+                                        {competitor.shortLocation}
+                                    </div>
+                                    {
+                                        get(competitor, 'colors', []).length > 0 && 
+                                        <div style={grid.colors}>
+                                            {
+                                                get(competitor, 'colors', []).map((color, index) => (
+                                                    <div key={index} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
+                                                ))
+                                            }
+                                        </div>
+                                    }
+                            </div>
+                            </GridTile>
+                        </Grow>
                     ))}                            
                 </GridList>
                 <div style={{
