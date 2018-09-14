@@ -8,6 +8,7 @@ var GameSchema = new mongoose.Schema({
     competitors: Array,
     seasonType: Number,
     year: Number,
-    spread: mongoose.Schema.Types.Mixed
+    spread: mongoose.Schema.Types.Mixed,
+    isStub: mongoose.Schema.Types.Boolean,
 });
 module.exports = mongoose.model('Game', GameSchema);

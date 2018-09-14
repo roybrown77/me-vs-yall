@@ -1232,7 +1232,8 @@ const loadEnglishPremierLeagueGames = async () => {
       const gameSearch = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         year: parseInt(year),
-        startDateTime: moment(date)
+        startDateTime: moment(date),
+        isStub: true
       };
 
       gameRepository.find(gameSearch, function (err, games) {
@@ -1408,6 +1409,9 @@ const updateEnglishPremierLeagueScores = async () => {
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
+      $ne: true
+    },
+    isStub: {
       $ne: true
     },
     startDateTime: {
