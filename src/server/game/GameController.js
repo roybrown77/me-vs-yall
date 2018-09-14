@@ -1422,12 +1422,15 @@ const updateEnglishPremierLeagueScores = async () => {
     return;
   }
 
-  //if (dates.length === 0) {
-    //console.log("updateEnglishPremierLeagueScores no dates to update.");
-    //return;
-  //}
+  const startDateTimes = games.map(x=>{
+    return x.startDateTime;
+  });
 
-  const date = moment(games[0].startDateTime).format('YYYYMMDD');
+  const earliestStartDateTime = new Date(Math.min.apply(null, startDateTimes));
+
+  console.log("updateEnglishPremierLeagueScores earliestStartDateTime: " + earliestStartDateTime);
+
+  const date = moment(earliestStartDateTime).format('YYYYMMDD');
   let scores = [];
   let browser;
   let page;
