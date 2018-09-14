@@ -498,7 +498,7 @@ const getShortLocationName = (name) => {
 };
 
 const loadNCAAFootballGames = async () => {
-  if (isLoadNCAAFootballGamesRunning = false;) {
+  if (isLoadNCAAFootballGamesRunning) {
     console.log("loadNCAAFootballGames already running.");
     return;
   }
