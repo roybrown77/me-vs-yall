@@ -1170,13 +1170,6 @@ const loadEnglishPremierLeagueGames = async () => {
     return;
   }
 
-  //const currentWeekDay = moment().weekday();
-
-  //if (currentWeekDay < 3) {
-    //console.log('loadEnglishPremierLeagueGames new games will be loaded on wednesday.');
-    //return;
-  //}
-
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
@@ -1189,8 +1182,18 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
 
-  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('loadEnglishPremierLeagueGames unable to load new games until all games have ended.');
+  const startDateTimes = gamesStillInProgress.map(x=>{
+    return new Date(x.startDateTime);
+  });
+
+  const lastStartGameTime = new Date(Math.max.apply(null, startDateTimes));
+
+  const daysLeftToGetGames = moment(moment().add(7, 'days')).diff(moment(lastStartGameTime), 'days');
+
+  console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
+
+  if (daysLeftToGetGames <= 0) {
+    console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games.');
     return;
   }
 
@@ -1211,7 +1214,9 @@ const loadEnglishPremierLeagueGames = async () => {
 
     await page.setDefaultNavigationTimeout(60000);
 
-    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1');
+    const date = moment(moment(lastStartGameTime).add(1, 'days')).format('YYYYMMDD');
+
+    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
 
     await page.waitForSelector('#events');
 
@@ -1220,7 +1225,30 @@ const loadEnglishPremierLeagueGames = async () => {
     }, 'scoreboard soccer');
 
     if (listLength === 0) {
+      isLoadEnglishPremierLeagueGamesRunning = false;
+
       console.log("loadEnglishPremierLeagueGames no games found");
+
+      const gameSearch = {
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        year: parseInt(year),
+        startDateTime: moment(date)
+      };
+
+      gameRepository.find(gameSearch, function (err, games) {
+        if ((games || []).length > 0) {
+          console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gameSearch));
+        } else {
+          gameRepository.create(gameSearch, function (err, gameCreated) {
+            if (err) {
+              console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
+            } else {
+              console.log("loadEnglishPremierLeagueGames success creating game: " + gameCreated._id);
+            }
+          });
+        }
+      });
+
       await page.close();
       await browser.close();
       return;
