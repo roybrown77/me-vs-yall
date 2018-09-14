@@ -1,9 +1,10 @@
-let isUpdateNflScoresRunning = false;
 let isLoadNflGamesRunning = false;
+let isUpdateNflScoresRunning = false;
 let isLoadNCAAFootballGamesRunning = false;
-let isLoadNCAAFootballTeamsRunning = false
+let isLoadNCAAFootballTeamsRunning = false;
 let isUpdateNCAAFootballScoresRunning = false;
 let isLoadEnglishPremierLeagueGamesRunning = false;
+let isUpdateEnglishPremierLeagueScoresRunning = false;
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -444,6 +445,11 @@ const updateNflScores = async () => {
 
   console.log('updateNflScores games: ' + JSON.stringify(games));
   console.log('updateNflScores scores: ' + JSON.stringify(scores));
+
+  if (get({scores:scores},'scores',[]).length === 0) {
+    console.log("updateNflScores no scores.");
+    return;
+  }
 
   games.forEach(game=>{
     const awayId = espnNflTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
@@ -1115,6 +1121,11 @@ const updateNCAAFootballScores = async () => {
   console.log('updateNCAAFootballScores games: ' + JSON.stringify(games));
   console.log('updateNCAAFootballScores scores: ' + JSON.stringify(scores));
 
+  if (get({scores:scores},'scores',[]).length === 0) {
+    console.log("updateNCAAFootballScores no scores.");
+    return;
+  }
+
   games.forEach(game=>{
     const awayId = ncaafTeams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).externalId;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
@@ -1358,6 +1369,159 @@ const loadEnglishPremierLeagueGames = async () => {
   isLoadEnglishPremierLeagueGamesRunning = false;
 };
 
+const updateEnglishPremierLeagueScores = async () => {
+  if (isUpdateEnglishPremierLeagueScoresRunning) {
+    console.log("updateEnglishPremierLeagueScores already running.")
+    return;
+  }
+
+  const leagueId = '59723313734d1d6202a85f17';
+
+  const search = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    },
+    startDateTime: {
+      $lt: new Date(new Date().toUTCString()).toISOString()
+    }
+  };
+
+  const games = await gameRepository.find(search);
+
+  if (!!games && games.length === 0) {
+    console.log("updateEnglishPremierLeagueScores all scores have been updated.");
+    return;
+  }
+
+  //if (dates.length === 0) {
+    //console.log("updateEnglishPremierLeagueScores no dates to update.");
+    //return;
+  //}
+
+  const date = moment(games[0].startDateTime).format('YYYYMMDD');
+  let scores = [];
+  let browser;
+  let page;
+
+  isUpdateEnglishPremierLeagueScoresRunning = true;
+
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    page = await browser.newPage();
+
+    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
+
+    await page.waitForSelector('#events');
+
+    let listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, 'scoreboard soccer');
+
+    let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
+    //let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.score';
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
+    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+
+    console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
+
+    if (listLength === 0) {
+      console.log("updateEnglishPremierLeagueScores no games found");
+      await page.close();
+      await browser.close();
+      return;
+    }
+
+    for (let i = 1; i <= listLength; i++) {
+      const awayTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-awayid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      // const awayInProgressScore = await page.evaluate((sel) => {
+      //   return document.getElementsByClassName(sel);
+      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
+
+      const homeTeam = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-homeid');
+      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+
+      // const homeInProgressScore = await page.evaluate((sel) => {
+      //   return document.getElementsByClassName(sel);
+      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
+
+      scores.push({
+        awayTeam: awayTeam,
+        //awayInProgressScore: awayInProgressScore,
+        awayScore: parseInt(awayScore),
+        homeTeam: homeTeam,
+        //homeInProgressScore: homeInProgressScore,
+        homeScore: parseInt(homeScore)
+      });
+    }
+
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (page) {
+      await page.close()
+    }
+
+    if (browser) {
+      await browser.close()
+    }
+    console.log('updateEnglishPremierLeagueScores browser error: ' + err.message);
+  }
+
+  let promises = [];
+
+  console.log('updateEnglishPremierLeagueScores games: ' + JSON.stringify(games));
+  console.log('updateEnglishPremierLeagueScores scores: ' + JSON.stringify(scores));
+
+  if (get({scores:scores},'scores',[]).length === 0) {
+    console.log("updateEnglishPremierLeagueScores no scores.");
+    return;
+  }
+
+  games.forEach(game=>{
+    const awayId = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).externalId;
+    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
+    
+    console.log('updateEnglishPremierLeagueScores score: ' + JSON.stringify(score));
+
+    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
+      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
+      (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
+        moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
+      const updatedGame = {
+          isGameOver: true,
+          competitors: [
+            Object.assign({},game.competitors[0],{score:score.awayScore}),
+            Object.assign({},game.competitors[1],{score:score.homeScore})
+          ]
+        };
+      
+      console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
+
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+    }
+  });
+
+  isUpdateEnglishPremierLeagueScoresRunning = false;
+};
+
 router.get('/games', function (req, res) {
   try {
     loadNflGames();
@@ -1394,12 +1558,19 @@ router.get('/games', function (req, res) {
   //   console.log('updateNCAAFootballScores error: ' + err.message)
   // }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  // }
+  try {
+    loadEnglishPremierLeagueGames();
+  } catch(err) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  }
+
+  try {
+    updateEnglishPremierLeagueScores();
+  } catch(err) {
+    isUpdateEnglishPremierLeagueScoresRunning = false;
+    console.log('updateEnglishPremierLeagueScores error: ' + err.message)
+  }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
