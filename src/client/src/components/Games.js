@@ -20,7 +20,7 @@ class Games extends Component {
                 const displayDateTime = moment(new Date(game.startDateTime));
                 return {
                     ...game,
-                    startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a') + ' ' + displayDateTime.tz(moment.tz.guess()).format('z'),
+                    startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
                     //stadiumCity: get(game, 'overrideStadiumCity', teams.find(x=>x._id === game.competitors[1]._id).stadiumCity),
                     //stadiumName: get(game ,'overrideStadiumName', teams.find(x=>x._id === game.competitors[1]._id).stadiumName),
                     winner: game.competitors[0].score === game.competitors[1].score ? 
