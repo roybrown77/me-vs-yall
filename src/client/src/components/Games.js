@@ -17,9 +17,10 @@ class Games extends Component {
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
         
         const formattedGames = sortedGames.map((game)=>{
+                const displayDateTime = moment(new Date(game.startDateTime));
                 return {
                     ...game,
-                    startDateTimeDisplay: moment(new Date(game.startDateTime)).tz('America/New_York').format('dddd MMM D YYYY h:mm a') + ' ET',
+                    startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a') + ' ' + displayDateTime.tz(moment.tz.guess()).format('z'),
                     //stadiumCity: get(game, 'overrideStadiumCity', teams.find(x=>x._id === game.competitors[1]._id).stadiumCity),
                     //stadiumName: get(game ,'overrideStadiumName', teams.find(x=>x._id === game.competitors[1]._id).stadiumName),
                     winner: game.competitors[0].score === game.competitors[1].score ? 
