@@ -1427,6 +1427,9 @@ const updateEnglishPremierLeagueScores = async () => {
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    },
     isStub: {
       $ne: true
     },
