@@ -109,6 +109,8 @@ const loadNflGames = async () => {
     if (!currentWeek) {
       isLoadNflGamesRunning = false;
       console.log("loadNflGames currentWeek error");
+      await page.close();
+      await browser.close();
       return;
     }
 
@@ -569,6 +571,8 @@ const loadNCAAFootballGames = async () => {
     if (!currentWeek) {
       isLoadNCAAFootballGamesRunning = false;
       console.log("loadNCAAFootballGames currentWeek error");
+      await page.close();
+      await browser.close();
       return;
     }
 
@@ -1430,11 +1434,11 @@ const updateEnglishPremierLeagueScores = async () => {
     isGameOver: {
       $ne: true
     },
-    isStub: {
-      $ne: true
-    },
     startDateTime: {
       $lt: new Date(new Date().toUTCString()).toISOString()
+    },
+    isStub: {
+      $ne: true
     }
   };
 
@@ -1559,8 +1563,12 @@ const updateEnglishPremierLeagueScores = async () => {
       (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
       (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
+
+      const minutesSinceGameStarted = moment(moment()).diff(game.startDateTime, 'minutes');
+      console.log("updateEnglishPremierLeagueScores minutesSinceGameStarted: " + minutesSinceGameStarted);
+
       const updatedGame = {
-          isGameOver: true,
+          isGameOver: minutesSinceGameStarted >= 150,
           competitors: [
             Object.assign({},game.competitors[0],{score:score.awayScore}),
             Object.assign({},game.competitors[1],{score:score.homeScore})
@@ -1634,7 +1642,10 @@ router.get('/games', function (req, res) {
     startDateTime: get(req, 'query.date') ? {
       $gte: new Date(moment(get(req, 'query.date')).startOf('day')),
       $lte: new Date(moment(get(req, 'query.date')).endOf('day'))
-    } : undefined
+    } : undefined,
+    isStub: {
+      $ne: true
+    }
   };
 
   const finalSearch = omit(search, 
@@ -1658,7 +1669,10 @@ router.get('/games', function (req, res) {
 router.get('/gameweeks', function (req, res) {
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-    year: req.query.year
+    year: req.query.year,
+    isStub: {
+      $ne: true
+    }
   };
 
   const finalSearch = omit(search, 
@@ -1674,8 +1688,8 @@ router.get('/gameweeks', function (req, res) {
       const currentDateTime = moment();
 
       const viewableNextGameWeeks = gameWeeks.reduce((total, week)=>{
-        if (moment(week.endDateTime) > currentDateTime) {
-          total.push(week.endDateTime);
+        if (moment(week.beginDateTime) > currentDateTime) {
+          total.push(week.beginDateTime);
         }
         return total;
       },[]);
@@ -1685,7 +1699,7 @@ router.get('/gameweeks', function (req, res) {
       const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
         if (moment(x.endDateTime) <= currentDateTime ||
             (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) ||
-            (moment(x.endDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
+            (moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
             x.description === 'Whole Year') {
           if (x.description === 'Whole Year') {
             x.sortOrder = 1;
