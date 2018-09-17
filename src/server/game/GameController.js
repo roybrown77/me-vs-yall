@@ -1480,7 +1480,7 @@ const updateEnglishPremierLeagueScores = async () => {
     }, 'scoreboard soccer');
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
-    //let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.score';
+    let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
 
@@ -1499,10 +1499,6 @@ const updateEnglishPremierLeagueScores = async () => {
         return document.querySelector(sel).getAttribute('data-awayid');
       }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-      // const awayInProgressScore = await page.evaluate((sel) => {
-      //   return document.getElementsByClassName(sel);
-      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -1512,22 +1508,22 @@ const updateEnglishPremierLeagueScores = async () => {
         return document.querySelector(sel).getAttribute('data-homeid');
       }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-      // const homeInProgressScore = await page.evaluate((sel) => {
-      //   return document.getElementsByClassName(sel);
-      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
 
+      const gameOverIndicator = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
+
       scores.push({
         awayTeam: awayTeam,
-        //awayInProgressScore: awayInProgressScore,
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam,
-        //homeInProgressScore: homeInProgressScore,
-        homeScore: parseInt(homeScore)
+        homeScore: parseInt(homeScore),
+        isGameOver: (gameOverIndicator || '').trim() === 'FT'
       });
     }
 
@@ -1564,11 +1560,8 @@ const updateEnglishPremierLeagueScores = async () => {
       (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
 
-      const minutesSinceGameStarted = moment(moment()).diff(game.startDateTime, 'minutes');
-      console.log("updateEnglishPremierLeagueScores minutesSinceGameStarted: " + minutesSinceGameStarted);
-
       const updatedGame = {
-          isGameOver: minutesSinceGameStarted >= 150,
+          isGameOver: get(score,'isGameOver',false),
           competitors: [
             Object.assign({},game.competitors[0],{score:score.awayScore}),
             Object.assign({},game.competitors[1],{score:score.homeScore})
