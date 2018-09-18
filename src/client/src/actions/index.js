@@ -58,6 +58,8 @@ export const GAMEWEEKS_FAILURE = 'GAMEWEEKS_FAILURE';
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
+import { getCurrentWeek } from '../selectors';
+
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE
 });
@@ -210,7 +212,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
     const authenticationDomain = currentState.get('authenticationDomain').toJS();
     const userInSession = getUser();
     const user = get(authenticationDomain,'user',userInSession);
-    const currentWeek = last(get(result,'response',[]).filter(x=>x.year===year));
+    const currentWeek = getCurrentWeek(get(result,'response',[]).filter(x=>x.year===year));
 
     const request = {
       userId: get(user,'sub'),
@@ -245,7 +247,7 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
   const year = get(query,'year');
 
   return dispatch(fetchGameWeeks({leagueId})).then(result=>{
-    const currentWeek = last(get(result,'response',[]).filter(x=>x.year===year));
+    const currentWeek = getCurrentWeek(get(result,'response',[]).filter(x=>x.year===year));
 
     const request = {
       leagueId: get(query, 'leagueId'),

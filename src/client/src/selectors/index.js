@@ -68,7 +68,8 @@ const formatWeeks = (gameWeeks) => {
             moment(new Date(week.beginDateTime)).format('ddd M/D') + ' - ' + 
             moment(new Date(week.endDateTime)).format('ddd M/D');
         } else {
-            week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
+            week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + 
+            moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
         }
 
         return week;
@@ -92,7 +93,13 @@ const leagues = [
 ];
 
 const getCurrentWeek = (weeks) => {
-    return last(weeks);
+    let lastWeek;
+    for(let i=0;i<weeks.length; i++) {
+        if (moment(moment().add(7, 'hours')).diff(moment(weeks[i].endDateTime),'minutes') > 0) {
+            lastWeek = i+1>weeks.length-1 ? weeks[i] : weeks[i+1];
+        }
+    }
+    return lastWeek;
 }
 
 export {
