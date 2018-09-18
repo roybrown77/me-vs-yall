@@ -101,6 +101,15 @@ class Header extends Component {
                           <MenuItem
                             onTouchTap={this.handleClose}
                           >
+                            Stats
+                          </MenuItem>
+                        )} />
+                  )}
+                  {(
+                      <Route render={({ history}) => (
+                          <MenuItem
+                            onTouchTap={this.handleClose}
+                          >
                             News
                           </MenuItem>
                         )} />

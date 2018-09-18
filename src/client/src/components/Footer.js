@@ -64,7 +64,7 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
-                                label="News"
+                                label="Stats"
                                 icon={meIcon}
                                 />
                     )} />
