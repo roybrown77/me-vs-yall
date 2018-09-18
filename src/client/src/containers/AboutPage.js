@@ -8,7 +8,7 @@ class AboutPage extends Component {
             <PageContainer>
                 <div style={{margin: '75px 12px'}}> 
                     <div style={{textAlign: 'left'}}>
-                        Lose fake money here before losing real money there.
+                        Win fake money here before losing real money there.
                     </div>
                     <br/>
                     <div style={{textAlign: 'left'}}>
