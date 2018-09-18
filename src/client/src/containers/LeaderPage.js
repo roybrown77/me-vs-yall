@@ -12,7 +12,7 @@ import LinearProgress from '../components/LinearProgress';
 import Grow from '@material-ui/core/Grow';
 
 import { loadLeaders } from '../actions';
-import { formatWeeks, formatMoney, getWinnings } from '../selectors';
+import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 
@@ -220,9 +220,10 @@ const mapStateToProps = (state, ownProps) => {
     const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
     const weeks = formatWeeks(rawWeeks);
-    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') || get(last(rawWeeks), 'weekNo');
-    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
-    const date = get(request, 'date') || get(last(rawWeeks), 'date');
+    const currentWeek = getCurrentWeek(weeks);
+    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') || get(currentWeek,'weekNo');
+    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
+    const date = get(request, 'date') || get(currentWeek, 'date');
     
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');

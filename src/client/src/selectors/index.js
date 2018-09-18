@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 
 import get from 'lodash/get';
+import last from 'lodash/last';
 
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110) + (results['ties'] * 110);
@@ -90,6 +91,10 @@ const leagues = [
     {id: '59723313734d1d6202a85f17', name: 'premier', description: 'premier', years: [2018]}
 ];
 
+const getCurrentWeek = (weeks) => {
+    return last(weeks);
+}
+
 export {
     leagues,
     getResults,
@@ -97,5 +102,6 @@ export {
     formatWeeks,
     formatMoney,
     getWinnings,
-    getBet
+    getBet,
+    getCurrentWeek
 };

@@ -15,7 +15,7 @@ import Games from '../components/Games';
 import LinearProgress from '../components/LinearProgress';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
-import { formatWeeks } from '../selectors';
+import { formatWeeks, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 
@@ -203,9 +203,10 @@ const mapStateToProps = (state, ownProps) => {
     const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);;
     const weeks = formatWeeks(rawWeeks);
-    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') || get(last(rawWeeks), 'weekNo');
-    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') || get(last(rawWeeks), 'seasonType');
-    const date = get(request, 'date') || get(last(rawWeeks), 'date');
+    const currentWeek = getCurrentWeek(weeks);
+    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') || get(currentWeek,'weekNo');
+    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
+    const date = get(request, 'date') || get(currentWeek, 'date');
     
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
