@@ -139,11 +139,7 @@ class ScoreboardPage extends Component {
                         />
                     }
                     {
-                        (this.props.dataLoading) && 
-                        <LinearProgress/>
-                    }
-                    {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && !this.props.isAuthenticated && 
+                        !this.props.isAuthenticated && 
                         <div style={{margin:'0 12px'}}>
                             <Route render={({ history }) => (
                             <RaisedButton
@@ -157,6 +153,10 @@ class ScoreboardPage extends Component {
                               }}/>
                               )}/>
                         </div>
+                    }
+                    {
+                        (this.props.dataLoading) && 
+                        <LinearProgress/>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && 

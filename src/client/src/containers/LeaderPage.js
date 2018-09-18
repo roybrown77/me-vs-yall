@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route }from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import get from 'lodash/get';
@@ -9,6 +10,7 @@ import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import LinearProgress from '../components/LinearProgress';
 
+import RaisedButton from 'material-ui/RaisedButton';
 import Grow from '@material-ui/core/Grow';
 
 import { loadLeaders } from '../actions';
@@ -141,6 +143,22 @@ class LeaderPage extends Component {
                             onFilterWeek={this.handleFilterWeek}
                             onFilterDate={this.handleFilterDate}
                         />
+                    }
+                    {
+                        !this.props.isAuthenticated && 
+                        <div style={{margin:'0 12px'}}>
+                            <Route render={({ history }) => (
+                            <RaisedButton
+                              label="Press Start to Play!"
+                              labelPosition="before"
+                              primary={true}
+                              onClick={() => { history.push('/login') }}
+                              style={{
+                                width: '100%',
+                                marginTop:'12px'
+                              }}/>
+                              )}/>
+                        </div>
                     }
                     {
                         (this.props.dataLoading) && 
