@@ -1080,7 +1080,7 @@ const eplTeams = [
     {
         "color": "#1B458F",
         "_id": "5b9060e59a4c08bca6d80507",
-        "externalId": "355",
+        "externalId": "335",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Crystal Palace",
         "shortLocation": "CRY",

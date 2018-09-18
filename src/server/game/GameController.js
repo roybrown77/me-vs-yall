@@ -1207,14 +1207,18 @@ const loadEnglishPremierLeagueGames = async () => {
     return new Date(x.startDateTime);
   });
 
+  console.log('loadEnglishPremierLeagueGames startDateTimes: ' + JSON.stringify(startDateTimes));
+
   const lastStartGameTime = new Date(Math.max.apply(null, startDateTimes));
 
   const daysLeftToGetGames = moment(moment().add(7, 'days')).diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
+  console.log('loadEnglishPremierLeagueGames lastStartGameTime: ' + lastStartGameTime);
+
   if (daysLeftToGetGames <= 0) {
-    console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games.');
+    console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
     return;
   }
 
@@ -1222,6 +1226,7 @@ const loadEnglishPremierLeagueGames = async () => {
   let browser;
   let page;
   let startDateTime;
+  let date;
   const year = 2018;
 
   isLoadEnglishPremierLeagueGamesRunning = true;
@@ -1235,7 +1240,9 @@ const loadEnglishPremierLeagueGames = async () => {
 
     await page.setDefaultNavigationTimeout(60000);
 
-    const date = moment(moment(lastStartGameTime).add(1, 'days')).format('YYYYMMDD');
+    date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
+
+    console.log('loadEnglishPremierLeagueGames date: ' + date);
 
     await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
 
@@ -1381,19 +1388,12 @@ const loadEnglishPremierLeagueGames = async () => {
     });
   });
 
-  const gameStartDateTimes = mvyGames.map(x=>{
-    return new Date(x.startDateTime);
-  });
-
-  const earliestGameTime = new Date(Math.min.apply(null, gameStartDateTimes));
-  const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
-
   const gameWeek = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: parseInt(year),
-    date: new Date(moment(earliestGameTime).startOf('day')),
-    beginDateTime: new Date(moment(earliestGameTime).startOf('day')),
-    endDateTime: new Date(moment(latestGameTime).endOf('day'))
+    date: new Date(moment(date).startOf('day')),
+    beginDateTime: new Date(moment(date).startOf('day')),
+    endDateTime: new Date(moment(date).startOf('day'))
   };
 
   console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
@@ -1401,7 +1401,7 @@ const loadEnglishPremierLeagueGames = async () => {
   const gameWeekSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: parseInt(year),
-    date: new Date(moment(earliestGameTime).startOf('day')),
+    date: new Date(moment(date).startOf('day')),
   };
 
   gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
@@ -1613,12 +1613,12 @@ router.get('/games', function (req, res) {
   //   console.log('updateNCAAFootballScores error: ' + err.message)
   // }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  // }
+  try {
+    loadEnglishPremierLeagueGames();
+  } catch(err) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  }
 
   try {
     updateEnglishPremierLeagueScores();
@@ -1678,29 +1678,15 @@ router.get('/gameweeks', function (req, res) {
   gameWeekRepository.find(finalSearch, function (err, gameWeeks) {
       if (err) return res.status(500).send("There was a problem finding the game weeks: " + err.message);
 
-      const currentDateTime = moment();
-
-      const viewableNextGameWeeks = gameWeeks.reduce((total, week)=>{
-        if (moment(week.beginDateTime) > currentDateTime) {
-          total.push(week.beginDateTime);
-        }
-        return total;
-      },[]);
-
-      const earliestNextGameTime = moment(Math.min.apply(null,viewableNextGameWeeks));
-
       const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
-        if (moment(x.endDateTime) <= currentDateTime ||
-            (currentDateTime >= moment(x.beginDateTime) && currentDateTime <= moment(x.endDateTime)) ||
-            (moment(x.beginDateTime).diff(earliestNextGameTime, 'minutes') === 0) ||
-            x.description === 'Whole Year') {
-          if (x.description === 'Whole Year') {
-            x.sortOrder = 1;
-          } else {
-            x.sortOrder = 2;
-          }
-          total.push(x);
+        if (x.description === 'Whole Year') {
+          x.sortOrder = 1;
+        } else {
+          x.sortOrder = 2;
         }
+
+        total.push(x);
+        
         return total;
       }, []);
 
