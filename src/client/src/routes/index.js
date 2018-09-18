@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import HowToPlayPage from '../containers/HowToPlayPage';
+import Rules from '../containers/Rules';
 import ScoreboardPage from '../containers/ScoreboardPage';
 import LeaderPage from '../containers/LeaderPage';
 import Feedback from '../containers/Feedback';
@@ -18,6 +19,7 @@ const routes = (
 		            <Switch>
 		                <Route exact path='/' component={ScoreboardPage}/>
 		                <Route path='/howtoplay' component={HowToPlayPage}/>
+		                <Route path='/rules' component={Rules}/>
 		                <Route path='/scoreboards/:leagueName' component={ScoreboardPage}/>
 		                <Route path='/leaders/:leagueName' component={LeaderPage}/>	
 		                <Route path='/feedback' component={Feedback}/>		   
