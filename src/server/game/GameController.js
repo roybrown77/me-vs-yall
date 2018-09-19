@@ -1207,7 +1207,7 @@ const loadEnglishPremierLeagueGames = async () => {
     return new Date(x.startDateTime);
   });
 
-  console.log('loadEnglishPremierLeagueGames startDateTimes: ' + JSON.stringify(startDateTimes));
+  //console.log('loadEnglishPremierLeagueGames startDateTimes: ' + JSON.stringify(startDateTimes));
 
   const lastStartGameTime = new Date(Math.max.apply(null, startDateTimes));
 
