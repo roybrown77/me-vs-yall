@@ -8,6 +8,9 @@ import { CALL_API, Schemas } from '../middleware/api';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 import history from '../middleware/history';
 
+import createHistory from 'history/createBrowserHistory';
+const localHistory = createHistory({forceRefresh: false});
+
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
 export const LEADERS_FAILURE = 'LEADERS_FAILURE';
@@ -236,7 +239,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
       const leagueId = get(request, 'leagueId');
       const league = leagues.find(x=>x.id === leagueId);
       const leagueName = get(league,'name','nfl');
-      history.push('/scoreboards/' + leagueName);
+      localHistory.push('/scoreboards/' + leagueName);
     }
 
     dispatch({type: SCOREBOARD_REQUEST, request});
@@ -283,7 +286,7 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       const leagueId = get(request, 'leagueId');
       const league = leagues.find(x=>x.id === leagueId);
       const leagueName = get(league,'name','nfl');
-      history.push('/leaders/' + leagueName);
+      localHistory.push('/leaders/' + leagueName);
     }
 
     dispatch({type: LEADERS_REQUEST, request});
