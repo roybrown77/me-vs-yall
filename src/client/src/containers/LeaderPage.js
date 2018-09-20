@@ -20,19 +20,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
-
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
@@ -48,19 +35,6 @@ const styles = {
     minWidth: 700,
   },
 };
-
-const dialogStyles = {
-  appBar: {
-    position: 'relative',
-  },
-  flex: {
-    flex: 1,
-  },
-};
-
-function Transition(props) {
-    return <Slide direction="up" {...props} />;
-}
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -309,8 +283,11 @@ const mapStateToProps = (state, ownProps) => {
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
 
+    const requestStorageJson = localStorage.getItem('request');
+    const requestStorage = JSON.parse(requestStorageJson);
+
     const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
     const years = get(league, 'years',[]);
@@ -321,9 +298,12 @@ const mapStateToProps = (state, ownProps) => {
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
     const weeks = formatWeeks(rawWeeks);
     const currentWeek = getCurrentWeek(weeks);
-    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') || get(currentWeek,'weekNo');
-    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
-    const date = get(request, 'date') || get(currentWeek, 'date');
+
+    const weekNo = get(request, 'date') ? undefined : get(request, 'weekNo') ? get(request, 'weekNo') : get(currentWeek,'weekNo');
+    
+    const seasonType = get(request, 'date') ? undefined : get(request, 'seasonType') ? get(request, 'seasonType') : get(currentWeek, 'seasonType');
+    
+    const date = get(request, 'date') ? get(request, 'date') : get(currentWeek, 'date');
     
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');

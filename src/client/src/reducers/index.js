@@ -194,8 +194,10 @@ const ui = (state = Map({
 }), action) => {
   switch (action.type) {
     case 'SCOREBOARD_REQUEST':
+      localStorage.setItem('request', JSON.stringify(get(action, 'request', {})));
       return state.set('request', get(action, 'request'));
     case 'LEADERS_REQUEST':
+      localStorage.setItem('request', JSON.stringify(get(action, 'request', {})));
       return state.set('request', get(action, 'request'));
     default:
       return state;
