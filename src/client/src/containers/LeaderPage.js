@@ -208,17 +208,14 @@ class LeaderPage extends Component {
                         this.props.leaders.length > 0 && 
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <Grow in={true} timeout={500}>
-                            <div>
-                                <table style={{width:"100%", backgroundColor: '#f4f7f6', padding: '12px'}}>
+                            <div style={{marginTop: '12px'}}>
+                                <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
                                     <tbody>
                                         {
                                             this.props.leaders.map((leader, index) => (
                                             <tr key={leader.id} 
-                                            onClick={() => this.handleClickOpen(leader)}
-                                            style={{
-                                                paddingBottom:"16px", 
-                                                backgroundColor: '#fff',
-                                                boxShadow: '0 0 2px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.24)'}}>
+                                            style={{paddingBottom:"16px"}}
+                                            onClick={() => this.handleClickOpen(leader)}>
                                                 <td>
                                                     <div className="leader-item" 
                                                     style={{color: index === 0 ? '#FFC107' : '#000'}}>
