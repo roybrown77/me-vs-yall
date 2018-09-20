@@ -8,6 +8,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 
 import angry from '../styles/images/angry.png';
 import money from '../styles/images/money.png';
+import tongueout from '../styles/images/tongueout.png';
 
 const grid = {
     root: {

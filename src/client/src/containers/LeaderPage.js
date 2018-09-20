@@ -20,6 +20,19 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
@@ -36,15 +49,31 @@ const styles = {
   },
 };
 
+const dialogStyles = {
+  appBar: {
+    position: 'relative',
+  },
+  flex: {
+    flex: 1,
+  },
+};
+
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
+
 class LeaderPage extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            open: false,
+        };
 
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
         this.handleFilterDate = this.handleFilterDate.bind(this);
-        this.handleMakePick = this.handleMakePick.bind(this);
     }
 
     componentDidMount() {
@@ -126,21 +155,14 @@ class LeaderPage extends Component {
         });
     }
 
-    handleMakePick(pick) {
-        if (!this.props.isAuthenticated) return;
+    handleClickOpen = (leader) => {
+        console.log(JSON.stringify(leader));
+        this.setState({ open: true });
+    };
 
-        pick.leagueId = this.props.leagueId;
-        pick.weekNo = this.props.weekNo;
-        pick.year = this.props.year;
-        pick.seasonType = this.props.seasonType;
-
-        const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
-        if (pickFound) {
-            this.props.updatePick(pickFound._id, pick);
-        } else {
-            this.props.addPick(pick);
-        }
-    }
+    handleClose = () => {
+        this.setState({ open: false });
+    };
 
     render() {
         return (
@@ -192,6 +214,7 @@ class LeaderPage extends Component {
                                         {
                                             this.props.leaders.map((leader, index) => (
                                             <tr key={leader.id} 
+                                            onClick={() => this.handleClickOpen(leader)}
                                             style={{
                                                 paddingBottom:"16px", 
                                                 backgroundColor: '#fff',

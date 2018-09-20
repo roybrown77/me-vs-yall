@@ -1211,14 +1211,14 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = new Date(Math.max.apply(null, startDateTimes));
 
-  const daysLeftToGetGames = moment(moment().add(7, 'days')).diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment(moment().add(10, 'days')).diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
   console.log('loadEnglishPremierLeagueGames lastStartGameTime: ' + lastStartGameTime);
 
-  if (daysLeftToGetGames <= 0) {
-    console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
+  if (daysLeftToGetGames < 0) {
+    console.log('loadEnglishPremierLeagueGames unable to get more than 10 days of games: ' + lastStartGameTime);
     return;
   }
 
