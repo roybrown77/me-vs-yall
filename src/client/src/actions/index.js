@@ -227,6 +227,18 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
       date: get(query, 'date') || get(currentWeek,'date')
     };
 
+    const requestStorageJson = localStorage.getItem('request');
+    const requestStorage = JSON.parse(requestStorageJson);
+
+    if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
+      const lookup = currentState.get('lookup').toJS();
+      const leagues = get(lookup, 'leagues', []);
+      const leagueId = get(request, 'leagueId');
+      const league = leagues.find(x=>x.id === leagueId);
+      const leagueName = get(league,'name','nfl');
+      history.push('/scoreboards/' + leagueName);
+    }
+
     dispatch({type: SCOREBOARD_REQUEST, request});
 
     Promise.all([
@@ -260,6 +272,19 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
       date: get(query, 'date') || get(currentWeek,'date')
     };
+
+    const requestStorageJson = localStorage.getItem('request');
+    const requestStorage = JSON.parse(requestStorageJson);
+
+    if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
+      const currentState = getState();
+      const lookup = currentState.get('lookup').toJS();
+      const leagues = get(lookup, 'leagues', []);
+      const leagueId = get(request, 'leagueId');
+      const league = leagues.find(x=>x.id === leagueId);
+      const leagueName = get(league,'name','nfl');
+      history.push('/leaders/' + leagueName);
+    }
 
     dispatch({type: LEADERS_REQUEST, request});
 

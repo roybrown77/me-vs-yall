@@ -54,15 +54,6 @@ class ScoreboardPage extends Component {
         const league = this.props.leagues[index];
         const years = get(league,'years',[]);
         const year = last(years);
-        
-        const { leagueName } = this.props.match.params;
-
-        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
-
-        if (urlLeagueId !== this.props.leagueId) {
-            //history.push('/scoreboards/' + league.name);
-        }
 
         this.props.loadScoreboard({
             leagueId: league.id,
@@ -192,8 +183,11 @@ const mapStateToProps = (state, ownProps) => {
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
 
+    const requestStorageJson = localStorage.getItem('request');
+    const requestStorage = JSON.parse(requestStorageJson);
+
     const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
     const years = get(league, 'years',[]);
