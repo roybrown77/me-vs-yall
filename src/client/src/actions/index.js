@@ -105,9 +105,10 @@ export const loadUser = () => (dispatch, getState) => {
   setExpiration();
   getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
-    dispatch({type: 'LOGIN_SUCCESS', user: profile}),
-    dispatch(createUser(profile)),
-    history.push('/scoreboards/' + leagueName);
+    Promise.all([
+      dispatch({type: 'LOGIN_SUCCESS', user: profile}), 
+      dispatch(createUser(profile))
+    ]).then(history.push('/scoreboards/' + leagueName));
   });
 };
 
