@@ -9,7 +9,7 @@ class HowToPlayPage extends Component {
                 <PageContainer>
                     <div style={{margin: '75px 12px'}}>
                         <div style={{textAlign: 'left'}}>
-                            1.  On Scores page, click 'Press Start To Play!' and Login with Google Account.
+                            1.  Hit 'Press Start To Play!' and Login with Google Account.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
