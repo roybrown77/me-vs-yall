@@ -51,6 +51,7 @@ class Header extends Component {
                     <Route render={({ history}) => (
                       <MenuItem
                         onTouchTap={this.handleClose}
+                        onClick={() => { history.push('/mvy') }}
                       >
                         <div style={{fontStyle: 'italic'}}>MvY</div>
                       </MenuItem>

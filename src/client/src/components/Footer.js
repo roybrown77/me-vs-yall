@@ -40,6 +40,7 @@ class Footer extends Component {
                             <BottomNavigationItem
                                 label="MvY"
                                 icon={scoreboardsIcon}
+                                onTouchTap={() => { history.push('/mvy') }}
                                         />
                         )} />
                     )}
