@@ -13,7 +13,7 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            2.  Select your winners before game starts.
+                            2.  Tap on team you believe will win.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
@@ -21,7 +21,7 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            4.  Invite friends and family to compete with and brag on how much yall could have won in Vegas!
+                            4.  Invite friends/family to compete with and brag on how much yall could have won in Vegas!
                         </div>
                         <br/>
                     </div>
