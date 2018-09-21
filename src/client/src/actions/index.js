@@ -105,10 +105,8 @@ export const loadUser = () => (dispatch, getState) => {
   setExpiration();
   getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
-    Promise.all([
-      dispatch({type: 'LOGIN_SUCCESS', user: profile}), 
-      dispatch(createUser(profile))
-    ]).then(history.push('/scoreboards/' + leagueName));
+    dispatch({type: 'LOGIN_SUCCESS', user: profile});
+    history.push('/scoreboards/' + leagueName);
   });
 };
 
@@ -215,50 +213,54 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
   const leagueId = get(query,'leagueId');
   const year = get(query,'year');
 
-  return dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
-    const currentState = getState();
-    const authenticationDomain = currentState.get('authenticationDomain').toJS();
-    const userInSession = getUser();
-    const user = get(authenticationDomain,'user',userInSession);
-    const currentWeek = getCurrentWeek(get(result,'response',[]).filter(x=>x.year===year));
+  return dispatch(fetchGameWeeks({leagueId,year})).then(
+    result=>{
+        const currentState = getState();
+        const authenticationDomain = currentState.get('authenticationDomain').toJS();
+        const userInSession = getUser();
+        const user = get(authenticationDomain,'user',userInSession);
+        const currentWeek = getCurrentWeek(get(result,'response',[]).filter(x=>x.year===year));
 
-    const request = {
-      userId: get(user,'sub'),
-      leagueId: get(query, 'leagueId'),
-      year: get(query, 'year'),
-      seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
-      weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
-      date: get(query, 'date') || get(currentWeek,'date')
-    };
+        const request = {
+          userId: get(user,'sub'),
+          leagueId: get(query, 'leagueId'),
+          year: get(query, 'year'),
+          seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
+          weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
+          date: get(query, 'date') || get(currentWeek,'date')
+        };
 
-    const requestStorageJson = localStorage.getItem('request');
-    const requestStorage = JSON.parse(requestStorageJson);
+        const requestStorageJson = localStorage.getItem('request');
+        const requestStorage = JSON.parse(requestStorageJson);
 
-    if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
-      const lookup = currentState.get('lookup').toJS();
-      const leagues = get(lookup, 'leagues', []);
-      const leagueId = get(request, 'leagueId');
-      const league = leagues.find(x=>x.id === leagueId);
-      const leagueName = get(league,'name','nfl');
-      localHistory.push('/scoreboards/' + leagueName);
-    }
+        if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
+          const lookup = currentState.get('lookup').toJS();
+          const leagues = get(lookup, 'leagues', []);
+          const leagueId = get(request, 'leagueId');
+          const league = leagues.find(x=>x.id === leagueId);
+          const leagueName = get(league,'name','nfl');
+          localHistory.push('/scoreboards/' + leagueName);
+        }
 
-    dispatch({type: SCOREBOARD_REQUEST, request});
-
-    Promise.all([
-      dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-      !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
-      dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
-    ]).then(
-    result=>{ 
-      dispatch({type: SCOREBOARD_SUCCESS, response: result});
+        Promise.all([
+          dispatch(createUser(user)),
+          dispatch({type: SCOREBOARD_REQUEST, request})
+        ]).then(
+            Promise.all([
+              dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
+              !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
+              dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
+            ]).then(
+              result=>{ 
+                dispatch({type: SCOREBOARD_SUCCESS, response: result});
+              },
+              error=>{
+                dispatch({type: SCOREBOARD_FAILURE});
+            })
+          );
     },
     error=>{
-      dispatch({type: SCOREBOARD_FAILURE});
-    });
-    },
-    error=>{
-      dispatch({type: SCOREBOARD_FAILURE});
+        dispatch({type: SCOREBOARD_FAILURE});
     });
 };
 
