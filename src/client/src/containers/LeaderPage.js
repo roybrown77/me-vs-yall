@@ -28,7 +28,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-import CloseIcon from '@material-ui/icons/Close';
+//import CloseIcon from '@material-ui/icons/Close';
 
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
