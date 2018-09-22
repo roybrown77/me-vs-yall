@@ -11,8 +11,10 @@ import GameSearchBar from '../components/GameSearchBar';
 import LinearProgress from '../components/LinearProgress';
 
 import RaisedButton from 'material-ui/RaisedButton';
+
 import Grow from '@material-ui/core/Grow';
 import Slide from '@material-ui/core/Slide';
+import Zoom from '@material-ui/core/Zoom';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -26,26 +28,19 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 
-const styles = {
-  root: {
-    width: '100%',
-    marginTop: '12px',
-    overflowX: 'auto',
+const dialogStyles = {
+  appBar: {
+    position: 'relative',
   },
-  table: {
-    minWidth: 700,
+  flex: {
+    flex: 1,
   },
 };
 
@@ -226,8 +221,8 @@ class LeaderPage extends Component {
                                 <List>
                                 {
                                     this.props.leaders.map((leader, index) => (
-                                    <div>
-                                        <ListItem key={leader.id} onClick={() => this.handleClickOpen(leader)} button>
+                                    <div key={leader.id}>
+                                        <ListItem onClick={() => this.handleClickOpen(leader)} button>
                                             <div style={{
                                                 color: index === 0 ? '#FFC107' : '#000', 
                                                 fontWeight: index === 0 ? '700' : '400'}}>
@@ -330,45 +325,6 @@ class LeaderPage extends Component {
                                         ))}
                                     </tbody>
                                 </table>
-                            </div>
-                        </Grow>
-                    }
-                    {
-                        false &&
-                        this.props.leaders.length > 0 && 
-                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
-                        <Grow in={true} timeout={500}>
-                            <div style={{marginTop: '12px'}}>
-                                <Paper style={styles.root}>
-                                  <Table style={styles.table}>
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell numeric>Rank</TableCell>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell numeric>Wins</TableCell>
-                                        <TableCell numeric>Losses</TableCell>
-                                        <TableCell numeric>Ties</TableCell>
-                                        <TableCell>$</TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {this.props.leaders.map((leader, index) => (
-                                            <TableRow key={leader.id}>
-                                                <TableCell numeric>{index+1}</TableCell>
-                                                <TableCell component="th" scope="row">
-                                                  {leader.userName}
-                                                </TableCell>
-                                                <TableCell numeric>{leader.wins}</TableCell>
-                                                <TableCell numeric>{leader.losses}</TableCell>
-                                                <TableCell numeric>{leader.ties}</TableCell>
-                                                <TableCell numeric>
-                                                    {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                  </Table>
-                                </Paper>
                             </div>
                         </Grow>
                     }
