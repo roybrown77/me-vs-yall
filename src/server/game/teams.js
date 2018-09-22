@@ -1035,7 +1035,7 @@ const eplTeams = [
     {
         "color": "#B50E12",
         "_id": "5b9060e59a4c08bca6d80502",
-        "externalId": "375",
+        "externalId": "349",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "AFC Bournemouth",
         "shortLocation": "BOU",
@@ -1080,7 +1080,7 @@ const eplTeams = [
     {
         "color": "#1B458F",
         "_id": "5b9060e59a4c08bca6d80507",
-        "externalId": "335",
+        "externalId": "384",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Crystal Palace",
         "shortLocation": "CRY",
@@ -1098,7 +1098,7 @@ const eplTeams = [
     {
         "color": "#CC0000",
         "_id": "5b9060e59a4c08bca6d80509",
-        "externalId": "382",
+        "externalId": "395",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Fulham",
         "shortLocation": "FUL",
@@ -1107,7 +1107,7 @@ const eplTeams = [
     {
         "color": "#41B6E6",
         "_id": "5b9060e59a4c08bca6d8050a",
-        "externalId": "359",
+        "externalId": "361",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Newcastle United",
         "shortLocation": "NEW",
@@ -1125,7 +1125,7 @@ const eplTeams = [
     {
         "color": "#FBEE23",
         "_id": "5b9060e59a4c08bca6d8050c",
-        "externalId": "360",
+        "externalId": "370",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Watford",
         "shortLocation": "WAT",

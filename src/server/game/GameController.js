@@ -1211,7 +1211,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = new Date(Math.max.apply(null, startDateTimes));
 
-  const daysLeftToGetGames = moment(moment().add(10, 'days')).diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -1284,7 +1284,7 @@ const loadEnglishPremierLeagueGames = async () => {
     }
 
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
-    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
 
     for (let i = 1; i <= listLength; i++) {
@@ -1294,26 +1294,16 @@ const loadEnglishPremierLeagueGames = async () => {
 
       const awayTeam = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
+      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
 
       const homeTeam = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
-
-      const awayTeamId = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-awayid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
-
-      const homeTeamId = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-homeid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
 
       games.push({
         startDateTime: moment(startDateTime),
-        awayTeam: awayTeam,
-        awayTeamId: awayTeamId,
-        homeTeam: homeTeam,
-        homeTeamId: homeTeamId
+        awayTeam: awayTeam.trim(),
+        homeTeam: homeTeam.trim()
       });
     }
 
@@ -1346,14 +1336,14 @@ const loadEnglishPremierLeagueGames = async () => {
   }
 
   const mvyGames = games.reduce((total, game)=>{
-    const awayTeam = eplTeams.find(x=>x.externalId.toString() === game.awayTeamId.toString());
-    const homeTeam = eplTeams.find(x=>x.externalId.toString() === game.homeTeamId.toString());
+    const awayTeam = eplTeams.find(x=>x.shortLocation === game.awayTeam);
+    const homeTeam = eplTeams.find(x=>x.shortLocation === game.homeTeam);
 
     if (awayTeam && homeTeam) {
       total.push({
         leagueId: mongoose.Types.ObjectId(leagueId),
         year: parseInt(year),
-        startDateTime: game.startDateTime,
+        startDateTime: !game.startDateTime || moment('2018-09-22T14:00:00.000Z'),
         competitors: [
           {_id: mongoose.Types.ObjectId(awayTeam._id), shortLocation: awayTeam.shortLocation},
           {_id: mongoose.Types.ObjectId(homeTeam._id), shortLocation: homeTeam.shortLocation}
@@ -1483,6 +1473,7 @@ const updateEnglishPremierLeagueScores = async () => {
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
 
     console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
 
@@ -1496,8 +1487,9 @@ const updateEnglishPremierLeagueScores = async () => {
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-awayid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : '';
+      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -1505,8 +1497,9 @@ const updateEnglishPremierLeagueScores = async () => {
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
 
       const homeTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-homeid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : '';
+      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -1519,9 +1512,9 @@ const updateEnglishPremierLeagueScores = async () => {
       }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
 
       scores.push({
-        awayTeam: awayTeam,
+        awayTeam: awayTeam.trim(),
         awayScore: parseInt(awayScore),
-        homeTeam: homeTeam,
+        homeTeam: homeTeam.trim(),
         homeScore: parseInt(homeScore),
         isGameOver: (gameOverIndicator || '').trim() === 'FT'
       });
@@ -1550,8 +1543,8 @@ const updateEnglishPremierLeagueScores = async () => {
   }
 
   games.forEach(game=>{
-    const awayId = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).externalId;
-    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
+    const shortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
+    const score = scores.find(x=>x.awayTeam === shortLocation);
     
     console.log('updateEnglishPremierLeagueScores score: ' + JSON.stringify(score));
 
@@ -1570,7 +1563,7 @@ const updateEnglishPremierLeagueScores = async () => {
       
       console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
 
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
 
@@ -1578,19 +1571,19 @@ const updateEnglishPremierLeagueScores = async () => {
 };
 
 router.get('/games', function (req, res) {
-  try {
-    loadNflGames();
-  } catch(err) {
-    isLoadNflGamesRunning = false;
-    console.log('load loadNflGames error: ' + err.message)
-  }
+  // try {
+  //   loadNflGames();
+  // } catch(err) {
+  //   isLoadNflGamesRunning = false;
+  //   console.log('load loadNflGames error: ' + err.message)
+  // }
 
-  try {
-    updateNflScores();
-  } catch(err) {
-    isUpdateNflScoresRunning = false;
-    console.log('updateNflScores error: ' + err.message)
-  }
+  // try {
+  //   updateNflScores();
+  // } catch(err) {
+  //   isUpdateNflScoresRunning = false;
+  //   console.log('updateNflScores error: ' + err.message)
+  // }
 
   // try {
   //   loadNCAAFootballTeams();
@@ -1613,12 +1606,12 @@ router.get('/games', function (req, res) {
   //   console.log('updateNCAAFootballScores error: ' + err.message)
   // }
 
-  try {
-    loadEnglishPremierLeagueGames();
-  } catch(err) {
-    isLoadEnglishPremierLeagueGamesRunning = false;
-    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  }
+  // try {
+  //   loadEnglishPremierLeagueGames();
+  // } catch(err) {
+  //   isLoadEnglishPremierLeagueGamesRunning = false;
+  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  // }
 
   try {
     updateEnglishPremierLeagueScores();
