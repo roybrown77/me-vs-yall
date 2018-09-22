@@ -53,7 +53,7 @@ const listStyles = {
   root: {
     marginTop: '12px',
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
 };
 
@@ -223,7 +223,7 @@ class LeaderPage extends Component {
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                             <div style={listStyles.root}>
-                                <List component="nav">
+                                <List>
                                 {
                                     this.props.leaders.map((leader, index) => (
                                     <div>
@@ -233,10 +233,12 @@ class LeaderPage extends Component {
                                                 fontWeight: index === 0 ? '700' : '400'}}>
                                                 {index+1}
                                             </div>
-                                            <ListItemText><div style={{fontWeight: '700'}}>{leader.userName}</div></ListItemText>
-                                            <div style={{textAlign:'right', fontWeight: '700'}}>
+                                            <ListItemText><div>{leader.userName}</div></ListItemText>
+                                            <div style={{textAlign:'right'}}>
                                                 <div>{leader.wins} - {leader.losses} - {leader.ties}</div>
-                                                <div style={{color:'#009933'}}>{((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}</div>
+                                                <div style={{color:'#009933', fontWeight: '700'}}>
+                                                    {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                </div>
                                             </div>
                                         </ListItem>
                                         {this.props.leaders.length-1 !== index && 
