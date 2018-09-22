@@ -243,7 +243,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
         }
 
         Promise.all([
-          dispatch(createUser(user)),
+          !!get(authenticationDomain,'isAuthenticated') ? dispatch(createUser(user)) : undefined,
           dispatch({type: SCOREBOARD_REQUEST, request})
         ]).then(
             Promise.all([
