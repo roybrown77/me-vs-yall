@@ -1563,7 +1563,7 @@ const updateEnglishPremierLeagueScores = async () => {
       
       console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
 
-      //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
 
