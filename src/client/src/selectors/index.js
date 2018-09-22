@@ -32,7 +32,7 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
 const getResults = (games, picks) => {
     const result = games.reduce((total,game)=>{
         if (get(game,'isGameOver',false)) {
-            if (game.competitors[0].score === game.competitors[1].score) {
+            if (game.competitors[0].score === game.competitors[1].score && !!picks.find(x=>x.gameId === game._id)) {
                 total['ties']++;
             } else {
                 const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
