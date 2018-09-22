@@ -96,7 +96,7 @@ const getCurrentWeek = (weeks) => {
     let lastWeek = weeks[weeks.length-1];
     for(let i=0;i<weeks.length; i++) {
         const timeDiff = moment().diff(moment(weeks[i].endDateTime),'hours');
-        if (timeDiff > -6 && timeDiff < 18) {
+        if (timeDiff >= -6 && timeDiff <= 18) {
             lastWeek = weeks[i];
         }
     }
