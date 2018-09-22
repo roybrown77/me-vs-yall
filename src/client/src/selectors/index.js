@@ -93,10 +93,11 @@ const leagues = [
 ];
 
 const getCurrentWeek = (weeks) => {
-    let lastWeek;
+    let lastWeek = weeks[weeks.length-1];
     for(let i=0;i<weeks.length; i++) {
-        if (moment(moment().add(7, 'hours')).diff(moment(weeks[i].endDateTime),'minutes') > 0) {
-            lastWeek = i+1>weeks.length-1 ? weeks[i] : weeks[i+1];
+        const timeDiff = moment().diff(moment(weeks[i].endDateTime),'hours');
+        if (timeDiff < 0 && timeDiff > -18) {
+            lastWeek = weeks[i];
         }
     }
     return lastWeek;
