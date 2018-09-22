@@ -44,6 +44,12 @@ body {
   position: relative;
 }
 
+@media screen and (min-width: 1400px) {
+  .page-container {
+    margin: 65px 200px;
+  }
+}
+
 /* --- loader start --- */
 
 .loader {

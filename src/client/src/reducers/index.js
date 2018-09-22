@@ -177,7 +177,7 @@ const leaderDomain = (
             return total;
         }, []);
 
-        const pickResultsOrdered = orderBy(pickResults, ['wins', 'userName'], ['desc', 'asc']);
+        const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'ties', 'userName'], ['desc', 'asc', 'asc', 'asc']);
 
         return state.set('leaders', List(pickResultsOrdered)).set("dataLoading", false);
       }

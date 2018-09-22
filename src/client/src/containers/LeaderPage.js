@@ -12,6 +12,19 @@ import LinearProgress from '../components/LinearProgress';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Grow from '@material-ui/core/Grow';
+import Slide from '@material-ui/core/Slide';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -33,6 +46,42 @@ const styles = {
   },
   table: {
     minWidth: 700,
+  },
+};
+
+const listStyles = {
+  root: {
+    marginTop: '12px',
+    width: '100%',
+    backgroundColor: '#fff',
+  },
+};
+
+const cardStyles = {
+  card: {
+    display: 'flex',
+    marginBottom: '12px',
+    height: '100px'
+  },
+  details: {
+    width: '33%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    flex: '1 0 auto',
+  },
+  cover: {
+    width: 151,
+    height: 151,
+  },
+  controls: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  playIcon: {
+    height: 38,
+    width: 38,
   },
 };
 
@@ -170,6 +219,69 @@ class LeaderPage extends Component {
                         <LinearProgress/>
                     }
                     {
+                        this.props.leaders.length > 0 && 
+                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
+                        <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
+                            <div style={listStyles.root}>
+                                <List component="nav">
+                                {
+                                    this.props.leaders.map((leader, index) => (
+                                    <div>
+                                        <ListItem key={leader.id} onClick={() => this.handleClickOpen(leader)} button>
+                                            <div style={{
+                                                color: index === 0 ? '#FFC107' : '#000', 
+                                                fontWeight: index === 0 ? '700' : '400'}}>
+                                                {index+1}
+                                            </div>
+                                            <ListItemText><div style={{fontWeight: '700'}}>{leader.userName}</div></ListItemText>
+                                            <div style={{textAlign:'right', fontWeight: '700'}}>
+                                                <div>{leader.wins} - {leader.losses} - {leader.ties}</div>
+                                                <div style={{color:'#009933'}}>{((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}</div>
+                                            </div>
+                                        </ListItem>
+                                        {this.props.leaders.length-1 !== index && 
+                                        <Divider />}
+                                    </div>
+                                ))}
+                                </List>
+                            </div>
+                        </Slide>
+                    }
+                    {
+                        false && 
+                        this.props.leaders.length > 0 && 
+                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
+                        <Grow in={true} timeout={500}>
+                            <div style={{marginTop: '12px'}}>
+                                {
+                                    this.props.leaders.map((leader, index) => (
+                                    <Card 
+                                    key={leader.id} 
+                                    style={cardStyles.card}
+                                    onClick={() => this.handleClickOpen(leader)}
+                                    >
+                                      <div style={cardStyles.details}>
+                                        <CardContent style={cardStyles.content}>
+                                          <Typography variant="headline">{leader.userName}</Typography>
+                                        </CardContent>
+                                      </div>
+                                      <div style={cardStyles.details}>
+                                        <CardContent style={cardStyles.content}>
+                                            <Typography variant="headline">{leader.wins} - {leader.losses} - {leader.ties}</Typography>
+                                        </CardContent>
+                                      </div>
+                                      <div style={cardStyles.details}>
+                                        <CardContent style={cardStyles.content}>
+                                            <Typography variant="headline">{((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}</Typography>
+                                        </CardContent>
+                                      </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        </Grow>
+                    }
+                    {
+                        false && 
                         this.props.leaders.length > 0 && 
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <Grow in={true} timeout={500}>
