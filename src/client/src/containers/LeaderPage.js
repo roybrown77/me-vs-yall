@@ -277,7 +277,9 @@ class LeaderPage extends Component {
                                             <Collapse in={this.state.open}>
                                                 <div style={{margin: '12px'}}>
                                                     {this.props.games.map((game,gameIndex)=>(
-                                                        <div key={game._id}>
+                                                        <div key={game._id} style={{
+                                                            marginLeft: this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? '20%' : '0', 
+                                                            marginRight: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? '20%' : '0'}}>
                                                             {game.competitors.map((competitor, competitorIndex)=>(
                                                                 <span key={competitor._id}>
                                                                     {
@@ -290,8 +292,9 @@ class LeaderPage extends Component {
                                                                                 this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? 'green' : 
                                                                                 (this.state.picks.find(pick=>(pick.pickId === game.competitors[0]._id || pick.pickId === game.competitors[1]._id) && pick.userId === leader.id)) ? 'red' : 'lightblue'), 
                                                                             marginTop: '3px',
-                                                                            marginLeft: '20%', 
-                                                                            float:'left'}}/>
+                                                                            marginLeft: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? '20%' : '0',
+                                                                            marginRight: this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? '20%' : '0', 
+                                                                            float: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? 'left' : 'right' }}/>
                                                                     }
                                                                     {get(this.props.teams.find(team=>team._id === competitor._id), 'name')}
                                                                     {

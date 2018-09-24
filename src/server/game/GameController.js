@@ -1191,6 +1191,13 @@ const loadEnglishPremierLeagueGames = async () => {
     return;
   }
 
+  const currentWeekDay = moment().weekday();
+
+  if (currentWeekDay !== 1) {
+    console.log('loadEnglishPremierLeagueGames new games will be loaded on wednesday.');
+    return;
+  }
+
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
@@ -1218,7 +1225,7 @@ const loadEnglishPremierLeagueGames = async () => {
   console.log('loadEnglishPremierLeagueGames lastStartGameTime: ' + lastStartGameTime);
 
   if (daysLeftToGetGames < 0) {
-    console.log('loadEnglishPremierLeagueGames unable to get more than 10 days of games: ' + lastStartGameTime);
+    console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
     return;
   }
 
