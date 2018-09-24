@@ -6,15 +6,19 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import moment from 'moment-timezone';
+
 import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import LinearProgress from '../components/LinearProgress';
+import Games from '../components/Games';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Grow from '@material-ui/core/Grow';
 import Slide from '@material-ui/core/Slide';
 import Zoom from '@material-ui/core/Zoom';
+import Collapse from '@material-ui/core/Collapse';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -28,7 +32,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-//import CloseIcon from '@material-ui/icons/Close';
+import Paper from '@material-ui/core/Paper';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
@@ -36,12 +49,14 @@ import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 
 const dialogStyles = {
-  appBar: {
-    position: 'relative',
-  },
-  flex: {
-    flex: 1,
-  },
+  root: {
+    zIndex: 1,
+    height: '100%',
+    width: '100%',
+    top: 0,
+    position: 'absolute',
+    backgroundColor: '#ffffff'
+  }
 };
 
 const listStyles = {
@@ -86,6 +101,8 @@ class LeaderPage extends Component {
 
         this.state = {
             open: false,
+            games: [],
+            picks: []
         };
 
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
@@ -166,7 +183,32 @@ class LeaderPage extends Component {
 
     handleClickOpen = (leader) => {
         console.log(JSON.stringify(leader));
-        this.setState({ open: true });
+        
+        let games = [];
+        let picks = [];
+
+        for(let i=0;i<this.props.games.length;i++) {
+            if (this.props.games[i].weekNo === this.props.weekNo && 
+                this.props.games[i].seasonType === this.props.seasonType) {
+                games.push(this.props.games[i]);
+            } else {
+                if (moment(this.props.games[i].startDateTime) >= moment(this.props.date).startOfDay() &&
+                    moment(this.props.games[i].startDateTime) <= moment(this.props.date).endOfDay()) {
+                    games.push(this.props.games[i]);
+                }
+            }
+        }
+
+        if (games.length > 0) {
+            for(let i=0;i<this.props.picks.length;i++) {
+                if (games.find(x=>x._id === this.props.picks[i].gameId)) {
+                    picks.push(this.props.picks[i]);
+                }
+            }
+        }
+
+        this.setState({ picks: picks });
+        this.setState({ open: !this.state.open });
     };
 
     handleClose = () => {
@@ -214,6 +256,29 @@ class LeaderPage extends Component {
                         <LinearProgress/>
                     }
                     {
+                        false &&
+                        this.props.leaders.length > 0 && 
+                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
+                        <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
+                            <div style={listStyles.root}>
+                                {
+                                    this.props.leaders.map((leader, index) => (
+                                    <ExpansionPanel key={leader.id}>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                          <Typography>Expansion Panel 1</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                          <Typography>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                            sit amet blandit leo lobortis eget.
+                                          </Typography>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                ))}
+                            </div>
+                        </Slide>
+                    }
+                    {
                         this.props.leaders.length > 0 && 
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
@@ -238,6 +303,41 @@ class LeaderPage extends Component {
                                         </ListItem>
                                         {this.props.leaders.length-1 !== index && 
                                         <Divider />}
+                                        {
+                                            false &&
+                                            <Collapse in={this.state.open}>
+                                                <div style={{margin: '12px'}}>
+                                                    {this.props.games.map((game,gameIndex)=>(
+                                                        <div key={game._id}>
+                                                            {game.competitors.map((competitor, competitorIndex)=>(
+                                                                <span key={competitor._id}>
+                                                                    {
+                                                                        competitorIndex === 0 &&
+                                                                        <div style={{
+                                                                            width:'12px', 
+                                                                            height: '12px', 
+                                                                            backgroundColor: (!game.isGameOver ? 'lightblue' : 
+                                                                                this.state.picks.find(pick=>pick.pickId === competitor._id && pick.userId === leader.id) ? 'green' : 
+                                                                                this.state.picks.find(pick=>pick.gameId === game._id && pick.userId === leader.id) ? 'red' : 'lightblue'), 
+                                                                            margin: '0px 12px', 
+                                                                            float:'left'}}/>
+                                                                    }
+                                                                    {get(this.props.teams.find(team=>team._id === competitor._id), 'name')}
+                                                                    {
+                                                                        competitorIndex === 0 &&
+                                                                        <span> at </span>
+                                                                    }
+                                                                </span>
+                                                            ))}
+                                                            {
+                                                                gameIndex % 2 !== 0 &&
+                                                                <br />
+                                                            }
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </Collapse>
+                                        }
                                     </div>
                                 ))}
                                 </List>
@@ -328,6 +428,21 @@ class LeaderPage extends Component {
                             </div>
                         </Grow>
                     }
+                    {
+                        false &&
+                        this.state.open &&
+                        <div style={{padding:'65px 0'}}>
+                            <Zoom in={this.state.open}>
+                                <div style={dialogStyles.root} onClick={this.handleClose}>
+                                    <Games
+                                        games={this.state.games} 
+                                        picks={this.state.picks}
+                                        teams={this.props.teams}
+                                        />
+                                </div>
+                            </Zoom>
+                        </div>
+                    }
                 </PageContainer>
             </div>
         )
@@ -340,6 +455,11 @@ const mapStateToProps = (state, ownProps) => {
     const leaderDomain = state.get('leaderDomain').toJS();
     const dataLoading = get(leaderDomain, 'dataLoading');
     const leaders = get(leaderDomain, 'leaders', []);
+    const games = get(leaderDomain, 'gameList', []);
+    const picks = get(leaderDomain, 'pickList', []);
+
+    const teamDomain = state.get('teamDomain').toJS();
+    const teams = get(teamDomain, 'teams', []);
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
@@ -370,6 +490,7 @@ const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     return {
+        isAuthenticated,
         dataLoading,
         weeksDataLoading,
         leaders,
@@ -381,11 +502,14 @@ const mapStateToProps = (state, ownProps) => {
         seasonType,
         weekNo,
         date,
-        isAuthenticated
+        games,
+        teams,
+        picks
     }
 };
 
 LeaderPage.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
     dataLoading: PropTypes.bool,
     weeksDataLoading: PropTypes.bool,
     leaders: PropTypes.array,
@@ -397,7 +521,9 @@ LeaderPage.propTypes = {
     seasonType: PropTypes.number,
     weekNo: PropTypes.number,
     date: PropTypes.string,
-    isAuthenticated: PropTypes.bool.isRequired,
+    games: PropTypes.array,
+    picks: PropTypes.array,
+    teams: PropTypes.array,
     loadLeaders: PropTypes.func.isRequired
 };
 

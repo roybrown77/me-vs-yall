@@ -1571,19 +1571,19 @@ const updateEnglishPremierLeagueScores = async () => {
 };
 
 router.get('/games', function (req, res) {
-  try {
-    loadNflGames();
-  } catch(err) {
-    isLoadNflGamesRunning = false;
-    console.log('load loadNflGames error: ' + err.message)
-  }
+  // try {
+  //   loadNflGames();
+  // } catch(err) {
+  //   isLoadNflGamesRunning = false;
+  //   console.log('load loadNflGames error: ' + err.message)
+  // }
 
-  try {
-    updateNflScores();
-  } catch(err) {
-    isUpdateNflScoresRunning = false;
-    console.log('updateNflScores error: ' + err.message)
-  }
+  // try {
+  //   loadEnglishPremierLeagueGames();
+  // } catch(err) {
+  //   isLoadEnglishPremierLeagueGamesRunning = false;
+  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  // }
 
   // try {
   //   loadNCAAFootballTeams();
@@ -1598,26 +1598,26 @@ router.get('/games', function (req, res) {
   //   isLoadNCAAFootballGamesRunning = false;
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
-  
-  // try {
-  //   updateNCAAFootballScores();
-  // } catch(err) {
-  //   isUpdateNCAAFootballScoresRunning = false;
-  //   console.log('updateNCAAFootballScores error: ' + err.message)
-  // }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  // }
+  try {
+    updateNflScores();
+  } catch(err) {
+    isUpdateNflScoresRunning = false;
+    console.log('updateNflScores error: ' + err.message)
+  }
 
   // try {
   //   updateEnglishPremierLeagueScores();
   // } catch(err) {
   //   isUpdateEnglishPremierLeagueScoresRunning = false;
   //   console.log('updateEnglishPremierLeagueScores error: ' + err.message)
+  // }
+
+    // try {
+  //   updateNCAAFootballScores();
+  // } catch(err) {
+  //   isUpdateNCAAFootballScoresRunning = false;
+  //   console.log('updateNCAAFootballScores error: ' + err.message)
   // }
 
   const search = {

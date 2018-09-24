@@ -297,7 +297,8 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
     Promise.all([
       dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
       dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
-      dispatch(fetchAllUsers([ USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE ]))
+      dispatch(fetchAllUsers([ USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE ])),
+      dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
     ]).then(
     result=>{ 
       dispatch({type: LEADERS_SUCCESS, response: result});

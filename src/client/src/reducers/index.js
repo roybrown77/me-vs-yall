@@ -179,7 +179,11 @@ const leaderDomain = (
 
         const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'ties', 'userName'], ['desc', 'asc', 'asc', 'asc']);
 
-        return state.set('leaders', List(pickResultsOrdered)).set("dataLoading", false);
+        return state.set('leaders', List(pickResultsOrdered))
+        .set('gameList', List(gameList))
+        .set('pickList', List(pickList))
+        .set('userList', List(userList))
+        .set("dataLoading", false);
       }
       return state;
     case ActionTypes.LEADERS_FAILURE:
