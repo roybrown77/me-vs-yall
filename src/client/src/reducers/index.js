@@ -150,6 +150,7 @@ const leaderDomain = (
     case ActionTypes.LEADERS_SUCCESS:  
       if (action.response) {
         const gameList = get(action, 'response[0].response', []);
+        const sortedGames = gameList.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
         const pickList = get(action, 'response[1].response', []);
         const userList = get(action, 'response[2].response', []);
         const grouping = groupBy(pickList, 'userId');
@@ -164,7 +165,7 @@ const leaderDomain = (
         const pickResults = picksByUser.reduce((total, item) => {
             const user = userList.find(x=>x.authServiceId === item.userId);
             if (!!user) {
-              const pickResult = getResults(gameList,item.picks);
+              const pickResult = getResults(sortedGames,item.picks);
               total.push({
                   id: item.userId,
                   userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
@@ -180,7 +181,7 @@ const leaderDomain = (
         const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'ties', 'userName'], ['desc', 'asc', 'asc', 'asc']);
 
         return state.set('leaders', List(pickResultsOrdered))
-        .set('gameList', List(gameList))
+        .set('gameList', List(sortedGames))
         .set('pickList', List(pickList))
         .set('userList', List(userList))
         .set("dataLoading", false);

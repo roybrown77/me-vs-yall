@@ -32,17 +32,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-import Paper from '@material-ui/core/Paper';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import CloseIcon from '@material-ui/icons/Close';
-
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
@@ -256,29 +245,6 @@ class LeaderPage extends Component {
                         <LinearProgress/>
                     }
                     {
-                        false &&
-                        this.props.leaders.length > 0 && 
-                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
-                        <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
-                            <div style={listStyles.root}>
-                                {
-                                    this.props.leaders.map((leader, index) => (
-                                    <ExpansionPanel key={leader.id}>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                          <Typography>Expansion Panel 1</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                          <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                            sit amet blandit leo lobortis eget.
-                                          </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
-                                ))}
-                            </div>
-                        </Slide>
-                    }
-                    {
                         this.props.leaders.length > 0 && 
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
@@ -304,7 +270,6 @@ class LeaderPage extends Component {
                                         {this.props.leaders.length-1 !== index && 
                                         <Divider />}
                                         {
-                                            false &&
                                             <Collapse in={this.state.open}>
                                                 <div style={{margin: '12px'}}>
                                                     {this.props.games.map((game,gameIndex)=>(
@@ -317,15 +282,16 @@ class LeaderPage extends Component {
                                                                             width:'12px', 
                                                                             height: '12px', 
                                                                             backgroundColor: (!game.isGameOver ? 'lightblue' : 
-                                                                                this.state.picks.find(pick=>pick.pickId === competitor._id && pick.userId === leader.id) ? 'green' : 
-                                                                                this.state.picks.find(pick=>pick.gameId === game._id && pick.userId === leader.id) ? 'red' : 'lightblue'), 
-                                                                            margin: '0px 12px', 
+                                                                                (this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ||
+                                                                                this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? 'green' : 
+                                                                                (this.state.picks.find(pick=>(pick.pickId === game.competitors[0]._id || pick.pickId === game.competitors[1]._id) && pick.userId === leader.id)) ? 'red' : 'lightblue'), 
+                                                                            marginLeft: '20%', 
                                                                             float:'left'}}/>
                                                                     }
                                                                     {get(this.props.teams.find(team=>team._id === competitor._id), 'name')}
                                                                     {
                                                                         competitorIndex === 0 &&
-                                                                        <span> at </span>
+                                                                        <span> vs </span>
                                                                     }
                                                                 </span>
                                                             ))}
