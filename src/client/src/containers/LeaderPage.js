@@ -130,6 +130,8 @@ class LeaderPage extends Component {
             leagueId: league.id,
             year
         });
+
+        this.setState({ open: false });
     }
 
     handleFilterYear(event, index) {
@@ -143,6 +145,8 @@ class LeaderPage extends Component {
             leagueId: this.props.leagueId,
             year: year
         });
+
+        this.setState({ open: false });
     }
   
     handleFilterWeek(event, index) {
@@ -159,6 +163,8 @@ class LeaderPage extends Component {
             weekNo: week.weekNo,
             date: week.date
         });
+
+        this.setState({ open: false });
     }
 
     handleFilterDate(event) {
@@ -170,9 +176,7 @@ class LeaderPage extends Component {
         });
     }
 
-    handleClickOpen = (leader) => {
-        console.log(JSON.stringify(leader));
-        
+    handleClickOpen = () => {
         let games = [];
         let picks = [];
 
@@ -253,7 +257,7 @@ class LeaderPage extends Component {
                                 {
                                     this.props.leaders.map((leader, index) => (
                                     <div key={leader.id}>
-                                        <ListItem onClick={() => this.handleClickOpen(leader)} button>
+                                        <ListItem onClick={() => this.handleClickOpen()} button>
                                             <div style={{
                                                 color: index === 0 ? '#FFC107' : '#000', 
                                                 fontWeight: index === 0 ? '700' : '400'}}>
