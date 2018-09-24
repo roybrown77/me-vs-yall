@@ -289,6 +289,7 @@ class LeaderPage extends Component {
                                                                                 (this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ||
                                                                                 this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? 'green' : 
                                                                                 (this.state.picks.find(pick=>(pick.pickId === game.competitors[0]._id || pick.pickId === game.competitors[1]._id) && pick.userId === leader.id)) ? 'red' : 'lightblue'), 
+                                                                            marginTop: '2px',
                                                                             marginLeft: '20%', 
                                                                             float:'left'}}/>
                                                                     }
