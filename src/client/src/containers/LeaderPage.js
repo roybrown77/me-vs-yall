@@ -253,6 +253,7 @@ class LeaderPage extends Component {
                         (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                             <div style={listStyles.root}>
+                                <Divider />
                                 <List>
                                 {
                                     this.props.leaders.map((leader, index) => (
@@ -271,8 +272,7 @@ class LeaderPage extends Component {
                                                 </div>
                                             </div>
                                         </ListItem>
-                                        {this.props.leaders.length-1 !== index && 
-                                        <Divider />}
+                                        <Divider />
                                         {
                                             <Collapse in={this.state.open}>
                                                 <div style={{margin: '12px'}}>
@@ -315,6 +315,7 @@ class LeaderPage extends Component {
                                     </div>
                                 ))}
                                 </List>
+                                <Divider />
                             </div>
                         </Slide>
                     }
