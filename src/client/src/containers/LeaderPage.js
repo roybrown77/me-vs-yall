@@ -285,13 +285,13 @@ class LeaderPage extends Component {
                                                                     {
                                                                         competitorIndex === 0 &&
                                                                         <div style={{
-                                                                            width:'12px', 
-                                                                            height: '12px', 
+                                                                            width:'15px', 
+                                                                            height: '15px', 
                                                                             backgroundColor: (!game.isGameOver ? 'lightblue' : 
                                                                                 (this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ||
-                                                                                this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? 'green' : 
+                                                                                this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? '#009933' : 
                                                                                 (this.state.picks.find(pick=>(pick.pickId === game.competitors[0]._id || pick.pickId === game.competitors[1]._id) && pick.userId === leader.id)) ? 'red' : 'lightblue'), 
-                                                                            marginTop: '3px',
+                                                                            marginTop: '2px',
                                                                             marginLeft: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? '20%' : '0',
                                                                             marginRight: this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? '20%' : '0', 
                                                                             float: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? 'left' : 'right' }}/>
