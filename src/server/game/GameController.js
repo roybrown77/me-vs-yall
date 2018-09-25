@@ -229,18 +229,9 @@ const loadNflGames = async () => {
   console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames[0]));
 
   mvyGames.forEach(game=>{
-    const gameSearch = {
-      leagueId: leagueId,
-      year: parseInt(year),
-      seasonType: game.seasonType,
-      weekNo: game.weekNo
-    };
-
-    console.log('loadNflGames gameSearch: ' + JSON.stringify(gameSearch));
-
-    gameRepository.find(gameSearch, function (err, games) {
+    gameRepository.find(game, function (err, games) {
       if ((games || []).length > 0) {
-        console.log("loadNflGames games already exists: " + JSON.stringify(gameSearch));
+        console.log("loadNflGames games already exists: " + JSON.stringify(game));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
@@ -1180,6 +1171,8 @@ const loadEnglishPremierLeagueGames = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f17';
+  const year = 2018;
+
   const currentMonth = moment().month()+1;
   console.log('loadEnglishPremierLeagueGames currentMonth: ' + currentMonth);
 
@@ -1193,9 +1186,34 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !== 1) {
+  if (currentWeekDay !== 3) {
     console.log('loadEnglishPremierLeagueGames new games will be loaded on wednesday.');
     return;
+  }
+
+  if (currentWeekDay === 3) {
+    const gameWeek = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: parseInt(year),
+      beginDateTime: moment().startOf('day'),
+      endDateTime: moment().add(6,'days').endOf('day')
+    };
+
+    console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
+
+    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
+      if ((gameWeeks || []).length > 0) {
+        console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
+      } else {
+        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+            if (err) {
+                console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
+            } else {
+              console.log("loadEnglishPremierLeagueGames success creating week: " + gameWeekCreated._id);
+            }
+        });
+      }
+    });
   }
 
   const gameSearch = {
@@ -1214,27 +1232,26 @@ const loadEnglishPremierLeagueGames = async () => {
     return new Date(x.startDateTime);
   });
 
-  //console.log('loadEnglishPremierLeagueGames startDateTimes: ' + JSON.stringify(startDateTimes));
+  const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const lastStartGameTime = new Date(Math.max.apply(null, startDateTimes));
-
-  const daysLeftToGetGames = moment().diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
   console.log('loadEnglishPremierLeagueGames lastStartGameTime: ' + lastStartGameTime);
 
-  if (daysLeftToGetGames < 0) {
+  if (daysLeftToGetGames <= 0) {
     console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
     return;
   }
 
   let games = [];
+  let date;
+
   let browser;
   let page;
+  
   let startDateTime;
-  let date;
-  const year = 2018;
 
   isLoadEnglishPremierLeagueGamesRunning = true;
 
@@ -1350,7 +1367,7 @@ const loadEnglishPremierLeagueGames = async () => {
       total.push({
         leagueId: mongoose.Types.ObjectId(leagueId),
         year: parseInt(year),
-        startDateTime: !game.startDateTime || moment('2018-09-22T14:00:00.000Z'),
+        startDateTime: game.startDateTime,
         competitors: [
           {_id: mongoose.Types.ObjectId(awayTeam._id), shortLocation: awayTeam.shortLocation},
           {_id: mongoose.Types.ObjectId(homeTeam._id), shortLocation: homeTeam.shortLocation}
@@ -1364,15 +1381,9 @@ const loadEnglishPremierLeagueGames = async () => {
   console.log('loadEnglishPremierLeagueGames mvyGames: ' + JSON.stringify(mvyGames));
 
   mvyGames.forEach(game=>{
-    const gameSearch = {
-      leagueId: leagueId,
-      year: parseInt(year),
-      startDateTime: game.startDateTime
-    };
-
-    gameRepository.find(gameSearch, function (err, games) {
+    gameRepository.find(game, function (err, games) {
       if ((games || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gameSearch));
+        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(game));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
@@ -1383,36 +1394,6 @@ const loadEnglishPremierLeagueGames = async () => {
         });
       }
     });
-  });
-
-  const gameWeek = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: parseInt(year),
-    date: new Date(moment(date).startOf('day')),
-    beginDateTime: new Date(moment(date).startOf('day')),
-    endDateTime: new Date(moment(date).startOf('day'))
-  };
-
-  console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
-
-  const gameWeekSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: parseInt(year),
-    date: new Date(moment(date).startOf('day')),
-  };
-
-  gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
-    if ((gameWeeks || []).length > 0) {
-      console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
-    } else {
-      gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-          if (err) {
-              console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
-          } else {
-            console.log("loadEnglishPremierLeagueGames success creating week: " + gameWeekCreated._id);
-          }
-      });
-    }
   });
 
   isLoadEnglishPremierLeagueGamesRunning = false;
@@ -1578,19 +1559,19 @@ const updateEnglishPremierLeagueScores = async () => {
 };
 
 router.get('/games', function (req, res) {
-  // try {
-  //   loadNflGames();
-  // } catch(err) {
-  //   isLoadNflGamesRunning = false;
-  //   console.log('load loadNflGames error: ' + err.message)
-  // }
+  try {
+    loadNflGames();
+  } catch(err) {
+    isLoadNflGamesRunning = false;
+    console.log('load loadNflGames error: ' + err.message)
+  }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  // }
+  try {
+    loadEnglishPremierLeagueGames();
+  } catch(err) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  }
 
   // try {
   //   loadNCAAFootballTeams();
