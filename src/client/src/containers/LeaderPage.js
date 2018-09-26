@@ -276,7 +276,8 @@ class LeaderPage extends Component {
                                         {
                                             <Collapse in={this.state.open}>
                                                 <div style={{margin: '12px'}}>
-                                                    {this.props.games.map((game,gameIndex)=>(
+                                                    {
+                                                        this.props.games.map((game,gameIndex)=>(
                                                         <div key={game._id} style={{
                                                             marginLeft: this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? '20%' : '0', 
                                                             marginRight: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? '20%' : '0'}}>
@@ -309,6 +310,47 @@ class LeaderPage extends Component {
                                                             }
                                                         </div>
                                                     ))}
+                                                    {
+                                                        false &&
+                                                        <table style={{width:"100%", backgroundColor: '#fff'}}>
+                                                            <tbody>
+                                                                {this.props.games.map((game,gameIndex)=>(
+                                                                    <tr key={gameIndex}>
+                                                                        <td>
+                                                                            <div style={{
+                                                                            width:'15px', 
+                                                                            height: '15px', 
+                                                                            backgroundColor: !game.isGameOver ? 'lightblue' : 
+                                                                                (this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score)) ? '#009933' : 
+                                                                                '', 
+                                                                            }}/>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span>
+                                                                                {   
+                                                                                    get(this.props.teams.find(team=>team._id === game.competitors[0]._id), 'name')
+                                                                                }
+                                                                            </span>
+                                                                            <span> vs </span>
+                                                                            <span>
+                                                                                {   
+                                                                                    get(this.props.teams.find(team=>team._id === game.competitors[1]._id), 'name')
+                                                                                } 
+                                                                            </span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div style={{
+                                                                            width:'15px', 
+                                                                            height: '15px', 
+                                                                            backgroundColor: !game.isGameOver ? 'lightblue' : 
+                                                                                (this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? '#009933' : '', 
+                                                                            }}/>
+                                                                        </td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
+                                                    }
                                                 </div>
                                             </Collapse>
                                         }

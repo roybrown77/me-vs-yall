@@ -12,6 +12,10 @@ const get = require('lodash/get');
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
+        // const emailList = users.map(user=>{return user.email});
+        // const emailString = emailList.join(',');
+        // console.log('emailString: ' + emailString);
+
         users.map(user=>{
             const x = user;
             x.email = undefined;

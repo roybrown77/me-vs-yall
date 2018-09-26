@@ -86,7 +86,8 @@ const loadNflGames = async () => {
   let page;
   let currentWeek;
   let year;
-
+  let startDateTime;
+  
   isLoadNflGamesRunning = true;
 
   try {
@@ -150,7 +151,7 @@ const loadNflGames = async () => {
         return document.querySelector(sel).getAttribute('data-homeid');
       }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
 
-      const startDateTime = await page.evaluate((sel) => {
+      startDateTime = await page.evaluate((sel) => {
         return document.querySelector(sel).getAttribute('data-date');
       }, STARTDATETIME_SELECTOR.replace("INDEX", i));
 

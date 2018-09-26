@@ -17,6 +17,7 @@ router.get('/picks/', function (req, res) {
         userId: req.query.userId,
         weekNo: req.query.weekNo,
         seasonType: req.query.seasonType,
+        year: req.query.year,
         gameDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
           $gte: new Date(moment(get(req, 'query.beginDateTime'))),
           $lte: new Date(moment(get(req, 'query.endDateTime')))
