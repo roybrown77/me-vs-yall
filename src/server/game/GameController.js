@@ -191,6 +191,18 @@ const loadNflGames = async () => {
     console.log('loadNflGames browser error: ' + err.message);
   }
 
+  if (!startDateTime) {
+    isLoadNflGamesRunning = false;
+    console.log('loadNflGames no startDateTime');
+    return;
+  }
+
+  if (!games) {
+    isLoadNflGamesRunning = false;
+    console.log('loadNflGames no games');
+    return;
+  }
+
   console.log('loadNflGames games: ' + JSON.stringify(games[0]));
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
@@ -1195,8 +1207,12 @@ const loadEnglishPremierLeagueGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
-      beginDateTime: moment().startOf('day'),
-      endDateTime: moment().add(7,'days').endOf('day')
+      beginDateTime: {
+        $lte: new Date(moment().startOf('day'))
+      },
+      endDateTime: {
+        $gte: new Date(moment().endOf('day'))
+      }
     };
 
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
@@ -1215,6 +1231,8 @@ const loadEnglishPremierLeagueGames = async () => {
       }
     });
   }
+
+  return;
 
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
