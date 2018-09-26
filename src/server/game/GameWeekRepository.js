@@ -1,15 +1,13 @@
 var mongoose = require('mongoose');
 var GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
-	weekNo: Number,
-	weekNumberDisplay: String,
-	namePrefix: String,
-	year: Number,
-    beginDateTime: 'date',
-    endDateTime: 'date',
-    date: 'date',
     year: Number,
     seasonType: Number,
-    description: String
+    weekNo: Number,
+    beginDateTime: 'date',
+    endDateTime: 'date',
+    description: String,
+	weekNumberDisplay: String,
+    namePrefix: String,
 });
 module.exports = mongoose.model('Game_Week', GameSchema);

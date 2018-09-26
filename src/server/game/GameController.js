@@ -1613,9 +1613,9 @@ router.get('/games', function (req, res) {
     year: get(req, 'query.year'),
     seasonType: get(req, 'query.seasonType'),
     weekNo: get(req, 'query.weekNo'),
-    startDateTime: get(req, 'query.date') ? {
-      $gte: new Date(moment(get(req, 'query.date')).startOf('day')),
-      $lte: new Date(moment(get(req, 'query.date')).endOf('day'))
+    startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+      $gte: new Date(moment(get(req, 'query.beginDateTime'))),
+      $lte: new Date(moment(get(req, 'query.endDateTime')))
     } : undefined,
     isStub: {
       $ne: true
@@ -1671,7 +1671,7 @@ router.get('/gameweeks', function (req, res) {
         return total;
       }, []);
 
-      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo', 'date']);
+      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo', 'beginDateTime']);
 
       res.status(200).send(weeks);
   });

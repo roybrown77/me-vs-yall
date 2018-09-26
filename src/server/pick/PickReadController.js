@@ -17,9 +17,9 @@ router.get('/picks/', function (req, res) {
         userId: req.query.userId,
         weekNo: req.query.weekNo,
         seasonType: req.query.seasonType,
-        gameDateTime: get(req, 'query.date') ? {
-          $gte: new Date(moment(get(req, 'query.date')).startOf('day')),
-          $lte: new Date(moment(get(req, 'query.date')).endOf('day'))
+        gameDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+          $gte: new Date(moment(get(req, 'query.beginDateTime'))),
+          $lte: new Date(moment(get(req, 'query.endDateTime')))
         } : undefined
       };
         
@@ -28,7 +28,7 @@ router.get('/picks/', function (req, res) {
             get(req,'query.userId','userId'), 
             !get(req,'query.weekNo') || get(req,'query.weekNo') === '-1' ? 'weekNo' : undefined, 
             !get(req,'query.seasonType') || get(req,'query.seasonType') === '-1' ? 'seasonType' : undefined, 
-            !get(req,'query.date') || get(req,'query.date') === '-1' ? 'gameDateTime' : undefined
+            !(get(req, 'query.beginDateTime') && get(req, 'query.endDateTime')) || get(req,'query.beginDateTime') === '-1' ? 'gameDateTime' : undefined
         ]
     );
 
