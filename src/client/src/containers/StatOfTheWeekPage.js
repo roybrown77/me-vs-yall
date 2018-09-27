@@ -29,7 +29,7 @@ function StatOfTheWeekPage () {
                           NFL Stat of the Week
                         </Typography>
                         <Typography variant="subheading">
-                          September 30, 2018
+                          September 25, 2018
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2">
