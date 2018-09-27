@@ -15,7 +15,6 @@ import Games from '../components/Games';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import Grow from '@material-ui/core/Grow';
 import Slide from '@material-ui/core/Slide';
 import Zoom from '@material-ui/core/Zoom';
 import Collapse from '@material-ui/core/Collapse';
@@ -26,61 +25,16 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
-
-const dialogStyles = {
-  root: {
-    zIndex: 1,
-    height: '100%',
-    width: '100%',
-    top: 0,
-    position: 'absolute',
-    backgroundColor: '#ffffff'
-  }
-};
 
 const listStyles = {
   root: {
     marginTop: '12px',
     width: '100%',
     backgroundColor: '#fff'
-  },
-};
-
-const cardStyles = {
-  card: {
-    display: 'flex',
-    marginBottom: '12px',
-    height: '100px'
-  },
-  details: {
-    width: '33%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    flex: '1 0 auto',
-  },
-  cover: {
-    width: 151,
-    height: 151,
-  },
-  controls: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
   },
 };
 
@@ -275,43 +229,8 @@ class LeaderPage extends Component {
                                         <Divider />
                                         {
                                             <Collapse in={this.state.open}>
-                                                <div style={{margin: '12px'}}>
+                                                <div style={{width: '70%', margin: '12px auto'}}>
                                                     {
-                                                        this.props.games.map((game,gameIndex)=>(
-                                                        <div key={game._id} style={{
-                                                            marginLeft: this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? '20%' : '0', 
-                                                            marginRight: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? '20%' : '0'}}>
-                                                            {game.competitors.map((competitor, competitorIndex)=>(
-                                                                <span key={competitor._id}>
-                                                                    {
-                                                                        competitorIndex === 0 &&
-                                                                        <div style={{
-                                                                            width:'15px', 
-                                                                            height: '15px', 
-                                                                            backgroundColor: (!game.isGameOver ? 'lightblue' : 
-                                                                                (this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ||
-                                                                                this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? '#009933' : 
-                                                                                (this.state.picks.find(pick=>(pick.pickId === game.competitors[0]._id || pick.pickId === game.competitors[1]._id) && pick.userId === leader.id)) ? 'red' : 'lightblue'), 
-                                                                            marginTop: '2px',
-                                                                            marginLeft: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? '20%' : '0',
-                                                                            marginRight: this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? '20%' : '0', 
-                                                                            float: this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? 'left' : 'right' }}/>
-                                                                    }
-                                                                    {get(this.props.teams.find(team=>team._id === competitor._id), 'name')}
-                                                                    {
-                                                                        competitorIndex === 0 &&
-                                                                        <span> vs </span>
-                                                                    }
-                                                                </span>
-                                                            ))}
-                                                            {
-                                                                gameIndex % 2 !== 0 &&
-                                                                <br />
-                                                            }
-                                                        </div>
-                                                    ))}
-                                                    {
-                                                        false &&
                                                         <table style={{width:"100%", backgroundColor: '#fff'}}>
                                                             <tbody>
                                                                 {this.props.games.map((game,gameIndex)=>(
@@ -320,12 +239,12 @@ class LeaderPage extends Component {
                                                                             <div style={{
                                                                             width:'15px', 
                                                                             height: '15px', 
-                                                                            backgroundColor: !game.isGameOver ? 'lightblue' : 
-                                                                                (this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score)) ? '#009933' : 
-                                                                                '', 
-                                                                            }}/>
+                                                                            backgroundColor: game.isGameOver && 
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ? '#009933' : 
+                                                                            game.isGameOver && 
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score <= game.competitors[1].score) ? 'red' : ''}}/>
                                                                         </td>
-                                                                        <td>
+                                                                        <td>                                                                           
                                                                             <span>
                                                                                 {   
                                                                                     get(this.props.teams.find(team=>team._id === game.competitors[0]._id), 'name')
@@ -336,15 +255,16 @@ class LeaderPage extends Component {
                                                                                 {   
                                                                                     get(this.props.teams.find(team=>team._id === game.competitors[1]._id), 'name')
                                                                                 } 
-                                                                            </span>
+                                                                            </span>                                                    
                                                                         </td>
                                                                         <td>
                                                                             <div style={{
                                                                             width:'15px', 
                                                                             height: '15px', 
-                                                                            backgroundColor: !game.isGameOver ? 'lightblue' : 
-                                                                                (this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score)) ? '#009933' : '', 
-                                                                            }}/>
+                                                                            backgroundColor: game.isGameOver && 
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score) ? '#009933' : 
+                                                                            game.isGameOver && 
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score <= game.competitors[0].score) ? 'red' : ''}}/>
                                                                         </td>
                                                                     </tr>
                                                                 ))}
@@ -360,105 +280,6 @@ class LeaderPage extends Component {
                                 <Divider />
                             </div>
                         </Slide>
-                    }
-                    {
-                        false && 
-                        this.props.leaders.length > 0 && 
-                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
-                        <Grow in={true} timeout={500}>
-                            <div style={{marginTop: '12px'}}>
-                                {
-                                    this.props.leaders.map((leader, index) => (
-                                    <Card 
-                                    key={leader.id} 
-                                    style={cardStyles.card}
-                                    onClick={() => this.handleClickOpen(leader)}
-                                    >
-                                      <div style={cardStyles.details}>
-                                        <CardContent style={cardStyles.content}>
-                                          <Typography variant="headline">{leader.userName}</Typography>
-                                        </CardContent>
-                                      </div>
-                                      <div style={cardStyles.details}>
-                                        <CardContent style={cardStyles.content}>
-                                            <Typography variant="headline">{leader.wins} - {leader.losses} - {leader.ties}</Typography>
-                                        </CardContent>
-                                      </div>
-                                      <div style={cardStyles.details}>
-                                        <CardContent style={cardStyles.content}>
-                                            <Typography variant="headline">{((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}</Typography>
-                                        </CardContent>
-                                      </div>
-                                    </Card>
-                                ))}
-                            </div>
-                        </Grow>
-                    }
-                    {
-                        false && 
-                        this.props.leaders.length > 0 && 
-                        (!(this.props.weeksDataLoading || this.props.dataLoading)) &&
-                        <Grow in={true} timeout={500}>
-                            <div style={{marginTop: '12px'}}>
-                                <table style={{width:"100%", backgroundColor: '#fff', padding: '12px'}}>
-                                    <tbody>
-                                        {
-                                            this.props.leaders.map((leader, index) => (
-                                            <tr key={leader.id} 
-                                            style={{paddingBottom:"16px"}}
-                                            onClick={() => this.handleClickOpen(leader)}>
-                                                <td>
-                                                    <div className="leader-item" 
-                                                    style={{color: index === 0 ? '#FFC107' : '#000'}}>
-                                                        {index+1}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="leader-item">
-                                                        {leader.userName}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="leader-item">
-                                                        {leader.wins}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="leader-item">
-                                                        {leader.losses}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="leader-item">
-                                                        {leader.ties}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="leader-item">
-                                                        {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </Grow>
-                    }
-                    {
-                        false &&
-                        this.state.open &&
-                        <div style={{padding:'65px 0'}}>
-                            <Zoom in={this.state.open}>
-                                <div style={dialogStyles.root} onClick={this.handleClose}>
-                                    <Games
-                                        games={this.state.games} 
-                                        picks={this.state.picks}
-                                        teams={this.props.teams}
-                                        />
-                                </div>
-                            </Zoom>
-                        </div>
                     }
                 </PageContainer>
             </div>
