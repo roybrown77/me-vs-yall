@@ -26,7 +26,7 @@ function StatOfTheWeekPage () {
                     <div style={styles.root}>
                       <Paper style={styles.container} elevation={1}>
                         <Typography variant="headline" component="h3">
-                          Stat of the Week
+                          NFL Stat of the Week
                         </Typography>
                         <Typography variant="subheading">
                           September 30, 2018
