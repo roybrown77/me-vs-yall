@@ -101,17 +101,9 @@ class Header extends Component {
                       <Route render={({ history}) => (
                           <MenuItem
                             onTouchTap={this.handleClose}
+                            onClick={() => { history.push('/statOfTheWeek') }}
                           >
-                            Stats
-                          </MenuItem>
-                        )} />
-                  )}
-                  {(
-                      <Route render={({ history}) => (
-                          <MenuItem
-                            onTouchTap={this.handleClose}
-                          >
-                            News
+                            SOTW
                           </MenuItem>
                         )} />
                   )}

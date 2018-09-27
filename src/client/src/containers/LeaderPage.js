@@ -237,8 +237,8 @@ class LeaderPage extends Component {
                                                                     <tr key={gameIndex}>
                                                                         <td>
                                                                             <div style={{
-                                                                            width:'15px', 
-                                                                            height: '15px', 
+                                                                            width:'17px', 
+                                                                            height: '17px', 
                                                                             backgroundColor: game.isGameOver && 
                                                                             this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ? '#009933' : 
                                                                             game.isGameOver && 
@@ -261,8 +261,8 @@ class LeaderPage extends Component {
                                                                         </td>
                                                                         <td>
                                                                             <div style={{
-                                                                            width:'15px', 
-                                                                            height: '15px', 
+                                                                            width:'17px', 
+                                                                            height: '17px', 
                                                                             backgroundColor: game.isGameOver && 
                                                                             this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score) ? '#009933' : 
                                                                             game.isGameOver && 

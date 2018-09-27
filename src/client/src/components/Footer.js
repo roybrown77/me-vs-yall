@@ -65,8 +65,9 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
-                                label="Stats"
+                                label="SOTW"
                                 icon={meIcon}
+                                onTouchTap={() => { history.push('/statOfTheWeek') }}
                                 />
                     )} />
                     )}
