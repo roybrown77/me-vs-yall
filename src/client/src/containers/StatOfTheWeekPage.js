@@ -15,7 +15,7 @@ const styles = {
     padding: '12px'
   },
   divider: {
-    marginTop: '12px'
+    margin: '12px 0'
   }
 };
 
@@ -32,7 +32,7 @@ function StatOfTheWeekPage () {
                           September 30, 2018
                         </Typography>
                         <Divider style={styles.divider} />
-                        <Typography variant="display3">
+                        <Typography variant="display2">
                           17 teams have not won a road game after 2 weeks.
                         </Typography>
                       </Paper>
