@@ -12,7 +12,7 @@ class MvyPage extends Component {
                     </div>
                     <br/>
                     <div style={{textAlign: 'left'}}>
-                       Look at Stats of the Week (SOTW).
+                       Check out Stat of the Week (SOTW).
                     </div>
                 </div>
             </PageContainer>
