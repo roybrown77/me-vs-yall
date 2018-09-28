@@ -187,7 +187,7 @@ class LeaderPage extends Component {
                         <div style={{margin:'0 12px'}}>
                             <Route render={({ history }) => (
                             <RaisedButton
-                              label="Press Start to Play!"
+                              label="Press to Play!"
                               labelPosition="before"
                               primary={true}
                               onClick={() => { history.push('/login') }}
