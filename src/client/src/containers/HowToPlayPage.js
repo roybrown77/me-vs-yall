@@ -9,7 +9,7 @@ class HowToPlayPage extends Component {
                 <PageContainer>
                     <div style={{margin: '75px 12px'}}>
                         <div style={{textAlign: 'left'}}>
-                            1.  Hit 'Press Start To Play!' and Login with Google Account.
+                            1.  Hit 'Press Start To Play' and Login with Google Account.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
@@ -21,7 +21,7 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            4.  Invite friends/family to compete with and brag on how much yall could have won in Vegas!
+                            4.  Invite friends to compete with and brag on how much yall could have won in Vegas.
                         </div>
                         <br/>
                     </div>

@@ -15,7 +15,7 @@ class AboutPage extends Component {
                     </div>
                     <br/>
                     <div style={{textAlign: 'left'}}>
-                        Enjoy the National Football League and English Premier League!
+                        Enjoy the National Football League and English Premier League.
                     </div>
                 </div>
             </PageContainer>

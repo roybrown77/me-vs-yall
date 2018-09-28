@@ -9,7 +9,11 @@ class HowToPlayPage extends Component {
                 <PageContainer>
                     <div style={{margin: '75px 12px'}}>
                         <div style={{textAlign: 'left'}}>
-                            Simulated betting assume $110 bet and $100 payout on each game.
+                            All dollar amounts are fake so you can practice betting.
+                        </div>
+                        <br/>
+                        <div style={{textAlign: 'left'}}>
+                            Assume $110 bet and $100 payout on each game.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
