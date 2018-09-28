@@ -93,15 +93,9 @@ class ScoreboardPage extends Component {
     handleMakePick(pick) {
         if (!this.props.isAuthenticated) return;
 
-        pick.leagueId = this.props.leagueId;
-        pick.year = this.props.year;
-        pick.weekNo = this.props.weekNo;
-        pick.seasonType = this.props.seasonType;
-        pick.date = this.props.date;
-
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
-        if (pickFound) {
-            this.props.updatePick(pickFound._id, pick);
+        if (!!pickFound) {
+            this.props.updatePick(get(pickFound,'_id'), pick);
         } else {
             this.props.addPick(pick);
         }

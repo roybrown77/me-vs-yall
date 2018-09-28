@@ -63,7 +63,7 @@ class Header extends Component {
                         onTouchTap={this.handleClose}
                         onClick={() => { history.push('/howtoplay') }}
                       >
-                        How to Play
+                        How to Play Games
                       </MenuItem>
                     )} />
                   )}
@@ -73,7 +73,7 @@ class Header extends Component {
                         onTouchTap={this.handleClose}
                         onClick={() => { history.push('/rules') }}
                       >
-                        Rules
+                        Game Rules
                       </MenuItem>
                     )} />
                   )}

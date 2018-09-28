@@ -1,44 +1,36 @@
 var moment = require('moment');
+const mongoose = require('mongoose');
 
 var pickRepository = require('./PickRepository');
 var gameRepository = require('../game/GameRepository');
 
-function createPick(pick, cb) {
-	gameRepository.findById(pick.gameId, function (err, game) {
-        if (!isValid(err, game, pick)) {
-        	return cb(new Error('It is too late to make a pick.  Picks must be made 5 minutes before game starts.'));
-        }
-
-		return pickRepository.create(pick, cb);
-    });
-}
-
-function updatePick(id, pick, cb) {
-	gameRepository.findById(pick.gameId, function (err, game) {
-        if (!isValid(err, game, pick)) {
-        	return cb(new Error('It is too late to make a pick.  Picks must be made 5 minutes before game starts.'));
-        }
-		
-		return pickRepository.findByIdAndUpdate(id, pick, {}, cb);
-    });
-}
+const get = require('lodash/get');
 
 function upsert(pick, cb) {
     gameRepository.findById(pick.gameId, function (err, game) {
         if (!isValid(err, game, pick)) {
             return cb(new Error('It is too late to make a pick.  Picks must be made 5 minutes before game starts.'));
         }
+
+        const finalPick = { 
+            ...pick,
+            leagueId: get(game,'leagueId'),
+            year: get(game,'year'),
+            seasonType: get(game,'seasonType'),
+            weekNo: get(game,'weekNo'),
+            gameDateTime: get(game,'startDateTime')
+        }
+
+        console.log('upsert finalPick: ' + JSON.stringify(finalPick));
         
-        return pickRepository.findOneAndUpdate({userId: pick.userId, gameId: pick.gameId}, pick, {upsert: true}, cb);
+        return pickRepository.findOneAndUpdate({userId: pick.userId, gameId: pick.gameId}, finalPick, {upsert: true}, cb);
     });
 }
 
 function isValid(err, game, pick) {
 	if (err) throw new Error('Finding game id ' + pick.gameId + ' - ' + err.message);
-    if (!game) throw new Error('Game is required.');
-    if (!pick) throw new Error('Pick is required.');
-    if (!pick.gameId) throw new Error('Game id is required.');
-    if (!pick.pickId) throw new Error('Pick id is required.');
+    if (!get(pick,'gameId')) throw new Error('Game id is required.');
+    if (!get(pick,'pickId')) throw new Error('Pick id is required.');
 
 	const started = hasGameStarted(game.startDateTime, pick.createDateTime);
 
@@ -56,6 +48,6 @@ function hasGameStarted(gameDateTime, pickDateTime) {
     return difference < 5;
 }
 
-const domain = { createPick, updatePick, upsert };
+const domain = { upsert };
 
 module.exports = domain;

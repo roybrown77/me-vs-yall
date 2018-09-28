@@ -7,9 +7,12 @@ import Divider from '@material-ui/core/Divider';
 import PageContainer from './PageContainer';
 
 const styles = {
-  root: {
-    margin: '12px',
+  title: {
+    margin: '12px 12px 0 12px',
     paddingTop: '12px'
+  },
+  stats: {
+    margin: '12px 12px 0 12px'
   },
   container: {
     padding: '12px'
@@ -23,17 +26,24 @@ function StatOfTheWeekPage () {
      return (
             <div>
                 <PageContainer>
-                    <div style={styles.root}>
+                    <div style={styles.title}>
                       <Paper style={styles.container} elevation={1}>
                         <Typography variant="headline" component="h3">
-                          NFL Stat of the Week
+                          Stat of the Week
+                        </Typography>
+                      </Paper>
+                    </div>
+                    <div style={styles.stats}>
+                      <Paper style={styles.container} elevation={1}>
+                        <Typography variant="headline" component="h3">
+                          NFL
                         </Typography>
                         <Typography variant="subheading">
                           September 25, 2018
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2">
-                          16 teams have not won a road game after 2 weeks.
+                          16 teams have not won a road game after 3 weeks.
                         </Typography>
                       </Paper>
                     </div>

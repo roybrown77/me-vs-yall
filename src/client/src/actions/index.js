@@ -132,13 +132,8 @@ export const addPick = (pick) => (dispatch, getState) => {
   const userInSession = getUser();
   const userId = get(userInSession,'sub');
   searchParams.set('userId', userId);
-  searchParams.set('leagueId', pick.leagueId);
-  searchParams.set('year', pick.year);
-  searchParams.set('seasonType', pick.seasonType);
-  searchParams.set('weekNo', pick.weekNo);
   searchParams.set('gameId', pick.gameId);
   searchParams.set('pickId', pick.pickId);
-  searchParams.set('date', pick.date);
 
   return dispatch(createPick(searchParams));
 };
