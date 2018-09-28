@@ -43,7 +43,7 @@ function StatOfTheWeekPage () {
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2">
-                          16 teams have not won a road game after 3 weeks.
+                          16 teams have not won on the road after 48 games played.
                         </Typography>
                       </Paper>
                     </div>
