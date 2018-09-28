@@ -23,7 +23,17 @@ function upsert(pick, cb) {
 
         console.log('upsert finalPick: ' + JSON.stringify(finalPick));
         
-        return pickRepository.findOneAndUpdate({userId: pick.userId, gameId: pick.gameId}, finalPick, {upsert: true}, cb);
+        return pickRepository.findOneAndUpdate(
+            {
+                userId: pick.userId, 
+                gameId: pick.gameId
+            }, 
+            finalPick,
+            {
+                returnNewDocument: true, new: true, upsert: true
+            }, 
+            cb
+        );
     });
 }
 
