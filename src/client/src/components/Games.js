@@ -30,7 +30,8 @@ class Games extends Component {
                         const team = teams.find(x=>x._id === competitor._id);
                         return {
                             ...competitor,
-                            shortLocation: team.shortLocation,
+                            shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' ? 
+                            'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
                             name: team.name || team.location,
                             color: team.color,
                             //colors: team.name ? undefined : team.colors,
