@@ -20,11 +20,8 @@ router.post('/picks/', function (req, res) {
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
-    console.log('postPick pick: ' + JSON.stringify(pick));
-
     pickDomain.upsert(pick, (err, pickCreated) => {
         if (err) return res.status(500).json("There was a problem adding the information to the database: " + err.message);
-        console.log('postPick pickCreated: ' + JSON.stringify(pickCreated));
         return res.status(200).send({...pick,_id:pickCreated._id});
     });
 });
@@ -37,11 +34,8 @@ router.put('/picks/:id', function (req, res) {
         createDateTime: new Date(new Date().toUTCString()).toISOString()
     };
 
-    console.log('putPick pick: ' + JSON.stringify(pick));
-
     pickDomain.upsert(pick, (err, updatedPick) => {
         if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
-        console.log('putPick updatedPick: ' + JSON.stringify(updatedPick));
         return res.status(200).send({...pick,_id:updatedPick._id});
     });
 });

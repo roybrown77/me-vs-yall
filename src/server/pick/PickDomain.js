@@ -21,8 +21,6 @@ function upsert(pick, cb) {
             gameDateTime: get(game,'startDateTime')
         }
 
-        console.log('upsert finalPick: ' + JSON.stringify(finalPick));
-        
         return pickRepository.findOneAndUpdate(
             {
                 userId: pick.userId, 
