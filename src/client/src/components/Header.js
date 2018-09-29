@@ -103,7 +103,7 @@ class Header extends Component {
                             onTouchTap={this.handleClose}
                             onClick={() => { history.push('/statOfTheWeek') }}
                           >
-                            SOTW
+                            GDSOTW
                           </MenuItem>
                         )} />
                   )}

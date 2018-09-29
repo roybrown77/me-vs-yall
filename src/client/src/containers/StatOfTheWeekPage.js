@@ -29,7 +29,7 @@ function StatOfTheWeekPage () {
                     <div style={styles.title}>
                       <Paper style={styles.container} elevation={1}>
                         <Typography variant="headline" component="h3">
-                          Stat of the Week
+                          Gat Dam Stat of the Week
                         </Typography>
                       </Paper>
                     </div>
@@ -43,7 +43,7 @@ function StatOfTheWeekPage () {
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2">
-                          16 teams have not won on the road after 48 games played.
+                          16 teams have not won on the road after 48 games played / 3 weeks.
                         </Typography>
                       </Paper>
                     </div>
