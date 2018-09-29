@@ -1613,12 +1613,12 @@ router.get('/games', function (req, res) {
     console.log('updateNflScores error: ' + err.message)
   }
 
-  // try {
-  //   updateEnglishPremierLeagueScores();
-  // } catch(err) {
-  //   isUpdateEnglishPremierLeagueScoresRunning = false;
-  //   console.log('updateEnglishPremierLeagueScores error: ' + err.message)
-  // }
+  try {
+    updateEnglishPremierLeagueScores();
+  } catch(err) {
+    isUpdateEnglishPremierLeagueScoresRunning = false;
+    console.log('updateEnglishPremierLeagueScores error: ' + err.message)
+  }
 
     // try {
   //   updateNCAAFootballScores();
