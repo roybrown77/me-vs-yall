@@ -242,7 +242,9 @@ class LeaderPage extends Component {
                                                                             backgroundColor: game.isGameOver && 
                                                                             this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ? '#009933' : 
                                                                             game.isGameOver && 
-                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score <= game.competitors[1].score) ? 'red' : ''}}/>
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score <= game.competitors[1].score) ? 'red' : 
+                                                                            moment() > moment(game.startDateTime) && 
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? 'lightblue' : ''}}/>
                                                                         </td>
                                                                         <td>                                                                           
                                                                             <span>
@@ -264,7 +266,9 @@ class LeaderPage extends Component {
                                                                             backgroundColor: game.isGameOver && 
                                                                             this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score) ? '#009933' : 
                                                                             game.isGameOver && 
-                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score <= game.competitors[0].score) ? 'red' : ''}}/>
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score <= game.competitors[0].score) ? 'red' : 
+                                                                            moment() > moment(game.startDateTime) && 
+                                                                            this.state.picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? 'lightblue' : ''}}/>
                                                                         </td>
                                                                     </tr>
                                                                 ))}
