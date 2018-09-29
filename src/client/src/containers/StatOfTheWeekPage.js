@@ -29,7 +29,7 @@ function StatOfTheWeekPage () {
                     <div style={styles.title}>
                       <Paper style={styles.container} elevation={1}>
                         <Typography variant="headline" component="h3">
-                          Gat Dam Stat of the Week
+                          Stat of the Week
                         </Typography>
                       </Paper>
                     </div>
