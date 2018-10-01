@@ -52,9 +52,9 @@ body {
   position: relative;
 }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 800px) {
   .page-container {
-    margin: 65px 200px;
+    margin: 65px 25%;
   }
 }
 
