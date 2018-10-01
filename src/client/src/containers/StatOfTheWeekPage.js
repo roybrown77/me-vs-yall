@@ -46,7 +46,7 @@ function StatOfTheWeekPage () {
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2" style={styles.main}>
-                          16 teams have not won on the road after 48 games played / 3 weeks.
+                          Home field advantage is real.  16 teams have not won on the road after 48 games played / 3 weeks.
                         </Typography>
                       </Paper>
                     </div>
