@@ -19,6 +19,9 @@ const styles = {
   },
   divider: {
     margin: '12px 0'
+  },
+  main: {
+    color: 'rgba(0, 0, 0, 0.87)'
   }
 };
 
@@ -42,7 +45,7 @@ function StatOfTheWeekPage () {
                           September 25, 2018
                         </Typography>
                         <Divider style={styles.divider} />
-                        <Typography variant="display2">
+                        <Typography variant="display2" style={styles.main}>
                           16 teams have not won on the road after 48 games played / 3 weeks.
                         </Typography>
                       </Paper>
