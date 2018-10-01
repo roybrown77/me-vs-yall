@@ -21,13 +21,10 @@ const pickRepository = require('../pick/PickRepository');
 const teamRepository = require('../game/TeamRepository');
 
 const {
+  nflTeams,
   eplTeams, 
   ncaafTeams, 
-  mvyNflTeams, 
-  espnNflTeams, 
-  mvyMlbTeams, 
-  espnMlbTeams, 
-  mvyCountries
+  countries
 } = require('./teams');
 
 const omit = require('lodash/omit');
@@ -300,14 +297,14 @@ const loadNflGames = async () => {
   isLoadNflGamesRunning = false;
 };
 
-  // const month = moment().add(2, 'months');
-  // const firstDayOfMarch = month.startOf('month');
-  // const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
-  // const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
-  // const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
+// const month = moment().add(2, 'months');
+// const firstDayOfMarch = month.startOf('month');
+// const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
+// const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
+// const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
 
-  // console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
-  // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
+// console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
+// console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
 const updateNflScores = async () => {
   if (isUpdateNflScoresRunning) {
@@ -381,9 +378,8 @@ const updateNflScores = async () => {
     }, 'scoreboard football');
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';   
-    //let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY';
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > h2 > a > span.sb-team-short';
-    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    //let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY';                                                                                                                       
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
     console.log('updateNflScores listLength: ' + listLength);
@@ -398,8 +394,9 @@ const updateNflScores = async () => {
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-awayid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       // const awayInProgressScore = await page.evaluate((sel) => {
       //   return document.getElementsByClassName(sel).length;
@@ -411,8 +408,9 @@ const updateNflScores = async () => {
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const homeTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-homeid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       // const homeInProgressScore = await page.evaluate((sel) => {
       //   return document.getElementsByClassName(sel);
@@ -463,8 +461,8 @@ const updateNflScores = async () => {
   }
 
   games.forEach(game=>{
-    const awayId = espnNflTeams.find(y=>y.mvyId.toString() === game.competitors[0]._id.toString()).id;
-    const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
+    const shortLocation = nflTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
+    const score = scores.find(x=>x.awayTeam === shortLocation);
 
     console.log('updateNflScores score: ' + JSON.stringify(score));
 
@@ -480,6 +478,8 @@ const updateNflScores = async () => {
             Object.assign({},game.competitors[1],{score:score.homeScore})
           ]
         };
+
+      console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
@@ -1698,7 +1698,7 @@ router.get('/gameweeks', function (req, res) {
 
 router.get('/teams', function (req, res) {
   const teams = [
-    ...mvyNflTeams, 
+    ...nflTeams, 
     ...ncaafTeams,
     ...eplTeams
   ];
