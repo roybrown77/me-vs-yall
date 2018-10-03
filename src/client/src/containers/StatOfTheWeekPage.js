@@ -46,7 +46,7 @@ function StatOfTheWeekPage () {
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2" style={styles.main}>
-                          Give cred to the kid.  Patrick Mahomes and the Kansas City Chiefs are undefeated which includes 3 road wins.
+                          Give cred to the kid.  Patrick Mahomes and the Kansas City Chiefs are undefeated at 4-0 which includes 3 road wins.
                         </Typography>
                       </Paper>
                     </div>
@@ -60,7 +60,7 @@ function StatOfTheWeekPage () {
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography variant="display2" style={styles.main}>
-                          Home field advantage is real.  16 teams have not won on the road after 48 games played / 3 weeks.
+                          Home field advantage is real.  16 teams have not won on the road after 3 weeks.
                         </Typography>
                       </Paper>
                     </div>
