@@ -1208,17 +1208,6 @@ const loadEnglishPremierLeagueGames = async () => {
   }
 
   if (currentWeekDay === 3) {
-    const gameWeekSearch = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
-      beginDateTime: {
-        $lte: new Date(moment().startOf('day'))
-      },
-      endDateTime: {
-        $gte: new Date(moment().endOf('day'))
-      }
-    };
-
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
@@ -1228,7 +1217,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
 
-    gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
+    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
       if ((gameWeeks || []).length > 0) {
         console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
       } else {
@@ -1242,8 +1231,6 @@ const loadEnglishPremierLeagueGames = async () => {
       }
     });
   }
-
-  return;
 
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -1263,7 +1250,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(7,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
