@@ -222,7 +222,8 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
           year: get(query, 'year'),
           seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
           weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
-          date: get(query, 'date') || get(currentWeek,'date')
+          beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+          endDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
         };
 
         const requestStorageJson = localStorage.getItem('request');
@@ -271,7 +272,8 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       year: get(query, 'year'),
       seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
       weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
-      date: get(query, 'date') || get(currentWeek,'date')
+      beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+      endDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
     };
 
     const requestStorageJson = localStorage.getItem('request');

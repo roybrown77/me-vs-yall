@@ -1202,12 +1202,12 @@ const loadEnglishPremierLeagueGames = async () => {
   const currentWeekDay = moment().weekday();
 
   if (currentWeekDay !== 3) {
-    console.log('loadEnglishPremierLeagueGames new games will be loaded on wednesday.');
+    console.log('loadEnglishPremierLeagueGames new games will be loaded on tuesday.');
     return;
   }
 
   if (currentWeekDay === 3) {
-    const gameWeek = {
+    const gameWeekSearch = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
       beginDateTime: {
@@ -1218,9 +1218,16 @@ const loadEnglishPremierLeagueGames = async () => {
       }
     };
 
+    const gameWeek = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: parseInt(year),
+      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
+    };
+
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
 
-    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
+    gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
       if ((gameWeeks || []).length > 0) {
         console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
       } else {
@@ -1648,7 +1655,7 @@ router.get('/games', function (req, res) {
       get(req,'query.year','year'),
       !get(req,'query.weekNo') || get(req,'query.weekNo') === '-1' ? 'weekNo' : undefined, 
       !get(req,'query.seasonType') || get(req,'query.seasonType') === '-1' ? 'seasonType' : undefined, 
-      !get(req,'query.date') || get(req,'query.date') === '-1' ? 'startDateTime' : undefined, 
+      !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
     ]
   );
 
