@@ -135,18 +135,21 @@ const loadNflGames = async () => {
     }
 
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-awayid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const homeTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-homeid');
-      }, LIST_NAME_ID_SELECTOR.replace("INDEX", i));
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       startDateTime = await page.evaluate((sel) => {
         return document.querySelector(sel).getAttribute('data-date');
@@ -201,7 +204,7 @@ const loadNflGames = async () => {
     return;
   }
 
-  console.log('loadNflGames games: ' + JSON.stringify(games[0]));
+  console.log('loadNflGames games: ' + JSON.stringify(games));
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 0 : 
@@ -212,11 +215,9 @@ const loadNflGames = async () => {
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
   const mvyGames = games.map(game=>{
-    const espnAwayTeam = espnNflTeams.find(x=>x.id.toString() === game.awayTeam.toString());
-    const espnHomeTeam = espnNflTeams.find(x=>x.id.toString() === game.homeTeam.toString());
-    const awayTeam = mvyNflTeams.find(x=>x._id === espnAwayTeam.mvyId);
-    const homeTeam = mvyNflTeams.find(x=>x._id === espnHomeTeam.mvyId);
-    const spreadTeam = mvyNflTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+    const awayTeam = nflTeams.find(x=>x.shortLocation === game.awayTeam.toString());
+    const homeTeam = nflTeams.find(x=>x.shortLocation === game.homeTeam.toString());
+    const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === game.spread.team.toLowerCase());
 
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
@@ -236,7 +237,7 @@ const loadNflGames = async () => {
     };
   });
 
-  console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames[0]));
+  console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames));
 
   mvyGames.forEach(game=>{
     gameRepository.find(game, function (err, games) {
