@@ -42,6 +42,20 @@ function StatOfTheWeekPage () {
                           NFL
                         </Typography>
                         <Typography variant="subheading">
+                          October 3, 2018
+                        </Typography>
+                        <Divider style={styles.divider} />
+                        <Typography variant="display2" style={styles.main}>
+                          Give cred to the kid.  Patrick Mahomes and the Kansas City Chiefs are undefeated which includes 3 road wins.
+                        </Typography>
+                      </Paper>
+                    </div>
+                    <div style={styles.stats}>
+                      <Paper style={styles.container} elevation={1}>
+                        <Typography variant="headline" component="h3">
+                          NFL
+                        </Typography>
+                        <Typography variant="subheading">
                           September 25, 2018
                         </Typography>
                         <Divider style={styles.divider} />
