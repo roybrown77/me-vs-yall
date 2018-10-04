@@ -22,6 +22,9 @@ const styles = {
   },
   main: {
     color: 'rgba(0, 0, 0, 0.87)'
+  },
+  contentTitle: {
+    color: '#767676'
   }
 };
 
@@ -30,37 +33,37 @@ function StatOfTheWeekPage () {
             <div>
                 <PageContainer>
                     <div style={styles.title}>
+                      <Typography variant="headline" component="h3">
+                        Stat of the Week
+                      </Typography>
+                    </div>
+                    <div style={styles.stats}>
                       <Paper style={styles.container} elevation={1}>
-                        <Typography variant="headline" component="h3">
-                          Stat of the Week
+                        <Typography align={'left'} style={styles.contentTitle}>
+                          GIVE THE KID SOME CRED
+                        </Typography>
+                        <br/>
+                        <Typography align={'left'} style={styles.content} variant="headline" component="h3">
+                          Patrick Mahomes and the Kansas City Chiefs are undefeated at 4-0 which includes 3 road wins.
+                        </Typography>
+                        <Divider style={styles.divider} />
+                        <Typography>
+                          NFL October 3, 2018
                         </Typography>
                       </Paper>
                     </div>
                     <div style={styles.stats}>
                       <Paper style={styles.container} elevation={1}>
-                        <Typography variant="headline" component="h3">
-                          NFL
+                        <Typography align={'left'} style={styles.contentTitle}>
+                          HOME FIELD ADVANTAGE IS REAL
                         </Typography>
-                        <Typography variant="subheading">
-                          October 3, 2018
-                        </Typography>
-                        <Divider style={styles.divider} />
-                        <Typography variant="display2" style={styles.main}>
-                          Give cred to the kid.  Patrick Mahomes and the Kansas City Chiefs are undefeated at 4-0 which includes 3 road wins.
-                        </Typography>
-                      </Paper>
-                    </div>
-                    <div style={styles.stats}>
-                      <Paper style={styles.container} elevation={1}>
-                        <Typography variant="headline" component="h3">
-                          NFL
-                        </Typography>
-                        <Typography variant="subheading">
-                          September 25, 2018
+                        <br/>
+                        <Typography align={'left'} style={styles.content} variant="headline" component="h3">
+                          16 teams have not won on the road after 3 weeks.
                         </Typography>
                         <Divider style={styles.divider} />
-                        <Typography variant="display2" style={styles.main}>
-                          Home field advantage is real.  16 teams have not won on the road after 3 weeks.
+                        <Typography>
+                          NFL September 25, 2018
                         </Typography>
                       </Paper>
                     </div>
