@@ -25,6 +25,9 @@ const styles = {
   },
   contentTitle: {
     color: '#767676'
+  },
+  content: {
+    fontWeight: '700'
   }
 };
 
