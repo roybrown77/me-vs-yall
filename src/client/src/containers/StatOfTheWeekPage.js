@@ -7,9 +7,14 @@ import Divider from '@material-ui/core/Divider';
 import PageContainer from './PageContainer';
 
 const styles = {
-  title: {
+  titleContainer: {
     margin: '12px 12px 0 12px',
-    paddingTop: '12px'
+    paddingTop: '12px',
+  },
+  title: {
+    color: '#555',
+    fontSize: '1.2rem',
+    fontWeight: '700'
   },
   stats: {
     margin: '12px 12px 0 12px'
@@ -35,8 +40,8 @@ function StatOfTheWeekPage () {
      return (
             <div>
                 <PageContainer>
-                    <div style={styles.title}>
-                      <Typography variant="headline" component="h3">
+                    <div style={styles.titleContainer}>
+                      <Typography variant="headline" component="h3" align={'left'} style={styles.title}>
                         Stat of the Week
                       </Typography>
                     </div>
