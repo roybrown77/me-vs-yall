@@ -38,7 +38,7 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
-                                label="MvY"
+                                label="#MvY"
                                 icon={scoreboardsIcon}
                                 onTouchTap={() => { history.push('/mvy') }}
                                         />
@@ -47,7 +47,7 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
-                                label="Scores"
+                                label="#Scores"
                                 icon={scoreboardsIcon}
                                 onTouchTap={() => { history.push('/scoreboards/' + leagueName) }}
                                         />
@@ -56,7 +56,7 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
-                            label="Leaders"
+                            label="#Leaders"
                             icon={leadersIcon}
                             onTouchTap={() => { history.push('/leaders/' + leagueName) }}
                                 />
@@ -65,7 +65,7 @@ class Footer extends Component {
                     {(
                         <Route render={({ history}) => (
                             <BottomNavigationItem
-                                label="SOTW"
+                                label="#SOTW"
                                 icon={meIcon}
                                 onTouchTap={() => { history.push('/statOfTheWeek') }}
                                 />
