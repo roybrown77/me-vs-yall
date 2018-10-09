@@ -379,8 +379,10 @@ const updateNflScores = async () => {
     }, 'scoreboard football');
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span'; 
-    //let LIST_IN_PROGRESS_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
+    let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
+    let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';                                                                                                                     
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+    let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
     console.log('updateNflScores listLength: ' + listLength);
@@ -394,15 +396,20 @@ const updateNflScores = async () => {
     }
 
     for (let i = 1; i <= listLength; i++) {
+      const gameOverText = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
+
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
-      // const awayInProgressScore = await page.evaluate((sel) => {
-      //   const element = document.querySelector(sel);
-      //   return element ? element.innerHTML : null;
-      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away').replace("SCORE_NUMBER",1));
+      const awayInProgressScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_TOTAL_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -414,10 +421,10 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
-      // const homeInProgressScore = await page.evaluate((sel) => {
-      //   const element = document.querySelector(sel);
-      //   return element ? element.innerHTML : null;
-      // }, LIST_IN_PROGRESS_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home').replace("SCORE_NUMBER",1));
+      const homeInProgressScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_TOTAL_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -425,11 +432,12 @@ const updateNflScores = async () => {
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       scores.push({
+        gameOverText: gameOverText,
         awayTeam: awayTeam,
-        //awayInProgressScore: awayInProgressScore,
+        awayInProgressScore: parseInt(awayInProgressScore),
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam,
-        //homeInProgressScore: homeInProgressScore,
+        homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore)
       });
     }
@@ -467,18 +475,15 @@ const updateNflScores = async () => {
     const shortLocation = nflTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
     const score = scores.find(x=>x.awayTeam === shortLocation);
 
+    console.log('updateNflScores shortLocation: ' + JSON.stringify(shortLocation));
     console.log('updateNflScores score: ' + JSON.stringify(score));
 
-    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
-      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
-      game.year === parseInt(year) && 
-      game.seasonType === seasonType && 
-      game.weekNo === weekNo) {
+    if (game.year === parseInt(year) && game.seasonType === seasonType && game.weekNo === weekNo) {
       const updatedGame = {
-          isGameOver: true,
+          isGameOver: get(score,'gameOverText','').toLowerCase() === 'final',
           competitors: [
-            Object.assign({},game.competitors[0],{score:score.awayScore}),
-            Object.assign({},game.competitors[1],{score:score.homeScore})
+            Object.assign({},game.competitors[0],{score: get(score,'awayScore') || get(score,'awayInProgressScore')}),
+            Object.assign({},game.competitors[1],{score: get(score,'homeScore') || get(score,'homeInProgressScore')})
           ]
         };
 
