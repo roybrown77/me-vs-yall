@@ -13,10 +13,6 @@ class AboutPage extends Component {
                         few weeks, he said 'hey, ur a dev make an app'.  10 years later and many seasons of 
                         texts, I finally got around to doing it. :D
                     </div>
-                    <br/>
-                    <div style={{textAlign: 'left'}}>
-                        Enjoy the National Football League and English Premier League.
-                    </div>
                 </div>
             </PageContainer>
         );

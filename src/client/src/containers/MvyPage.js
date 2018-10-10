@@ -14,6 +14,14 @@ class MvyPage extends Component {
                     <div style={{textAlign: 'left'}}>
                         Check out the Stat of the Week (SOTW).
                     </div>
+                    <br/>
+                    <div style={{textAlign: 'left'}}>
+                        If ya can't win here you probably shouldn't bet the house, electric bill or peanut butter jelly sandwich there.
+                    </div>
+                    <br/>
+                    <div style={{textAlign: 'left'}}>
+                        Enjoy the National Football League and English Premier League.
+                    </div>
                 </div>
             </PageContainer>
         );
