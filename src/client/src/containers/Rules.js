@@ -13,7 +13,7 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            Assume $110 bet and $100 payout on each game.
+                            Assume $110 bet ($10 commission) and $100 payout on each game.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
@@ -32,7 +32,7 @@ class HowToPlayPage extends Component {
                         <div style={{textAlign: 'left'}}>
                             Keep in mind the point spread is there to keep bets equal on both sides.  Vegas loses money when too many 
                             people win versus who loses since they pay winners with losers cash.  At minimum, they want to keep 
-                            $10 commission if bets are equal on both sides.
+                            the commission if bets are equal on both sides.
                         </div>
                     </div>
                 </PageContainer>
