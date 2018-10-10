@@ -1216,7 +1216,7 @@ const loadEnglishPremierLeagueGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
-      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+      beginDateTime: new Date(moment().startOf('day')),
       endDateTime: new Date(moment().add(6, 'days').endOf('day'))
     };
 
@@ -1255,7 +1255,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(5,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 

@@ -45,24 +45,23 @@ function StatOfTheWeekPage () {
                         Stat of the Week
                       </Typography>
                     </div>
-                    {
-                      false &&
-                      <div style={styles.stats}>
+                    <div style={styles.stats}>
                       <Paper style={styles.container} elevation={1}>
                         <Typography align={'left'} style={styles.contentTitle}>
                           BIG SACK ATTACK
                         </Typography>
                         <br/>
                         <Typography align={'left'} style={styles.content} variant="headline" component="h3">
-                          10 players have at least 5 sacks after 5 weeks.  All have a chance to get 20 for the season.  
-                          2 brothers lead with 6 (Texan's J.J. Watt and Steeler's T.J. Watt).
+                          10 players have at least 5 sacks after 5 weeks.  Leaders include brothers 
+                          J.J. Watt (Texans) and T.J. Watt (Steelers) with 6.  All have a 
+                          chance to break the record of 22.5 set by Michael Strahan (Giants).
                         </Typography>
                         <Divider style={styles.divider} />
                         <Typography>
                           NFL October 10, 2018
                         </Typography>
                       </Paper>
-                    </div>}
+                    </div>
                     <div style={styles.stats}>
                       <Paper style={styles.container} elevation={1}>
                         <Typography align={'left'} style={styles.contentTitle}>
