@@ -43,19 +43,19 @@ const stats = [
               J.J. Watt (Texans) and T.J. Watt (Steelers) with 6.  All have a 
               chance to break the record of 22.5 set by Michael Strahan (Giants).`,
     leagueName: 'NFL',
-    date: 'September 26, 2018',
+    date: 'October 10, 2018',
   },
   {
     title: 'GIVE THE KID SOME CRED',
     content: 'Patrick Mahomes and the Kansas City Chiefs are undefeated at 4-0 which includes 3 road wins.',
     leagueName: 'NFL',
-    date: 'October 10, 2018',
+    date: 'October 3, 2018',
   },
   {
     title: 'HOME FIELD ADVANTAGE IS REAL',
     content: '16 teams have not won on the road after 3 weeks.',
     leagueName: 'NFL',
-    date: 'October 3, 2018',
+    date: 'September 26, 2018',
   },
   
 ];
