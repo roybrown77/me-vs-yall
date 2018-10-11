@@ -56,8 +56,7 @@ const stats = [
     content: '16 teams have not won on the road after 3 weeks.',
     leagueName: 'NFL',
     date: 'September 26, 2018',
-  },
-  
+  }
 ];
 
 function StatOfTheWeekPage () {
