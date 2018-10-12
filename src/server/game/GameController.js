@@ -492,7 +492,7 @@ const updateNflScores = async () => {
     console.log('updateNflScores score: ' + JSON.stringify(score));
 
     if (game.year === parseInt(year) && game.seasonType === seasonType && game.weekNo === weekNo) {
-      const isGameOver = get(score,'gameOverText') === 'Final';
+      const isGameOver = get(score,'gameOverText') !== null;
       const updatedGame = {
           isGameOver: isGameOver,
           competitors: [
