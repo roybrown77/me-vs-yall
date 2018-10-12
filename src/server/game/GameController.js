@@ -382,6 +382,7 @@ const updateNflScores = async () => {
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
     let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';                                                                                                                     
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+    let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
@@ -411,6 +412,11 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_IN_PROGRESS_TOTAL_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
+      const awayInProgressName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -426,6 +432,11 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_IN_PROGRESS_TOTAL_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
+      const homeInProgressName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -434,9 +445,11 @@ const updateNflScores = async () => {
       scores.push({
         gameOverText: gameOverText,
         awayTeam: awayTeam,
+        awayTeamInProgress: awayInProgressName,
         awayInProgressScore: parseInt(awayInProgressScore),
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam,
+        homeTeamInProgress: homeInProgressName,
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore)
       });
@@ -473,17 +486,18 @@ const updateNflScores = async () => {
 
   games.forEach(game=>{
     const shortLocation = nflTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
-    const score = scores.find(x=>x.awayTeam === shortLocation);
+    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
 
     console.log('updateNflScores shortLocation: ' + JSON.stringify(shortLocation));
     console.log('updateNflScores score: ' + JSON.stringify(score));
 
     if (game.year === parseInt(year) && game.seasonType === seasonType && game.weekNo === weekNo) {
+      const isGameOver = get(score,'gameOverText') === 'Final';
       const updatedGame = {
-          isGameOver: get(score,'gameOverText','').toLowerCase() === 'final',
+          isGameOver: isGameOver,
           competitors: [
-            Object.assign({},game.competitors[0],{score: get(score,'awayScore') || get(score,'awayInProgressScore')}),
-            Object.assign({},game.competitors[1],{score: get(score,'homeScore') || get(score,'homeInProgressScore')})
+            Object.assign({},game.competitors[0],{score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore')}),
+            Object.assign({},game.competitors[1],{score: isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore')})
           ]
         };
 
