@@ -7,7 +7,7 @@ function LoginPage(props) {
         return (
         	<div>
                 <PageContainer>
-                    <div style={{margin: '24px 12px 12px 12px'}}>
+                    <div style={{padding: '12px'}}>
                         <div style={{fontWeight:'600'}}>
                             Log in with Google
                         </div>
