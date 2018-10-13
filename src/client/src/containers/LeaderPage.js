@@ -42,11 +42,13 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     width: '75%',
-    color: '#FFC107',
+    backgroundColor: '#FFC107',
+    color: '#F7F8E0',
     borderColor: '#FFC107',
     '&:hover': {
       backgroundColor: '#F7F8E0',
-      borderColor: '#FFC107',
+      color: '#FFC107',
+      borderColor: '#F7F8E0',
     },
   },
   container: {
@@ -162,8 +164,7 @@ class LeaderPage extends Component {
                         <div>
                             <Route render={({ history }) => (
                                 <Button 
-                                    variant="outlined" 
-                                    color="secondary" 
+                                    variant="contained" 
                                     className={classes.button} onClick={() => { history.push('/login') }}>
                                     Press to Play!
                                 </Button>

@@ -7,7 +7,7 @@ class HowToPlayPage extends Component {
         return (
             <div>
                 <PageContainer>
-                    <div style={{margin: '12px'}}>
+                    <div style={{margin: '24px 12px 12px 12px'}}>
                         <div style={{textAlign: 'left'}}>
                             All dollar amounts are fake so you can practice betting.
                         </div>

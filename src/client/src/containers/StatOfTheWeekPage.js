@@ -8,7 +8,7 @@ import PageContainer from './PageContainer';
 
 const styles = {
   titleContainer: {
-    margin: '12px 12px 0 12px',
+    margin: '0 12px 12px 12px',
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -59,7 +59,7 @@ function StatOfTheWeekPage () {
      return (
             <div>
                 <PageContainer>
-                  <div style={{marginBottom: '56px'}}>
+                  <div style ={{margin: '24px 12px 12px 12px'}}>
                     <div style={styles.titleContainer}>
                       <Typography variant="headline" component="h3" align={'left'} style={styles.title}>
                         Stat of the Week
