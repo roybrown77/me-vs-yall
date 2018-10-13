@@ -24,6 +24,10 @@ import Paper from '@material-ui/core/Paper';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import gold from '../styles/images/gold.png';
+import silver from '../styles/images/silver.png';
+import bronze from '../styles/images/bronze.png';
+
 import { loadLeaders } from '../actions';
 import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
 
@@ -185,12 +189,21 @@ class LeaderPage extends Component {
                                         <div className={classes.container} key={leader.id}>
                                             <ExpansionPanel>
                                                 <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                                                    <div style={{
-                                                        margin: 'auto 0',
-                                                        color: index === 0 ? '#FFC107' : '#000', 
-                                                        fontWeight: index === 0 ? '700' : '400'}}>
-                                                        {index+1}
-                                                    </div>
+                                                    {
+                                                        [1,2,3].includes(index+1) &&
+                                                        <div>
+                                                            <img src={index+1 === 1 ? gold : index+1 === 2 ? silver : bronze} alt=""/>
+                                                        </div>
+                                                    }
+                                                    {
+                                                        ![1,2,3].includes(index+1) &&
+                                                        <div style={{
+                                                            margin: 'auto 0',
+                                                            color: index === 0 ? '#FFC107' : '#000', 
+                                                            fontWeight: index === 0 ? '700' : '400'}}>
+                                                            {index+1}
+                                                        </div>
+                                                    }
                                                     <ListItemText style={{margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
                                                     <div style={{textAlign:'right'}}>
                                                         <div>{leader.wins} - {leader.losses} - {leader.ties}</div>
