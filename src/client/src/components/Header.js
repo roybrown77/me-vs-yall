@@ -196,7 +196,7 @@ class Header extends Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.title} style={{color: '#'+Math.floor(Math.random()*16777215).toString(16)}}>
+              <Typography variant="h6" color="inherit" className={classes.title}>
                 Me vs Yall
               </Typography>
             </Toolbar>
