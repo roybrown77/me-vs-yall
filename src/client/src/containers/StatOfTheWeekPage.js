@@ -59,7 +59,7 @@ function StatOfTheWeekPage () {
      return (
             <div>
                 <PageContainer>
-                  <div style ={{margin: '24px 12px 12px 12px'}}>
+                  <div style ={{paddingTop: '12px'}}>
                     <div style={styles.titleContainer}>
                       <Typography variant="headline" component="h3" align={'left'} style={styles.title}>
                         Stat of the Week

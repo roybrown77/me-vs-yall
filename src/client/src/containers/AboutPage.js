@@ -6,7 +6,7 @@ class AboutPage extends Component {
     render() {
         return (
             <PageContainer>
-                <div style={{margin: '24px 12px 12px 12px'}}> 
+                <div style={{padding: '12px'}}> 
                     <div style={{textAlign: 'left'}}>
                         In 2007, a buddy of mine and I would text each other who we thought would win the
                         upcoming week's nfl games.  This was just for bragging rights or a meal.  After a 

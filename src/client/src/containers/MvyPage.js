@@ -6,7 +6,7 @@ class MvyPage extends Component {
     render() {
         return (
             <PageContainer>
-                <div style={{margin: '24px 12px 12px 12px'}}> 
+                <div style={{padding: '12px'}}> 
                     <div style={{textAlign: 'left'}}>
                         Pick winners of sporting events and compete with others around the world.
                     </div>
