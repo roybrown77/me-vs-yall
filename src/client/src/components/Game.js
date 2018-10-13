@@ -1,44 +1,54 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
+
 import get from 'lodash/get';
 
+import { withStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
-import {GridList, GridTile} from 'material-ui/GridList';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import green from '@material-ui/core/colors/green';
 
 import angry from '../styles/images/angry.png';
 import money from '../styles/images/money.png';
-import tongueout from '../styles/images/tongueout.png';
 
-const grid = {
-    root: {
-        marginTop: '12px'
+const styles = theme => ({
+  container: {
+    backgroundColor: '#ffffff',
+    padding: '8px',
+    marginBottom: '8px',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
+  },
+  root: {
+    flexGrow: 1,
+    height: '184px'
+  },
+  paper: {
+    height: '100%',
+    width: '100%',
+  },
+  control: {
+    padding: theme.spacing.unit * 2,
+  },
+  checkBox: {
+    color: green[600],
+    '&$checked': {
+      color: green[500],
     },
-    list: {
-        width: '100%',
-        backgroundColor: '#fff',
-        margin: '0 !important'
-    },
-    tile: {
-        width: '100%',
-        cursor: 'pointer',
-        font: '4rem/1 Permanent Marker,sans-serif', 
-        color: '#000',
-        boxShadow: '0 0 2px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.24)',
-    },
-    subTitleStyle: {
-        margin: '0'
-    },
-    titleStyle: {
-        font:'1.4rem/1 Permanent Marker,sans-serif', 
-        color: '#000',
-        paddingRight: '16px'
-    },
-    colors: {
-        marginLeft: "auto", marginRight: "auto", width: "60px"
-    },
-    titleBackground: 'transparent'
-};
+  },
+  checked: {},
+  startDateTime: {
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: 'rgba(0,0,0,.87)',
+    marginTop: '12px'
+  }
+});
                                 
 class Game extends Component {
     handleMakePick(gameId, pickId) {
@@ -61,72 +71,94 @@ class Game extends Component {
         return difference < 5;
     }
 
+    handleChange = id => event => {
+        this.setState({ [id]: event.target.checked });
+    };
+
     render() {
-        const { game, pick } = this.props;
-        const inProgress = !!pick && !!pick.inProgress;
+        const { classes, game, pick } = this.props;
+        const inProgress = get(pick,'inProgress',false);
+
         return (
-            <div key={game._id} style={{width:'100%'}}>
-                <GridList key={game._id + "-gridlist"} style={grid.list}>
-                    {game.competitors.map((competitor) => (
-                        <Grow key={game._id + "." + competitor._id} in={true} timeout={500}>
-                            <GridTile
-                                className="grid-tile"
-                                style={grid.tile}
-                                title={competitor.name}
-                                titleStyle={grid.titleStyle}
-                                titleBackground={grid.titleBackground}
-                                onClick={() => this.handleMakePick(game._id, competitor._id)}>
-                                <div 
-                                    className={inProgress ? 'fast-flash' : ''}
-                                    style={{border: competitor.selected ? '8px solid rgb(0, 188, 212)' : (inProgress ? '8px solid rgb(0, 188, 212)' : '0'), 
-                                    height: "91%", 
-                                    color: competitor.color}}>
-                                    <div style={{position:'absolute', 
-                                        display: game.isGameOver ? (game.winner !== competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
-                                        <img className="emoji-image" src={angry} alt=""/>
-                                    </div>
-                                    <div style={{position:'absolute', 
-                                        display: game.isGameOver ? (game.winner === competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
-                                        <img className="emoji-image" src={money} alt=""/>
-                                    </div>
-                                    <div style={{paddingTop: game.isGameOver ? (competitor.selected ? '0px' : '8px') : '0px',
-                                        fontSize:'36px', block: competitor.score ? 'block' : 'none'}}>
-                                        {competitor.score}
-                                    </div>
-                                    <div style={{position:'absolute', fontSize: '1.4rem', color: 'black', right: '10px', top: '10px',
-                                        display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
-                                        {get(game,'spread.amount')}
-                                    </div>
-                                    <div style={{
-                                        fontSize: game.leagueId === '59723313734d1d6202a85f15' ? '40px' : '4rem/1', 
-                                        paddingTop: !!get(competitor,'score') || get(competitor,'score') === 0 ? '12px' : '46px'}}>
-                                        <span style={{marginRight:'4px', fontSize:'20px',color:'rgba(0, 0, 0, 0.54)'}}>
-                                            {parseInt(competitor.rank).toString() === 'NaN' ? '' : parseInt(competitor.rank)}
-                                        </span>
-                                        {competitor.shortLocation}
-                                    </div>
-                                    {
-                                        get(competitor, 'colors', []).length > 0 && 
-                                        <div style={grid.colors}>
-                                            {
-                                                get(competitor, 'colors', []).map((color, index) => (
-                                                    <div key={index} style={{width: '20px', height: '20px', background: color, float: 'left'}}/>
-                                                ))
-                                            }
+            <div key={game._id} className={classes.container}>
+                <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={16}>
+                    {game.competitors.map((competitor,competitorIndex) => (
+                        <Grid
+                            className={inProgress ? 'fast-flash' : ''}
+                            key={game._id + "." + competitor._id}
+                            item xs={6}
+                            onClick={() => this.handleMakePick(game._id, competitor._id)}
+                            style={{
+                              border: competitor.selected || inProgress ? '8px solid rgb(0, 188, 212)' : '0'
+                            }}>
+                            <Grow in={true} timeout={500}>
+                                <Paper className={classNames(classes.paper)}>
+                                    <Grid item>
+                                        <div style={{position:'absolute', 
+                                            display: game.isGameOver ? (game.winner !== competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
+                                            <img className="emoji-image" src={angry} alt=""/>
                                         </div>
-                                    }
-                                </div>
-                            </GridTile>
-                        </Grow>
+                                        <div style={{position:'absolute', 
+                                            display: game.isGameOver ? (game.winner === competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
+                                            <img className="emoji-image" src={money} alt=""/>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12} sm container>
+                                        <Grid item xs direction="column" spacing={24}>
+                                            <Grid item xs>
+                                              <Typography style={{fontSize:'2rem', color: competitor.color}}>
+                                                {competitor.score}
+                                                {
+                                                    !competitor.score && competitor.score !== 0 &&
+                                                    <div style={{height: '30px'}}>
+                                                    </div>
+                                                }
+                                              </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                              <Typography style={{ cursor: 'pointer', fontSize:'3.2rem', color: competitor.color }}>
+                                                {competitor.shortLocation}
+                                              </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                              <Typography style={{ cursor: 'pointer', fontSize: '20px' }}>
+                                                {competitor.name}
+                                              </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography style={{position:'absolute', fontSize: '20px', right: '16px', top: '8px',
+                                            display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
+                                            {get(game,'spread.amount')}
+                                        </Typography>
+                                    </Grid>
+                                </Paper>
+                            </Grow>
+                        </Grid>
                     ))}                            
-                </GridList>
-                <div style={{
-                    height: '29px',
-                    paddingTop: '12px',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    color: '#000000'
-                }}>{game.startDateTimeDisplay}</div>
+                </Grid>
+                {
+                    false &&
+                    <div>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={this.handleChange(game._id)}
+                              value="checkedG"
+                              classes={{
+                                root: classes.checkBox,
+                                checked: classes.checked,
+                              }}
+                            />
+                          }
+                          label="Tie"
+                        />
+                    </div>
+                }
+                <div className={classes.startDateTime}>
+                    {game.startDateTimeDisplay}
+                </div>
             </div>
         );
     }
@@ -138,4 +170,4 @@ Game.propTypes = {
   handleMakePick: PropTypes.func
 };
 
-export default Game;
+export default withStyles(styles, { withTheme: true })(Game);

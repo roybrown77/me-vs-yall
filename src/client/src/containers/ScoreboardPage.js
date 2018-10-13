@@ -6,18 +6,35 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
-import RaisedButton from 'material-ui/RaisedButton';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 import PageContainer from './PageContainer';
-import PickResult from '../components/PickResult';
 import GameSearchBar from '../components/GameSearchBar';
-import Games from '../components/Games';
+import PickResult from '../components/PickResult';
 import LinearProgress from '../components/LinearProgress';
+import Games from '../components/Games';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks, getCurrentWeek } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    width: '75%',
+    color: '#FFC107',
+    borderColor: '#FFC107',
+    '&:hover': {
+      backgroundColor: '#F7F8E0',
+      borderColor: '#FFC107',
+    },
+  },
+  input: {
+    display: 'none',
+  },
+});
 
 class ScoreboardPage extends Component {
     constructor(props) {
@@ -47,48 +64,48 @@ class ScoreboardPage extends Component {
         });
     }
 
-    handleFilterLeague(event, index) {
+    handleFilterLeague(event, league) {
         if (get(this.props, 'leagues', []).length === 0) {
             return;
         }
 
-        const league = this.props.leagues[index];
-        const years = get(league,'years',[]);
+        const leagueFound = this.props.leagues.find(x=>x.id===league.key);
+        const years = get(leagueFound,'years',[]);
         const year = last(years);
 
         this.props.loadScoreboard({
-            leagueId: league.id,
+            leagueId: leagueFound.id,
             year
         });
     }
 
-    handleFilterYear(event, index) {
+    handleFilterYear(event, year) {
         if (get(this.props, 'years', []).length === 0) {
             return;
         }
 
-        const year = this.props.years[index];
+        const yearFound = this.props.years.find(x=>x===parseInt(year.key));
 
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
-            year: year
+            year: yearFound
         });
     }
   
-    handleFilterWeek(event, index) {
+    handleFilterWeek(event, week) {
         if (get(this.props, 'weeks', []).length === 0) {
             return;
         }
 
-        const week = this.props.weeks[index];
+        const weekFound = this.props.weeks[parseInt(week.key)];
 
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
             year: this.props.year,
-            seasonType: week.seasonType,
-            weekNo: week.weekNo,
-            beginDateTime: week.beginDateTime,
-            endDateTime: week.endDateTime
+            seasonType: weekFound.seasonType,
+            weekNo: weekFound.weekNo,
+            beginDateTime: weekFound.beginDateTime,
+            endDateTime: weekFound.endDateTime
         });
     }
 
@@ -104,6 +121,7 @@ class ScoreboardPage extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         const areAnyGamesOver = this.props.games.some(x=>!!x.isGameOver);
 
         return (
@@ -128,33 +146,40 @@ class ScoreboardPage extends Component {
                     }
                     {
                         !this.props.isAuthenticated && 
-                        <div style={{margin:'0 12px'}}>
+                        <div>
                             <Route render={({ history }) => (
-                            <RaisedButton
-                              label="Press to Play!"
-                              labelPosition="before"
-                              primary={true}
-                              onClick={() => { history.push('/login') }}
-                              style={{
-                                width: '100%',
-                                marginTop:'12px'
-                              }}/>
-                              )}/>
+                                <Button 
+                                    variant="outlined" 
+                                    color="secondary" 
+                                    className={classes.button} onClick={() => { history.push('/login') }}>
+                                    Press to Play!
+                                </Button>
+                            )}/>
                         </div>
                     }
                     {
-                        (this.props.dataLoading) && 
+                        this.props.isAuthenticated && this.props.dataLoading && 
+                        <div style={{height:'8px'}}>
+                        </div>
+                    }
+                    {
+                        this.props.dataLoading && 
                         <LinearProgress/>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && 
-                        <div style={{marginTop:'5px'}}>
+                        <div style={{margin:'8px 0'}}>
                             <PickResult games={this.props.games} picks={this.props.picks}/>
                         </div>
                     }
                     {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && !areAnyGamesOver && 
+                        <div style={{height:'8px'}}>
+                        </div>
+                    }
+                    {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        <div style={{marginTop: '12px'}}>
+                        <div>
                             <Games
                                 handleMakePick={this.handleMakePick} 
                                 games={this.props.games} 
@@ -243,11 +268,12 @@ ScoreboardPage.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
-    updatePick: PropTypes.func.isRequired
+    updatePick: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, {
   loadScoreboard,
   addPick,
   updatePick
-})(ScoreboardPage);
+})(withStyles(styles, { withTheme: true })(ScoreboardPage));

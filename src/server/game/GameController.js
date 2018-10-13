@@ -1622,19 +1622,19 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
 
-  try {
-    updateNflScores();
-  } catch(err) {
-    isUpdateNflScoresRunning = false;
-    console.log('updateNflScores error: ' + err.message)
-  }
+  // try {
+  //   updateNflScores();
+  // } catch(err) {
+  //   isUpdateNflScoresRunning = false;
+  //   console.log('updateNflScores error: ' + err.message)
+  // }
 
-  try {
-    updateEnglishPremierLeagueScores();
-  } catch(err) {
-    isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log('updateEnglishPremierLeagueScores error: ' + err.message)
-  }
+  // try {
+  //   updateEnglishPremierLeagueScores();
+  // } catch(err) {
+  //   isUpdateEnglishPremierLeagueScoresRunning = false;
+  //   console.log('updateEnglishPremierLeagueScores error: ' + err.message)
+  // }
 
     // try {
   //   updateNCAAFootballScores();

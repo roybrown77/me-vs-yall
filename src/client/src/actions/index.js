@@ -4,6 +4,7 @@ import URLSearchParams from 'url-search-params';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import { getCurrentWeek } from '../selectors';
 import { CALL_API, Schemas } from '../middleware/api';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 import history from '../middleware/history';
@@ -60,8 +61,6 @@ export const GAMEWEEKS_SUCCESS = 'GAMEWEEKS_SUCCESS';
 export const GAMEWEEKS_FAILURE = 'GAMEWEEKS_FAILURE';
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
-
-import { getCurrentWeek } from '../selectors';
 
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE

@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Route }from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../components/Header';
@@ -9,10 +7,11 @@ import Footer from '../components/Footer';
 function PageContainer(props) {
     return (
         <div>
-            <Header/>
+            <Header>
             	<div className='page-container'>
-                {props.children}
+                    {props.children}
                 </div>
+            </Header>
             <Footer/>
         </div>
     );

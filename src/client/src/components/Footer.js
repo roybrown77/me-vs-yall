@@ -4,75 +4,75 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom'
 import get from 'lodash/get';
 
-import FontIcon from 'material-ui/FontIcon';
-import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import Paper from 'material-ui/Paper';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
-const leaguesIcon = <FontIcon className="material-icons"></FontIcon>;
-const scoreboardsIcon = <FontIcon className="material-icons"></FontIcon>;
-const leadersIcon = <FontIcon className="material-icons"></FontIcon>;
-const meIcon = <FontIcon className="material-icons"></FontIcon>;
-const yallIcon = <FontIcon className="material-icons"></FontIcon>;
+const styles = {
+  root: {
+    zIndex: 1,
+    position: "fixed", 
+    bottom: "0", 
+    backgroundColor: "#f4f7f6", 
+    boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+    width: "100%",
+    color: "black"
+  },
+  action: {
+    margin: '0 15px',
+    fontSize: '15px',
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+};
 
 class Footer extends Component {
     state = {
-        selectedIndex: 0
+        value: 0,
     };
 
-    select = (index) => this.setState({selectedIndex: index});
+    handleChange = (event, value) => {
+        this.setState({ value });
+    };
 
     render() {
         const leagueName = this.props.leagueName;
+        const { value } = this.state;
 
         return (
-            <Paper zDepth={1}>
-                <BottomNavigation 
-                    selectedIndex={this.state.selectedIndex} 
-                    style={{
-                        position: "fixed", 
-                        bottom: "-1px", 
-                        backgroundColor: "#f4f7f6", 
-                        zIndex: "1",
-                        boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
-                }}>
+            <BottomNavigation 
+                    value={value} 
+                    onChange={this.handleChange}
+                    style={styles.root}
+                    showLabels
+                    >
                     {(
                         <Route render={({ history}) => (
-                            <BottomNavigationItem
-                                label="#MvY"
-                                icon={scoreboardsIcon}
-                                onTouchTap={() => { history.push('/mvy') }}
-                                        />
+                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/mvy') }}>
+                                #MvY
+                            </ButtonBase>
                         )} />
                     )}
                     {(
                         <Route render={({ history}) => (
-                            <BottomNavigationItem
-                                label="#Scores"
-                                icon={scoreboardsIcon}
-                                onTouchTap={() => { history.push('/scoreboards/' + leagueName) }}
-                                        />
+                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
+                                #Scores
+                            </ButtonBase>
                         )} />
                     )}
                     {(
                         <Route render={({ history}) => (
-                            <BottomNavigationItem
-                            label="#Leaders"
-                            icon={leadersIcon}
-                            onTouchTap={() => { history.push('/leaders/' + leagueName) }}
-                                />
+                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/leaders/' + leagueName) }}>
+                                #Leaders
+                            </ButtonBase>
                     )} />
                     )}
                     {(
                         <Route render={({ history}) => (
-                            <BottomNavigationItem
-                                label="#SOTW"
-                                icon={meIcon}
-                                onTouchTap={() => { history.push('/statOfTheWeek') }}
-                                />
+                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/statOfTheWeek') }}>
+                                #SOTW
+                            </ButtonBase>
                     )} />
                     )}
                 </BottomNavigation>
-            </Paper>
         );
     }
 }

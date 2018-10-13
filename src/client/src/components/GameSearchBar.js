@@ -1,45 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment-timezone';
 import get from 'lodash/get';
 
-const dateStyle = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    padding: '20px',
+const styles = theme => ({
+  select: {
+    width: '50%',
+    '&$focus': {
+      backgroundColor: 'transparent',
+    },
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+  selectMenu: {
+    border: 0,
+    borderRadius: '6px',
+    backgroundColor: '#F2F2F2',
+    color: 'white'
   },
-});
-
-const filterButton = {
-  button: {
-    margin: 0,
-    width: '100%'
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
   }
-};
-
-const dropDown = {
-    root: {
-        width: '50%'
-    }
-};
-
-const dropDownFull = {
-    root: {
-        width: '100%',
-        marginBottom: '12px'
-    }
-};
+});
 
 class GameSearchBar extends Component {  
   shouldComponenetUpdate() {
@@ -47,56 +37,69 @@ class GameSearchBar extends Component {
   }
   
   render() {
+    const { classes } = this.props;
+
     const seasonTypeWeekNo = this.props.weeks.findIndex(x=>(x.seasonType === this.props.seasonType) && (x.weekNo === this.props.weekNo));
     const weekIndex = (seasonTypeWeekNo === 0 || !!seasonTypeWeekNo) && this.props.seasonType && this.props.weekNo ? seasonTypeWeekNo : this.props.weeks.findIndex(x=>x.beginDateTime === this.props.beginDateTime);
                       
     const weeks = this.props.weeks.map((week, index) =>
-                    <MenuItem key={index} value={index} primaryText={week.displayName}/>
+                    <MenuItem key={index} value={index}>{week.displayName}</MenuItem>
                   );
 
     const years = this.props.years.map((year, index) =>
-                    <MenuItem key={year} value={year} primaryText={year}/>
+                    <MenuItem key={year} value={year}>{year}</MenuItem>
                   );
 
     const leagues = this.props.leagues.map((league, index) =>
-                    <MenuItem key={league.id} value={league.id} primaryText={get(league, 'description', '').toUpperCase()}/>
+                    <MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>
                   );
+
     const date = moment().format('YYYY-MM-DD');
 
     return (
-        <div style={{
-          marginTop: '12px', 
-          backgroundColor: '#f4f7f6', 
-          paddingBottom: '10px',
-          boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
-        }}>
-            <div className='game-search-container'>
-              <DropDownMenu
-                  value={this.props.league}
-                  onChange={this.props.onFilterLeague}
-                  style={{width: this.props.isDaily ? 'auto' : '50%'}}
-                  autoWidth={false}
-                  >
-                  {leagues}
-              </DropDownMenu>
-              <DropDownMenu
-                  value={this.props.year}
-                  onChange={this.props.onFilterYear}
-                  style={dropDown.root}
-                  autoWidth={false}
-                  >
-                  {years}
-              </DropDownMenu>
-              <DropDownMenu
-                  value={weekIndex}
-                  onChange={this.props.onFilterWeek}
-                  style={dropDownFull.root}
-                  autoWidth={false}
-                  >
-                  {weeks}
-              </DropDownMenu>
-            </div>
-        </div>);
+          <div style={{
+            paddingTop: '5px', 
+            backgroundColor: '#f4f7f6', 
+            height: '100px',
+            boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
+          }}>
+              <Grid item xs={12} sm container justify="center">
+                    <FormControl className={classes.formControl}>
+                      <Select
+                          value={this.props.league}
+                          onChange={this.props.onFilterLeague}
+                          displayEmpty
+                          name='league'
+                          >
+                          {leagues}
+                      </Select>
+                    </FormControl> 
+                    <FormControl className={classes.formControl}>
+                      <Select
+                          value={this.props.year}
+                          onChange={this.props.onFilterYear}
+                          displayEmpty
+                          name='year'
+                          >
+                          {years}
+                      </Select>
+                    </FormControl>  
+                </Grid>
+                <Grid item xs={12} justify="center" sm container>
+                  <FormControl className={classes.formControl}>
+                    <Select
+                        value={weekIndex}
+                        onChange={this.props.onFilterWeek}
+                        displayEmpty
+                        name='year'
+                        style={styles.select}
+                        >
+                        {weeks}
+                    </Select>
+                  </FormControl>
+                </Grid>
+          </div>
+        );
     }
 }
 
@@ -114,7 +117,8 @@ GameSearchBar.propTypes = {
   onFilterLeague: PropTypes.func,
   onFilterYear: PropTypes.func,
   onFilterWeek: PropTypes.func,
-  onFilterDate: PropTypes.func
+  onFilterDate: PropTypes.func,
+  classes: PropTypes.object.isRequired,
 };
 
-export default GameSearchBar;
+export default (withStyles(styles, { withTheme: true })(GameSearchBar));

@@ -9,7 +9,6 @@ import PageContainer from './PageContainer';
 const styles = {
   titleContainer: {
     margin: '12px 12px 0 12px',
-    paddingTop: '12px',
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -21,9 +20,6 @@ const styles = {
   },
   container: {
     padding: '12px'
-  },
-  divider: {
-    margin: '12px 0'
   },
   main: {
     color: 'rgba(0, 0, 0, 0.87)'
@@ -63,29 +59,35 @@ function StatOfTheWeekPage () {
      return (
             <div>
                 <PageContainer>
-                  <div style={styles.titleContainer}>
-                    <Typography variant="headline" component="h3" align={'left'} style={styles.title}>
-                      Stat of the Week
-                    </Typography>
+                  <div style={{marginBottom: '56px'}}>
+                    <div style={styles.titleContainer}>
+                      <Typography variant="headline" component="h3" align={'left'} style={styles.title}>
+                        Stat of the Week
+                      </Typography>
+                    </div>
+                    {
+                      stats.map(stat=>(
+                        <div key={stat.title.replace(' ', '')} style={styles.stats}>
+                          <Paper style={styles.container} elevation={1}>
+                            <Typography align={'left'} style={styles.contentTitle}>
+                              {stat.title}
+                            </Typography>
+                            <br/>
+                            <Typography align={'left'} style={styles.content} variant="headline" component="h3">
+                              {stat.content}
+                            </Typography>
+                            <Divider style={{
+                              margin: '12px 0',
+                              height: '10px',
+                              backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                            }} />
+                            <Typography>
+                              {stat.leagueName} {stat.date}
+                            </Typography>
+                          </Paper>
+                        </div>
+                    ))}
                   </div>
-                  {
-                    stats.map(stat=>(
-                      <div key={stat.title.replace(' ', '')} style={styles.stats}>
-                        <Paper style={styles.container} elevation={1}>
-                          <Typography align={'left'} style={styles.contentTitle}>
-                            {stat.title}
-                          </Typography>
-                          <br/>
-                          <Typography align={'left'} style={styles.content} variant="headline" component="h3">
-                            {stat.content}
-                          </Typography>
-                          <Divider style={styles.divider} />
-                          <Typography>
-                            {stat.leagueName} {stat.date}
-                          </Typography>
-                        </Paper>
-                      </div>
-                  ))}
                 </PageContainer>
             </div>
         );

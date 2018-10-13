@@ -12,8 +12,7 @@ const styles = {
 function LinearIndeterminate(props) {
   const { classes } = props;
   return (
-    <div className={classes.root}>
-      <br />
+    <div style={styles.root}>
       <LinearProgress />
       <br />
       <LinearProgress color="secondary" />
@@ -27,13 +26,8 @@ function LinearIndeterminate(props) {
       <LinearProgress color="secondary" />
       <br />
       <LinearProgress />
-      <br />
     </div>
   );
 }
 
-LinearIndeterminate.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(LinearIndeterminate);
+export default LinearIndeterminate;
