@@ -182,8 +182,8 @@ class LeaderPage extends Component {
                             <div className={classes.root}>
                                 {
                                     leaders.map((leader, index) => (
-                                        <div className={classes.container}>
-                                            <ExpansionPanel key={leader.id}>
+                                        <div className={classes.container} key={leader.id}>
+                                            <ExpansionPanel>
                                                 <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
                                                     <div style={{
                                                         margin: 'auto 0',
@@ -204,8 +204,8 @@ class LeaderPage extends Component {
                                                         {
                                                             <table style={{width:"100%", backgroundColor: '#fff'}}>
                                                                 <tbody>
-                                                                    {games.map((game,gameIndex)=>(
-                                                                        <tr key={gameIndex}>
+                                                                    {games.map((game)=>(
+                                                                        <tr key={leader.id + '-' + game._id}>
                                                                             <td align="center">
                                                                                 <div style={{
                                                                                 width:'24px', 
