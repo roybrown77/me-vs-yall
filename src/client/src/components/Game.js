@@ -157,7 +157,7 @@ class Game extends Component {
                     </div>
                 }
                 <div className={classes.startDateTime}>
-                    {game.startDateTimeDisplay}
+                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}
                 </div>
             </div>
         );
