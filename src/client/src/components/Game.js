@@ -123,7 +123,7 @@ class Game extends Component {
                                         </Grid>
                                     </Grid>
                                     <Grid item>
-                                        <Typography style={{position:'absolute', fontSize: '20px', right: '16px', top: '8px',
+                                        <Typography style={{position:'absolute', fontSize: '20px', right: '8px', top: '8px',
                                             display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
                                             {get(game,'spread.amount')}
                                         </Typography>
