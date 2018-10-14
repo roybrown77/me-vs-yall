@@ -1,4 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+const styles = {
+  countDown: {
+    fontSize: '17px',
+    color: 'darkorange'
+  }
+};
 
 class Countdown extends Component {
   constructor(props) {
@@ -77,7 +85,7 @@ class Countdown extends Component {
     const countDown = this.state;
 
     return (
-      <div className="Countdown">
+      <div style={styles.countDown}>
         <span className="Countdown-col">
           <span className="Countdown-col-element">
               <strong>{this.addLeadingZeros(countDown.days)}</strong>

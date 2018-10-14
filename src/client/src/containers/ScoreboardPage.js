@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import moment from 'moment-timezone';
+
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -14,6 +16,7 @@ import GameSearchBar from '../components/GameSearchBar';
 import PickResult from '../components/PickResult';
 import LinearProgress from '../components/LinearProgress';
 import Games from '../components/Games';
+import Countdown from '../components/Countdown';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks, getCurrentWeek } from '../selectors';
@@ -171,6 +174,13 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && 
                         <div style={{margin:'8px 0'}}>
                             <PickResult games={this.props.games} picks={this.props.picks}/>
+                            {
+                                false &&
+                                this.props.games.find(x=>x.isGameOver !== true) &&
+                                <div>
+                                    next game starts <Countdown date={get(this.props.games.find(x=>x.isGameOver !== true), 'startDateTime')}/>
+                                </div>
+                            }
                         </div>
                     }
                     {
