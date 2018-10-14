@@ -38,11 +38,6 @@ const styles = theme => ({
   },
   input: {
     display: 'none',
-  },
-  gamesInProgress: {
-    fontSize: '17px !important',
-    color: 'darkorange !important',
-    margin:'8px 0 !important'
   }
 });
 
@@ -195,10 +190,9 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        false &&
                         areAnyGamesInProgress &&
-                        <div className={'fast-flash',classes.gamesInProgress}>
-                            games in progress
+                        <div className='fast-flash' style={{color: 'darkorange', marginBottom:'8px', fontSize: '15px'}}>
+                            ** games in progress **
                         </div>
                     }
                     {
