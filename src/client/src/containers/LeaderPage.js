@@ -11,6 +11,7 @@ import moment from 'moment-timezone';
 import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import LinearProgress from '../components/LinearProgress';
+import Countdown from '../components/Countdown';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -29,7 +30,7 @@ import silver from '../styles/images/silver.png';
 import bronze from '../styles/images/bronze.png';
 
 import { loadLeaders } from '../actions';
-import { formatWeeks, formatMoney, getWinnings, getCurrentWeek } from '../selectors';
+import { formatWeeks, formatMoney, getWinnings, getCurrentWeek, hasGameStarted } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -138,6 +139,7 @@ class LeaderPage extends Component {
 
     render() {
         const { classes, teams, leaders, games, picks, isAuthenticated, dataLoading, weeksDataLoading } = this.props;
+        const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
 
         return (
             <div>
@@ -179,6 +181,22 @@ class LeaderPage extends Component {
                     {
                         dataLoading && 
                         <LinearProgress/>
+                    }
+                    {
+                        !(weeksDataLoading || dataLoading) && 
+                        games.find(x=>x.isGameOver !== true) &&
+                        !areAnyGamesInProgress &&
+                        <div style={{margin:'8px 0'}}>
+                            <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
+                            <Countdown date={games[14].startDateTime}/>
+                        </div>
+                    }
+                    {
+                        !(weeksDataLoading || dataLoading) && 
+                        areAnyGamesInProgress &&
+                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '15px'}}>
+                            ** games in progress **
+                        </div>
                     }
                     {
                         leaders.length > 0 && 
