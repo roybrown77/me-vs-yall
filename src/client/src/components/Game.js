@@ -157,7 +157,7 @@ class Game extends Component {
                     </div>
                 }
                 <div className={classes.startDateTime}>
-                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{inProgress && <span className='fast-flash' style={{color: '#FFC107', marginLeft:'12px'}}>playing</span>}
+                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && this.hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: '#FFC107', marginLeft:'12px'}}>battling</span>}
                 </div>
             </div>
         );
