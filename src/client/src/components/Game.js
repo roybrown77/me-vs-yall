@@ -17,6 +17,8 @@ import green from '@material-ui/core/colors/green';
 import angry from '../styles/images/angry.png';
 import money from '../styles/images/money.png';
 
+import { hasGameStarted } from '../selectors';
+
 const styles = theme => ({
   container: {
     backgroundColor: '#ffffff',
@@ -53,7 +55,7 @@ const styles = theme => ({
 class Game extends Component {
     handleMakePick(gameId, pickId) {
         if ((!!this.props.pick && 
-            (this.props.pick.pickId === pickId || this.props.pick.inProgress)) || this.hasGameStarted(this.props.game.startDateTime)) {
+            (this.props.pick.pickId === pickId || this.props.pick.inProgress)) || hasGameStarted(this.props.game.startDateTime)) {
             return;
         }
 
@@ -62,13 +64,6 @@ class Game extends Component {
             pickId: pickId
         };
         this.props.handleMakePick(pick);
-    }
-
-    hasGameStarted(dateTime) {
-        const gameStartDateTime = moment(new Date(dateTime));
-        const currentDateTime = moment(new Date());
-        const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-        return difference < 5;
     }
 
     handleChange = id => event => {
@@ -157,7 +152,7 @@ class Game extends Component {
                     </div>
                 }
                 <div className={classes.startDateTime}>
-                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && this.hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: '#FFC107', marginLeft:'12px'}}>in progress</span>}
+                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>in progress</span>}
                 </div>
             </div>
         );

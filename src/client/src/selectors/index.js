@@ -105,6 +105,13 @@ const getCurrentWeek = (weeks) => {
     // return lastWeek;
 }
 
+const hasGameStarted = (dateTime) => {
+    const gameStartDateTime = moment(new Date(dateTime));
+    const currentDateTime = moment(new Date());
+    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    return difference < 5;
+};
+
 export {
     leagues,
     getResults,
@@ -113,5 +120,6 @@ export {
     formatMoney,
     getWinnings,
     getBet,
-    getCurrentWeek
+    getCurrentWeek,
+    hasGameStarted
 };

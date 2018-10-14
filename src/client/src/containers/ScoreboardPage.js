@@ -19,7 +19,7 @@ import Games from '../components/Games';
 import Countdown from '../components/Countdown';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
-import { formatWeeks, getCurrentWeek } from '../selectors';
+import { formatWeeks, getCurrentWeek, hasGameStarted } from '../selectors';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 
@@ -39,6 +39,11 @@ const styles = theme => ({
   input: {
     display: 'none',
   },
+  gamesInProgress: {
+    fontSize: '17px !important',
+    color: 'darkorange !important',
+    margin:'8px 0 !important'
+  }
 });
 
 class ScoreboardPage extends Component {
@@ -128,6 +133,7 @@ class ScoreboardPage extends Component {
     render() {
         const { classes } = this.props;
         const areAnyGamesOver = this.props.games.some(x=>!!x.isGameOver);
+        const areAnyGamesInProgress = this.props.games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
 
         return (
             <div>
@@ -162,7 +168,8 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        this.props.isAuthenticated && this.props.dataLoading && 
+                        this.props.isAuthenticated && 
+                        this.props.dataLoading && 
                         <div style={{height:'8px'}}>
                         </div>
                     }
@@ -171,20 +178,33 @@ class ScoreboardPage extends Component {
                         <LinearProgress/>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && areAnyGamesOver && 
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        this.props.isAuthenticated && 
+                        areAnyGamesOver && 
                         <div style={{margin:'8px 0'}}>
                             <PickResult games={this.props.games} picks={this.props.picks}/>
-                            {
-                                false &&
-                                this.props.games.find(x=>x.isGameOver !== true) &&
-                                <div>
-                                    next game starts <Countdown date={get(this.props.games.find(x=>x.isGameOver !== true), 'startDateTime')}/>
-                                </div>
-                            }
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && this.props.isAuthenticated && !areAnyGamesOver && 
+                        false &&
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        this.props.games.find(x=>x.isGameOver !== true) &&
+                        !areAnyGamesInProgress &&
+                        <div style={{margin:'8px 0'}}>
+                            next game starts in <Countdown date={get(this.props.games.find(x=>x.isGameOver !== true), 'startDateTime')}/>
+                        </div>
+                    }
+                    {
+                        false &&
+                        areAnyGamesInProgress &&
+                        <div className={'fast-flash',classes.gamesInProgress}>
+                            games in progress
+                        </div>
+                    }
+                    {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        this.props.isAuthenticated && 
+                        !areAnyGamesOver && 
                         <div style={{height:'8px'}}>
                         </div>
                     }
