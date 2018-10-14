@@ -100,13 +100,8 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item xs>
-                                              <Typography style={{fontSize:'2rem', color: competitor.color}}>
+                                              <Typography style={{fontSize:'2rem', color: competitor.color, height: !competitor.score && competitor.score !== 0 ? '30px' : ''}}>
                                                 {competitor.score}
-                                                {
-                                                    !competitor.score && competitor.score !== 0 &&
-                                                    <div style={{height: '30px'}}>
-                                                    </div>
-                                                }
                                               </Typography>
                                             </Grid>
                                             <Grid item>
