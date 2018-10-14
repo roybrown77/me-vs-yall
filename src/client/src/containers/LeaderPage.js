@@ -192,7 +192,7 @@ class LeaderPage extends Component {
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '15px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '20px'}}>
                             ** games in progress **
                         </div>
                     }

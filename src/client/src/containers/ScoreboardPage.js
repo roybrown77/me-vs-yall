@@ -188,7 +188,7 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '15px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '20px'}}>
                             ** games in progress **
                         </div>
                     }
