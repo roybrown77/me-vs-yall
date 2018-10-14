@@ -172,13 +172,10 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
-                        isAuthenticated && 
-                        <div style={{height:'8px'}}>
-                        </div>
-                    }
-                    {
                         dataLoading && 
-                        <LinearProgress/>
+                        <div style={{margin:'8px 0'}}>
+                            <LinearProgress/>
+                        </div>
                     }
                     {
                         !(weeksDataLoading || dataLoading) && 

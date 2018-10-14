@@ -159,20 +159,16 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        this.props.isAuthenticated && 
                         this.props.dataLoading && 
-                        <div style={{height:'8px'}}>
+                        <div style={{margin:'8px 0'}}>
+                            <LinearProgress/>
                         </div>
-                    }
-                    {
-                        this.props.dataLoading && 
-                        <LinearProgress/>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.isAuthenticated && 
                         areAnyGamesOver && 
-                        <div style={{margin:'8px 0'}}>
+                        <div>
                             <PickResult games={this.props.games} picks={this.props.picks}/>
                         </div>
                     }
@@ -180,7 +176,7 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin:'8px 0'}}>
+                        <div style={{marginBottom:'8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={get(this.props.games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
