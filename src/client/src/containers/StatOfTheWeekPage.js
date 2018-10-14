@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -28,7 +28,9 @@ const styles = {
     color: '#767676'
   },
   content: {
-    fontWeight: '700'
+    fontWeight: '700',
+    fontSize: '1.5rem',
+    lineHeight: '1.35417em'
   }
 };
 
@@ -61,7 +63,7 @@ function StatOfTheWeekPage () {
                 <PageContainer>
                   <div style ={{paddingTop: '12px'}}>
                     <div style={styles.titleContainer}>
-                      <Typography variant="headline" component="h3" align={'left'} style={styles.title}>
+                      <Typography component="h3" align={'left'} style={styles.title}>
                         Stat of the Week
                       </Typography>
                     </div>
@@ -73,7 +75,7 @@ function StatOfTheWeekPage () {
                               {stat.title}
                             </Typography>
                             <br/>
-                            <Typography align={'left'} style={styles.content} variant="headline" component="h3">
+                            <Typography align={'left'} style={styles.content} component="h3">
                               {stat.content}
                             </Typography>
                             <Divider style={{

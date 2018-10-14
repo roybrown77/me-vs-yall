@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 
-import moment from 'moment-timezone';
 import get from 'lodash/get';
 
 const styles = theme => ({
   select: {
-    width: '50%',
-    '&$focus': {
-      backgroundColor: 'transparent',
-    },
+    width: '50%'
   },
   selectMenu: {
     border: 0,
@@ -53,8 +47,6 @@ class GameSearchBar extends Component {
     const leagues = this.props.leagues.map((league, index) =>
                     <MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>
                   );
-
-    const date = moment().format('YYYY-MM-DD');
 
     return (
           <div style={{

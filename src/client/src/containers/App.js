@@ -6,14 +6,11 @@ import { Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 
-
 const App = () => {
   return (
-  	
-	    <Router history={history}>
-	    	{routes}
-	    </Router>
-    
+    <Router history={history}>
+    	{routes}
+    </Router>
   )
 }
 

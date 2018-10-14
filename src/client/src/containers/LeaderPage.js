@@ -16,12 +16,10 @@ import Countdown from '../components/Countdown';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
-import Zoom from '@material-ui/core/Zoom';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Paper from '@material-ui/core/Paper';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 

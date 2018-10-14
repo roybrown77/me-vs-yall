@@ -2,7 +2,6 @@ import queryString from 'query-string';
 import URLSearchParams from 'url-search-params';
 
 import get from 'lodash/get';
-import last from 'lodash/last';
 
 import { getCurrentWeek } from '../selectors';
 import { CALL_API, Schemas } from '../middleware/api';

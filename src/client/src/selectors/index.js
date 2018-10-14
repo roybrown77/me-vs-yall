@@ -17,9 +17,8 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     symbol = symbol !== undefined ? symbol : "$";
     thousand = thousand || ",";
     decimal = decimal || ".";
-    var negative = number < 0 ? "-" : "",
-        i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
-        j = (j = i.length) > 3 ? j % 3 : 0;
+    let i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "";
+    let j = i.length > 3 ? i.length % 3 : 0;
 
     const format = symbol + 
     (j ? i.substr(0, j) + thousand : "") + 

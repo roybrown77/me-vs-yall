@@ -13,7 +13,11 @@ import LoginPage from '../containers/LoginPage';
 import AuthenticationCallback from '../containers/AuthenticationCallback';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+	typography: {
+    	useNextVariants: true
+  	}
+});
 
 const routes = (
 	<MuiThemeProvider theme={theme}>

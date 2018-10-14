@@ -111,9 +111,9 @@ function clearAccessToken() {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
 }
 
-function clearExpiration() {
-  localStorage.removeItem(EXPIRATION_KEY);
-}
+// function clearExpiration() {
+//   localStorage.removeItem(EXPIRATION_KEY);
+// }
 
 function getParameterByName(name) {
   const match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);

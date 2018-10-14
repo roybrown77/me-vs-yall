@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
-import moment from 'moment-timezone';
-
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -20,8 +18,6 @@ import Countdown from '../components/Countdown';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks, getCurrentWeek, hasGameStarted } from '../selectors';
-import createHistory from 'history/createBrowserHistory';
-const history = createHistory();
 
 const styles = theme => ({
   button: {
