@@ -188,7 +188,7 @@ class LeaderPage extends Component {
                         !areAnyGamesInProgress &&
                         <div style={{margin:'8px 0'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
-                            <Countdown date={games[14].startDateTime}/>
+                            <Countdown date={get(games.find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
                     }
                     {

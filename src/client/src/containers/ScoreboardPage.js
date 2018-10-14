@@ -186,7 +186,7 @@ class ScoreboardPage extends Component {
                         !areAnyGamesInProgress &&
                         <div style={{margin:'8px 0'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
-                            <Countdown date={this.props.games[14].startDateTime}/>
+                            <Countdown date={get(this.props.games.find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
                     }
                     {
