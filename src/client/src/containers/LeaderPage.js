@@ -186,13 +186,13 @@ class LeaderPage extends Component {
                         !areAnyGamesInProgress &&
                         <div style={{margin:'8px 0'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
-                            <Countdown date={get(games.find(x=>x.isGameOver !== true),'startDateTime')}/>
+                            <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
                     }
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '20px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '17px'}}>
                             ** games in progress **
                         </div>
                     }
