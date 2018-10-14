@@ -99,7 +99,7 @@ class Game extends Component {
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm container>
-                                        <Grid item xs direction="column" spacing={24}>
+                                        <Grid item xs>
                                             <Grid item xs>
                                               <Typography style={{fontSize:'2rem', color: competitor.color}}>
                                                 {competitor.score}

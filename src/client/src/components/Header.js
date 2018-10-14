@@ -81,6 +81,8 @@ class Header extends Component {
         variant="persistent"
         anchor={anchor}
         open={open}
+        onOpen={()=>{}}
+        onClose={()=>{}}
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={this.handleDrawerClose}>
