@@ -178,11 +178,19 @@ class LeaderPage extends Component {
                             <LinearProgress/>
                         </div>
                     }
+                                        {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        this.props.isAuthenticated && 
+                        (games.find(x=>x.isGameOver !== true) ||
+                        areAnyGamesInProgress) && 
+                        <div style={{height:'8px'}}>
+                        </div>
+                    }
                     {
                         !(weeksDataLoading || dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{marginTop:'8px'}}>
+                        <div>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -190,7 +198,7 @@ class LeaderPage extends Component {
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', marginTop: '8px', fontSize: '17px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', fontSize: '17px'}}>
                             ** games in progress **
                         </div>
                     }
