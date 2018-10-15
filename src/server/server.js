@@ -43,9 +43,6 @@ app.use('/api/usermanagement', UserReadController);
 var UserWriteController = require('./user/UserWriteController');
 app.use('/api/usermanagement', authCheck, UserWriteController);
 
-var PickResultController = require('./pick/PickResultController');
-app.use('/api/pickmanagement', PickResultController);
-
 app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
