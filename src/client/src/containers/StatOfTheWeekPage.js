@@ -35,6 +35,13 @@ const styles = {
 };
 
 const stats = [
+  // {
+  //   title: 'RUSHING Gs',
+  //   content: `Running backs Todd Gurley II (Rams) and Melvin Gordon (Chargers) have scored 70 and 58 points respectively.  
+  //             They are the only players in the top 10 total points that are NOT placekickers.  Gurley is #1 on that list.`,
+  //   leagueName: 'NFL',
+  //   date: 'October 17, 2018',
+  // },
   {
     title: 'BIG SACK ATTACK',
     content: `10 players have at least 5 sacks after 5 weeks.  Leaders include brothers 
@@ -61,7 +68,7 @@ function StatOfTheWeekPage () {
      return (
             <div>
                 <PageContainer>
-                  <div style ={{paddingTop: '12px'}}>
+                  <div style ={{padding: '12px 0'}}>
                     <div style={styles.titleContainer}>
                       <Typography component="h3" align={'left'} style={styles.title}>
                         Stat of the Week
