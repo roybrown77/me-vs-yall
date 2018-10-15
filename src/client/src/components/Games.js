@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 
 import Game from '../components/Game';
+import { hasGameStarted } from '../selectors';
 
 import get from 'lodash/get';
 
@@ -41,7 +42,13 @@ class Games extends Component {
                 };
             });
 
-        const rows = formattedGames.map(function(game) {
+        const groupedGames = [
+            ...formattedGames.filter(x=>hasGameStarted(x.startDateTime) && !x.isGameOver),
+            ...formattedGames.filter(x=>!hasGameStarted(x.startDateTime)),
+            ...formattedGames.filter(x=>x.isGameOver)
+        ];
+
+        const rows = groupedGames.map(function(game) {
             const pick = picks.find(x=>x.gameId === game._id);
             return <Game game={game} pick={pick} key={game._id} handleMakePick={handleMakePick}/>;
         });
