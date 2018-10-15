@@ -176,7 +176,7 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{marginBottom:'8px'}}>
+                        <div style={{margin:'8px 0'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={get(this.props.games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -184,7 +184,7 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', marginBottom: '8px', fontSize: '17px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', margin: '8px 0', fontSize: '17px'}}>
                             ** games in progress **
                         </div>
                     }
