@@ -20,6 +20,9 @@ import { loadScoreboard, addPick, updatePick } from '../actions';
 import { formatWeeks, getCurrentWeek, hasGameStarted } from '../selectors';
 
 const styles = theme => ({
+  root: {
+    marginTop: '8px'
+  },
   button: {
     margin: theme.spacing.unit,
     width: '75%',
@@ -176,7 +179,7 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin:'8px 0'}}>
+                        <div>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={get(this.props.games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -184,20 +187,13 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', margin: '8px 0', fontSize: '17px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', fontSize: '17px'}}>
                             ** games in progress **
                         </div>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        this.props.isAuthenticated && 
-                        !areAnyGamesOver && 
-                        <div style={{height:'8px'}}>
-                        </div>
-                    }
-                    {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        <div>
+                        <div className={classes.root}>
                             <Games
                                 handleMakePick={this.handleMakePick} 
                                 games={this.props.games} 

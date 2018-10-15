@@ -33,6 +33,7 @@ import { formatWeeks, formatMoney, getWinnings, getCurrentWeek, hasGameStarted }
 const styles = theme => ({
   root: {
     width: '100%',
+    marginTop: '8px'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -181,7 +182,7 @@ class LeaderPage extends Component {
                         !(weeksDataLoading || dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin:'8px 0'}}>
+                        <div style={{marginTop:'8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -189,7 +190,7 @@ class LeaderPage extends Component {
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', margin: '8px 0', fontSize: '17px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', marginTop: '8px', fontSize: '17px'}}>
                             ** games in progress **
                         </div>
                     }
