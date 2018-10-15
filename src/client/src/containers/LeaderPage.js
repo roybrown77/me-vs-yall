@@ -28,7 +28,7 @@ import silver from '../styles/images/silver.png';
 import bronze from '../styles/images/bronze.png';
 
 import { loadLeaders } from '../actions';
-import { formatWeeks, formatMoney, getWinnings, getCurrentWeek, hasGameStarted } from '../selectors';
+import { formatWeeks, formatMoney, getWinnings, getCurrentWeek, hasGameStarted, isBetweenDates } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -246,12 +246,12 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: game.isGameOver && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score > game.competitors[1].score) ? '#009933' : 
-                                                                                game.isGameOver && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && game.competitors[0].score <= game.competitors[1].score) ? 'red' : 
+                                                                                backgroundColor: game.isGameOver && game.competitors[0].score > game.competitors[1].score && 
+                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && isBetweenDates(pick.createDateTime, game.beginDateTime, game.endDateTime)) ? '#009933' : 
+                                                                                game.isGameOver && game.competitors[0].score <= game.competitors[1].score && 
+                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && isBetweenDates(pick.createDateTime, game.beginDateTime, game.endDateTime)) ? 'red' : 
                                                                                 moment() > moment(game.startDateTime) && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id) ? 'lightblue' : ''}}/>
+                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && isBetweenDates(pick.createDateTime, game.beginDateTime, game.endDateTime)) ? 'lightblue' : ''}}/>
                                                                             </td>
                                                                             <td align="center">                                                                           
                                                                                 <span>
@@ -270,12 +270,12 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: game.isGameOver && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score > game.competitors[0].score) ? '#009933' : 
-                                                                                game.isGameOver && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && game.competitors[1].score <= game.competitors[0].score) ? 'red' : 
+                                                                                backgroundColor: game.isGameOver && game.competitors[1].score > game.competitors[0].score && 
+                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && isBetweenDates(pick.createDateTime, game.beginDateTime, game.endDateTime)) ? '#009933' : 
+                                                                                game.isGameOver && game.competitors[1].score <= game.competitors[0].score && 
+                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && isBetweenDates(pick.createDateTime, game.beginDateTime, game.endDateTime)) ? 'red' : 
                                                                                 moment() > moment(game.startDateTime) && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id) ? 'lightblue' : ''}}/>
+                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && isBetweenDates(pick.createDateTime, game.beginDateTime, game.endDateTime)) ? 'lightblue' : ''}}/>
                                                                             </td>
                                                                         </tr>
                                                                     ))}

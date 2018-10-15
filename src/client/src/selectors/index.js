@@ -111,6 +111,11 @@ const hasGameStarted = (dateTime) => {
     return difference < 5;
 };
 
+const isBetweenDates = (targetDateTime, beginDateTime, endDateTime) => {
+    return true;
+    //return moment(targetDateTime).diff(beginDateTime,'seconds') >= 0 && moment(endDateTime).diff(targetDateTime,'seconds') >= 0;
+};
+
 export {
     leagues,
     getResults,
@@ -120,5 +125,6 @@ export {
     getWinnings,
     getBet,
     getCurrentWeek,
-    hasGameStarted
+    hasGameStarted,
+    isBetweenDates
 };
