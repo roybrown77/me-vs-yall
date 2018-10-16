@@ -35,13 +35,15 @@ const styles = {
 };
 
 const stats = [
-  // {
-  //   title: 'RUSHING Gs',
-  //   content: `Running backs Todd Gurley II (Rams) and Melvin Gordon (Chargers) have scored 70 and 58 points respectively.  
-  //             They are the only players in the top 10 total points that are NOT placekickers.  Gurley is #1 on that list.`,
-  //   leagueName: 'NFL',
-  //   date: 'October 17, 2018',
-  // },
+  {
+    title: 'RUSHING Gs',
+    content: `Running backs Todd Gurley II (Rams) and Melvin Gordon (Chargers) have scored 70 and 58 points respectively.  
+              They are the only players in the top 10 total points that are NOT placekickers.  Gurley is #1 on that list.  
+              Keep in mind this also means the coaching staff/players on these teams are prepared enough to march down 
+              the field and consistently score in the red zone.`,
+    leagueName: 'NFL',
+    date: 'October 16, 2018',
+  },
   {
     title: 'BIG SACK ATTACK',
     content: `10 players have at least 5 sacks after 5 weeks.  Leaders include brothers 
@@ -60,7 +62,7 @@ const stats = [
     title: 'HOME FIELD ADVANTAGE IS REAL',
     content: '16 teams have not won on the road after 3 weeks.',
     leagueName: 'NFL',
-    date: 'September 26, 2018',
+    date: 'September 25, 2018',
   }
 ];
 
@@ -72,6 +74,9 @@ function StatOfTheWeekPage () {
                     <div style={styles.titleContainer}>
                       <Typography component="h3" align={'left'} style={styles.title}>
                         Stat of the Week
+                      </Typography>
+                      <Typography align={'left'} style={styles.contentTitle}>
+                        That Might Help You Make Better Picks
                       </Typography>
                     </div>
                     {
