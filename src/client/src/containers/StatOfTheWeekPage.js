@@ -76,7 +76,7 @@ function StatOfTheWeekPage () {
                         Stat of the Week
                       </Typography>
                       <Typography align={'left'} style={styles.contentTitle}>
-                        That Might Help You With Picks Or In Life
+                        That Might Help You With Picks And In Life
                       </Typography>
                     </div>
                     {
