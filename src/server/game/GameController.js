@@ -18,6 +18,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
+const userRepository = require('../user/UserRepository');
 const teamRepository = require('../game/TeamRepository');
 
 const {
@@ -35,6 +36,19 @@ const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
+
+const backupData = async () => {
+  const games = await gameRepository.find({});
+  console.log('games: ' + JSON.stringify(games));
+  const gameWeeks = await gameWeekRepository.find({});
+  console.log('gameWeeks: ' + JSON.stringify(gameWeeks));
+  const picks = await pickRepository.find({});
+  console.log('picks: ' + JSON.stringify(picks));
+  const users = await userRepository.find({});
+  console.log('users: ' + JSON.stringify(users));
+  const teams = await teamRepository.find({});
+  console.log('teams: ' + JSON.stringify(teams));
+};
 
 const loadNflGames = async () => {
   if (isLoadNflGamesRunning) {
@@ -1712,6 +1726,8 @@ router.get('/gameweeks', function (req, res) {
 });
 
 router.get('/teams', function (req, res) {
+  //backupData();
+
   const teams = [
     ...nflTeams, 
     ...ncaafTeams,
