@@ -11,9 +11,10 @@ const PickResult = ({games, picks}) => {
 	const winloss = (winnings || 0) < 0 ? 'lost' : 'won';
 
 	return (gamesOver && 
-		<div style={{fontSize: '40px', color: '#FFC107'}}>
-			{results['wins'] +  " - " + results['losses'] + " - " + results['ties']}
-
+		<div>
+			<div style={{fontSize: '40px', color: '#FFC107'}}>
+				{results['wins'] +  " - " + results['losses'] + " - " + results['ties']}
+			</div>
 			<div style={{fontSize: '20px', color: '#FFC107'}}>
 				ya {winloss} {formatMoney(winnings)} {"bet'n"} {formatMoney(bet)}
 			</div>

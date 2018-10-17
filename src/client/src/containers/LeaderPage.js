@@ -33,14 +33,15 @@ import { formatWeeks, formatMoney, getWinnings, getCurrentWeek, hasGameStarted }
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: '8px'
+    paddingTop: '4px',
+    paddingBottom: '8px'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: '4px',
     width: '75%',
     backgroundColor: '#FFC107',
     color: '#F7F8E0',
@@ -162,35 +163,25 @@ class LeaderPage extends Component {
                     }
                     {
                         !isAuthenticated && 
-                        <div>
-                            <Route render={({ history }) => (
+                        <Route render={({ history }) => (
                                 <Button 
                                     variant="contained" 
                                     className={classes.button} onClick={() => { history.push('/login') }}>
                                     Press to Play!
                                 </Button>
                             )}/>
-                        </div>
                     }
                     {
                         dataLoading && 
-                        <div style={{margin:'8px 0'}}>
+                        <div style={{margin:'4px 0'}}>
                             <LinearProgress/>
-                        </div>
-                    }
-                                        {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        this.props.isAuthenticated && 
-                        (games.find(x=>x.isGameOver !== true) ||
-                        areAnyGamesInProgress) && 
-                        <div style={{height:'8px'}}>
                         </div>
                     }
                     {
                         !(weeksDataLoading || dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div>
+                        <div style={{margin:'4px 0'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -198,7 +189,7 @@ class LeaderPage extends Component {
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAnyGamesInProgress &&
-                        <div className='fast-flash' style={{color: 'darkorange', fontSize: '17px'}}>
+                        <div className='fast-flash' style={{color: 'darkorange', fontSize: '17px', margin:'4px 0'}}>
                             ** games in progress **
                         </div>
                     }

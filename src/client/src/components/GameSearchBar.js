@@ -10,6 +10,13 @@ import Grid from '@material-ui/core/Grid';
 import get from 'lodash/get';
 
 const styles = theme => ({
+  container: {
+    padding: '5px 0', 
+    marginBottom: '4px',
+    backgroundColor: '#f4f7f6', 
+    height: '100px',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
+  },
   select: {
     width: '50%'
   },
@@ -49,12 +56,7 @@ class GameSearchBar extends Component {
                   );
 
     return (
-          <div style={{
-            padding: '5px 0', 
-            backgroundColor: '#f4f7f6', 
-            height: '100px',
-            boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
-          }}>
+          <div className={classes.container}>
               <Grid item xs={12} sm container justify="center">
                     <FormControl className={classes.formControl}>
                       <Select
