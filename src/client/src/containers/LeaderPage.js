@@ -173,7 +173,7 @@ class LeaderPage extends Component {
                     }
                     {
                         dataLoading && 
-                        <div style={{margin:'4px 0'}}>
+                        <div style={{padding:'4px 0'}}>
                             <LinearProgress/>
                         </div>
                     }

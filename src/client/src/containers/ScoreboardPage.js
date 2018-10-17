@@ -161,7 +161,7 @@ class ScoreboardPage extends Component {
                     }
                     {
                         this.props.dataLoading && 
-                        <div style={{margin:'4px 0'}}>
+                        <div style={{padding:'4px 0'}}>
                             <LinearProgress/>
                         </div>
                     }
