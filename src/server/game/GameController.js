@@ -1257,7 +1257,7 @@ const loadEnglishPremierLeagueGames = async () => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
       beginDateTime: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
-      endDateTime: new Date(moment(lastStartGameTime).add(-1, 'days').endOf('day'))
+      endDateTime: new Date(moment(lastStartGameTime).endOf('day'))
     };
 
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
