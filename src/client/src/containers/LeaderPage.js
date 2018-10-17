@@ -229,7 +229,7 @@ class LeaderPage extends Component {
                                                     }
                                                     <ListItemText style={{margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
                                                     <div style={{textAlign:'right'}}>
-                                                        <div>{parseInt((leader.wins/(leader.wins + leader.losses + leader.ties)) * 100) + '%' }</div>
+                                                        <div>{leader.wins + leader.losses + leader.ties > 0 ? parseInt((leader.wins/(leader.wins + leader.losses + leader.ties)) * 100) + '%' : ''}</div>
                                                         <div>{leader.wins} - {leader.losses} - {leader.ties}</div>
                                                         <div style={{color:'#009933', fontWeight: '700'}}>
                                                             {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
