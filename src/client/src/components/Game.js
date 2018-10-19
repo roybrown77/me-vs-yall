@@ -28,7 +28,7 @@ const styles = theme => ({
   },
   root: {
     flexGrow: 1,
-    height: '184px',
+    height: '150px',
     marginBottom: '4px'
   },
   paper: {
@@ -102,7 +102,7 @@ class Game extends Component {
                             key={game._id + "." + competitor._id}
                             item xs={6}
                             onClick={() => this.handleMakePick(game._id, competitor._id)}
-                            style={{border: competitor.selected || inProgress ? '8px solid rgb(0, 188, 212)' : '0'}}>
+                            style={{border: competitor.selected || inProgress ? '8px solid rgb(0, 188, 212)' : '0', cursor: 'pointer'}}>
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
@@ -117,25 +117,21 @@ class Game extends Component {
                                     </Grid>
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
-                                            <Grid item xs>
-                                              <Typography style={{fontSize:'2rem', color: competitor.color, height: !competitor.score && competitor.score !== 0 ? '30px' : ''}}>
+                                            <Grid item>
+                                              <Typography style={{fontSize:'20px', color: competitor.color}}>
                                                 {competitor.score}
                                               </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                              <Typography style={{ cursor: 'pointer', fontSize:'3.2rem', color: competitor.color }}>
+                                              <Typography style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color, marginTop: !competitor.score && competitor.score !== 0 ? '20px' : '' }}>
                                                 {competitor.shortLocation}
                                               </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                              <Typography style={{ cursor: 'pointer', fontSize: '20px' }}>
+                                              <Typography style={{fontSize: '20px' }}>
                                                 {competitor.name}
                                               </Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                     <Grid item>
-                                        <Typography style={{position:'absolute', fontSize: '20px', right: '8px', top: '8px',
+                                        <Typography style={{position:'absolute', fontSize: '20px', right: '4px', top: '4px',
                                             display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
                                             {get(game,'spread.amount')}
                                         </Typography>
