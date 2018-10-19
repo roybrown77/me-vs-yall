@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 
 const getBet = (results) => {
-    return (results['wins'] * 110) + (results['losses'] * 110) + (results['ties'] * 110);
+    return (results['wins'] * 110) + (results['losses'] * 110);
 };
 
 const getWinnings = (results) => {
@@ -31,28 +31,24 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
 const getResults = (games, picks) => {
     const result = games.reduce((total,game)=>{
         if (get(game,'isGameOver',false)) {
-            if (game.competitors[0].score === game.competitors[1].score && !!picks.find(x=>x.gameId === game._id)) {
-                total['ties']++;
-            } else {
-                const winner = game.competitors[0].score === game.competitors[1].score ? undefined : 
-                (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
+            const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
+            (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
 
-                game.competitors.forEach((competitor, index)=> {
-                    const winnerSelected = !!picks.find(x=>x.gameId === game._id && x.pickId === competitor._id);
+            const gamePicked = picks.find(x=>x.gameId === game._id);
 
-                    if (winnerSelected && competitor._id === winner) {
-                        total['wins']++;
-                    }
+            if (gamePicked) {
+                const winnerSelected = gamePicked.pickId === winner;
 
-                    if (winnerSelected && competitor._id !== winner) {
-                        total['losses']++;
-                    }
-                });
+                if (winnerSelected) {
+                    total['wins']++;
+                } else {
+                    total['losses']++;
+                }
             }
         }
 
         return total;
-    }, {wins: 0, losses: 0, ties: 0});
+    }, {wins: 0, losses: 0});
 
     return result;
 };

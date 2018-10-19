@@ -170,15 +170,14 @@ const leaderDomain = (
                   id: item.userId,
                   userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
                   wins: pickResult.wins,
-                  losses: pickResult.losses,
-                  ties: pickResult.ties
+                  losses: pickResult.losses
               });
             }
 
             return total;
         }, []);
 
-        const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'ties', 'userName'], ['desc', 'asc', 'asc', 'asc']);
+        const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
 
         return state.set('leaders', List(pickResultsOrdered))
         .set('gameList', List(sortedGames))

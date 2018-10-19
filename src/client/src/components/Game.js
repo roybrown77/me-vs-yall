@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -27,7 +28,8 @@ const styles = theme => ({
   },
   root: {
     flexGrow: 1,
-    height: '184px'
+    height: '184px',
+    marginBottom: '4px'
   },
   paper: {
     height: '100%',
@@ -47,14 +49,20 @@ const styles = theme => ({
     fontSize: '14px',
     fontWeight: 'bold',
     color: 'rgba(0,0,0,.87)',
-    marginTop: '12px'
-  }
+    marginTop: '4px'
+  },
+  button: {
+    width: '100%',
+    color: 'rgb(0, 188, 212)',
+    borderColor: 'rgb(0, 188, 212)'
+  },
 });
                                 
 class Game extends Component {
     handleMakePick(gameId, pickId) {
-        if ((!!this.props.pick && 
-            (this.props.pick.pickId === pickId || this.props.pick.inProgress)) || hasGameStarted(this.props.game.startDateTime)) {
+        if (get(this.props,'pick.pickId') === pickId || 
+          get(this.props,'pick.inProgress',false) || 
+          hasGameStarted(this.props.game.startDateTime)) {
             return;
         }
 
@@ -62,12 +70,24 @@ class Game extends Component {
             gameId: gameId,
             pickId: pickId
         };
+
         this.props.handleMakePick(pick);
     }
 
-    handleChange = id => event => {
-        this.setState({ [id]: event.target.checked });
-    };
+    handleTie(gameId) {
+        if (get(this.props,'pick.pickId') === '000000000000000000000000' || 
+          get(this.props,'pick.inProgress',false) || 
+          hasGameStarted(this.props.game.startDateTime)) {
+            return;
+        }
+
+        const pick = {
+            gameId: gameId,
+            pickId: '000000000000000000000000'
+        };
+
+        this.props.handleMakePick(pick);
+    }
 
     render() {
         const { classes, game, pick } = this.props;
@@ -82,18 +102,16 @@ class Game extends Component {
                             key={game._id + "." + competitor._id}
                             item xs={6}
                             onClick={() => this.handleMakePick(game._id, competitor._id)}
-                            style={{
-                              border: competitor.selected || inProgress ? '8px solid rgb(0, 188, 212)' : '0'
-                            }}>
+                            style={{border: competitor.selected || inProgress ? '8px solid rgb(0, 188, 212)' : '0'}}>
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
                                         <div style={{position:'absolute', 
-                                            display: game.isGameOver ? (game.winner !== competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
+                                            display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                             <img className="emoji-image" src={angry} alt=""/>
                                         </div>
                                         <div style={{position:'absolute', 
-                                            display: game.isGameOver ? (game.winner === competitor._id && competitor.selected ? 'block' : 'none') : 'none'}}>
+                                            display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                             <img className="emoji-image" src={money} alt=""/>
                                         </div>
                                     </Grid>
@@ -133,7 +151,7 @@ class Game extends Component {
                         <FormControlLabel
                           control={
                             <Checkbox
-                              onChange={this.handleChange(game._id)}
+                              onChange={() => this.handleTie(game._id)}
                               value="checkedG"
                               classes={{
                                 root: classes.checkBox,
@@ -144,6 +162,14 @@ class Game extends Component {
                           label="Tie"
                         />
                     </div>
+                }
+                {
+                  !hasGameStarted(game.startDateTime) &&
+                  <Button 
+                      variant="outlined" 
+                      className={classes.button} onClick={() => this.handleTie(game._id)}>
+                      Tie
+                  </Button>
                 }
                 <div className={classes.startDateTime}>
                     {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>in progress</span>}

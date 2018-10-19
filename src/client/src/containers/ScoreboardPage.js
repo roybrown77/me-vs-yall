@@ -126,7 +126,7 @@ class ScoreboardPage extends Component {
 
     render() {
         const { classes } = this.props;
-        const areAnyGamesOver = this.props.games.some(x=>!!x.isGameOver);
+        const areAnyGamesOver = this.props.games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = this.props.games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
 
         return (
@@ -168,6 +168,7 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.isAuthenticated && 
+                        this.props.picks.length > 0 &&
                         areAnyGamesOver && 
                         <div style={{paddingBottom:'4px'}}>
                             <PickResult games={this.props.games} picks={this.props.picks}/>
@@ -187,6 +188,14 @@ class ScoreboardPage extends Component {
                         areAnyGamesInProgress &&
                         <div className='fast-flash' style={{color: 'darkorange', fontSize: '17px', margin:'4px 0'}}>
                             ** games in progress **
+                        </div>
+                    }
+                    {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        this.props.isAuthenticated && 
+                        this.props.picks.length === 0 &&
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 0'}}>
+                            *tap team you think will win
                         </div>
                     }
                     {

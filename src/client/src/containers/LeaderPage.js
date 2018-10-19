@@ -65,6 +65,21 @@ const styles = theme => ({
   }
 });
 
+const getIndicator = (game,picks,leader,index1,index2) => {
+    return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.userId === leader.id && pick.gameId === game._id)) || 
+            (game.competitors[index1].score > game.competitors[index2].score && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
+                && pick.userId === leader.id && pick.gameId === game._id))) ? '#009933' : 
+            ((game.isGameOver && game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId !== '000000000000000000000000' && pick.userId === leader.id && pick.gameId === game._id)) || 
+            (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
+                && pick.userId === leader.id && pick.gameId === game._id))) ? 'red' : 
+            moment() > moment(game.startDateTime) && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id) && pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : '';
+}
+
 class LeaderPage extends Component {
     constructor(props) {
         super(props);
@@ -220,8 +235,8 @@ class LeaderPage extends Component {
                                                     }
                                                     <ListItemText style={{margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
                                                     <div style={{textAlign:'right'}}>
-                                                        <div>{leader.wins + leader.losses + leader.ties > 0 ? parseInt((leader.wins/(leader.wins + leader.losses + leader.ties)) * 100) + '%' : ''}</div>
-                                                        <div>{leader.wins} - {leader.losses} - {leader.ties}</div>
+                                                        <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
+                                                        <div>{leader.wins} - {leader.losses}</div>
                                                         <div style={{color:'#009933', fontWeight: '700'}}>
                                                             {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
@@ -238,12 +253,7 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: game.isGameOver && game.competitors[0].score > game.competitors[1].score && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && pick.gameId === game._id) ? '#009933' : 
-                                                                                game.isGameOver && game.competitors[0].score <= game.competitors[1].score && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && pick.gameId === game._id) ? 'red' : 
-                                                                                moment() > moment(game.startDateTime) && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[0]._id && pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : ''}}/>
+                                                                                backgroundColor: getIndicator(game,picks,leader,0,1)}}/>
                                                                             </td>
                                                                             <td align="center">                                                                           
                                                                                 <span>
@@ -262,12 +272,7 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: game.isGameOver && game.competitors[1].score > game.competitors[0].score && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && pick.gameId === game._id) ? '#009933' : 
-                                                                                game.isGameOver && game.competitors[1].score <= game.competitors[0].score && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && pick.gameId === game._id) ? 'red' : 
-                                                                                moment() > moment(game.startDateTime) && 
-                                                                                picks.find(pick=>pick.pickId === game.competitors[1]._id && pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : ''}}/>
+                                                                                backgroundColor: getIndicator(game,picks,leader,1,0)}}/>
                                                                             </td>
                                                                         </tr>
                                                                     ))}
