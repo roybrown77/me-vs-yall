@@ -124,14 +124,14 @@ class Game extends Component {
                                               <Typography style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color, marginTop: !competitor.score && competitor.score !== 0 ? '20px' : '' }}>
                                                 {competitor.shortLocation}
                                               </Typography>
-                                              <Typography style={{fontSize: '20px' }}>
+                                              <Typography style={{fontSize: '17px' }}>
                                                 {competitor.name}
                                               </Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                     <Grid item>
-                                        <Typography style={{position:'absolute', fontSize: '20px', right: '4px', top: '4px',
+                                        <Typography style={{position:'absolute', fontSize: '15px', right: '8px', top: '4px',
                                             display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
                                             {get(game,'spread.amount')}
                                         </Typography>
