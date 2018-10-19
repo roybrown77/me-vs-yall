@@ -501,12 +501,14 @@ const updateNflScores = async () => {
   games.forEach(game=>{
     const shortLocation = nflTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
-
+    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
+    
     console.log('updateNflScores shortLocation: ' + JSON.stringify(shortLocation));
     console.log('updateNflScores score: ' + JSON.stringify(score));
+    console.log('updateNflScores isOverOneHour: ' + JSON.stringify(isOverOneHour));
 
     if (game.year === parseInt(year) && game.seasonType === seasonType && game.weekNo === weekNo) {
-      const isGameOver = get(score,'gameOverText') !== null;
+      const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
       const updatedGame = {
           isGameOver: isGameOver,
           competitors: [
