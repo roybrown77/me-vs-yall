@@ -14,8 +14,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import green from '@material-ui/core/colors/green';
 import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import purple from '@material-ui/core/colors/purple';
 
 import angry from '../styles/images/angry.png';
 import money from '../styles/images/money.png';
