@@ -131,9 +131,9 @@ class Game extends Component {
                                                 <div style={{color:'lightgray'}}>{competitor.record}</div>
                                               </Typography>
                                               <div className={inProgress ? 'fast-flash' : ''} 
-                                                style={{zIndex:'999999', bottom: '-8px', marginLeft: '4px',
+                                                style={{zIndex:'999999', bottom: '-12px', marginLeft: '4px',
                                                 position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
-                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 40}}/>
+                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 50}}/>
                                               </div>
                                             </Grid>
                                         </Grid>
