@@ -8,11 +8,19 @@ class MvyPage extends Component {
             <PageContainer>
                 <div style={{padding: '12px'}}> 
                     <div style={{textAlign: 'left'}}>
+                        Practice betting without losing any money.
+                    </div>
+                    <br/>
+                    <div style={{textAlign: 'left'}}>
                         Pick winners of sporting events and compete with others around the world.
                     </div>
                     <br/>
                     <div style={{textAlign: 'left'}}>
                         Check out the Stat of the Week (SOTW).
+                    </div>
+                    <br/>
+                    <div style={{textAlign: 'left'}}>
+                        An app to promote healthy betting habits via free play.
                     </div>
                     <br/>
                     <div style={{textAlign: 'left'}}>

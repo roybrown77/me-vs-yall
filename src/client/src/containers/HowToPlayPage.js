@@ -17,7 +17,7 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            3.  Tap on team you believe will win.
+                            3.  Tap on team you believe will win or tie.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>

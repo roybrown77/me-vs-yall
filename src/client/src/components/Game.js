@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import green from '@material-ui/core/colors/green';
+import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import purple from '@material-ui/core/colors/purple';
 
 import angry from '../styles/images/angry.png';
 import money from '../styles/images/money.png';
@@ -98,11 +101,10 @@ class Game extends Component {
                 <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={16}>
                     {game.competitors.map((competitor,competitorIndex) => (
                         <Grid
-                            className={inProgress ? 'fast-flash' : ''}
                             key={game._id + "." + competitor._id}
                             item xs={6}
                             onClick={() => this.handleMakePick(game._id, competitor._id)}
-                            style={{border: competitor.selected || inProgress ? '8px solid rgb(0, 188, 212)' : '0', cursor: 'pointer'}}>
+                            style={{cursor: 'pointer'}}>
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
@@ -118,20 +120,26 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <Typography style={{fontSize:'20px', color: competitor.color}}>
+                                              <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                 {competitor.score}
                                               </Typography>
                                               <Typography style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color, marginTop: !competitor.score && competitor.score !== 0 ? '20px' : '' }}>
                                                 {competitor.shortLocation}
                                               </Typography>
-                                              <Typography style={{fontSize: '17px' }}>
+                                              <Typography style={{fontSize: '20px' }}>
                                                 {competitor.name}
+                                                <div style={{color:'lightgray'}}>{competitor.record}</div>
                                               </Typography>
+                                              <div className={inProgress ? 'fast-flash' : ''} 
+                                                style={{zIndex:'999999', bottom: '-8px', marginLeft: '4px',
+                                                position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
+                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 40}}/>
+                                              </div>
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                     <Grid item>
-                                        <Typography style={{position:'absolute', fontSize: '15px', right: '8px', top: '4px',
+                                        <Typography style={{position:'absolute', fontSize: '17px', right: '8px', top: '4px',
                                             display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
                                             {get(game,'spread.amount')}
                                         </Typography>
