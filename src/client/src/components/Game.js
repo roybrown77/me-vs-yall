@@ -31,7 +31,7 @@ const styles = theme => ({
   },
   root: {
     flexGrow: 1,
-    height: '150px',
+    height: '168px',
     marginBottom: '4px'
   },
   paper: {
