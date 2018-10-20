@@ -121,7 +121,8 @@ class Game extends Component {
                                               <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                 {competitor.score}
                                               </Typography>
-                                              <Typography style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color, marginTop: !competitor.score && competitor.score !== 0 ? '20px' : '' }}>
+                                              <Typography style={{fontSize:'2.5rem', fontWeight: '600', 
+                                                color: competitor.color, marginTop: !competitor.score && competitor.score !== 0 ? '32px' : '' }}>
                                                 {competitor.shortLocation}
                                               </Typography>
                                               <Typography style={{fontSize: '20px' }}>
