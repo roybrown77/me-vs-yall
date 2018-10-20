@@ -77,7 +77,7 @@ const getIndicator = (game,picks,leader,index1,index2) => {
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
                 && pick.userId === leader.id && pick.gameId === game._id))) ? 'red' : 
             moment() > moment(game.startDateTime) && 
-            picks.find(pick=>(pick.pickId === game.competitors[index1]._id) && pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : '';
+            picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000') && pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : '';
 }
 
 class LeaderPage extends Component {
