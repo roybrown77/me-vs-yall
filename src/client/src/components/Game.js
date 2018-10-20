@@ -90,7 +90,7 @@ class Game extends Component {
     }
 
     render() {
-        const { classes, game, pick } = this.props;
+        const { classes, game, pick, isAuthenticated } = this.props;
         const inProgress = get(pick,'inProgress',false);
 
         return (
@@ -160,6 +160,7 @@ class Game extends Component {
                     </div>
                 }
                 {
+                  isAuthenticated &&
                   !hasGameStarted(game.startDateTime) &&
                   <Button 
                       variant="outlined" 
@@ -178,6 +179,7 @@ class Game extends Component {
 Game.propTypes = {
   game: PropTypes.object,
   pick: PropTypes.object,
+  isAuthenticated: PropTypes.bool.isRequired,
   handleMakePick: PropTypes.func
 };
 

@@ -13,7 +13,7 @@ class Games extends Component {
         const picks = this.props.picks;
         const teams = get(this.props, 'teams', []);
 
-        const handleMakePick = this.props.handleMakePick;
+        const { handleMakePick, isAuthenticated } = this.props;
 
         const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
         
@@ -50,7 +50,7 @@ class Games extends Component {
 
         const rows = groupedGames.map(function(game) {
             const pick = picks.find(x=>x.gameId === game._id);
-            return <Game game={game} pick={pick} key={game._id} handleMakePick={handleMakePick}/>;
+            return <Game game={game} pick={pick} key={game._id} handleMakePick={handleMakePick} isAuthenticated={isAuthenticated}/>;
         });
 
         return (
@@ -65,6 +65,7 @@ Games.propTypes = {
   games: PropTypes.array,
   picks: PropTypes.array,
   teams: PropTypes.array,
+  isAuthenticated: PropTypes.bool.isRequired,
   handleMakePick: PropTypes.func
 };
 

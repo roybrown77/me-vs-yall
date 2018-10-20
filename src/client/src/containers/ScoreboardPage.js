@@ -206,6 +206,7 @@ class ScoreboardPage extends Component {
                                 games={this.props.games} 
                                 picks={this.props.picks}
                                 teams={this.props.teams}
+                                isAuthenticated={this.props.isAuthenticated}
                                 />
                         </div>
                     }
