@@ -127,7 +127,6 @@ class Game extends Component {
                                               </Typography>
                                               <Typography style={{fontSize: '20px' }}>
                                                 {competitor.name}
-                                                <div style={{color:'lightgray'}}>{competitor.record}</div>
                                               </Typography>
                                               <div className={inProgress ? 'fast-flash' : ''} 
                                                 style={{zIndex:'999999', bottom: '-12px', marginLeft: '4px',
