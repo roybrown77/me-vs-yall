@@ -106,11 +106,11 @@ class Game extends Component {
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
-                                        <div style={{position:'absolute', 
+                                        <div style={{position:'absolute', padding: '4px',
                                             display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                             <img className="emoji-image" src={angry} alt=""/>
                                         </div>
-                                        <div style={{position:'absolute', 
+                                        <div style={{position:'absolute', padding: '4px',
                                             display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                             <img className="emoji-image" src={money} alt=""/>
                                         </div>
