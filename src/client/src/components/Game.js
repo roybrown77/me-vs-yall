@@ -118,16 +118,17 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <Typography style={{fontSize:'25px', color: competitor.color}}>
-                                                {competitor.score}
-                                              </Typography>
-                                              <Typography style={{fontSize:'2.5rem', fontWeight: '600', 
-                                                color: competitor.color, marginTop: !competitor.score && competitor.score !== 0 ? '40px' : '' }}>
-                                                {competitor.shortLocation}
-                                              </Typography>
-                                              <Typography style={{fontSize: '20px' }}>
-                                                {competitor.name}
-                                              </Typography>
+                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? '40px' : (isAuthenticated ? '8x' : '20px')}}>
+                                                <Typography style={{fontSize:'25px', color: competitor.color}}>
+                                                  {competitor.score}
+                                                </Typography>
+                                                <Typography style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color }}>
+                                                  {competitor.shortLocation}
+                                                </Typography>
+                                                <Typography style={{fontSize: '20px' }}>
+                                                  {competitor.name}
+                                                </Typography>
+                                              </div>
                                               <div className={inProgress ? 'fast-flash' : ''} 
                                                 style={{zIndex:'999999', bottom: '-8px', width: '100%',
                                                 position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
