@@ -118,7 +118,7 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? '40px' : (isAuthenticated ? '8x' : '20px')}}>
+                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? '32px' : (isAuthenticated ? '8px' : '16px')}}>
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                   {competitor.score}
                                                 </Typography>
