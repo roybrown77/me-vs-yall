@@ -37,7 +37,7 @@ const stats = [
   {
     title: 'SUPER BOWL QBR',
     content: `For the last 3 Super Bowls, the teams with QBs in top 4 QBR (quarterback rating) played in it.
-              The current top 3 in the AFC with winning records are Rivers (Chargers), Chiefs (Mahomes) and Patriots (Brady).  
+              The current top 3 in the AFC with winning records are Chargers (Rivers), Chiefs (Mahomes) and Patriots (Brady).  
               The current top 3 in the NFC with winning records are Saints (Brees), Rams (Goff) and Eagles (Wentz).  Bucs (Fitzpatrick) and 
               Falcons (Ryan) are in top 3 if you exclude winning records.  You could blame their defense.`,
     leagueName: 'NFL',
