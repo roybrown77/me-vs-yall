@@ -37,6 +37,13 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
+const getEmailAddresses = async () => {
+  const users = await userRepository.find({});
+  const emailList = users.map(user=>{return user.email});
+  const emailString = emailList.join(',');
+  console.log('emailString: ' + emailString);
+};
+
 const backupData = async () => {
   const games = await gameRepository.find({});
   console.log('games: ' + JSON.stringify(games));
@@ -1761,6 +1768,7 @@ router.get('/gameweeks', function (req, res) {
 
 router.get('/teams', function (req, res) {
   //backupData();
+  //getEmailAddresses();
 
   const teams = [
     ...nflTeams, 
