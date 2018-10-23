@@ -28,13 +28,21 @@ const styles = {
     color: '#767676'
   },
   content: {
-    fontWeight: '700',
-    fontSize: '1.5rem',
-    lineHeight: '1.35417em'
+    fontWeight: '600',
+    fontSize: '1rem'
   }
 };
 
 const stats = [
+  {
+    title: 'SUPER BOWL QBR',
+    content: `For the last 3 Super Bowls, the teams with QBs in top 4 QBR (quarterback rating) played in it.
+              The current top 3 in the AFC with winning records are Rivers (Chargers), Chiefs (Mahomes) and Patriots (Brady).  
+              The current top 3 in the NFC with winning records are Saints (Brees), Rams (Goff) and Eagles (Wentz).  Bucs (Fitzpatrick) and 
+              Falcons (Ryan) are in top 3 if you exclude winning records.  You could blame their defense.`,
+    leagueName: 'NFL',
+    date: 'October 23, 2018',
+  },
   {
     title: 'RUSHING Gs',
     content: `Running backs Todd Gurley II (Rams) and Melvin Gordon (Chargers) have scored 70 and 58 points respectively.  
@@ -87,7 +95,7 @@ function StatOfTheWeekPage () {
                               {stat.title}
                             </Typography>
                             <br/>
-                            <Typography align={'left'} style={styles.content} component="h3">
+                            <Typography align={'left'} style={styles.content}>
                               {stat.content}
                             </Typography>
                             <Divider style={{

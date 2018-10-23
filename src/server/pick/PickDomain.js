@@ -53,7 +53,7 @@ function hasGameStarted(gameDateTime, pickDateTime) {
     const gameStartDateTime = moment(new Date(gameDateTime));
     const currentDateTime = moment(pickDateTime);
     const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference < 5;
+    return difference < 0;
 }
 
 const domain = { upsert };
