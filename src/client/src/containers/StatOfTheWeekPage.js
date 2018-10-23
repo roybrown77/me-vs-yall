@@ -68,7 +68,7 @@ const stats = [
   },
   {
     title: 'HOME FIELD ADVANTAGE IS REAL',
-    content: '16 teams have not won on the road after 3 weeks.',
+    content: '16 out of 32 teams have not won on the road after 3 weeks.',
     leagueName: 'NFL',
     date: 'September 25, 2018',
   }
