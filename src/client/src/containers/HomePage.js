@@ -42,7 +42,7 @@ const styles = {
     borderRadius: '8px',
   },
   buttonContainer: {
-    margin: '8px 16px'
+    margin: '16px'
   }
 };
 

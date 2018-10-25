@@ -30,9 +30,9 @@ const styles = theme => ({
     color: '#F7F8E0',
     borderColor: '#FFC107',
     '&:hover': {
-      backgroundColor: '#F7F8E0',
-      color: '#FFC107',
-      borderColor: '#F7F8E0',
+      backgroundColor: '#FFC107',
+      color: '#F7F8E0',
+      borderColor: '#FFC107',
     },
   },
   input: {
@@ -150,6 +150,7 @@ class ScoreboardPage extends Component {
                         />
                     }
                     {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         !this.props.isAuthenticated && 
                         <Route render={({ history }) => (
                                 <Button 

@@ -82,7 +82,7 @@ class GameSearchBar extends Component {
                 <Grid item xs={12} justify="center" sm container>
                   <FormControl className={classes.formControl}>
                     <Select
-                        value={weekIndex}
+                        value={weekIndex !== -1 ? weekIndex : this.props.weeks.length-1}
                         onChange={this.props.onFilterWeek}
                         displayEmpty
                         name='year'
