@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
 
+import HomePage from '../containers/HomePage';
 import MvyPage from '../containers/MvyPage';
 import HowToPlayPage from '../containers/HowToPlayPage';
 import Rules from '../containers/Rules';
@@ -26,8 +27,7 @@ const routes = (
 	        <main>
 	        	<div style={{height:'100%'}}>
 		            <Switch>
-		                <Route exact path='/' component={ScoreboardPage}/>
-		                <Route exact path='/mvy' component={MvyPage}/>
+		                <Route exact path='/' component={HomePage}/>
 		                <Route path='/howtoplay' component={HowToPlayPage}/>
 		                <Route path='/rules' component={Rules}/>
 		                <Route path='/scoreboards/:leagueName' component={ScoreboardPage}/>
@@ -35,7 +35,7 @@ const routes = (
 		                <Route path='/statOfTheWeek' component={StatOfTheWeekPage}/>	
 		                <Route path='/feedback' component={Feedback}/>		   
 		                <Route path='/about' component={AboutPage}/>
-		                <Route exact path='/login' component={LoginPage}/>
+		                <Route path='/login' component={LoginPage}/>
 		                <Route path='/authenticationCallback' component={AuthenticationCallback}/>
 		            </Switch>
 		        </div>

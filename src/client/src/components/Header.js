@@ -93,7 +93,7 @@ class Header extends Component {
         <List>{(
                     <Route render={({ history}) => (
                       <MenuItem
-                        onClick={() => { history.push('/mvy') }}
+                        onClick={() => { history.push('/') }}
                       >
                         <div style={{fontStyle: 'italic'}}>MvY</div>
                       </MenuItem>

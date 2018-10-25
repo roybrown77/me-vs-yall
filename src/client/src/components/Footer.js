@@ -46,7 +46,7 @@ class Footer extends Component {
                     >
                     {(
                         <Route render={({ history}) => (
-                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/mvy') }}>
+                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/') }}>
                                 #MvY
                             </ButtonBase>
                         )} />

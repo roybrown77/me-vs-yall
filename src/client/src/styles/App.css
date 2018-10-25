@@ -33,7 +33,7 @@ body {
   background: rgba(0,0,0,.5);
   color: #fff;
   text-align: center;
-  font: 1.4rem/1 Permanent Marker,sans-serif;
+  font: 1.4rem/1 sans-serif;
 }
 
 .App-logo {
@@ -184,33 +184,6 @@ body {
 
 /* --- splash screen start --- */
 
-#home {
-  top: 0;
-  position: fixed;
-  z-index: 9999;
-  background-color: #f4f7f6;
-  color: #000;
-  height: 100%;
-  padding: 0 12px;
-}
-
-#home-title {
-  font: 7rem/1 Permanent Marker,sans-serif;
-  margin-top: 5%;
-}
-
-#home-go {
-  font: 7rem/1 Permanent Marker, sans-serif;
-  cursor: pointer;
-}
-
-#home-description {
-  font-weight: normal;
-  font-style: normal;
-  font-size: 10px !important;
-  margin-top: 32px;
-}
-
 @media screen and (min-width: 1000px) {
   #home {
     width: 100%;
@@ -251,7 +224,7 @@ body {
   margin: 12px 0 0 0;
   width: 100%;
   background-color: blue;
-  font: 1.4rem/1 Permanent Marker,sans-serif;
+  font: 1.4rem/1 sans-serif;
   color: #f4f7f6;
   font-size: 3.5em;
   display: flex;
@@ -365,7 +338,7 @@ body {
   font-weight: bold;
   color: #000;
   font-size: 24px;
-  font: 1.4rem/1 Permanent Marker,sans-serif;
+  font: 1.4rem/1 sans-serif;
 }
 
 /* --- leaders end --- */
