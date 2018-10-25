@@ -218,8 +218,8 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
           userId: get(user,'sub'),
           leagueId: get(query, 'leagueId'),
           year: get(query, 'year'),
-          seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
-          weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
+          seasonType: get(query, 'leagueId') !== '59723313734d1d6202a85f10' ? undefined : get(query, 'seasonType') || get(currentWeek, 'seasonType'),
+          weekNo: get(query, 'leagueId') !== '59723313734d1d6202a85f10' ? undefined : get(query, 'weekNo', get(currentWeek, 'weekNo')),
           beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
           endDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
         };
