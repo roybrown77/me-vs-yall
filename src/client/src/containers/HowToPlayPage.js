@@ -13,19 +13,15 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            2.  Select the National Football League or English Premier League.
+                            2.  Tap team you believe will win or tie.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            3.  Tap on team you believe will win or tie.
+                            3.  Watch your numbers grow on Scores and Leaders pages.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            4.  Watch your numbers grow on Scores and Leaders pages.
-                        </div>
-                        <br/>
-                        <div style={{textAlign: 'left'}}>
-                            5.  Invite friends to compete with and brag on how much yall could have won in Vegas.
+                            4.  Invite friends to compete with and brag on how much yall could have won in Vegas.
                         </div>
                         <br/>
                     </div>

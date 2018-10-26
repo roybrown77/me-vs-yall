@@ -150,7 +150,6 @@ class ScoreboardPage extends Component {
                         />
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         !this.props.isAuthenticated && 
                         <Route render={({ history }) => (
                                 <Button 
@@ -196,7 +195,7 @@ class ScoreboardPage extends Component {
                         this.props.isAuthenticated && 
                         this.props.picks.length === 0 &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 0'}}>
-                            *tap team you think will win
+                            *tap team you believe will win or tie
                         </div>
                     }
                     {

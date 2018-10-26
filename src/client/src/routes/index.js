@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom';
 
 import HomePage from '../containers/HomePage';
-import MvyPage from '../containers/MvyPage';
 import HowToPlayPage from '../containers/HowToPlayPage';
 import Rules from '../containers/Rules';
 import ScoreboardPage from '../containers/ScoreboardPage';

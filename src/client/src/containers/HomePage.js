@@ -77,7 +77,7 @@ function HomePage(props) {
             <Route render={({ history }) => (
                 <Button 
                     variant="outlined" 
-                    style={styles.button} onClick={() => { history.push('/scoreboards/nfl') }}>
+                    style={{...styles.button, color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
                     National Football League
                 </Button>
             )}/>
@@ -86,7 +86,7 @@ function HomePage(props) {
             <Route render={({ history }) => (
                 <Button 
                     variant="outlined" 
-                    style={styles.button} onClick={() => { history.push('/scoreboards/premier') }}>
+                    style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
                     English Premier League
                 </Button>
             )}/>
