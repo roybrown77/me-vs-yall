@@ -9,7 +9,7 @@ class HowToPlayPage extends Component {
                 <PageContainer>
                     <div style={{padding: '12px'}}>
                         <div style={{textAlign: 'left'}}>
-                            All dollar amounts are fake so you can practice betting.
+                            All dollar amounts are fake.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
@@ -23,6 +23,10 @@ class HowToPlayPage extends Component {
                         <div style={{textAlign: 'left'}}>
                             For example, if you see 'ya won $500 bet'n $1760', the total Vegas payout would be $2260.  
                             If you see 'ya lost $550 bet'n $1760', the total Vegas payout would be $1210.
+                        </div>
+                        <br/>
+                        <div style={{textAlign: 'left'}}>
+                            Point spreads (number in upper right) are from Westgate Las Vegas SuperBook Wednesday mornings.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
