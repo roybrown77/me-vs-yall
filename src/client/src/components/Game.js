@@ -117,7 +117,7 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? (!competitor.record ? '40px' : '32px') : (isAuthenticated && pick ? (!competitor.record ? '8px' : '') : '16px')}}>
+                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? (!competitor.record ? '40px' : '32px') : (isAuthenticated && pick ? (!competitor.record ? '8px' : '') : '8px')}}>
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                   {competitor.score}
                                                 </Typography>
@@ -129,7 +129,7 @@ class Game extends Component {
                                                 </div>
                                                 { 
                                                   competitor.record &&
-                                                  <div style={{fontSize: '16px', marginTop: '4px', color: '#BDBDBD'}}>
+                                                  <div style={{fontSize: '16px', color: '#BDBDBD'}}>
                                                     {'(' + competitor.record + ')'}
                                                   </div>
                                                 }
