@@ -96,7 +96,7 @@ const loadNflGames = async () => {
 
   if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
     console.log('loadNflGames unable to load new games until all games have ended.');
-    //return;
+    return;
   }
 
   let games = [];
@@ -278,13 +278,13 @@ const loadNflGames = async () => {
       if ((games || []).length > 0) {
         console.log("loadNflGames games already exists: " + JSON.stringify(game));
       } else {
-        // gameRepository.create(game, function (err, gameCreated) {
-        //   if (err) {
-        //     console.log("loadNflGames there was a problem adding game to the database: " + err.message);
-        //   } else {
-        //     console.log("loadNflGames success creating game: " + gameCreated._id);
-        //   }
-        // });
+        gameRepository.create(game, function (err, gameCreated) {
+          if (err) {
+            console.log("loadNflGames there was a problem adding game to the database: " + err.message);
+          } else {
+            console.log("loadNflGames success creating game: " + gameCreated._id);
+          }
+        });
       }
     });
   });
@@ -319,13 +319,13 @@ const loadNflGames = async () => {
     if ((gameWeeks || []).length > 0) {
       console.log("loadNflGames game week already exists: " + JSON.stringify(gameWeeks));
     } else {
-      // gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-      //     if (err) {
-      //         console.log("loadNflGames there was a problem adding week to the database: " + err.message);
-      //     } else {
-      //       console.log("loadNflGames success creating week: " + gameWeekCreated._id);
-      //     }
-      // });
+      gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+          if (err) {
+              console.log("loadNflGames there was a problem adding week to the database: " + err.message);
+          } else {
+            console.log("loadNflGames success creating week: " + gameWeekCreated._id);
+          }
+      });
     }
   });
 
@@ -1648,12 +1648,12 @@ const updateEnglishPremierLeagueScores = async () => {
 };
 
 router.get('/games', function (req, res) {
-  try {
-    loadNflGames();
-  } catch(err) {
-    isLoadNflGamesRunning = false;
-    console.log('load loadNflGames error: ' + err.message)
-  }
+  // try {
+  //   loadNflGames();
+  // } catch(err) {
+  //   isLoadNflGamesRunning = false;
+  //   console.log('load loadNflGames error: ' + err.message)
+  // }
 
   // try {
   //   loadEnglishPremierLeagueGames();
