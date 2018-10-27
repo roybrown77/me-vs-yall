@@ -129,8 +129,8 @@ class Game extends Component {
                                                 </div>
                                                 { 
                                                   competitor.record &&
-                                                  <div style={{fontSize: '16px', color: '#BDBDBD'}}>
-                                                    {'(' + competitor.record + ')'}
+                                                  <div style={{fontSize: '16px', color: '#BDBDBD', paddingTop: '3px'}}>
+                                                    {competitor.record}
                                                   </div>
                                                 }
                                               </div>
