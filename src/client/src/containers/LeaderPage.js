@@ -239,9 +239,10 @@ class LeaderPage extends Component {
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                         <div style={{color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', 
                                                             fontWeight: '700', 
-                                                            border: (getWinnings(leader) || 0) < 0 ? '4px solid red' : '4px solid #009933', 
-                                                            borderRadius: '6px', 
-                                                            padding: '2px'}}>
+                                                            //border: (getWinnings(leader) || 0) < 0 ? '4px solid red' : '4px solid #009933', 
+                                                            //borderRadius: '6px', 
+                                                            //padding: '2px'
+                                                            }}>
                                                             {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
                                                     </div>
