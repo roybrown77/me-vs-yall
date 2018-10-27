@@ -117,21 +117,27 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? '32px' : (isAuthenticated && pick ? '' : '16px')}}>
+                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? (!competitor.record ? '40px' : '32px') : (isAuthenticated && pick ? (!competitor.record ? '16px' : '') : (!competitor.record ? '32px' : '16px'))}}>
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                   {competitor.score}
                                                 </Typography>
-                                                <Typography style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color }}>
+                                                <span style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color }}>
                                                   {competitor.shortLocation}
-                                                </Typography>
-                                                <Typography style={{fontSize: '20px' }}>
+                                                </span>
+                                                <div style={{fontSize: '20px'}}>
                                                   {competitor.name}
-                                                </Typography>
+                                                </div>
+                                                { 
+                                                  competitor.record &&
+                                                  <div style={{fontSize: '16px', marginTop: '4px', color: '#BDBDBD'}}>
+                                                    {'(' + competitor.record + ')'}
+                                                  </div>
+                                                }
                                               </div>
                                               <div className={inProgress ? 'fast-flash' : ''} 
                                                 style={{zIndex:'999999', bottom: '-8px', width: '100%',
                                                 position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
-                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 60}}/>
+                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 55}}/>
                                               </div>
                                             </Grid>
                                         </Grid>
