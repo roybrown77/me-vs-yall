@@ -10,8 +10,6 @@ import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import green from '@material-ui/core/colors/green';
 import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
 
@@ -55,7 +53,8 @@ const styles = theme => ({
   button: {
     width: '100%',
     color: 'rgb(0, 188, 212)',
-    borderColor: 'rgb(0, 188, 212)'
+    border: '4px solid rgb(0, 188, 212)',
+    fontWeight: '600'
   },
 });
                                 
@@ -132,7 +131,7 @@ class Game extends Component {
                                               <div className={inProgress ? 'fast-flash' : ''} 
                                                 style={{zIndex:'999999', bottom: '-8px', width: '100%',
                                                 position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
-                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 50}}/>
+                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 60}}/>
                                               </div>
                                             </Grid>
                                         </Grid>
@@ -148,24 +147,6 @@ class Game extends Component {
                         </Grid>
                     ))}                            
                 </Grid>
-                {
-                    false &&
-                    <div>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              onChange={() => this.handleTie(game._id)}
-                              value="checkedG"
-                              classes={{
-                                root: classes.checkBox,
-                                checked: classes.checked,
-                              }}
-                            />
-                          }
-                          label="Tie"
-                        />
-                    </div>
-                }
                 {
                   isAuthenticated &&
                   !hasGameStarted(game.startDateTime) &&
