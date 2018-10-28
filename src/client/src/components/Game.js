@@ -50,11 +50,12 @@ const styles = theme => ({
     color: 'rgba(0,0,0,.87)',
     marginTop: '4px'
   },
-  button: {
+  tieButton: {
     width: '100%',
     color: 'rgb(0, 188, 212)',
     border: '4px solid rgb(0, 188, 212)',
-    fontWeight: '600'
+    fontWeight: '600',
+    borderRadius: '8px'
   },
 });
                                 
@@ -158,7 +159,7 @@ class Game extends Component {
                   !hasGameStarted(game.startDateTime) &&
                   <Button 
                       variant="outlined" 
-                      className={classes.button} onClick={() => this.handleTie(game._id)}>
+                      className={classes.tieButton} onClick={() => this.handleTie(game._id)}>
                       Tie
                   </Button>
                 }

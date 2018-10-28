@@ -20,7 +20,7 @@ function LoginPage(props) {
         return (
         	<div>
                 <PageContainer>
-                    <div style={{paddingTop: '10%'}}>
+                    <div style={{paddingTop: '16px'}}>
                         <div style={styles.login}>
                             Log in with Google
                         </div>
