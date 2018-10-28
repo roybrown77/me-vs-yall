@@ -10,5 +10,9 @@ var GameSchema = new mongoose.Schema({
     year: Number,
     spread: mongoose.Schema.Types.Mixed,
     isStub: mongoose.Schema.Types.Boolean,
+    possession: String,
+    down: String,
+    currentPlay: String,
+    currentTime: String
 });
 module.exports = mongoose.model('Game', GameSchema);

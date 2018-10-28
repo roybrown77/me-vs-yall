@@ -415,14 +415,19 @@ const updateNflScores = async () => {
     }, 'scoreboard football');
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
-    let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
-    let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';                                                                                                                     
+    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall';                                                                                                                      
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
+    let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
+    let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+    let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.drivechart > div > div > div > div.back > div';
+    let LIST_IN_PROGRESS_DOWN_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down';
+    let LIST_IN_PROGRESS_CURRENT_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
+    let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
+    
     console.log('updateNflScores listLength: ' + listLength);
 
     if (listLength === 0) {
@@ -434,6 +439,26 @@ const updateNflScores = async () => {
     }
 
     for (let i = 1; i <= listLength; i++) {
+      const currentTime = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
+
+      const currentPlay = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_CURRENT_PLAY_SELECTOR.replace("INDEX", i));
+
+      const down = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_DOWN_SELECTOR.replace("INDEX", i));
+
+      const possession = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i));
+
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -500,7 +525,11 @@ const updateNflScores = async () => {
         homeTeamInProgress: homeInProgressName,
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
-        homeRecord: homeRecord
+        homeRecord: homeRecord,
+        possession: possession,
+        down: down,
+        currentPlay: (currentPlay || '').replace(' &amp; ',' and '),
+        currentTime: currentTime
       });
     }
 
@@ -538,14 +567,18 @@ const updateNflScores = async () => {
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     
-    console.log('updateNflScores shortLocation: ' + JSON.stringify(shortLocation));
-    console.log('updateNflScores score: ' + JSON.stringify(score));
-    console.log('updateNflScores isOverOneHour: ' + JSON.stringify(isOverOneHour));
+    // console.log('updateNflScores shortLocation: ' + JSON.stringify(shortLocation));
+    // console.log('updateNflScores score: ' + JSON.stringify(score));
+    // console.log('updateNflScores isOverOneHour: ' + JSON.stringify(isOverOneHour));
 
     if (game.year === parseInt(year) && game.seasonType === seasonType && game.weekNo === weekNo) {
       const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
       const updatedGame = {
           isGameOver: isGameOver,
+          possession: get(score,'possession'),
+          down: get(score,'down'),
+          currentPlay: get(score,'currentPlay'),
+          currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{
               score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'), 
@@ -560,7 +593,7 @@ const updateNflScores = async () => {
 
       console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
 

@@ -50,6 +50,12 @@ const styles = theme => ({
     color: 'rgba(0,0,0,.87)',
     marginTop: '4px'
   },
+  lastPlay: {
+    fontSize: '12px',
+    fontWeight: 'bold',
+    color: 'rgba(0,0,0,.87)',
+    marginTop: '4px'
+  },
   tieButton: {
     width: '100%',
     color: 'rgb(0, 188, 212)',
@@ -164,8 +170,22 @@ class Game extends Component {
                   </Button>
                 }
                 <div className={classes.startDateTime}>
-                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>in progress</span>}
+                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>{game.currentTime}</span>}
                 </div>
+                {
+                  hasGameStarted(game.startDateTime) &&
+                  !game.isGameOver && 
+                  <div className={classes.startDateTime}>
+                    {game.down}
+                  </div>
+                }
+                {
+                  hasGameStarted(game.startDateTime) &&
+                  !game.isGameOver && 
+                  <div className={classes.lastPlay}>
+                    {' Last Play: ' + game.currentPlay}
+                  </div>
+                }
             </div>
         );
     }
