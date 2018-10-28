@@ -95,7 +95,7 @@ const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
     const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference < 0;
+    return difference <= 0;
 };
 
 export {
