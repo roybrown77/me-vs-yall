@@ -384,6 +384,8 @@ const updateNflScores = async () => {
 
     page = await browser.newPage();
 
+    await page.setDefaultNavigationTimeout(60000);
+
     await page.goto('http://www.espn.com/nfl/scoreboard');
 
     await page.waitForSelector('#events');
@@ -1537,6 +1539,8 @@ const updateEnglishPremierLeagueScores = async () => {
     });
 
     page = await browser.newPage();
+
+    await page.setDefaultNavigationTimeout(60000);
 
     await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
 
