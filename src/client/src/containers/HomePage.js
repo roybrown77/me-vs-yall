@@ -88,7 +88,7 @@ function HomePage(props) {
                 <Button 
                     variant="outlined" 
                     style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
-                    Premier League Soccer
+                    Premier League Football
                 </Button>
             )}/>
           </Grid>
