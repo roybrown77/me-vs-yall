@@ -527,8 +527,13 @@ const updateNflScores = async () => {
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
         possession: possession,
+<<<<<<< HEAD
         down: down,
         lastPlay: (lastPlay || '').replace(' &amp; ',' and '),
+=======
+        down: (down || '').replace('&amp;','and'),
+        currentPlay: (currentPlay || '').replace('&amp;','and'),
+>>>>>>> origin/master
         currentTime: currentTime
       });
     }

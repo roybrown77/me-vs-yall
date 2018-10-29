@@ -176,7 +176,7 @@ class Game extends Component {
                   hasGameStarted(game.startDateTime) &&
                   !game.isGameOver && 
                   <div className={classes.startDateTime}>
-                    {game.down}
+                    {game.possession} {game.down}
                   </div>
                 }
                 {
