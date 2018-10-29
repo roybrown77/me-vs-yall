@@ -425,7 +425,7 @@ const updateNflScores = async () => {
     let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.drivechart > div > div > div > div.back > div';
     let LIST_IN_PROGRESS_DOWN_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down';
-    let LIST_IN_PROGRESS_CURRENT_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
+    let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
     
     console.log('updateNflScores listLength: ' + listLength);
@@ -447,7 +447,7 @@ const updateNflScores = async () => {
       const lastPlay = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_CURRENT_PLAY_SELECTOR.replace("INDEX", i));
+      }, LIST_IN_PROGRESS_LAST_PLAY_SELECTOR.replace("INDEX", i));
 
       const down = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
