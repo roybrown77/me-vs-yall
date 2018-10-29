@@ -260,7 +260,11 @@ class LeaderPage extends Component {
                                                                                 height: '24px', 
                                                                                 backgroundColor: getIndicator(game,picks,leader,0,1)}}/>
                                                                             </td>
-                                                                            <td align="center">                                                                           
+                                                                            <td align="center">     
+                                                                                {
+                                                                                    hasGameStarted(game.startDateTime) &&
+                                                                                    <span> {get(game,'competitors.0.score',0)} </span>
+                                                                                }                                                                      
                                                                                 <span>
                                                                                     {   
                                                                                         get(teams.find(team=>team._id === game.competitors[0]._id), 'name')
@@ -271,7 +275,11 @@ class LeaderPage extends Component {
                                                                                     {   
                                                                                         get(teams.find(team=>team._id === game.competitors[1]._id), 'name')
                                                                                     } 
-                                                                                </span>                                                    
+                                                                                </span>  
+                                                                                {
+                                                                                    hasGameStarted(game.startDateTime) &&
+                                                                                    <span> {get(game,'competitors.1.score',0)} </span>
+                                                                                }                                                 
                                                                             </td>
                                                                             <td align="center">
                                                                                 <div style={{
