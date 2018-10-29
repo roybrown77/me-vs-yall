@@ -170,7 +170,18 @@ class Game extends Component {
                   </Button>
                 }
                 <div className={classes.startDateTime}>
-                    {game.startDateTimeDisplay} {game.isGameOver && <span style={{marginLeft:'12px'}}>Final</span>}{!game.isGameOver && hasGameStarted(game.startDateTime) && <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>{game.currentTime}</span>}
+                    {game.startDateTimeDisplay} 
+                    {
+                      game.isGameOver && 
+                      <span style={{marginLeft:'12px'}}>Final</span>
+                    }
+                    {
+                      !game.isGameOver && 
+                      hasGameStarted(game.startDateTime) && 
+                      <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>
+                        {game.currentTime || 'in progress'}
+                      </span>
+                    }
                 </div>
                 {
                   hasGameStarted(game.startDateTime) &&
