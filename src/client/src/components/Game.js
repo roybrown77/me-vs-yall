@@ -103,7 +103,7 @@ class Game extends Component {
         return (
             <div key={game._id} className={classes.container}>
                 <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={16}>
-                    {game.competitors.map((competitor,competitorIndex) => (
+                    {game.competitors.map((competitor) => (
                         <Grid
                             key={game._id + "." + competitor._id}
                             item xs={6}
