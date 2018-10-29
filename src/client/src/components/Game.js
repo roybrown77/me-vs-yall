@@ -182,8 +182,9 @@ class Game extends Component {
                 {
                   hasGameStarted(game.startDateTime) &&
                   !game.isGameOver && 
+                  game.lastPlay !== 'undefined' && 
                   <div className={classes.lastPlay}>
-                    {' Last Play: ' + game.currentPlay}
+                    {' Last Play: ' + game.lastPlay}
                   </div>
                 }
             </div>

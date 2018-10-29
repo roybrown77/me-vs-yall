@@ -444,7 +444,7 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
 
-      const currentPlay = await page.evaluate((sel) => {
+      const lastPlay = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_IN_PROGRESS_CURRENT_PLAY_SELECTOR.replace("INDEX", i));
@@ -528,7 +528,7 @@ const updateNflScores = async () => {
         homeRecord: homeRecord,
         possession: possession,
         down: down,
-        currentPlay: (currentPlay || '').replace(' &amp; ',' and '),
+        lastPlay: (lastPlay || '').replace(' &amp; ',' and '),
         currentTime: currentTime
       });
     }
@@ -577,7 +577,7 @@ const updateNflScores = async () => {
           isGameOver: isGameOver,
           possession: get(score,'possession'),
           down: get(score,'down'),
-          currentPlay: get(score,'currentPlay'),
+          lastPlay: get(score,'lastPlay'),
           currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{

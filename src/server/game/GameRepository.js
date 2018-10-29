@@ -12,7 +12,7 @@ var GameSchema = new mongoose.Schema({
     isStub: mongoose.Schema.Types.Boolean,
     possession: String,
     down: String,
-    currentPlay: String,
+    lastPlay: String,
     currentTime: String
 });
 module.exports = mongoose.model('Game', GameSchema);
