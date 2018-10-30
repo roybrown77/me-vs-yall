@@ -155,6 +155,9 @@ class LeaderPage extends Component {
     render() {
         const { classes, teams, leaders, games, picks, isAuthenticated, dataLoading, weeksDataLoading } = this.props;
         const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+        const areAllGamesOver = !this.props.games.some(x=>!x.isGameOver);
+        const day = moment().weekday();
+        const timeUntilNextGamesLoad = areAllGamesOver ? moment().add((day > 2 ? 7-Math.abs(3-day) : day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined;
 
         return (
             <div>
@@ -196,9 +199,17 @@ class LeaderPage extends Component {
                         !(weeksDataLoading || dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin: '8px 20% 4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '8px 10% 4px 10%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
+                        </div>
+                    }
+                    {
+                        !(weeksDataLoading || dataLoading) && 
+                        areAllGamesOver &&
+                        <div style={{margin: '4px 10%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                            <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
+                            <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
                     {
@@ -260,11 +271,13 @@ class LeaderPage extends Component {
                                                                                 height: '24px', 
                                                                                 backgroundColor: getIndicator(game,picks,leader,0,1)}}/>
                                                                             </td>
-                                                                            <td align="center">     
-                                                                                {
-                                                                                    hasGameStarted(game.startDateTime) &&
-                                                                                    <span> {get(game,'competitors.0.score',0)} </span>
-                                                                                }                                                                      
+                                                                            {
+                                                                                hasGameStarted(game.startDateTime) &&
+                                                                                <td align="center">
+                                                                                    <span>{get(game,'competitors.0.score',0)}</span>
+                                                                                </td>
+                                                                            }
+                                                                            <td align="center">                                                                      
                                                                                 <span>
                                                                                     {   
                                                                                         get(teams.find(team=>team._id === game.competitors[0]._id), 'name')
@@ -275,12 +288,14 @@ class LeaderPage extends Component {
                                                                                     {   
                                                                                         get(teams.find(team=>team._id === game.competitors[1]._id), 'name')
                                                                                     } 
-                                                                                </span>  
-                                                                                {
-                                                                                    hasGameStarted(game.startDateTime) &&
-                                                                                    <span> {get(game,'competitors.1.score',0)} </span>
-                                                                                }                                                 
+                                                                                </span>                                                
                                                                             </td>
+                                                                            {
+                                                                                hasGameStarted(game.startDateTime) &&
+                                                                                <td align="center">
+                                                                                    <span>{get(game,'competitors.1.score',0)}</span>
+                                                                                </td>
+                                                                            }
                                                                             <td align="center">
                                                                                 <div style={{
                                                                                 width:'24px', 

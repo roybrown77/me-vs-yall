@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import moment from 'moment-timezone';
+
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -128,6 +130,9 @@ class ScoreboardPage extends Component {
         const { classes } = this.props;
         const areAnyGamesOver = this.props.games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = this.props.games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+        const areAllGamesOver = !this.props.games.some(x=>!x.isGameOver);
+        const day = moment().weekday();
+        const timeUntilNextGamesLoad = areAllGamesOver ? moment().add((day > 2 ? 7-Math.abs(3-day) : day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined; 
 
         return (
             <div>
@@ -178,9 +183,17 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin:'4px 10%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={get(this.props.games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
+                        </div>
+                    }
+                    {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        areAllGamesOver &&
+                        <div style={{margin:'4px 10%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>next games loads in</div>
+                            <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
                     {
