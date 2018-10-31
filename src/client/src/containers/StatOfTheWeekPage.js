@@ -35,7 +35,7 @@ const styles = {
 
 const stats = [
   {
-    title: 'AFC NORTH DEFENSE',
+    title: 'AFC NORTH DEFENSE FOR BENGALS AND RAVENS',
     content: `Cincinnati Bengals defense have allowed the most total points (237) while Baltimore Ravens have  
               allowed the 5th fewest (137).  Bengals have a better record at 5-3 while Ravens are 4-4.`,
     leagueName: 'NFL',
