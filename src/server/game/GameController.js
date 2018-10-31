@@ -1343,6 +1343,23 @@ const loadEnglishPremierLeagueGames = async () => {
   if (daysLeftToGetGames === 0) {
     console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
 
+    const search = {
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        startDateTime: {
+          $gte: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
+          $lte: new Date(moment(lastStartGameTime).endOf('day'))
+        }
+      };
+
+    console.log('loadEnglishPremierLeagueGames search: ' + JSON.stringify(search));
+  
+    const gamesFound = await gameRepository.find(search);
+
+    if (gamesFound.length === 0) {
+      console.log('loadEnglishPremierLeagueGames no games loaded for week');
+      return;
+    }
+
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
