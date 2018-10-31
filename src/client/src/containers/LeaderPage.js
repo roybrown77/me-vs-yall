@@ -207,9 +207,10 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
+                        false &&
                         !(weeksDataLoading || dataLoading) && 
                         areAllGamesOver &&
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>

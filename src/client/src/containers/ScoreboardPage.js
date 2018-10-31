@@ -177,7 +177,7 @@ class ScoreboardPage extends Component {
                         this.props.isAuthenticated && 
                         this.props.picks.length > 0 &&
                         areAnyGamesOver && 
-                        <div style={{paddingBottom:'4px'}}>
+                        <div>
                             <PickResult games={this.props.games} picks={this.props.picks}/>
                         </div>
                     }
@@ -185,15 +185,16 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin:'4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={get(this.props.games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
                     }
                     {
+                        false &&
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAllGamesOver &&
-                        <div style={{margin:'4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
