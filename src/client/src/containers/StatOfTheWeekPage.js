@@ -35,6 +35,13 @@ const styles = {
 
 const stats = [
   {
+    title: 'AFC NORTH DEFENSE',
+    content: `Cincinnati Bengals defense has allowed the most total points (237) while Baltimore Ravens have  
+              allowed the 5th fewest (137).  Bengals have a better record at 5-3 while Ravens are 4-4.`,
+    leagueName: 'NFL',
+    date: 'October 30, 2018',
+  },
+  {
     title: 'SUPER BOWL QBR',
     content: `For the last 3 Super Bowls, the teams with QBs in top 4 QBR (quarterback rating) played in it.
               The current top 3 in the AFC with winning records are Chargers (Rivers), Chiefs (Mahomes) and Patriots (Brady).  
