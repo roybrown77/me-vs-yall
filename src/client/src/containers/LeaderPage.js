@@ -41,6 +41,8 @@ const styles = theme => ({
     fontWeight: theme.typography.fontWeightRegular,
   },
   button: {
+    fontSize: '1rem',
+    fontWeight: "700",
     margin: '4px',
     width: '75%',
     backgroundColor: '#FFC107',
@@ -199,7 +201,7 @@ class LeaderPage extends Component {
                         !(weeksDataLoading || dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin: '8px 10% 4px 10%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -207,8 +209,8 @@ class LeaderPage extends Component {
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAllGamesOver &&
-                        <div style={{margin: '4px 10%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <div style={{color: 'darkorange', fontSize: '15px'}}>next game starts in</div>
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                            <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
