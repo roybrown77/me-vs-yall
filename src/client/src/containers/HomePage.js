@@ -106,13 +106,13 @@ function HomePage(props) {
         <Face style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '55%', left: '45%', position: 'absolute'}}>
-        <RandomElement2 style={{color: '#000000', fontSize: 70}}/>
+        <LocalAtm style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '75%', position: 'absolute'}}>
         <Face style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '65%', left: '60%', position: 'absolute'}}>
-        <RandomElement3 style={{color: '#000000', fontSize: 70}}/>
+        <VideoGame style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '45%', position: 'absolute'}}>
         <Face style={{color: '#000000', fontSize: 70}}/>
