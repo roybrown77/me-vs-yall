@@ -96,10 +96,10 @@ function HomePage(props) {
           </Grid>
         </Grid>
       </div>
-      <div style={{top: '45%', left: '57%', position: 'absolute'}}>
+      <div style={{top: '45%', left: '60%', position: 'absolute'}}>
         <RandomElement style={{color: '#000000', fontSize: 70}}/>
       </div>
-      <div style={{top: '50%', left: '75%', position: 'absolute'}}>
+      <div style={{top: '55%', left: '75%', position: 'absolute'}}>
         <Face style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div className="fast-flash" style={{top: '45%', left: '10%', position: 'absolute'}}>
