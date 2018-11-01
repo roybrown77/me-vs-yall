@@ -10,7 +10,6 @@ import DirectionsRun from '@material-ui/icons/DirectionsRunTwoTone';
 import Rowing from '@material-ui/icons/RowingTwoTone';
 import LocalAtm from '@material-ui/icons/LocalAtmTwoTone';
 import AccessibleForward from '@material-ui/icons/AccessibleForwardTwoTone';
-//import pumpkin from '../styles/images/pumpkin.png';
 
 const styles = {
   home: {

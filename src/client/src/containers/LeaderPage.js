@@ -248,7 +248,7 @@ class LeaderPage extends Component {
                                                         </div>
                                                     }
                                                     <ListItemText style={{margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
-                                                    <div style={{textAlign:'right'}}>
+                                                    <div style={{textAlign:'right', margin: 'auto'}}>
                                                         <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                         <div style={{color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', 
