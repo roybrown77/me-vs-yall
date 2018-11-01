@@ -120,7 +120,7 @@ function HomePage(props) {
       <div style={{top: '65%', left: '30%', position: 'absolute'}}>
         <RandomElement4 style={{color: '#000000', fontSize: 70}}/>
       </div>
-      <div style={{top: '85%', left: '65%', position: 'absolute'}}>
+      <div style={{top: '85%', left: '60%', position: 'absolute'}}>
         <RandomElement5 style={{color: '#000000', fontSize: 70}}/>
       </div>
     </div>
