@@ -210,8 +210,17 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.isAuthenticated && 
                         this.props.picks.length === 0 &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 0'}}>
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             *tap team you believe will win or tie
+                        </div>
+                    }
+                    {
+                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
+                        this.props.isAuthenticated && 
+                        this.props.picks.length > 0 &&
+                        this.props.picks.length < this.props.games.length &&
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                            <span className='fast-flash'>{this.props.games.length - this.props.picks.length} games left to pick</span>
                         </div>
                     }
                     {
