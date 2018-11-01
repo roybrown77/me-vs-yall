@@ -17,7 +17,7 @@ class HowToPlayPage extends Component {
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
-                            3.  Watch your numbers grow on Scores and Leaders pages.
+                            3.  Watch live play and your numbers grow on Scores and Leaders.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
