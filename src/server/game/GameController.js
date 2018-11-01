@@ -581,12 +581,10 @@ const updateNflScores = async () => {
           currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{
-              score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'), 
-              record: get(score,'awayRecord')
+              score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore')
             }),
             Object.assign({},game.competitors[1],{
-              score: isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'), 
-              record: get(score,'homeRecord')
+              score: isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore')
             })
           ]
         };
