@@ -9,7 +9,8 @@ import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
 import DirectionsRun from '@material-ui/icons/DirectionsRunTwoTone';
 import Rowing from '@material-ui/icons/RowingTwoTone';
 import LocalAtm from '@material-ui/icons/LocalAtmTwoTone';
-import pumpkin from '../styles/images/pumpkin.png';
+import AccessibleForward from '@material-ui/icons/AccessibleForwardTwoTone';
+//import pumpkin from '../styles/images/pumpkin.png';
 
 const styles = {
   home: {
@@ -52,6 +53,7 @@ function HomePage(props) {
   const RandomElement2 = Math.floor(Math.random() * 2) === 0 ? LocalAtm : Face;
   const RandomElement3 = Math.floor(Math.random() * 2) === 0 ? VideoGame : Face;
   const RandomElement4 = Math.floor(Math.random() * 2) === 0 ? Rowing : Face;
+  const RandomElement5 = Math.floor(Math.random() * 2) === 0 ? AccessibleForward : Face;
 
   return (
     <div className="fade-in">
@@ -119,7 +121,7 @@ function HomePage(props) {
         <RandomElement4 style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '85%', left: '65%', position: 'absolute'}}>
-        <img className="emoji-image" src={pumpkin} alt=""/>
+        <RandomElement5 style={{color: '#000000', fontSize: 70}}/>
       </div>
     </div>
   );
