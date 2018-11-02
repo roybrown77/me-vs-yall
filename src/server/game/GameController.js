@@ -533,7 +533,7 @@ const updateNflScores = async () => {
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
-        possession: !!possessionHome ? homeTeamInProgress : (!!possessionAway ? awayTeamInProgress : undefined),
+        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined),
         down: (down || '').replace('&amp;','and'),
         lastPlay: (lastPlay || '').replace(' &amp;','and'),
         currentTime: currentTime
