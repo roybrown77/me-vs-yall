@@ -276,7 +276,7 @@ class LeaderPage extends Component {
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
-                                                                                    <span>{get(game,'competitors.0.score',' ')}</span>
+                                                                                    <span>{get(game,'competitors.0.score','')}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">                                                                      
@@ -294,7 +294,7 @@ class LeaderPage extends Component {
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
-                                                                                    <span>{get(game,'competitors.1.score',' ')}</span>
+                                                                                    <span>{get(game,'competitors.1.score','')}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">
