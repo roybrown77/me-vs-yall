@@ -275,9 +275,8 @@ class LeaderPage extends Component {
                                                                                 backgroundColor: getIndicator(game,picks,leader,0,1)}}/>
                                                                             </td>
                                                                             {
-                                                                                hasGameStarted(game.startDateTime) &&
                                                                                 <td align="center">
-                                                                                    <span>{get(game,'competitors.0.score',0)}</span>
+                                                                                    <span>{get(game,'competitors.0.score',' ')}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">                                                                      
@@ -294,9 +293,8 @@ class LeaderPage extends Component {
                                                                                 </span>                                                
                                                                             </td>
                                                                             {
-                                                                                hasGameStarted(game.startDateTime) &&
                                                                                 <td align="center">
-                                                                                    <span>{get(game,'competitors.1.score',0)}</span>
+                                                                                    <span>{get(game,'competitors.1.score',' ')}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">
