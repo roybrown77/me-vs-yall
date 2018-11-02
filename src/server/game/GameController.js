@@ -419,11 +419,10 @@ const updateNflScores = async () => {
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
     let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.drivechart > div > div > div > div.back > div';
+    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2.icon-possession-football-after';
     let LIST_IN_PROGRESS_DOWN_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down';
     let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
@@ -454,10 +453,15 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_IN_PROGRESS_DOWN_SELECTOR.replace("INDEX", i));
 
-      const possession = await page.evaluate((sel) => {
+      const possessionHome = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i));
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const possessionAway = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -514,6 +518,9 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
+      // console.log('updateNflScores possessionHome: ' + possessionHome);
+      // console.log('updateNflScores possessionAway: ' + possessionAway);
+
       scores.push({
         gameOverText: gameOverText,
         awayTeam: awayTeam,
@@ -526,7 +533,7 @@ const updateNflScores = async () => {
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
-        possession: possession,
+        possession: !!possessionHome ? homeTeamInProgress : (!!possessionAway ? awayTeamInProgress : undefined),
         down: (down || '').replace('&amp;','and'),
         lastPlay: (lastPlay || '').replace(' &amp;','and'),
         currentTime: currentTime
