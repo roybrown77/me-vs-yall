@@ -98,6 +98,21 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
+const getAreAllGamesOver = (games = []) => {
+    return !games.some(x=>!x.isGameOver);
+};
+
+const getTimeUntilNextGamesLoad = (games = []) => {
+    const day = moment().weekday();
+    const areAllGamesOver = getAreAllGamesOver(games);
+    return areAllGamesOver ? day === 3 ? 
+    moment().startOf('day').add(9,'hours').toISOString() : 
+    moment().add((day > 2 ? 
+        7-Math.abs(3-day) : 
+        day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined;
+}; 
+
+
 export {
     leagues,
     getResults,
@@ -107,5 +122,7 @@ export {
     getWinnings,
     getBet,
     getCurrentWeek,
-    hasGameStarted
+    hasGameStarted,
+    getAreAllGamesOver,
+    getTimeUntilNextGamesLoad
 };

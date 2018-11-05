@@ -28,7 +28,14 @@ import silver from '../styles/images/silver.png';
 import bronze from '../styles/images/bronze.png';
 
 import { loadLeaders } from '../actions';
-import { formatWeeks, formatMoney, getWinnings, getCurrentWeek, hasGameStarted } from '../selectors';
+import { 
+    formatWeeks, 
+    formatMoney, 
+    getWinnings, 
+    getCurrentWeek, 
+    hasGameStarted,
+    getAreAllGamesOver,
+    getTimeUntilNextGamesLoad } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -160,9 +167,8 @@ class LeaderPage extends Component {
     render() {
         const { classes, teams, leaders, games, picks, isAuthenticated, dataLoading, weeksDataLoading } = this.props;
         const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
-        const areAllGamesOver = !this.props.games.some(x=>!x.isGameOver);
-        const day = moment().weekday();
-        const timeUntilNextGamesLoad = areAllGamesOver ? moment().add((day > 2 ? 7-Math.abs(3-day) : day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined;
+        const areAllGamesOver = getAreAllGamesOver(games);
+        const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
 
         return (
             <div>
