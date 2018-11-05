@@ -252,10 +252,7 @@ class LeaderPage extends Component {
                                                         <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                         <div style={{color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', 
-                                                            fontWeight: '700', 
-                                                            //border: (getWinnings(leader) || 0) < 0 ? '4px solid red' : '4px solid #009933', 
-                                                            //borderRadius: '6px', 
-                                                            //padding: '2px'
+                                                            fontWeight: '700'
                                                             }}>
                                                             {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
@@ -276,7 +273,7 @@ class LeaderPage extends Component {
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
-                                                                                    <span>{get(game,'competitors.0.score')}</span>
+                                                                                    <span>{hasGameStarted(game.startDateTime) ? get(game,'competitors.0.score',0) : undefined}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">                                                                      
@@ -294,7 +291,7 @@ class LeaderPage extends Component {
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
-                                                                                    <span>{get(game,'competitors.1.score')}</span>
+                                                                                    <span>{hasGameStarted(game.startDateTime) ? get(game,'competitors.1.score',0) : undefined}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">

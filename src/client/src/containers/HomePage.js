@@ -49,8 +49,6 @@ const styles = {
 
 function HomePage(props) {
   const RandomElement = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Face;
-  const RandomElement2 = Math.floor(Math.random() * 2) === 0 ? LocalAtm : Face;
-  const RandomElement3 = Math.floor(Math.random() * 2) === 0 ? VideoGame : Face;
   const RandomElement4 = Math.floor(Math.random() * 2) === 0 ? Rowing : Face;
   const RandomElement5 = Math.floor(Math.random() * 2) === 0 ? AccessibleForward : Face;
 
