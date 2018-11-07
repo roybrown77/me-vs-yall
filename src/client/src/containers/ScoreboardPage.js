@@ -19,7 +19,12 @@ import Games from '../components/Games';
 import Countdown from '../components/Countdown';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
-import { formatWeeks, getCurrentWeek, hasGameStarted } from '../selectors';
+import { 
+    formatWeeks, 
+    getCurrentWeek, 
+    hasGameStarted,
+    getAreAllGamesOver,
+    getTimeUntilNextGamesLoad } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -129,12 +134,11 @@ class ScoreboardPage extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const areAnyGamesOver = this.props.games.some(x=>x.isGameOver);
-        const areAnyGamesInProgress = this.props.games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
-        const areAllGamesOver = !this.props.games.some(x=>!x.isGameOver);
-        const day = moment().weekday();
-        const timeUntilNextGamesLoad = areAllGamesOver ? moment().add((day > 2 ? 7-Math.abs(3-day) : day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined; 
+        const { classes, games } = this.props;
+        const areAnyGamesOver = games.some(x=>x.isGameOver);
+        const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+        const areAllGamesOver = getAreAllGamesOver(games);
+        const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
 
         return (
             <div>
@@ -178,24 +182,23 @@ class ScoreboardPage extends Component {
                         this.props.picks.length > 0 &&
                         areAnyGamesOver && 
                         <div>
-                            <PickResult games={this.props.games} picks={this.props.picks}/>
+                            <PickResult games={games} picks={this.props.picks}/>
                         </div>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        this.props.games.find(x=>x.isGameOver !== true) &&
+                        games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
                         <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>live play starts in</div>
-                            <Countdown date={get(this.props.games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
+                            <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
                     }
                     {
-                        false &&
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAllGamesOver &&
                         <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>next games load in</div>
+                            <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
@@ -210,6 +213,7 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.isAuthenticated && 
                         this.props.picks.length === 0 &&
+                        !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             *tap team you believe will win or tie
                         </div>
@@ -218,9 +222,10 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.isAuthenticated && 
                         this.props.picks.length > 0 &&
-                        this.props.picks.length < this.props.games.length &&
+                        this.props.picks.length < games.length &&
+                        !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            <span className='fast-flash'>{this.props.games.length - this.props.picks.length} games left to pick</span>
+                            <span className='fast-flash'>{games.length - this.props.picks.length} remaining to pick</span>
                         </div>
                     }
                     {
@@ -228,7 +233,7 @@ class ScoreboardPage extends Component {
                         <div className={classes.root}>
                             <Games
                                 handleMakePick={this.handleMakePick} 
-                                games={this.props.games} 
+                                games={games} 
                                 picks={this.props.picks}
                                 teams={this.props.teams}
                                 isAuthenticated={this.props.isAuthenticated}
