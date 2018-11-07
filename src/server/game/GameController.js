@@ -1714,12 +1714,12 @@ router.get('/games', function (req, res) {
   //   console.log('load loadNflGames error: ' + err.message)
   // }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
-  // }
+  try {
+    loadEnglishPremierLeagueGames();
+  } catch(err) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  }
 
   // try {
   //   loadNCAAFootballTeams();
