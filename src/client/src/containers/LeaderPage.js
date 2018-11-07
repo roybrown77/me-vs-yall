@@ -81,8 +81,8 @@ const getIndicator = (game,picks,leader,index1,index2) => {
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
                 && pick.userId === leader.id && pick.gameId === game._id))) ? '#009933' : 
 
-            ((game.isGameOver && game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId !== '000000000000000000000000' && pick.userId === leader.id && pick.gameId === game._id)) || 
+            game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.userId === leader.id && pick.gameId === game._id)) || 
             (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
                 && pick.userId === leader.id && pick.gameId === game._id))) ? 'red' : 
