@@ -35,7 +35,8 @@ import {
     getCurrentWeek, 
     hasGameStarted,
     getAreAllGamesOver,
-    getTimeUntilNextGamesLoad } from '../selectors';
+    getTimeUntilNextGamesLoad,
+    getLeaders } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -333,9 +334,11 @@ const mapStateToProps = (state, ownProps) => {
 
     const leaderDomain = state.get('leaderDomain').toJS();
     const dataLoading = get(leaderDomain, 'dataLoading');
-    const leaders = get(leaderDomain, 'leaders', []);
     const games = get(leaderDomain, 'gameList', []);
     const picks = get(leaderDomain, 'pickList', []);
+    const users = get(leaderDomain, 'userList', []);
+
+    const leaders = getLeaders(games, picks, users);
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');

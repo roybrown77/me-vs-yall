@@ -2,6 +2,9 @@ import moment from 'moment-timezone';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
+import groupBy from 'lodash/groupBy';
+import transform from 'lodash/transform';
+import orderBy from 'lodash/orderBy';
 
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110);
@@ -26,6 +29,38 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 
     return format;
+};
+
+const getLeaders = (games, picks, users) => {
+    const grouping = groupBy(picks, 'userId');
+        
+    const picksByUser = transform(grouping, (result, value, key)=>{
+        result.push({
+            userId: key,
+            picks: value
+        });
+    }, []);
+
+    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
+    const pickResults = picksByUser.reduce((total, item) => {
+        const user = users.find(x=>x.authServiceId === item.userId);
+        if (!!user) {
+          const pickResult = getResults(sortedGames,item.picks);
+          total.push({
+              id: item.userId,
+              userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
+              wins: pickResult.wins,
+              losses: pickResult.losses
+          });
+        }
+
+        return total;
+    }, []);
+
+    const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
+
+    return pickResultsOrdered;
 };
 
 const getResults = (games, picks) => {
@@ -124,5 +159,6 @@ export {
     getCurrentWeek,
     hasGameStarted,
     getAreAllGamesOver,
-    getTimeUntilNextGamesLoad
+    getTimeUntilNextGamesLoad,
+    getLeaders
 };

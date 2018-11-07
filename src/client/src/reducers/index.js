@@ -2,12 +2,9 @@ import { combineReducers } from 'redux-immutable';
 import { Map, List } from 'immutable';
 
 import get from 'lodash/get';
-import groupBy from 'lodash/groupBy';
-import transform from 'lodash/transform';
-import orderBy from 'lodash/orderBy';
 
 import * as ActionTypes from '../actions';
-import { getResults, leagues } from '../selectors';
+import { leagues } from '../selectors';
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
@@ -150,37 +147,11 @@ const leaderDomain = (
     case ActionTypes.LEADERS_SUCCESS:  
       if (action.response) {
         const gameList = get(action, 'response[0].response', []);
-        const sortedGames = gameList.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
         const pickList = get(action, 'response[1].response', []);
         const userList = get(action, 'response[2].response', []);
-        const grouping = groupBy(pickList, 'userId');
-        
-        const picksByUser = transform(grouping, (result, value, key)=>{
-            result.push({
-                userId: key,
-                picks: value
-            });
-        }, []);
+        const sortedGames = gameList.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
-        const pickResults = picksByUser.reduce((total, item) => {
-            const user = userList.find(x=>x.authServiceId === item.userId);
-            if (!!user) {
-              const pickResult = getResults(sortedGames,item.picks);
-              total.push({
-                  id: item.userId,
-                  userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
-                  wins: pickResult.wins,
-                  losses: pickResult.losses
-              });
-            }
-
-            return total;
-        }, []);
-
-        const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
-
-        return state.set('leaders', List(pickResultsOrdered))
-        .set('gameList', List(sortedGames))
+        return state.set('gameList', List(sortedGames))
         .set('pickList', List(pickList))
         .set('userList', List(userList))
         .set("dataLoading", false);
