@@ -124,7 +124,7 @@ const leagues = [
 
 const getCurrentWeek = (weeks) => {
     return last(weeks);
-}
+};
 
 const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
@@ -145,8 +145,7 @@ const getTimeUntilNextGamesLoad = (games = []) => {
     moment().add((day > 2 ? 
         7-Math.abs(3-day) : 
         day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined;
-}; 
-
+};
 
 export {
     leagues,
