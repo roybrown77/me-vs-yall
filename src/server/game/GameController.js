@@ -588,13 +588,27 @@ const updateNflScores = async () => {
           currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{
-              score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore')
+              score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'),
             }),
             Object.assign({},game.competitors[1],{
               score: isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore')
             })
           ]
         };
+
+      if (isGameOver) {
+        const recordSplitAway = get(game,'competitors.0.record','').split('-');
+        get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', get(recordSplitAway,'0',0)+1) : 
+                                get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', get(recordSplitAway,'1',0)+1) : 
+                                set(recordSplitAway,'2', get(recordSplitAway,'2',0)+1);
+        set(updateGame,'competitors.0.record',recordSplitAway.join('-'));
+
+        const recordSplitHome = get(game,'competitors.1.record','').split('-');
+        get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', get(recordSplitHome,'0',0)+1) : 
+                                get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', get(recordSplitHome,'1',0)+1) : 
+                                set(recordSplitHome,'2', get(recordSplitHome,'2',0)+1);
+        set(updateGame,'competitors.1.record',recordSplitHome.join('-'));
+      }
 
       console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
