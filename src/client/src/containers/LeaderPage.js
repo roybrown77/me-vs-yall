@@ -169,7 +169,8 @@ class LeaderPage extends Component {
     render() {
         const { 
             classes, 
-            teams, leaders, 
+            teams, 
+            leaders, 
             games, 
             picks, 
             isAuthenticated, 
