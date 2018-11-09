@@ -36,7 +36,8 @@ import {
     hasGameStarted,
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
-    getLeaders } from '../selectors';
+    getLeaders,
+    getIsCurrentWeek } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -166,7 +167,17 @@ class LeaderPage extends Component {
     }
 
     render() {
-        const { classes, teams, leaders, games, picks, isAuthenticated, dataLoading, weeksDataLoading } = this.props;
+        const { 
+            classes, 
+            teams, leaders, 
+            games, 
+            picks, 
+            isAuthenticated, 
+            dataLoading, 
+            weeksDataLoading,
+            isCurrentWeek 
+        } = this.props;
+
         const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
@@ -219,6 +230,7 @@ class LeaderPage extends Component {
                     {
                         !(weeksDataLoading || dataLoading) && 
                         areAllGamesOver &&
+                        isCurrentWeek &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
@@ -362,7 +374,8 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    
+    const isCurrentWeek = getIsCurrentWeek(weeks, beginDateTime, endDateTime, weekNo);
+
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
     
@@ -385,7 +398,8 @@ const mapStateToProps = (state, ownProps) => {
         endDateTime,
         games,
         teams,
-        picks
+        picks,
+        isCurrentWeek
     }
 };
 
@@ -395,6 +409,7 @@ LeaderPage.propTypes = {
     weeksDataLoading: PropTypes.bool,
     leaders: PropTypes.array,
     weeks: PropTypes.array,
+    isCurrentWeek: PropTypes.bool,
     leagues: PropTypes.array,
     years: PropTypes.array,
     leagueId: PropTypes.string,

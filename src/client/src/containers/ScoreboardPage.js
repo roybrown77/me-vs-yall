@@ -23,7 +23,8 @@ import {
     getCurrentWeek, 
     hasGameStarted,
     getAreAllGamesOver,
-    getTimeUntilNextGamesLoad } from '../selectors';
+    getTimeUntilNextGamesLoad,
+    getIsCurrentWeek } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -280,7 +281,7 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    const isCurrentWeek = beginDateTime === get(currentWeek,'beginDateTime') && endDateTime === get(currentWeek,'endDateTime');
+    const isCurrentWeek = getIsCurrentWeek(weeks, beginDateTime, endDateTime, weekNo);
 
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);

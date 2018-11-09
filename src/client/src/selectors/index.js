@@ -147,6 +147,12 @@ const getTimeUntilNextGamesLoad = (games = []) => {
         day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined;
 };
 
+const getIsCurrentWeek = (weeks, beginDateTime, endDateTime, weekNo) => {
+    return (get(last(weeks),'0.beginDateTime') === beginDateTime && 
+                            get(last(weeks),'0.endDateTime') === endDateTime) ||
+                            get(last(weeks),'0.weekNo') === weekNo;
+};
+
 export {
     leagues,
     getResults,
@@ -159,5 +165,6 @@ export {
     hasGameStarted,
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
-    getLeaders
+    getLeaders,
+    getIsCurrentWeek
 };
