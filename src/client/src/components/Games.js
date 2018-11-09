@@ -22,23 +22,22 @@ class Games extends Component {
                 return {
                     ...game,
                     startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
-                    //stadiumCity: get(game, 'overrideStadiumCity', teams.find(x=>x._id === game.competitors[1]._id).stadiumCity),
-                    //stadiumName: get(game ,'overrideStadiumName', teams.find(x=>x._id === game.competitors[1]._id).stadiumName),
                     winner: game.competitors[0].score === game.competitors[1].score ? 
-                    '000000000000000000000000' : (game.competitors[0].score > game.competitors[1].score ? 
+                        '000000000000000000000000' : (game.competitors[0].score > game.competitors[1].score ? 
                         game.competitors[0]._id : game.competitors[1]._id),
                     competitors: game.competitors.map((competitor)=> {
-                        const team = teams.find(x=>x._id === competitor._id);
-                        return {
-                            ...competitor,
-                            shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' ? 
-                            'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
-                            name: team.name || team.location,
-                            color: team.color,
-                            //colors: team.name ? undefined : team.colors,
-                            selected: picks.find(x=>x.gameId === game._id && (x.pickId === competitor._id || x.pickId === '000000000000000000000000')) ? true : false
-                        };
-                    })
+                            const team = teams.find(x=>x._id === competitor._id);
+                            return {
+                                ...competitor,
+                                shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' ? 
+                                'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
+                                name: team.name || team.location,
+                                color: team.color,
+                                record: game.isGameOver ? competitor.finalRecord : competitor.record,
+                                selected: picks.find(x=>x.gameId === game._id && 
+                                    (x.pickId === competitor._id || x.pickId === '000000000000000000000000')) ? true : false
+                            };
+                        })
                 };
             });
 

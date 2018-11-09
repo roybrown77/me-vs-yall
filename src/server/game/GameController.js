@@ -603,7 +603,7 @@ const updateNflScores = async () => {
         get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
         set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
         
-        set(updatedGame,'competitors.0.record',recordSplitAway.join('-'));
+        set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
 
         const recordSplitHome = get(game,'competitors.1.record','').split('-');
 
@@ -611,7 +611,7 @@ const updateNflScores = async () => {
         get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
         set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
         
-        set(updatedGame,'competitors.1.record',recordSplitHome.join('-'));
+        set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
       }
 
       console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
