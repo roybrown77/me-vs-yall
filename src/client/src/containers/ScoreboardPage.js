@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route }from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
@@ -44,6 +45,12 @@ const styles = theme => ({
   },
   input: {
     display: 'none',
+  },
+  pickResultContainer: {
+    border: '4px solid rgb(255, 193, 7)',
+    margin: '8px 5%',
+    borderRadius: '8px',
+    padding: '4px'
   }
 });
 
@@ -179,7 +186,7 @@ class ScoreboardPage extends Component {
                         this.props.isAuthenticated && 
                         this.props.picks.length > 0 &&
                         areAnyGamesOver && 
-                        <div>
+                        <div className={classNames(classes.pickResultContainer)}>
                             <PickResult games={games} picks={this.props.picks}/>
                         </div>
                     }
@@ -302,6 +309,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 ScoreboardPage.propTypes = {
+    classes: PropTypes.object.isRequired,
     dataLoading: PropTypes.bool,
     weeksDataLoading: PropTypes.bool,
     games: PropTypes.array,
@@ -320,8 +328,7 @@ ScoreboardPage.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
-    updatePick: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired,
+    updatePick: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, {
