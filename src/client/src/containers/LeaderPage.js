@@ -197,7 +197,7 @@ class LeaderPage extends Component {
                                 <Button 
                                     variant="contained" 
                                     className={classes.button} onClick={() => { history.push('/login') }}>
-                                    Press to Play!
+                                    Log in to Play!
                                 </Button>
                             )}/>
                     }
