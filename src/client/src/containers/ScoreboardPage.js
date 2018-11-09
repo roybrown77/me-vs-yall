@@ -164,7 +164,7 @@ class ScoreboardPage extends Component {
                                 <Button 
                                     variant="contained" 
                                     className={classes.button} onClick={() => { history.push('/login') }}>
-                                    Press to Play!
+                                    Log in to Play!
                                 </Button>
                             )}/>
                     }
@@ -211,8 +211,8 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         this.props.picks.length === 0 &&
                         !areAllGamesOver &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 5%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** log in then tap team you believe will win **
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                            ** log in then tap team **
                         </div>
                     }
                     {
