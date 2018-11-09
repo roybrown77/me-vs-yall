@@ -155,7 +155,7 @@ const getIsCurrentWeek = (weeks, beginDateTime, endDateTime, weekNo) => {
 
 const getVegasUser = () => {
     return {
-        firstName: 'WestGate Las Vegas SuperBook',
+        firstName: 'Westgate Las Vegas SuperBook',
         authServiceId: '1'
     };
 };
