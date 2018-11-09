@@ -153,6 +153,23 @@ const getIsCurrentWeek = (weeks, beginDateTime, endDateTime, weekNo) => {
                             get(last(weeks),'0.weekNo') === weekNo;
 };
 
+const getVegasUser = () => {
+    return {
+        firstName: 'WestGate Las Vegas SuperBook',
+        authServiceId: '1'
+    };
+};
+
+const getVegasPicks = (games) => {
+    return (games || []).map(x=>{
+        return {
+            gameId: x._id,
+            userId: '1',
+            pickId: get(x,'spread.amount') ? get(x,'spread.teamId') : get(x,'competitors.1._id') 
+        };
+    });
+};
+
 export {
     leagues,
     getResults,
@@ -166,5 +183,7 @@ export {
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
     getLeaders,
-    getIsCurrentWeek
+    getIsCurrentWeek,
+    getVegasUser,
+    getVegasPicks
 };
