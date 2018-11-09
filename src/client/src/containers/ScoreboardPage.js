@@ -48,7 +48,7 @@ const styles = theme => ({
   },
   pickResultContainer: {
     border: '4px solid rgb(255, 193, 7)',
-    margin: '8px 5%',
+    margin: '4px 5%',
     borderRadius: '8px',
     padding: '4px'
   }
@@ -194,7 +194,7 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
-                        <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>live play starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
@@ -203,7 +203,7 @@ class ScoreboardPage extends Component {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAllGamesOver &&
                         isCurrentWeek &&
-                        <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
