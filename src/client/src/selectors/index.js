@@ -163,7 +163,7 @@ const getVegasUser = () => {
 const getVegasPicks = (games) => {
     return (games || []).map(x=>{
         return {
-            gameId: x._id,
+            gameId: get(x,'spread.amount') ? x._id : '000000000000000000000000',
             userId: '1',
             pickId: get(x,'spread.amount') ? get(x,'spread.teamId') : get(x,'competitors.1._id') 
         };
