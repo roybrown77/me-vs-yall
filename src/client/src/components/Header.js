@@ -35,7 +35,6 @@ const styles = {
   },
   title: {
     width: '100%',
-    marginRight: '80px',
     fontSize: '17px',
     fontStyle: 'italic',
     fontWeight: '600',
@@ -51,6 +50,12 @@ const styles = {
   },
   list: {
     width: 250,
+  },
+  userPicture: {
+    height: '50px',
+    width: '50px',
+    borderRadius: '8px',
+    margin: '8px'
   }
 };
 
@@ -75,6 +80,10 @@ class Header extends Component {
   render() {
     const { classes, theme, children, leagueName } = this.props;
     const { anchor, open } = this.state;
+
+    const userJson = localStorage.getItem('user');
+    const user = JSON.parse(userJson || JSON.stringify({}));
+    const picture = get(user,'picture');
 
     const drawer = (
       <SwipeableDrawer
@@ -201,6 +210,10 @@ class Header extends Component {
               <Typography variant="h6" color="inherit" className={classes.title}>
                 Me vs Yall
               </Typography>
+              {
+                picture &&
+                <img className={classes.userPicture} src={picture} alt=""/>
+              }
             </Toolbar>
           </AppBar>
           {drawer}
