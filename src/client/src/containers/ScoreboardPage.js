@@ -132,12 +132,12 @@ class ScoreboardPage extends Component {
     }
 
     render() {
-        const { classes, games } = this.props;
+        const { classes, games, isCurrentWeek } = this.props;
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
-
+        
         return (
             <div>
                 <PageContainer>
@@ -195,6 +195,7 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAllGamesOver &&
+                        isCurrentWeek &&
                         <div style={{margin: '8px 14% 4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
@@ -273,7 +274,8 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    
+    const isCurrentWeek = beginDateTime === get(currentWeek,'beginDateTime') && endDateTime === get(currentWeek,'endDateTime');
+
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
 
@@ -286,6 +288,7 @@ const mapStateToProps = (state, ownProps) => {
         games,
         picks,
         weeks,
+        isCurrentWeek,
         leagues,
         years,
         leagueId,
@@ -305,6 +308,7 @@ ScoreboardPage.propTypes = {
     games: PropTypes.array,
     picks: PropTypes.array,
     weeks: PropTypes.array,
+    isCurrentWeek: PropTypes.bool,
     leagues: PropTypes.array,
     years: PropTypes.array,
     teams: PropTypes.array,
