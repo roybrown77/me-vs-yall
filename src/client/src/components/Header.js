@@ -27,7 +27,8 @@ const styles = {
   },
   appBar: {
     backgroundColor: '#f4f7f6',
-    color: 'rgba(0, 0, 0, 0.87)'
+    color: 'rgba(0, 0, 0, 0.87)',
+    height: '65px'
   },
   menuButton: {
     marginLeft: 12,
@@ -38,6 +39,9 @@ const styles = {
     fontSize: '17px',
     fontStyle: 'italic',
     fontWeight: '600',
+  },
+  drawerHeader: {
+    textAlign: 'right'
   },
   hide: {
     display: 'none',
