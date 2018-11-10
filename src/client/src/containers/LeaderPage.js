@@ -54,7 +54,7 @@ const styles = theme => ({
   button: {
     fontSize: '1rem',
     fontWeight: "700",
-    margin: '4px',
+    marginBottom: '4px',
     width: '75%',
     backgroundColor: '#FFC107',
     color: '#F7F8E0',
