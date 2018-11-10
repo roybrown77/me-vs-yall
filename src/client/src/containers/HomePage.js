@@ -10,6 +10,9 @@ import DirectionsRun from '@material-ui/icons/DirectionsRunTwoTone';
 import Rowing from '@material-ui/icons/RowingTwoTone';
 import LocalAtm from '@material-ui/icons/LocalAtmTwoTone';
 import AccessibleForward from '@material-ui/icons/AccessibleForwardTwoTone';
+import DirectionsBike from '@material-ui/icons/DirectionsBikeTwoTone';
+import Pool from '@material-ui/icons/PoolTwoTone';
+import Flight from '@material-ui/icons/FlightTwoTone';
 
 const styles = {
   home: {
@@ -48,9 +51,12 @@ const styles = {
 };
 
 function HomePage(props) {
-  const RandomElement = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Face;
+  const RandomElement1 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Face;
+  const RandomElement2 = Math.floor(Math.random() * 2) === 0 ? DirectionsBike : Face;
+  const RandomElement3 = Math.floor(Math.random() * 2) === 0 ? Pool : Face;
   const RandomElement4 = Math.floor(Math.random() * 2) === 0 ? Rowing : Face;
   const RandomElement5 = Math.floor(Math.random() * 2) === 0 ? AccessibleForward : Face;
+  const RandomElement6 = Math.floor(Math.random() * 2) === 0 ? Flight : Face;
 
   return (
     <div className="fade-in">
@@ -94,10 +100,10 @@ function HomePage(props) {
         </Grid>
       </div>
       <div style={{top: '45%', left: '60%', position: 'absolute'}}>
-        <RandomElement style={{color: '#000000', fontSize: 70}}/>
+        <RandomElement1 style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '55%', left: '75%', position: 'absolute'}}>
-        <Face style={{color: '#000000', fontSize: 70}}/>
+        <RandomElement2 style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div className="fast-flash" style={{top: '45%', left: '10%', position: 'absolute'}}>
         <Face style={{color: '#000000', fontSize: 70}}/>
@@ -106,13 +112,13 @@ function HomePage(props) {
         <LocalAtm style={{color: '#'+Math.floor(Math.random()*16777215).toString(16), fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '75%', position: 'absolute'}}>
-        <Face style={{color: '#000000', fontSize: 70}}/>
+        <RandomElement6 style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '65%', left: '60%', position: 'absolute'}}>
         <VideoGame style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '45%', position: 'absolute'}}>
-        <Face style={{color: '#000000', fontSize: 70}}/>
+        <RandomElement3 style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '65%', left: '30%', position: 'absolute'}}>
         <RandomElement4 style={{color: '#000000', fontSize: 70}}/>

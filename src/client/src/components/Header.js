@@ -42,12 +42,6 @@ const styles = {
   hide: {
     display: 'none',
   },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-  },
   list: {
     width: 250,
   },
@@ -217,8 +211,7 @@ class Header extends Component {
             </Toolbar>
           </AppBar>
           {drawer}
-          <main>
-            <div className={classes.drawerHeader} />
+          <main style={{paddingTop:'10px'}}>
             {children}
           </main>
         </div>

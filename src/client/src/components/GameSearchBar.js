@@ -14,7 +14,6 @@ const styles = theme => ({
     padding: '5px 0', 
     marginBottom: '8px',
     backgroundColor: '#f4f7f6', 
-    height: '100px',
     boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px'
   },
   select: {
