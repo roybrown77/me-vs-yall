@@ -201,7 +201,7 @@ class Header extends Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.title} style={{marginRight: picture ? '0' : '67px'}}>
+              <Typography variant="h6" color="inherit" className={classes.title} style={{marginRight: picture ? '20px' : '75px'}}>
                 Me vs Yall
               </Typography>
               {
