@@ -35,7 +35,7 @@ const styles = {
 
 const stats = [
   {
-    title: 'NFC AFC SOUTH',
+    title: 'NFC AFC SOUTH STREAKING',
     content: `NFC South reps New Orleans Saints, Carolina Panthers and Atlanta Falcons have a combined win streak of 11 games.  
               The second leading set of divisional teams with that long a win streak are Houston Texans, Tennessee Titans, and 
               Indianapolis Colts from the AFC South with 9.  Impressive since Watson (Texans), Mariota (Titans) and Luck (Colts) were  
@@ -44,7 +44,7 @@ const stats = [
     date: 'November 7, 2018',
   },
   {
-    title: 'BENGALS AND RAVENS',
+    title: 'BENGALS AND RAVENS D',
     content: `Cincinnati Bengals defense have allowed the most total points (237) while Baltimore Ravens have  
               allowed the 5th fewest (137).  Bengals have a better record at 5-3 while Ravens are 4-4.`,
     leagueName: 'NFL',
