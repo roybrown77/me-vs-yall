@@ -43,6 +43,9 @@ const styles = {
   drawerHeader: {
     textAlign: 'right'
   },
+  toolbar: {
+    minHeight: '65px'
+  },
   hide: {
     display: 'none',
   },
@@ -196,7 +199,7 @@ class Header extends Component {
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <AppBar className={classNames(classes.appBar)}>
-            <Toolbar disableGutters={!open}>
+            <Toolbar className={classNames(classes.toolbar)} disableGutters={!open}>
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
