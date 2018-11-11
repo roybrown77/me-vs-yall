@@ -559,8 +559,7 @@ const updateNflScores = async () => {
 
     if (game.year === parseInt(year) && 
       game.seasonType === seasonType && 
-      game.weekNo === weekNo &&
-      !(game.playHistory || []).find(x=>get(score,'lastPlay'))) {
+      game.weekNo === weekNo) {
       const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
       const updatedGame = {
           isGameOver: isGameOver,
