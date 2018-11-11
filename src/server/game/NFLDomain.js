@@ -27,12 +27,16 @@ const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
 const getPlayHistory = (playHistory = [], lastPlay) => {
+  console.log("loadNflGames lastPlay: " + lastPlay);
+
   if (!lastPlay || playHistory.find(x=>lastPlay)) {
     console.log("loadNflGames duplicate: " + lastPlay);
     return playHistory;
   }
 
   playHistory.push(lastPlay);
+
+  console.log("loadNflGames playHistory: " + JSON.stringify(playHistory));
   
   return playHistory.slice(-10).reverse();
 };
@@ -515,7 +519,7 @@ const updateNflScores = async () => {
         homeRecord: homeRecord,
         possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined),
         down: (down || '').replace('&amp;','and'),
-        lastPlay: (lastPlay || '').replace(' &amp;','and'),
+        lastPlay: (lastPlay || '').replace(' &amp;','and').trim(),
         currentTime: currentTime
       });
     }

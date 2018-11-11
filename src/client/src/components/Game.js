@@ -130,7 +130,8 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: !competitor.score && competitor.score !== 0 ? (competitor.record ? '40px' : '48px') : (isAuthenticated && pick ? (competitor.record ? '' : '8px') : '24px')}}>
+                                              <div style={{marginTop: competitor.score ? (isAuthenticated && pick ? (competitor.record ? '' : '8px') : '16px') : 
+                                              (isAuthenticated && pick ? (competitor.record ? '40px' : '48px') : '32px')}}>
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                   {hasGameStarted(game.startDateTime) ? get(competitor,'score',0) : undefined}
                                                 </Typography>
