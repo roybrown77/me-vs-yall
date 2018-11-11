@@ -160,14 +160,48 @@ const getVegasUser = () => {
     };
 };
 
-const getVegasPicks = (games) => {
-    return (games || []).map(x=>{
+const getVegasPicks = (games = []) => {
+    return games.map(x=>{
         return {
             gameId: get(x,'spread.amount') ? x._id : '000000000000000000000000',
             userId: '1',
             pickId: get(x,'spread.amount') ? get(x,'spread.teamId') : get(x,'competitors.1._id') 
         };
     });
+};
+
+const getGroupedGames = (games = [], picks = [], teams = []) => {
+    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+        
+    const formattedGames = sortedGames.map((game)=>{
+        const displayDateTime = moment(new Date(game.startDateTime));
+        return {
+            ...game,
+            startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
+            winner: game.competitors[0].score === game.competitors[1].score ? 
+                '000000000000000000000000' : (game.competitors[0].score > game.competitors[1].score ? 
+                game.competitors[0]._id : game.competitors[1]._id),
+            competitors: game.competitors.map((competitor)=> {
+                    const team = teams.find(x=>x._id === competitor._id);
+                    return {
+                        ...competitor,
+                        shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' ? 
+                        'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
+                        name: team.name || team.location,
+                        color: team.color,
+                        record: game.isGameOver ? competitor.finalRecord : competitor.record,
+                        selected: picks.find(x=>x.gameId === game._id && 
+                            (x.pickId === competitor._id || x.pickId === '000000000000000000000000')) ? true : false
+                    };
+                })
+        };
+    });
+
+    return [
+        ...formattedGames.filter(x=>hasGameStarted(x.startDateTime) && !x.isGameOver),
+        ...formattedGames.filter(x=>!hasGameStarted(x.startDateTime)),
+        ...formattedGames.filter(x=>x.isGameOver)
+    ];
 };
 
 export {
@@ -185,5 +219,6 @@ export {
     getLeaders,
     getIsCurrentWeek,
     getVegasUser,
-    getVegasPicks
+    getVegasPicks,
+    getGroupedGames
 };

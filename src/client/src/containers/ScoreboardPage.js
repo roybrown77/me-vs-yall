@@ -14,7 +14,7 @@ import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import PickResult from '../components/PickResult';
 import LinearProgress from '../components/LinearProgress';
-import Games from '../components/Games';
+import Game from '../components/Game';
 import Countdown from '../components/Countdown';
 
 import { loadScoreboard, addPick, updatePick } from '../actions';
@@ -24,7 +24,8 @@ import {
     hasGameStarted,
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
-    getIsCurrentWeek } from '../selectors';
+    getIsCurrentWeek,
+    getGroupedGames } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -140,11 +141,12 @@ class ScoreboardPage extends Component {
     }
 
     render() {
-        const { classes, games, isCurrentWeek } = this.props;
+        const { classes, games, picks, teams, isCurrentWeek, isAuthenticated } = this.props;
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
+        const groupedGames = getGroupedGames(games, picks, teams);
         
         return (
             <div>
@@ -167,7 +169,7 @@ class ScoreboardPage extends Component {
                         />
                     }
                     {
-                        !this.props.isAuthenticated && 
+                        !isAuthenticated && 
                         <Route render={({ history }) => (
                                 <Button 
                                     variant="contained" 
@@ -184,11 +186,11 @@ class ScoreboardPage extends Component {
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        this.props.isAuthenticated && 
-                        this.props.picks.length > 0 &&
+                        isAuthenticated && 
+                        picks.length > 0 &&
                         areAnyGamesOver && 
                         <div className={classNames(classes.pickResultContainer)}>
-                            <PickResult games={games} picks={this.props.picks}/>
+                            <PickResult games={games} picks={picks}/>
                         </div>
                     }
                     {
@@ -218,7 +220,7 @@ class ScoreboardPage extends Component {
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        !this.props.isAuthenticated &&
+                        !isAuthenticated &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** log in then tap team **
@@ -226,23 +228,26 @@ class ScoreboardPage extends Component {
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
-                        this.props.isAuthenticated && 
-                        this.props.picks.length < games.length &&
+                        isAuthenticated && 
+                        picks.length < games.length &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            <span className='fast-flash'><b>{games.length - this.props.picks.length}</b> remaining to pick</span>
+                            <span className='fast-flash'><b>{games.length - picks.length}</b> remaining to pick</span>
                         </div>
                     }
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         <div className={classes.root}>
-                            <Games
-                                handleMakePick={this.handleMakePick} 
-                                games={games} 
-                                picks={this.props.picks}
-                                teams={this.props.teams}
-                                isAuthenticated={this.props.isAuthenticated}
+                            {
+                                groupedGames.map(game => (
+                                <Game 
+                                    game={game} 
+                                    pick={picks.find(x=>x.gameId === game._id)} 
+                                    key={game._id} 
+                                    handleMakePick={this.handleMakePick} 
+                                    isAuthenticated={isAuthenticated}
                                 />
+                            ))}
                         </div>
                     }
                 </PageContainer>
