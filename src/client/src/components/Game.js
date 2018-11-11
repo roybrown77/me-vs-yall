@@ -10,8 +10,14 @@ import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+
 import green from '@material-ui/core/colors/green';
+
 import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import angry from '../styles/images/angry.png';
 import money from '../styles/images/money.png';
@@ -197,6 +203,26 @@ class Game extends Component {
                   <div className={classes.lastPlay}>
                     {' Last Play: ' + game.lastPlay}
                   </div>
+                }
+                {
+                  false &&
+                  hasGameStarted(game.startDateTime) &&
+                  (game.playHistory || ['(14:30) Touchdown','15: Kickoff']).length > 0 &&
+                    <ExpansionPanel>
+                      <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
+                        <div>
+                            Play History
+                        </div>
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>
+                        {
+                          (game.playHistory || ['(14:30) Touchdown','15: Kickoff']).map((play, index) => (
+                          <div>
+                            {index+1}: {play}
+                          </div>
+                        ))}
+                      </ExpansionPanelDetails>
+                  </ExpansionPanel>
                 }
             </div>
         );

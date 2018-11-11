@@ -26,6 +26,16 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
+const getPlayHistory = (playHistory = [], lastPlay) => {
+  if (!lastPlay || playHistory.find(x=>lastPlay)) {
+    return playHistory;
+  }
+
+  playHistory.push(lastPlay);
+  
+  return playHistory.slice(-10).reverse();
+};
+
 const loadNflGames = async () => {
   if (isLoadNflGamesRunning) {
     console.log("loadNflGames already running.");
@@ -547,13 +557,17 @@ const updateNflScores = async () => {
     // console.log('updateNflScores score: ' + JSON.stringify(score));
     // console.log('updateNflScores isOverOneHour: ' + JSON.stringify(isOverOneHour));
 
-    if (game.year === parseInt(year) && game.seasonType === seasonType && game.weekNo === weekNo) {
+    if (game.year === parseInt(year) && 
+      game.seasonType === seasonType && 
+      game.weekNo === weekNo &&
+      !(game.playHistory || []).find(x=>get(score,'lastPlay'))) {
       const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
       const updatedGame = {
           isGameOver: isGameOver,
           possession: get(score,'possession'),
           down: get(score,'down'),
           lastPlay: get(score,'lastPlay'),
+          playHistory: getPlayHistory(game.playHistory, get(score,'lastPlay')),
           currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{
