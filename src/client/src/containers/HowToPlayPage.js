@@ -9,7 +9,7 @@ class HowToPlayPage extends Component {
                 <PageContainer>
                     <div style={{padding: '12px'}}>
                         <div style={{textAlign: 'left'}}>
-                            1.  Hit 'Press To Play!' and Log in with Google.
+                            1.  Hit 'Log In To Play!'.
                         </div>
                         <br/>
                         <div style={{textAlign: 'left'}}>
