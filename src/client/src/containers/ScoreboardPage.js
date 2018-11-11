@@ -229,7 +229,7 @@ class ScoreboardPage extends Component {
                         this.props.isAuthenticated && 
                         this.props.picks.length < games.length &&
                         !areAllGamesOver &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             <span className='fast-flash'><b>{games.length - this.props.picks.length}</b> remaining to pick</span>
                         </div>
                     }
