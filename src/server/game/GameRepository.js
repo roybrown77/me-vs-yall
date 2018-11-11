@@ -13,6 +13,7 @@ var GameSchema = new mongoose.Schema({
     possession: String,
     down: String,
     lastPlay: String,
+    playHistory: Array,
     currentTime: String
 });
 module.exports = mongoose.model('Game', GameSchema);
