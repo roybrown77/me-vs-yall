@@ -28,6 +28,7 @@ const sortBy = require('lodash/sortBy');
 
 const getPlayHistory = (playHistory = [], lastPlay) => {
   if (!lastPlay || playHistory.find(x=>lastPlay)) {
+    console.log("loadNflGames duplicate: " + lastPlay);
     return playHistory;
   }
 
