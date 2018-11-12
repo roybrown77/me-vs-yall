@@ -27,16 +27,18 @@ const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
 const getPlayHistory = (playHistory = [], lastPlay) => {
-  console.log("loadNflGames lastPlay: " + lastPlay);
+  console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
 
-  if (!lastPlay || playHistory.find(x=>lastPlay)) {
-    console.log("loadNflGames duplicate: " + lastPlay);
+  console.log("updateNflGames lastPlay: " + lastPlay);
+
+  if (!lastPlay || playHistory.find(x=>x===lastPlay)) {
+    console.log("updateNflGames duplicate: " + lastPlay);
     return playHistory;
   }
 
   playHistory.push(lastPlay);
 
-  console.log("loadNflGames playHistory: " + JSON.stringify(playHistory));
+  console.log("updateNflGames playHistory2: " + JSON.stringify(playHistory));
   
   return playHistory.slice(-10).reverse();
 };
@@ -518,7 +520,7 @@ const updateNflScores = async () => {
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
         possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined),
-        down: (down || '').replace('&amp;','and'),
+        down: (down || '').replace('&amp;','and').trim(),
         lastPlay: (lastPlay || '').replace(' &amp;','and').trim(),
         currentTime: currentTime
       });
@@ -564,7 +566,8 @@ const updateNflScores = async () => {
 
     if (game.year === parseInt(year) && 
       game.seasonType === seasonType && 
-      game.weekNo === weekNo) {
+      game.weekNo === weekNo && 
+      !(game.playHistory || []).find(x=>x===get(score,'lastPlay'))) {
       const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
       const updatedGame = {
           isGameOver: isGameOver,
