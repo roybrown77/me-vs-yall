@@ -109,7 +109,7 @@ function HomePage(props) {
         <Face style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '55%', left: '45%', position: 'absolute'}}>
-        <LocalAtm style={{color: '#'+Math.floor(Math.random()*16777215).toString(16), fontSize: 70}}/>
+        <LocalAtm style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '75%', position: 'absolute'}}>
         <RandomElement6 style={{color: '#000000', fontSize: 70}}/>
