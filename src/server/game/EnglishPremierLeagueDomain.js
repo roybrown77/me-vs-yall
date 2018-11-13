@@ -85,6 +85,9 @@ const loadEnglishPremierLeagueGames = async () => {
         startDateTime: {
           $gte: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
           $lte: new Date(moment(lastStartGameTime).endOf('day'))
+        },
+        isStub: {
+          $ne: true
         }
       };
 
