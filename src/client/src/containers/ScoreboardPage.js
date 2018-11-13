@@ -147,7 +147,8 @@ class ScoreboardPage extends Component {
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
         const groupedGames = getGroupedGames(games, picks, teams);
-        
+        const gamesNotStarted = games.filter(x=>hasGameStarted(x.startDateTime));
+
         return (
             <div>
                 <PageContainer>
@@ -229,7 +230,7 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         isAuthenticated && 
-                        picks.length < games.length &&
+                        picks.length < gamesNotStarted.length &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             <span className='fast-flash'><b>{games.length - picks.length}</b> remaining to pick</span>

@@ -140,17 +140,17 @@ const getAreAllGamesOver = (games = []) => {
 const getTimeUntilNextGamesLoad = (games = []) => {
     const day = moment().weekday();
     const areAllGamesOver = getAreAllGamesOver(games);
-    return areAllGamesOver ? day === 3 ? 
-    moment().startOf('day').add(9,'hours').toISOString() : 
-    moment().add((day > 2 ? 
-        7-Math.abs(3-day) : 
-        day === 2 ? 1 : 2), 'days').startOf('day').add(9,'hours').toISOString() : undefined;
+    const time = areAllGamesOver ? 
+    (day === 3 ? moment().startOf('day').add(9,'hours').toISOString() : 
+    day > 2 ? moment().add(7-Math.abs(3-day),'day').startOf('day').add(9,'hours').toISOString() : 
+    day === 2 ? moment().add(1,'day').startOf('day').add(9,'hours').toISOString() : moment().add(2,'day').startOf('day').add(9,'hours').toISOString()) : undefined;
+    return time;
 };
 
 const getIsCurrentWeek = (weeks, beginDateTime, endDateTime, weekNo) => {
-    return (get(last(weeks),'0.beginDateTime') === beginDateTime && 
-                            get(last(weeks),'0.endDateTime') === endDateTime) ||
-                            get(last(weeks),'0.weekNo') === weekNo;
+    return (get(last(weeks),'beginDateTime') === beginDateTime && 
+                            get(last(weeks),'endDateTime') === endDateTime) ||
+                            get(last(weeks),'weekNo') === weekNo;
 };
 
 const getVegasUser = () => {
