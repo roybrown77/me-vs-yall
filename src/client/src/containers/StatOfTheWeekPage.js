@@ -35,7 +35,7 @@ const styles = {
 
 const stats = [
   {
-    title: 'HOME AND AWAY',
+    title: 'HOME AND ROAD',
     content: `The Cleveland Browns, Oakland Raiders, Green Bay Packers and San Francisco 49ers have not won any road games. 
               The New Orleans Saints and Pittsburgh Steelers are undefeated on the road.  Conversely, the New York Giants 
               only 2 wins are on the road while they have not won any home games.`,
