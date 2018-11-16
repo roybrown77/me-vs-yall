@@ -147,7 +147,7 @@ class ScoreboardPage extends Component {
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
         const groupedGames = getGroupedGames(games, picks, teams);
-        const gamesNotStarted = games.filter(x=>hasGameStarted(x.startDateTime));
+        const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
 
         return (
             <div>
