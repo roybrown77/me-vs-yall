@@ -230,7 +230,7 @@ class ScoreboardPage extends Component {
                     {
                         !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         isAuthenticated && 
-                        picks.length < gamesNotStarted.length &&
+                        ((picks.length === 0 && gamesNotStarted.length > 0) || (picks.length < gamesNotStarted.length)) &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             <span className='fast-flash'><b>{gamesNotStarted.length - picks.length}</b> remaining to pick</span>
