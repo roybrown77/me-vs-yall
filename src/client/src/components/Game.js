@@ -134,7 +134,7 @@ class Game extends Component {
                                                 (competitor.record ? '' : '8px') : (competitor.record ? '16px' : '24px')) : 
                                               (isAuthenticated && pick ? (competitor.record ? '32px' : '32px') : (competitor.record ? '40px' : '48px'))}}>
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
-                                                  {hasGameStarted(game.startDateTime) ? get(competitor,'score',0) : undefined}
+                                                  {hasGameStarted(game.startDateTime) ? (game.currentTime ? get(competitor,'score') : 0) : undefined}
                                                 </Typography>
                                                 <span style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color }}>
                                                   {competitor.shortLocation}
