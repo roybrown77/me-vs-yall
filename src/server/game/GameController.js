@@ -54,7 +54,13 @@ const sortBy = require('lodash/sortBy');
 
 const getEmailAddresses = async () => {
   const users = await userRepository.find({});
-  const emailList = users.map(user=>{return user.email});
+  const emailList = [
+  ...users.map(user=>{return user.email}), 
+  ...[
+      'greenegregory8@gmail.com',
+      'jaylengonzalez0902@gmail.com'
+    ]
+  ];
   const emailString = emailList.join(',');
   console.log('emailString: ' + emailString);
 };
