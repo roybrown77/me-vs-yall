@@ -406,7 +406,8 @@ const updateEnglishPremierLeagueScores = async () => {
         homeScore: parseInt(homeScore),
         isGameOver: (gameOverIndicator || '').trim() === 'FT',
         currentTime: currentTime,
-        lastPlay: (gameOverIndicator || '').trim() === 'FT' ? undefined : ((possessionHome || possessionAway) || '').trim().replace(/,\s*$/, "")
+        possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
+        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, '')
       });
     }
 
@@ -447,7 +448,8 @@ const updateEnglishPremierLeagueScores = async () => {
           isGameOver: get(score,'isGameOver',false),
           currentTime: get(score,'currentTime'),
           possession: get(score,'possession'),
-          lastPlay: get(score,'lastPlay'),
+          lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
+          get(score,'homeTeam') + ': ' + get(score,'possessionHome'),
           competitors: [
             Object.assign({},game.competitors[0],{score:score.awayScore}),
             Object.assign({},game.competitors[1],{score:score.homeScore})
