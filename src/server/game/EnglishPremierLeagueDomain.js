@@ -345,6 +345,7 @@ const updateEnglishPremierLeagueScores = async () => {
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
+    let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
 
     console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
 
@@ -357,6 +358,11 @@ const updateEnglishPremierLeagueScores = async () => {
     }
 
     for (let i = 1; i <= listLength; i++) {
+      const currentTime = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
+
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : '';
@@ -387,7 +393,8 @@ const updateEnglishPremierLeagueScores = async () => {
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam.trim(),
         homeScore: parseInt(homeScore),
-        isGameOver: (gameOverIndicator || '').trim() === 'FT'
+        isGameOver: (gameOverIndicator || '').trim() === 'FT',
+        currentTime: currentTime
       });
     }
 
@@ -426,7 +433,7 @@ const updateEnglishPremierLeagueScores = async () => {
 
       const updatedGame = {
           isGameOver: get(score,'isGameOver',false),
-          currentTime: get(score,'isGameOver',false) ? undefined : 'in progress',
+          currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{score:score.awayScore}),
             Object.assign({},game.competitors[1],{score:score.homeScore})
