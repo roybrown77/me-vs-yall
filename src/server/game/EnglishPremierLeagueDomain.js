@@ -346,7 +346,8 @@ const updateEnglishPremierLeagueScores = async () => {
     let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
-
+    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul > li';
+    
     console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
 
     if (listLength === 0) {
@@ -362,6 +363,16 @@ const updateEnglishPremierLeagueScores = async () => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
+
+      const possessionAway = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
+
+      const possessionHome = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
 
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -394,7 +405,8 @@ const updateEnglishPremierLeagueScores = async () => {
         homeTeam: homeTeam.trim(),
         homeScore: parseInt(homeScore),
         isGameOver: (gameOverIndicator || '').trim() === 'FT',
-        currentTime: currentTime
+        currentTime: currentTime,
+        lastPlay: (gameOverIndicator || '').trim() === 'FT' ? undefined : ((possessionHome || possessionAway) || '').trim().replace(/,\s*$/, "")
       });
     }
 
@@ -434,6 +446,8 @@ const updateEnglishPremierLeagueScores = async () => {
       const updatedGame = {
           isGameOver: get(score,'isGameOver',false),
           currentTime: get(score,'currentTime'),
+          possession: get(score,'possession'),
+          lastPlay: get(score,'lastPlay'),
           competitors: [
             Object.assign({},game.competitors[0],{score:score.awayScore}),
             Object.assign({},game.competitors[1],{score:score.homeScore})

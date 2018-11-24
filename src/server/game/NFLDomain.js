@@ -431,12 +431,12 @@ const updateNflScores = async () => {
 
       const lastPlay = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
+        return element ? element.innerText : null;
       }, LIST_IN_PROGRESS_LAST_PLAY_SELECTOR.replace("INDEX", i));
 
       const down = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
+        return element ? element.innerText : null;
       }, LIST_IN_PROGRESS_DOWN_SELECTOR.replace("INDEX", i));
 
       const possessionHome = await page.evaluate((sel) => {
@@ -520,8 +520,8 @@ const updateNflScores = async () => {
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
         possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined),
-        down: (down || '').replace('&amp;','and').trim(),
-        lastPlay: (lastPlay || '').replace(' &amp;','and').trim(),
+        down: (down || '').trim(),
+        lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime
       });
     }
