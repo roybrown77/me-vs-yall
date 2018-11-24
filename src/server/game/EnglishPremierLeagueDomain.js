@@ -426,6 +426,7 @@ const updateEnglishPremierLeagueScores = async () => {
 
       const updatedGame = {
           isGameOver: get(score,'isGameOver',false),
+          currentTime: get(score,'isGameOver',false) ? undefined : 'in progress',
           competitors: [
             Object.assign({},game.competitors[0],{score:score.awayScore}),
             Object.assign({},game.competitors[1],{score:score.homeScore})
