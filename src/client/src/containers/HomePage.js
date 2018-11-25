@@ -14,6 +14,8 @@ import DirectionsBike from '@material-ui/icons/DirectionsBikeTwoTone';
 import Pool from '@material-ui/icons/PoolTwoTone';
 import Flight from '@material-ui/icons/FlightTwoTone';
 
+import christmas from '../styles/images/christmas_tree.png';
+
 const styles = {
   home: {
     top: '0',
@@ -112,7 +114,7 @@ function HomePage(props) {
         <LocalAtm style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '75%', position: 'absolute'}}>
-        <RandomElement6 style={{color: '#000000', fontSize: 70}}/>
+        <img className="emoji-image" src={christmas} alt=""/>
       </div>
       <div style={{top: '65%', left: '60%', position: 'absolute'}}>
         <VideoGame style={{color: '#000000', fontSize: 70}}/>
