@@ -580,7 +580,8 @@ const updateNflScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    if (game.year === parseInt(year)) {
+    if (game.year === parseInt(year) && 
+      (isGameOver || (newPlayHistory.length > playHistory.length))) {
       const updatedGame = {
           isGameOver: isGameOver,
           possession: get(score,'possession'),
