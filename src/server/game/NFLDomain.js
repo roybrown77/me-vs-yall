@@ -23,9 +23,8 @@ const orderBy = require('lodash/orderBy');
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
-
   console.log("updateNflGames lastPlay: " + lastPlay);
-  
+
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNflGames invalid: " + lastPlay);
     return playHistory;
@@ -37,7 +36,13 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const endOfQuarter = lastPlay.toLowerCase().includes('end');
   const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
   const currentTimeString = lastPlay.split(' ')[0].replace('(','').replace(':','').replace(')','')
-  const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString);
+  const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString) === 0 ? 
+  currenTimeSplit[0].replace(':','') : parseInt(currentTimeString);
+
+  if (!currentTimeNumber) {
+    console.log("updateNflGames invalid2: " + lastPlay);
+    return playHistory;
+  }
 
   const newPlayHistory = orderBy([
     ...playHistory,
