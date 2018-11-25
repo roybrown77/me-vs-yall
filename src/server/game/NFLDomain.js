@@ -36,7 +36,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const quarterNumber = parseInt(quarter[0]);
   const endOfQuarter = lastPlay.toLower().includes('end');
   const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
-  const currentTimeNumber = endOfQuarter ? 0 : parseInt(lastPlay.split(/[()]/).replace(':'));
+  const currentTimeNumber = endOfQuarter ? 0 : parseInt(lastPlay.split(/[()]/).replace(':',''));
 
   const newPlayHistory = orderBy([
     ...playHistory,
