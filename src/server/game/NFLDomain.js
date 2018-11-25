@@ -39,7 +39,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString) === 0 ? 
   currenTimeSplit[0].replace(':','') : parseInt(currentTimeString);
 
-  if (!currentTimeNumber) {
+  if (!currentTimeNumber && currentTimeNumber !== 0) {
     console.log("updateNflGames invalid2: " + lastPlay);
     return playHistory;
   }
