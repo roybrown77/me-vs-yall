@@ -32,14 +32,14 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
-  const quarterNumber = parseInt(quarter[0]);
   const endOfQuarter = lastPlay.toLowerCase().includes('end');
+  const quarterNumber = endOfQuarter ? parseInt(lastPlay[lastPlay.length-1]) : parseInt(quarter[0]);
   const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
   const currentTimeString = lastPlay.split(' ')[0].replace('(','').replace(':','').replace(')','')
   const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString) === 0 ? 
-  currenTimeSplit[0].replace(':','') : parseInt(currentTimeString);
+  parseInt(currenTimeSplit[0].replace(':','')) : parseInt(currentTimeString);
 
-  if (!currentTimeNumber && currentTimeNumber !== 0) {
+  if (!quarter && !currentTimeNumber && currentTimeNumber !== 0) {
     console.log("updateNflGames invalid2: " + lastPlay);
     return playHistory;
   }
