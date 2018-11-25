@@ -17,30 +17,39 @@ const {
   nflTeams
 } = require('./teams');
 
-const omit = require('lodash/omit');
 const get = require('lodash/get');
 const set = require('lodash/set');
-const uniq = require('lodash/uniq');
-const transform = require('lodash/transform');
-const groupBy = require('lodash/groupBy');
-const some = require('lodash/some');
-const sortBy = require('lodash/sortBy');
+const orderBy = require('lodash/orderBy');
 
-const getPlayHistory = (playHistory = [], lastPlay) => {
+const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
 
   console.log("updateNflGames lastPlay: " + lastPlay);
 
-  if (!lastPlay || playHistory.find(x=>x===lastPlay)) {
-    console.log("updateNflGames duplicate: " + lastPlay);
+  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
+    console.log("updateNflGames invalid: " + lastPlay);
     return playHistory;
   }
 
-  playHistory.push(lastPlay);
+  const currenTimeSplit = currentTime.split(' ');
+  const quarter = currenTimeSplit[currenTimeSplit.length-1];
+  const quarterNumber = parseInt(quarter[0]);
+  const endOfQuarter = lastPlay.toLower().includes('end');
+  const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
+  const currentTimeNumber = endOfQuarter ? 0 : parseInt(lastPlay.split(/[()]/).replace(':'));
 
-  console.log("updateNflGames playHistory2: " + JSON.stringify(playHistory));
+  const newPlayHistory = orderBy([
+    ...playHistory,
+    {
+      quarter: overTime || quarterNumber,
+      time: currentTimeNumber,
+      lastPlay
+    }
+  ], ['quarter', 'time'], ['desc', 'asc']);
+
+  console.log("updateNflGames playHistory2: " + JSON.stringify(newPlayHistory));
   
-  return playHistory.slice(-10).reverse();
+  return newPlayHistory;
 };
 
 const loadNflGames = async () => {
@@ -223,8 +232,6 @@ const loadNflGames = async () => {
     console.log('loadNflGames no games');
     return;
   }
-
-  //console.log('loadNflGames games: ' + JSON.stringify(games));
   
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 0 : 
@@ -504,9 +511,6 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
-      // console.log('updateNflScores possessionHome: ' + possessionHome);
-      // console.log('updateNflScores possessionAway: ' + possessionAway);
-
       scores.push({
         gameOverText: gameOverText,
         awayTeam: awayTeam,
@@ -549,7 +553,7 @@ const updateNflScores = async () => {
   console.log('updateNflScores games: ' + JSON.stringify(games));
   console.log('updateNflScores scores: ' + JSON.stringify(scores));
 
-  if (get({scores:scores},'scores',[]).length === 0) {
+  if (scores.length === 0) {
     isUpdateNflScoresRunning = false;
     console.log("updateNflScores no scores.");
     return;
@@ -559,22 +563,17 @@ const updateNflScores = async () => {
     const shortLocation = nflTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-    
-    // console.log('updateNflScores shortLocation: ' + JSON.stringify(shortLocation));
-    // console.log('updateNflScores score: ' + JSON.stringify(score));
-    // console.log('updateNflScores isOverOneHour: ' + JSON.stringify(isOverOneHour));
+    const playHistory = get(game,'playHistory',[]);
+    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    if (game.year === parseInt(year) && 
-      game.seasonType === seasonType && 
-      game.weekNo === weekNo && 
-      !(game.playHistory || []).find(x=>x===get(score,'lastPlay'))) {
-      const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+    if (game.year === parseInt(year)) {
       const updatedGame = {
           isGameOver: isGameOver,
           possession: get(score,'possession'),
           down: get(score,'down'),
-          lastPlay: get(score,'lastPlay'),
-          playHistory: getPlayHistory(game.playHistory, get(score,'lastPlay')),
+          lastPlay: get(newPlayHistory,'0.lastPlay'),
+          playHistory: newPlayHistory,
           currentTime: get(score,'currentTime'),
           competitors: [
             Object.assign({},game.competitors[0],{
