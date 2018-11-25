@@ -24,6 +24,7 @@ const orderBy = require('lodash/orderBy');
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
   console.log("updateNflGames lastPlay: " + lastPlay);
+  console.log("updateNflGames currentTime: " + currentTime);
 
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNflGames invalid: " + lastPlay);
