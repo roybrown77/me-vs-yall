@@ -25,7 +25,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
 
   console.log("updateNflGames lastPlay: " + lastPlay);
-
+  
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNflGames invalid: " + lastPlay);
     return playHistory;
@@ -34,9 +34,10 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
   const quarterNumber = parseInt(quarter[0]);
-  const endOfQuarter = lastPlay.toLower().includes('end');
+  const endOfQuarter = lastPlay.toLowerCase().includes('end');
   const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
-  const currentTimeNumber = endOfQuarter ? 0 : parseInt(lastPlay.split(/[()]/).replace(':',''));
+  const currentTimeString = lastPlay.split(' ')[0].replace('(','').replace(':','').replace(')','')
+  const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString);
 
   const newPlayHistory = orderBy([
     ...playHistory,
