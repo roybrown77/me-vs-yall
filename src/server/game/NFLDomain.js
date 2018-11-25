@@ -46,7 +46,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames quarterNumber: " + quarterNumber);
   console.log("updateNflGames currentTimeNumber: " + currentTimeNumber);
 
-  if (!(overTime || quarterNumber) || !currentTimeNumber) {
+  if (!(overTime || quarterNumber) || !currentTimeNumber || endOfQuarter) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
@@ -55,7 +55,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     ...playHistory,
     {
       quarter: overTime || quarterNumber,
-      time: endOfQuarter ? 0 : currentTimeNumber,
+      time: currentTimeNumber,
       lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
@@ -580,8 +580,7 @@ const updateNflScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    if (game.year === parseInt(year) && 
-      (isGameOver || (newPlayHistory.length > playHistory.length))) {
+    if (game.year === parseInt(year)) {
       const updatedGame = {
           isGameOver: isGameOver,
           possession: get(score,'possession'),
