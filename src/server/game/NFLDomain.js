@@ -27,7 +27,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames currentTime: " + currentTime);
 
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    console.log("updateNflGames invalid: " + lastPlay);
+    console.log("updateNflGames invalid");
     return playHistory;
   }
 
@@ -40,8 +40,8 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString) === 0 ? 
   parseInt(currenTimeSplit[0].replace(':','')) : parseInt(currentTimeString);
 
-  if (!quarter && !currentTimeNumber && currentTimeNumber !== 0) {
-    console.log("updateNflGames invalid2: " + lastPlay);
+  if (!quarter || (!currentTimeNumber && currentTimeNumber !== 0)) {
+    console.log("updateNflGames invalid2");
     return playHistory;
   }
 
