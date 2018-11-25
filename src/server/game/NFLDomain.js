@@ -34,11 +34,17 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
   const endOfQuarter = lastPlay.toLowerCase().includes('end');
-  const quarterNumber = endOfQuarter ? parseInt(lastPlay[lastPlay.length-1]) : parseInt(quarter[0]);
+  const quarterNumber = parseInt(quarter[0]);
   const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
   const currentTimeString = lastPlay.split(' ')[0].replace('(','').replace(':','').replace(')','')
   const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString) === 0 ? 
   parseInt(currenTimeSplit[0].replace(':','')) : parseInt(currentTimeString);
+
+  console.log("updateNflGames currentTimeString: " + overTime);
+  console.log("updateNflGames currenTimeSplit: " + currenTimeSplit);
+  console.log("updateNflGames overTime: " + overTime);
+  console.log("updateNflGames quarterNumber: " + quarterNumber);
+  console.log("updateNflGames currentTimeNumber: " + currentTimeNumber);
 
   if (!(overTime || quarterNumber) || (!currentTimeNumber && currentTimeNumber !== 0)) {
     console.log("updateNflGames invalid2");
