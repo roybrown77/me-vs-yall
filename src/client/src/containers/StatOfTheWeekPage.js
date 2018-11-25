@@ -35,6 +35,13 @@ const styles = {
 
 const stats = [
   {
+    title: 'NFC WEST RUSH',
+    content: `The top 3 league leaders in team rushing yards are all from the NFC West.  Seahawks (1543), Rams (1524) and 49ers (1336).`,
+    leagueName: 'NFL',
+    date: 'November 21, 2018',
+    author: 'Ryan P.'
+  },
+  {
     title: 'HOME AND ROAD',
     content: `The Browns, Raiders, Packers and 49ers have not won any road games. 
               The Saints and Steelers are undefeated on the road.  The Patriots, 
@@ -42,6 +49,7 @@ const stats = [
               only 2 wins are on the road while they have not won any home games.`,
     leagueName: 'NFL',
     date: 'November 13, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'NFC AFC SOUTH STREAKING',
@@ -51,6 +59,7 @@ const stats = [
               all battling injuries last year.`,
     leagueName: 'NFL',
     date: 'November 7, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'BENGALS AND RAVENS D',
@@ -58,6 +67,7 @@ const stats = [
               allowed the 5th fewest (137).  Bengals have a better record at 5-3 while Ravens are 4-4.`,
     leagueName: 'NFL',
     date: 'October 30, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'SUPER BOWL QBR',
@@ -67,6 +77,7 @@ const stats = [
               Falcons (Ryan) are in top 3 if you exclude winning records.  You could blame their defense.`,
     leagueName: 'NFL',
     date: 'October 23, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'RUSHING Gs',
@@ -76,6 +87,7 @@ const stats = [
               the field and consistently score in the red zone.`,
     leagueName: 'NFL',
     date: 'October 16, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'BIG SACK ATTACK',
@@ -84,18 +96,21 @@ const stats = [
               chance to break the record of 22.5 set by Michael Strahan (Giants).`,
     leagueName: 'NFL',
     date: 'October 10, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'GIVE THE KID SOME CRED',
     content: 'Patrick Mahomes and the Kansas City Chiefs are undefeated at 4-0 which includes 3 road wins.',
     leagueName: 'NFL',
     date: 'October 3, 2018',
+    author: 'Roy B.'
   },
   {
     title: 'HOME FIELD ADVANTAGE IS REAL',
     content: '16 out of 32 teams have not won on the road after 3 weeks.',
     leagueName: 'NFL',
     date: 'September 25, 2018',
+    author: 'Roy B.'
   }
 ];
 
@@ -122,6 +137,10 @@ function StatOfTheWeekPage () {
                             <br/>
                             <Typography align={'left'} style={styles.content}>
                               {stat.content}
+                            </Typography>
+                            <br/>
+                            <Typography align={'left'}>
+                              - {stat.author}
                             </Typography>
                             <Divider style={{
                               margin: '12px 0',
