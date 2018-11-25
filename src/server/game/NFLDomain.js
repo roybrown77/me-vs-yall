@@ -31,22 +31,25 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     return playHistory;
   }
 
+  const endOfQuarter = lastPlay.toLowerCase().includes('end');
+  const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
+  
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
-  const endOfQuarter = lastPlay.toLowerCase().includes('end');
   const quarterNumber = parseInt(quarter[0]);
-  const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
   const currentTimeString = lastPlay.split(' ')[0].replace('(','').replace(':','').replace(')','')
-  const currentTimeNumber = endOfQuarter ? 0 : parseInt(currentTimeString) === 0 ? 
-  parseInt(currenTimeSplit[0].replace(':','')) : parseInt(currentTimeString);
+  const lastPlayCurrentTimeString = currenTimeSplit[0].replace(':','');
+  const currentTimeNumber = !currentTimeString ? 
+  parseInt(lastPlayCurrentTimeString) : parseInt(currentTimeString);
 
   console.log("updateNflGames currentTimeString: " + overTime);
+  console.log("updateNflGames lastPlayCurrentTimeString: " + lastPlayCurrentTimeString);
   console.log("updateNflGames currenTimeSplit: " + currenTimeSplit);
   console.log("updateNflGames overTime: " + overTime);
   console.log("updateNflGames quarterNumber: " + quarterNumber);
   console.log("updateNflGames currentTimeNumber: " + currentTimeNumber);
 
-  if (!(overTime || quarterNumber) || (!currentTimeNumber && currentTimeNumber !== 0)) {
+  if (!(overTime || quarterNumber) || !currentTimeNumber) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
@@ -55,7 +58,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     ...playHistory,
     {
       quarter: overTime || quarterNumber,
-      time: currentTimeNumber,
+      time: endOfQuarter ? 0 : currentTimeNumber,
       lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
