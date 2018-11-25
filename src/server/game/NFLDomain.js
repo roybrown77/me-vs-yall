@@ -37,12 +37,9 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
   const quarterNumber = parseInt(quarter[0]);
-  const currentTimeString = lastPlay.split(' ')[0].replace('(','').replace(':','').replace(')','')
   const lastPlayCurrentTimeString = currenTimeSplit[0].replace(':','');
-  const currentTimeNumber = !currentTimeString ? 
-  parseInt(lastPlayCurrentTimeString) : parseInt(currentTimeString);
+  const currentTimeNumber = parseInt(lastPlayCurrentTimeString);
 
-  console.log("updateNflGames currentTimeString: " + overTime);
   console.log("updateNflGames lastPlayCurrentTimeString: " + lastPlayCurrentTimeString);
   console.log("updateNflGames currenTimeSplit: " + currenTimeSplit);
   console.log("updateNflGames overTime: " + overTime);
