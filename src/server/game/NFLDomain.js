@@ -575,29 +575,26 @@ const updateNflScores = async () => {
   games.forEach(game=>{
     const shortLocation = nflTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
-    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const newPlay = get(playHistory,'0.lastPlay') !== get(newPlayHistory,'0.lastPlay');
+    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-
-    if (game.year === parseInt(year) && 
-      (isGameOver || (newPlayHistory.length > playHistory.length))) {
+    
+    if (game.year === parseInt(year)) {
       const updatedGame = {
           isGameOver: isGameOver,
           possession: get(score,'possession'),
           down: get(score,'down'),
           lastPlay: get(newPlayHistory,'0.lastPlay'),
           playHistory: newPlayHistory,
-          currentTime: get(score,'currentTime'),
-          competitors: [
-            Object.assign({},game.competitors[0],{
-              score: isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'),
-            }),
-            Object.assign({},game.competitors[1],{
-              score: isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore')
-            })
-          ]
+          currentTime: newPlay ? get(score,'currentTime') : get(game,'currentTime') 
         };
+
+      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : newPlay ? 
+        get(score,'awayInProgressScore') : get(game,'competitors.0.score'));
+      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : newPlay ? 
+        get(score,'homeInProgressScore') : get(game,'competitors.1.score'));
 
       if (isGameOver) {
         const recordSplitAway = get(game,'competitors.0.record','').split('-');
