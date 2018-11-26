@@ -591,7 +591,7 @@ const updateNflScores = async () => {
           down: get(score,'down'),
           lastPlay: get(newPlayHistory,'0.lastPlay'),
           playHistory: newPlayHistory,
-          currentTime: newPlay ? get(score,'currentTime') : get(game,'currentTime') 
+          currentTime: newPlay ? get(newPlayHistory,'0.timeFormatted') + ' - Q' + get(newPlayHistory,'0.quarter') : get(game,'currentTime') 
         };
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : newPlay ? 
