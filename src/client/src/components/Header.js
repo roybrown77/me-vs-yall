@@ -212,7 +212,7 @@ class Header extends Component {
                 Me vs Yall
               </Typography>
               {
-                picture &&
+                this.props.isAuthenticated && picture &&
                 <img className={classes.userPicture} src={picture} alt=""/>
               }
             </Toolbar>
