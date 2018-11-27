@@ -58,7 +58,6 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     {
       quarter: overTime || quarterNumber,
       time: currentTimeNumber,
-      timeFormatted: lastPlayCurrentTimeString,
       lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
@@ -566,7 +565,7 @@ const updateNflScores = async () => {
   const seasonType = games[0].seasonType;
   const weekNo = games[0].weekNo;
 
-  console.log('updateNflScores games: ' + JSON.stringify(games));
+  //console.log('updateNflScores games: ' + JSON.stringify(games));
   console.log('updateNflScores scores: ' + JSON.stringify(scores));
 
   if (scores.length === 0) {
@@ -576,7 +575,7 @@ const updateNflScores = async () => {
   }
 
   games.forEach(game=>{
-    const team = nflTeams.find(x=>get(x,'_id') === get(game,'competitors.0._id'));
+    const team = nflTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
     const playHistory = get(game,'playHistory',[]);
