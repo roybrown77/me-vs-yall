@@ -582,7 +582,6 @@ const updateNflScores = async () => {
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
-    const newPlay = get(playHistory,'0.lastPlay') !== get(newPlayHistory,'0.lastPlay');
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
@@ -596,13 +595,11 @@ const updateNflScores = async () => {
         down: get(score,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
         playHistory: newPlayHistory,
-        currentTime: get(newPlayHistory,'0.timeFormatted') + ' - ' + get(newPlayHistory,'0.quarterFormatted')
+        currentTime: get(score,'currentTime')
       };
 
-      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : newPlay ? 
-        get(score,'awayInProgressScore') : get(game,'competitors.0.score'));
-      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : newPlay ? 
-        get(score,'homeInProgressScore') : get(game,'competitors.1.score'));
+      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
 
       if (isGameOver) {
         const recordSplitAway = get(game,'competitors.0.record','').split('-');
