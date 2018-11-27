@@ -58,7 +58,8 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     {
       quarter: overTime || quarterNumber,
       time: currentTimeNumber,
-      timeFormatted: lastPlaySplit[0],
+      quarterFormatted: quarter,
+      timeFormatted: lastPlaySplit[0].replace('(','').replace(')',''),
       lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
@@ -595,7 +596,7 @@ const updateNflScores = async () => {
         down: get(score,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
         playHistory: newPlayHistory,
-        currentTime: get(score,'currentTime')
+        currentTime: get(newPlayHistory,'0.timeFormatted') + ' - ' + get(newPlayHistory,'0.quarterFormatted')
       };
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : newPlay ? 
