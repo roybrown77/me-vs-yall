@@ -578,23 +578,25 @@ const updateNflScores = async () => {
   games.forEach(game=>{
     const team = nflTeams.find(x=>get(x,'_id') === get(game,'competitors.0._id'));
     const shortLocation = get(team,'shortLocation');
-    
-    if (game.year === parseInt(year) && shortLocation) {
-      const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
-      const playHistory = get(game,'playHistory',[]);
-      const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
-      const newPlay = get(playHistory,'0.lastPlay') !== get(newPlayHistory,'0.lastPlay');
-      const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-      const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
+    const playHistory = get(game,'playHistory',[]);
+    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const newPlay = get(playHistory,'0.lastPlay') !== get(newPlayHistory,'0.lastPlay');
+    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
+    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-      const updatedGame = {...game, ...{
-          isGameOver: isGameOver,
-          possession: get(score,'possession'),
-          down: get(score,'down'),
-          lastPlay: get(newPlayHistory,'0.lastPlay'),
-          playHistory: newPlayHistory,
-          currentTime: get(game,'currentTime') 
-        }};
+    console.log('updateNflScores shortLocation: ' + shortLocation);
+
+    if (game.year === parseInt(year)) {
+      const updatedGame = {
+        competitors: [...get(game,'competitors',[])],
+        isGameOver: isGameOver,
+        possession: get(score,'possession'),
+        down: get(score,'down'),
+        lastPlay: get(newPlayHistory,'0.lastPlay'),
+        playHistory: newPlayHistory,
+        currentTime: get(game,'currentTime') 
+      };
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : newPlay ? 
         get(score,'awayInProgressScore') : get(game,'competitors.0.score'));
