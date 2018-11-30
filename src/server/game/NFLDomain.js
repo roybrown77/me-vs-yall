@@ -32,12 +32,12 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     return playHistory;
   }
 
-  const endOfQuarter = lastPlay.toLowerCase().includes('end');
+  const endOfQuarter = lastPlay.toLowerCase().includes('end quarter');
   const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
   
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
-  const splitTime = get(currenTimeSplit,'0');
+  const splitTime = get(currenTimeSplit,'0','').replace(':','');
   const quarterNumber = parseInt(quarter[0]);
 
   const lastPlaySplit = lastPlay.split(' ');
