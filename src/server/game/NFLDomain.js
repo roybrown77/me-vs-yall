@@ -20,6 +20,7 @@ const {
 const get = require('lodash/get');
 const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
+const isNaN = require('lodash/isNaN');
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
@@ -36,11 +37,13 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   
   const currenTimeSplit = currentTime.split(' ');
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
+  const splitTime = get(currenTimeSplit,'0');
   const quarterNumber = parseInt(quarter[0]);
 
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const currentTimeNumber = parseInt(lastPlayCurrentTimeString);
+  const currentTimeNumber = isNaN(parseInt(lastPlayCurrentTimeString)) ? 
+  parseInt(splitTime) : parseInt(lastPlayCurrentTimeString);
 
   console.log("updateNflGames lastPlayCurrentTimeString: " + lastPlayCurrentTimeString);
   console.log("updateNflGames currenTimeSplit: " + currenTimeSplit);

@@ -24,8 +24,8 @@
     "src/client/node_modules"
   ],
   "engines": {
-    "node": ">=10.13.0",
-    "npm": ">=6.4.1"
+    "node": "=10.13.0",
+    "npm": "=6.4.1"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
