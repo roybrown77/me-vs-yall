@@ -19,7 +19,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
-import { logout } from '../middleware/authenticationService';
+import { googleLogin, logout } from '../middleware/authenticationService';
 
 const styles = {
   root: {
@@ -183,13 +183,9 @@ class Header extends Component {
                         )} />
                   ) : 
                   (
-                      <Route render={({ history}) => (
-                          <MenuItem
-                            onClick={() => { history.push('/login') }}
-                          >
-                            Login
-                          </MenuItem>
-                        )} />
+                    <MenuItem onClick={() => googleLogin()}>
+                      Login
+                    </MenuItem>
                   )
                 }</List>
       </SwipeableDrawer>

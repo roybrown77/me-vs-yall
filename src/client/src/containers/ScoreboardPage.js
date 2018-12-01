@@ -17,7 +17,9 @@ import LinearProgress from '../components/LinearProgress';
 import Game from '../components/Game';
 import Countdown from '../components/Countdown';
 
+import { googleLogin } from '../middleware/authenticationService';
 import { loadScoreboard, addPick, updatePick } from '../actions';
+
 import { 
     formatWeeks, 
     getCurrentWeek, 
@@ -171,13 +173,11 @@ class ScoreboardPage extends Component {
                     }
                     {
                         !isAuthenticated && 
-                        <Route render={({ history }) => (
-                                <Button 
-                                    variant="contained" 
-                                    className={classes.button} onClick={() => { history.push('/login') }}>
-                                    Log in to Play!
-                                </Button>
-                            )}/>
+                        <Button 
+                            variant="contained" 
+                            className={classes.button} onClick={() => googleLogin()}>
+                            Log in to Play!
+                        </Button>
                     }
                     {
                         this.props.dataLoading && 
