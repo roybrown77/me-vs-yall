@@ -104,10 +104,10 @@ function HomePage(props) {
       <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
         <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
       </div>
-      <div style={{top: '40%', left: '30%', position: 'absolute'}}>
+      <div style={{top: '43%', left: '30%', position: 'absolute'}}>
         <img className="emoji-image" src={football} alt=""/>
       </div>
-      <div style={{top: '40%', left: '80%', position: 'absolute'}}>
+      <div style={{top: '43%', left: '80%', position: 'absolute'}}>
         <img className="emoji-image" src={soccer} alt=""/>
       </div>
       <div style={{top: '55%', left: '45%', position: 'absolute'}}>
