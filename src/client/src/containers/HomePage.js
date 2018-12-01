@@ -11,7 +11,6 @@ import LocalAtm from '@material-ui/icons/LocalAtmTwoTone';
 import AccessibleForward from '@material-ui/icons/AccessibleForwardTwoTone';
 import DirectionsBike from '@material-ui/icons/DirectionsBikeTwoTone';
 import Pool from '@material-ui/icons/PoolTwoTone';
-import Flight from '@material-ui/icons/FlightTwoTone';
 
 import christmas from '../styles/images/christmas_tree.png';
 import football from '../styles/images/football2.png';
