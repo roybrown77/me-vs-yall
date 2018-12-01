@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import Face from '@material-ui/icons/FaceTwoTone';
 import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
 import DirectionsRun from '@material-ui/icons/DirectionsRunTwoTone';
 import Rowing from '@material-ui/icons/RowingTwoTone';
@@ -53,13 +52,6 @@ const styles = {
 };
 
 function HomePage(props) {
-  const RandomElement1 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Face;
-  const RandomElement2 = Math.floor(Math.random() * 2) === 0 ? DirectionsBike : Face;
-  const RandomElement3 = Math.floor(Math.random() * 2) === 0 ? Pool : Face;
-  const RandomElement4 = Math.floor(Math.random() * 2) === 0 ? Rowing : Face;
-  const RandomElement5 = Math.floor(Math.random() * 2) === 0 ? AccessibleForward : Face;
-  const RandomElement6 = Math.floor(Math.random() * 2) === 0 ? Flight : Face;
-
   return (
     <div className="fade-in">
       <div style={{
@@ -102,13 +94,13 @@ function HomePage(props) {
         </Grid>
       </div>
       <div style={{top: '45%', left: '60%', position: 'absolute'}}>
-        <RandomElement1 style={{color: '#000000', fontSize: 70}}/>
+        <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '55%', left: '75%', position: 'absolute'}}>
-        <RandomElement2 style={{color: '#000000', fontSize: 70}}/>
+        <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div className="fast-flash" style={{top: '45%', left: '10%', position: 'absolute'}}>
-        <Face style={{color: '#000000', fontSize: 70}}/>
+        <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '55%', left: '45%', position: 'absolute'}}>
         <LocalAtm style={{color: '#000000', fontSize: 70}}/>
@@ -120,13 +112,13 @@ function HomePage(props) {
         <VideoGame style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '75%', left: '45%', position: 'absolute'}}>
-        <RandomElement3 style={{color: '#000000', fontSize: 70}}/>
+        <Pool style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '65%', left: '30%', position: 'absolute'}}>
-        <RandomElement4 style={{color: '#000000', fontSize: 70}}/>
+        <Rowing style={{color: '#000000', fontSize: 70}}/>
       </div>
       <div style={{top: '85%', left: '60%', position: 'absolute'}}>
-        <RandomElement5 style={{color: '#000000', fontSize: 70}}/>
+        <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
       </div>
     </div>
   );

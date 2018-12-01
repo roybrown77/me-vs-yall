@@ -23,7 +23,7 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
+  //console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
   console.log("updateNflGames lastPlay: " + lastPlay);
   console.log("updateNflGames currentTime: " + currentTime);
 
@@ -67,7 +67,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
 
-  console.log("updateNflGames playHistory2: " + JSON.stringify(newPlayHistory));
+  //console.log("updateNflGames playHistory2: " + JSON.stringify(newPlayHistory));
   
   return newPlayHistory;
 };
