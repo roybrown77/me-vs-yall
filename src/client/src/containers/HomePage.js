@@ -14,8 +14,8 @@ import Pool from '@material-ui/icons/PoolTwoTone';
 import Flight from '@material-ui/icons/FlightTwoTone';
 
 import christmas from '../styles/images/christmas_tree.png';
-import football from '../styles/images/football.png';
-import soccer from '../styles/images/soccer.png';
+import football from '../styles/images/football2.png';
+import soccer from '../styles/images/soccer2.png';
 
 const styles = {
   home: {
@@ -50,6 +50,12 @@ const styles = {
   },
   buttonContainer: {
     margin: '16px'
+  },
+  iconContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    top: '10px',
   }
 };
 
@@ -95,38 +101,40 @@ function HomePage(props) {
           </Grid>
         </Grid>
       </div>
-      <div style={{top: '45%', left: '60%', position: 'absolute'}}>
-        <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '55%', left: '75%', position: 'absolute'}}>
-        <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
-        <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '43%', left: '30%', position: 'absolute'}}>
-        <img className="emoji-image" src={football} alt=""/>
-      </div>
-      <div style={{top: '43%', left: '80%', position: 'absolute'}}>
-        <img className="emoji-image" src={soccer} alt=""/>
-      </div>
-      <div style={{top: '55%', left: '45%', position: 'absolute'}}>
-        <LocalAtm style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '75%', left: '75%', position: 'absolute'}}>
-        <img className="emoji-image" src={christmas} alt=""/>
-      </div>
-      <div style={{top: '65%', left: '60%', position: 'absolute'}}>
-        <VideoGame style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '75%', left: '45%', position: 'absolute'}}>
-        <Pool style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '65%', left: '30%', position: 'absolute'}}>
-        <Rowing style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '85%', left: '60%', position: 'absolute'}}>
-        <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
+      <div style={styles.iconContainer}>
+        <div style={{top: '45%', left: '60%', position: 'absolute'}}>
+          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '55%', left: '75%', position: 'absolute'}}>
+          <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
+          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '43%', left: '30%', position: 'absolute'}}>
+          <img className="emoji-image" src={football} alt=""/>
+        </div>
+        <div style={{top: '43%', left: '80%', position: 'absolute'}}>
+          <img className="emoji-image" src={soccer} alt=""/>
+        </div>
+        <div style={{top: '55%', left: '45%', position: 'absolute'}}>
+          <LocalAtm style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '75%', left: '75%', position: 'absolute'}}>
+          <img className="emoji-image" src={christmas} alt=""/>
+        </div>
+        <div style={{top: '65%', left: '60%', position: 'absolute'}}>
+          <VideoGame style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '75%', left: '45%', position: 'absolute'}}>
+          <Pool style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '65%', left: '30%', position: 'absolute'}}>
+          <Rowing style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '85%', left: '60%', position: 'absolute'}}>
+          <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
+        </div>
       </div>
     </div>
   );
