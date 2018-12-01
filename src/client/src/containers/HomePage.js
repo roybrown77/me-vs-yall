@@ -59,7 +59,7 @@ function HomePage(props) {
       <div style={{
         color: '#000000', 
         fontSize: '2rem', 
-        margin: '3% 0 8px 0', 
+        marginTop: '16px', 
         width: '100%', 
         fontStyle: 'italic', 
         fontWeight: '700'}}>
