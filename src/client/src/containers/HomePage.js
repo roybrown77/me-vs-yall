@@ -14,6 +14,8 @@ import Pool from '@material-ui/icons/PoolTwoTone';
 import Flight from '@material-ui/icons/FlightTwoTone';
 
 import christmas from '../styles/images/christmas_tree.png';
+import football from '../styles/images/football.png';
+import soccer from '../styles/images/soccer.png';
 
 const styles = {
   home: {
@@ -99,8 +101,14 @@ function HomePage(props) {
       <div style={{top: '55%', left: '75%', position: 'absolute'}}>
         <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
       </div>
-      <div className="fast-flash" style={{top: '45%', left: '10%', position: 'absolute'}}>
+      <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
         <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+      </div>
+      <div style={{top: '40%', left: '30%', position: 'absolute'}}>
+        <img className="emoji-image" src={football} alt=""/>
+      </div>
+      <div style={{top: '40%', left: '80%', position: 'absolute'}}>
+        <img className="emoji-image" src={soccer} alt=""/>
       </div>
       <div style={{top: '55%', left: '45%', position: 'absolute'}}>
         <LocalAtm style={{color: '#000000', fontSize: 70}}/>
