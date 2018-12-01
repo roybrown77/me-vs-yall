@@ -35,7 +35,7 @@ const styles = {
 
 const stats = [
   {
-    title: 'HOME AND ROAD: ONE WIN WONDERS',
+    title: 'HOME AND ROAD: ONE WIN LOSS WONDERS',
     content: `Raiders, Giants and Cardinals have 1 home win.  Dolphins, Jets, Browns, Jags, Raiders, Lions, Panthers, Falcons, Bucs and 
               Cardinals have 1 road win.  Dolphins, Texans, Titans, Cowboys, Bears, Saints and Panthers have 1 home loss.  Steelers, 
               Chargers and Rams have 1 road loss.`,
