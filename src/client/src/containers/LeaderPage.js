@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route }from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import get from 'lodash/get';
@@ -27,6 +26,7 @@ import gold from '../styles/images/gold.png';
 import silver from '../styles/images/silver.png';
 import bronze from '../styles/images/bronze.png';
 
+import { googleLogin } from '../middleware/authenticationService';
 import { loadLeaders } from '../actions';
 import { 
     formatWeeks, 
@@ -207,13 +207,11 @@ class LeaderPage extends Component {
                     }
                     {
                         !isAuthenticated && 
-                        <Route render={({ history }) => (
-                                <Button 
-                                    variant="contained" 
-                                    className={classes.button} onClick={() => { history.push('/login') }}>
-                                    Log in to Play!
-                                </Button>
-                            )}/>
+                        <Button 
+                            variant="contained" 
+                            className={classes.button} onClick={() => googleLogin()}>
+                            Log in to Play!
+                        </Button>
                     }
                     {
                         dataLoading && 
