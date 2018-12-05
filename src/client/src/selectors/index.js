@@ -198,9 +198,9 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
     });
 
     return [
-        ...formattedGames.filter(x=>hasGameStarted(x.startDateTime) && !x.isGameOver),
-        ...formattedGames.filter(x=>!hasGameStarted(x.startDateTime)),
-        ...formattedGames.filter(x=>x.isGameOver)
+        ...orderBy(formattedGames.filter(x=>hasGameStarted(x.startDateTime) && !x.isGameOver),['_id']),
+        ...orderBy(formattedGames.filter(x=>!hasGameStarted(x.startDateTime)),['_id']),
+        ...orderBy(formattedGames.filter(x=>x.isGameOver),['_id'])
     ];
 };
 
