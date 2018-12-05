@@ -35,6 +35,14 @@ const styles = {
 
 const stats = [
   {
+    title: 'WHY INTERCEPT',
+    content: `Giants, Bears, Texans, Broncos and Bills defense have averaged over 1.7 interceptions in past 4 weeks.  Giants lead 
+              with 2 per game.`,
+    leagueName: 'NFL',
+    date: 'December 5, 2018',
+    author: 'Roy B.'
+  },
+  {
     title: 'HOME AND ROAD: ONE WIN LOSS WONDERS',
     content: `Raiders, Giants and Cardinals have 1 home win.  Dolphins, Jets, Browns, Jags, Raiders, Lions, Panthers, Falcons, Bucs and 
               Cardinals have 1 road win.  Dolphins, Texans, Titans, Cowboys, Bears, Saints and Panthers have 1 home loss.  Steelers, 
