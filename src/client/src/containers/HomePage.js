@@ -20,27 +20,25 @@ import basketball from '../styles/images/basketball.png';
 import baseball from '../styles/images/baseball.png';
 
 const styles = {
-  home: {
-    top: '0',
-    position: 'fixed',
-    zIndex: '9999',
-    backgroundColor: '#f4f7f6',
-    color: '#000',
-    height: '100%',
-    padding: '0 12px',
-    font: '7rem/1 Permanent Marker'
+  container: {
+    margin: '16px'
   },
-  homeTitle: {
-    marginTop: '5%'
+  title: {
+    color: '#000000', 
+    fontSize: '2rem', 
+    width: '100%', 
+    fontStyle: 'italic',
+    fontWeight: '700'
   },
-  homeGo: {
-    cursor: 'pointer',
+  subTitle: {
+    color: '#000000', 
+    fontSize: '1rem', 
+    width: '100%', 
+    padding: '8px 0',
+    fontWeight: '700'
   },
-  homeDescription: {
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    fontSize: '20px',
-    marginTop: '32px'
+  buttonContainer: {
+    padding: '8px 0'
   },
   button: {
     width: '100%',
@@ -48,31 +46,21 @@ const styles = {
     fontSize: '1rem', 
     fontWeight: '700',
     border: '5px solid black',
-    borderRadius: '8px',
+    borderRadius: '8px'
   },
-  buttonContainer: {
-    margin: '16px'
+  ballsContainer: {
+    position:'relative', 
+    padding: '8px 0'
   }
 };
 
 function HomePage(props) {
   return (
-    <div className="fade-in">
-      <div style={{
-        color: '#000000', 
-        fontSize: '2rem', 
-        marginTop: '16px', 
-        width: '100%', 
-        fontStyle: 'italic', 
-        fontWeight: '700'}}>
+    <div className="fade-in" style={styles.container}>
+      <div style={styles.title}>
         Me vs Yall
       </div>
-      <div style={{
-        color: '#000000', 
-        fontSize: '1rem', 
-        padding: '8px 0', 
-        width: '100%', 
-        fontWeight: '700'}}>
+      <div style={styles.subTitle}>
         pick winners of sporting events and compete with others around the world
       </div>
       <div style={styles.buttonContainer}>
@@ -97,7 +85,7 @@ function HomePage(props) {
           </Grid>
         </Grid>
       </div>
-      <div style={{position:'relative'}}>
+      <div style={styles.ballsContainer}>
         <div style={{top: '35%', left: '27%', position: 'absolute'}}>
           <img className="emoji-image" src={football} alt=""/>
         </div>
