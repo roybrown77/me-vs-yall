@@ -21,7 +21,7 @@ import baseball from '../styles/images/baseball.png';
 
 const styles = {
   container: {
-    margin: '16px'
+    margin: '8px 16px'
   },
   title: {
     color: '#000000', 
@@ -109,10 +109,7 @@ function HomePage(props) {
         <div style={{top: '60%', left: '75%', position: 'absolute'}}>
           <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
         </div>
-        <div style={{top: '45%', left: '2%', position: 'absolute'}}>
-          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
+        <div className="fast-flash" style={{top: '50%', left: '5%', position: 'absolute'}}>
           <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
         </div>
         <div style={{top: '60%', left: '45%', position: 'absolute'}}>
