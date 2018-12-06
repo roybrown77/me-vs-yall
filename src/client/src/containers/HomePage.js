@@ -35,7 +35,7 @@ const styles = {
     fontSize: '1rem', 
     width: '100%', 
     padding: '8px 0',
-    fontWeight: '700'
+    fontWeight: '500'
   },
   buttonContainer: {
     padding: '8px 0'
