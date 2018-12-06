@@ -15,6 +15,9 @@ import Pool from '@material-ui/icons/PoolTwoTone';
 import christmas from '../styles/images/christmas_tree.png';
 import football from '../styles/images/football2.png';
 import soccer from '../styles/images/soccer2.png';
+import tennis from '../styles/images/tennis.png';
+import basketball from '../styles/images/basketball.png';
+import baseball from '../styles/images/baseball.png';
 
 const styles = {
   home: {
@@ -94,38 +97,51 @@ function HomePage(props) {
           </Grid>
         </Grid>
       </div>
-      <div style={{top: '45%', left: '60%', position: 'absolute'}}>
-        <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+      <div style={{position:'relative'}}>
+        <div style={{top: '35%', left: '27%', position: 'absolute'}}>
+          <img className="emoji-image" src={football} alt=""/>
+        </div>
+        <div style={{top: '35%', left: '37%', position: 'absolute'}}>
+          <img className="emoji-image" src={soccer} alt=""/>
+        </div>
+        <div style={{top: '35%', left: '47%', position: 'absolute'}}>
+          <img className="emoji-image" src={basketball} alt=""/>
+        </div>
+        <div style={{top: '35%', left: '57%', position: 'absolute'}}>
+          <img className="emoji-image" src={baseball} alt=""/>
+        </div>
+        <div style={{top: '35%', left: '67%', position: 'absolute'}}>
+          <img className="emoji-image" src={tennis} alt=""/>
+        </div>
       </div>
-      <div style={{top: '55%', left: '75%', position: 'absolute'}}>
-        <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
-        <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '43%', left: '30%', position: 'absolute'}}>
-        <img className="emoji-image" src={football} alt=""/>
-      </div>
-      <div style={{top: '43%', left: '80%', position: 'absolute'}}>
-        <img className="emoji-image" src={soccer} alt=""/>
-      </div>
-      <div style={{top: '55%', left: '45%', position: 'absolute'}}>
-        <LocalAtm style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '75%', left: '75%', position: 'absolute'}}>
-        <img className="emoji-image" src={christmas} alt=""/>
-      </div>
-      <div style={{top: '65%', left: '60%', position: 'absolute'}}>
-        <VideoGame style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '75%', left: '45%', position: 'absolute'}}>
-        <Pool style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '65%', left: '30%', position: 'absolute'}}>
-        <Rowing style={{color: '#000000', fontSize: 70}}/>
-      </div>
-      <div style={{top: '85%', left: '60%', position: 'absolute'}}>
-        <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
+      <div>
+        <div style={{top: '50%', left: '60%', position: 'absolute'}}>
+          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '60%', left: '75%', position: 'absolute'}}>
+          <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
+          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '60%', left: '45%', position: 'absolute'}}>
+          <LocalAtm style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '80%', left: '75%', position: 'absolute'}}>
+          <img className="emoji-image" src={christmas} alt=""/>
+        </div>
+        <div style={{top: '70%', left: '60%', position: 'absolute'}}>
+          <VideoGame style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '80%', left: '45%', position: 'absolute'}}>
+          <Pool style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '70%', left: '30%', position: 'absolute'}}>
+          <Rowing style={{color: '#000000', fontSize: 70}}/>
+        </div>
+        <div style={{top: '90%', left: '60%', position: 'absolute'}}>
+          <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
+        </div>
       </div>
     </div>
   );
