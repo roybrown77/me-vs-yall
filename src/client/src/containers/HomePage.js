@@ -121,6 +121,9 @@ function HomePage(props) {
         <div style={{top: '60%', left: '75%', position: 'absolute'}}>
           <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
         </div>
+        <div style={{top: '45%', left: '2%', position: 'absolute'}}>
+          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+        </div>
         <div className="fast-flash" style={{top: '45%', left: '5%', position: 'absolute'}}>
           <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
         </div>
