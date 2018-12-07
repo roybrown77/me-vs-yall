@@ -359,7 +359,7 @@ const nflTeams = [
     }
   ];
 
-const ncaafTeams = [{
+const ncaaTeams = [{
     "colors": [],
     "_id": "5b84a2889a4c08bca6ab9430",
     "leagueId": "59723313734d1d6202a85f15",
@@ -915,6 +915,6 @@ const eplTeams = [
 module.exports = {
 	nflTeams,
     eplTeams,
-    ncaafTeams,
+    ncaaTeams,
     countries
 };

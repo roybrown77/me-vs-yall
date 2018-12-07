@@ -16,7 +16,7 @@ const gameWeekRepository = require('./GameWeekRepository');
 const teamRepository = require('../game/TeamRepository');
 
 const {
-  ncaafTeams
+  ncaaTeams
 } = require('./teams');
 
 const omit = require('lodash/omit');
@@ -253,9 +253,9 @@ const loadNCAAFootballGames = async () => {
   const weekNo = currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 1;
 
   const mvyGames = games.reduce((total, game)=>{
-    const awayTeam = ncaafTeams.find(x=>x.externalId.toString() === game.awayId.toString());
-    const homeTeam = ncaafTeams.find(x=>x.externalId.toString() === game.homeId.toString());
-    const spreadTeam = ncaafTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
+    const awayTeam = ncaaTeams.find(x=>x.externalId.toString() === game.awayId.toString());
+    const homeTeam = ncaaTeams.find(x=>x.externalId.toString() === game.homeId.toString());
+    const spreadTeam = ncaaTeams.find(x=>x.shortLocation.toString().toLowerCase() === game.spread.team.toString().toLowerCase());
 
     if (awayTeam && homeTeam) {
       total.push({
@@ -692,7 +692,7 @@ const updateNCAAFootballScores = async () => {
   }
 
   games.forEach(game=>{
-    const awayId = ncaafTeams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).externalId;
+    const awayId = ncaaTeams.find(y=>y._id.toString() === game.competitors[0]._id.toString()).externalId;
     const score = scores.find(x=>x.awayTeam.toString() === awayId.toString());
 
     console.log('updateNCAAFootballScores score: ' + JSON.stringify(score));
