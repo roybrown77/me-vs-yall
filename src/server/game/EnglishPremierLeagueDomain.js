@@ -100,6 +100,27 @@ const loadEnglishPremierLeagueGames = async () => {
       return;
     }
 
+    const gameSearch = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: parseInt(year),
+      startDateTime: moment(lastStartGameTime),
+      isStub: true
+    };
+
+    gameRepository.find(gameSearch, function (err, games) {
+      if ((games || []).length > 0) {
+        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gameSearch));
+      } else {
+        gameRepository.create(gameSearch, function (err, gameCreated) {
+          if (err) {
+            console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
+          } else {
+            console.log("loadEnglishPremierLeagueGames success creating game: " + gameCreated._id);
+          }
+        });
+      }
+    });
+
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
