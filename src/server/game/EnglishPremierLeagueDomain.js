@@ -100,18 +100,18 @@ const loadEnglishPremierLeagueGames = async () => {
       return;
     }
 
-    const gameSearch = {
+    const finalDayStub = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
       startDateTime: moment(lastStartGameTime),
       isStub: true
     };
 
-    gameRepository.find(gameSearch, function (err, games) {
+    gameRepository.find(finalDayStub, function (err, games) {
       if ((games || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gameSearch));
+        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(finalDayStub));
       } else {
-        gameRepository.create(gameSearch, function (err, gameCreated) {
+        gameRepository.create(finalDayStub, function (err, gameCreated) {
           if (err) {
             console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
           } else {
