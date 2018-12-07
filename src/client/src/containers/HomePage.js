@@ -127,7 +127,7 @@ function HomePage(props) {
         <div style={{top: '70%', left: '30%', position: 'absolute'}}>
           <Rowing style={{color: '#000000', fontSize: 70}}/>
         </div>
-        <div style={{top: '90%', left: '60%', position: 'absolute'}}>
+        <div style={{top: '80%', left: '15%', position: 'absolute'}}>
           <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
         </div>
       </div>
