@@ -65,9 +65,12 @@ class ScoreboardPage extends Component {
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
         this.handleMakePick = this.handleMakePick.bind(this);
+        this.startPolling = this.startPolling.bind(this);
     }
 
     componentDidMount() {
+        this.startPolling();
+
         if (this.props.weeksDataLoading || this.props.dataLoading) return;
 
         const { leagueName } = this.props.match.params;
@@ -77,6 +80,32 @@ class ScoreboardPage extends Component {
 
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
+            year: this.props.year,
+            seasonType: this.props.seasonType,
+            weekNo: this.props.weekNo,
+            beginDateTime: this.props.beginDateTime,
+            endDateTime: this.props.endDateTime
+        });
+    }
+
+    componentWillUnmount() {
+        if (this._timer) {
+          clearInterval(this._timer);
+          this._timer = null;
+        }
+    }
+
+    startPolling() {
+        let self = this;
+        setTimeout(function() {
+            self.poll(); // do it once and then start it up ...
+            self._timer = setInterval(self.poll.bind(self), 15000);
+        }, 1000);
+    }
+
+    poll() {
+        this.props.loadScoreboard({
+            leagueId: this.props.leagueId,
             year: this.props.year,
             seasonType: this.props.seasonType,
             weekNo: this.props.weekNo,
@@ -179,13 +208,13 @@ class ScoreboardPage extends Component {
                         </Button>
                     }
                     {
+                        false &&
                         this.props.dataLoading && 
                         <div style={{padding:'4px 0'}}>
                             <LinearProgress/>
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         isAuthenticated && 
                         picks.length > 0 &&
                         areAnyGamesOver && 
@@ -194,7 +223,6 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -203,7 +231,6 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAllGamesOver &&
                         isCurrentWeek &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -212,14 +239,12 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <span className='fast-flash'>** games in progress **</span>
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         !isAuthenticated &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
@@ -227,7 +252,6 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         isAuthenticated && 
                         ((picks.length === 0 && gamesNotStarted.length > 0) || (picks.length < gamesNotStarted.length)) &&
                         !areAllGamesOver &&
@@ -236,7 +260,6 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) && 
                         <div className={classes.root}>
                             {
                                 groupedGames.map(game => (
