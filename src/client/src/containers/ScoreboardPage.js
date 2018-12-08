@@ -104,6 +104,10 @@ class ScoreboardPage extends Component {
     }
 
     poll() {
+        const areAnyGamesInProgress = this.props.games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+
+        if (!areAnyGamesInProgress) return;
+
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
             year: this.props.year,
