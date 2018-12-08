@@ -214,13 +214,13 @@ class LeaderPage extends Component {
                         </Button>
                     }
                     {
+                        false &&
                         dataLoading && 
                         <div style={{padding:'4px 0'}}>
                             <LinearProgress/>
                         </div>
                     }
                     {
-                        !(weeksDataLoading || dataLoading) && 
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -229,7 +229,6 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
-                        !(weeksDataLoading || dataLoading) && 
                         areAllGamesOver &&
                         isCurrentWeek &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -238,7 +237,6 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
-                        !(weeksDataLoading || dataLoading) && 
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin: '4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <span className='fast-flash'>** games in progress **</span>
@@ -246,7 +244,6 @@ class LeaderPage extends Component {
                     }
                     {
                         leaders.length > 0 && 
-                        (!(weeksDataLoading || dataLoading)) &&
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                             <div className={classes.root}>
                                 {
