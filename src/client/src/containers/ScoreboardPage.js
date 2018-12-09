@@ -225,7 +225,6 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) &&
                         areAllGamesOver &&
                         isCurrentWeek &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -234,7 +233,6 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        !(this.props.weeksDataLoading || this.props.dataLoading) &&
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div className='fast-flash'>** games in progress **</div>
