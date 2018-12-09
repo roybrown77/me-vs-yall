@@ -96,7 +96,6 @@ class ScoreboardPage extends Component {
     startPolling() {
         let self = this;
         setTimeout(function() {
-            self.poll(); // do it once and then start it up ...
             self._timer = setInterval(self.poll.bind(self), 15000);
         }, 1000);
     }
