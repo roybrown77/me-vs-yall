@@ -176,6 +176,7 @@ const loadNflGames = async () => {
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
+    let STATION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section > div > table > thead > tr > th.network > span'
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -207,7 +208,10 @@ const loadNflGames = async () => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, SPREAD_SELECTOR.replace("INDEX", i));
 
-      console.log('loadNflGames spread: ' + JSON.stringify(spread));
+      const station = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, STATION_SELECTOR.replace("INDEX", i));
 
       games.push({
         startDateTime: startDateTime,
@@ -219,7 +223,8 @@ const loadNflGames = async () => {
         awayTeam: awayTeam,
         awayRecord: awayRecord,
         homeTeam: homeTeam,
-        homeRecord: homeRecord
+        homeRecord: homeRecord,
+        station: station
       });
     }
 
@@ -272,6 +277,7 @@ const loadNflGames = async () => {
       seasonType: seasonType,
       weekNo: weekNo,
       startDateTime: game.startDateTime,
+      station: game.station,
       spread: {
        teamId: get(spreadTeam,'_id'),
        amount: get(game,'spread.amount', 0),
