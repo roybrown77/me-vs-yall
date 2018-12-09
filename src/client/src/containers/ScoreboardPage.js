@@ -235,7 +235,8 @@ class ScoreboardPage extends Component {
                     {
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <span className='fast-flash'>** games in progress **</span>
+                            <div className='fast-flash'>** games in progress **</div>
+                            <div>auto update: on</div>
                         </div>
                     }
                     {
