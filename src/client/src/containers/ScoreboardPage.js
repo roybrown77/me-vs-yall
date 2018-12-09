@@ -12,7 +12,6 @@ import Button from '@material-ui/core/Button';
 import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import PickResult from '../components/PickResult';
-import LinearProgress from '../components/LinearProgress';
 import Game from '../components/Game';
 import Countdown from '../components/Countdown';
 
@@ -26,7 +25,8 @@ import {
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
     getIsCurrentWeek,
-    getGroupedGames } from '../selectors';
+    getGroupedGames,
+    getAreAnyGamesInProgress } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -104,7 +104,7 @@ class ScoreboardPage extends Component {
     }
 
     poll() {
-        const areAnyGamesInProgress = this.props.games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
 
         if (!areAnyGamesInProgress) return;
 
@@ -177,7 +177,7 @@ class ScoreboardPage extends Component {
     render() {
         const { classes, games, picks, teams, isCurrentWeek, isAuthenticated } = this.props;
         const areAnyGamesOver = games.some(x=>x.isGameOver);
-        const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
         const groupedGames = getGroupedGames(games, picks, teams);
@@ -210,13 +210,6 @@ class ScoreboardPage extends Component {
                             className={classes.button} onClick={() => googleLogin()}>
                             Log in to Play!
                         </Button>
-                    }
-                    {
-                        false &&
-                        this.props.dataLoading && 
-                        <div style={{padding:'4px 0'}}>
-                            <LinearProgress/>
-                        </div>
                     }
                     {
                         isAuthenticated && 

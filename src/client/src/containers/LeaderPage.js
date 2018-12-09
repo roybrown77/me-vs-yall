@@ -9,7 +9,6 @@ import moment from 'moment-timezone';
 
 import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
-import LinearProgress from '../components/LinearProgress';
 import Countdown from '../components/Countdown';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -39,7 +38,8 @@ import {
     getLeaders,
     getIsCurrentWeek,
     getVegasPicks,
-    getVegasUser } from '../selectors';
+    getVegasUser,
+    getAreAnyGamesInProgress } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -106,6 +106,8 @@ class LeaderPage extends Component {
     }
 
     componentDidMount() {
+        this.startPolling();
+
         if (this.props.weeksDataLoading || this.props.dataLoading) return;
 
         const { leagueName } = this.props.match.params;
@@ -115,6 +117,36 @@ class LeaderPage extends Component {
 
         this.props.loadLeaders({
             leagueId: urlLeagueId,
+            year: this.props.year,
+            seasonType: this.props.seasonType,
+            weekNo: this.props.weekNo,
+            beginDateTime: this.props.beginDateTime,
+            endDateTime: this.props.endDateTime
+        });
+    }
+
+    componentWillUnmount() {
+        if (this._timer) {
+          clearInterval(this._timer);
+          this._timer = null;
+        }
+    }
+
+    startPolling() {
+        let self = this;
+        setTimeout(function() {
+            self.poll(); // do it once and then start it up ...
+            self._timer = setInterval(self.poll.bind(self), 15000);
+        }, 1000);
+    }
+
+    poll() {
+        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
+
+        if (!areAnyGamesInProgress) return;
+
+        this.props.loadLeaders({
+            leagueId: this.props.leagueId,
             year: this.props.year,
             seasonType: this.props.seasonType,
             weekNo: this.props.weekNo,
@@ -175,13 +207,11 @@ class LeaderPage extends Component {
             leaders, 
             games, 
             picks, 
-            isAuthenticated, 
-            dataLoading, 
-            weeksDataLoading,
+            isAuthenticated,
             isCurrentWeek 
         } = this.props;
 
-        const areAnyGamesInProgress = games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver);
+        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
 
@@ -212,13 +242,6 @@ class LeaderPage extends Component {
                             className={classes.button} onClick={() => googleLogin()}>
                             Log in to Play!
                         </Button>
-                    }
-                    {
-                        false &&
-                        dataLoading && 
-                        <div style={{padding:'4px 0'}}>
-                            <LinearProgress/>
-                        </div>
                     }
                     {
                         games.find(x=>x.isGameOver !== true) &&

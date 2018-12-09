@@ -31,7 +31,7 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     return format;
 };
 
-const getLeaders = (games, picks, users) => {
+const getLeaders = (games = [], picks = [], users = []) => {
     const grouping = groupBy(picks, 'userId');
         
     const picksByUser = transform(grouping, (result, value, key)=>{
@@ -63,7 +63,7 @@ const getLeaders = (games, picks, users) => {
     return pickResultsOrdered;
 };
 
-const getResults = (games, picks) => {
+const getResults = (games = [], picks = []) => {
     const result = games.reduce((total,game)=>{
         if (get(game,'isGameOver',false)) {
             const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
@@ -88,7 +88,7 @@ const getResults = (games, picks) => {
     return result;
 };
 
-const formatWeeks = (gameWeeks) => {
+const formatWeeks = (gameWeeks = []) => {
     const formattedGameWeeks = gameWeeks.map((week)=>{
         const startDateTime = moment(week.beginDateTime).format('ddd M/D');
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
@@ -108,7 +108,7 @@ const formatWeeks = (gameWeeks) => {
     return formattedGameWeeks;
 };
 
-const areAnyGamesOver = (games) => {
+const areAnyGamesOver = (games = []) => {
     return games.some(x=>!!x.isGameOver);
 };
 
@@ -122,7 +122,7 @@ const leagues = [
     {id: '59723313734d1d6202a85f17', name: 'premier', description: 'premier', years: [2018]}
 ];
 
-const getCurrentWeek = (weeks) => {
+const getCurrentWeek = (weeks = []) => {
     return last(weeks);
 };
 
@@ -147,7 +147,7 @@ const getTimeUntilNextGamesLoad = (games = []) => {
     return time;
 };
 
-const getIsCurrentWeek = (weeks, beginDateTime, endDateTime, weekNo) => {
+const getIsCurrentWeek = (weeks = [], beginDateTime, endDateTime, weekNo) => {
     return (get(last(weeks),'beginDateTime') === beginDateTime && 
                             get(last(weeks),'endDateTime') === endDateTime) ||
                             get(last(weeks),'weekNo') === weekNo;
@@ -202,6 +202,10 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
     ];
 };
 
+const getAreAnyGamesInProgress = (games = []) => {
+    return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)
+};
+
 export {
     leagues,
     getResults,
@@ -218,5 +222,6 @@ export {
     getIsCurrentWeek,
     getVegasUser,
     getVegasPicks,
-    getGroupedGames
+    getGroupedGames,
+    getAreAnyGamesInProgress
 };
