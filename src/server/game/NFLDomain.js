@@ -33,9 +33,8 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   }
 
   const endOfQuarter = lastPlay.toLowerCase().includes('end quarter');
-  const overTime = currentTime.includes('overtime') || currentTime.includes('ot') ? 5 : undefined;
-  
   const currenTimeSplit = currentTime.split(' ');
+  const overTime = currenTimeSplit.includes('OT') ? 5 : undefined;
   const quarter = currenTimeSplit[currenTimeSplit.length-1];
   const splitTime = get(currenTimeSplit,'0','').replace(':','');
   const quarterNumber = parseInt(quarter[0]);
