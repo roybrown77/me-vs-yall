@@ -71,8 +71,6 @@ class ScoreboardPage extends Component {
     componentDidMount() {
         this.startPolling();
 
-        if (this.props.weeksDataLoading || this.props.dataLoading) return;
-
         const { leagueName } = this.props.match.params;
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
