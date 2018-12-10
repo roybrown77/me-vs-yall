@@ -41,16 +41,18 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const currentTimeNumber = isNaN(parseInt(lastPlayCurrentTimeString)) ? 
-  parseInt(splitTime) : parseInt(lastPlayCurrentTimeString);
+  const currenTimeNumber = parseInt(splitTime);
+  const lastPlayTimeNumber = isNaN(parseInt(lastPlayCurrentTimeString)) ? 
+  currenTimeNumber : parseInt(lastPlayCurrentTimeString);
 
   console.log("updateNflGames lastPlayCurrentTimeString: " + lastPlayCurrentTimeString);
   console.log("updateNflGames currenTimeSplit: " + currenTimeSplit);
   console.log("updateNflGames overTime: " + overTime);
   console.log("updateNflGames quarterNumber: " + quarterNumber);
-  console.log("updateNflGames currentTimeNumber: " + currentTimeNumber);
+  console.log("updateNflGames lastPlayTimeNumber: " + lastPlayTimeNumber);
+  console.log("updateNflGames currenTimeNumber: " + currenTimeNumber);
 
-  if (!(overTime || quarterNumber) || !currentTimeNumber || endOfQuarter) {
+  if (!(overTime || quarterNumber) || !lastPlayTimeNumber || endOfQuarter) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
@@ -59,10 +61,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
     ...playHistory,
     {
       quarter: overTime || quarterNumber,
-      time: currentTimeNumber,
+      time: lastPlayTimeNumber,
       quarterFormatted: quarter,
       timeFormatted: lastPlaySplit[0].replace('(','').replace(')',''),
-      lastPlay
+      lastPlay,
+      currenTimeNumber
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
 
@@ -592,6 +595,7 @@ const updateNflScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+    const timeDecreasing = get(newPlayHistory,'0.currentTimeNumber',0) <= get(newPlayHistory,'0.lastPlayTimeNumber',0);
 
     console.log('updateNflScores shortLocation: ' + shortLocation);
 
@@ -599,11 +603,11 @@ const updateNflScores = async () => {
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
         isGameOver: isGameOver,
-        possession: get(score,'possession'),
-        down: get(score,'down'),
+        possession: timeDecreasing ? get(score,'possession') : get(game,'possession'),
+        down: timeDecreasing ? get(score,'down') : get(game,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
         playHistory: newPlayHistory,
-        currentTime: get(score,'currentTime')
+        currentTime: timeDecreasing ? get(score,'currentTime') : get(game,'currentTime')
       };
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
