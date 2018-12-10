@@ -595,7 +595,7 @@ const updateNflScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-    const timeDecreasing = get(newPlayHistory,'0.currentTimeNumber',0) <= get(newPlayHistory,'0.lastPlayTimeNumber',0);
+    const timeDecreasing = get(newPlayHistory,'0.currentTimeNumber',0) <= get(newPlayHistory,'0.time',0);
 
     console.log('updateNflScores shortLocation: ' + shortLocation);
 
