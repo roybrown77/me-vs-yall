@@ -603,18 +603,16 @@ const updateNflScores = async () => {
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
         isGameOver: isGameOver,
-        possession: timeDecreasing ? get(score,'possession') : get(game,'possession'),
-        down: timeDecreasing ? get(score,'down') : get(game,'down'),
+        possession: get(score,'possession'),
+        down: get(score,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
         playHistory: newPlayHistory,
-        currentTime: timeDecreasing ? get(score,'currentTime') : get(game,'currentTime')
+        currentTime: get(score,'currentTime')
       };
 
-      if (isGameOver || timeDecreasing) {
-        set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-        set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
-      }
-
+      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+      
       if (isGameOver) {
         const recordSplitAway = get(game,'competitors.0.record','').split('-');
 
