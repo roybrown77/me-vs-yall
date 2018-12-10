@@ -610,8 +610,10 @@ const updateNflScores = async () => {
         currentTime: timeDecreasing ? get(score,'currentTime') : get(game,'currentTime')
       };
 
-      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+      if (isGameOver || timeDecreasing) {
+        set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+        set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+      }
 
       if (isGameOver) {
         const recordSplitAway = get(game,'competitors.0.record','').split('-');
