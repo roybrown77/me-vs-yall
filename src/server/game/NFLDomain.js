@@ -42,7 +42,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const currenTimeNumber = parseInt(splitTime);
-  const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString)
+  const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
   const time = isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
 
   console.log("updateNflGames lastPlayCurrentTimeString: " + lastPlayCurrentTimeString);
