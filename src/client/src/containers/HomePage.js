@@ -55,6 +55,11 @@ const styles = {
 };
 
 function HomePage(props) {
+  const RandomElement1 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Rowing;
+  const RandomElement2 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : DirectionsBike;
+  const RandomElement3 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Pool;
+  const RandomElement4 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : AccessibleForward;
+
   return (
     <div className="fade-in" style={styles.container}>
       <div style={styles.title}>
@@ -104,10 +109,10 @@ function HomePage(props) {
       </div>
       <div>
         <div style={{top: '50%', left: '60%', position: 'absolute'}}>
-          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
+          <RandomElement1 style={{color: '#000000', fontSize: 70}}/>
         </div>
         <div style={{top: '60%', left: '75%', position: 'absolute'}}>
-          <DirectionsBike style={{color: '#000000', fontSize: 70}}/>
+          <RandomElement2 style={{color: '#000000', fontSize: 70}}/>
         </div>
         <div className="fast-flash" style={{top: '50%', left: '5%', position: 'absolute'}}>
           <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
@@ -122,13 +127,10 @@ function HomePage(props) {
           <VideoGame style={{color: '#000000', fontSize: 70}}/>
         </div>
         <div style={{top: '80%', left: '45%', position: 'absolute'}}>
-          <Pool style={{color: '#000000', fontSize: 70}}/>
+          <RandomElement3 style={{color: '#000000', fontSize: 70}}/>
         </div>
         <div style={{top: '70%', left: '30%', position: 'absolute'}}>
-          <Rowing style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div style={{top: '80%', left: '15%', position: 'absolute'}}>
-          <AccessibleForward style={{color: '#000000', fontSize: 70}}/>
+          <RandomElement4 style={{color: '#000000', fontSize: 70}}/>
         </div>
       </div>
     </div>
