@@ -350,8 +350,17 @@ const updateEnglishPremierLeagueScores = async () => {
     });
 
     page = await browser.newPage();
-
     await page.setDefaultNavigationTimeout(120000);
+    await page.setRequestInterception(true);
+    
+    page.on('request', (req) => {
+        if(req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image'){
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
 
     await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
 
