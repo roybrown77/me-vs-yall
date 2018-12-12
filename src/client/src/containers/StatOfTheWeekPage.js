@@ -37,8 +37,8 @@ const styles = {
 const stats = [
   {
     title: 'VIKINGS AND REDSKINS ARE COUSINS',
-    content: `Kirk Cousins played for the Washington Redskins last year and Minnesota Vikings this year.  As with the Redskins, 
-              Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
+    content: `Kirk Cousins played for the Washington Redskins last year and currently with the Minnesota Vikings.  As with the 
+              Redskins, Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
               half the Vikings games.`,
     leagueName: 'NFL',
     date: 'December 12, 2018',

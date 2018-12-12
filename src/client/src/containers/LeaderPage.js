@@ -251,8 +251,16 @@ class LeaderPage extends Component {
                         areAllGamesOver &&
                         isCurrentWeek &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <div style={{color: 'darkorange', fontSize: '15px'}}>next games load in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>next games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
+                        </div>
+                    }
+                    {
+                        false && 
+                        isCurrentWeek &&
+                        this.props.leagueId === '59723313734d1d6202a85f10' &&
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with most wins and gets 2 folks to join wins $50</div>
                         </div>
                     }
                     {
