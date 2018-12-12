@@ -28,7 +28,7 @@ const styles = theme => ({
   container: {
     backgroundColor: '#ffffff',
     padding: '8px',
-    marginBottom: '8px'
+    marginBottom: '12px'
   },
   root: {
     flexGrow: 1,

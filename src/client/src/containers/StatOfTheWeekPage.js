@@ -36,6 +36,15 @@ const styles = {
 
 const stats = [
   {
+    title: 'VIKINGS AND REDSKINS ARE COUSINS',
+    content: `Kirk Cousins played for the Washington Redskins last year and Minnesota Vikings this year.  As with the Redskins, 
+              Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
+              half the Vikings games.`,
+    leagueName: 'NFL',
+    date: 'December 12, 2018',
+    author: 'Roy B.'
+  },
+  {
     title: 'WHY INTERCEPT',
     content: `Giants, Bears, Texans, Broncos and Bills defense have averaged over 1.7 interceptions in past 4 weeks.  Giants lead 
               with 2 per game.`,

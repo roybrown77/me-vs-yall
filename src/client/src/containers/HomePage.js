@@ -50,7 +50,7 @@ const styles = {
   },
   ballsContainer: {
     position:'relative', 
-    padding: '8px 0'
+    padding: '16px 0'
   }
 };
 
