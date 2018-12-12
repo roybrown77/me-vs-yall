@@ -16,7 +16,8 @@ const styles = {
     fontWeight: '700'
   },
   stats: {
-    margin: '12px 12px 0 12px'
+    margin: '12px 0',
+    backgroundColor: '#ffffff'
   },
   container: {
     padding: '12px'
@@ -147,7 +148,7 @@ function StatOfTheWeekPage () {
                     {
                       stats.map(stat=>(
                         <div key={stat.title.replace(' ', '')} style={styles.stats}>
-                          <Paper style={styles.container} elevation={1}>
+                          <div style={styles.container}>
                             <Typography align={'left'} style={styles.contentTitle}>
                               {stat.title}
                             </Typography>
@@ -167,7 +168,7 @@ function StatOfTheWeekPage () {
                             <Typography>
                               {stat.leagueName} {stat.date}
                             </Typography>
-                          </Paper>
+                          </div>
                         </div>
                     ))}
                   </div>
