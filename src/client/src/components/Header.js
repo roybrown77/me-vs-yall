@@ -82,10 +82,6 @@ class Header extends Component {
     const { classes, theme, children, leagueName } = this.props;
     const { anchor, open } = this.state;
 
-    const userJson = localStorage.getItem('user');
-    const user = JSON.parse(userJson || JSON.stringify({}));
-    const picture = get(user,'picture');
-
     const drawer = (
       <SwipeableDrawer
         variant="persistent"
@@ -204,13 +200,9 @@ class Header extends Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.title} style={{marginRight: picture ? '20px' : '75px'}}>
+              <Typography variant="h6" color="inherit" className={classes.title} style={{marginRight: '75px'}}>
                 Me vs Yall
               </Typography>
-              {
-                this.props.isAuthenticated && picture &&
-                <img className={classes.userPicture} src={picture} alt=""/>
-              }
             </Toolbar>
           </AppBar>
           {drawer}
