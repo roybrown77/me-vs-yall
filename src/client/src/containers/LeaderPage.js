@@ -297,16 +297,13 @@ class LeaderPage extends Component {
                                                     <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
                                                         <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
-                                                        {
-                                                            false &&
-                                                            <div style={{color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
-                                                                {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
-                                                            </div>
-                                                        }
                                                     </div>
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
+                                                        <div style={{marginBottom: '12px' color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
+                                                            Vegas possible winnings: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                        </div>
                                                         {
                                                             <table style={{width:"100%", backgroundColor: '#fff'}}>
                                                                 <tbody>
