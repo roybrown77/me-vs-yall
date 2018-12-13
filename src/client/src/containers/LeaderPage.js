@@ -67,7 +67,7 @@ const styles = theme => ({
   },
   container: {
     backgroundColor: '#ffffff',
-    padding: '8px'
+    padding: '4px 8px'
   },
   userName: {
     textAlign: 'left'
