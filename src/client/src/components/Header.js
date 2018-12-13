@@ -106,24 +106,6 @@ class Header extends Component {
                     )} />
                   )}
                   {(
-                    <Route render={({ history}) => (
-                      <MenuItem
-                        onClick={() => { history.push('/howtoplay') }}
-                      >
-                        How to Play Games
-                      </MenuItem>
-                    )} />
-                  )}
-                  {(
-                    <Route render={({ history}) => (
-                      <MenuItem
-                        onClick={() => { history.push('/rules') }}
-                      >
-                        Game Rules
-                      </MenuItem>
-                    )} />
-                  )}
-                  {(
                     <Route render={({history}) => (
                       <MenuItem
                          onClick={() => { history.push('/scoreboards/' + leagueName) }}

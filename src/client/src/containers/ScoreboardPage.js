@@ -51,7 +51,7 @@ const styles = theme => ({
   },
   pickResultContainer: {
     border: '4px solid rgb(255, 193, 7)',
-    margin: '4px 5%',
+    margin: '4px 25%',
     borderRadius: '8px',
     padding: '4px'
   }
@@ -233,11 +233,10 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        false && 
                         isCurrentWeek &&
                         this.props.leagueId === '59723313734d1d6202a85f10' &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with most wins and gets 2 folks to join wins $50</div>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins $50</div>
                         </div>
                     }
                     {

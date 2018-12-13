@@ -140,8 +140,8 @@ const getAreAllGamesOver = (games = []) => {
 const getTimeUntilNextGamesLoad = (games = []) => {
     const day = moment().weekday();
     const areAllGamesOver = getAreAllGamesOver(games);
-    const time = areAllGamesOver ? 
-    (day === 3 ? moment().startOf('day').add(9,'hours').toISOString() : 
+    const time = areAllGamesOver ? day === 3 && new Date().getHours() <= 9 ? moment().startOf('day').add(9,'hours').toISOString() :
+    (day === 3 && new Date().getHours() > 9 ? moment().add(7,'day').startOf('day').add(9,'hours').toISOString() : 
     day > 2 ? moment().add(7-Math.abs(3-day),'day').startOf('day').add(9,'hours').toISOString() : 
     day === 2 ? moment().add(1,'day').startOf('day').add(9,'hours').toISOString() : moment().add(2,'day').startOf('day').add(9,'hours').toISOString()) : undefined;
     return time;

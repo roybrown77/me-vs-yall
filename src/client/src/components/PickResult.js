@@ -15,9 +15,12 @@ const PickResult = ({games, picks}) => {
 			<div style={{fontSize: '40px', color: '#FFC107'}}>
 				{results['wins'] +  " - " + results['losses']}
 			</div>
-			<div style={{fontSize: '20px', color: '#FFC107'}}>
-				ya {winloss} {formatMoney(winnings)} {"bet'n"} {formatMoney(bet)}
-			</div>
+			{
+				false &&
+				<div style={{fontSize: '20px', color: '#FFC107'}}>
+					ya {winloss} {formatMoney(winnings)} {"bet'n"} {formatMoney(bet)}
+				</div>
+			}
 		</div>
 	);
 };

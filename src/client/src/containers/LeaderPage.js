@@ -45,7 +45,7 @@ const styles = theme => ({
   root: {
     width: '100%',
     paddingTop: '4px',
-    paddingBottom: '8px'
+    paddingBottom: '12px'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -256,11 +256,10 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
-                        false && 
                         isCurrentWeek &&
                         this.props.leagueId === '59723313734d1d6202a85f10' &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with most wins and gets 2 folks to join wins $50</div>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with most the wins without tying and gets 2 folks to join wins $50</div>
                         </div>
                     }
                     {
@@ -295,14 +294,15 @@ class LeaderPage extends Component {
                                                         </div>
                                                     }
                                                     <ListItemText style={{margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
-                                                    <div style={{textAlign:'right', margin: 'auto'}}>
+                                                    <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
                                                         <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
-                                                        <div style={{color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', 
-                                                            fontWeight: '700'
-                                                            }}>
-                                                            {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
-                                                        </div>
+                                                        {
+                                                            false &&
+                                                            <div style={{color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
+                                                                {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                            </div>
+                                                        }
                                                     </div>
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
