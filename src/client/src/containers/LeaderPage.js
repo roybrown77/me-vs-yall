@@ -259,7 +259,7 @@ class LeaderPage extends Component {
                         isCurrentWeek &&
                         this.props.leagueId === '59723313734d1d6202a85f10' &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with most the wins without tying and gets 2 folks to join wins $50</div>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$50</b></div>
                         </div>
                     }
                     {
