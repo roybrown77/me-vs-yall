@@ -301,7 +301,7 @@ class LeaderPage extends Component {
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
-                                                        <div style={{marginBottom: '12px' color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
+                                                        <div style={{marginBottom: '12px', color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
                                                             Vegas possible winnings: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
                                                         {
