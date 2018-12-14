@@ -41,7 +41,8 @@ const styles = {
     fontWeight: '600',
   },
   drawerHeader: {
-    textAlign: 'right'
+    textAlign: 'right',
+    padding: '8.5px 0'
   },
   toolbar: {
     minHeight: '65px'
