@@ -277,7 +277,7 @@ class LeaderPage extends Component {
                                 {
                                     leaders.map((leader, index) => (
                                         <div className={classes.container} key={leader.id}>
-                                            <ExpansionPanel>
+                                            <ExpansionPanel style={{borderRadius:'8px'}}>
                                                 <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
                                                     {
                                                         [1,2,3].includes(index+1) &&

@@ -38,6 +38,7 @@ const styles = theme => ({
   paper: {
     height: '100%',
     width: '100%',
+    borderRadius: '8px'
   },
   control: {
     padding: theme.spacing.unit * 2,
