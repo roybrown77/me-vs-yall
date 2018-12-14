@@ -294,7 +294,7 @@ class LeaderPage extends Component {
                                                             {index+1}
                                                         </div>
                                                     }
-                                                    <ListItemText style={{margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
+                                                    <ListItemText style={{width: '50%', margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
                                                     <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
                                                         <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
