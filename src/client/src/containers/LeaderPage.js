@@ -67,7 +67,7 @@ const styles = theme => ({
   },
   container: {
     backgroundColor: '#ffffff',
-    padding: '4px 8px'
+    padding: '4px'
   },
   userName: {
     textAlign: 'left'
@@ -273,6 +273,7 @@ class LeaderPage extends Component {
                         leaders.length > 0 && 
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                             <div className={classes.root}>
+                                <div style={{backgroundColor:'white',padding:'4px'}}>
                                 {
                                     leaders.map((leader, index) => (
                                         <div className={classes.container} key={leader.id}>
@@ -355,6 +356,7 @@ class LeaderPage extends Component {
                                         </div>
                                     ))
                                 }
+                                </div>
                             </div>
                         </Slide>
                     }
