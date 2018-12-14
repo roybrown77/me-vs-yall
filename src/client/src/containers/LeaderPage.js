@@ -372,9 +372,6 @@ const mapStateToProps = (state, ownProps) => {
     const userList = get(leaderDomain, 'userList', []);
 
     const picks = [...pickList, ...getVegasPicks(games)];
-    const users = [...userList, getVegasUser()];
-
-    const leaders = getLeaders(games, picks, users);
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
@@ -385,6 +382,8 @@ const mapStateToProps = (state, ownProps) => {
     const leagues = get(lookup, 'leagues', []);
     const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
+
+    const leaders = getLeaders(games, picks, ['59723313734d1d6202a85f10'].includes(leagueId) ? [...userList, getVegasUser()] : userList);
 
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
