@@ -23,37 +23,29 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  //console.log("updateNflGames playHistory1: " + JSON.stringify(playHistory));
-  console.log("updateNflGames lastPlay: " + lastPlay);
-  console.log("updateNflGames currentTime: " + currentTime);
-
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNflGames invalid");
     return playHistory;
   }
 
-  const endOfQuarter = lastPlay.toLowerCase().includes('end quarter');
   const currenTimeSplit = currentTime.split(' ');
+
   const overTime = currenTimeSplit.includes('OT') ? 5 : undefined;
-  const quarter = currenTimeSplit[currenTimeSplit.length-1];
-  const splitTime = get(currenTimeSplit,'0','').replace(':','');
-  const quarterNumber = parseInt(quarter[0]);
+  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
+  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
+  const quarter = overTime || currentTimeQuarterNumber;
+
+  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
+  const currenTimeNumber = parseInt(currentTimeString);
 
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const currenTimeNumber = parseInt(splitTime);
   const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
   const time = isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
 
-  console.log("updateNflGames lastPlayCurrentTimeString: " + lastPlayCurrentTimeString);
-  console.log("updateNflGames currenTimeSplit: " + currenTimeSplit);
-  console.log("updateNflGames overTime: " + overTime);
-  console.log("updateNflGames quarterNumber: " + quarterNumber);
-  console.log("updateNflGames time: " + time);
-  console.log("updateNflGames lastPlayTimeNumber: " + lastPlayTimeNumber);
-  console.log("updateNflGames currenTimeNumber: " + currenTimeNumber);
+  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
 
-  if (!(overTime || quarterNumber) || !time || endOfQuarter) {
+  if (!quarter || !time || lastPlayEndOfQuarter) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
@@ -61,15 +53,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const newPlayHistory = orderBy([
     ...playHistory,
     {
-      quarter: overTime || quarterNumber,
+      quarter,
       time,
-      lastPlay,
-      lastPlayTimeNumber,
-      currenTimeNumber
+      lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
-
-  //console.log("updateNflGames playHistory2: " + JSON.stringify(newPlayHistory));
   
   return newPlayHistory;
 };
@@ -178,7 +166,6 @@ const loadNflGames = async () => {
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
     let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-    let STATION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section > div > table > thead > tr > th.network > span'
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -210,11 +197,6 @@ const loadNflGames = async () => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, SPREAD_SELECTOR.replace("INDEX", i));
 
-      const station = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, STATION_SELECTOR.replace("INDEX", i));
-
       games.push({
         startDateTime: startDateTime,
         spread: {
@@ -225,8 +207,7 @@ const loadNflGames = async () => {
         awayTeam: awayTeam,
         awayRecord: awayRecord,
         homeTeam: homeTeam,
-        homeRecord: homeRecord,
-        station: station
+        homeRecord: homeRecord
       });
     }
 
@@ -279,7 +260,6 @@ const loadNflGames = async () => {
       seasonType: seasonType,
       weekNo: weekNo,
       startDateTime: game.startDateTime,
-      station: game.station,
       spread: {
        teamId: get(spreadTeam,'_id'),
        amount: get(game,'spread.amount', 0),
@@ -607,12 +587,12 @@ const updateNflScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-    const timeDecreasing = get(newPlayHistory,'0.currentTimeNumber',0) <= get(newPlayHistory,'0.lastPlayTimeNumber',0);
+
     const currentTime = get(score,'currentTime','');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
 
-    console.log('updateNflScores shortLocation: ' + shortLocation);
+    //console.log('updateNflScores shortLocation: ' + shortLocation);
 
     if (game.year === parseInt(year)) {
       const updatedGame = {
