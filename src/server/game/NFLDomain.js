@@ -608,8 +608,8 @@ const updateNflScores = async () => {
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
     const timeDecreasing = get(newPlayHistory,'0.currentTimeNumber',0) <= get(newPlayHistory,'0.lastPlayTimeNumber',0);
-    const currentTime = get(score,'currentTime');
-    const currenTimeSplit = currentTime.split(' ');
+    const currentTime = get(score,'currentTime','');
+    const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
 
     console.log('updateNflScores shortLocation: ' + shortLocation);
