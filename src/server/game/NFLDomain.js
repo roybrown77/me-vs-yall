@@ -41,11 +41,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
-  const time = isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
-
   const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
+  const time = lastPlayEndOfQuarter ? get(newPlayHistory,'0.time',0)-1  : 
+  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
 
-  if (!quarter || !time || lastPlayEndOfQuarter) {
+  if (!quarter || !time) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
