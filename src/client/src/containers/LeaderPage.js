@@ -255,12 +255,9 @@ class LeaderPage extends Component {
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
-                    {
-                        this.props.leagueId === '59723313734d1d6202a85f10' && 
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$50</b></div>
-                        </div>
-                    }
+                    <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$50</b></div>
+                    </div>
                     {
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
