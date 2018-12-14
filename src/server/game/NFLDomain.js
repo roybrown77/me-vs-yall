@@ -49,7 +49,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   get(newPlayHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
 
-  if (!quarter || !time) {
+  if (!quarter || (!time && time !== 0)) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
