@@ -6,6 +6,16 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
+const leagues = [ 
+    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl', years: [2017, 2018]},
+    //{id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open', years: [2018]},
+    //{id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup', years: [2018]},
+    //{id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs', years: [2018]},
+    //{id: '59723313734d1d6202a85f14', name: 'wimbledon', description: 'wimbledon', years: [2018]},
+    //{id: '59723313734d1d6202a85f15', name: 'ncaaf', description: 'ncaaf', years: [2018]},
+    {id: '59723313734d1d6202a85f17', name: 'premier', description: 'premier', years: [2018]}
+];
+
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110);
 };
@@ -111,16 +121,6 @@ const formatWeeks = (gameWeeks = []) => {
 const areAnyGamesOver = (games = []) => {
     return games.some(x=>!!x.isGameOver);
 };
-
-const leagues = [ 
-    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl', years: [2017, 2018]},
-    //{id: '59723313734d1d6202a85f11', name: 'frenchopen', description: 'french open', years: [2018]},
-    //{id: '59723313734d1d6202a85f12', name: 'fifaworldcup', description: 'fifa world cup', years: [2018]},
-    //{id: '59723313734d1d6202a85f13', name: 'mlbplayoffs', description: 'mlb playoffs', years: [2018]},
-    //{id: '59723313734d1d6202a85f14', name: 'wimbledon', description: 'wimbledon', years: [2018]},
-    //{id: '59723313734d1d6202a85f15', name: 'ncaaf', description: 'ncaaf', years: [2018]},
-    {id: '59723313734d1d6202a85f17', name: 'premier', description: 'premier', years: [2018]}
-];
 
 const getCurrentWeek = (weeks = []) => {
     return last(weeks);

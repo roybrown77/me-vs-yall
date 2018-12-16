@@ -23,6 +23,10 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
+  console.log("playHistory: " + JSON .stringify(playHistory));
+  console.log("lastPlay: " + lastPlay);
+  console.log("currentTime: " + currentTime);
+
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNflGames invalid");
     return playHistory;
@@ -42,12 +46,18 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
   const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
   
-  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(newPlayHistory,'0.time')-1  : 
+  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
 
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
-  get(newPlayHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
+  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
+
+  console.log("lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
+  console.log("overTime: " + overTime);
+  console.log("currentTimeQuarterNumber: " + currentTimeQuarterNumber);
+  console.log("quarter: " + quarter);
+  console.log("time: " + time);
 
   if (!quarter || (!time && time !== 0)) {
     console.log("updateNflGames invalid2");

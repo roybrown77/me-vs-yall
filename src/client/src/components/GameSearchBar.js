@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -6,6 +7,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+
+import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import get from 'lodash/get';
 
@@ -28,6 +33,14 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
+  },
+  button: {
+    width: '100%',
+    color: 'black',
+    fontSize: '1rem', 
+    fontWeight: '700',
+    border: '5px solid black',
+    borderRadius: '8px'
   }
 });
 
@@ -57,40 +70,40 @@ class GameSearchBar extends Component {
     return (
           <div className={classes.container}>
               <Grid item xs={12} sm container justify="center">
-                    <FormControl className={classes.formControl}>
-                      <Select
-                          value={this.props.league}
-                          onChange={this.props.onFilterLeague}
-                          displayEmpty
-                          name='league'
-                          >
-                          {leagues}
-                      </Select>
-                    </FormControl> 
-                    <FormControl className={classes.formControl}>
-                      <Select
-                          value={this.props.year}
-                          onChange={this.props.onFilterYear}
-                          displayEmpty
-                          name='year'
-                          >
-                          {years}
-                      </Select>
-                    </FormControl>  
-                </Grid>
-                <Grid item xs={12} justify="center" sm container>
                   <FormControl className={classes.formControl}>
                     <Select
-                        value={weekIndex !== -1 ? weekIndex : this.props.weeks.length-1}
-                        onChange={this.props.onFilterWeek}
+                        value={this.props.league}
+                        onChange={this.props.onFilterLeague}
+                        displayEmpty
+                        name='league'
+                        >
+                        {leagues}
+                    </Select>
+                  </FormControl> 
+                  <FormControl className={classes.formControl}>
+                    <Select
+                        value={this.props.year}
+                        onChange={this.props.onFilterYear}
                         displayEmpty
                         name='year'
-                        style={styles.select}
                         >
-                        {weeks}
+                        {years}
                     </Select>
-                  </FormControl>
-                </Grid>
+                  </FormControl>  
+              </Grid>
+              <Grid item xs={12} justify="center" sm container>
+                <FormControl className={classes.formControl}>
+                  <Select
+                      value={weekIndex !== -1 ? weekIndex : this.props.weeks.length-1}
+                      onChange={this.props.onFilterWeek}
+                      displayEmpty
+                      name='year'
+                      style={styles.select}
+                      >
+                      {weeks}
+                  </Select>
+                </FormControl>
+              </Grid>
           </div>
         );
     }
