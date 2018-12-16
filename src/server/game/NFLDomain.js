@@ -602,11 +602,10 @@ const updateNflScores = async () => {
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    const currentTime = get(score,'currentTime','');
+    const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toString().replace('.',':');
+    const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
-
-    //console.log('updateNflScores shortLocation: ' + shortLocation);
 
     if (game.year === parseInt(year)) {
       const updatedGame = {
@@ -616,7 +615,7 @@ const updateNflScores = async () => {
         down: get(score,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
         playHistory: newPlayHistory,
-        currentTime: quarter
+        currentTime: !!quarter ? currentTimeFormatted + " - " + quarter : quarter
       };
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
