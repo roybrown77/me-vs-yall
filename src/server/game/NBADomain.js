@@ -368,41 +368,6 @@ const loadNbaGames = async () => {
   //   });
   // });
 
-  // const gameStartDateTimes = mvyGames.map(x=>{
-  //   return new Date(x.startDateTime);
-  // });
-
-  // const earliestGameTime = new Date(Math.min.apply(null, gameStartDateTimes));
-  // const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
-
-  // const gameWeek = {
-  //   leagueId: mongoose.Types.ObjectId(leagueId),
-  //   year: parseInt(year),
-  //   beginDateTime: earliestGameTime,
-  //   endDateTime: latestGameTime
-  // };
-
-  // console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
-
-  // const gameWeekSearch = {
-  //   leagueId: mongoose.Types.ObjectId(leagueId),
-  //   year: parseInt(year),
-  // };
-
-  // gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
-  //   if ((gameWeeks || []).length > 0) {
-  //     console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeeks));
-  //   } else {
-  //     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-  //         if (err) {
-  //             console.log("loadNbaGames there was a problem adding week to the database: " + err.message);
-  //         } else {
-  //           console.log("loadNbaGames success creating week: " + gameWeekCreated._id);
-  //         }
-  //     });
-  //   }
-  // });
-
   isloadNbaGamesRunning = false;
 };
 
@@ -624,58 +589,58 @@ const updateNbaScores = async () => {
     return;
   }
 
-  // games.forEach(game=>{
-  //   const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-  //   const shortLocation = get(team,'shortLocation');
-  //   const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
-  //   const playHistory = get(game,'playHistory',[]);
-  //   const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
-  //   const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-  //   const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+  games.forEach(game=>{
+    const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+    const shortLocation = get(team,'shortLocation');
+    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
+    const playHistory = get(game,'playHistory',[]);
+    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
+    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-  //   const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
-  //   const currentTime = get(score,'currentTime');
-  //   const currenTimeSplit = (currentTime || '').split(' ');
-  //   const quarter = currenTimeSplit[currenTimeSplit.length-1];
-  //   const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
+    const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
+    const currentTime = get(score,'currentTime');
+    const currenTimeSplit = (currentTime || '').split(' ');
+    const quarter = currenTimeSplit[currenTimeSplit.length-1];
+    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
   
-  //   if (game.year === parseInt(year)) {
-  //     const updatedGame = {
-  //       competitors: [...get(game,'competitors',[])],
-  //       isGameOver: isGameOver,
-  //       possession: get(score,'possession'),
-  //       down: get(score,'down'),
-  //       lastPlay: get(newPlayHistory,'0.lastPlay'),
-  //       playHistory: newPlayHistory,
-  //       currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
-  //     };
+    if (game.year === parseInt(year)) {
+      const updatedGame = {
+        competitors: [...get(game,'competitors',[])],
+        isGameOver: isGameOver,
+        possession: get(score,'possession'),
+        down: get(score,'down'),
+        lastPlay: get(newPlayHistory,'0.lastPlay'),
+        playHistory: newPlayHistory,
+        currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
+      };
 
-  //     set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-  //     set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
       
-  //     if (isGameOver) {
-  //       const recordSplitAway = get(game,'competitors.0.record','').split('-');
+      if (isGameOver) {
+        const recordSplitAway = get(game,'competitors.0.record','').split('-');
 
-  //       get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
-  //       get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
-  //       set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
+        get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
+        get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
+        set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
         
-  //       set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
+        set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
 
-  //       const recordSplitHome = get(game,'competitors.1.record','').split('-');
+        const recordSplitHome = get(game,'competitors.1.record','').split('-');
 
-  //       get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
-  //       get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
-  //       set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
+        get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
+        get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
+        set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
         
-  //       set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
-  //     }
+        set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
+      }
 
-  //     console.log('updateNbaScores updatedGame: ' + JSON.stringify(updatedGame));
+      console.log('updateNbaScores updatedGame: ' + JSON.stringify(updatedGame));
 
-  //     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
-  //   }
-  // });
+      //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+    }
+  });
 
   isupdateNbaScoresRunning = false;
 };
