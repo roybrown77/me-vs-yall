@@ -605,6 +605,7 @@ const updateNflScores = async () => {
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
+    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
   
     if (game.year === parseInt(year)) {
       const updatedGame = {
@@ -614,7 +615,7 @@ const updateNflScores = async () => {
         down: get(score,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
         playHistory: newPlayHistory,
-        currentTime: !!quarter ? currentTimeFormatted + " - " + quarter : quarter
+        currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
       };
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
