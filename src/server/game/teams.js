@@ -912,7 +912,19 @@ const eplTeams = [
     }
 ];
 
+const nbaTeams = [
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80700",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Boston",
+        "shortLocation": "BOS",
+        "name": "Celtics"
+    }
+]
+
 module.exports = {
+    nbaTeams,
 	nflTeams,
     eplTeams,
     ncaaTeams,
