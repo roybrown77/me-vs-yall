@@ -299,7 +299,7 @@ class LeaderPage extends Component {
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
                                                         <div style={{marginBottom: '12px', color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
-                                                            if you had bet in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                            in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
                                                         {
                                                             <table style={{width:"100%", backgroundColor: '#fff'}}>
