@@ -209,7 +209,7 @@ class Game extends Component {
                 {
                   false &&
                   hasGameStarted(game.startDateTime) &&
-                  (game.playHistory || ['(14:30) Touchdown','15: Kickoff']).length > 0 &&
+                  (game.playHistory || []).length > 0 &&
                     <ExpansionPanel>
                       <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
                         <div>
@@ -218,7 +218,7 @@ class Game extends Component {
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails>
                         {
-                          (game.playHistory || ['(14:30) Touchdown','15: Kickoff']).map((play, index) => (
+                          (game.playHistory || []).map((play, index) => (
                           <div>
                             {index+1}: {play}
                           </div>
