@@ -148,19 +148,19 @@ const loadNbaGames = async () => {
       isStub: true
     };
 
-    gameRepository.find(finalDayStub, function (err, games) {
-      if ((games || []).length > 0) {
-        console.log("loadNbaGames games already exists: " + JSON.stringify(finalDayStub));
-      } else {
-        gameRepository.create(finalDayStub, function (err, gameCreated) {
-          if (err) {
-            console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadNbaGames success creating game: " + gameCreated._id);
-          }
-        });
-      }
-    });
+    // gameRepository.find(finalDayStub, function (err, games) {
+    //   if ((games || []).length > 0) {
+    //     console.log("loadNbaGames games already exists: " + JSON.stringify(finalDayStub));
+    //   } else {
+    //     gameRepository.create(finalDayStub, function (err, gameCreated) {
+    //       if (err) {
+    //         console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
+    //       } else {
+    //         console.log("loadNbaGames success creating game: " + gameCreated._id);
+    //       }
+    //     });
+    //   }
+    // });
 
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
