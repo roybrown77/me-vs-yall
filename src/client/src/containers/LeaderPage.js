@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -204,7 +205,9 @@ class LeaderPage extends Component {
             games, 
             picks, 
             isAuthenticated,
-            isCurrentWeek 
+            isCurrentWeek,
+            dataLoading,
+            weeksDataLoading
         } = this.props;
 
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
@@ -230,6 +233,14 @@ class LeaderPage extends Component {
                             onFilterWeek={this.handleFilterWeek}
                             onFilterDate={this.handleFilterDate}
                         />
+                    }
+                    {
+                        <div style={{height: '8px'}}>
+                            {
+                                dataLoading || weeksDataLoading &&
+                                <LinearProgress />
+                            }
+                        </div>
                     }
                     {
                         !isAuthenticated && 

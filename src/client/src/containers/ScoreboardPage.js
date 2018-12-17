@@ -8,6 +8,7 @@ import last from 'lodash/last';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
@@ -172,7 +173,7 @@ class ScoreboardPage extends Component {
     }
 
     render() {
-        const { classes, games, picks, teams, isCurrentWeek, isAuthenticated } = this.props;
+        const { classes, games, picks, teams, isCurrentWeek, isAuthenticated, dataLoading, weeksDataLoading } = this.props;
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
@@ -199,6 +200,14 @@ class ScoreboardPage extends Component {
                             onFilterWeek={this.handleFilterWeek}
                             onFilterDate={this.handleFilterDate}
                         />
+                    }
+                    {
+                        <div style={{height: '8px'}}>
+                            {
+                                dataLoading || weeksDataLoading &&
+                                <LinearProgress />
+                            }
+                        </div>
                     }
                     {
                         !isAuthenticated && 
