@@ -94,13 +94,6 @@ const loadNbaGames = async () => {
     return;
   }
 
-  const currentWeekDay = moment().weekday();
-
-  if (currentWeekDay !== 2) {
-    console.log('loadNbaGames new games will be loaded on tuesday.');
-    return;
-  }
-
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
@@ -198,7 +191,6 @@ const loadNbaGames = async () => {
   let games = [];
   let browser;
   let page;
-  let currentWeek;
   let year;
   let startDateTime;
   let date;
@@ -289,8 +281,7 @@ const loadNbaGames = async () => {
         return document.querySelector(sel).getAttribute('data-date');
       }, STARTDATETIME_SELECTOR.replace("INDEX", i));
 
-      const spread = currentWeek.toLowerCase().includes('all star') ? 'Line: 0' : 
-      await page.evaluate((sel) => {
+      const spread = await page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, SPREAD_SELECTOR.replace("INDEX", i));
 
@@ -387,7 +378,6 @@ const loadNbaGames = async () => {
   // const gameWeek = {
   //   leagueId: mongoose.Types.ObjectId(leagueId),
   //   year: parseInt(year),
-  //   description: currentWeek,
   //   beginDateTime: earliestGameTime,
   //   endDateTime: latestGameTime
   // };
@@ -453,7 +443,6 @@ const updateNbaScores = async () => {
   let scores = [];
   let browser;
   let page;
-  let currentWeek;
   let year;
 
   isupdateNbaScoresRunning = true;
@@ -482,26 +471,6 @@ const updateNbaScores = async () => {
     await page.goto('http://www.espn.com/nba/scoreboard');
 
     await page.waitForSelector('#events');
-
-    let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-    currentWeek = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, CURRENTWEEK_SELECTOR);
-
-    if (!currentWeek) {
-      isupdateNbaScoresRunning = false;
-      console.log("updateNbaScores currentWeek error");
-      return;
-    }
-
-    if (currentWeek.toLowerCase().includes('all star')) {
-      isupdateNbaScoresRunning = false;
-      console.log("updateNbaScores All Star Game will not be added.");
-      await page.close();
-      await browser.close();
-      return;
-    }
 
     let listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
