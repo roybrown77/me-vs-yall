@@ -30,7 +30,7 @@ const styles = {
     margin: '16px 0'
   },
   buttonContainer: {
-    padding: '8px',
+    padding: '0 8px',
     margin: '16px 0'
   },
   button: {
@@ -43,7 +43,7 @@ const styles = {
   },
   ballsContainer: {
     position:'relative', 
-    padding: '16px 0'
+    height: '24px'
   },
   emojiContainer: {
     height: '70px',
