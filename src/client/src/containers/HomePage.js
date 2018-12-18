@@ -4,14 +4,6 @@ import { Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
-import DirectionsRun from '@material-ui/icons/DirectionsRunTwoTone';
-import Rowing from '@material-ui/icons/RowingTwoTone';
-import LocalAtm from '@material-ui/icons/LocalAtmTwoTone';
-import AccessibleForward from '@material-ui/icons/AccessibleForwardTwoTone';
-import DirectionsBike from '@material-ui/icons/DirectionsBikeTwoTone';
-import Pool from '@material-ui/icons/PoolTwoTone';
-
 import christmas from '../styles/images/christmas_tree.png';
 import football from '../styles/images/football2.png';
 import soccer from '../styles/images/soccer2.png';
@@ -20,25 +12,26 @@ import basketball from '../styles/images/basketball.png';
 import baseball from '../styles/images/baseball.png';
 
 const styles = {
-  container: {
-    margin: '8px 16px'
-  },
   title: {
-    color: '#000000', 
+    color: '#f4f7f6', 
+    backgroundColor: '#000000',
     fontSize: '2rem', 
-    width: '100%', 
     fontStyle: 'italic',
-    fontWeight: '700'
+    fontWeight: '700',
+    margin: '16px auto',
+    padding: '8px',
+    width: '50%'
   },
   subTitle: {
     color: '#000000', 
     fontSize: '1rem', 
-    width: '100%', 
-    padding: '8px 0',
-    fontWeight: '500'
+    padding: '8px',
+    fontWeight: '500',
+    margin: '16px 0'
   },
   buttonContainer: {
-    padding: '8px 0'
+    padding: '8px',
+    margin: '16px 0'
   },
   button: {
     width: '100%',
@@ -51,15 +44,15 @@ const styles = {
   ballsContainer: {
     position:'relative', 
     padding: '16px 0'
+  },
+  emojiContainer: {
+    height: '70px',
+    position:'relative',
+    margin: '40px 0'
   }
 };
 
 function HomePage(props) {
-  const RandomElement1 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Rowing;
-  const RandomElement2 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : DirectionsBike;
-  const RandomElement3 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : Pool;
-  const RandomElement4 = Math.floor(Math.random() * 2) === 0 ? DirectionsRun : AccessibleForward;
-
   return (
     <div className="fade-in" style={styles.container}>
       <div style={styles.title}>
@@ -107,30 +100,9 @@ function HomePage(props) {
           <img className="emoji-image" src={tennis} alt=""/>
         </div>
       </div>
-      <div>
-        <div style={{top: '50%', left: '60%', position: 'absolute'}}>
-          <RandomElement1 style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div style={{top: '60%', left: '75%', position: 'absolute'}}>
-          <RandomElement2 style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div className="fast-flash" style={{top: '50%', left: '5%', position: 'absolute'}}>
-          <DirectionsRun style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div style={{top: '60%', left: '45%', position: 'absolute'}}>
-          <LocalAtm style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div style={{top: '80%', left: '75%', position: 'absolute'}}>
+      <div style={styles.emojiContainer}>
+        <div style={{left: '77%', position: 'absolute'}}>
           <img className="emoji-image" src={christmas} alt=""/>
-        </div>
-        <div style={{top: '70%', left: '60%', position: 'absolute'}}>
-          <VideoGame style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div style={{top: '80%', left: '45%', position: 'absolute'}}>
-          <RandomElement3 style={{color: '#000000', fontSize: 70}}/>
-        </div>
-        <div style={{top: '70%', left: '30%', position: 'absolute'}}>
-          <RandomElement4 style={{color: '#000000', fontSize: 70}}/>
         </div>
       </div>
     </div>

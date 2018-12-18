@@ -237,7 +237,7 @@ class LeaderPage extends Component {
                     {
                         <div style={{height: '8px'}}>
                             {
-                                dataLoading || weeksDataLoading &&
+                                (dataLoading || weeksDataLoading) &&
                                 <LinearProgress />
                             }
                         </div>
