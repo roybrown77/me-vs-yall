@@ -242,7 +242,7 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$50</b></div>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$100</b></div>
                     </div>
                     {
                         areAnyGamesInProgress &&

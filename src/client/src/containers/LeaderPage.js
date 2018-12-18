@@ -21,6 +21,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import gold from '../styles/images/gold.png';
 import silver from '../styles/images/silver.png';
@@ -267,7 +268,7 @@ class LeaderPage extends Component {
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$50</b></div>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$100</b></div>
                     </div>
                     {
                         areAnyGamesInProgress &&
@@ -309,9 +310,13 @@ class LeaderPage extends Component {
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
-                                                        <div style={{marginBottom: '12px', color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
+                                                        <div style={{marginBottom:'12px', color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
                                                             in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
+                                                        {
+                                                            false &&
+                                                            <div><InfoIcon/></div>
+                                                        }
                                                         {
                                                             <table style={{width:"100%", backgroundColor: '#fff'}}>
                                                                 <tbody>
