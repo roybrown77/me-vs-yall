@@ -51,9 +51,9 @@ body {
   position: relative;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1400px) {
   .page-container {
-    margin: 0 25%;
+    margin: 0 35%;
   }
 }
 
