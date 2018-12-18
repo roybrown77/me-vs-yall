@@ -123,8 +123,7 @@ const getEmailAddresses = async () => {
   ...users.map(user=>{return user.email}), 
   ...[
       'greenegregory8@gmail.com',
-      'jaylengonzalez0902@gmail.com',
-      'romellobrown51@gmail.com'
+      'jaylengonzalez0902@gmail.com'
     ]
   ];
   const emailString = emailList.join(',');
