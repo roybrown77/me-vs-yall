@@ -646,7 +646,7 @@ const updateNbaScores = async () => {
         isGameOver: isGameOver,
         possession: get(score,'possession'),
         down: get(score,'down'),
-        lastPlay: get(newPlayHistory,'0.lastPlay')
+        lastPlay: get(newPlayHistory,'0.lastPlay'),
         currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
       };
       
