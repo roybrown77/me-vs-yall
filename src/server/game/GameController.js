@@ -152,12 +152,12 @@ const backupData = async () => {
 };
 
 router.get('/games', function (req, res) {
-  try {
-    loadNbaGames();
-  } catch(err) {
-    isLoadNbaGamesRunning = false;
-    console.log('load loadNbaGames error: ' + err.message)
-  }
+  // try {
+  //   loadNbaGames();
+  // } catch(err) {
+  //   isLoadNbaGamesRunning = false;
+  //   console.log('load loadNbaGames error: ' + err.message)
+  // }
 
   // try {
   //   loadNflGames();
