@@ -39,7 +39,7 @@ const stats = [
     content: `3 teams have held opponents to an average less than 15 points per game for the last 4 games.  Colts (12.8), 
               Saints (12.8) and Titans (14.3).  All have won their last 3 out of 4 games.`,
     leagueName: 'NFL',
-    date: 'December 19, 2018',
+    date: 'December 18, 2018',
     author: 'Roy B.'
   },
   {
