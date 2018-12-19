@@ -489,8 +489,6 @@ const updateNbaScores = async () => {
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
     let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2.icon-possession-basketball-after';
-    let LIST_IN_PROGRESS_DOWN_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down';
     let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
     
@@ -514,21 +512,6 @@ const updateNbaScores = async () => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
       }, LIST_IN_PROGRESS_LAST_PLAY_SELECTOR.replace("INDEX", i));
-
-      const down = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, LIST_IN_PROGRESS_DOWN_SELECTOR.replace("INDEX", i));
-
-      const possessionHome = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-      const possessionAway = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -597,8 +580,6 @@ const updateNbaScores = async () => {
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
-        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined),
-        down: (down || '').trim(),
         lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime
       });
@@ -629,25 +610,15 @@ const updateNbaScores = async () => {
     const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
-    const playHistory = get(game,'playHistory',[]);
-    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-
-    const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
-    const currentTime = get(score,'currentTime');
-    const currenTimeSplit = (currentTime || '').split(' ');
-    const quarter = currenTimeSplit[currenTimeSplit.length-1];
-    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
   
     if (game.year === year) {
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
         isGameOver: isGameOver,
-        possession: get(score,'possession'),
-        down: get(score,'down'),
-        lastPlay: get(newPlayHistory,'0.lastPlay'),
-        currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
+        lastPlay: get(score,'lastPlay'),
+        currentTime: currentTime
       };
       
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
