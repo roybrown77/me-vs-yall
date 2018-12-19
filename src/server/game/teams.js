@@ -922,7 +922,7 @@ const nbaTeams = [
         "name": "Celtics"
     },
     {
-        "color": "#007A33",
+        "color": "#F58426",
         "_id": "5b9060e59a4c08bca6d80701",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "New York",
@@ -930,7 +930,7 @@ const nbaTeams = [
         "name": "Knicks"
     },
     {
-        "color": "#007A33",
+        "color": "#000000",
         "_id": "5b9060e59a4c08bca6d80702",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Brooklyn",
@@ -938,7 +938,7 @@ const nbaTeams = [
         "name": "Nets"
     },
     {
-        "color": "#007A33",
+        "color": "#CE1141",
         "_id": "5b9060e59a4c08bca6d80703",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Toronto",
@@ -946,7 +946,7 @@ const nbaTeams = [
         "name": "Raptors"
     },
     {
-        "color": "#007A33",
+        "color": "#006BB6",
         "_id": "5b9060e59a4c08bca6d80704",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Philadelphia",
@@ -954,7 +954,7 @@ const nbaTeams = [
         "name": "76ers"
     },
     {
-        "color": "#007A33",
+        "color": "#00471B",
         "_id": "5b9060e59a4c08bca6d80705",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Milwaukee",
@@ -962,7 +962,7 @@ const nbaTeams = [
         "name": "Bucks"
     },
     {
-        "color": "#007A33",
+        "color": "#FDBB30",
         "_id": "5b9060e59a4c08bca6d80706",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Indiana",
@@ -970,7 +970,7 @@ const nbaTeams = [
         "name": "Pacers"
     },
     {
-        "color": "#007A33",
+        "color": "#006BB6",
         "_id": "5b9060e59a4c08bca6d80707",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Detroit",
@@ -978,7 +978,7 @@ const nbaTeams = [
         "name": "Pistons"
     },
     {
-        "color": "#007A33",
+        "color": "#6F263D",
         "_id": "5b9060e59a4c08bca6d80708",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Cleveland",
@@ -986,7 +986,7 @@ const nbaTeams = [
         "name": "Cavaliers"
     },
     {
-        "color": "#007A33",
+        "color": "#CE1141",
         "_id": "5b9060e59a4c08bca6d80709",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Chicago",
@@ -994,7 +994,7 @@ const nbaTeams = [
         "name": "Bulls"
     },
     {
-        "color": "#007A33",
+        "color": "#1D1160",
         "_id": "5b9060e59a4c08bca6d80710",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Charlotte",
@@ -1002,7 +1002,7 @@ const nbaTeams = [
         "name": "Hornets"
     },
     {
-        "color": "#007A33",
+        "color": "#0077C0",
         "_id": "5b9060e59a4c08bca6d80711",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Orlando",
@@ -1010,7 +1010,7 @@ const nbaTeams = [
         "name": "Magic"
     },
     {
-        "color": "#007A33",
+        "color": "#98002E",
         "_id": "5b9060e59a4c08bca6d80712",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Miami",
@@ -1018,7 +1018,7 @@ const nbaTeams = [
         "name": "Heat"
     },
     {
-        "color": "#007A33",
+        "color": "#E31837",
         "_id": "5b9060e59a4c08bca6d80713",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Washington",
@@ -1026,7 +1026,7 @@ const nbaTeams = [
         "name": "Wizards"
     },
     {
-        "color": "#007A33",
+        "color": "#E03A3E",
         "_id": "5b9060e59a4c08bca6d80714",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Atlanta",
@@ -1034,7 +1034,7 @@ const nbaTeams = [
         "name": "Hawks"
     },
     {
-        "color": "#007A33",
+        "color": "#0E2240",
         "_id": "5b9060e59a4c08bca6d80715",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Denver",
@@ -1042,7 +1042,7 @@ const nbaTeams = [
         "name": "Nuggets"
     },
     {
-        "color": "#007A33",
+        "color": "#007AC1",
         "_id": "5b9060e59a4c08bca6d80716",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Oklahoma City",
@@ -1050,7 +1050,7 @@ const nbaTeams = [
         "name": "Thunder"
     },
     {
-        "color": "#007A33",
+        "color": "#E03A3E",
         "_id": "5b9060e59a4c08bca6d80717",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Portland",
@@ -1058,7 +1058,7 @@ const nbaTeams = [
         "name": "Trail Blazers"
     },
     {
-        "color": "#007A33",
+        "color": "#0C2340",
         "_id": "5b9060e59a4c08bca6d80718",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Minnesota",
@@ -1066,7 +1066,7 @@ const nbaTeams = [
         "name": "Timberwolves"
     },
     {
-        "color": "#007A33",
+        "color": "#002B5C",
         "_id": "5b9060e59a4c08bca6d80719",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Utah",
@@ -1074,7 +1074,7 @@ const nbaTeams = [
         "name": "Jazz"
     },
     {
-        "color": "#007A33",
+        "color": "#006BB6",
         "_id": "5b9060e59a4c08bca6d80720",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Golden State",
@@ -1082,7 +1082,7 @@ const nbaTeams = [
         "name": "Warriors"
     },
     {
-        "color": "#007A33",
+        "color": "#552583",
         "_id": "5b9060e59a4c08bca6d80721",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Los Angeles",
@@ -1098,7 +1098,7 @@ const nbaTeams = [
         "name": "Clippers"
     },
     {
-        "color": "#007A33",
+        "color": "#5A2D81",
         "_id": "5b9060e59a4c08bca6d80723",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Sacramento",
@@ -1106,7 +1106,7 @@ const nbaTeams = [
         "name": "Kings"
     },
     {
-        "color": "#007A33",
+        "color": "#1D1160",
         "_id": "5b9060e59a4c08bca6d80724",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Phoenix",
@@ -1114,7 +1114,7 @@ const nbaTeams = [
         "name": "Suns"
     },
     {
-        "color": "#007A33",
+        "color": "#00538C",
         "_id": "5b9060e59a4c08bca6d80725",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Dallas",
@@ -1122,7 +1122,7 @@ const nbaTeams = [
         "name": "Mavericks"
     },
     {
-        "color": "#007A33",
+        "color": "#12173F",
         "_id": "5b9060e59a4c08bca6d80726",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Memphis",
@@ -1130,7 +1130,7 @@ const nbaTeams = [
         "name": "Grizzlies"
     },
     {
-        "color": "#007A33",
+        "color": "#CE1141",
         "_id": "5b9060e59a4c08bca6d80727",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Houston",
@@ -1138,7 +1138,7 @@ const nbaTeams = [
         "name": "Rockets"
     },
     {
-        "color": "#007A33",
+        "color": "#EF426F",
         "_id": "5b9060e59a4c08bca6d80728",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "San Antonio",
@@ -1146,7 +1146,7 @@ const nbaTeams = [
         "name": "Spurs"
     },
     {
-        "color": "#007A33",
+        "color": "#0C2340",
         "_id": "5b9060e59a4c08bca6d80729",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "New Orleans",
