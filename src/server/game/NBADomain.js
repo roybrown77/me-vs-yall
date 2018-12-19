@@ -101,7 +101,7 @@ const loadNbaGames = async () => {
       $ne: true
     },
     year: {
-      $gte: 2018
+      $gte: year
     }
   };
 
@@ -111,13 +111,44 @@ const loadNbaGames = async () => {
     return new Date(x.startDateTime);
   });
 
+  const todaysDate = new Date();
+
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
   const daysLeftToGetGames = moment().add(7,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadNbaGames days left to get new games: ' + daysLeftToGetGames);
 
+  console.log('loadNbaGames todaysDate: ' + todaysDate);
+
   console.log('loadNbaGames lastStartGameTime: ' + lastStartGameTime);
+
+  // if (lastStartGameTime === todaysDate) {
+  //   console.log('loadNbaGames stub today: ' + todaysDate);
+
+  //   const todayDayStub = {
+  //     leagueId: mongoose.Types.ObjectId(leagueId),
+  //     year: year,
+  //     startDateTime: moment(todaysDate),
+  //     isStub: true
+  //   };
+
+  //   // gameRepository.find(todayDayStub, function (err, games) {
+  //   //   if ((games || []).length > 0) {
+  //   //     console.log("loadNbaGames games already exists: " + JSON.stringify(todayDayStub));
+  //   //   } else {
+  //   //     gameRepository.create(todayDayStub, function (err, gameCreated) {
+  //   //       if (err) {
+  //   //         console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
+  //   //       } else {
+  //   //         console.log("loadNbaGames success creating game: " + gameCreated._id);
+  //   //       }
+  //   //     });
+  //   //   }
+  //   // });
+
+  //   return;
+  // }
 
   if (daysLeftToGetGames === 0) {
     console.log('loadNbaGames unable to get more than 7 days of games: ' + lastStartGameTime);
@@ -601,7 +632,6 @@ const updateNbaScores = async () => {
         possession: get(score,'possession'),
         down: get(score,'down'),
         lastPlay: get(newPlayHistory,'0.lastPlay'),
-        playHistory: newPlayHistory,
         currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
       };
 

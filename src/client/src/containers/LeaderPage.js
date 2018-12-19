@@ -399,7 +399,10 @@ const mapStateToProps = (state, ownProps) => {
     const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
-    const leaders = getLeaders(games, picks, ['59723313734d1d6202a85f10'].includes(leagueId) ? [...userList, getVegasUser()] : userList);
+    const leaders = getLeaders(games, picks, [
+        '59723313734d1d6202a85f10',
+        '59723313734d1d6202a85f19'
+        ].includes(leagueId) ? [...userList, getVegasUser()] : userList);
 
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
