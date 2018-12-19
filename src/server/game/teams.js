@@ -930,7 +930,7 @@ const nbaTeams = [
         "name": "Knicks"
     },
     {
-        "color": "#000000",
+        "color": "#C4C9CC",
         "_id": "5b9060e59a4c08bca6d80702",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Brooklyn",
