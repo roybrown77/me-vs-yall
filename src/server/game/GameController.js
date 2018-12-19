@@ -44,6 +44,7 @@ const {
 } = require('./NCAAFDomain');
 
 const {
+  nbaTeams,
   nflTeams,
   eplTeams, 
   ncaafTeams, 
@@ -283,7 +284,8 @@ router.get('/teams', function (req, res) {
 
   const teams = [
     ...nflTeams,
-    ...eplTeams
+    ...eplTeams,
+    ...nbaTeams
   ];
 
   res.status(200).send(teams);

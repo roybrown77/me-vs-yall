@@ -237,11 +237,25 @@ const loadNbaGames = async () => {
     
     await page.setDefaultNavigationTimeout(120000);
 
+    await page.setRequestInterception(true);
+
+    page.on('request', (req) => {
+        if(req.resourceType() == 'stylesheet' || 
+          req.resourceType() == 'font' || 
+          req.resourceType() == 'image' || 
+          req.resourceType() == 'media') {
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
+
     date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
 
     console.log('loadNbaGames date: ' + date);
 
-    await page.goto('http://www.espn.com/nba/scoreboard');
+    await page.goto('http://www.espn.com/nba/scoreboard/_/date/' + date);
 
     await page.waitForSelector('#events');
 
@@ -379,6 +393,7 @@ const loadNbaGames = async () => {
   console.log('loadNbaGames mvyGames: ' + JSON.stringify(mvyGames));
 
   // mvyGames.forEach(game=>{
+  //   if (!get(game,'startDateTime')) return;
   //   gameRepository.find(game, function (err, games) {
   //     if ((games || []).length > 0) {
   //       console.log("loadNbaGames games already exists: " + JSON.stringify(game));
@@ -631,12 +646,15 @@ const updateNbaScores = async () => {
         isGameOver: isGameOver,
         possession: get(score,'possession'),
         down: get(score,'down'),
-        lastPlay: get(newPlayHistory,'0.lastPlay'),
+        lastPlay: get(newPlayHistory,'0.lastPlay')
         currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
       };
-
+      
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+      set(updatedGame,'competitors.0.record', get(game,'awayRecord'));
+
       set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+      set(updatedGame,'competitors.1.record', get(game,'homeRecord'));
       
       if (isGameOver) {
         const recordSplitAway = get(game,'competitors.0.record','').split('-');
