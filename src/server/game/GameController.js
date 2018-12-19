@@ -28,6 +28,13 @@ const {
 } = require('./NFLDomain');
 
 const { 
+  loadNbaGames, 
+  updateNbaScores,
+  isLoadNbaGamesRunning,
+  isUpdateNbaScoresRunning, 
+} = require('./NBADomain');
+
+const { 
   loadNCAAFootballGames,
   loadNCAAFootballTeams, 
   updateNCAAFootballScores,
@@ -144,6 +151,13 @@ const backupData = async () => {
 };
 
 router.get('/games', function (req, res) {
+  try {
+    loadNbaGames();
+  } catch(err) {
+    isLoadNbaGamesRunning = false;
+    console.log('load loadNbaGames error: ' + err.message)
+  }
+
   // try {
   //   loadNflGames();
   // } catch(err) {

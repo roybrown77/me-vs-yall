@@ -83,6 +83,7 @@ const loadNbaGames = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f19';
+  const year = 2018;
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
 
@@ -143,7 +144,7 @@ const loadNbaGames = async () => {
 
     const finalDayStub = {
       leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
+      year: year,
       startDateTime: moment(lastStartGameTime),
       isStub: true
     };
@@ -164,7 +165,7 @@ const loadNbaGames = async () => {
 
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
+      year: year,
       beginDateTime: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
       endDateTime: new Date(moment(lastStartGameTime).endOf('day'))
     };
@@ -191,7 +192,6 @@ const loadNbaGames = async () => {
   let games = [];
   let browser;
   let page;
-  let year;
   let startDateTime;
   let date;
 
@@ -225,7 +225,7 @@ const loadNbaGames = async () => {
 
       const gameSearch = {
         leagueId: mongoose.Types.ObjectId(leagueId),
-        year: parseInt(year),
+        year: year,
         startDateTime: moment(date),
         isStub: true
       };
@@ -254,8 +254,7 @@ const loadNbaGames = async () => {
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
-
+    
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -299,10 +298,6 @@ const loadNbaGames = async () => {
       });
     }
 
-    year = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, YEAR_SELECTOR);
-
     await page.close();
     await browser.close();
   } catch(err) {
@@ -336,7 +331,7 @@ const loadNbaGames = async () => {
 
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
+      year: year,
       startDateTime: game.startDateTime,
       spread: {
        teamId: get(spreadTeam,'_id'),
@@ -387,6 +382,7 @@ const updateNbaScores = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f19';
+  const year = 2018;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -408,7 +404,6 @@ const updateNbaScores = async () => {
   let scores = [];
   let browser;
   let page;
-  let year;
 
   isupdateNbaScoresRunning = true;
 
@@ -445,7 +440,6 @@ const updateNbaScores = async () => {
     let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall';                                                                                                                      
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
-    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
     let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
@@ -564,10 +558,6 @@ const updateNbaScores = async () => {
       });
     }
 
-    year = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, YEAR_SELECTOR);
-
     await page.close();
     await browser.close();
   } catch(err) {
@@ -604,7 +594,7 @@ const updateNbaScores = async () => {
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
   
-    if (game.year === parseInt(year)) {
+    if (game.year === year) {
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
         isGameOver: isGameOver,
