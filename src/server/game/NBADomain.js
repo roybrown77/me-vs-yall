@@ -22,60 +22,6 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  console.log("playHistory: " + JSON .stringify(playHistory));
-  console.log("lastPlay: " + lastPlay);
-  console.log("currentTime: " + currentTime);
-
-  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    console.log("updateNbaGames invalid");
-    return playHistory;
-  }
-
-  const currenTimeSplit = currentTime.split(' ');
-
-  const overTime = currenTimeSplit.includes('OT') ? 5 : undefined;
-  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
-  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
-
-  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
-  const currenTimeNumber = parseInt(currentTimeString);
-
-  const lastPlaySplit = lastPlay.split(' ');
-  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
-  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
-  
-  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
-  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
-
-  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
-  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
-
-
-  console.log("lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
-  console.log("overTime: " + overTime);
-  console.log("currentTimeQuarterNumber: " + currentTimeQuarterNumber);
-  console.log("quarter: " + quarter);
-  console.log("time: " + time);
-
-  if (!quarter || (!time && time !== 0)) {
-    console.log("updateNbaGames invalid2");
-    return playHistory;
-  }
-
-  const newPlayHistory = orderBy([
-    ...playHistory,
-    {
-      quarter,
-      time,
-      lastPlay
-    }
-  ], ['quarter', 'time'], ['desc', 'asc']);
-  
-  return newPlayHistory;
-};
-
 const loadNbaGames = async () => {
   if (isloadNbaGamesRunning) {
     console.log("loadNbaGames already running.");
