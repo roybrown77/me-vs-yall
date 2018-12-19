@@ -35,6 +35,14 @@ const styles = {
 
 const stats = [
   {
+    title: 'HOLDING DEFENSES',
+    content: `3 teams have held opponents to an average less than 15 points per game for the last 4 games.  Colts (12.8), 
+              Saints (12.8) and Titans (14.3).  All have won their last 3 out of 4 games.`,
+    leagueName: 'NFL',
+    date: 'December 19, 2018',
+    author: 'Roy B.'
+  },
+  {
     title: 'VIKINGS AND REDSKINS ARE COUSINS',
     content: `Kirk Cousins played for the Washington Redskins last year and currently with the Minnesota Vikings.  As with the 
               Redskins, Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
