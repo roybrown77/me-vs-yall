@@ -920,6 +920,238 @@ const nbaTeams = [
         "location": "Boston",
         "shortLocation": "BOS",
         "name": "Celtics"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80701",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "New York",
+        "shortLocation": "NY",
+        "name": "Knicks"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80702",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Brooklyn",
+        "shortLocation": "BKN",
+        "name": "Nets"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80703",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Toronto",
+        "shortLocation": "TOR",
+        "name": "Raptors"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80704",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Philadelphia",
+        "shortLocation": "PHI",
+        "name": "76ers"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80705",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Milwaukee",
+        "shortLocation": "MIL",
+        "name": "Bucks"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80706",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Indiana",
+        "shortLocation": "IND",
+        "name": "Pacers"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80707",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Detroit",
+        "shortLocation": "DET",
+        "name": "Pistons"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80708",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Cleveland",
+        "shortLocation": "CLE",
+        "name": "Cavaliers"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80709",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Chicago",
+        "shortLocation": "CHI",
+        "name": "Bulls"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80710",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Charlotte",
+        "shortLocation": "CHA",
+        "name": "Hornets"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80711",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Orlando",
+        "shortLocation": "ORL",
+        "name": "Magic"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80712",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Miami",
+        "shortLocation": "MIA",
+        "name": "Heat"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80713",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Washington",
+        "shortLocation": "WSH",
+        "name": "Wizards"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80714",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Atlanta",
+        "shortLocation": "ATL",
+        "name": "Hawks"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80715",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Denver",
+        "shortLocation": "DEN",
+        "name": "Nuggets"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80716",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Oklahoma City",
+        "shortLocation": "OKC",
+        "name": "Thunder"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80717",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Portland",
+        "shortLocation": "POR",
+        "name": "Trail Blazers"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80718",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Minnesota",
+        "shortLocation": "MIN",
+        "name": "Timberwolves"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80719",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Utah",
+        "shortLocation": "UTAH",
+        "name": "Jazz"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80720",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Golden State",
+        "shortLocation": "GS",
+        "name": "Warriors"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80721",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Los Angeles",
+        "shortLocation": "LAL",
+        "name": "Lakers"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80722",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Los Angeles",
+        "shortLocation": "LAC",
+        "name": "Clippers"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80723",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Sacramento",
+        "shortLocation": "SAC",
+        "name": "Kings"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80724",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Phoenix",
+        "shortLocation": "PHX",
+        "name": "Suns"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80725",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Dallas",
+        "shortLocation": "DAL",
+        "name": "Mavericks"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80726",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Memphis",
+        "shortLocation": "MEM",
+        "name": "Grizzlies"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80727",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "Houston",
+        "shortLocation": "HOU",
+        "name": "Rockets"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80728",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "San Antonio",
+        "shortLocation": "SA",
+        "name": "Spurs"
+    },
+    {
+        "color": "#007A33",
+        "_id": "5b9060e59a4c08bca6d80729",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "New Orleans",
+        "shortLocation": "NO",
+        "name": "Pelicans"
     }
 ]
 
