@@ -63,7 +63,7 @@ function HomePage(props) {
         pick winners of sporting events and compete with others around the world
       </div>
       <div style={styles.buttonContainer}>
-        <Grid container spacing={16}>
+        <Grid container spacing={8}>
           <Grid item xs={6}>
             <Route render={({ history }) => (
                 <Button 
@@ -82,6 +82,18 @@ function HomePage(props) {
                 </Button>
             )}/>
           </Grid>
+          {
+            false && 
+            <Grid item xs={6}>
+              <Route render={({ history }) => (
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+                      National Basketball Association
+                  </Button>
+              )}/>
+            </Grid>
+          }
         </Grid>
       </div>
       <div style={styles.ballsContainer}>
