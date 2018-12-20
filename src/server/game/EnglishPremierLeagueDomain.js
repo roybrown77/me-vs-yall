@@ -166,6 +166,20 @@ const loadEnglishPremierLeagueGames = async () => {
 
     await page.setDefaultNavigationTimeout(120000);
 
+    await page.setRequestInterception(true);
+
+    page.on('request', (req) => {
+        if(req.resourceType() == 'stylesheet' || 
+          req.resourceType() == 'font' || 
+          req.resourceType() == 'image' || 
+          req.resourceType() == 'media') {
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
+
     date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
 
     console.log('loadEnglishPremierLeagueGames date: ' + date);

@@ -187,6 +187,13 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message)
   // }
 
+  // try {
+  //   updatNbaScores();
+  // } catch(err) {
+  //   isUpdateNbaScoresRunning = false;
+  //   console.log('updateNbaScores error: ' + err.message)
+  // }
+
   try {
     updateNflScores();
   } catch(err) {

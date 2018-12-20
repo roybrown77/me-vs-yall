@@ -1090,7 +1090,7 @@ const nbaTeams = [
         "name": "Lakers"
     },
     {
-        "color": "#007A33",
+        "color": "#C8102E",
         "_id": "5b9060e59a4c08bca6d80722",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Los Angeles",

@@ -30,6 +30,8 @@ const loadNbaGames = async () => {
 
   const leagueId = '59723313734d1d6202a85f19';
   const year = 2018;
+  const daysToLoad = 7;
+
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
 
@@ -61,7 +63,7 @@ const loadNbaGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(7,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(daysToLoad,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadNbaGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -69,40 +71,13 @@ const loadNbaGames = async () => {
 
   console.log('loadNbaGames lastStartGameTime: ' + lastStartGameTime);
 
-  // if (lastStartGameTime === todaysDate) {
-  //   console.log('loadNbaGames stub today: ' + todaysDate);
-
-  //   const todayDayStub = {
-  //     leagueId: mongoose.Types.ObjectId(leagueId),
-  //     year: year,
-  //     startDateTime: moment(todaysDate),
-  //     isStub: true
-  //   };
-
-  //   // gameRepository.find(todayDayStub, function (err, games) {
-  //   //   if ((games || []).length > 0) {
-  //   //     console.log("loadNbaGames games already exists: " + JSON.stringify(todayDayStub));
-  //   //   } else {
-  //   //     gameRepository.create(todayDayStub, function (err, gameCreated) {
-  //   //       if (err) {
-  //   //         console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-  //   //       } else {
-  //   //         console.log("loadNbaGames success creating game: " + gameCreated._id);
-  //   //       }
-  //   //     });
-  //   //   }
-  //   // });
-
-  //   return;
-  // }
-
   if (daysLeftToGetGames === 0) {
     console.log('loadNbaGames unable to get more than 7 days of games: ' + lastStartGameTime);
 
     const search = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
+          $gte: new Date(moment(lastStartGameTime).add(-(daysToLoad-1), 'days').startOf('day')),
           $lte: new Date(moment(lastStartGameTime).endOf('day'))
         },
         isStub: {
@@ -126,42 +101,42 @@ const loadNbaGames = async () => {
       isStub: true
     };
 
-    // gameRepository.find(finalDayStub, function (err, games) {
-    //   if ((games || []).length > 0) {
-    //     console.log("loadNbaGames games already exists: " + JSON.stringify(finalDayStub));
-    //   } else {
-    //     gameRepository.create(finalDayStub, function (err, gameCreated) {
-    //       if (err) {
-    //         console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-    //       } else {
-    //         console.log("loadNbaGames success creating game: " + gameCreated._id);
-    //       }
-    //     });
-    //   }
-    // });
+    gameRepository.find(finalDayStub, function (err, games) {
+      if ((games || []).length > 0) {
+        console.log("loadNbaGames games already exists: " + JSON.stringify(finalDayStub));
+      } else {
+        gameRepository.create(finalDayStub, function (err, gameCreated) {
+          if (err) {
+            console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
+          } else {
+            console.log("loadNbaGames success creating game: " + gameCreated._id);
+          }
+        });
+      }
+    });
 
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
+      beginDateTime: new Date(moment(lastStartGameTime).add(-(daysToLoad-1), 'days').startOf('day')),
       endDateTime: new Date(moment(lastStartGameTime).endOf('day'))
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
 
-    // gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
-    //   if ((gameWeeks || []).length > 0) {
-    //     console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeeks));
-    //   } else {
-    //     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-    //         if (err) {
-    //             console.log("loadNbaGames there was a problem adding week to the database: " + err.message);
-    //         } else {
-    //           console.log("loadNbaGames success creating week: " + gameWeekCreated._id);
-    //         }
-    //     });
-    //   }
-    // });
+    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
+      if ((gameWeeks || []).length > 0) {
+        console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeeks));
+      } else {
+        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+            if (err) {
+                console.log("loadNbaGames there was a problem adding week to the database: " + err.message);
+            } else {
+              console.log("loadNbaGames success creating week: " + gameWeekCreated._id);
+            }
+        });
+      }
+    });
 
     return;
   }
@@ -221,27 +196,25 @@ const loadNbaGames = async () => {
         isStub: true
       };
 
-      // gameRepository.find(gameSearch, function (err, games) {
-      //   if ((games || []).length > 0) {
-      //     console.log("loadNbaGames games already exists: " + JSON.stringify(gameSearch));
-      //   } else {
-      //     gameRepository.create(gameSearch, function (err, gameCreated) {
-      //       if (err) {
-      //         console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-      //       } else {
-      //         console.log("loadNbaGames success creating game: " + gameCreated._id);
-      //       }
-      //     });
-      //   }
-      // });
+      gameRepository.find(gameSearch, function (err, games) {
+        if ((games || []).length > 0) {
+          console.log("loadNbaGames games already exists: " + JSON.stringify(gameSearch));
+        } else {
+          gameRepository.create(gameSearch, function (err, gameCreated) {
+            if (err) {
+              console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
+            } else {
+              console.log("loadNbaGames success creating game: " + gameCreated._id);
+            }
+          });
+        }
+      });
 
       await page.close();
       await browser.close();
       return;
     }
 
-    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
@@ -252,20 +225,10 @@ const loadNbaGames = async () => {
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
-      const awayRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-      const homeRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       startDateTime = await page.evaluate((sel) => {
         return document.querySelector(sel).getAttribute('data-date');
@@ -283,9 +246,7 @@ const loadNbaGames = async () => {
          spreadDateTime: new Date(new Date().toUTCString()).toISOString()
         },
         awayTeam: awayTeam,
-        awayRecord: awayRecord,
-        homeTeam: homeTeam,
-        homeRecord: homeRecord
+        homeTeam: homeTeam
       });
     }
 
@@ -330,30 +291,30 @@ const loadNbaGames = async () => {
        spreadDateTime: game.spread.spreadDateTime
       },
       competitors: [
-        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
-        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
+        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name},
+        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name}
       ]
     };
   });
 
   console.log('loadNbaGames mvyGames: ' + JSON.stringify(mvyGames));
 
-  // mvyGames.forEach(game=>{
-  //   if (!get(game,'startDateTime')) return;
-  //   gameRepository.find(game, function (err, games) {
-  //     if ((games || []).length > 0) {
-  //       console.log("loadNbaGames games already exists: " + JSON.stringify(game));
-  //     } else {
-  //       gameRepository.create(game, function (err, gameCreated) {
-  //         if (err) {
-  //           console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-  //         } else {
-  //           console.log("loadNbaGames success creating game: " + gameCreated._id);
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
+  mvyGames.forEach(game=>{
+    if (!get(game,'startDateTime')) return;
+    gameRepository.find(game, function (err, games) {
+      if ((games || []).length > 0) {
+        console.log("loadNbaGames games already exists: " + JSON.stringify(game));
+      } else {
+        gameRepository.create(game, function (err, gameCreated) {
+          if (err) {
+            console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
+          } else {
+            console.log("loadNbaGames success creating game: " + gameCreated._id);
+          }
+        });
+      }
+    });
+  });
 
   isloadNbaGamesRunning = false;
 };
