@@ -83,8 +83,8 @@ function HomePage(props) {
             )}/>
           </Grid>
           {
-            false && 
-            <Grid item xs={6}>
+            true && 
+            <Grid item xs={6} style={{margin:'auto'}}>
               <Route render={({ history }) => (
                   <Button 
                       variant="outlined" 

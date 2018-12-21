@@ -173,7 +173,20 @@ class ScoreboardPage extends Component {
     }
 
     render() {
-        const { classes, games, picks, teams, isCurrentWeek, isAuthenticated, dataLoading, weeksDataLoading } = this.props;
+        const { 
+            classes, 
+            games, 
+            picks, 
+            teams, 
+            isCurrentWeek, 
+            isAuthenticated, 
+            dataLoading, 
+            weeksDataLoading, 
+            leagues, 
+            leagueId 
+        } = this.props;
+
+        const league = leagues.find(x=>x.id === leagueId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
@@ -242,7 +255,7 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$100</b></div>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>${get(league,'amount')} US</b></div>
                     </div>
                     {
                         areAnyGamesInProgress &&

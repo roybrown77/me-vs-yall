@@ -1066,7 +1066,7 @@ const nbaTeams = [
         "name": "Timberwolves"
     },
     {
-        "color": "#002B5C",
+        "color": "#B50E12",
         "_id": "5b9060e59a4c08bca6d80719",
         "leagueId": "59723313734d1d6202a85f19",
         "location": "Utah",

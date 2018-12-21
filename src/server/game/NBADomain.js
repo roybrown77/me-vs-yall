@@ -1,5 +1,5 @@
-let isloadNbaGamesRunning = false;
-let isupdateNbaScoresRunning = false;
+let isLoadNbaGamesRunning = false;
+let isUpdateNbaScoresRunning = false;
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -22,8 +22,15 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
+const hasGameStarted = (dateTime) => {
+    const gameStartDateTime = moment(new Date(dateTime));
+    const currentDateTime = moment(new Date());
+    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    return difference <= 0;
+};
+
 const loadNbaGames = async () => {
-  if (isloadNbaGamesRunning) {
+  if (isLoadNbaGamesRunning) {
     console.log("loadNbaGames already running.");
     return;
   }
@@ -40,6 +47,13 @@ const loadNbaGames = async () => {
 
   if (![12,1,2,3,4,5,6].includes(currentMonth)) {
     console.log('loadNbaGames new games will be loaded during season.');
+    return;
+  }
+
+  const currentWeekDay = moment().weekday();
+
+  if (currentWeekDay !== 3) {
+    console.log('loadNbaGames new games will be loaded on wednesday.');
     return;
   }
 
@@ -147,7 +161,7 @@ const loadNbaGames = async () => {
   let startDateTime;
   let date;
 
-  isloadNbaGamesRunning = true;
+  isLoadNbaGamesRunning = true;
 
   try {
     browser = await puppeteer.launch({
@@ -185,7 +199,7 @@ const loadNbaGames = async () => {
     }, 'scoreboard basketball');
 
     if (listLength === 0) {
-      isloadNbaGamesRunning = false;
+      isLoadNbaGamesRunning = false;
 
       console.log("loadNbaGames no games found");
 
@@ -265,13 +279,13 @@ const loadNbaGames = async () => {
   }
 
   if (!startDateTime) {
-    isloadNbaGamesRunning = false;
+    isLoadNbaGamesRunning = false;
     console.log('loadNbaGames no startDateTime');
     return;
   }
 
   if (!games) {
-    isloadNbaGamesRunning = false;
+    isLoadNbaGamesRunning = false;
     console.log('loadNbaGames no games');
     return;
   }
@@ -316,7 +330,7 @@ const loadNbaGames = async () => {
     });
   });
 
-  isloadNbaGamesRunning = false;
+  isLoadNbaGamesRunning = false;
 };
 
 // const month = moment().add(2, 'months');
@@ -329,7 +343,7 @@ const loadNbaGames = async () => {
 // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
 const updateNbaScores = async () => {
-  if (isupdateNbaScoresRunning) {
+  if (isUpdateNbaScoresRunning) {
     console.log("updateNbaScores already running.")
     return;
   }
@@ -341,9 +355,6 @@ const updateNbaScores = async () => {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
-    },
-    startDateTime: {
-      $lt: new Date(new Date().toUTCString()).toISOString()
     }
   };
 
@@ -358,7 +369,7 @@ const updateNbaScores = async () => {
   let browser;
   let page;
 
-  isupdateNbaScoresRunning = true;
+  isUpdateNbaScoresRunning = true;
 
   try {
     browser = await puppeteer.launch({
@@ -396,13 +407,14 @@ const updateNbaScores = async () => {
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
     let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
+    let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
-    
+    let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+
     console.log('updateNbaScores listLength: ' + listLength);
 
     if (listLength === 0) {
-      isupdateNbaScoresRunning = false;
+      isUpdateNbaScoresRunning = false;
       console.log("updateNbaScores no games found");
       await page.close();
       await browser.close();
@@ -475,7 +487,16 @@ const updateNbaScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
+      const spread = await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+      }, SPREAD_SELECTOR.replace("INDEX", i));
+
       scores.push({
+        spread: {
+         team: spread.replace('Line: ','').split(' ')[0],
+         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
+         spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+        },
         gameOverText: gameOverText,
         awayTeam: awayTeam,
         awayTeamInProgress: awayInProgressName,
@@ -505,13 +526,14 @@ const updateNbaScores = async () => {
     console.log('updateNbaScores browser error: ' + err.message);
   }
 
-  console.log('updateNbaScores scores: ' + JSON.stringify(scores));
-
+  
   if (scores.length === 0) {
-    isupdateNbaScoresRunning = false;
+    isUpdateNbaScoresRunning = false;
     console.log("updateNbaScores no scores.");
     return;
   }
+
+  console.log('updateNbaScores scores: ' + JSON.stringify(scores[0]));
 
   games.forEach(game=>{
     const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
@@ -519,15 +541,26 @@ const updateNbaScores = async () => {
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-  
+
+    //console.log("updateNbaScores game: " + JSON.stringify(game));
+    //console.log("updateNbaScores shortLocation: " + shortLocation);
+
+    const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(game,'spread.team','').toLowerCase());
+
     if (game.year === year) {
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
         isGameOver: isGameOver,
         lastPlay: get(score,'lastPlay'),
-        currentTime: currentTime
+        currentTime: get(score,'currentTime')
       };
-      
+
+      set(updatedGame,'spread', hasGameStarted(get(game,'startDateTime')) || !spreadTeam ? get(game,'spread') : {
+        teamId: get(spreadTeam,'_id'),
+        amount: get(game,'spread.amount', 0),
+        spreadDateTime: game.spread.spreadDateTime
+      });
+
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
       set(updatedGame,'competitors.0.record', get(game,'awayRecord'));
 
@@ -552,20 +585,20 @@ const updateNbaScores = async () => {
         set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
       }
 
-      console.log('updateNbaScores updatedGame: ' + JSON.stringify(updatedGame));
+      //console.log('updateNbaScores updatedGame: ' + JSON.stringify(updatedGame));
 
-      //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
 
-  isupdateNbaScoresRunning = false;
+  isUpdateNbaScoresRunning = false;
 };
 
 const domain = { 
   loadNbaGames, 
   updateNbaScores,
-  isloadNbaGamesRunning,
-  isupdateNbaScoresRunning, 
+  isLoadNbaGamesRunning,
+  isUpdateNbaScoresRunning, 
 };
 
 module.exports = domain;

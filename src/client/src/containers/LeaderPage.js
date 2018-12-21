@@ -79,6 +79,8 @@ const styles = theme => ({
   }
 });
 
+let gameWeekNo;                                                                
+
 const getIndicator = (game,picks,leader,index1,index2) => {
     return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
             picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.userId === leader.id && pick.gameId === game._id)) || 
@@ -205,12 +207,15 @@ class LeaderPage extends Component {
             leaders, 
             games, 
             picks, 
+            leagueId,
+            leagues = [],
             isAuthenticated,
             isCurrentWeek,
             dataLoading,
             weeksDataLoading
         } = this.props;
 
+        const league = leagues.find(x=>x.id === leagueId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
@@ -268,7 +273,7 @@ class LeaderPage extends Component {
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>$100</b></div>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>${get(league,'amount')} US</b></div>
                     </div>
                     {
                         areAnyGamesInProgress &&
@@ -310,7 +315,9 @@ class LeaderPage extends Component {
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
-                                                        <div style={{marginBottom:'12px', color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
+                                                        <div style={{
+                                                            marginBottom: leagueId === '59723313734d1d6202a85f10' ? '0' : '12px',
+                                                            color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
                                                             in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
                                                         {
@@ -318,9 +325,32 @@ class LeaderPage extends Component {
                                                             <div><InfoIcon/></div>
                                                         }
                                                         {
-                                                            <table style={{width:"100%", backgroundColor: '#fff'}}>
-                                                                <tbody>
-                                                                    {games.map((game)=>(
+                                                            <table style={{
+                                                                width:"100%", 
+                                                                backgroundColor: '#fff'}}>
+                                                            {
+                                                                games.map((game,gameIndex)=>{
+                                                                    let newWeek = (gameWeekNo !== get(game,'weekNo',gameIndex+1));
+                                                                    if (newWeek) gameWeekNo = get(game,'weekNo',gameIndex+1);
+
+                                                                    return (<tbody>
+                                                                        {
+                                                                            newWeek &&
+                                                                            leagueId === '59723313734d1d6202a85f10' &&
+                                                                            <tr key={leader.id + '-' + game._id + '-' + gameWeekNo}>
+                                                                                <td align="center">
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                </td>
+                                                                                <td align="center">                                                                      
+                                                                                    <div style={{margin:'12px 0'}}>Week {gameWeekNo}</div>                                                
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
                                                                         <tr key={leader.id + '-' + game._id}>
                                                                             <td align="center">
                                                                                 <div style={{
@@ -358,8 +388,8 @@ class LeaderPage extends Component {
                                                                                 backgroundColor: getIndicator(game,picks,leader,1,0)}}/>
                                                                             </td>
                                                                         </tr>
-                                                                    ))}
-                                                                </tbody>
+                                                                    </tbody>)
+                                                                })}
                                                             </table>
                                                         }
                                                     </div>
