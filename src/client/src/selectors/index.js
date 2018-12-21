@@ -7,9 +7,33 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 const leagues = [ 
-    {id: '59723313734d1d6202a85f10', name: 'nfl', description: 'nfl', years: [2017, 2018], amount:100},
-    {id: '59723313734d1d6202a85f17', name: 'premier', description: 'premier', years: [2018], amount:100},
-    {id: '59723313734d1d6202a85f19', name: 'nba', description: 'nba', years: [2018], amount:100}
+    {
+        id: '59723313734d1d6202a85f10', 
+        name: 'nfl', 
+        description: 'nfl', 
+        years: [2017, 2018], 
+        contestMessage: 'player with the most wins without tying and gets 2 folks to join wins',
+        amount: 100,
+        currency: 'US'
+    },
+    {
+        id: '59723313734d1d6202a85f17', 
+        name: 'premier', 
+        description: 'premier', 
+        years: [2018], 
+        contestMessage: 'player with the most wins without tying and gets 2 folks to join wins',
+        amount:100,
+        currency: 'US'
+    },
+    {
+        id: '59723313734d1d6202a85f19', 
+        name: 'nba', 
+        description: 'nba', 
+        years: [2018], 
+        contestMessage: 'player with the most wins without tying and gets 2 folks to join wins',
+        amount:100,
+        currency: 'US'
+    }
 ];
 
 const getBet = (results) => {
@@ -203,7 +227,6 @@ const getAreAnyGamesInProgress = (games = []) => {
 };
 
 export {
-    leagues,
     getResults,
     areAnyGamesOver,
     formatWeeks,
@@ -219,5 +242,6 @@ export {
     getVegasUser,
     getVegasPicks,
     getGroupedGames,
-    getAreAnyGamesInProgress
+    getAreAnyGamesInProgress,
+    leagues
 };

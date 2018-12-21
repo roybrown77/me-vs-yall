@@ -47,7 +47,8 @@ class GameSearchBar extends Component {
     const { classes } = this.props;
 
     const seasonTypeWeekNo = this.props.weeks.findIndex(x=>(x.seasonType === this.props.seasonType) && (x.weekNo === this.props.weekNo));
-    const weekIndex = (seasonTypeWeekNo === 0 || !!seasonTypeWeekNo) && this.props.seasonType && this.props.weekNo ? seasonTypeWeekNo : this.props.weeks.findIndex(x=>x.beginDateTime === this.props.beginDateTime);
+    const weekIndex = (seasonTypeWeekNo === 0 || !!seasonTypeWeekNo) && this.props.seasonType && this.props.weekNo ? 
+      seasonTypeWeekNo : this.props.weeks.findIndex(x=>x.beginDateTime === this.props.beginDateTime);
                       
     const weeks = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index}>{week.displayName}</MenuItem>

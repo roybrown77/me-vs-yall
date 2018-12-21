@@ -9,5 +9,6 @@ var GameSchema = new mongoose.Schema({
     description: String,
 	weekNumberDisplay: String,
     namePrefix: String,
+    prize: mongoose.Schema.Types.Mixed
 });
 module.exports = mongoose.model('Game_Week', GameSchema);

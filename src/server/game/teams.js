@@ -357,7 +357,7 @@ const nflTeams = [
         stadiumName: "Los Angeles Stadium",
         stadiumCity: "Inglewood, CA"
     }
-  ];
+];
 
 const ncaaTeams = [{
     "colors": [],
@@ -1153,7 +1153,7 @@ const nbaTeams = [
         "shortLocation": "NO",
         "name": "Pelicans"
     }
-]
+];
 
 module.exports = {
     nbaTeams,

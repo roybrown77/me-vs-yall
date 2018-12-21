@@ -402,6 +402,7 @@ const updateNbaScores = async () => {
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     //let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall';                                                                                                                      
+    let LIST_NAME_PREGAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
@@ -442,6 +443,11 @@ const updateNbaScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
+      const awayTeamPregame = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_PREGAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
       const awayInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -466,6 +472,11 @@ const updateNbaScores = async () => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeTeamPregame = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_PREGAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -499,11 +510,13 @@ const updateNbaScores = async () => {
         },
         gameOverText: gameOverText,
         awayTeam: awayTeam,
+        awayTeamPregame: awayTeamPregame,
         awayTeamInProgress: awayInProgressName,
         awayInProgressScore: parseInt(awayInProgressScore),
         awayScore: parseInt(awayScore),
         //awayRecord: awayRecord,
         homeTeam: homeTeam,
+        homeTeamPregame: homeTeamPregame,
         homeTeamInProgress: homeInProgressName,
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
@@ -538,14 +551,10 @@ const updateNbaScores = async () => {
   games.forEach(game=>{
     const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
-    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
+    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation  || x.awayTeamPregame === shortLocation);
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-
-    //console.log("updateNbaScores game: " + JSON.stringify(game));
-    //console.log("updateNbaScores shortLocation: " + shortLocation);
-
-    const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(game,'spread.team','').toLowerCase());
+    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour; 
+    const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
     if (game.year === year) {
       const updatedGame = {
@@ -554,10 +563,12 @@ const updateNbaScores = async () => {
         lastPlay: get(score,'lastPlay'),
         currentTime: get(score,'currentTime')
       };
+      
+      const gameStarted = hasGameStarted(get(game,'startDateTime'));
 
-      set(updatedGame,'spread', hasGameStarted(get(game,'startDateTime')) || !spreadTeam ? get(game,'spread') : {
+      set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
         teamId: get(spreadTeam,'_id'),
-        amount: get(game,'spread.amount', 0),
+        amount: get(score,'spread.amount', 0),
         spreadDateTime: game.spread.spreadDateTime
       });
 
@@ -585,7 +596,7 @@ const updateNbaScores = async () => {
       //   set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
       // }
 
-      //console.log('updateNbaScores updatedGame: ' + JSON.stringify(updatedGame));
+      console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
