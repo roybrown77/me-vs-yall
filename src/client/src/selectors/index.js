@@ -179,7 +179,7 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
                     const team = teams.find(x=>x._id === competitor._id);
                     return {
                         ...competitor,
-                        shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' ? 
+                        shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' || team.shortLocation === 'LAL' ? 
                         'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
                         name: team.name || team.location,
                         color: team.color,
