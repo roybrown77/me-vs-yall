@@ -401,7 +401,7 @@ const updateNbaScores = async () => {
     }, 'scoreboard basketball');
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall';                                                                                                                      
+    //let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall';                                                                                                                      
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
@@ -457,10 +457,10 @@ const updateNbaScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
-      const awayRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      // const awayRecord = await page.evaluate((sel) => {
+      //   const element = document.querySelector(sel);
+      //   return element ? element.innerHTML : null;
+      // }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -482,10 +482,10 @@ const updateNbaScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
-      const homeRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      // const homeRecord = await page.evaluate((sel) => {
+      //   const element = document.querySelector(sel);
+      //   return element ? element.innerHTML : null;
+      // }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const spread = await page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
@@ -502,12 +502,12 @@ const updateNbaScores = async () => {
         awayTeamInProgress: awayInProgressName,
         awayInProgressScore: parseInt(awayInProgressScore),
         awayScore: parseInt(awayScore),
-        awayRecord: awayRecord,
+        //awayRecord: awayRecord,
         homeTeam: homeTeam,
         homeTeamInProgress: homeInProgressName,
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
-        homeRecord: homeRecord,
+        //homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime
       });
@@ -562,28 +562,28 @@ const updateNbaScores = async () => {
       });
 
       set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-      set(updatedGame,'competitors.0.record', get(game,'awayRecord'));
+      //set(updatedGame,'competitors.0.record', get(game,'awayRecord'));
 
       set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
-      set(updatedGame,'competitors.1.record', get(game,'homeRecord'));
+      //set(updatedGame,'competitors.1.record', get(game,'homeRecord'));
       
-      if (isGameOver) {
-        const recordSplitAway = get(game,'competitors.0.record','').split('-');
+      // if (isGameOver) {
+      //   const recordSplitAway = get(game,'competitors.0.record','').split('-');
 
-        get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
-        get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
-        set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
+      //   get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
+      //   get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
+      //   set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
         
-        set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
+      //   set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
 
-        const recordSplitHome = get(game,'competitors.1.record','').split('-');
+      //   const recordSplitHome = get(game,'competitors.1.record','').split('-');
 
-        get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
-        get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
-        set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
+      //   get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
+      //   get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
+      //   set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
         
-        set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
-      }
+      //   set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
+      // }
 
       //console.log('updateNbaScores updatedGame: ' + JSON.stringify(updatedGame));
 

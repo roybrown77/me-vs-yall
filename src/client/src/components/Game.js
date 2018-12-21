@@ -171,6 +171,7 @@ class Game extends Component {
                 {
                   isAuthenticated &&
                   !hasGameStarted(game.startDateTime) &&
+                  ['59723313734d1d6202a85f10','59723313734d1d6202a85f17'].includes(get(game,'leagueId')) && 
                   <Button 
                       variant="outlined" 
                       className={classes.tieButton} onClick={() => this.handleTie(game._id)}>
