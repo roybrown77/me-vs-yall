@@ -2,6 +2,7 @@ import queryString from 'query-string';
 import URLSearchParams from 'url-search-params';
 
 import get from 'lodash/get';
+import last from 'lodash/last';
 
 import { getCurrentWeek } from '../selectors';
 import { CALL_API, Schemas } from '../middleware/api';
@@ -204,7 +205,7 @@ const fetchAllTeams = (types) => ({
 
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
-  const year = get(query,'year');
+  const year = get(query, 'year', 2018);
 
   return dispatch(fetchGameWeeks({leagueId,year})).then(
     result=>{
@@ -212,14 +213,15 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
         const authenticationDomain = currentState.get('authenticationDomain').toJS();
         const userInSession = getUser();
         const user = get(authenticationDomain,'user',userInSession);
-        const currentWeek = getCurrentWeek(get(result,'response',[]).filter(x=>x.year===year));
+        const currentWeek = last(get(result,'response',[]));
 
         const request = {
+          weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
           userId: get(user,'sub'),
-          leagueId: get(query, 'leagueId'),
-          year: get(query, 'year'),
-          seasonType: get(query, 'leagueId') !== '59723313734d1d6202a85f10' ? undefined : get(query, 'seasonType') || get(currentWeek, 'seasonType'),
-          weekNo: get(query, 'leagueId') !== '59723313734d1d6202a85f10' ? undefined : get(query, 'weekNo', get(currentWeek, 'weekNo')),
+          leagueId: get(query, 'leagueId')  || get(currentWeek, 'leagueId'),
+          year: get(query, 'year') || get(currentWeek, 'year'),
+          seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
+          weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
           beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
           endDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
         };
@@ -260,14 +262,15 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
 
 export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
-  const year = get(query,'year');
+  const year = get(query, 'year', 2018);
 
-  return dispatch(fetchGameWeeks({leagueId})).then(result=>{
-    const currentWeek = getCurrentWeek(get(result,'response',[]).filter(x=>x.year===year));
+  return dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
+    const currentWeek = last(get(result,'response',[]));
 
     const request = {
-      leagueId: get(query, 'leagueId'),
-      year: get(query, 'year'),
+      weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
+      leagueId: get(query, 'leagueId') || get(currentWeek, 'leagueId'),
+      year: get(query, 'year') || get(currentWeek, 'year'),
       seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
       weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
       beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),

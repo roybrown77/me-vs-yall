@@ -27,7 +27,8 @@ import {
     getTimeUntilNextGamesLoad,
     getIsCurrentWeek,
     getGroupedGames,
-    getAreAnyGamesInProgress } from '../selectors';
+    getAreAnyGamesInProgress,
+    getCurrentWeekId } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -76,14 +77,16 @@ class ScoreboardPage extends Component {
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+        const weekFound = last(this.props.weeks);
 
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
-            year: this.props.year,
-            seasonType: this.props.seasonType,
-            weekNo: this.props.weekNo,
-            beginDateTime: this.props.beginDateTime,
-            endDateTime: this.props.endDateTime
+            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+            seasonType: urlLeagueId !== this.props.leagueId ? undefined : this.props.seasonType,
+            weekNo: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekNo,
+            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
         });
     }
 
@@ -112,7 +115,8 @@ class ScoreboardPage extends Component {
             seasonType: this.props.seasonType,
             weekNo: this.props.weekNo,
             beginDateTime: this.props.beginDateTime,
-            endDateTime: this.props.endDateTime
+            endDateTime: this.props.endDateTime,
+            weekId: this.props.weekId
         });
     }
 
@@ -149,7 +153,7 @@ class ScoreboardPage extends Component {
             return;
         }
 
-        const weekFound = this.props.weeks[parseInt(week.key)];
+        const weekFound = this.props.weeks[week.key];
 
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
@@ -157,7 +161,8 @@ class ScoreboardPage extends Component {
             seasonType: weekFound.seasonType,
             weekNo: weekFound.weekNo,
             beginDateTime: weekFound.beginDateTime,
-            endDateTime: weekFound.endDateTime
+            endDateTime: weekFound.endDateTime,
+            weekId: weekFound._id
         });
     }
 
@@ -183,10 +188,12 @@ class ScoreboardPage extends Component {
             dataLoading, 
             weeksDataLoading, 
             leagues, 
-            leagueId 
+            leagueId,
+            weekId,
+            weeks
         } = this.props;
 
-        const league = leagues.find(x=>x.id === leagueId);
+        const week = weeks.find(x=>x._id === weekId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
@@ -203,7 +210,7 @@ class ScoreboardPage extends Component {
                             leagues={this.props.leagues}
                             year={this.props.year}
                             years={this.props.years}
-                            weekNo={this.props.weekNo}
+                            weekId={this.props.weekId}
                             weeks={this.props.weeks}
                             seasonType={this.props.seasonType}
                             beginDateTime={this.props.beginDateTime}
@@ -254,9 +261,12 @@ class ScoreboardPage extends Component {
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
-                    <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>${get(league,'amount')} US</b></div>
-                    </div>
+                    {
+                        get(week,'prize') &&
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>{get(week,'prize.message')} <b>{get(week,'prize.amount')} {get(week,'prize.currency')}</b></div>
+                        </div>
+                    }
                     {
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -329,13 +339,15 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    const isCurrentWeek = getIsCurrentWeek(weeks, beginDateTime, endDateTime, weekNo);
-
+    
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
 
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
+
+    const weekId = get(request,'weekId') || get(currentWeek,'_id');
+    const isCurrentWeek = get(currentWeek,'_id') === get(request,'weekId') || !get(request,'weekId');
 
     return {
         dataLoading,
@@ -350,6 +362,7 @@ const mapStateToProps = (state, ownProps) => {
         year,
         seasonType,
         weekNo,
+        weekId,
         beginDateTime,
         endDateTime,
         teams,
@@ -372,7 +385,8 @@ ScoreboardPage.propTypes = {
     year: PropTypes.number,
     seasonType: PropTypes.number,
     week: PropTypes.number,
-    //weekId: PropTypes.string,
+    weekId: PropTypes.string,
+    weekNo: PropTypes.number,
     beginDateTime: PropTypes.string,
     endDateTime: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,

@@ -44,13 +44,9 @@ class GameSearchBar extends Component {
   }
   
   render() {
-    const { classes } = this.props;
-
-    const seasonTypeWeekNo = this.props.weeks.findIndex(x=>(x.seasonType === this.props.seasonType) && (x.weekNo === this.props.weekNo));
-    const weekIndex = (seasonTypeWeekNo === 0 || !!seasonTypeWeekNo) && this.props.seasonType && this.props.weekNo ? 
-      seasonTypeWeekNo : this.props.weeks.findIndex(x=>x.beginDateTime === this.props.beginDateTime);
-                      
-    const weeks = this.props.weeks.map((week, index) =>
+    const { classes, weeks, weekId } = this.props;
+    const weekIndex = weeks.findIndex(x=>x._id === weekId);
+    const weeksToDisplay = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index}>{week.displayName}</MenuItem>
                   );
 
@@ -95,7 +91,7 @@ class GameSearchBar extends Component {
                       name='year'
                       style={styles.select}
                       >
-                      {weeks}
+                      {weeksToDisplay}
                   </Select>
                 </FormControl>
               </Grid>
@@ -111,10 +107,11 @@ GameSearchBar.propTypes = {
   endDateTime: PropTypes.string,
   year: PropTypes.number,
   years: PropTypes.array,
-  weekNo: PropTypes.number,
+  weekId: PropTypes.string,
   weeks: PropTypes.array,
   seasonType: PropTypes.number,
   isDaily: PropTypes.bool,
+  weekIndex: PropTypes.number,
   onFilterLeague: PropTypes.func,
   onFilterYear: PropTypes.func,
   onFilterWeek: PropTypes.func,

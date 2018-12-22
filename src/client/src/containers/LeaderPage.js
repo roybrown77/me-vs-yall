@@ -41,7 +41,8 @@ import {
     getIsCurrentWeek,
     getVegasPicks,
     getVegasUser,
-    getAreAnyGamesInProgress } from '../selectors';
+    getAreAnyGamesInProgress, 
+    getCurrentWeekId } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -118,11 +119,12 @@ class LeaderPage extends Component {
 
         this.props.loadLeaders({
             leagueId: urlLeagueId,
-            year: this.props.year,
-            seasonType: this.props.seasonType,
-            weekNo: this.props.weekNo,
-            beginDateTime: this.props.beginDateTime,
-            endDateTime: this.props.endDateTime
+            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+            seasonType: urlLeagueId !== this.props.leagueId ? undefined : this.props.seasonType,
+            weekNo: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekNo,
+            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
         });
     }
 
@@ -151,7 +153,8 @@ class LeaderPage extends Component {
             seasonType: this.props.seasonType,
             weekNo: this.props.weekNo,
             beginDateTime: this.props.beginDateTime,
-            endDateTime: this.props.endDateTime
+            endDateTime: this.props.endDateTime,
+            weekId: this.props.weekId
         });
     }
 
@@ -188,7 +191,7 @@ class LeaderPage extends Component {
             return;
         }
 
-        const weekFound = this.props.weeks[parseInt(week.key)];
+        const weekFound = this.props.weeks[week.key];
 
         this.props.loadLeaders({
             leagueId: this.props.leagueId,
@@ -196,7 +199,8 @@ class LeaderPage extends Component {
             seasonType: weekFound.seasonType,
             weekNo: weekFound.weekNo,
             beginDateTime: weekFound.beginDateTime,
-            endDateTime: weekFound.endDateTime
+            endDateTime: weekFound.endDateTime,
+            weekId: weekFound._id
         });
     }
 
@@ -212,10 +216,12 @@ class LeaderPage extends Component {
             isAuthenticated,
             isCurrentWeek,
             dataLoading,
-            weeksDataLoading
+            weeksDataLoading,
+            weekId,
+            weeks
         } = this.props;
 
-        const league = leagues.find(x=>x.id === leagueId);
+        const week = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
@@ -229,7 +235,7 @@ class LeaderPage extends Component {
                             leagues={this.props.leagues}
                             year={this.props.year}
                             years={this.props.years}
-                            weekNo={this.props.weekNo}
+                            weekId={this.props.weekId}
                             weeks={this.props.weeks}
                             seasonType={this.props.seasonType}
                             beginDateTime={this.props.beginDateTime}
@@ -272,9 +278,12 @@ class LeaderPage extends Component {
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
-                    <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most wins without tying and gets 2 folks to join wins <b>${get(league,'amount')} US</b></div>
-                    </div>
+                    {
+                        get(week,'prize') &&
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>{get(week,'prize.message')} <b>{get(week,'prize.amount')} {get(week,'prize.currency')}</b></div>
+                        </div>
+                    }
                     {
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
@@ -333,11 +342,11 @@ class LeaderPage extends Component {
                                                                     let newWeek = (gameWeekNo !== get(game,'weekNo',gameIndex+1));
                                                                     if (newWeek) gameWeekNo = get(game,'weekNo',gameIndex+1);
 
-                                                                    return (<tbody>
+                                                                    return (<tbody key={leader.id + '-' + game._id}>
                                                                         {
                                                                             newWeek &&
                                                                             leagueId === '59723313734d1d6202a85f10' &&
-                                                                            <tr key={leader.id + '-' + game._id + '-' + gameWeekNo}>
+                                                                            <tr>
                                                                                 <td align="center">
                                                                                 </td>
                                                                                 <td align="center">
@@ -351,7 +360,7 @@ class LeaderPage extends Component {
                                                                                 </td>
                                                                             </tr>
                                                                         }
-                                                                        <tr key={leader.id + '-' + game._id}>
+                                                                        <tr>
                                                                             <td align="center">
                                                                                 <div style={{
                                                                                 width:'24px', 
@@ -446,13 +455,15 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    const isCurrentWeek = getIsCurrentWeek(weeks, beginDateTime, endDateTime, weekNo);
 
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
     
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
+
+    const weekId = get(request,'weekId') || get(currentWeek,'_id');
+    const isCurrentWeek = get(currentWeek,'_id') === get(request,'weekId') || !get(request,'weekId');
 
     return {
         isAuthenticated,
@@ -466,6 +477,7 @@ const mapStateToProps = (state, ownProps) => {
         year,
         seasonType,
         weekNo,
+        weekId,
         beginDateTime,
         endDateTime,
         games,
@@ -487,6 +499,7 @@ LeaderPage.propTypes = {
     leagueId: PropTypes.string,
     year: PropTypes.number,
     seasonType: PropTypes.number,
+    weekId: PropTypes.string,
     weekNo: PropTypes.number,
     beginDateTime: PropTypes.string,
     endDateTime: PropTypes.string,

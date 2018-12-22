@@ -11,30 +11,27 @@ const leagues = [
         id: '59723313734d1d6202a85f10', 
         name: 'nfl', 
         description: 'nfl', 
-        years: [2017, 2018], 
-        contestMessage: 'player with the most wins without tying and gets 2 folks to join wins',
-        amount: 100,
-        currency: 'US'
+        years: [2017, 2018]
     },
     {
         id: '59723313734d1d6202a85f17', 
         name: 'premier', 
         description: 'premier', 
-        years: [2018], 
-        contestMessage: 'player with the most wins without tying and gets 2 folks to join wins',
-        amount:100,
-        currency: 'US'
+        years: [2018]
     },
     {
         id: '59723313734d1d6202a85f19', 
         name: 'nba', 
         description: 'nba', 
-        years: [2018], 
-        contestMessage: 'player with the most wins without tying and gets 2 folks to join wins',
-        amount:100,
-        currency: 'US'
+        years: [2018]
     }
 ];
+
+const getCurrentWeekId = (weeks, seasonType, weekNo, beginDateTime) => {
+    const weekBySeasonTypeAndWeekNo = weeks.find(x=>(x.seasonType === seasonType) && (x.weekNo === weekNo));
+    const week = weekBySeasonTypeAndWeekNo || weeks.find(x=>x.beginDateTime === beginDateTime);
+    return get(week,'_id');
+};
 
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110);
@@ -243,5 +240,6 @@ export {
     getVegasPicks,
     getGroupedGames,
     getAreAnyGamesInProgress,
+    getCurrentWeekId,
     leagues
 };
