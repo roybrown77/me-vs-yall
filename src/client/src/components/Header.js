@@ -57,7 +57,10 @@ const styles = {
     height: '50px',
     width: '50px',
     borderRadius: '8px',
-    margin: '8px'
+    margin: '8px',
+    position: 'fixed',
+    right: '4px',
+    top: '0'
   }
 };
 
@@ -82,6 +85,9 @@ class Header extends Component {
   render() {
     const { classes, theme, children, leagueName } = this.props;
     const { anchor, open } = this.state;
+    const userJson = localStorage.getItem('user');
+    const user = JSON.parse(userJson || JSON.stringify({}));
+    const picture = get(user,'picture');
 
     const drawer = (
       <SwipeableDrawer
@@ -186,6 +192,10 @@ class Header extends Component {
               <Typography variant="h6" color="inherit" className={classes.title} style={{marginRight: '75px'}}>
                 Me vs Yall
               </Typography>
+              {
+                this.props.isAuthenticated && picture &&
+                <img className={classes.userPicture} src={picture} alt=""/>
+              }
             </Toolbar>
           </AppBar>
           {drawer}
