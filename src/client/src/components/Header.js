@@ -59,7 +59,7 @@ const styles = {
     borderRadius: '8px',
     margin: '8px',
     position: 'fixed',
-    right: '4px',
+    right: '0',
     top: '0'
   }
 };
