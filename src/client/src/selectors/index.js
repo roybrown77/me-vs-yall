@@ -27,12 +27,6 @@ const leagues = [
     }
 ];
 
-const getCurrentWeekId = (weeks, seasonType, weekNo, beginDateTime) => {
-    const weekBySeasonTypeAndWeekNo = weeks.find(x=>(x.seasonType === seasonType) && (x.weekNo === weekNo));
-    const week = weekBySeasonTypeAndWeekNo || weeks.find(x=>x.beginDateTime === beginDateTime);
-    return get(week,'_id');
-};
-
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110);
 };
@@ -164,12 +158,6 @@ const getTimeUntilNextGamesLoad = (games = []) => {
     return time;
 };
 
-const getIsCurrentWeek = (weeks = [], beginDateTime, endDateTime, weekNo) => {
-    return (get(last(weeks),'beginDateTime') === beginDateTime && 
-                            get(last(weeks),'endDateTime') === endDateTime) ||
-                            get(last(weeks),'weekNo') === weekNo;
-};
-
 const getVegasUser = () => {
     return {
         firstName: 'Westgate Las Vegas SuperBook',
@@ -235,11 +223,9 @@ export {
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
     getLeaders,
-    getIsCurrentWeek,
     getVegasUser,
     getVegasPicks,
     getGroupedGames,
     getAreAnyGamesInProgress,
-    getCurrentWeekId,
     leagues
 };

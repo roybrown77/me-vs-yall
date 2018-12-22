@@ -596,7 +596,7 @@ const updateNbaScores = async () => {
       //   set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
       // }
 
-      console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
+      //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }

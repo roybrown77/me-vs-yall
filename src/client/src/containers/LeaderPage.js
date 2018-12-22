@@ -38,11 +38,10 @@ import {
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
     getLeaders,
-    getIsCurrentWeek,
     getVegasPicks,
     getVegasUser,
-    getAreAnyGamesInProgress, 
-    getCurrentWeekId } from '../selectors';
+    getAreAnyGamesInProgress
+} from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -212,7 +211,6 @@ class LeaderPage extends Component {
             games, 
             picks, 
             leagueId,
-            leagues = [],
             isAuthenticated,
             isCurrentWeek,
             dataLoading,

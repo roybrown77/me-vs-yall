@@ -25,10 +25,9 @@ import {
     hasGameStarted,
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
-    getIsCurrentWeek,
     getGroupedGames,
-    getAreAnyGamesInProgress,
-    getCurrentWeekId } from '../selectors';
+    getAreAnyGamesInProgress
+} from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -77,8 +76,7 @@ class ScoreboardPage extends Component {
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
-        const weekFound = last(this.props.weeks);
-
+        
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
             year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
@@ -187,8 +185,6 @@ class ScoreboardPage extends Component {
             isAuthenticated, 
             dataLoading, 
             weeksDataLoading, 
-            leagues, 
-            leagueId,
             weekId,
             weeks
         } = this.props;

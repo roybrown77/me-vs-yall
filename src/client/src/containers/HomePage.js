@@ -50,6 +50,13 @@ const styles = {
     height: '70px',
     position:'relative',
     margin: '40px 0'
+  },
+  inProgress: {
+    width:'12px', 
+    height: '12px', 
+    position: 'absolute',
+    right: '4px',
+    bottom: '4px'
   }
 };
 
@@ -70,6 +77,10 @@ function HomePage(props) {
                     variant="outlined" 
                     style={{...styles.button, color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
                     National Football League
+                    {
+                      false &&
+                      <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50A0A'}}></div>
+                    }
                 </Button>
             )}/>
           </Grid>
@@ -79,21 +90,26 @@ function HomePage(props) {
                     variant="outlined" 
                     style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
                     Premier League Football
+                    {
+                      false &&
+                      <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
+                    }
                 </Button>
             )}/>
           </Grid>
-          {
-            true && 
-            <Grid item xs={6} style={{margin:'auto'}}>
-              <Route render={({ history }) => (
-                  <Button 
-                      variant="outlined" 
-                      style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
-                      National Basketball Association
-                  </Button>
-              )}/>
-            </Grid>
-          }
+          <Grid item xs={6} style={{margin:'auto'}}>
+            <Route render={({ history }) => (
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+                    National Basketball Association
+                    {
+                      false &&
+                      <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                    }
+                </Button>
+            )}/>
+          </Grid>
         </Grid>
       </div>
       <div style={styles.ballsContainer}>
