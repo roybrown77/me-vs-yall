@@ -555,6 +555,11 @@ const updateNbaScores = async () => {
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour; 
     const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
+    // const currentTimeSplit = get(score,'currentTime','').split(' ');
+    // const quarter = get(currentTimeSplit,'2','');
+    // const timeString = get(currentTimeSplit,'0','');
+    // const currentTime = get(game,'currentTime') ? 
+    //   : get(score,'currentTime');
 
     if (game.year === year) {
       const updatedGame = {

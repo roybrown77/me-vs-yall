@@ -7,6 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 
+import soccer from '../styles/images/soccer2.png';
+
 import get from 'lodash/get';
 
 const styles = theme => ({
@@ -60,6 +62,12 @@ class GameSearchBar extends Component {
 
     return (
           <div className={classes.container}>
+              {
+                false &&
+                <div style={{left: '12px', position: 'absolute'}}>
+                  <img src={soccer} alt=""/>
+                </div>
+              }
               <Grid item xs={12} sm container justify="center">
                   <FormControl className={classes.formControl}>
                     <Select
