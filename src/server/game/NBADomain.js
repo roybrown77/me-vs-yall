@@ -561,50 +561,48 @@ const updateNbaScores = async () => {
     // const currentTime = get(game,'currentTime') ? 
     //   : get(score,'currentTime');
 
-    if (game.year === year) {
-      const updatedGame = {
-        competitors: [...get(game,'competitors',[])],
-        isGameOver: isGameOver,
-        lastPlay: get(score,'lastPlay'),
-        currentTime: get(score,'currentTime')
-      };
+    const updatedGame = {
+      competitors: [...get(game,'competitors',[])],
+      isGameOver: isGameOver,
+      lastPlay: get(score,'lastPlay'),
+      currentTime: get(score,'currentTime')
+    };
+    
+    const gameStarted = hasGameStarted(get(game,'startDateTime'));
+
+    set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
+      teamId: get(spreadTeam,'_id'),
+      amount: get(score,'spread.amount', 0),
+      spreadDateTime: game.spread.spreadDateTime
+    });
+
+    set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+    //set(updatedGame,'competitors.0.record', get(game,'awayRecord'));
+
+    set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+    //set(updatedGame,'competitors.1.record', get(game,'homeRecord'));
+    
+    // if (isGameOver) {
+    //   const recordSplitAway = get(game,'competitors.0.record','').split('-');
+
+    //   get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
+    //   get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
+    //   set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
       
-      const gameStarted = hasGameStarted(get(game,'startDateTime'));
+    //   set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
 
-      set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
-        teamId: get(spreadTeam,'_id'),
-        amount: get(score,'spread.amount', 0),
-        spreadDateTime: game.spread.spreadDateTime
-      });
+    //   const recordSplitHome = get(game,'competitors.1.record','').split('-');
 
-      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-      //set(updatedGame,'competitors.0.record', get(game,'awayRecord'));
-
-      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
-      //set(updatedGame,'competitors.1.record', get(game,'homeRecord'));
+    //   get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
+    //   get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
+    //   set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
       
-      // if (isGameOver) {
-      //   const recordSplitAway = get(game,'competitors.0.record','').split('-');
+    //   set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
+    // }
 
-      //   get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
-      //   get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
-      //   set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
-        
-      //   set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
+    //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
-      //   const recordSplitHome = get(game,'competitors.1.record','').split('-');
-
-      //   get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
-      //   get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
-      //   set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
-        
-      //   set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
-      // }
-
-      //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
-
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
-    }
+    gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
 
   isUpdateNbaScoresRunning = false;

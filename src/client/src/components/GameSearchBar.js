@@ -7,7 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 
+import football from '../styles/images/football2.png';
 import soccer from '../styles/images/soccer2.png';
+import basketball from '../styles/images/basketball.png';
 
 import get from 'lodash/get';
 
@@ -46,7 +48,7 @@ class GameSearchBar extends Component {
   }
   
   render() {
-    const { classes, weeks, weekId } = this.props;
+    const { classes, weeks, weekId, leagueId } = this.props;
     const weekIndex = weeks.findIndex(x=>x._id === weekId);
     const weeksToDisplay = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index}>{week.displayName}</MenuItem>
@@ -60,18 +62,21 @@ class GameSearchBar extends Component {
                     <MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>
                   );
 
+    const ball = leagueId === '59723313734d1d6202a85f10' ? football : 
+      leagueId === '59723313734d1d6202a85f17' ? soccer : basketball; 
+
     return (
           <div className={classes.container}>
               {
                 false &&
-                <div style={{left: '12px', position: 'absolute'}}>
-                  <img src={soccer} alt=""/>
+                <div style={{left: '12px', top: '12px', position: 'absolute'}}>
+                  <img src={ball} alt=""/>
                 </div>
               }
               <Grid item xs={12} sm container justify="center">
                   <FormControl className={classes.formControl}>
                     <Select
-                        value={this.props.league}
+                        value={leagueId}
                         onChange={this.props.onFilterLeague}
                         displayEmpty
                         name='league'
@@ -109,7 +114,7 @@ class GameSearchBar extends Component {
 }
 
 GameSearchBar.propTypes = {
-  league: PropTypes.string,
+  leagueId: PropTypes.string,
   leagues: PropTypes.array,
   beginDateTime: PropTypes.string,
   endDateTime: PropTypes.string,

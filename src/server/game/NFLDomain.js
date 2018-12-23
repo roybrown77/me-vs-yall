@@ -22,6 +22,13 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
+const hasGameStarted = (dateTime) => {
+    const gameStartDateTime = moment(new Date(dateTime));
+    const currentDateTime = moment(new Date());
+    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    return difference <= 0;
+};
+
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   console.log("playHistory: " + JSON .stringify(playHistory));
   console.log("lastPlay: " + lastPlay);
@@ -384,12 +391,6 @@ const updateNflScores = async () => {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
-    },
-    weekNo: {
-      $gt: 0
-    },
-    startDateTime: {
-      $lt: new Date(new Date().toUTCString()).toISOString()
     }
   };
 
@@ -469,7 +470,8 @@ const updateNflScores = async () => {
     let LIST_IN_PROGRESS_DOWN_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down';
     let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
-    
+    let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+
     console.log('updateNflScores listLength: ' + listLength);
 
     if (listLength === 0) {
@@ -561,7 +563,16 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
+      const spread = await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+      }, SPREAD_SELECTOR.replace("INDEX", i));
+
       scores.push({
+        spread: {
+         team: spread.replace('Line: ','').split(' ')[0],
+         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
+         spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+        },
         gameOverText: gameOverText,
         awayTeam: awayTeam,
         awayTeamInProgress: awayInProgressName,
@@ -612,6 +623,7 @@ const updateNflScores = async () => {
     const team = nflTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
+    const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
@@ -623,42 +635,48 @@ const updateNflScores = async () => {
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
   
-    if (game.year === parseInt(year)) {
-      const updatedGame = {
-        competitors: [...get(game,'competitors',[])],
-        isGameOver: isGameOver,
-        possession: get(score,'possession'),
-        down: get(score,'down'),
-        lastPlay: get(newPlayHistory,'0.lastPlay'),
-        playHistory: newPlayHistory,
-        currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
-      };
+    const updatedGame = {
+      competitors: [...get(game,'competitors',[])],
+      isGameOver: isGameOver,
+      possession: get(score,'possession'),
+      down: get(score,'down'),
+      lastPlay: get(newPlayHistory,'0.lastPlay'),
+      playHistory: newPlayHistory,
+      currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
+    };
 
-      set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-      set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+    const gameStarted = hasGameStarted(get(game,'startDateTime'));
+
+    set(updatedGame,'spread', gameStarted || !spreadTeam || get(game,'spread') === null ? get(game,'spread') : {
+      teamId: get(spreadTeam,'_id'),
+      amount: get(score,'spread.amount', 0),
+      spreadDateTime: game.spread.spreadDateTime
+    });
+
+    set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+    set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+    
+    if (isGameOver) {
+      const recordSplitAway = get(game,'competitors.0.record','').split('-');
+
+      get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
+      get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
+      set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
       
-      if (isGameOver) {
-        const recordSplitAway = get(game,'competitors.0.record','').split('-');
+      set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
 
-        get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
-        get(score,'awayScore') < get(score,'homeScore') ? set(recordSplitAway,'1', parseInt(get(recordSplitAway,'1',0))+1) : 
-        set(recordSplitAway,'2', parseInt(get(recordSplitAway,'2',0))+1);
-        
-        set(updatedGame,'competitors.0.finalRecord',recordSplitAway.join('-'));
+      const recordSplitHome = get(game,'competitors.1.record','').split('-');
 
-        const recordSplitHome = get(game,'competitors.1.record','').split('-');
-
-        get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
-        get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
-        set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
-        
-        set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
-      }
-
-      console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
-
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      get(score,'homeScore') > get(score,'awayScore') ? set(recordSplitHome,'0', parseInt(get(recordSplitHome,'0',0))+1) : 
+      get(score,'homeScore') < get(score,'awayScore') ? set(recordSplitHome,'1', parseInt(get(recordSplitHome,'1',0))+1) : 
+      set(recordSplitHome,'2', parseInt(get(recordSplitHome,'2',0))+1);
+      
+      set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
     }
+
+    console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
+
+    gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
 
   isUpdateNflScoresRunning = false;

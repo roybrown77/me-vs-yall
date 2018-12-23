@@ -202,7 +202,7 @@ class ScoreboardPage extends Component {
                 <PageContainer>
                     {
                         <GameSearchBar 
-                            league={this.props.leagueId}
+                            leagueId={this.props.leagueId}
                             leagues={this.props.leagues}
                             year={this.props.year}
                             years={this.props.years}
