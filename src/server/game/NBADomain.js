@@ -557,9 +557,14 @@ const updateNbaScores = async () => {
     const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     // const currentTimeSplit = get(score,'currentTime','').split(' ');
     // const quarter = get(currentTimeSplit,'2','');
-    // const timeString = get(currentTimeSplit,'0','');
-    // const currentTime = get(game,'currentTime') ? 
-    //   : get(score,'currentTime');
+    // const timeString = get(currentTimeSplit,'0','').replace(':','');
+    // const timeNumber = parseFloat(timeString);
+    // const gameCurrentTimeString = get(game,'currentTime','').replace(':','');
+    // const lastTimeNumber = parseFloat(gameCurrentTimeString);
+    // const currentTime = !get(game,'currentTime') || (timeNumber <= lastTimeNumber && gameCurrentTimeString !== '' && gameCurrentTimeString !== '') 
+    // ? get(score,'currentTime') : get(game,'currentTime');
+
+    //console.log('updateNbaScores currentTime: ' + currentTime);
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
@@ -600,7 +605,7 @@ const updateNbaScores = async () => {
     //   set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
     // }
 
-    //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
+    console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
