@@ -491,17 +491,21 @@ const updateEnglishPremierLeagueScores = async () => {
       (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
 
+      const isGameOver = get(score,'isGameOver',false);
+    
       const updatedGame = {
-          isGameOver: get(score,'isGameOver',false),
+        competitors: [...get(game,'competitors',[])],
+          isGameOver: isGameOver,
           currentTime: get(score,'currentTime'),
           possession: get(score,'possession'),
           lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
-          get(score,'homeTeam') + ': ' + get(score,'possessionHome'),
-          competitors: [
-            Object.assign({},game.competitors[0],{score:score.awayScore}),
-            Object.assign({},game.competitors[1],{score:score.homeScore})
-          ]
+          get(score,'homeTeam') + ': ' + get(score,'possessionHome')
         };
+
+      set(updatedGame,'competitors.0.score', isGameOver ? 
+        get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0));
+      set(updatedGame,'competitors.1.score', isGameOver ? 
+        get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0));
       
       console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
 
