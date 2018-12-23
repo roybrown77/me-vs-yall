@@ -243,6 +243,11 @@ router.get('/games', function (req, res) {
   gameRepository.find(finalSearch, function (err, games) {
       //console.log('games games found: ' + JSON.stringify(games));
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+      games.map(game=>{
+        const x = game;
+        x.playHistory = [];
+        return x;
+      });
       res.status(200).send(games);
   });
 });
