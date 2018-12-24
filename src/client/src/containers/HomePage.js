@@ -67,7 +67,7 @@ function HomePage(props) {
         Me vs Yall
       </div>
       <div style={styles.subTitle}>
-        pick winners of sporting events and compete with others around the world
+        follow games when u don't have cable, pick winners for cash and it's free
       </div>
       <div style={styles.buttonContainer}>
         <Grid container spacing={8}>
