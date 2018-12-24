@@ -647,10 +647,10 @@ const updateNflScores = async () => {
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
 
-    set(updatedGame,'spread', gameStarted || !spreadTeam || get(game,'spread') === null ? get(game,'spread') : {
+    set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
       teamId: get(spreadTeam,'_id'),
       amount: get(score,'spread.amount', 0),
-      spreadDateTime: game.spread.spreadDateTime
+      spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
     set(updatedGame,'competitors.0.score', isGameOver ? 
@@ -676,7 +676,7 @@ const updateNflScores = async () => {
       set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
     }
 
-    console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
+    //console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });

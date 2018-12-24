@@ -533,7 +533,7 @@ const updateNbaScores = async () => {
     return;
   }
 
-  console.log('updateNbaScores scores: ' + JSON.stringify(scores[0]));
+  console.log('updateNbaScores scores: ' + JSON.stringify(scores));
 
   games.forEach(game=>{
     const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
@@ -565,7 +565,7 @@ const updateNbaScores = async () => {
     set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
       teamId: get(spreadTeam,'_id'),
       amount: get(score,'spread.amount', 0),
-      spreadDateTime: game.spread.spreadDateTime
+      spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
     set(updatedGame,'competitors.0.score', isGameOver ? 
@@ -573,7 +573,7 @@ const updateNbaScores = async () => {
     set(updatedGame,'competitors.1.score', isGameOver ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
 
-    console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
+    //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
