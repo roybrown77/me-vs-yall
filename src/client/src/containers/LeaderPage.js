@@ -264,7 +264,7 @@ class LeaderPage extends Component {
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>live play starts in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
                         </div>
                     }
@@ -272,7 +272,7 @@ class LeaderPage extends Component {
                         areAllGamesOver &&
                         isCurrentWeek &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>next games load in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>new games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }

@@ -187,7 +187,7 @@ class Game extends Component {
                     {
                       !game.isGameOver && 
                       hasGameStarted(game.startDateTime) && 
-                      <span className='fast-flash' style={{color: 'darkorange', marginLeft:'12px'}}>
+                      <span style={{color: 'darkorange', marginLeft:'12px'}}>
                         {game.currentTime || 'in progress'}
                       </span>
                     }
