@@ -323,7 +323,7 @@ class LeaderPage extends Component {
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
                                                         <div style={{
-                                                            marginBottom: leagueId === '59723313734d1d6202a85f10' ? '0' : '12px',
+                                                            marginBottom: '12px',
                                                             color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
                                                             in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
@@ -342,6 +342,7 @@ class LeaderPage extends Component {
 
                                                                     return (<tbody key={leader.id + '-' + game._id}>
                                                                         {
+                                                                            false &&
                                                                             newWeek &&
                                                                             leagueId === '59723313734d1d6202a85f10' &&
                                                                             <tr>
