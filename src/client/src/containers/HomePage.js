@@ -67,7 +67,7 @@ function HomePage(props) {
         Me vs Yall
       </div>
       <div style={styles.subTitle}>
-        follow games when u can't watch it and pick winners for cash or fun.  it's free.
+        follow sports when u can't watch it and pick winners for cash or fun.  it's free.
       </div>
       <div style={styles.buttonContainer}>
         <Grid container spacing={8}>
