@@ -19,6 +19,8 @@ import Countdown from '../components/Countdown';
 import { googleLogin } from '../middleware/authenticationService';
 import { loadScoreboard, addPick, updatePick } from '../actions';
 
+import obs from '../styles/images/original-barber-shop-3.jpeg';
+
 import { 
     formatWeeks, 
     getCurrentWeek, 
@@ -55,6 +57,12 @@ const styles = theme => ({
     margin: '4px 25%',
     borderRadius: '8px',
     padding: '4px'
+  },
+  banner: {
+    marginBottom: '10px'
+  },
+  bannerImage: {
+    borderRadius: '8px'
   }
 });
 
@@ -298,6 +306,13 @@ class ScoreboardPage extends Component {
                                     isAuthenticated={isAuthenticated}
                                 />
                             ))}
+                        </div>
+                    }
+                    {
+                        <div className={classes.banner}>
+                            <a href="https://theoriginalbarbershopnpr.com">
+                                <img className={classes.bannerImage} src={obs} alt="the original barber shop"/>
+                            </a>
                         </div>
                     }
                 </PageContainer>

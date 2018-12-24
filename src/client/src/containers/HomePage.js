@@ -114,24 +114,24 @@ function HomePage(props) {
       </div>
       <div style={styles.ballsContainer}>
         <div style={{top: '35%', left: '27%', position: 'absolute'}}>
-          <img className="emoji-image" src={football} alt=""/>
+          <img src={football} alt=""/>
         </div>
         <div style={{top: '35%', left: '37%', position: 'absolute'}}>
-          <img className="emoji-image" src={soccer} alt=""/>
+          <img src={soccer} alt=""/>
         </div>
         <div style={{top: '35%', left: '47%', position: 'absolute'}}>
-          <img className="emoji-image" src={basketball} alt=""/>
+          <img src={basketball} alt=""/>
         </div>
         <div style={{top: '35%', left: '57%', position: 'absolute'}}>
-          <img className="emoji-image" src={baseball} alt=""/>
+          <img src={baseball} alt=""/>
         </div>
         <div style={{top: '35%', left: '67%', position: 'absolute'}}>
-          <img className="emoji-image" src={tennis} alt=""/>
+          <img src={tennis} alt=""/>
         </div>
       </div>
       <div style={styles.emojiContainer}>
         <div style={{left: '77%', position: 'absolute'}}>
-          <img className="emoji-image" src={christmas} alt=""/>
+          <img src={christmas} alt=""/>
         </div>
       </div>
     </div>

@@ -120,11 +120,11 @@ class Game extends Component {
                                     <Grid item>
                                         <div style={{position:'absolute', padding: '4px',
                                             display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                            <img className="emoji-image" src={angry} alt=""/>
+                                            <img src={angry} alt=""/>
                                         </div>
                                         <div style={{position:'absolute', padding: '4px',
                                             display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                            <img className="emoji-image" src={money} alt=""/>
+                                            <img src={money} alt=""/>
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm container>
