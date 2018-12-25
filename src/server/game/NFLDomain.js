@@ -103,8 +103,8 @@ const loadNflGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay < 3) {
-    console.log('loadNflGames new games will be loaded on wednesday.');
+  if (currentWeekDay !==2) {
+    console.log('loadNflGames new games will be loaded on tuesday.');
     return;
   }
 
@@ -157,7 +157,7 @@ const loadNflGames = async () => {
         }
     });
 
-    await page.goto('http://www.espn.com/nfl/scoreboard');
+    await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2018/seasontype/2/week/17');
 
     await page.waitForSelector('#events');
 
@@ -359,7 +359,7 @@ const loadNflGames = async () => {
     } else {
       gameWeekRepository.create({
           ...gameWeek, 
-          prize: {message: 'player with the most wins without tying and gets 2 folks to join wins',amount: '$25',currency: 'US'}
+          prize: {message: 'player with the most wins without tying and gets 2 folks to join wins',amount: '$100',currency: 'US'}
         }, function (err, gameWeekCreated) {
           if (err) {
               console.log("loadNflGames there was a problem adding week to the database: " + err.message);
