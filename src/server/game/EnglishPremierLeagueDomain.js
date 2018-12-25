@@ -115,7 +115,7 @@ const loadEnglishPremierLeagueGames = async () => {
           if (err) {
             console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
           } else {
-            console.log("loadEnglishPremierLeagueGames success creating game: " + gameCreated._id);
+            console.log("loadEnglishPremierLeagueGames success creating final day stub: " + gameCreated._id);
           }
         });
       }
@@ -124,8 +124,8 @@ const loadEnglishPremierLeagueGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
-      beginDateTime: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
-      endDateTime: new Date(moment(lastStartGameTime).endOf('day'))
+      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
     };
 
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
@@ -212,7 +212,7 @@ const loadEnglishPremierLeagueGames = async () => {
             if (err) {
               console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
             } else {
-              console.log("loadEnglishPremierLeagueGames success creating game: " + gameCreated._id);
+              console.log("loadEnglishPremierLeagueGames success creating stub: " + gameCreated._id);
             }
           });
         }
