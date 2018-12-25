@@ -136,7 +136,7 @@ const loadEnglishPremierLeagueGames = async () => {
       } else {
         gameWeekRepository.create({
           ...gameWeek, 
-          prize: {message: 'player with the most wins without tying and gets 2 folks to join wins',amount: '$25',currency: 'US'
+          prize: {message: 'player with the most wins without tying and gets 2 folks to join wins',amount: '$25',currency: 'US'}
         }, function (err, gameWeekCreated) {
             if (err) {
                 console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
