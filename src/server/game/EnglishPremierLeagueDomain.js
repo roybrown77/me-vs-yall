@@ -134,7 +134,10 @@ const loadEnglishPremierLeagueGames = async () => {
       if ((gameWeeks || []).length > 0) {
         console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
       } else {
-        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+        gameWeekRepository.create({
+          ...gameWeek, 
+          prize: {message: 'player with the most wins without tying and gets 2 folks to join wins',amount: '$25',currency: 'US'
+        }, function (err, gameWeekCreated) {
             if (err) {
                 console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
             } else {
