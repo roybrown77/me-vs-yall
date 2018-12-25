@@ -123,7 +123,7 @@ const loadNbaGames = async () => {
           if (err) {
             console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
           } else {
-            console.log("loadNbaGames success creating game: " + gameCreated._id);
+            console.log("loadNbaGames success creating final day stub: " + gameCreated._id);
           }
         });
       }
@@ -132,8 +132,8 @@ const loadNbaGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment(lastStartGameTime).add(-(daysToLoad-1), 'days').startOf('day')),
-      endDateTime: new Date(moment(lastStartGameTime).endOf('day'))
+      beginDateTime: new Date(moment().startOf('day')),
+      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
@@ -218,7 +218,7 @@ const loadNbaGames = async () => {
             if (err) {
               console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
             } else {
-              console.log("loadNbaGames success creating game: " + gameCreated._id);
+              console.log("loadNbaGames success creating stub: " + gameCreated._id);
             }
           });
         }
