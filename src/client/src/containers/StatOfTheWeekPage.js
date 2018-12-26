@@ -35,6 +35,14 @@ const styles = {
 
 const stats = [
   {
+    title: 'BAD PANTHERS',
+    content: `After starting the season with 6 wins and 2 losses, Cam Newton and the Carolina Panthers have lost 7 games in a row.  4 were 
+              on the road while 3 were at home.  They also gave up 20+ points in 6 of them.`,
+    leagueName: 'NFL',
+    date: 'December 26, 2018',
+    author: 'Roy B.'
+  },
+  {
     title: 'HOLDING DEFENSES',
     content: `3 teams have held opponents to an average less than 15 points per game for the last 4 games.  Colts (12.8), 
               Saints (12.8) and Titans (14.3).  All have won their last 3 out of 4 games.`,
