@@ -495,8 +495,8 @@ const updateEnglishPremierLeagueScores = async () => {
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
 
       const isGameOver = get(score,'isGameOver',false);
-      const currentTimeNumber = parseInt(get(score,'currentTime','').replace('\'','').replace('+',''));
-      const lastTimeNumber = parseInt(get(game,'currentTime','').replace('\'','').replace('+',''));
+      const currentTimeNumber = parseInt(get(score,'currentTime','').replace('\'','').replace('\'','').replace('+',''));
+      const lastTimeNumber = parseInt(get(game,'currentTime','').replace('\'','').replace('\'','').replace('+',''));
 
       console.log('updateEnglishPremierLeagueScores currentTimeNumber: ' + currentTimeNumber);
       console.log('updateEnglishPremierLeagueScores lastTimeNumber: ' + lastTimeNumber);
