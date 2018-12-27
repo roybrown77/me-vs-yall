@@ -474,7 +474,8 @@ const updateNflScores = async () => {
     let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > p > span.text';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-
+    let LIST_NAME_PREGAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+  
     console.log('updateNflScores listLength: ' + listLength);
 
     if (listLength === 0) {
@@ -521,6 +522,11 @@ const updateNflScores = async () => {
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
+      const awayTeamPregame = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_PREGAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
       const awayInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -545,6 +551,11 @@ const updateNflScores = async () => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeTeamPregame = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_NAME_PREGAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -578,11 +589,13 @@ const updateNflScores = async () => {
         },
         gameOverText: gameOverText,
         awayTeam: awayTeam,
+        awayTeamPregame: awayTeamPregame,
         awayTeamInProgress: awayInProgressName,
         awayInProgressScore: parseInt(awayInProgressScore),
         awayScore: parseInt(awayScore),
         awayRecord: awayRecord,
         homeTeam: homeTeam,
+        homeTeamPregame: homeTeamPregame,
         homeTeamInProgress: homeInProgressName,
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
@@ -614,7 +627,7 @@ const updateNflScores = async () => {
   const seasonType = games[0].seasonType;
   const weekNo = games[0].weekNo;
 
-  console.log('updateNflScores scores: ' + JSON.stringify(scores));
+  //console.log('updateNflScores scores: ' + JSON.stringify(scores));
 
   if (scores.length === 0) {
     isUpdateNflScoresRunning = false;
@@ -625,7 +638,11 @@ const updateNflScores = async () => {
   games.forEach(game=>{
     const team = nflTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
-    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation);
+    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation || x.awayTeamPregame === shortLocation);
+    
+    // console.log('updateNflScores shortLocation: ' + shortLocation);
+    // console.log('updateNflScores score: ' + JSON.stringify(score));
+
     const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
@@ -649,6 +666,9 @@ const updateNflScores = async () => {
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
+
+    // console.log('updateNflScores gameStarted: ' + gameStarted);
+    // console.log('updateNflScores spreadTeam: ' + JSON.stringify(spreadTeam));
 
     set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
       teamId: get(spreadTeam,'_id'),
@@ -679,7 +699,7 @@ const updateNflScores = async () => {
       set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
     }
 
-    //console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
+    console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
