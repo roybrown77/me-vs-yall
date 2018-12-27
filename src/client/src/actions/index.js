@@ -177,7 +177,7 @@ export const loadGamesInProgress = () => (dispatch, getState) => {
 const fetchGameWeeks = query => ({
   [CALL_API]: {
     types: [ GAMEWEEKS_REQUEST, GAMEWEEKS_SUCCESS, GAMEWEEKS_FAILURE ],
-    endpoint: `/api/gamemanagement/gameweeks`,
+    endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(query)}`,
     schema: Schemas.GAME_ARRAY
   }
 });
