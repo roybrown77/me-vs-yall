@@ -103,7 +103,7 @@ const loadEnglishPremierLeagueGames = async () => {
     const finalDayStub = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
-      startDateTime: moment(lastStartGameTime),
+      startDateTime: moment(lastStartGameTime).startOf('day'),
       isStub: true
     };
 

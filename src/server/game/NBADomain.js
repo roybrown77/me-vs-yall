@@ -111,7 +111,7 @@ const loadNbaGames = async () => {
     const finalDayStub = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      startDateTime: moment(lastStartGameTime),
+      startDateTime: moment(lastStartGameTime).startOf('day'),
       isStub: true
     };
 
@@ -156,6 +156,7 @@ const loadNbaGames = async () => {
     });
 
     return;
+
   }
 
   let games = [];
