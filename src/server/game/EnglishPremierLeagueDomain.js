@@ -367,7 +367,208 @@ const updateEnglishPremierLeagueScores = async () => {
     });
 
     page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(120000);
+    await page.setDefaultNavigationTimeout(240000);
+    // await page.setRequestInterception(true);
+    
+    // page.on('request', (req) => {
+    //     if(req.resourceType() == 'stylesheet' || 
+    //       req.resourceType() == 'font' || 
+    //       req.resourceType() == 'image' || 
+    //       req.resourceType() == 'media') {
+    //         req.abort();
+    //     }
+    //     else {
+    //         req.continue();
+    //     }
+    // });
+
+    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
+
+    await page.waitForSelector('#events');
+
+    let listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, 'scoreboard soccer');
+
+    let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
+    let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
+    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
+    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
+    let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
+    let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
+    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
+    
+    console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
+
+    if (listLength === 0) {
+      isUpdateEnglishPremierLeagueScoresRunning = false;
+      console.log("updateEnglishPremierLeagueScores no games found");
+      await page.close();
+      await browser.close();
+      return;
+    }
+
+    for (let i = 1; i <= listLength; i++) {
+      const currentTime = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
+
+      const possessionAway = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
+
+      const possessionHome = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
+
+      const awayTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : '';
+      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
+
+      const awayScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
+
+      const homeTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : '';
+      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
+
+      const homeScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
+
+      const gameOverIndicator = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
+
+      scores.push({
+        awayTeam: awayTeam.trim(),
+        awayScore: parseInt(awayScore),
+        homeTeam: homeTeam.trim(),
+        homeScore: parseInt(homeScore),
+        isGameOver: (gameOverIndicator || '').trim() === 'FT',
+        currentTime: currentTime,
+        possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
+        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, '')
+      });
+    }
+
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (page) {
+      await page.close()
+    }
+
+    if (browser) {
+      await browser.close()
+    }
+    console.log('updateEnglishPremierLeagueScores browser error: ' + err.message);
+  }
+
+  console.log('updateEnglishPremierLeagueScores games: ' + JSON.stringify(games));
+  console.log('updateEnglishPremierLeagueScores scores: ' + JSON.stringify(scores));
+
+  if (get({scores:scores},'scores',[]).length === 0) {
+    isUpdateEnglishPremierLeagueScoresRunning = false;
+    console.log("updateEnglishPremierLeagueScores no scores.");
+    return;
+  }
+
+  games.forEach(game=>{
+    const shortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
+    const score = scores.find(x=>x.awayTeam === shortLocation);
+    
+    console.log('updateEnglishPremierLeagueScores score: ' + JSON.stringify(score));
+
+    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
+      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
+      (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
+        moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
+
+      const isGameOver = get(score,'isGameOver',false);
+    
+      const updatedGame = {
+        competitors: [...get(game,'competitors',[])],
+          isGameOver: isGameOver,
+          currentTime: get(score,'currentTime'),
+          possession: get(score,'possession'),
+          lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
+          get(score,'homeTeam') + ': ' + get(score,'possessionHome')
+        };
+
+      set(updatedGame,'competitors.0.score', isGameOver ? 
+        get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0));
+      set(updatedGame,'competitors.1.score', isGameOver ? 
+        get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0));
+      
+      console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
+
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+    }
+  });
+
+  isUpdateEnglishPremierLeagueScoresRunning = false;
+};
+
+const updateEnglishPremierLeagueScoresGoogle = async () => {
+  if (isUpdateEnglishPremierLeagueScoresRunning) {
+    console.log("updateEnglishPremierLeagueScores already running.")
+    return;
+  }
+
+  const leagueId = '59723313734d1d6202a85f17';
+
+  const search = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    },
+    startDateTime: {
+      $lt: new Date(new Date().toUTCString()).toISOString()
+    },
+    isStub: {
+      $ne: true
+    }
+  };
+
+  const games = await gameRepository.find(search);
+
+  if (!!games && games.length === 0) {
+    console.log("updateEnglishPremierLeagueScores all scores have been updated.");
+    return;
+  }
+
+  const startDateTimes = games.map(x=>{
+    return x.startDateTime;
+  });
+
+  const earliestStartDateTime = new Date(Math.min.apply(null, startDateTimes));
+
+  console.log("updateEnglishPremierLeagueScores earliestStartDateTime: " + earliestStartDateTime);
+
+  const date = moment(earliestStartDateTime).format('YYYYMMDD');
+  let scores = [];
+  let browser;
+  let page;
+
+  isUpdateEnglishPremierLeagueScoresRunning = true;
+
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    page = await browser.newPage();
+    await page.setDefaultNavigationTimeout(240000);
     await page.setRequestInterception(true);
     
     page.on('request', (req) => {
@@ -398,6 +599,16 @@ const updateEnglishPremierLeagueScores = async () => {
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
     
+    // #sports-app > div > div:nth-child(3) > div > jsl > table > tbody > tr:nth-child(3) > td:nth-child(2) > div > div > div > table > tbody > tr:nth-child(3) > td.imspo_mt__match-sc.imspo_mt__wt > div > div > div.imso-li-w > span > span > span:nth-child(1)
+    
+    // away #scoreboard-group-2 > div:nth-child(1) > ul > li > div > div > a > div > div > div > div > div > ul > li:nth-child(1) > div> div > span:nth-child(1)
+    // away score #scoreboard-group-2 > div:nth-child(1) > ul > li > div > div > a > div > div > div > div.Va\28 m\29 > div > ul > li:nth-child(1) > div > span:nth-child(1)
+
+    // home #scoreboard-group-2 > div:nth-child(1) > ul > li > div > div > a > div > div > div > div.Va\28 m\29 > div > ul > li > div > div > span:nth-child(1)
+    // home score #scoreboard-group-2 > div:nth-child(1) > ul > li > div > div > a > div > div > div > div.Va\28 m\29 > div > ul > li > div > span:nth-child(1)
+
+    // time #scoreboard-group-2 > div:nth-child(1) > ul > li > div > div > a > div > div > div > div > div:nth-child(2) > div > div > div > span
+
     console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
 
     if (listLength === 0) {
