@@ -286,6 +286,27 @@ router.get('/gameweeks', function (req, res) {
   });
 });
 
+router.get('/gamesInProgress', function (req, res) {
+  const search = {
+    startDateTime: {
+      $lte: new Date(moment())
+    },
+    isGameOver: {
+      $ne: true
+    },
+    isStub: {
+      $ne: true
+    }
+  };
+
+  console.log('gamesInProgress search: ' + JSON.stringify(search));
+  
+  gameRepository.find(search, function (err, games) {
+    if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+    res.status(200).send(games);
+  });
+});
+
 router.get('/teams', function (req, res) {
   //backupData();
   //getEmailAddresses();

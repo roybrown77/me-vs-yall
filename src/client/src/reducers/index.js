@@ -198,7 +198,28 @@ const errorMessage = (state = null, action) => {
   return state;
 };
 
+const homePageDomain = (
+  state = Map({ 
+    games: List()
+  }), 
+  action) => {
+  switch (action.type) {
+    case ActionTypes.GAMESINPROGRESS_SUCCESS:
+      if (action.response) {
+        const gameList = action.response.map(item=>{
+          return Map(item);
+        });
+
+        return state.set('games', List(gameList));
+      }
+      return state;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
+  homePageDomain,
   authenticationDomain,
   scoreboardDomain,
   leaderDomain,

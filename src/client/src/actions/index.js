@@ -59,6 +59,10 @@ export const GAMEWEEKS_REQUEST = 'GAMEWEEKS_REQUEST';
 export const GAMEWEEKS_SUCCESS = 'GAMEWEEKS_SUCCESS';
 export const GAMEWEEKS_FAILURE = 'GAMEWEEKS_FAILURE';
 
+export const GAMESINPROGRESS_REQUEST = 'GAMESINPROGRESS_REQUEST';
+export const GAMESINPROGRESS_SUCCESS = 'GAMESINPROGRESS_SUCCESS';
+export const GAMESINPROGRESS_FAILURE = 'GAMESINPROGRESS_FAILURE';
+
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
 export const resetErrorMessage = () => ({
@@ -158,10 +162,22 @@ export const updatePick = (id, pick) => (dispatch, getState) => {
   return dispatch(editPick(id, searchParams));
 };
 
+const fetchGamesInProgress = () => ({
+  [CALL_API]: {
+    types: [ GAMESINPROGRESS_REQUEST, GAMESINPROGRESS_SUCCESS, GAMESINPROGRESS_FAILURE ],
+    endpoint: `/api/gamemanagement/gamesInProgress`,
+    schema: Schemas.GAME_ARRAY
+  }
+});
+
+export const loadGamesInProgress = () => (dispatch, getState) => {
+  return dispatch(fetchGamesInProgress());
+};
+
 const fetchGameWeeks = query => ({
   [CALL_API]: {
     types: [ GAMEWEEKS_REQUEST, GAMEWEEKS_SUCCESS, GAMEWEEKS_FAILURE ],
-    endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(query)}`,
+    endpoint: `/api/gamemanagement/gameweeks`,
     schema: Schemas.GAME_ARRAY
   }
 });
