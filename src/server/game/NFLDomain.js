@@ -651,7 +651,7 @@ const updateNflScores = async () => {
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    console.log("updateNbaScores score: " + JSON.stringify(score));
+    console.log("updateNflScores score: " + JSON.stringify(score));
 
     const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
     const currentTime = get(score,'currentTime');
