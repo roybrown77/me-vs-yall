@@ -603,8 +603,7 @@ const updateNbaScores = async () => {
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    const currentTimeFormatted = get(newPlayHistory,'0.time',0) => 100 ? 
-      (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
+    const currentTimeFormatted = get(newPlayHistory,'0.time',0) => 100 ? (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
