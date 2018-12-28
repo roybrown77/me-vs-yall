@@ -51,7 +51,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
+  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of the');
   
   const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
@@ -607,7 +607,7 @@ const updateNbaScores = async () => {
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
-    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
+    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of the');
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
