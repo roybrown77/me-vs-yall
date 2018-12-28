@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import christmas from '../styles/images/christmas_tree.png';
+import confetti from '../styles/images/confetti.png';
 import football from '../styles/images/football2.png';
 import soccer from '../styles/images/soccer2.png';
 import tennis from '../styles/images/tennis.png';
@@ -148,7 +148,7 @@ class HomePage extends Component {
           </div>
           <div style={styles.emojiContainer}>
             <div style={{left: '77%', position: 'absolute'}}>
-              <img src={christmas} alt=""/>
+              <img src={confetti} alt=""/>
             </div>
           </div>
         </div>
