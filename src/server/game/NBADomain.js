@@ -41,7 +41,8 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 
   const currenTimeSplit = currentTime.split(' ');
 
-  const overTime = currenTimeSplit.includes('OT') ? 5 : undefined;
+  const overTime = currenTimeSplit.includes('OT') ? 
+    (currenTimeSplit.replace('OT','') === '' ? 5 : parseInt(currenTimeSplit.replace('OT','')) + 4) : undefined;
   const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
   const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
 
@@ -51,7 +52,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of the');
+  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of');
   
   const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
@@ -607,7 +608,7 @@ const updateNbaScores = async () => {
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
-    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of the');
+    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
