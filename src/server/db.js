@@ -1,3 +1,18 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev', { useNewUrlParser: true });
+const options = {
+    useNewUrlParser: true, // use new connection string parser
+    autoIndex: false, // Don't build indexes
+    reconnectTries: 100, // Never stop trying to reconnect
+    reconnectInterval: 500, // Reconnect every 500ms
+    poolSize: 10, // Maintain up to 10 socket connections
+    bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
+  };
+mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev',options).then(
+	() => {
+    	console.log("connected to mongoDB")
+    },
+ 	(err) => {
+    	 console.log("err",err);
+    }
+);
