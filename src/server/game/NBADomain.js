@@ -41,10 +41,10 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 
   const currenTimeSplit = currentTime.split(' ');
 
-  const overTime = currenTimeSplit.includes('OT') ? 
-    (currenTimeSplit.replace('OT','') === '' ? 5 : parseInt(currenTimeSplit.replace('OT','')) + 4) : undefined;
   const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
   const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
+  const overTime = currenTimeSplit.includes('OT') ? 
+    (currentTimeQuarter.replace('OT','') === '' ? 5 : parseInt(currentTimeQuarter.replace('OT','')) + 4) : undefined;
 
   const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
   const currenTimeNumber = parseFloat(currentTimeString);
