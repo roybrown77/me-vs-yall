@@ -46,11 +46,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
 
   const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
-  const currenTimeNumber = parseInt(currentTimeString);
+  const currenTimeNumber = parseFloat(currentTimeString);
 
   const lastPlaySplit = lastPlay.split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
+  const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
   const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
   
   const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
@@ -598,30 +598,13 @@ const updateNbaScores = async () => {
     const shortLocation = get(team,'shortLocation');
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation  || x.awayTeamPregame === shortLocation);
     const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
-    
-    // const currentTimeString = (get(score,'currentTime') || '');
-    // const lastTimeString = (get(game,'currentTime') || '');
-
-    // const currentTimeSplit = currentTimeString.split(' ');
-    // const quarter = get(currentTimeSplit,'2','');
-    // const timeString = get(currentTimeSplit,'0','').replace(':','');
-    // const timeNumber = parseFloat(timeString);
-    // const gameCurrentTimeString = lastTimeString.replace(':','');
-    // const lastTimeNumber = parseFloat(gameCurrentTimeString);
-    // const isLessTime = timeNumber <= lastTimeNumber;
-
-    // console.log('updateNbaScores currentTime: ' + get(score,'currentTime'));
-    // console.log('updateNbaScores currentTimeString: ' + currentTimeString);
-    // console.log('updateNbaScores timeNumber: ' + timeNumber);
-    // console.log('updateNbaScores lastTimeNumber: ' + lastTimeNumber);
-    // console.log('updateNbaScores isLessTime: ' + isLessTime);
-
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
 
-    const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
+    const currentTimeFormatted = get(newPlayHistory,'0.time',0) => 100 ? 
+      (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
