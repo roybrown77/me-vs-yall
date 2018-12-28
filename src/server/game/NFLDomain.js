@@ -30,9 +30,9 @@ const hasGameStarted = (dateTime) => {
 };
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  console.log("playHistory: " + JSON .stringify(playHistory));
-  console.log("lastPlay: " + lastPlay);
-  console.log("currentTime: " + currentTime);
+  //console.log("updateNflGames playHistory: " + JSON .stringify(playHistory));
+  //console.log("updateNflGames lastPlay: " + lastPlay);
+  //console.log("updateNflGames currentTime: " + currentTime);
 
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNflGames invalid");
@@ -60,11 +60,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
 
-  console.log("lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
-  console.log("overTime: " + overTime);
-  console.log("currentTimeQuarterNumber: " + currentTimeQuarterNumber);
-  console.log("quarter: " + quarter);
-  console.log("time: " + time);
+  // console.log("updateNflGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
+  // console.log("updateNflGames overTime: " + overTime);
+  // console.log("updateNflGames currentTimeQuarterNumber: " + currentTimeQuarterNumber);
+  // console.log("updateNflGames quarter: " + quarter);
+  // console.log("updateNflGames time: " + time);
 
   if (!quarter || (!time && time !== 0)) {
     console.log("updateNflGames invalid2");
@@ -394,6 +394,9 @@ const updateNflScores = async () => {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
+    },
+    year: {
+      $gte: 2018
     }
   };
 
@@ -475,7 +478,7 @@ const updateNflScores = async () => {
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
     let LIST_NAME_PREGAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-  
+
     console.log('updateNflScores listLength: ' + listLength);
 
     if (listLength === 0) {
@@ -641,13 +644,14 @@ const updateNflScores = async () => {
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation || x.awayTeamPregame === shortLocation);
     
     // console.log('updateNflScores shortLocation: ' + shortLocation);
-    // console.log('updateNflScores score: ' + JSON.stringify(score));
 
     const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+
+    console.log("updateNbaScores score: " + JSON.stringify(score));
 
     const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
     const currentTime = get(score,'currentTime');

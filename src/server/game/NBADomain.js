@@ -30,9 +30,9 @@ const hasGameStarted = (dateTime) => {
 };
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  console.log("playHistory: " + JSON .stringify(playHistory));
-  console.log("lastPlay: " + lastPlay);
-  console.log("currentTime: " + currentTime);
+  //console.log("updateNbaGames playHistory: " + JSON .stringify(playHistory));
+  //console.log("updateNbaGames lastPlay: " + lastPlay);
+  //console.log("updateNbaGames currentTime: " + currentTime);
 
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNbaGames invalid");
@@ -61,11 +61,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
 
-  console.log("lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
-  console.log("overTime: " + overTime);
-  console.log("currentTimeQuarterNumber: " + currentTimeQuarterNumber);
-  console.log("quarter: " + quarter);
-  console.log("time: " + time);
+  // console.log("updateNbaGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
+  // console.log("updateNbaGames overTime: " + overTime);
+  // console.log("updateNbaGames currentTimeQuarterNumber: " + currentTimeQuarterNumber);
+  // console.log("updateNbaGames quarter: " + quarter);
+  // console.log("updateNbaGames time: " + time);
 
   if (!quarter || (!time && time !== 0)) {
     console.log("updateNbaGames invalid2");
@@ -414,6 +414,9 @@ const updateNbaScores = async () => {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
+    },
+    year: {
+      $gte: year
     }
   };
 
@@ -603,6 +606,9 @@ const updateNbaScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+
+    //console.log("updateNbaScores isOverSixHours: " + isOverSixHours);
+    console.log("updateNbaScores score: " + JSON.stringify(score));
 
     const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
     const currentTime = get(score,'currentTime');
