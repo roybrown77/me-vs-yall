@@ -29,6 +29,60 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
+const getPlayHistory = (playHistory, lastPlay, currentTime) => {
+  console.log("playHistory: " + JSON .stringify(playHistory));
+  console.log("lastPlay: " + lastPlay);
+  console.log("currentTime: " + currentTime);
+
+  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
+    console.log("updateNbaGames invalid");
+    return playHistory;
+  }
+
+  const currenTimeSplit = currentTime.split(' ');
+
+  const overTime = currenTimeSplit.includes('OT') ? 5 : undefined;
+  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
+  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
+
+  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
+  const currenTimeNumber = parseInt(currentTimeString);
+
+  const lastPlaySplit = lastPlay.split(' ');
+  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
+  const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
+  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
+  
+  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
+  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
+
+  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
+  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
+
+
+  console.log("lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
+  console.log("overTime: " + overTime);
+  console.log("currentTimeQuarterNumber: " + currentTimeQuarterNumber);
+  console.log("quarter: " + quarter);
+  console.log("time: " + time);
+
+  if (!quarter || (!time && time !== 0)) {
+    console.log("updateNbaGames invalid2");
+    return playHistory;
+  }
+
+  const newPlayHistory = orderBy([
+    ...playHistory,
+    {
+      quarter,
+      time,
+      lastPlay
+    }
+  ], ['quarter', 'time'], ['desc', 'asc']);
+  
+  return newPlayHistory;
+};
+
 const loadNbaGames = async () => {
   if (isLoadNbaGamesRunning) {
     console.log("loadNbaGames already running.");
@@ -537,31 +591,48 @@ const updateNbaScores = async () => {
     return;
   }
 
-  console.log('updateNbaScores scores: ' + JSON.stringify(scores));
+  //console.log('updateNbaScores scores: ' + JSON.stringify(scores));
 
   games.forEach(game=>{
     const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation  || x.awayTeamPregame === shortLocation);
-    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour; 
     const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
-    // const currentTimeSplit = get(score,'currentTime','').split(' ');
+    
+    // const currentTimeString = (get(score,'currentTime') || '');
+    // const lastTimeString = (get(game,'currentTime') || '');
+
+    // const currentTimeSplit = currentTimeString.split(' ');
     // const quarter = get(currentTimeSplit,'2','');
     // const timeString = get(currentTimeSplit,'0','').replace(':','');
     // const timeNumber = parseFloat(timeString);
-    // const gameCurrentTimeString = get(game,'currentTime','').replace(':','');
+    // const gameCurrentTimeString = lastTimeString.replace(':','');
     // const lastTimeNumber = parseFloat(gameCurrentTimeString);
-    // const currentTime = !get(game,'currentTime') || (timeNumber <= lastTimeNumber && gameCurrentTimeString !== '' && gameCurrentTimeString !== '') 
-    // ? get(score,'currentTime') : get(game,'currentTime');
+    // const isLessTime = timeNumber <= lastTimeNumber;
 
-    //console.log('updateNbaScores currentTime: ' + currentTime);
+    // console.log('updateNbaScores currentTime: ' + get(score,'currentTime'));
+    // console.log('updateNbaScores currentTimeString: ' + currentTimeString);
+    // console.log('updateNbaScores timeNumber: ' + timeNumber);
+    // console.log('updateNbaScores lastTimeNumber: ' + lastTimeNumber);
+    // console.log('updateNbaScores isLessTime: ' + isLessTime);
+
+    const playHistory = get(game,'playHistory',[]);
+    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
+    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
+
+    const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
+    const currentTime = get(score,'currentTime');
+    const currenTimeSplit = (currentTime || '').split(' ');
+    const quarter = currenTimeSplit[currenTimeSplit.length-1];
+    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
       isGameOver: isGameOver,
-      lastPlay: get(score,'lastPlay'),
-      currentTime: get(score,'currentTime')
+      lastPlay: get(newPlayHistory,'0.lastPlay'),
+      playHistory: newPlayHistory,
+      currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
     };
     
     const gameStarted = hasGameStarted(get(game,'startDateTime'));

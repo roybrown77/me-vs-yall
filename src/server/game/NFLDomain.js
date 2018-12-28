@@ -653,7 +653,7 @@ const updateNflScores = async () => {
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
-    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter')
+    const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
   
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
@@ -699,7 +699,7 @@ const updateNflScores = async () => {
       set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
     }
 
-    console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
+    //console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
