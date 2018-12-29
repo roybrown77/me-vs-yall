@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
 
+import Promo from '../containers/Promo';
 import HomePage from '../containers/HomePage';
 import ScoreboardPage from '../containers/ScoreboardPage';
 import LeaderPage from '../containers/LeaderPage';
@@ -31,6 +32,7 @@ const routes = (
 		                <Route path='/feedback' component={Feedback}/>		   
 		                <Route path='/about' component={AboutPage}/>
 		                <Route path='/login' component={LoginPage}/>
+		                <Route path='/promo' component={Promo}/>
 		                <Route path='/authenticationCallback' component={AuthenticationCallback}/>
 		            </Switch>
 		        </div>
