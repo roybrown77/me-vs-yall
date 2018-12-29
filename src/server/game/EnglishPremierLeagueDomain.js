@@ -504,7 +504,7 @@ const updateEnglishPremierLeagueScores = async () => {
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
-          currentTime: !isGameOver && ((currentTimeNumber >= lastTimeNumber) || ['HT','FT'].includes(get(score,'currentTime'))) ? get(score,'currentTime') : get(game,'currentTime'),
+          currentTime: !isGameOver && ((currentTimeNumber >= lastTimeNumber) || ['HT','FT'].includes(get(score,'currentTime')) || isNaN(lastTimeNumber)) ? get(score,'currentTime') : get(game,'currentTime'),
           possession: get(score,'possession'),
           lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')
