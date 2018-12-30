@@ -57,7 +57,7 @@ function PromoPage () {
           <div style={styles.item}>
             4.  Show your name on Leaders page to get $2 off purchase
           </div>
-          <div style={{...styles.item, marginTop: '24px'}}>
+          <div style={{...styles.item, marginTop: '2em'}}>
             Complete picking all teams, follow when game starts and enjoy the app!
           </div>
           <div style={styles.item}>
