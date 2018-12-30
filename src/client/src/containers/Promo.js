@@ -52,13 +52,16 @@ function PromoPage () {
             2.  Tap Login to Play and enter gmail
           </div>
           <div style={styles.item}>
-            3.  Tap on team you believe will win first game this week
+            3.  Tap on team you believe will win first game
           </div>
           <div style={styles.item}>
             4.  Show your name on Leaders page to get $2 off purchase
           </div>
+          <div style={{...styles.item, marginTop: '24px'}}>
+            Complete picking all teams, follow when game starts and enjoy the app!
+          </div>
           <div style={styles.item}>
-            5.  Complete picking all teams, follow when game starts and enjoy the app!
+            @mevsyallsports
           </div>
         </div>
         <Grid style={styles.logoContainer} item xs={12} container spacing={8} justify="center">
