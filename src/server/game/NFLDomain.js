@@ -666,7 +666,7 @@ const updateNflScores = async () => {
       down: get(score,'down'),
       lastPlay: get(newPlayHistory,'0.lastPlay'),
       playHistory: newPlayHistory,
-      currentTime: !!quarter && !endQuarter ? currentTimeFormatted + " - " + quarter : quarter
+      currentTime: !!quarter && !endQuarter && quarter !== 'Halftime' ? currentTimeFormatted + " - " + quarter : quarter
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
