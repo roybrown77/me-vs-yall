@@ -18,7 +18,7 @@ const styles = {
     width: '50%'
   },
   promo: {
-    color:'gold', 
+    color:'darkgreen', 
     fontSize: '4em'
   },
   list: {
@@ -27,7 +27,7 @@ const styles = {
     fontSize: '2em'
   },
   item: {
-    margin: '12px 0'
+    margin: '16px 0'
   },
   logoContainer: {
     margin: '0 30px',
