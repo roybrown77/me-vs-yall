@@ -655,10 +655,12 @@ const updateNflScores = async () => {
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
-  
+    const awayScoreFinalValid = get(score,'awayScore',0) >= get(game,'competitors.0.score',0);
+    const homeScoreFinalValid = get(score,'homeScore',0) >= get(game,'competitors.1.score',0);
+
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
-      isGameOver: isGameOver,
+      isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
       possession: get(score,'possession'),
       down: get(score,'down'),
       lastPlay: get(newPlayHistory,'0.lastPlay'),
@@ -677,12 +679,12 @@ const updateNflScores = async () => {
       spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
-    set(updatedGame,'competitors.0.score', isGameOver ? 
+    set(updatedGame,'competitors.0.score', isGameOver && awayScoreFinalValid ? 
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
-    set(updatedGame,'competitors.1.score', isGameOver ? 
+    set(updatedGame,'competitors.1.score', isGameOver && homeScoreFinalValid ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
     
-    if (isGameOver) {
+    if (isGameOver && awayScoreFinalValid && homeScoreFinalValid) {
       const recordSplitAway = get(game,'competitors.0.record','').split('-');
 
       get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
