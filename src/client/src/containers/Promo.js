@@ -37,29 +37,41 @@ function PromoPage () {
         <div style={styles.title}>
           Me vs Yall
         </div>
-        <div style={styles.promo}>
-          $2 off your purchase
-        </div>
-        <div style={styles.list}>
-          <div style={styles.item}>
-            1.  Go to mevsyall.com and select sport
+        {
+          false &&
+          <div>
+            w w w . m e v s y a l l . c o m
           </div>
-          <div style={styles.item}>
-            2.  Tap Login to Play and enter gmail
+        }
+        {
+          true &&
+          <div style={styles.promo}>
+            $2 off your purchase
           </div>
-          <div style={styles.item}>
-            3.  Tap on team you believe will win first game
+        }
+        {
+          true &&
+          <div style={styles.list}>
+            <div style={styles.item}>
+              1.  Go to mevsyall.com and select sport
+            </div>
+            <div style={styles.item}>
+              2.  Tap Login to Play and enter gmail
+            </div>
+            <div style={styles.item}>
+              3.  Tap on team you believe will win first game
+            </div>
+            <div style={styles.item}>
+              4.  Show your name on Leaders page to get $2 off purchase
+            </div>
+            <div style={{...styles.item, marginTop: '2em'}}>
+              Complete picking all teams, follow when game starts and enjoy the app!
+            </div>
+            <div style={styles.item}>
+              @mevsyallsports
+            </div>
           </div>
-          <div style={styles.item}>
-            4.  Show your name on Leaders page to get $2 off purchase
-          </div>
-          <div style={{...styles.item, marginTop: '2em'}}>
-            Complete picking all teams, follow when game starts and enjoy the app!
-          </div>
-          <div style={styles.item}>
-            @mevsyallsports
-          </div>
-        </div>
+        }
       </div>
     );
 }
