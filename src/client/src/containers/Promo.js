@@ -2,10 +2,6 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
-import nfl from '../styles/images/nfl.png';
-import nba from '../styles/images/nba.png';
-import premier from '../styles/images/premier.png';
-
 const styles = {
   title: {
     color: '#f4f7f6', 
@@ -64,17 +60,6 @@ function PromoPage () {
             @mevsyallsports
           </div>
         </div>
-        <Grid style={styles.logoContainer} item xs={12} container spacing={8} justify="center">
-          <Grid item xs={4}>
-            <img src={nfl} alt=""/>
-          </Grid>
-          <Grid item xs={4}>
-            <img src={premier} alt=""/>
-          </Grid>
-          <Grid item xs={4}>
-            <img src={nba} alt=""/>
-          </Grid>
-        </Grid>
       </div>
     );
 }

@@ -65,6 +65,15 @@ const styles = {
     position: 'absolute',
     right: '8px',
     bottom: '8px'
+  },
+  footer: {
+    fontWeight: '500',
+    width: '100%',
+    marginTop: '7em',
+  },
+  spacer: {
+    margin: '0 7px',
+    border: '2px solid black'
   }
 };
 
@@ -150,6 +159,9 @@ class HomePage extends Component {
             <div style={{left: '77%', position: 'absolute'}}>
               <img src={confetti} alt=""/>
             </div>
+          </div>
+          <div style={styles.footer}>
+            Houston<span style={styles.spacer}/>Boston<span style={styles.spacer}/>Atlanta<span style={styles.spacer}/>Earth<span style={styles.spacer}/>Milky Way
           </div>
         </div>
       );
