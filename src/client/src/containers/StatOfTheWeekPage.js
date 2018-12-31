@@ -35,6 +35,15 @@ const styles = {
 
 const stats = [
   {
+    title: 'SUPER BOWL WINNERS ARE LIKE THE WU-TANG GZA SONG...COLD WORLD',
+              year's wintry playoff group includes the Kansas City Chiefs, New England Patriots, Indianapolis Colts, Baltimore Ravens, 
+              Chicago Bears and defending champs Philadelphia Eagles.  New Orleans Saints and Seattle Seahawks are also in the the playoffs 
+              and 2 of the 3 in last 20 years without much snowfall to win it.`,
+    leagueName: 'NFL',
+    date: 'December 31, 2018',
+    author: 'Roy B.'
+  },
+  {
     title: 'BAD PANTHERS',
     content: `After starting the season with 6 wins and 2 losses, Cam Newton and the Carolina Panthers have lost 7 games in a row.  4 were 
               on the road while 3 were at home.  They also gave up 20+ points in 6 of them.`,

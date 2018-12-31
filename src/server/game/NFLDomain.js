@@ -105,7 +105,7 @@ const loadNflGames = async () => {
 
   if (currentWeekDay !==2) {
     console.log('loadNflGames new games will be loaded on tuesday.');
-    return;
+    //return;
   }
 
   const gameSearch = {
@@ -113,9 +113,7 @@ const loadNflGames = async () => {
     isGameOver: {
       $ne: true
     },
-    year: {
-      $gte: 2018
-    }
+    year: 2018
   };
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
@@ -143,21 +141,21 @@ const loadNflGames = async () => {
 
     await page.setDefaultNavigationTimeout(120000);
 
-    await page.setRequestInterception(true);
+    // await page.setRequestInterception(true);
 
-    page.on('request', (req) => {
-        if(req.resourceType() == 'stylesheet' || 
-          req.resourceType() == 'font' || 
-          req.resourceType() == 'image' || 
-          req.resourceType() == 'media') {
-            req.abort();
-        }
-        else {
-            req.continue();
-        }
-    });
+    // page.on('request', (req) => {
+    //     if(req.resourceType() == 'stylesheet' || 
+    //       req.resourceType() == 'font' || 
+    //       req.resourceType() == 'image' || 
+    //       req.resourceType() == 'media') {
+    //         req.abort();
+    //     }
+    //     else {
+    //         req.continue();
+    //     }
+    // });
 
-    await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2018/seasontype/2/week/17');
+    await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2018/seasontype/3/week/1');
 
     await page.waitForSelector('#events');
 
@@ -392,9 +390,7 @@ const updateNflScores = async () => {
     isGameOver: {
       $ne: true
     },
-    year: {
-      $gte: 2018
-    }
+    year: 2018
   };
 
   const games = await gameRepository.find(search);
