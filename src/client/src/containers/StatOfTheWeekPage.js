@@ -36,6 +36,7 @@ const styles = {
 const stats = [
   {
     title: 'SUPER BOWL WINNERS ARE LIKE THE WU-TANG GZA SONG...COLD WORLD',
+    content: `17 of the last 20 Super Bowls were won by teams in cities with at least 15 inches of snowfall per year.  This 
               year's wintry playoff group includes the Kansas City Chiefs, New England Patriots, Indianapolis Colts, Baltimore Ravens, 
               Chicago Bears and defending champs Philadelphia Eagles.  New Orleans Saints and Seattle Seahawks are also in the the playoffs 
               and 2 of the 3 in last 20 years without much snowfall to win it.`,
