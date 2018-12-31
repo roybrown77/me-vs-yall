@@ -90,6 +90,8 @@ const loadNflGames = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f10';
+  const year = 2018;
+
   const currentMonth = moment().month()+1;
   console.log('loadNflGames currentMonth: ' + currentMonth);
 
@@ -105,7 +107,7 @@ const loadNflGames = async () => {
 
   if (currentWeekDay !==2) {
     console.log('loadNflGames new games will be loaded on tuesday.');
-    //return;
+    return;
   }
 
   const gameSearch = {
@@ -113,7 +115,7 @@ const loadNflGames = async () => {
     isGameOver: {
       $ne: true
     },
-    year: 2018
+    year: year
   };
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
@@ -127,7 +129,6 @@ const loadNflGames = async () => {
   let browser;
   let page;
   let currentWeek;
-  let year;
   let startDateTime;
   
   isLoadNflGamesRunning = true;
@@ -200,7 +201,6 @@ const loadNflGames = async () => {
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -246,10 +246,6 @@ const loadNflGames = async () => {
       });
     }
 
-    year = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, YEAR_SELECTOR);
-
     await page.close();
     await browser.close();
   } catch(err) {
@@ -291,7 +287,7 @@ const loadNflGames = async () => {
 
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
+      year: year,
       seasonType: seasonType,
       weekNo: weekNo,
       startDateTime: game.startDateTime,
@@ -334,7 +330,7 @@ const loadNflGames = async () => {
 
   const gameWeek = {
     leagueId: mongoose.Types.ObjectId(leagueId),
-    year: parseInt(year),
+    year: year,
     seasonType: seasonType,
     weekNo: weekNo,
     description: currentWeek,
@@ -346,7 +342,7 @@ const loadNflGames = async () => {
 
   const gameWeekSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
-    year: parseInt(year),
+    year: year,
     seasonType: seasonType,
     weekNo: weekNo
   };
@@ -384,13 +380,14 @@ const updateNflScores = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f10';
+  const year = 2018;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
-    year: 2018
+    year: year
   };
 
   const games = await gameRepository.find(search);
@@ -404,7 +401,6 @@ const updateNflScores = async () => {
   let browser;
   let page;
   let currentWeek;
-  let year;
 
   isUpdateNflScoresRunning = true;
 
@@ -461,7 +457,6 @@ const updateNflScores = async () => {
     let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall';                                                                                                                      
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
-    let YEAR_SELECTOR = 'div.display-desktop > div.dropdown-type-season > button';
     let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
     let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
@@ -603,10 +598,6 @@ const updateNflScores = async () => {
       });
     }
 
-    year = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, YEAR_SELECTOR);
-
     await page.close();
     await browser.close();
   } catch(err) {
@@ -619,9 +610,6 @@ const updateNflScores = async () => {
     }
     console.log('updateNflScores browser error: ' + err.message);
   }
-
-  const seasonType = games[0].seasonType;
-  const weekNo = games[0].weekNo;
 
   //console.log('updateNflScores scores: ' + JSON.stringify(scores));
 

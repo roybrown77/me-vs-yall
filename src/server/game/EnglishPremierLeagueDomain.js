@@ -58,9 +58,7 @@ const loadEnglishPremierLeagueGames = async () => {
     isGameOver: {
       $ne: true
     },
-    year: {
-      $gte: 2018
-    }
+    year: year
   };
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
@@ -322,6 +320,7 @@ const updateEnglishPremierLeagueScores = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f17';
+  const year = 2018;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -333,7 +332,8 @@ const updateEnglishPremierLeagueScores = async () => {
     },
     isStub: {
       $ne: true
-    }
+    },
+    year: year
   };
 
   const games = await gameRepository.find(search);

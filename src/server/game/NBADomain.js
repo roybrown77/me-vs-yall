@@ -92,8 +92,9 @@ const loadNbaGames = async () => {
 
   const leagueId = '59723313734d1d6202a85f19';
   const year = 2018;
-  const daysToLoad = 7;
 
+  const daysToLoad = 7;
+  
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
 
@@ -117,9 +118,7 @@ const loadNbaGames = async () => {
     isGameOver: {
       $ne: true
     },
-    year: {
-      $gte: year
-    }
+    year: year
   };
 
   const gamesStillInProgress = await gameRepository.find(gameSearch);
@@ -412,9 +411,7 @@ const updateNbaScores = async () => {
     isGameOver: {
       $ne: true
     },
-    year: {
-      $gte: year
-    }
+    year: year
   };
 
   const games = await gameRepository.find(search);
