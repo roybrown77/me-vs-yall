@@ -357,10 +357,7 @@ const loadNflGames = async () => {
     if ((gameWeeks || []).length > 0) {
       console.log("loadNflGames game week already exists: " + JSON.stringify(gameWeeks));
     } else {
-      gameWeekRepository.create({
-          ...gameWeek, 
-          prize: {message: 'player with the most wins without tying and gets 2 folks to join wins',amount: '$100',currency: 'US'}
-        }, function (err, gameWeekCreated) {
+      gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
           if (err) {
               console.log("loadNflGames there was a problem adding week to the database: " + err.message);
           } else {

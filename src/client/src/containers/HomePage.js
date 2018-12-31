@@ -84,7 +84,7 @@ class HomePage extends Component {
             Me vs Yall
           </div>
           <div style={styles.subTitle}>
-            pick winners each week against others around the world.  follow sports when u can't watch it.  it's free.
+            pick winners each week against others around the world.
           </div>
           <div style={styles.buttonContainer}>
             <Grid container spacing={8}>
