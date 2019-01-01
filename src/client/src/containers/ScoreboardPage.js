@@ -40,13 +40,13 @@ const styles = theme => ({
     fontWeight: "700",
     marginBottom: '4px',
     width: '75%',
-    backgroundColor: '#FFC107',
-    color: '#F7F8E0',
-    borderColor: '#FFC107',
+    backgroundColor: '#CEF6CE',
+    color: '#CEF6CE',
+    borderColor: '#CEF6CE',
     '&:hover': {
-      backgroundColor: '#FFC107',
-      color: '#F7F8E0',
-      borderColor: '#FFC107',
+      backgroundColor: '#CEF6CE',
+      color: '#CEF6CE',
+      borderColor: '#CEF6CE',
     },
   },
   input: {
@@ -238,7 +238,7 @@ class ScoreboardPage extends Component {
                         <Button 
                             variant="contained" 
                             className={classes.button} onClick={() => googleLogin()}>
-                            Log in to Play!
+                            <span style={{color:'darkgreen'}}>Log in to Play</span>
                         </Button>
                     }
                     {
@@ -268,7 +268,7 @@ class ScoreboardPage extends Component {
                     {
                         get(week,'prize') &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>{get(week,'prize.message')} <b>{get(week,'prize.amount')} {get(week,'prize.currency')}</b></div>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins!</div>
                         </div>
                     }
                     {
