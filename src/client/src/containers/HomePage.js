@@ -160,9 +160,12 @@ class HomePage extends Component {
               <img src={confetti} alt=""/>
             </div>
           </div>
-          <div style={styles.footer}>
-            Houston<span style={styles.spacer}/>Boston<span style={styles.spacer}/>Atlanta<span style={styles.spacer}/>Earth<span style={styles.spacer}/>Milky Way
-          </div>
+          {
+            false &&
+            <div style={styles.footer}>
+              Houston<span style={styles.spacer}/>Boston<span style={styles.spacer}/>Atlanta<span style={styles.spacer}/>Earth<span style={styles.spacer}/>Milky Way
+            </div>
+          }
         </div>
       );
     }

@@ -108,8 +108,8 @@ const loadNbaGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !== 3) {
-    console.log('loadNbaGames new games will be loaded on wednesday.');
+  if (currentWeekDay !== 2) {
+    console.log('loadNbaGames new games will be loaded on tuesday.');
     return;
   }
 
@@ -186,8 +186,8 @@ const loadNbaGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment().startOf('day')),
-      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
+      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));

@@ -153,64 +153,64 @@ router.get('/games', function (req, res) {
   //   loadNbaGames();
   // } catch(err) {
   //   isLoadNbaGamesRunning = false;
-  //   console.log('load loadNbaGames error: ' + err.message)
+  //   console.log('loadNbaGames error: ' + err.message);
   // }
 
   // try {
   //   loadNflGames();
   // } catch(err) {
   //   isLoadNflGamesRunning = false;
-  //   console.log('load loadNflGames error: ' + err.message)
+  //   console.log('loadNflGames error: ' + err.message);
   // }
 
   // try {
   //   loadEnglishPremierLeagueGames();
   // } catch(err) {
   //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message)
+  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message);
   // }
 
   // try {
   //   loadNCAAFootballTeams();
   // } catch(err) {
   //   isLoadNCAAFootballTeamsRunning = false;
-  //   console.log('loadNCAAFootballTeams error: ' + err.message)
+  //   console.log('loadNCAAFootballTeams error: ' + err.message);
   // }
 
   // try {
   //   loadNCAAFootballGames();
   // } catch(err) {
   //   isLoadNCAAFootballGamesRunning = false;
-  //   console.log('loadNCAAFootballGames error: ' + err.message)
+  //   console.log('loadNCAAFootballGames error: ' + err.message);
   // }
 
-  try {
-    updateNbaScores();
-  } catch(err) {
-    isUpdateNbaScoresRunning = false;
-    console.log('updateNbaScores error: ' + err.message)
-  }
+  // try {
+  //   updateNbaScores();
+  // } catch(err) {
+  //   isUpdateNbaScoresRunning = false;
+  //   console.log('updateNbaScores error: ' + err.message);
+  // }
 
   try {
     updateNflScores();
   } catch(err) {
     isUpdateNflScoresRunning = false;
-    console.log('updateNflScores error: ' + err.message)
+    console.log('updateNflScores error: ' + err.message);
   }
 
   try {
     updateEnglishPremierLeagueScores();
   } catch(err) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log('updateEnglishPremierLeagueScores error: ' + err.message)
+    console.log('updateEnglishPremierLeagueScores error: ' + err.message);
   }
 
-  // try {
-  //   updateNCAAFootballScores();
-  // } catch(err) {
-  //   isUpdateNCAAFootballScoresRunning = false;
-  //   console.log('updateNCAAFootballScores error: ' + err.message)
-  // }
+  try {
+    updateNCAAFootballScores();
+  } catch(err) {
+    isUpdateNCAAFootballScoresRunning = false;
+    console.log('updateNCAAFootballScores error: ' + err.message);
+  }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),

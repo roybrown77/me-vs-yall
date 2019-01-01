@@ -40,13 +40,13 @@ const styles = theme => ({
     fontWeight: "700",
     marginBottom: '4px',
     width: '75%',
-    backgroundColor: '#CEF6CE',
-    color: '#CEF6CE',
-    borderColor: '#CEF6CE',
+    backgroundColor: '#FFC107',
+    color: '#FFFFFF',
+    borderColor: '#FFC107',
     '&:hover': {
-      backgroundColor: '#CEF6CE',
-      color: '#CEF6CE',
-      borderColor: '#CEF6CE',
+      backgroundColor: '#FFC107',
+      color: '#FFFFFF',
+      borderColor: '#FFC107',
     },
   },
   input: {
@@ -238,7 +238,7 @@ class ScoreboardPage extends Component {
                         <Button 
                             variant="contained" 
                             className={classes.button} onClick={() => googleLogin()}>
-                            <span style={{color:'darkgreen'}}>Log in to Play</span>
+                            Log in to Play
                         </Button>
                     }
                     {
