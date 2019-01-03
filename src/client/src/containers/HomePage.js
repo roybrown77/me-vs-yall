@@ -17,6 +17,8 @@ import tennis from '../styles/images/tennis.png';
 import basketball from '../styles/images/basketball.png';
 import baseball from '../styles/images/baseball.png';
 
+import Countdown from '../components/Countdown';
+
 import { loadGamesInProgress } from '../actions';
 
 const styles = {
@@ -87,6 +89,9 @@ class HomePage extends Component {
             games
         } = this.props;
 
+      const nextNflStartDateTime = get(games.filter(x=>x.leagueId==='59723313734d1d6202a85f10')
+                                  .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),'startDateTime');
+
       return (
         <div className="fade-in home-page-container">
           <div style={styles.title}>
@@ -107,6 +112,7 @@ class HomePage extends Component {
                           games.find(x=>x.leagueId === '59723313734d1d6202a85f10') &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50A0A'}}></div>
                         }
+                        {false && <Countdown date={nextNflStartDateTime}/>}
                     </Button>
                 )}/>
               </Grid>

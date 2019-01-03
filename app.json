@@ -5,9 +5,6 @@
     },
     {
       "url": "heroku buildpacks:add heroku/nodejs"
-    },
-    {
-      "url": "heroku buildpacks:add https://github.com/heroku/heroku-repo.git"
     }
   ],
   "scripts": {
