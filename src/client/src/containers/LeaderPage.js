@@ -322,7 +322,7 @@ class LeaderPage extends Component {
                                                         <div style={{
                                                             marginBottom: '12px',
                                                             color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
-                                                            in Vegas you could have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                            in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
                                                         {
                                                             false &&
