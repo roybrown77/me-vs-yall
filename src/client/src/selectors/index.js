@@ -138,6 +138,7 @@ const areAnyGamesOver = (games = []) => {
 };
 
 const getCurrentWeek = (weeks = []) => {
+    // must check if any games in progress then if have not started to return it as current week
     return last(weeks);
 };
 

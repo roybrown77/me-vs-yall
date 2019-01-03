@@ -276,12 +276,9 @@ class LeaderPage extends Component {
                             <Countdown date={timeUntilNextGamesLoad}/>
                         </div>
                     }
-                    {
-                        get(week,'prize') &&
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins!</div>
-                        </div>
-                    }
+                    <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins!</div>
+                    </div>
                     {
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
