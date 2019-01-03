@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "babel-core": "^6.26.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
