@@ -308,6 +308,7 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
+                        false &&
                         <div className={classes.banner}>
                             <a href="https://theoriginalbarbershopnpr.com">
                                 <img className={classes.bannerImage} src={obs} alt="the original barber shop"/>
