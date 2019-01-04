@@ -85,7 +85,7 @@ class Countdown extends Component {
     const countDown = this.state;
 
     return (
-      <div style={styles.countDown}>
+      <div style={this.props.styles || styles.countDown}>
         {
           countDown.days > 0 && 
           <span className="Countdown-col">
@@ -128,7 +128,8 @@ class Countdown extends Component {
 }
 
 Countdown.propTypes = {
-  date: PropTypes.string.isRequired
+  date: PropTypes.string.isRequired,
+  styles: PropTypes.object
 };
 
 Countdown.defaultProps = {

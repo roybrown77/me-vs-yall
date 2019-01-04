@@ -27,6 +27,14 @@ const leagues = [
     }
 ];
 
+const getStartDateTime = (games) => {
+    return getAreAllGamesOver(games) ? getTimeUntilNextGamesLoad(games) : getNextGameStartDateTime(games);
+}
+
+const getNextGameStartDateTime = (games) => {
+    return get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime');
+}
+
 const getBet = (results) => {
     return (results['wins'] * 110) + (results['losses'] * 110);
 };
@@ -232,5 +240,7 @@ export {
     getVegasPicks,
     getGroupedGames,
     getAreAnyGamesInProgress,
-    leagues
+    leagues,
+    getNextGameStartDateTime,
+    getStartDateTime
 };

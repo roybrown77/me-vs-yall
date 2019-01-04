@@ -40,7 +40,8 @@ import {
     getLeaders,
     getVegasPicks,
     getVegasUser,
-    getAreAnyGamesInProgress
+    getAreAnyGamesInProgress,
+    getStartDateTime
 } from '../selectors';
 
 const styles = theme => ({
@@ -265,7 +266,7 @@ class LeaderPage extends Component {
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
-                            <Countdown date={get(games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)).find(x=>x.isGameOver !== true),'startDateTime')}/>
+                            <Countdown date={getStartDateTime(games)}/>
                         </div>
                     }
                     {

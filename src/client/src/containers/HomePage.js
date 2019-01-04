@@ -21,6 +21,17 @@ import Countdown from '../components/Countdown';
 
 import { loadGamesInProgress } from '../actions';
 
+import { 
+    formatWeeks, 
+    getCurrentWeek, 
+    hasGameStarted,
+    getAreAllGamesOver,
+    getTimeUntilNextGamesLoad,
+    getGroupedGames,
+    getAreAnyGamesInProgress,
+    getStartDateTime
+} from '../selectors';
+
 const styles = {
   title: {
     color: '#f4f7f6', 
@@ -76,6 +87,11 @@ const styles = {
   spacer: {
     margin: '0 7px',
     border: '2px solid black'
+  },
+  countdown: {
+    fontSize: '11px',
+    color: 'black',
+    marginTop: '4px'
   }
 };
 
@@ -89,8 +105,17 @@ class HomePage extends Component {
             games
         } = this.props;
 
-      const nextNflStartDateTime = get(games.filter(x=>x.leagueId==='59723313734d1d6202a85f10')
-                                  .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),'startDateTime');
+      const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
+      const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
+      const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
+
+      const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
+      const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
+      const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
+
+      const nflStartDateTime = getStartDateTime(nflGames);
+      const premierStartDateTime = getStartDateTime(premierGames);
+      const nbaStartDateTime = getStartDateTime(nbaGames);
 
       return (
         <div className="fade-in home-page-container">
@@ -107,14 +132,14 @@ class HomePage extends Component {
                     <Button 
                         variant="outlined" 
                         style={{...styles.button, color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
-                        National Football League
+                        <div>National Football League</div>
                         {
-                          games.find(x=>x.leagueId === '59723313734d1d6202a85f10') &&
+                          areAnyNflGamesInProgress &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50A0A'}}></div>
                         }
-                        {false && <Countdown date={nextNflStartDateTime}/>}
                     </Button>
                 )}/>
+                {nflStartDateTime && <Countdown styles={styles.countdown} date={nflStartDateTime}/>}
               </Grid>
               <Grid item xs={6}>
                 <Route render={({ history }) => (
@@ -123,11 +148,12 @@ class HomePage extends Component {
                         style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
                         Premier League Football
                         {
-                          games.find(x=>x.leagueId === '59723313734d1d6202a85f17') &&
+                          areAnyPremierGamesInProgress &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
                         }
                     </Button>
                 )}/>
+                {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
               </Grid>
               <Grid item xs={6} style={{margin:'auto'}}>
                 <Route render={({ history }) => (
@@ -136,11 +162,12 @@ class HomePage extends Component {
                         style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
                         National Basketball Association
                         {
-                          games.find(x=>x.leagueId === '59723313734d1d6202a85f19') &&
+                          areAnyNbaGamesInProgress &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
                         }
                     </Button>
                 )}/>
+                {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
               </Grid>
             </Grid>
           </div>

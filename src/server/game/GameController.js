@@ -184,12 +184,12 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message);
   // }
 
-  // try {
-  //   updateNbaScores();
-  // } catch(err) {
-  //   isUpdateNbaScoresRunning = false;
-  //   console.log('updateNbaScores error: ' + err.message);
-  // }
+  try {
+    updateNbaScores();
+  } catch(err) {
+    isUpdateNbaScoresRunning = false;
+    console.log('updateNbaScores error: ' + err.message);
+  }
 
   try {
     updateNflScores();
@@ -205,12 +205,12 @@ router.get('/games', function (req, res) {
     console.log('updateEnglishPremierLeagueScores error: ' + err.message);
   }
 
-  try {
-    updateNCAAFootballScores();
-  } catch(err) {
-    isUpdateNCAAFootballScoresRunning = false;
-    console.log('updateNCAAFootballScores error: ' + err.message);
-  }
+  // try {
+  //   updateNCAAFootballScores();
+  // } catch(err) {
+  //   isUpdateNCAAFootballScoresRunning = false;
+  //   console.log('updateNCAAFootballScores error: ' + err.message);
+  // }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
@@ -288,9 +288,6 @@ router.get('/gameweeks', function (req, res) {
 
 router.get('/gamesInProgress', function (req, res) {
   const search = {
-    startDateTime: {
-      $lte: new Date(moment())
-    },
     isGameOver: {
       $ne: true
     },
