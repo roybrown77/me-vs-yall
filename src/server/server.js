@@ -15,11 +15,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 var secret = jwks.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
-    });
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
+});
 
 var authCheck = jwt({
     secret: secret,

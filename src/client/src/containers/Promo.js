@@ -2,6 +2,10 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
+import nfl from '../styles/images/nfl.png';
+import nba from '../styles/images/nba.png';
+import premier from '../styles/images/premier.png';
+
 const styles = {
   title: {
     color: '#f4f7f6', 
@@ -56,7 +60,7 @@ function PromoPage () {
               1.  Go to mevsyall.com and select sport
             </div>
             <div style={styles.item}>
-              2.  Tap Login to Play and enter gmail
+              2.  Tap Log in to Play and enter gmail
             </div>
             <div style={styles.item}>
               3.  Tap on team you believe will win first game
@@ -70,6 +74,17 @@ function PromoPage () {
             <div style={styles.item}>
               @mevsyallsports
             </div>
+            <Grid style={styles.logoContainer} item xs={12} container spacing={8} justify="center">
+              <Grid item xs={4}>
+                <img src={nfl} alt=""/>
+              </Grid>
+              <Grid item xs={4}>
+                <img src={premier} alt=""/>
+              </Grid>
+              <Grid item xs={4}>
+                <img src={nba} alt=""/>
+              </Grid>
+            </Grid>
           </div>
         }
       </div>
