@@ -30,7 +30,7 @@ const styles = {
     margin: '16px 0'
   },
   logoContainer: {
-    margin: '0 30px',
+    marginTop: '2em',
     bottom: '1em'
   }
 };
@@ -48,7 +48,7 @@ function PromoPage () {
           </div>
         }
         {
-          true &&
+          false &&
           <div style={styles.promo}>
             $2 off your purchase
           </div>
@@ -65,9 +65,18 @@ function PromoPage () {
             <div style={styles.item}>
               3.  Tap on team you believe will win first game
             </div>
-            <div style={styles.item}>
-              4.  Show your name on Leaders page to get $2 off purchase
-            </div>
+            {
+              false &&
+              <div style={styles.item}>
+                4.  Show your name on Leaders page to get $2 off purchase
+              </div>
+            }
+            {
+              true &&
+              <div style={styles.item}>
+                4.  View name on Leaders page
+              </div>
+            }
             <div style={{...styles.item, marginTop: '2em'}}>
               Complete picking all teams, follow when game starts and enjoy the app!
             </div>
@@ -78,10 +87,10 @@ function PromoPage () {
               <Grid item xs={4}>
                 <img src={nfl} alt=""/>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <img src={premier} alt=""/>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <img src={nba} alt=""/>
               </Grid>
             </Grid>
