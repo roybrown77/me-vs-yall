@@ -82,6 +82,10 @@ class Header extends Component {
     this.setState({ open: false });
   };
 
+  gram = () => {
+    window.location = "https://www.instagram.com/mevsyallsports/";
+  };
+
   render() {
     const { classes, theme, children, leagueName } = this.props;
     const { anchor, open } = this.state;
@@ -140,6 +144,11 @@ class Header extends Component {
                         )} />
                   )}
                   {(
+                      <MenuItem onClick={() => this.gram()}>
+                        Gram
+                      </MenuItem>
+                  )}
+                  {(
                       <Route render={({ history}) => (
                           <MenuItem
                             onClick={() => { history.push('/feedback') }}
@@ -150,8 +159,7 @@ class Header extends Component {
                   )}
                   {(
                       <Route render={({ history}) => (
-                          <MenuItem
-                            onClick={() => { history.push('/about') }}
+                          <MenuItem onClick={() => { history.push('/about') }}
                           >
                             About
                           </MenuItem>
