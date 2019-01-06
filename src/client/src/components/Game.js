@@ -150,8 +150,7 @@ class Game extends Component {
                                                 }
                                               </div>
                                               <div className={inProgress ? 'fast-flash' : ''} 
-                                                style={{zIndex:'999999', bottom: '-8px', width: '100%',
-                                                position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
+                                                style={{display: competitor.selected || inProgress ? 'block' : 'none'}}>
                                                 <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 55}}/>
                                               </div>
                                             </Grid>
