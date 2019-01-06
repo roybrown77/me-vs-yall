@@ -70,11 +70,7 @@ const getLeaders = (games = [], picks = [], users = []) => {
         });
     }, []);
 
-    const sortedGames = [
-        ...orderBy(games.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
-        ...orderBy(games.filter(x=>!hasGameStarted(x.startDateTime)),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
-        ...orderBy(games.filter(x=>hasGameStarted(x.startDateTime) && !x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
-    ];
+    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
     const pickResults = picksByUser.reduce((total, item) => {
         const user = users.find(x=>x.authServiceId === item.userId);

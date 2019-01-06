@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import moment from 'moment-timezone';
+
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -66,6 +68,8 @@ const styles = theme => ({
     borderRadius: '8px'
   }
 });
+
+let gameDate;
 
 class ScoreboardPage extends Component {
     constructor(props) {
@@ -296,15 +300,29 @@ class ScoreboardPage extends Component {
                     {
                         <div className={classes.root}>
                             {
-                                groupedGames.map(game => (
-                                <Game 
-                                    game={game} 
-                                    pick={picks.find(x=>x.gameId === game._id)} 
-                                    key={game._id} 
-                                    handleMakePick={this.handleMakePick} 
-                                    isAuthenticated={isAuthenticated}
-                                />
-                            ))}
+                                groupedGames.map(game => {
+                                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                                    let newDate = (gameDate !== newGameDate);
+                                    if (newDate) gameDate = newGameDate;
+
+                                    return (
+                                        <div>
+                                            {
+                                                newDate &&
+                                                <div style={{backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                    <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600',color:'darkorange'}}>{gameDate}</div>
+                                                </div>
+                                            }
+                                            <Game 
+                                                game={game} 
+                                                pick={picks.find(x=>x.gameId === game._id)} 
+                                                key={game._id} 
+                                                handleMakePick={this.handleMakePick} 
+                                                isAuthenticated={isAuthenticated}
+                                            />
+                                        </div>
+                                    );
+                            })}
                         </div>
                     }
                     {

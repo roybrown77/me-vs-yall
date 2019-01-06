@@ -25,15 +25,15 @@ import money from '../styles/images/money.png';
 import { hasGameStarted } from '../selectors';
 
 const styles = theme => ({
-  container: {
-    backgroundColor: '#ffffff',
-    padding: '8px',
-    marginBottom: '12px'
-  },
   root: {
     flexGrow: 1,
     height: '192px',
     marginBottom: '4px'
+  },
+  container: {
+    backgroundColor: '#ffffff',
+    padding: '8px',
+    marginBottom: '12px'
   },
   paper: {
     height: '100%',
