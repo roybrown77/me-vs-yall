@@ -610,13 +610,14 @@ const updateNbaScores = async () => {
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
+    const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter && currentTimeFormatted !== 0);
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
       isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
       lastPlay: get(newPlayHistory,'0.lastPlay'),
       playHistory: newPlayHistory,
-      currentTime: !!quarter && !endQuarter && quarter !== 'Halftime' ? currentTimeFormatted + " - " + quarter : quarter
+      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
     
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
