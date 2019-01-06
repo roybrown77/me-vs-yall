@@ -307,7 +307,7 @@ class ScoreboardPage extends Component {
                                     if (newDate) gameDate = newGameDate;
 
                                     return (
-                                        <div>
+                                        <div key={game._id}>
                                             {
                                                 newDate &&
                                                 <div style={{backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
@@ -316,8 +316,7 @@ class ScoreboardPage extends Component {
                                             }
                                             <Game 
                                                 game={game} 
-                                                pick={picks.find(x=>x.gameId === game._id)} 
-                                                key={game._id} 
+                                                pick={picks.find(x=>x.gameId === game._id)}
                                                 handleMakePick={this.handleMakePick} 
                                                 isAuthenticated={isAuthenticated}
                                             />
