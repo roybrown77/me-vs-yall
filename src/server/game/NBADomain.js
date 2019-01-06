@@ -592,9 +592,13 @@ const updateNbaScores = async () => {
   //console.log('updateNbaScores scores: ' + JSON.stringify(scores));
 
   games.forEach(game=>{
-    const team = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-    const shortLocation = get(team,'shortLocation');
-    const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation  || x.awayTeamPregame === shortLocation);
+    const awayTeam = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+    const awayShortLocation = get(awayTeam,'shortLocation');
+    const homeTeam = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
+    const homeShortLocation = get(homeTeam,'shortLocation');
+
+    const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation  || x.awayTeamPregame === awayShortLocation) && 
+                                  (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation  || x.homeTeamPregame === homeShortLocation));
     const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
@@ -610,7 +614,7 @@ const updateNbaScores = async () => {
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
-    const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter && currentTimeFormatted !== 0);
+    const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter);
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
