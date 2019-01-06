@@ -210,6 +210,7 @@ class ScoreboardPage extends Component {
         const groupedGames = getGroupedGames(games, picks, teams);
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
         const timeUntilNextGameStarts = getStartDateTime(games);
+        gameDate = null;
 
         return (
             <div>
