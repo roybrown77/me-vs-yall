@@ -334,7 +334,7 @@ class LeaderPage extends Component {
                                                                 backgroundColor: '#fff'}}>
                                                             {
                                                                 games.map((game,gameIndex)=>{
-                                                                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D');
+                                                                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                                                     let newDate = (gameDate !== newGameDate);
                                                                     if (newDate) gameDate = newGameDate;
 
