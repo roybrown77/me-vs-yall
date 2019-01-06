@@ -619,6 +619,7 @@ const updateNbaScores = async () => {
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
       isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
+      lastPlay: undefined,
       playHistory: newPlayHistory,
       currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
