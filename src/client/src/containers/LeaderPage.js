@@ -80,7 +80,7 @@ const styles = theme => ({
   }
 });
 
-let gameWeekNo;                                                                
+let gameDate;                                             
 
 const getIndicator = (game,picks,leader,index1,index2) => {
     return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
@@ -321,7 +321,6 @@ class LeaderPage extends Component {
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
                                                         <div style={{
-                                                            marginBottom: '12px',
                                                             color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
                                                             in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
                                                         </div>
@@ -335,21 +334,20 @@ class LeaderPage extends Component {
                                                                 backgroundColor: '#fff'}}>
                                                             {
                                                                 games.map((game,gameIndex)=>{
-                                                                    let newWeek = (gameWeekNo !== get(game,'weekNo',gameIndex+1));
-                                                                    if (newWeek) gameWeekNo = get(game,'weekNo',gameIndex+1);
+                                                                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D');
+                                                                    let newDate = (gameDate !== newGameDate);
+                                                                    if (newDate) gameDate = newGameDate;
 
                                                                     return (<tbody key={leader.id + '-' + game._id}>
                                                                         {
-                                                                            false &&
-                                                                            newWeek &&
-                                                                            leagueId === '59723313734d1d6202a85f10' &&
+                                                                            newDate &&
                                                                             <tr>
                                                                                 <td align="center">
                                                                                 </td>
                                                                                 <td align="center">
                                                                                 </td>
                                                                                 <td align="center">                                                                      
-                                                                                    <div style={{margin:'12px 0'}}>Week {gameWeekNo}</div>                                                
+                                                                                    <div style={{margin:'12px 0',fontWeight:'600',color:'rgba(0, 0, 0, 0.87)'}}>{gameDate}</div>                                                
                                                                                 </td>
                                                                                 <td align="center">
                                                                                 </td>
