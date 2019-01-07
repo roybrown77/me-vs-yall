@@ -69,7 +69,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(7,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(9,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -81,7 +81,7 @@ const loadEnglishPremierLeagueGames = async () => {
     const search = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
+          $gte: new Date(moment(lastStartGameTime).add(-8, 'days').startOf('day')),
           $lte: new Date(moment(lastStartGameTime).endOf('day'))
         },
         isStub: {

@@ -93,7 +93,7 @@ const loadNbaGames = async () => {
   const leagueId = '59723313734d1d6202a85f19';
   const year = 2018;
 
-  const daysToLoad = 7;
+  const daysToLoad = 9;
   
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
@@ -108,7 +108,7 @@ const loadNbaGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !== 2) {
+  if (currentWeekDay !== 1) {
     console.log('loadNbaGames new games will be loaded on tuesday.');
     return;
   }
@@ -145,7 +145,7 @@ const loadNbaGames = async () => {
     const search = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-(daysToLoad-1), 'days').startOf('day')),
+          $gte: new Date(moment(lastStartGameTime).add(-8, 'days').startOf('day')),
           $lte: new Date(moment(lastStartGameTime).endOf('day'))
         },
         isStub: {
@@ -186,8 +186,8 @@ const loadNbaGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
+      beginDateTime: new Date(moment().add(2, 'days').startOf('day')),
+      endDateTime: new Date(moment().add(8, 'days').endOf('day'))
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
