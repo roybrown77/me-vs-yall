@@ -184,6 +184,13 @@ router.get('/games', function (req, res) {
   //   console.log('loadNCAAFootballGames error: ' + err.message);
   // }
 
+  // try {
+  //   updateNCAAFootballScores();
+  // } catch(err) {
+  //   isUpdateNCAAFootballScoresRunning = false;
+  //   console.log('updateNCAAFootballScores error: ' + err.message);
+  // }
+
   try {
     updateNbaScores();
   } catch(err) {
@@ -204,13 +211,6 @@ router.get('/games', function (req, res) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
     console.log('updateEnglishPremierLeagueScores error: ' + err.message);
   }
-
-  // try {
-  //   updateNCAAFootballScores();
-  // } catch(err) {
-  //   isUpdateNCAAFootballScoresRunning = false;
-  //   console.log('updateNCAAFootballScores error: ' + err.message);
-  // }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
