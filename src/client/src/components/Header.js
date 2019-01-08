@@ -144,6 +144,15 @@ class Header extends Component {
                         )} />
                   )}
                   {(
+                      <Route render={({ history}) => (
+                          <MenuItem
+                            onClick={() => { history.push('/tips') }}
+                          >
+                            Tips
+                          </MenuItem>
+                        )} />
+                  )}
+                  {(
                       <MenuItem onClick={() => this.gram()}>
                         Gram
                       </MenuItem>

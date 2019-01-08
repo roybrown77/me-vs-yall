@@ -6,6 +6,7 @@ import HomePage from '../containers/HomePage';
 import ScoreboardPage from '../containers/ScoreboardPage';
 import LeaderPage from '../containers/LeaderPage';
 import StatOfTheWeekPage from '../containers/StatOfTheWeekPage';
+import Tips from '../containers/Tips';
 import Feedback from '../containers/Feedback';
 import AboutPage from '../containers/AboutPage';
 import LoginPage from '../containers/LoginPage';
@@ -28,7 +29,8 @@ const routes = (
 		                <Route exact path='/' component={HomePage}/>
 		                <Route path='/scoreboards/:leagueName' component={ScoreboardPage}/>
 		                <Route path='/leaders/:leagueName' component={LeaderPage}/>	
-		                <Route path='/statOfTheWeek' component={StatOfTheWeekPage}/>	
+		                <Route path='/statOfTheWeek' component={StatOfTheWeekPage}/>
+		                <Route path='/tips' component={Tips}/>	
 		                <Route path='/feedback' component={Feedback}/>		   
 		                <Route path='/about' component={AboutPage}/>
 		                <Route path='/login' component={LoginPage}/>
