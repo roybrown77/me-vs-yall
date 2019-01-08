@@ -58,7 +58,7 @@ const stats = [
   }
 ];
 
-function StatOfTheWeekPage () {
+function TipsPage () {
      return (
             <div>
                 <PageContainer>
@@ -96,4 +96,4 @@ function StatOfTheWeekPage () {
         );
 }
 
-export default StatOfTheWeekPage;
+export default TipsPage;

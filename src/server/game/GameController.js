@@ -127,10 +127,7 @@ const buySupreme = async () => {
 
 const getEmailAddresses = async () => {
   const users = await userRepository.find({});
-  const emailList = [
-  ...users.map(user=>{return user.email}), 
-  ...['jaylengonzalez0902@gmail.com']
-  ];
+  const emailList = [...users.map(user=>{return user.email})];
   const emailString = emailList.join(',');
   console.log('emailString: ' + emailString);
 };
