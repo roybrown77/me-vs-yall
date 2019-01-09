@@ -61,10 +61,6 @@ const stats = [
   {
     title: 'NEW FEATURES',
     content: `Log in again to get new app features.`
-  },
-  {
-    title: 'NBA JACKED UP',
-    content: `Occasionally, NBA time and last play on Scores page can be jacked up due to where we get the info from.  Should be corrected over time :D.`
   }
 ];
 
