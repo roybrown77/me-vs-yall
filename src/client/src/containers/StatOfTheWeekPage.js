@@ -40,7 +40,7 @@ const stats = [
               Except the Eagles.  Frank Reich (2018 Colts), Anthony Lynn (2017 Chargers) and Jason Garrett (2011 Cowboys) won.  Doug Pederson 
               (2016 Eagles) was hired 2 years ealier than Matt Nagy (2018 Bears).`,
     leagueName: 'NFL',
-    date: 'January 8, 2018',
+    date: 'January 8, 2019',
     author: 'Roy B.'
   },
   {
