@@ -621,7 +621,8 @@ const updateNbaScores = async () => {
       isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
       lastPlay: undefined,
       playHistory: newPlayHistory,
-      currentTime: quarter
+      lastPlay: get(newPlayHistory,'0.lastPlay'),
+      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
     
     const gameStarted = hasGameStarted(get(game,'startDateTime'));

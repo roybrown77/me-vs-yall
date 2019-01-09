@@ -80,7 +80,9 @@ const getLeaders = (games = [], picks = [], users = []) => {
               id: item.userId,
               userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
               wins: pickResult.wins,
-              losses: pickResult.losses
+              losses: pickResult.losses,
+              spreadWins: pickResult.spreadWins,
+              spreadLosses: pickResult.spreadLosses
           });
         }
 
@@ -95,24 +97,59 @@ const getLeaders = (games = [], picks = [], users = []) => {
 const getResults = (games = [], picks = []) => {
     const result = games.reduce((total,game)=>{
         if (get(game,'isGameOver',false)) {
-            const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
-            (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
-
             const gamePicked = picks.find(x=>x.gameId === game._id);
 
             if (gamePicked) {
+                const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
+                    (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
+                
                 const winnerSelected = gamePicked.pickId === winner;
 
+                const pickedSpreadTeam = gamePicked.pickId === get(game,'spread.teamId');
+
+                const spreadTeamWon = get(game,'spread.teamId') === winner;
+
+                const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
+
+                const spreadDiff = winner === game.competitors[0].id ? 
+                    game.competitors[0].score - game.competitors[1].score : winner === game.competitors[1].id ? game.competitors[1].score - game.competitors[0].score : 0;
+
                 if (winnerSelected) {
+                    if (spreadTeamWon) {
+                        if (pickedSpreadTeam) {
+                            if (wonBySpread) {
+                                total['spreadWins']++;
+                            } else {
+                                total['spreadLosses']++;
+                            }
+                        } else {
+                            total['spreadLosses']++;
+                        }
+                    } else {
+                        if (pickedSpreadTeam) {
+                            total['spreadLosses']++;
+                        } else {
+                            total['spreadWins']++;
+                        }
+                    }
                     total['wins']++;
                 } else {
+                    if (pickedSpreadTeam) {
+                        total['spreadLosses']++;
+                    } else {
+                        if (wonBySpread) {
+                            total['spreadLosses']++;
+                        } else {
+                            total['spreadWins']++;
+                        }
+                    }
                     total['losses']++;
                 }
             }
         }
 
         return total;
-    }, {wins: 0, losses: 0});
+    }, {wins: 0, losses: 0, spreadWins: 0, spreadLosses: 0});
 
     return result;
 };

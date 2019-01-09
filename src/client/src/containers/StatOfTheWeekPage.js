@@ -35,6 +35,15 @@ const styles = {
 
 const stats = [
   {
+    title: 'HEY YOUNG WORLD EXCEPT FOR OLD SAINT NICK',
+    content: `During the Wild Card weekend, every team that won had head coaches that were hired more recently than the coaches they beat. 
+              Except the Eagles.  Frank Reich (2018 Colts), Anthony Lynn (2017 Chargers) and Jason Garrett (2011 Cowboys) won.  Doug Pederson 
+              (2016 Eagles) was hired 2 years ealier than Matt Nagy (2018 Bears).  It could be Nick Foles and those Jesus candles.`,
+    leagueName: 'NFL',
+    date: 'January 8, 2018',
+    author: 'Roy B.'
+  },
+  {
     title: 'SUPER BOWL WINNERS ARE LIKE THE WU-TANG GZA SONG...COLD WORLD',
     content: `17 of the last 20 Super Bowls were won by teams in cities with at least 15 inches of snowfall per year.  This 
               year's wintry playoff group includes the Kansas City Chiefs, New England Patriots, Indianapolis Colts, Baltimore Ravens, 
