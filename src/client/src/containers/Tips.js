@@ -46,7 +46,7 @@ const stats = [
   },
   {
     title: 'NBA',
-    content: `For NBA games, it's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
+    content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
   },
   {
     title: 'PICKS',
