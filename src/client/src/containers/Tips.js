@@ -79,7 +79,7 @@ function TipsPage () {
                         Tips
                       </Typography>
                       <Typography align={'left'} style={styles.contentTitle}>
-                        Not the Rib Plate Special But Still Nutritious
+                        Not the Rib Plate Special But still Nutritious
                       </Typography>
                     </div>
                     {
