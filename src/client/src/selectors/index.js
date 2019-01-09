@@ -109,10 +109,10 @@ const getResults = (games = [], picks = []) => {
 
                 const spreadTeamWon = get(game,'spread.teamId') === winner;
 
-                const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
-
                 const spreadDiff = winner === game.competitors[0].id ? 
                     game.competitors[0].score - game.competitors[1].score : winner === game.competitors[1].id ? game.competitors[1].score - game.competitors[0].score : 0;
+
+                const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
 
                 if (winnerSelected) {
                     if (spreadTeamWon) {

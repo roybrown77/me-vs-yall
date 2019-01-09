@@ -38,7 +38,7 @@ const stats = [
     title: 'HEY YOUNG WORLD EXCEPT FOR OLD SAINT NICK',
     content: `During the Wild Card weekend, every team that won had head coaches that were hired more recently than the coaches they beat. 
               Except the Eagles.  Frank Reich (2018 Colts), Anthony Lynn (2017 Chargers) and Jason Garrett (2011 Cowboys) won.  Doug Pederson 
-              (2016 Eagles) was hired 2 years ealier than Matt Nagy (2018 Bears).`,
+              (2016 Eagles) was hired 2 years earlier than Matt Nagy (2018 Bears).  It could be Nick Foles and those Jesus candles.`,
     leagueName: 'NFL',
     date: 'January 8, 2019',
     author: 'Roy B.'

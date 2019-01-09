@@ -37,8 +37,8 @@ const stats = [
   {
     title: 'SPREAD',
     content: `The negative number in upper right corner is the Westgate Las Vegas SuperBook spread.  It's what they think that team will win 
-              by so that the casino doesn't lose money.  This number can change all week as they adjust due to injuries and other factors.  Westgate 
-              currently has the best overall record in Me vs Yall for NFL/NBA.`
+              by so the casino doesn't lose money.  This number can change all week as they adjust due to injuries, too many bets on one team 
+              and other factors.  Westgate currently has the best overall record in Me vs Yall for NFL/NBA.`
   },
   {
     title: 'HOME TEAMS',
@@ -53,10 +53,15 @@ const stats = [
     content: `You can view another person's picks by tapping their name on Leaders page after game starts.  You can also change your pick until game starts.`
   },
   {
+    title: 'FRIENDS AND FAMILY',
+    content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
+  },
+  {
     title: 'VEGAS',
     content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
-              $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong (team lost by spread) I 
-              would have won $200 and lost $110 which would show $90.  If I picked the losing team and winning team did not win by the spread I would win.`
+              $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
+              (team lost by less than spread) I would have won $200 and lost $110 which would show $90 (winners get back their money too).  If I picked 
+              the losing team and winning team did not win by the spread I would win.`
   },
   {
     title: 'NEW FEATURES',
@@ -72,6 +77,9 @@ function TipsPage () {
                     <div style={styles.titleContainer}>
                       <Typography component="h3" align={'left'} style={styles.title}>
                         Tips
+                      </Typography>
+                      <Typography align={'left'} style={styles.contentTitle}>
+                        Not the Rib Plate Special But Still Nutritious
                       </Typography>
                     </div>
                     {
