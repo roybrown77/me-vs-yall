@@ -77,9 +77,6 @@ function TipsPage () {
                       <Typography component="h3" align={'left'} style={styles.title}>
                         Tips
                       </Typography>
-                      <Typography align={'left'} style={styles.contentTitle}>
-                        Not Those U Clean Your Ears Out With But Still Healthy
-                      </Typography>
                     </div>
                     {
                       stats.map(stat=>(
