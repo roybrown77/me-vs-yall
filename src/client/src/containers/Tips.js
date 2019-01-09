@@ -35,10 +35,6 @@ const styles = {
 
 const stats = [
   {
-    title: 'NEW FEATURES',
-    content: `Log in again to get new app features.`
-  },
-  {
     title: 'SPREAD',
     content: `The negative number in upper right corner is the Westgate Las Vegas SuperBook spread.  It's what they think that team will win 
               by so that the casino doesn't lose money.  This number can change all week as they adjust due to injuries and other factors.  Westgate 
@@ -61,6 +57,10 @@ const stats = [
     content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
               $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong (team lost by spread) I 
               would have won $200 and lost $110 which would show $90.  If I picked the losing team and winning team did not win by the spread I would win.`
+  },
+  {
+    title: 'NEW FEATURES',
+    content: `Log in again to get new app features.`
   },
   {
     title: 'NBA JACKED UP',
