@@ -607,22 +607,26 @@ const updateNbaScores = async () => {
     const awayScoreFinalValid = get(score,'awayScore',0) >= get(game,'competitors.0.score',0) && !isNaN(get(score,'awayScore',0)) && !isNaN(get(game,'competitors.0.score',0));
     const homeScoreFinalValid = get(score,'homeScore',0) >= get(game,'competitors.1.score',0) && !isNaN(get(score,'homeScore',0)) && !isNaN(get(game,'competitors.1.score',0));
 
-    console.log("updateNbaScores score: " + JSON.stringify(score));
+    //console.log("updateNbaScores score: " + JSON.stringify(score));
 
-    const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
+    const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
+      (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
+
+    const badTime = get(newPlayHistory,'0.time',0) > 59 && get(newPlayHistory,'0.time',0) < 100;
+    
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
-    const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter);
+    const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
       isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
       lastPlay: undefined,
       playHistory: newPlayHistory,
-      lastPlay: get(newPlayHistory,'0.lastPlay'),
-      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
+      lastPlay: badTime ? null : get(newPlayHistory,'0.lastPlay'),
+      currentTime: shouldSetCurrentTime && !badTime ? currentTimeFormatted + " - " + quarter : quarter
     };
     
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
@@ -638,7 +642,7 @@ const updateNbaScores = async () => {
     set(updatedGame,'competitors.1.score', isGameOver && homeScoreFinalValid ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
 
-    //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
+    console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
