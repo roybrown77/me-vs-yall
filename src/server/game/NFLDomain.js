@@ -66,7 +66,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   // console.log("updateNflGames quarter: " + quarter);
   // console.log("updateNflGames time: " + time);
 
-  if (!quarter || (!time && time !== 0)) {
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100)) {
     console.log("updateNflGames invalid2");
     return playHistory;
   }
@@ -637,7 +637,6 @@ const updateNflScores = async () => {
     const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
-    const badTime = get(newPlayHistory,'0.time',0) > 59 && get(newPlayHistory,'0.time',0) < 100;
 
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
@@ -649,9 +648,9 @@ const updateNflScores = async () => {
       isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
       possession: get(score,'possession'),
       down: get(score,'down'),
-      lastPlay: badTime ? null : get(newPlayHistory,'0.lastPlay'),
+      lastPlay: get(newPlayHistory,'0.lastPlay'),
       playHistory: newPlayHistory,
-      currentTime: !!quarter && !endQuarter && quarter !== 'Halftime' && !badTime ? currentTimeFormatted + " - " + quarter : quarter
+      currentTime: !!quarter && !endQuarter && quarter !== 'Halftime' ? currentTimeFormatted + " - " + quarter : quarter
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));

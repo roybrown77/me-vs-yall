@@ -67,7 +67,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   // console.log("updateNbaGames quarter: " + quarter);
   // console.log("updateNbaGames time: " + time);
 
-  if (!quarter || (!time && time !== 0)) {
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100)) {
     console.log("updateNbaGames invalid2");
     return playHistory;
   }
@@ -611,8 +611,6 @@ const updateNbaScores = async () => {
 
     const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
       (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
-
-    const badTime = get(newPlayHistory,'0.time',0) > 59 && get(newPlayHistory,'0.time',0) < 100;
     
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
@@ -625,8 +623,8 @@ const updateNbaScores = async () => {
       isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
       lastPlay: undefined,
       playHistory: newPlayHistory,
-      lastPlay: badTime ? null : get(newPlayHistory,'0.lastPlay'),
-      currentTime: shouldSetCurrentTime && !badTime ? currentTimeFormatted + " - " + quarter : quarter
+      lastPlay: get(newPlayHistory,'0.lastPlay'),
+      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
     
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
