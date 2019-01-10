@@ -57,6 +57,10 @@ const stats = [
     content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
   },
   {
+    title: 'NO GAME NO PROBLEM',
+    content: `Follow each play on Scores page when u can't watch it.`
+  },
+  {
     title: 'VEGAS',
     content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
               $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
