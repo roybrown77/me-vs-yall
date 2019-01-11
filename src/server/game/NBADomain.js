@@ -43,7 +43,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 
   const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
   const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
-  const overTime = currenTimeSplit.includes('OT') ? 
+  const overTime = currentTimeQuarter.includes('OT') ? 
     (currentTimeQuarter.replace('OT','') === '' ? 5 : parseInt(currentTimeQuarter.replace('OT','')) + 4) : undefined;
 
   const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
@@ -54,11 +54,12 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
   const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of');
   
-  const time = playHistory.length > 0 ? get(playHistory,'0.time')-1  : 
+  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
 
-  const quarter = playHistory.length > 0 ? 
+  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
+
 
   // console.log("updateNbaGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
   // console.log("updateNbaGames overTime: " + overTime);
