@@ -645,7 +645,7 @@ const updateNflScores = async () => {
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
-      isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
+      isGameOver: isGameOver,
       possession: get(score,'possession'),
       down: get(score,'down'),
       lastPlay: get(newPlayHistory,'0.lastPlay'),
@@ -664,12 +664,12 @@ const updateNflScores = async () => {
       spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
-    set(updatedGame,'competitors.0.score', isGameOver && awayScoreFinalValid ? 
+    set(updatedGame,'competitors.0.score', isGameOver ? 
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
-    set(updatedGame,'competitors.1.score', isGameOver && homeScoreFinalValid ? 
+    set(updatedGame,'competitors.1.score', isGameOver ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
     
-    if (isGameOver && awayScoreFinalValid && homeScoreFinalValid) {
+    if (isGameOver) {
       const recordSplitAway = get(game,'competitors.0.record','').split('-');
 
       get(score,'awayScore') > get(score,'homeScore') ? set(recordSplitAway,'0', parseInt(get(recordSplitAway,'0',0))+1) : 
