@@ -640,8 +640,8 @@ const updateNflScores = async () => {
 
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
-    const awayScoreFinalValid = get(score,'awayScore',0) >= get(game,'competitors.0.score',0);
-    const homeScoreFinalValid = get(score,'homeScore',0) >= get(game,'competitors.1.score',0);
+    const awayScoreFinalValid = get(score,'awayScore',0) > 0;
+    const homeScoreFinalValid = get(score,'homeScore',0) > 0;
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],

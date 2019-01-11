@@ -33,7 +33,7 @@ const styles = theme => ({
   container: {
     backgroundColor: '#ffffff',
     padding: '8px',
-    marginBottom: '12px'
+    marginBottom: '8px'
   },
   paper: {
     height: '100%',

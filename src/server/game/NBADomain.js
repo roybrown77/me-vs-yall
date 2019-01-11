@@ -604,8 +604,8 @@ const updateNbaScores = async () => {
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-    const awayScoreFinalValid = get(score,'awayScore',0) >= get(game,'competitors.0.score',0);
-    const homeScoreFinalValid = get(score,'homeScore',0) >= get(game,'competitors.1.score',0);
+    const awayScoreFinalValid = get(score,'awayScore',0) > 0;
+    const homeScoreFinalValid = get(score,'homeScore',0) > 0;
 
     console.log("updateNbaScores score: " + JSON.stringify(score));
 
