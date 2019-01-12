@@ -484,7 +484,7 @@ const updateEnglishPremierLeagueScores = async () => {
     const awayShortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
     const homeShortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[1]._id.toString()).shortLocation;
 
-    const score = scores.find(x=>x.awayTeam === awayShortLocation && homeTeam === homeShortLocation);
+    const score = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
     
     console.log('updateEnglishPremierLeagueScores score: ' + JSON.stringify(score));
 
