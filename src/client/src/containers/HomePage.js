@@ -14,7 +14,7 @@ import confetti from '../styles/images/confetti.png';
 import football from '../styles/images/football2.png';
 import soccer from '../styles/images/soccer2.png';
 import tennis from '../styles/images/tennis.png';
-import basketball from '../styles/images/basketball.png';
+import basketball from '../styles/images/basketball3.png';
 import baseball from '../styles/images/baseball.png';
 
 import Countdown from '../components/Countdown';

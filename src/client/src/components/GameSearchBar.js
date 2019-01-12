@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 
 import football from '../styles/images/football2.png';
 import soccer from '../styles/images/soccer2.png';
-import basketball from '../styles/images/basketball.png';
+import basketball from '../styles/images/basketball3.png';
 
 import get from 'lodash/get';
 
@@ -68,7 +68,6 @@ class GameSearchBar extends Component {
     return (
           <div className={classes.container}>
               {
-                false &&
                 <div style={{left: '12px', top: '12px', position: 'absolute'}}>
                   <img src={ball} alt=""/>
                 </div>
