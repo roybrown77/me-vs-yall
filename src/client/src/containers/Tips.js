@@ -70,6 +70,10 @@ const stats = [
   {
     title: 'NEW FEATURES',
     content: `Log in again to get new app features.`
+  },
+  {
+    title: 'TAGS',
+    content: `#sports #football #soccer #basketball #nfl #premierleague #nba #statoftheweek #mevsyall`
   }
 ];
 

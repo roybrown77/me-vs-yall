@@ -48,7 +48,7 @@ function PromoPage () {
           </div>
         }
         {
-          false &&
+          true &&
           <div style={styles.promo}>
             $2 off your purchase
           </div>
@@ -66,13 +66,13 @@ function PromoPage () {
               3.  Tap on team you believe will win first game
             </div>
             {
-              false &&
+              true &&
               <div style={styles.item}>
                 4.  Show your name on Leaders page to get $2 off purchase
               </div>
             }
             {
-              true &&
+              false &&
               <div style={styles.item}>
                 4.  View name on Leaders page
               </div>
