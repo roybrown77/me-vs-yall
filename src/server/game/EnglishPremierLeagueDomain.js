@@ -496,14 +496,15 @@ const updateEnglishPremierLeagueScores = async () => {
       const isGameOver = get(score,'isGameOver',false);
       const currentTimeNumber = parseInt(get(score,'currentTime','').replace('\'','').replace('\'','').replace('+',''));
       const lastTimeNumber = parseInt((get(game,'currentTime') || '').replace('\'','').replace('\'','').replace('+',''));
-
+      const shouldSetCurrentTime = !isGameOver && ((currentTimeNumber >= lastTimeNumber) || ['HT','FT'].includes(get(score,'currentTime')) || isNaN(lastTimeNumber));
+      
       //console.log('updateEnglishPremierLeagueScores currentTimeNumber: ' + currentTimeNumber);
       //console.log('updateEnglishPremierLeagueScores lastTimeNumber: ' + lastTimeNumber);
     
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
-          currentTime: !isGameOver && ((currentTimeNumber >= lastTimeNumber) || ['HT','FT'].includes(get(score,'currentTime')) || isNaN(lastTimeNumber)) ? get(score,'currentTime') : get(game,'currentTime'),
+          currentTime: shouldSetCurrentTime ? get(score,'currentTime') : get(game,'currentTime'),
           possession: get(score,'possession'),
           lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')

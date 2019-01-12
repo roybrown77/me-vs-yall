@@ -640,9 +640,10 @@ const updateNflScores = async () => {
 
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end quarter');
-    const awayScoreFinalValid = (get(score,'awayScore') || 0) >= (get(game,'competitors.0.score') || 0);
-    const homeScoreFinalValid = (get(score,'homeScore') || 0) >= (get(game,'competitors.1.score') || 0);
+    const awayScoreFinalValid = (get(score,'awayScore') || -1) >= (get(game,'competitors.0.score') || 0);
+    const homeScoreFinalValid = (get(score,'homeScore') || -1) >= (get(game,'competitors.1.score') || 0);
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
+    const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
@@ -651,7 +652,7 @@ const updateNflScores = async () => {
       down: get(score,'down'),
       lastPlay: get(newPlayHistory,'0.lastPlay'),
       playHistory: newPlayHistory,
-      currentTime: !!quarter && !endQuarter && quarter !== 'Halftime' ? currentTimeFormatted + " - " + quarter : quarter
+      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
