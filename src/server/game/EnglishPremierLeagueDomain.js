@@ -497,8 +497,8 @@ const updateEnglishPremierLeagueScores = async () => {
       const currentTimeNumber = parseInt(get(score,'currentTime','').replace('\'','').replace('\'','').replace('+',''));
       const lastTimeNumber = parseInt((get(game,'currentTime') || '').replace('\'','').replace('\'','').replace('+',''));
 
-      console.log('updateEnglishPremierLeagueScores currentTimeNumber: ' + currentTimeNumber);
-      console.log('updateEnglishPremierLeagueScores lastTimeNumber: ' + lastTimeNumber);
+      //console.log('updateEnglishPremierLeagueScores currentTimeNumber: ' + currentTimeNumber);
+      //console.log('updateEnglishPremierLeagueScores lastTimeNumber: ' + lastTimeNumber);
     
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
