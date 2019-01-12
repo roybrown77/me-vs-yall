@@ -188,19 +188,19 @@ router.get('/games', function (req, res) {
   //   console.log('updateNCAAFootballScores error: ' + err.message);
   // }
 
-  // try {
-  //   updateNbaScores();
-  // } catch(err) {
-  //   isUpdateNbaScoresRunning = false;
-  //   console.log('updateNbaScores error: ' + err.message);
-  // }
+  try {
+    updateNbaScores();
+  } catch(err) {
+    isUpdateNbaScoresRunning = false;
+    console.log('updateNbaScores error: ' + err.message);
+  }
 
-  // try {
-  //   updateNflScores();
-  // } catch(err) {
-  //   isUpdateNflScoresRunning = false;
-  //   console.log('updateNflScores error: ' + err.message);
-  // }
+  try {
+    updateNflScores();
+  } catch(err) {
+    isUpdateNflScoresRunning = false;
+    console.log('updateNflScores error: ' + err.message);
+  }
 
   try {
     updateEnglishPremierLeagueScores();
