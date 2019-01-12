@@ -603,9 +603,9 @@ const updateNbaScores = async () => {
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour;
-    const awayScoreFinalValid = get(score,'awayScore',0) > 0;
-    const homeScoreFinalValid = get(score,'homeScore',0) > 0;
+    const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
+    const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
+    const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
 
     console.log("updateNbaScores score: " + JSON.stringify(score));
 
@@ -620,7 +620,7 @@ const updateNbaScores = async () => {
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
-      isGameOver: isGameOver && awayScoreFinalValid && homeScoreFinalValid,
+      isGameOver: isGameOver,
       lastPlay: undefined,
       playHistory: newPlayHistory,
       lastPlay: get(newPlayHistory,'0.lastPlay'),
@@ -635,9 +635,9 @@ const updateNbaScores = async () => {
       spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
-    set(updatedGame,'competitors.0.score', isGameOver && awayScoreFinalValid ? 
+    set(updatedGame,'competitors.0.score', isGameOver ? 
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
-    set(updatedGame,'competitors.1.score', isGameOver && homeScoreFinalValid ? 
+    set(updatedGame,'competitors.1.score', isGameOver ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
 
     //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
