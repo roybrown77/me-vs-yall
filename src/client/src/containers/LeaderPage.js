@@ -217,7 +217,6 @@ class LeaderPage extends Component {
             leaders, 
             games, 
             picks, 
-            leagueId,
             isAuthenticated,
             isCurrentWeek,
             dataLoading,
@@ -226,7 +225,6 @@ class LeaderPage extends Component {
             weeks
         } = this.props;
 
-        const week = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);

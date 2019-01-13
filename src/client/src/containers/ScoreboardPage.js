@@ -21,8 +21,6 @@ import Countdown from '../components/Countdown';
 import { googleLogin } from '../middleware/authenticationService';
 import { loadScoreboard, addPick, updatePick } from '../actions';
 
-import obs from '../styles/images/original-barber-shop-3.jpeg';
-
 import { 
     formatWeeks, 
     getCurrentWeek, 
@@ -208,7 +206,6 @@ class ScoreboardPage extends Component {
             weeks
         } = this.props;
 
-        const week = weeks.find(x=>x._id === weekId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
@@ -330,14 +327,6 @@ class ScoreboardPage extends Component {
                                         </div>
                                     );
                             })}
-                        </div>
-                    }
-                    {
-                        false &&
-                        <div className={classes.banner}>
-                            <a href="https://theoriginalbarbershopnpr.com">
-                                <img className={classes.bannerImage} src={obs} alt="the original barber shop"/>
-                            </a>
                         </div>
                     }
                 </PageContainer>

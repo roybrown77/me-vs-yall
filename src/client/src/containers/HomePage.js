@@ -16,39 +16,30 @@ import soccer from '../styles/images/soccer2.png';
 import tennis from '../styles/images/tennis.png';
 import basketball from '../styles/images/basketball3.png';
 import baseball from '../styles/images/baseball1.png';
+import mvy1 from '../styles/images/mvy1.jpg';
+import mvy2 from '../styles/images/mvy2.jpg';
+import mvy3 from '../styles/images/mvy3.jpg';
 
 import Countdown from '../components/Countdown';
 
 import { loadGamesInProgress } from '../actions';
 
 import { 
-    formatWeeks, 
-    getCurrentWeek, 
-    hasGameStarted,
-    getAreAllGamesOver,
-    getTimeUntilNextGamesLoad,
-    getGroupedGames,
     getAreAnyGamesInProgress,
     getStartDateTime
 } from '../selectors';
 
+const mvys = [mvy1, mvy2, mvy3];
+
 const styles = {
   title: {
-    color: '#f4f7f6', 
-    backgroundColor: '#000000',
-    fontSize: '2rem', 
-    fontStyle: 'italic',
-    fontWeight: '700',
-    margin: '16px auto',
-    padding: '8px',
-    width: '50%'
+    margin: '16px auto'
   },
   subTitle: {
     color: '#000000', 
     fontSize: '1rem', 
-    padding: '8px',
     fontWeight: '500',
-    margin: '16px 0'
+    margin: '16px 8px'
   },
   buttonContainer: {
     padding: '0 8px',
@@ -117,12 +108,19 @@ class HomePage extends Component {
       const nflStartDateTime = getStartDateTime(nflGames);
       const premierStartDateTime = getStartDateTime(premierGames);
       const nbaStartDateTime = getStartDateTime(nbaGames);
+      const mvy = mvys[Math.floor(Math.random() * 3)]
 
       return (
         <div className="fade-in home-page-container">
           <div style={styles.title}>
-            Me vs Yall
+            <img src={mvy} alt=""/>
           </div>
+          {
+              true &&
+              <div style={styles.subTitle}>
+                it's sports.  it's fun. it's crazy.
+              </div>
+          }
           <div style={styles.subTitle}>
             pick winners every week against others around the world.
           </div>
