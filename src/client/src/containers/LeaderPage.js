@@ -260,6 +260,7 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
+                        false &&
                         !isAuthenticated && 
                         <Button 
                             variant="contained" 

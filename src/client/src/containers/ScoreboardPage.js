@@ -247,6 +247,7 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
+                        false &&
                         !isAuthenticated && 
                         <Button 
                             variant="contained" 
