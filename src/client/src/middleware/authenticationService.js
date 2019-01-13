@@ -30,6 +30,13 @@ export function isLoggedIn() {
   return result;
 }
 
+export function autoGoogleLogin() {
+  auth.authorize({
+    connection: 'google-oauth2',
+    prompt: 'none'
+  });
+}
+
 export function googleLogin() {
   auth.authorize({
     connection: 'google-oauth2',

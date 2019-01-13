@@ -109,6 +109,12 @@ class LeaderPage extends Component {
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
     }
 
+    componentWillMount() {
+        if (!this.props.isAuthenticated) {
+            googleLogin();
+        }
+    }
+
     componentDidMount() {
         this.startPolling();
 

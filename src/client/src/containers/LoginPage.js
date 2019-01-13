@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Route }from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
+import get from 'lodash/get';
+
+import { withStyles } from '@material-ui/core/styles';
 import { googleLogin } from '../middleware/authenticationService';
 import PageContainer from './PageContainer';
 
-const styles = {
+const styles = theme => ({
     login: {
         margin: '8px',
         fontWeight: '600'
@@ -14,21 +21,56 @@ const styles = {
         color: '#dd4b39',
         cursor:'pointer'
     }
-};
+});
 
-function LoginPage(props) {
+class LoginPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            anchor: 'left',
+        };
+    }
+
+    componentWillMount() {
+        if (!this.props.isAuthenticated) {
+            googleLogin();
+        }
+    }
+
+    render () { 
+        const { classes, theme, isAuthenticated } = this.props;
+
+        const userJson = localStorage.getItem('user');
+        const user = JSON.parse(userJson || JSON.stringify({}));
+        const picture = get(user,'picture');
+
         return (
         	<div>
                 <PageContainer>
-                    <div style={{paddingTop: '16px'}}>
-                        <div style={styles.login}>
-                            Log in with Google
-                        </div>
-                        <div className="fa fa-google" style={styles.google} onClick={() => googleLogin()}/>
-                    </div>
+                    {
+                        isAuthenticated && picture &&
+                        <img className={classes.userPicture} src={picture} alt=""/>
+                    }
                 </PageContainer>
-	        </div>
+            </div>
         );
+    }
 }
 
-export default LoginPage;
+const mapStateToProps = (state, ownProps) => {
+    const authenticationDomain = state.get('authenticationDomain').toJS();
+    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
+
+    return {
+        isAuthenticated
+    }
+};
+
+LoginPage.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired
+};
+
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(LoginPage));

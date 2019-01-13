@@ -82,6 +82,12 @@ class ScoreboardPage extends Component {
         this.startPolling = this.startPolling.bind(this);
     }
 
+    componentWillMount() {
+        if (!this.props.isAuthenticated) {
+            googleLogin();
+        }
+    }
+
     componentDidMount() {
         this.startPolling();
 
