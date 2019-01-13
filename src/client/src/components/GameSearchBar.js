@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 
-import football from '../styles/images/football2.png';
+import football from '../styles/images/football.png';
 import soccer from '../styles/images/soccer2.png';
 import basketball from '../styles/images/basketball3.png';
 

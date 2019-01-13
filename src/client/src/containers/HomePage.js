@@ -11,11 +11,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import confetti from '../styles/images/confetti.png';
-import football from '../styles/images/football2.png';
+import football from '../styles/images/football.png';
 import soccer from '../styles/images/soccer2.png';
 import tennis from '../styles/images/tennis.png';
 import basketball from '../styles/images/basketball3.png';
-import baseball from '../styles/images/baseball.png';
+import baseball from '../styles/images/baseball1.png';
 
 import Countdown from '../components/Countdown';
 
@@ -83,6 +83,7 @@ const styles = {
     fontWeight: '500',
     width: '100%',
     marginTop: '7em',
+    fontSize: '11px'
   },
   spacer: {
     margin: '0 7px',
@@ -171,23 +172,23 @@ class HomePage extends Component {
               </Grid>
             </Grid>
           </div>
-          <div style={styles.ballsContainer}>
-            <div style={{top: '35%', left: '27%', position: 'absolute'}}>
+          <Grid container spacing={4} item xs={12} justify="center">
+            <Grid item xs={2}>
               <img src={football} alt=""/>
-            </div>
-            <div style={{top: '35%', left: '37%', position: 'absolute'}}>
+            </Grid>
+            <Grid item xs={2}>
               <img src={soccer} alt=""/>
-            </div>
-            <div style={{top: '35%', left: '47%', position: 'absolute'}}>
+            </Grid>
+            <Grid item xs={2}>
               <img src={basketball} alt=""/>
-            </div>
-            <div style={{top: '35%', left: '57%', position: 'absolute'}}>
+            </Grid>
+            <Grid item xs={2}>
               <img src={baseball} alt=""/>
-            </div>
-            <div style={{top: '35%', left: '67%', position: 'absolute'}}>
+            </Grid>
+            <Grid item xs={2}>
               <img src={tennis} alt=""/>
-            </div>
-          </div>
+            </Grid>
+          </Grid>
           <div style={styles.emojiContainer}>
             <div style={{left: '77%', position: 'absolute'}}>
               <img src={confetti} alt=""/>
