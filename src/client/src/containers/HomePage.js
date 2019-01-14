@@ -39,7 +39,7 @@ const styles = {
     color: '#000000', 
     fontSize: '1rem', 
     fontWeight: '500',
-    margin: '16px 8px'
+    margin: '8px 8px'
   },
   buttonContainer: {
     padding: '0 8px',

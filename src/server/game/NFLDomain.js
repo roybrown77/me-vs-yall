@@ -156,7 +156,7 @@ const loadNflGames = async () => {
     //     }
     // });
 
-    await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2018/seasontype/3/week/2');
+    await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2018/seasontype/3/week/3');
 
     await page.waitForSelector('#events');
 
