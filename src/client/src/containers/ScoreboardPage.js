@@ -9,7 +9,6 @@ import last from 'lodash/last';
 import moment from 'moment-timezone';
 
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import PageContainer from './PageContainer';
@@ -18,8 +17,11 @@ import PickResult from '../components/PickResult';
 import Game from '../components/Game';
 import Countdown from '../components/Countdown';
 
-import { googleLogin } from '../middleware/authenticationService';
+import google from '../styles/images/google.png';
+
 import { loadScoreboard, addPick, updatePick } from '../actions';
+
+import { googleLogin } from '../middleware/authenticationService';
 
 import { 
     formatWeeks, 
@@ -36,19 +38,8 @@ const styles = theme => ({
   root: {
     paddingTop: '4px'
   },
-  button: {
-    fontSize: '1rem',
-    fontWeight: "700",
-    marginBottom: '4px',
-    width: '75%',
-    backgroundColor: '#FFC107',
-    color: '#FFFFFF',
-    borderColor: '#FFC107',
-    '&:hover': {
-      backgroundColor: '#FFC107',
-      color: '#FFFFFF',
-      borderColor: '#FFC107',
-    },
+  googleLogin: {
+    width: '250px'
   },
   input: {
     display: 'none',
@@ -78,12 +69,6 @@ class ScoreboardPage extends Component {
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
         this.handleMakePick = this.handleMakePick.bind(this);
         this.startPolling = this.startPolling.bind(this);
-    }
-
-    componentWillMount() {
-        if (!this.props.isAuthenticated) {
-            googleLogin();
-        }
     }
 
     componentDidMount() {
@@ -201,9 +186,7 @@ class ScoreboardPage extends Component {
             isCurrentWeek, 
             isAuthenticated, 
             dataLoading, 
-            weeksDataLoading, 
-            weekId,
-            weeks
+            weeksDataLoading
         } = this.props;
 
         const areAnyGamesOver = games.some(x=>x.isGameOver);
@@ -244,13 +227,10 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     {
-                        false &&
                         !isAuthenticated && 
-                        <Button 
-                            variant="contained" 
-                            className={classes.button} onClick={() => googleLogin()}>
-                            Log in to Play
-                        </Button>
+                        <div onClick={() => googleLogin()}>
+                          <img className={classNames(classes.googleLogin)} src={google} alt=""/>
+                        </div>
                     }
                     {
                         isAuthenticated && 
@@ -290,7 +270,7 @@ class ScoreboardPage extends Component {
                         !isAuthenticated &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** log in then tap team **
+                            ** sign in then tap team **
                         </div>
                     }
                     {

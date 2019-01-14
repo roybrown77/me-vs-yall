@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { googleLogin } from '../middleware/authenticationService';
 import PageContainer from './PageContainer';
 
-const styles = theme => ({
+const styles = {
     login: {
         margin: '8px',
         fontWeight: '600'
@@ -19,7 +19,7 @@ const styles = theme => ({
         color: '#dd4b39',
         cursor:'pointer'
     }
-});
+};
 
 class LoginPage extends Component {
     constructor(props) {

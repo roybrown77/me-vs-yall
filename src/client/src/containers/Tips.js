@@ -69,7 +69,7 @@ const stats = [
   },
   {
     title: 'NEW FEATURES',
-    content: `Log in again to get new app features.`
+    content: `Sign in again to get new app features.`
   },
   {
     title: 'TAGS',

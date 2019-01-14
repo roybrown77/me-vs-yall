@@ -60,7 +60,7 @@ function PromoPage () {
               1.  Go to mevsyall.com and select sport
             </div>
             <div style={styles.item}>
-              2.  Tap Log in to Play and enter gmail
+              2.  Tap Sign in with Google
             </div>
             <div style={styles.item}>
               3.  Tap on team you believe will win first game

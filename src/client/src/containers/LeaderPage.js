@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
@@ -12,7 +13,6 @@ import GameSearchBar from '../components/GameSearchBar';
 import Countdown from '../components/Countdown';
 
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -26,6 +26,7 @@ import InfoIcon from '@material-ui/icons/InfoOutlined';
 import gold from '../styles/images/gold.png';
 import silver from '../styles/images/silver.png';
 import bronze from '../styles/images/bronze.png';
+import google from '../styles/images/google.png';
 
 import { googleLogin } from '../middleware/authenticationService';
 import { loadLeaders } from '../actions';
@@ -54,19 +55,8 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
-  button: {
-    fontSize: '1rem',
-    fontWeight: "700",
-    marginBottom: '4px',
-    width: '75%',
-    backgroundColor: '#FFC107',
-    color: '#FFFFFF',
-    borderColor: '#FFC107',
-    '&:hover': {
-      backgroundColor: '#FFC107',
-      color: '#FFFFFF',
-      borderColor: '#FFC107',
-    },
+  googleLogin: {
+    width: '250px'
   },
   container: {
     backgroundColor: '#ffffff',
@@ -107,12 +97,6 @@ class LeaderPage extends Component {
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
-    }
-
-    componentWillMount() {
-        if (!this.props.isAuthenticated) {
-            googleLogin();
-        }
     }
 
     componentDidMount() {
@@ -220,9 +204,7 @@ class LeaderPage extends Component {
             isAuthenticated,
             isCurrentWeek,
             dataLoading,
-            weeksDataLoading,
-            weekId,
-            weeks
+            weeksDataLoading
         } = this.props;
 
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
@@ -258,13 +240,10 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
-                        false &&
                         !isAuthenticated && 
-                        <Button 
-                            variant="contained" 
-                            className={classes.button} onClick={() => googleLogin()}>
-                            Log in to Play
-                        </Button>
+                        <div onClick={() => googleLogin()}>
+                          <img className={classNames(classes.googleLogin)} src={google} alt=""/>
+                        </div>
                     }
                     {
                         games.find(x=>x.isGameOver !== true) &&
