@@ -56,7 +56,10 @@ const styles = theme => ({
     fontWeight: theme.typography.fontWeightRegular,
   },
   googleLogin: {
-    width: '250px'
+    width: '250px',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   container: {
     backgroundColor: '#ffffff',

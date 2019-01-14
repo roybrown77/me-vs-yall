@@ -39,7 +39,10 @@ const styles = theme => ({
     paddingTop: '4px'
   },
   googleLogin: {
-    width: '250px'
+    width: '250px',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   input: {
     display: 'none',
