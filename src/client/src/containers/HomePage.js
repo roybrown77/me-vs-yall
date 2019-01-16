@@ -28,9 +28,6 @@ import {
 } from '../selectors';
 
 const styles = {
-  title: {
-    marginTop: '16px'
-  },
   plainTitle: {
     color: '#f4f7f6', 
     backgroundColor: '#000000',
@@ -125,7 +122,7 @@ class HomePage extends Component {
           }
           {
               true &&
-              <div style={styles.title}>
+              <div>
                 <img src={mvy} alt=""/>
               </div>
           }
