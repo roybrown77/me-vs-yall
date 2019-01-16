@@ -35,7 +35,7 @@ const styles = {
 
 const stats = [
   {
-    title: 'RAMS vs CHIEFS SUPERBOWL IS POSSIBLE',
+    title: 'RAMS vs CHIEFS SUPER BOWL IS POSSIBLE',
     content: `Patriots haven't won a road playoff game in 12 years and 3-5 on the road this season.  Chiefs are 7-1 at home.  Rams 
               are 6-2 on the road.  One of the Rams road losses was to the Saints 45-35 where Goff threw for 391 yards and 3 tds.`,
     leagueName: 'NFL',
