@@ -180,13 +180,13 @@ class Header extends Component {
                           <MenuItem
                             onClick={() => logout()}
                           >
-                            Logout
+                            Sign Out
                           </MenuItem>
                         )} />
                   ) : 
                   (
                     <MenuItem onClick={() => googleLogin()}>
-                      Login
+                      Sign In
                     </MenuItem>
                   )
                 }</List>

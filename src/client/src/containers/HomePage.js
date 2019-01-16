@@ -16,9 +16,7 @@ import soccer from '../styles/images/soccer2.png';
 import tennis from '../styles/images/tennis.png';
 import basketball from '../styles/images/basketball3.png';
 import baseball from '../styles/images/baseball1.png';
-import mvy1 from '../styles/images/mvy1.jpg';
-import mvy2 from '../styles/images/mvy2.jpg';
-import mvy3 from '../styles/images/mvy3.jpg';
+import mvy from '../styles/images/mvy.png'
 
 import Countdown from '../components/Countdown';
 
@@ -29,11 +27,9 @@ import {
     getStartDateTime
 } from '../selectors';
 
-const mvys = [mvy1, mvy2, mvy3];
-
 const styles = {
   title: {
-    margin: '16px auto'
+    marginTop: '16px'
   },
   plainTitle: {
     color: '#f4f7f6', 
@@ -71,7 +67,7 @@ const styles = {
   emojiContainer: {
     height: '70px',
     position:'relative',
-    margin: '40px 0'
+    margin: '24px 0'
   },
   inProgress: {
     width:'12px', 
@@ -118,21 +114,20 @@ class HomePage extends Component {
       const nflStartDateTime = getStartDateTime(nflGames);
       const premierStartDateTime = getStartDateTime(premierGames);
       const nbaStartDateTime = getStartDateTime(nbaGames);
-      const mvy = mvys[Math.floor(Math.random() * 3)]
 
       return (
         <div className="fade-in home-page-container">
           {
-              true &&
+              false &&
               <div style={styles.plainTitle}>
                 Me vs Yall
               </div>
           }
           {
-              false &&
+              true &&
               <div style={styles.title}>
-              <img src={mvy} alt=""/>
-            </div>
+                <img src={mvy} alt=""/>
+              </div>
           }
           {
               true &&
@@ -211,12 +206,6 @@ class HomePage extends Component {
               <img src={confetti} alt=""/>
             </div>
           </div>
-          {
-            false &&
-            <div style={styles.footer}>
-              Houston<span style={styles.spacer}/>Boston<span style={styles.spacer}/>Atlanta<span style={styles.spacer}/>Earth<span style={styles.spacer}/>Milky Way
-            </div>
-          }
         </div>
       );
     }
