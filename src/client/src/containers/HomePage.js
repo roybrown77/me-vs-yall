@@ -128,7 +128,7 @@ class HomePage extends Component {
           }
           {
               true &&
-              <div style={styles.subTitle}>
+              <div style={{...styles.subTitle, margin: '0 8px 8px 8px'}}>
                 it's sports.  it's fun.  it's facts.
               </div>
           }
