@@ -184,7 +184,7 @@ class HomePage extends Component {
               </Grid>
             </Grid>
           </div>
-          <Grid container spacing={4} item xs={12} justify="center">
+          <Grid container item xs={12} justify="center">
             <Grid item xs={2}>
               <img src={football} alt=""/>
             </Grid>
