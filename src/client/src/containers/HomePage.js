@@ -35,6 +35,16 @@ const styles = {
   title: {
     margin: '16px auto'
   },
+  plainTitle: {
+    color: '#f4f7f6', 
+    backgroundColor: '#000000',
+    fontSize: '2rem', 
+    fontStyle: 'italic',
+    fontWeight: '700',
+    margin: '16px auto',
+    padding: '8px',
+    width: '50%'
+  },
   subTitle: {
     color: '#000000', 
     fontSize: '1rem', 
@@ -112,13 +122,22 @@ class HomePage extends Component {
 
       return (
         <div className="fade-in home-page-container">
-          <div style={styles.title}>
-            <img src={mvy} alt=""/>
-          </div>
+          {
+              true &&
+              <div style={styles.plainTitle}>
+                Me vs Yall
+              </div>
+          }
+          {
+              false &&
+              <div style={styles.title}>
+              <img src={mvy} alt=""/>
+            </div>
+          }
           {
               true &&
               <div style={styles.subTitle}>
-                it's sports.  it's fun. it's crazy.
+                it's sports.  it's fun.  it's facts.
               </div>
           }
           <div style={styles.subTitle}>

@@ -35,10 +35,6 @@ const styles = {
 
 const stats = [
   {
-    title: 'FRIENDS AND FAMILY',
-    content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
-  },
-  {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when u can't watch it.`
   },
@@ -68,6 +64,10 @@ const stats = [
               the losing team and winning team did not win by the spread I would win.  Me vs Yall assumes you beat the spread so add/subtract $210 when necessary.`
   },
   {
+    title: 'FRIENDS AND FAMILY',
+    content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
+  },
+  {
     title: 'NEW FEATURES',
     content: `Sign in again to get new app features.`
   },
@@ -87,7 +87,7 @@ function TipsPage () {
                         Tips
                       </Typography>
                       <Typography align={'left'} style={styles.contentTitle}>
-                        Not the Rib Plate Special But still Nutritious
+                        Not The Rib Plate Special But Still Nutritious
                       </Typography>
                     </div>
                     {
