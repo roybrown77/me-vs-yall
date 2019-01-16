@@ -37,8 +37,7 @@ const stats = [
   {
     title: 'RAMS vs CHIEFS SUPERBOWL IS POSSIBLE',
     content: `Patriots haven't won a road playoff game in 12 years and 3-5 on the road this season.  Chiefs are 7-1 at home.  Rams 
-              are 6-2 on the road.  One of the Rams road losses was to the Saints 45-35 with both Brees and Goff throwing 300+ yards 
-              and 3+ tds.`,
+              are 6-2 on the road.  One of the Rams road losses was to the Saints 45-35 where Goff threw for 391 yards and 3 tds.`,
     leagueName: 'NFL',
     date: 'January 16, 2019',
     author: 'Roy B.'
