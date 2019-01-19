@@ -189,8 +189,6 @@ class LeaderPage extends Component {
             picks, 
             isAuthenticated,
             isCurrentWeek,
-            weekId,
-            weeks,
             dataLoading,
             weeksDataLoading
         } = this.props;
@@ -198,8 +196,6 @@ class LeaderPage extends Component {
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
-        const week = weeks.find(x=>x._id === weekId);
-        const isWholeYear = get(week,'description') === 'Whole Year';
 
         return (
             <div>
@@ -307,7 +303,6 @@ class LeaderPage extends Component {
                                                                 width:"100%", 
                                                                 backgroundColor: '#fff'}}>
                                                             {
-                                                                !isWholeYear &&
                                                                 games.map((game,gameIndex)=>{
                                                                     let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                                                     let newDate = (gameDate !== newGameDate);
