@@ -45,8 +45,12 @@ const stats = [
               and other factors.  Westgate currently has the best overall record in Me vs Yall for NFL/NBA.`
   },
   {
-    title: 'HOME TEAMS',
-    content: `In the NFL, home teams (team on right) win more than away teams.`
+    title: 'PREMIER LEAGUE',
+    content: `Games are normally on NBCSN and NBC early mornings Eastern Standard Time since their played in England.`
+  },
+  {
+    title: 'NFL',
+    content: `Home teams (team on right) win more than away teams.`
   },
   {
     title: 'NBA',
@@ -73,7 +77,7 @@ const stats = [
   },
   {
     title: 'TAGS',
-    content: `#sports #football #soccer #basketball #nfl #premierleague #nba #statoftheweek #mevsyall`
+    content: `#football #soccer #basketball #nfl #premierleague #nba #statoftheweek #mevsyall #sports #fun #crazy #facts`
   }
 ];
 
