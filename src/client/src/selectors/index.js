@@ -16,7 +16,7 @@ const leagues = [
     {
         id: '59723313734d1d6202a85f17', 
         name: 'premier', 
-        description: 'premier', 
+        description: 'premier',
         years: [2018]
     },
     {
@@ -257,6 +257,24 @@ const getAreAnyGamesInProgress = (games = []) => {
     return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)
 };
 
+const getLeaderIndicator = (game,picks,leader,index1,index2) => {
+    return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.userId === leader.id && pick.gameId === game._id)) || 
+            (game.competitors[index1].score > game.competitors[index2].score && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
+                && pick.userId === leader.id && pick.gameId === game._id))) ? '#009933' : 
+
+            game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.userId === leader.id && pick.gameId === game._id)) || 
+            (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
+                && pick.userId === leader.id && pick.gameId === game._id))) ? 'red' : 
+
+            moment() > moment(game.startDateTime) && 
+            picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000') && 
+                pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : '';
+}
+
 export {
     getResults,
     areAnyGamesOver,
@@ -275,5 +293,6 @@ export {
     getAreAnyGamesInProgress,
     leagues,
     getNextGameStartDateTime,
-    getStartDateTime
+    getStartDateTime,
+    getLeaderIndicator
 };
