@@ -788,7 +788,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Chelsea",
         "shortLocation": "CHE",
-        "name": "The Blues"
+        "name": "Blues"
     },
     {
         "color": "#005995",
