@@ -111,8 +111,29 @@ class LeaderPage extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+      if (this.props.leagueId !== prevProps.leagueId || 
+        this.props.year !== prevProps.year || 
+        this.props.weekId !== prevProps.weekId) {
+        this.resetPoll();
+      }
+    }
+
     startPolling() {
         let self = this;
+        setTimeout(function() {
+            self._timer = setInterval(self.poll.bind(self), 15000);
+        }, 1000);
+    }
+
+    resetPoll() {
+        let self = this;
+        
+        if (this._timer) {
+          clearInterval(this._timer);
+          this._timer = null;
+        }
+
         setTimeout(function() {
             self._timer = setInterval(self.poll.bind(self), 15000);
         }, 1000);
