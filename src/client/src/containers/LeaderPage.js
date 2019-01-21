@@ -86,8 +86,6 @@ class LeaderPage extends Component {
     }
 
     componentDidMount() {
-        this.startPolling();
-
         const { leagueName } = this.props.match.params;
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
@@ -104,55 +102,12 @@ class LeaderPage extends Component {
         });
     }
 
-    componentWillUnmount() {
-        if (this._timer) {
-          clearInterval(this._timer);
-          this._timer = null;
-        }
-    }
-
     componentDidUpdate(prevProps) {
       if (this.props.leagueId !== prevProps.leagueId || 
         this.props.year !== prevProps.year || 
         this.props.weekId !== prevProps.weekId) {
         this.resetPoll();
       }
-    }
-
-    startPolling() {
-        let self = this;
-        setTimeout(function() {
-            self._timer = setInterval(self.poll.bind(self), 15000);
-        }, 1000);
-    }
-
-    resetPoll() {
-        let self = this;
-        
-        if (this._timer) {
-          clearInterval(this._timer);
-          this._timer = null;
-        }
-
-        setTimeout(function() {
-            self._timer = setInterval(self.poll.bind(self), 15000);
-        }, 1000);
-    }
-
-    poll() {
-        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
-
-        if (!areAnyGamesInProgress) return;
-
-        this.props.loadLeaders({
-            leagueId: this.props.leagueId,
-            year: this.props.year,
-            seasonType: this.props.seasonType,
-            weekNo: this.props.weekNo,
-            beginDateTime: this.props.beginDateTime,
-            endDateTime: this.props.endDateTime,
-            weekId: this.props.weekId
-        });
     }
 
     handleFilterLeague(event, league) {
