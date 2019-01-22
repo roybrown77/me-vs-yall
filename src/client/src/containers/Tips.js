@@ -46,7 +46,7 @@ const stats = [
   },
   {
     title: 'PREMIER LEAGUE',
-    content: `Games are normally on NBCSN and NBC early mornings Eastern Standard Time since their played in England.`
+    content: `Games are normally on NBCSN, NBC and Telemundo early mornings Eastern Standard Time since their played in England.`
   },
   {
     title: 'NFL',
