@@ -102,14 +102,6 @@ class LeaderPage extends Component {
         });
     }
 
-    componentDidUpdate(prevProps) {
-      if (this.props.leagueId !== prevProps.leagueId || 
-        this.props.year !== prevProps.year || 
-        this.props.weekId !== prevProps.weekId) {
-        this.resetPoll();
-      }
-    }
-
     handleFilterLeague(event, league) {
         if (get(this.props, 'leagues', []).length === 0) {
             return;
