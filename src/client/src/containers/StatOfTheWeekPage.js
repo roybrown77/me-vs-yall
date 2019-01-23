@@ -35,6 +35,16 @@ const styles = {
 
 const stats = [
   {
+    title: 'SCHOOL TIES',
+    content: `Sean McVay will be head coaching the Los Angeles Rams in Super Bowl 53 in Atlanta, Georgia.  He also won a state championship 
+              in Georgia for the catholic prep school Marist War Eagles (Brookhaven, GA) as a quarterback and defensive back.  NBA analyst 
+              Ernie Johnson Jr. and golf legend Bobby Jones also attended Marist.  The Rams QB Jared Goff also played for a catholic 
+              prep school with a similar name.  The Marin Wildcats (Kentfield, California).  NFL Hall of Famer Dan Fouts also attended Marin.`,
+    leagueName: 'NFL',
+    date: 'January 23, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: 'RAMS vs CHIEFS SUPER BOWL IS POSSIBLE',
     content: `Patriots haven't won a road playoff game in 12 years and 3-5 on the road this season.  Chiefs are 7-1 at home.  Rams 
               are 6-2 on the road.  One of the Rams road losses was to the Saints 45-35 where Goff threw for 391 yards and 3 touchdowns.`,
