@@ -29,6 +29,11 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
+const getLastPlays = (playHistory = []) => {
+  const newPlays = playHistory.map(x=>x.lastPlay);
+  return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
+};
+
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   //console.log("updateNbaGames playHistory: " + JSON .stringify(playHistory));
   //console.log("updateNbaGames lastPlay: " + lastPlay);
@@ -616,13 +621,14 @@ const updateNbaScores = async () => {
     const quarter = currenTimeSplit[currenTimeSplit.length-1];
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
     const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
+    const lastPlays = getLastPlays(newPlayHistory);
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
       isGameOver: isGameOver,
       lastPlay: undefined,
       playHistory: newPlayHistory,
-      lastPlay: get(newPlayHistory,'0.lastPlay'),
+      lastPlay: lastPlays,
       currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
     

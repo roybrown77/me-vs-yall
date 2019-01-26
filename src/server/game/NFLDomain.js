@@ -29,6 +29,11 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
+const getLastPlays = (playHistory = []) => {
+  const newPlays = playHistory.map(x=>x.lastPlay);
+  return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
+};
+
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   //console.log("updateNflGames playHistory: " + JSON .stringify(playHistory));
   //console.log("updateNflGames lastPlay: " + lastPlay);
@@ -644,6 +649,7 @@ const updateNflScores = async () => {
     const homeScoreFinalValid = (get(score,'homeScore') || -1) >= (get(game,'competitors.1.score') || 0);
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
     const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
+    const lastPlays = getLastPlays(newPlayHistory);
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
@@ -651,7 +657,7 @@ const updateNflScores = async () => {
       possession: get(score,'possession'),
       down: get(score,'down'),
       lastPlay: get(newPlayHistory,'0.lastPlay'),
-      playHistory: newPlayHistory,
+      playHistory: lastPlays,
       currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
     };
 
