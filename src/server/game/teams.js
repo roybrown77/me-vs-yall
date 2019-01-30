@@ -82,7 +82,7 @@ const nflTeams = [
         location: 'New England',
         shortLocation: "NE",
         name: "Patriots",
-        color: "#0A2342",
+        color: "#C60C30",
         colors: ['#002244','#C60C30','#B0B7BC'],
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxborough, MA"
@@ -308,7 +308,7 @@ const nflTeams = [
         location: 'Los Angeles',
         shortLocation: "LAR",
         name: "Rams",
-        color: "#95774C",
+        color: "#002D72",
         stadiumName: "Los Angeles Stadium",
         stadiumCity: "Inglewood, CA"
     },
