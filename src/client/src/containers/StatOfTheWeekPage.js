@@ -36,8 +36,8 @@ const styles = {
 const stats = [
   {
     title: 'R.E.S.P.E.C.T.',
-    content: `What team was 1-15 in 1990, got blown out in their first 2 super bowls and head coach was 5-11 in his first season?  The 
-              New England Patriots.  Since then they have appeared in 9 super bowls in 18 years, won 5 of them and have been to the last 3. 
+    content: `What team was 1-15 in 1990, got blown out in their first 2 Super Bowls and head coach was 5-11 in his first season?  The 
+              New England Patriots.  Since then they have appeared in 9 Super Bowls in 18 years, won 5 of them and have been to the last 3. 
               Brady is the NFL Jordan.`,
     leagueName: 'NFL',
     date: 'February 2, 2019',
