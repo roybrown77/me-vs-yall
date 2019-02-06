@@ -147,26 +147,26 @@ const backupData = async () => {
 
 router.get('/games', function (req, res) {
   // try {
-  //   loadNbaGames();
-  // } catch(err) {
-  //   isLoadNbaGamesRunning = false;
-  //   console.log('loadNbaGames error: ' + err.message);
-  // }
-
-  // try {
   //   loadNflGames();
   // } catch(err) {
   //   isLoadNflGamesRunning = false;
   //   console.log('loadNflGames error: ' + err.message);
   // }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message);
-  // }
+  try {
+    loadEnglishPremierLeagueGames();
+  } catch(err) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log('loadEnglishPremierLeagueGames error: ' + err.message);
+  }
 
+  try {
+    loadNbaGames();
+  } catch(err) {
+    isLoadNbaGamesRunning = false;
+    console.log('loadNbaGames error: ' + err.message);
+  }
+  
   // try {
   //   loadNCAAFootballTeams();
   // } catch(err) {

@@ -48,7 +48,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !== 1) {
+  if (currentWeekDay !== 3) {
     console.log('loadEnglishPremierLeagueGames new games will be loaded on tuesday.');
     return;
   }
@@ -81,7 +81,7 @@ const loadEnglishPremierLeagueGames = async () => {
     const search = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-8, 'days').startOf('day')),
+          $gte: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
           $lte: new Date(moment(lastStartGameTime).endOf('day'))
         },
         isStub: {
@@ -122,8 +122,8 @@ const loadEnglishPremierLeagueGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
-      beginDateTime: new Date(moment().add(2, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(8, 'days').endOf('day'))
+      beginDateTime: new Date(moment().add(0, 'days').startOf('day')),
+      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
     };
 
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));

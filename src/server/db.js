@@ -17,7 +17,6 @@
 //     }
 // );
 
-
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -27,7 +26,7 @@ const options = {
     autoIndex: false, // Don't build indexes
     reconnectTries: 100, // Retry up to 100 times
     reconnectInterval: 500, // Reconnect every 500ms
-    poolSize: 10, // Maintain up to 10 socket connections
+    poolSize: 20, // Maintain up to 10 socket connections
     bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
 };
 
