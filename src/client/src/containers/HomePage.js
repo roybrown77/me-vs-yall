@@ -142,7 +142,7 @@ class HomePage extends Component {
                     <Button 
                         variant="outlined" 
                         style={{...styles.button, color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
-                        <div>National Football League</div>
+                        <div>NFL</div>
                         {
                           areAnyNflGamesInProgress &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50A0A'}}></div>
@@ -156,7 +156,7 @@ class HomePage extends Component {
                     <Button 
                         variant="outlined" 
                         style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
-                        Premier League Football
+                        PREMIER
                         {
                           areAnyPremierGamesInProgress &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
@@ -170,7 +170,7 @@ class HomePage extends Component {
                     <Button 
                         variant="outlined" 
                         style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
-                        National Basketball Association
+                        NBA
                         {
                           areAnyNbaGamesInProgress &&
                           <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
