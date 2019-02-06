@@ -54,8 +54,7 @@ const styles = {
     fontSize: '1rem', 
     fontWeight: '700',
     border: '5px solid black',
-    borderRadius: '8px',
-    height: '100px'
+    borderRadius: '8px'
   },
   ballsContainer: {
     position:'relative', 
