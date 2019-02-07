@@ -134,7 +134,7 @@ const loadNbaGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(7,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(9,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadNbaGames days left to get new games: ' + daysLeftToGetGames);
 
