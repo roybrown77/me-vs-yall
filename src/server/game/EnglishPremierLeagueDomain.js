@@ -48,7 +48,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !== 3) {
+  if (currentWeekDay !== 2) {
     console.log('loadEnglishPremierLeagueGames new games will be loaded on tuesday.');
     return;
   }
@@ -69,7 +69,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(9,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -81,7 +81,7 @@ const loadEnglishPremierLeagueGames = async () => {
     const search = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-6, 'days').startOf('day')),
+          $gte: new Date(moment(lastStartGameTime).add(-7, 'days').startOf('day')),
           $lte: new Date(moment(lastStartGameTime).endOf('day'))
         },
         isStub: {
@@ -122,8 +122,8 @@ const loadEnglishPremierLeagueGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: parseInt(year),
-      beginDateTime: new Date(moment().add(0, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
+      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
     };
 
     console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
