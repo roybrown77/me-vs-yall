@@ -30,16 +30,16 @@ const loadEnglishPremierLeagueGames = async () => {
   const leagueId = '59723313734d1d6202a85f17';
   const year = 2018;
 
-  const currentMonth = moment().month()+1;
-  console.log('loadEnglishPremierLeagueGames currentMonth: ' + currentMonth);
+  // const currentMonth = moment().month()+1;
+  // console.log('loadEnglishPremierLeagueGames currentMonth: ' + currentMonth);
 
-  const currentDay = moment().date();
-  console.log('loadEnglishPremierLeagueGames currentDay: ' + currentDay);
+  // const currentDay = moment().date();
+  // console.log('loadEnglishPremierLeagueGames currentDay: ' + currentDay);
 
-  if (![8,9,10,11,12,1,2,3,4,5].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
-    console.log('loadEnglishPremierLeagueGames new games will be loaded during season.');
-    return;
-  }
+  // if (![8,9,10,11,12,1,2,3,4,5].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
+  //   console.log('loadEnglishPremierLeagueGames new games will be loaded during season.');
+  //   return;
+  // }
 
   const currentWeekDay = moment().weekday();
 
@@ -64,7 +64,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -153,7 +153,7 @@ const loadEnglishPremierLeagueGames = async () => {
   try {
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: true
+      headless: false
     });
 
     page = await browser.newPage();

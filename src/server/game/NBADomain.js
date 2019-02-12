@@ -87,7 +87,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 const loadNbaGames = async () => {
   if (isLoadNbaGamesRunning) {
     console.log("loadNbaGames already running.");
-    return;
+    //return;
   }
 
   const leagueId = '59723313734d1d6202a85f19';
@@ -129,7 +129,7 @@ const loadNbaGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadNbaGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -219,7 +219,7 @@ const loadNbaGames = async () => {
   try {
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: true
+      headless: false
     });
 
     page = await browser.newPage();
@@ -246,11 +246,17 @@ const loadNbaGames = async () => {
 
     await page.goto('http://www.espn.com/nba/scoreboard/_/date/' + date);
 
+    console.log('loadNbaGames page loaded');
+
     await page.waitForSelector('#events');
+
+    console.log('loadNbaGames events loaded');
 
     let listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard basketball');
+
+    console.log('loadNbaGames listLength: ' + listLength);
 
     if (listLength === 0) {
       isLoadNbaGamesRunning = false;
@@ -321,16 +327,18 @@ const loadNbaGames = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    if (!!page) {
+    if (page) {
       await page.close();
     }
 
-    if (!!browser) {
+    if (browser) {
       await browser.close();
     }
 
     console.log('loadNbaGames browser error: ' + err.message);
   }
+
+  console.log('loadNbaGames games processed: ' + JSON.stringify(games));
 
   if (!startDateTime) {
     isLoadNbaGamesRunning = false;
@@ -343,12 +351,16 @@ const loadNbaGames = async () => {
     console.log('loadNbaGames no games');
     return;
   }
+
+  console.log('loadNbaGames game formatting...');
   
   const mvyGames = games.map(game=>{
-    const awayTeam = nbaTeams.find(x=>x.shortLocation === game.awayTeam.toString());
-    const homeTeam = nbaTeams.find(x=>x.shortLocation === game.homeTeam.toString());
-    const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === game.spread.team.toLowerCase());
-
+    const awayTeam = nbaTeams.find(x=>x.shortLocation === game.awayTeam);
+    const homeTeam = nbaTeams.find(x=>x.shortLocation === game.homeTeam);
+    const spreadTeam = nbaTeams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
+    console.log('loadNbaGames game awayTeam: ' + awayTeam);
+    console.log('loadNbaGames game homeTeam: ' + homeTeam);
+    console.log('loadNbaGames game formatted: ' + JSON.stringify(spreadTeam));
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
@@ -356,7 +368,7 @@ const loadNbaGames = async () => {
       spread: {
        teamId: get(spreadTeam,'_id'),
        amount: get(game,'spread.amount', 0),
-       spreadDateTime: game.spread.spreadDateTime
+       spreadDateTime: get(game,'spread.spreadDateTime')
       },
       competitors: [
         {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name},

@@ -1152,6 +1152,22 @@ const nbaTeams = [
         "location": "New Orleans",
         "shortLocation": "NO",
         "name": "Pelicans"
+    },
+    {
+        "color": "#48494a",
+        "_id": "5b9060e59a4c08bca6d80730",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "WORLD",
+        "shortLocation": "WORLD",
+        "name": "WORLD"
+    },
+    {
+        "color": "#FFC20E",
+        "_id": "5b9060e59a4c08bca6d80731",
+        "leagueId": "59723313734d1d6202a85f19",
+        "location": "USA",
+        "shortLocation": "USA",
+        "name": "USA"
     }
 ];
 
