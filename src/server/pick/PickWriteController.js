@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
 
 const pickDomain = require('./PickDomain');
 const pickRepository = require('./PickRepository');
@@ -38,16 +37,6 @@ router.put('/picks/:id', function (req, res) {
         if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
         return res.status(200).send({...pick,_id:updatedPick._id});
     });
-});
-
-router.delete('/picks/:id', function (req, res) {
-    // const pick = {
-    //     deleted: true
-    // };
-    // pickRepository.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), pick, {}, function (err, pick) {
-    //     if (err) return res.status(500).send("There was a problem deleting the pick.");
-    //     res.status(200).send(pick);
-    // });
 });
 
 module.exports = router;

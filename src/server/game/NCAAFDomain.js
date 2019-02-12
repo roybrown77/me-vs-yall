@@ -2,14 +2,9 @@ let isLoadNCAAFootballGamesRunning = false;
 let isLoadNCAAFootballTeamsRunning = false;
 let isUpdateNCAAFootballScoresRunning = false;
 
-const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const puppeteer = require('puppeteer');
-
-let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');

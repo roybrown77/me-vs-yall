@@ -5,7 +5,6 @@ const moment = require('moment-timezone');
 const puppeteer = require('puppeteer');
 
 let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');

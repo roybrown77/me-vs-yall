@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
 
 const pickRepository = require('./PickRepository');
 

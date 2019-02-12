@@ -1,8 +1,8 @@
-var moment = require('moment');
+const moment = require('moment');
 const mongoose = require('mongoose');
 
-var pickRepository = require('./PickRepository');
-var gameRepository = require('../game/GameRepository');
+const pickRepository = require('./PickRepository');
+const gameRepository = require('../game/GameRepository');
 
 const get = require('lodash/get');
 

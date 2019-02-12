@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var TeamSchema = new mongoose.Schema({
+const mongoose = require('mongoose');
+const TeamSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
 	location: String,
 	shortLocation: String,

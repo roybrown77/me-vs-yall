@@ -1,14 +1,9 @@
 let isLoadNflGamesRunning = false;
 let isUpdateNflScoresRunning = false;
 
-const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const puppeteer = require('puppeteer');
-
-let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
@@ -95,7 +90,7 @@ const loadNflGames = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f10';
-  const year = 2018;
+  const year = 2019;
 
   const currentMonth = moment().month()+1;
   console.log('loadNflGames currentMonth: ' + currentMonth);
@@ -110,7 +105,7 @@ const loadNflGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !==1) {
+  if (currentWeekDay !== 2) {
     console.log('loadNflGames new games will be loaded on tuesday.');
     return;
   }
@@ -145,7 +140,7 @@ const loadNflGames = async () => {
 
     page = await browser.newPage();
 
-    await page.setDefaultNavigationTimeout(120000);
+    //await page.setDefaultNavigationTimeout(120000);
 
     // await page.setRequestInterception(true);
 
@@ -161,7 +156,7 @@ const loadNflGames = async () => {
     //     }
     // });
 
-    await page.goto('http://www.espn.com/nfl/scoreboard/_/year/2018/seasontype/3/week/5');
+    await page.goto('http://www.espn.com/nfl/scoreboard');
 
     await page.waitForSelector('#events');
 
@@ -254,12 +249,12 @@ const loadNflGames = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    if (page) {
-      await page.close()
+    if (!!page) {
+      await page.close();
     }
 
-    if (browser) {
-      await browser.close()
+    if (!!browser) {
+      await browser.close();
     }
 
     console.log('loadNflGames browser error: ' + err.message);
@@ -384,8 +379,19 @@ const updateNflScores = async () => {
     return;
   }
 
+  const currentMonth = moment().month()+1;
+  console.log('updateNflScores currentMonth: ' + currentMonth);
+
+  const currentDay = moment().date();
+  console.log('updateNflScores currentDay: ' + currentDay);
+
+  if (![8,9,10,11,12,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
+    console.log('updateNflScores new games will be loaded during season.');
+    return;
+  }
+
   const leagueId = '59723313734d1d6202a85f10';
-  const year = 2018;
+  const year = 2019;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -415,20 +421,20 @@ const updateNflScores = async () => {
     });
 
     page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(240000);
-    // await page.setRequestInterception(true);
+    //await page.setDefaultNavigationTimeout(240000);
+    await page.setRequestInterception(true);
 
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || 
-    //       req.resourceType() == 'font' || 
-    //       req.resourceType() == 'image' || 
-    //       req.resourceType() == 'media') {
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
+    page.on('request', (req) => {
+        if(req.resourceType() == 'stylesheet' || 
+          req.resourceType() == 'font' || 
+          req.resourceType() == 'image' || 
+          req.resourceType() == 'media') {
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
 
     await page.goto('http://www.espn.com/nfl/scoreboard');
 
@@ -606,12 +612,12 @@ const updateNflScores = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    if (page) {
-      await page.close()
+    if (!!page) {
+      await page.close();
     }
 
-    if (browser) {
-      await browser.close()
+    if (!!browser) {
+      await browser.close();
     }
     console.log('updateNflScores browser error: ' + err.message);
   }

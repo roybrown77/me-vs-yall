@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var GameSchema = new mongoose.Schema({
+const mongoose = require('mongoose');
+const GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
     year: Number,
     seasonType: Number,

@@ -1,14 +1,9 @@
 let isLoadEnglishPremierLeagueGamesRunning = false;
 let isUpdateEnglishPremierLeagueScoresRunning = false;
 
-const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const puppeteer = require('puppeteer');
-
-let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
@@ -163,7 +158,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
     page = await browser.newPage();
 
-    await page.setDefaultNavigationTimeout(120000);
+    //await page.setDefaultNavigationTimeout(120000);
 
     // await page.setRequestInterception(true);
 
@@ -249,12 +244,12 @@ const loadEnglishPremierLeagueGames = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    if (page) {
-      await page.close()
+    if (!!page) {
+      await page.close();
     }
 
-    if (browser) {
-      await browser.close()
+    if (!!browser) {
+      await browser.close();
     }
 
     console.log('loadEnglishPremierLeagueGames browser error: ' + err.message);
@@ -365,20 +360,21 @@ const updateEnglishPremierLeagueScores = async () => {
     });
 
     page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(240000);
-    // await page.setRequestInterception(true);
+    //await page.setDefaultNavigationTimeout(240000);
     
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || 
-    //       req.resourceType() == 'font' || 
-    //       req.resourceType() == 'image' || 
-    //       req.resourceType() == 'media') {
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
+    await page.setRequestInterception(true);
+    
+    page.on('request', (req) => {
+        if(req.resourceType() == 'stylesheet' || 
+          req.resourceType() == 'font' || 
+          req.resourceType() == 'image' || 
+          req.resourceType() == 'media') {
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
 
     await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
 
@@ -462,12 +458,12 @@ const updateEnglishPremierLeagueScores = async () => {
     await page.close();
     await browser.close();
   } catch(err) {
-    if (page) {
-      await page.close()
+    if (!!page) {
+      await page.close();
     }
 
-    if (browser) {
-      await browser.close()
+    if (!!browser) {
+      await browser.close();
     }
     console.log('updateEnglishPremierLeagueScores browser error: ' + err.message);
   }

@@ -2,8 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 let router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
 
 const userRepository = require('./UserRepository');
 
