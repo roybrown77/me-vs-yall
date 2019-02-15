@@ -459,7 +459,7 @@ const updateNbaScores = async () => {
         }
     });
 
-    await page.goto('http://www.espn.com/nba/scoreboard');
+    await page.goto('http://www.espn.com/nba/scoreboard/_/date/20190214');
 
     await page.waitForSelector('#events');
 
