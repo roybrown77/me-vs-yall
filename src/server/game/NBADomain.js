@@ -440,26 +440,27 @@ const updateNbaScores = async () => {
 
   try {
     browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
     });
 
     page = await browser.newPage();
     //await page.setDefaultNavigationTimeout(240000);
-    await page.setRequestInterception(true);
+    // await page.setRequestInterception(true);
 
-    page.on('request', (req) => {
-        if(req.resourceType() == 'stylesheet' || 
-          req.resourceType() == 'font' || 
-          req.resourceType() == 'image' || 
-          req.resourceType() == 'media') {
-            req.abort();
-        }
-        else {
-            req.continue();
-        }
-    });
+    // page.on('request', (req) => {
+    //     if(req.resourceType() == 'stylesheet' || 
+    //       req.resourceType() == 'font' || 
+    //       req.resourceType() == 'image' || 
+    //       req.resourceType() == 'media') {
+    //         req.abort();
+    //     }
+    //     else {
+    //         req.continue();
+    //     }
+    // });
 
-    await page.goto('http://www.espn.com/nba/scoreboard/_/date/20190214');
+    await page.goto('http://www.espn.com/nba/scoreboard');
 
     await page.waitForSelector('#events');
 
