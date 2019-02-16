@@ -87,7 +87,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 const loadNbaGames = async () => {
   if (isLoadNbaGamesRunning) {
     console.log("loadNbaGames already running.");
-    //return;
+    return;
   }
 
   const leagueId = '59723313734d1d6202a85f19';
