@@ -64,7 +64,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
