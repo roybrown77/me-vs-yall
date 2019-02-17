@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
-import moment from 'moment-timezone';
-
 import PageContainer from './PageContainer';
 import GameSearchBar from '../components/GameSearchBar';
 import Countdown from '../components/Countdown';
@@ -32,18 +30,11 @@ import { googleLogin } from '../middleware/authenticationService';
 import { loadLeaders } from '../actions';
 import { 
     formatWeeks, 
-    formatMoney, 
-    getWinnings, 
     getCurrentWeek, 
-    hasGameStarted,
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
-    getLeaders,
-    getVegasPicks,
-    getVegasUser,
     getAreAnyGamesInProgress,
     getStartDateTime,
-    getLeaderIndicator,
 } from '../selectors';
 
 const styles = theme => ({
@@ -149,10 +140,8 @@ class LeaderPage extends Component {
     render() {
         const { 
             classes, 
-            teams, 
             leaders, 
             games, 
-            picks, 
             isAuthenticated,
             isCurrentWeek,
             dataLoading,
@@ -349,11 +338,7 @@ const mapStateToProps = (state, ownProps) => {
     const leaderDomain = state.get('leaderDomain').toJS();
     const dataLoading = get(leaderDomain, 'dataLoading');
     const games = get(leaderDomain, 'gameList', []);
-    const pickList = get(leaderDomain, 'pickList', []);
-    const userList = get(leaderDomain, 'userList', []);
     const leaders = get(leaderDomain, 'leaderList', []);
-
-    const picks = [...pickList, ...getVegasPicks(games)];
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
@@ -364,9 +349,6 @@ const mapStateToProps = (state, ownProps) => {
     const leagues = get(lookup, 'leagues', []);
     const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
-
-    const teamDomain = state.get('teamDomain').toJS();
-    const teams = get(teamDomain, 'teams', []);
 
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
@@ -403,8 +385,6 @@ const mapStateToProps = (state, ownProps) => {
         beginDateTime,
         endDateTime,
         games,
-        teams,
-        picks,
         isCurrentWeek
     }
 };
