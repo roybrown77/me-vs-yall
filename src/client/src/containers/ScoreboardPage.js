@@ -351,9 +351,6 @@ const mapStateToProps = (state, ownProps) => {
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
 
-    const requestStorageJson = localStorage.getItem('request');
-    const requestStorage = JSON.parse(requestStorageJson);
-
     const leagues = get(lookup, 'leagues', []);
     const league = leagues.find(x=>x.id === leagueId);
 
