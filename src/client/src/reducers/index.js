@@ -4,7 +4,14 @@ import { Map, List } from 'immutable';
 import get from 'lodash/get';
 
 import * as ActionTypes from '../actions';
-import { leagues } from '../selectors';
+
+import { 
+  leagues, 
+  getLeaders,
+  getVegasPicks,
+  getVegasUser
+} from '../selectors';
+
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
@@ -138,22 +145,33 @@ const teamDomain = (
 const leaderDomain = (
   state = Map({ 
     leaders: List(), 
-    dataLoading: false 
+    dataLoading: false
   }), 
   action) => {
   switch (action.type) {
     case ActionTypes.LEADERS_REQUEST:
-      return state.set('dataLoading', true);
+      return state.set('dataLoading', true).set('leagueId', get(action,'request.leagueId'));
     case ActionTypes.LEADERS_SUCCESS:  
       if (action.response) {
+        const leagueId = state.get('leagueId');
         const gameList = get(action, 'response[0].response', []);
         const pickList = get(action, 'response[1].response', []);
         const userList = get(action, 'response[2].response', []);
+        const teamList = get(action, 'response[3].response', []);
         const sortedGames = gameList.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
+        const picks = [...pickList, ...getVegasPicks(sortedGames)];
+        const users = [
+        '59723313734d1d6202a85f10',
+        '59723313734d1d6202a85f19'
+        ].includes(leagueId) ? [...userList, getVegasUser()] : userList;
+
+        const leaderList = getLeaders(gameList, picks, users, teamList);
 
         return state.set('gameList', List(sortedGames))
         .set('pickList', List(pickList))
         .set('userList', List(userList))
+        .set('leaderList', List(leaderList))
         .set("dataLoading", false);
       }
       return state;

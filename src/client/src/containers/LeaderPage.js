@@ -351,6 +351,7 @@ const mapStateToProps = (state, ownProps) => {
     const games = get(leaderDomain, 'gameList', []);
     const pickList = get(leaderDomain, 'pickList', []);
     const userList = get(leaderDomain, 'userList', []);
+    const leaders = get(leaderDomain, 'leaderList', []);
 
     const picks = [...pickList, ...getVegasPicks(games)];
 
@@ -366,11 +367,6 @@ const mapStateToProps = (state, ownProps) => {
 
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
-
-    const leaders = getLeaders(games, picks, [
-        '59723313734d1d6202a85f10',
-        '59723313734d1d6202a85f19'
-        ].includes(leagueId) ? [...userList, getVegasUser()] : userList, teams);
 
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
