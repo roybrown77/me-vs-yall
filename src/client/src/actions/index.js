@@ -97,7 +97,7 @@ export const loadUser = () => (dispatch, getState) => {
   const lookup = state.get('lookup').toJS();
 
   const leagues = get(lookup, 'leagues', []);
-  const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+  const leagueId = get(request, 'leagueId');
   const league = leagues.find(x=>x.id === leagueId);
 
   const leagueName = get(league,'name','nfl');

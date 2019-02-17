@@ -339,6 +339,7 @@ const mapStateToProps = (state, ownProps) => {
     const dataLoading = get(leaderDomain, 'dataLoading');
     const games = get(leaderDomain, 'gameList', []);
     const leaders = get(leaderDomain, 'leaderList', []);
+    const leagueId = get(leaderDomain, 'leagueId');
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
@@ -347,7 +348,6 @@ const mapStateToProps = (state, ownProps) => {
     const requestStorage = JSON.parse(requestStorageJson);
 
     const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
     const years = get(league, 'years',[]);

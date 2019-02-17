@@ -16,6 +16,7 @@ import { getUser, isLoggedIn } from '../middleware/authenticationService';
 
 const scoreboardDomain = (
   state = Map({ 
+    leagueId: '59723313734d1d6202a85f10',
     games: List(), 
     picks: List(),
     dataLoading: false
@@ -23,7 +24,7 @@ const scoreboardDomain = (
   action) => {
   switch (action.type) {
     case ActionTypes.SCOREBOARD_REQUEST:
-      return state.set('dataLoading', true);
+      return state.set('dataLoading', true).set('leagueId', get(action,'request.leagueId'));
     case ActionTypes.SCOREBOARD_SUCCESS:
       if (action.response) {
         const gameList = get(action, 'response[0].response', []).map(item=>{
@@ -144,6 +145,7 @@ const teamDomain = (
 
 const leaderDomain = (
   state = Map({ 
+    leagueId: '59723313734d1d6202a85f10',
     leaders: List(), 
     dataLoading: false
   }), 
@@ -183,7 +185,9 @@ const leaderDomain = (
 };
 
 const ui = (state = Map({
-  request: Map()
+  request: Map({
+    leagueId: '59723313734d1d6202a85f10',
+  })
 }), action) => {
   switch (action.type) {
     case 'SCOREBOARD_REQUEST':
