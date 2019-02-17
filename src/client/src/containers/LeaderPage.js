@@ -72,9 +72,7 @@ const styles = theme => ({
   expansionSummary: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
   }
-});
-
-let gameDate;                                             
+});                                            
 
 class LeaderPage extends Component {
     constructor(props) {
@@ -271,21 +269,19 @@ class LeaderPage extends Component {
                                                                 width:"100%", 
                                                                 backgroundColor: '#fff'}}>
                                                             {
-                                                                games.map((game,gameIndex)=>{
-                                                                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                                                                    let newDate = (gameDate !== newGameDate);
-                                                                    if (newDate) gameDate = newGameDate;
+                                                                get(leader,'games',[]).map((game,gameIndex)=>{
+                                                                    
 
                                                                     return (<tbody key={leader.id + '-' + game._id}>
                                                                         {
-                                                                            newDate &&
+                                                                            game.isNewDate &&
                                                                             <tr>
                                                                                 <td align="center">
                                                                                 </td>
                                                                                 <td align="center">
                                                                                 </td>
                                                                                 <td align="center">                                                                      
-                                                                                    <div style={{margin:'12px 0',fontWeight:'600',color:'rgba(0, 0, 0, 0.87)'}}>{gameDate}</div>                                                
+                                                                                    <div style={{margin:'12px 0',fontWeight:'600',color:'rgba(0, 0, 0, 0.87)'}}>{game.date}</div>                                                
                                                                                 </td>
                                                                                 <td align="center">
                                                                                 </td>
@@ -307,15 +303,11 @@ class LeaderPage extends Component {
                                                                             }
                                                                             <td align="center">                                                                      
                                                                                 <span>
-                                                                                    {   
-                                                                                        get(teams.find(team=>team._id === game.competitors[0]._id), 'name')
-                                                                                    }
+                                                                                    {game.awayTeam}
                                                                                 </span>
                                                                                 <span> vs </span>
                                                                                 <span>
-                                                                                    {   
-                                                                                        get(teams.find(team=>team._id === game.competitors[1]._id), 'name')
-                                                                                    } 
+                                                                                    {game.homeTeam} 
                                                                                 </span>                                                
                                                                             </td>
                                                                             {
@@ -371,10 +363,13 @@ const mapStateToProps = (state, ownProps) => {
     const leagueId = get(request, 'leagueId') ? get(request, 'leagueId') : get(requestStorage, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
     const league = leagues.find(x=>x.id === leagueId);
 
+    const teamDomain = state.get('teamDomain').toJS();
+    const teams = get(teamDomain, 'teams', []);
+
     const leaders = getLeaders(games, picks, [
         '59723313734d1d6202a85f10',
         '59723313734d1d6202a85f19'
-        ].includes(leagueId) ? [...userList, getVegasUser()] : userList);
+        ].includes(leagueId) ? [...userList, getVegasUser()] : userList, teams);
 
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
@@ -388,9 +383,6 @@ const mapStateToProps = (state, ownProps) => {
     const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-
-    const teamDomain = state.get('teamDomain').toJS();
-    const teams = get(teamDomain, 'teams', []);
     
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');

@@ -60,10 +60,12 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     return format;
 };
 
-const getLeaders = (games = [], picks = [], users = []) => {
+const getLeaders = (games = [], picks = [], users = [], teams = []) => {
+    const allGames = [...games];
+
     const grouping = groupBy(picks, 'userId');
         
-    const picksByUser = transform(grouping, (result, value, key)=>{
+    const leaders = transform(grouping, (result, value, key)=>{
         result.push({
             userId: key,
             picks: value
@@ -71,18 +73,35 @@ const getLeaders = (games = [], picks = [], users = []) => {
     }, []);
 
     const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+    let date; 
 
-    const pickResults = picksByUser.reduce((total, item) => {
+    const pickResults = leaders.reduce((total, item) => {
         const user = users.find(x=>x.authServiceId === item.userId);
         if (!!user) {
-          const pickResult = getResults(sortedGames,item.picks);
-          total.push({
-              id: item.userId,
-              userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
-              wins: pickResult.wins,
-              losses: pickResult.losses,
-              spreadWins: pickResult.spreadWins,
-              spreadLosses: pickResult.spreadLosses
+            const leaderPicks = item.picks;
+            const pickResult = getResults(sortedGames,leaderPicks);
+
+            total.push({
+                id: item.userId,
+                userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
+                wins: pickResult.wins,
+                losses: pickResult.losses,
+                spreadWins: pickResult.spreadWins,
+                spreadLosses: pickResult.spreadLosses,
+                games: allGames.map(game=>{
+                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                    let isNewDate = (date !== newGameDate);
+                    if (isNewDate) date = newGameDate;
+                    return {
+                        ...game,
+                        isNewDate,
+                        date,
+                        awayTeam: get(teams.find(team=>team._id === game.competitors[0]._id), 'name'),
+                        awayIndicator: getLeaderIndicator(game,picks,item,0,1),
+                        homeTeam: get(teams.find(team=>team._id === game.competitors[1]._id), 'name'),
+                        homeIndicator: getLeaderIndicator(game,picks,item,1,0)
+                    }
+              })
           });
         }
 
