@@ -88,23 +88,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
                 losses: pickResult.losses,
                 spreadWins: pickResult.spreadWins,
                 spreadLosses: pickResult.spreadLosses,
-                games: allGames.map(game=>{
-                    const newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                    const isNewDate = (date !== newGameDate);
-                    if (isNewDate) date = newGameDate;
-                    const hasStarted = hasGameStarted(game.startDateTime);
-                    return {
-                        ...game,
-                        isNewDate,
-                        date,
-                        awayTeam: get(teams.find(team=>team._id === game.competitors[0]._id), 'name'),
-                        awayIndicator: getLeaderIndicator(game,picks,item,0,1),
-                        awayScore: hasStarted ? get(game,'competitors.0.score',0) : undefined,
-                        homeTeam: get(teams.find(team=>team._id === game.competitors[1]._id), 'name'),
-                        homeIndicator: getLeaderIndicator(game,picks,item,1,0),
-                        homeScore: hasStarted ? get(game,'competitors.1.score',0) : undefined
-                    }
-              })
+                games: allGames
           });
         }
 
@@ -113,7 +97,34 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
 
     const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
 
-    return pickResultsOrdered;
+    return pickResultsOrdered.map(leader=>{
+        const winnings = getWinnings(leader);
+        return {
+            ...leader,
+            percentage: leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : '',
+            color: (winnings || 0) < 0 ? 'red' : '#009933',
+            vegasWinnings: ((winnings || 0) < 0 ? '-' : '') + formatMoney(winnings),
+            games: leader.games.map(game=>{
+                const newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                const isNewDate = (date !== newGameDate);
+                if (isNewDate) date = newGameDate;
+                const hasStarted = hasGameStarted(game.startDateTime);
+                return {
+                    ...game,
+                    isNewDate,
+                    date,
+                    awayTeam: get(teams.find(team=>team._id === game.competitors[0]._id), 'name'),
+                    awayIndicator: getLeaderIndicator(game,picks,leader,0,1),
+                    awayScore: hasStarted ? get(game,'competitors.0.score',0) : undefined,
+                    awayIndicator: getLeaderIndicator(game,picks,leader,0,1),
+                    homeTeam: get(teams.find(team=>team._id === game.competitors[1]._id), 'name'),
+                    homeIndicator: getLeaderIndicator(game,picks,leader,1,0),
+                    homeScore: hasStarted ? get(game,'competitors.1.score',0) : undefined,
+                    homeIndicator: getLeaderIndicator(game,picks,leader,1,0)
+                }
+            })
+        }
+    });
 };
 
 const getResults = (games = [], picks = []) => {

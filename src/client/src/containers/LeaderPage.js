@@ -250,15 +250,16 @@ class LeaderPage extends Component {
                                                     }
                                                     <ListItemText style={{width: '50%', margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
                                                     <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
-                                                        <div>{leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : ''}</div>
+                                                        <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
                                                     <div style={{margin: '12px auto'}}>
                                                         <div style={{
-                                                            color: (getWinnings(leader) || 0) < 0 ? 'red' : '#009933', fontWeight: '700'}}>
-                                                            in Vegas you would have won: {((getWinnings(leader) || 0) < 0 ? '-' : '') + formatMoney(getWinnings(leader))}
+                                                            fontWeight: '700',
+                                                            color: leader.color}}>
+                                                            in Vegas you would have won: {leader.vegasWinnings}
                                                         </div>
                                                         {
                                                             false &&
@@ -294,7 +295,7 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: getLeaderIndicator(game,picks,leader,0,1)}}/>
+                                                                                backgroundColor: game.awayIndicator}}/>
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
@@ -319,7 +320,7 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: getLeaderIndicator(game,picks,leader,1,0)}}/>
+                                                                                backgroundColor: game.homeIndicator}}/>
                                                                             </td>
                                                                         </tr>
                                                                     </tbody>)
