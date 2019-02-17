@@ -298,7 +298,7 @@ class LeaderPage extends Component {
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
-                                                                                    <span>{hasGameStarted(game.startDateTime) ? get(game,'competitors.0.score',0) : undefined}</span>
+                                                                                    <span>{game.awayScore}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">                                                                      
@@ -312,7 +312,7 @@ class LeaderPage extends Component {
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
-                                                                                    <span>{hasGameStarted(game.startDateTime) ? get(game,'competitors.1.score',0) : undefined}</span>
+                                                                                    <span>{game.homeScore}</span>
                                                                                 </td>
                                                                             }
                                                                             <td align="center">
