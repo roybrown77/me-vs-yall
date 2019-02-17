@@ -61,8 +61,6 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
 };
 
 const getLeaders = (games = [], picks = [], users = [], teams = []) => {
-    const allGames = [...games];
-
     const grouping = groupBy(picks, 'userId');
         
     const leaders = transform(grouping, (result, value, key)=>{
@@ -72,14 +70,13 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
         });
     }, []);
 
-    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
     let date; 
 
     const pickResults = leaders.reduce((total, item) => {
         const user = users.find(x=>x.authServiceId === item.userId);
         if (!!user) {
             const leaderPicks = item.picks;
-            const pickResult = getResults(sortedGames,leaderPicks);
+            const pickResult = getResults(games,leaderPicks);
 
             total.push({
                 id: item.userId,
@@ -88,7 +85,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
                 losses: pickResult.losses,
                 spreadWins: pickResult.spreadWins,
                 spreadLosses: pickResult.spreadLosses,
-                games: allGames
+                games
           });
         }
 

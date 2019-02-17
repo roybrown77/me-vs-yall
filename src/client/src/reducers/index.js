@@ -168,7 +168,7 @@ const leaderDomain = (
         '59723313734d1d6202a85f19'
         ].includes(leagueId) ? [...userList, getVegasUser()] : userList;
 
-        const leaderList = getLeaders(gameList, picks, users, teamList);
+        const leaderList = getLeaders(sortedGames, picks, users, teamList);
 
         return state.set('gameList', List(sortedGames))
         .set('pickList', List(pickList))
