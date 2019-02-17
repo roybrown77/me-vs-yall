@@ -91,9 +91,6 @@ export const loadUser = () => (dispatch, getState) => {
   const ui = state.get('ui').toJS();
   const request = get(ui,'request');
 
-  const requestStorageJson = localStorage.getItem('request');
-  const requestStorage = JSON.parse(requestStorageJson);
-
   const lookup = state.get('lookup').toJS();
 
   const leagues = get(lookup, 'leagues', []);
