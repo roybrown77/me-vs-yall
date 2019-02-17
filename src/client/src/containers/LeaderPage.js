@@ -271,7 +271,7 @@ class LeaderPage extends Component {
                                                                 width:"100%", 
                                                                 backgroundColor: '#fff'}}>
                                                             {
-                                                                games.map((game,gameIndex)=>{
+                                                                get(leader,'games',[]).map((game,gameIndex)=>{
                                                                     let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                                                     let newDate = (gameDate !== newGameDate);
                                                                     if (newDate) gameDate = newGameDate;
@@ -298,7 +298,7 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: getLeaderIndicator(game,picks,leader,0,1)}}/>
+                                                                                backgroundColor: game.awayIndicator}}/>
                                                                             </td>
                                                                             {
                                                                                 <td align="center">
@@ -327,7 +327,7 @@ class LeaderPage extends Component {
                                                                                 <div style={{
                                                                                 width:'24px', 
                                                                                 height: '24px', 
-                                                                                backgroundColor: getLeaderIndicator(game,picks,leader,1,0)}}/>
+                                                                                backgroundColor: game.homeIndicator}}/>
                                                                             </td>
                                                                         </tr>
                                                                     </tbody>)

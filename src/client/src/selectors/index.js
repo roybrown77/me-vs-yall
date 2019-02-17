@@ -61,9 +61,9 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
 };
 
 const getLeaders = (games = [], picks = [], users = []) => {
-    const grouping = groupBy(picks, 'userId');
+    const userPicks = groupBy(picks, 'userId');
         
-    const picksByUser = transform(grouping, (result, value, key)=>{
+    const leaders = transform(userPicks, (result, value, key)=>{
         result.push({
             userId: key,
             picks: value
@@ -72,26 +72,33 @@ const getLeaders = (games = [], picks = [], users = []) => {
 
     const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
-    const pickResults = picksByUser.reduce((total, item) => {
-        const user = users.find(x=>x.authServiceId === item.userId);
+    const leaderResults = leaders.reduce((total, leader) => {
+        const user = users.find(x=>x.authServiceId === leader.userId);
         if (!!user) {
-          const pickResult = getResults(sortedGames,item.picks);
+          const pickResult = getResults(sortedGames,leader.picks);
           total.push({
-              id: item.userId,
+              id: leader.userId,
               userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
               wins: pickResult.wins,
               losses: pickResult.losses,
               spreadWins: pickResult.spreadWins,
-              spreadLosses: pickResult.spreadLosses
+              spreadLosses: pickResult.spreadLosses,
+              games: (sortedGames || []).map(game=>{
+                return {
+                    ...game,
+                    awayIndicator: getLeaderIndicator(game,picks,leader,0,1),
+                    homeIndicator: getLeaderIndicator(game,picks,leader,1,0)
+                }
+              })
           });
         }
 
         return total;
     }, []);
 
-    const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
+    const sortedLeaderResults = orderBy(leaderResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
 
-    return pickResultsOrdered;
+    return sortedLeaderResults;
 };
 
 const getResults = (games = [], picks = []) => {
