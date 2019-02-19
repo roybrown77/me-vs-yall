@@ -37,7 +37,7 @@ const stats = [
   {
     title: '1 GAME PER WEEK SEPARATES BAD FROM GOOD',
     content: `There are about 26 weeks in an NBA season (6 months) with 3 games played per week.  Bad teams win 1 while good teams win 2 
-              per week.  This season the Bucks are only losing twice a month while Bulls, Knicks, Cavs and Suns are winning twice a month.`,
+              per week.  This season the Bucks are only losing three times a month while Bulls, Knicks, Cavs and Suns are winning 2-3 a month.`,
     leagueName: 'NBA',
     date: 'February 19, 2019',
     author: 'Roy B.'
