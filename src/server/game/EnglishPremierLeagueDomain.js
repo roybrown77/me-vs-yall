@@ -257,15 +257,9 @@ const loadEnglishPremierLeagueGames = async () => {
 
   console.log('loadEnglishPremierLeagueGames games: ' + JSON.stringify(games));
 
-  if (!startDateTime) {
+  if (games.some(x=>!x.startDateTime)) {
     isLoadEnglishPremierLeagueGamesRunning = false;
     console.log('loadEnglishPremierLeagueGames no startDateTime');
-    return;
-  }
-
-  if (!games) {
-    isLoadEnglishPremierLeagueGamesRunning = false;
-    console.log('loadEnglishPremierLeagueGames no games');
     return;
   }
 
