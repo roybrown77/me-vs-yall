@@ -35,6 +35,14 @@ const styles = {
 
 const stats = [
   {
+    title: '1 GAME PER WEEK SEPARATES BAD FROM GOOD',
+    content: `There are about 26 weeks in an NBA season (6 months) with 3 games played per week.  Bad teams win 1 while good teams win 2 
+              per week.  This season the Bucks are only losing twice a month while Bulls, Knicks, Cavs and Suns are winning twice a month.`,
+    leagueName: 'NBA',
+    date: 'February 19, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: 'DEEP PLAYOFF EXPERIENCE',
     content: `Head coaches that won the NBA Finals since 1980 (39 years) are Phil Jackson 11 (Bulls/Lakers), Pat Riley 5 (Lakers/Heat), 
               Gregg Popovich 5 (Spurs), Steve Kerr 3 (Warriors), K.C. Jones 2 (Celtics), Rudy Tomjanovich 2 (Rockets), Chuck Daly 2 (Pistons), 
