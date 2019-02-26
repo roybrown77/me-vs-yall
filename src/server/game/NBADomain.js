@@ -358,9 +358,9 @@ const loadNbaGames = async () => {
     const awayTeam = nbaTeams.find(x=>x.shortLocation === game.awayTeam);
     const homeTeam = nbaTeams.find(x=>x.shortLocation === game.homeTeam);
     const spreadTeam = nbaTeams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-    console.log('loadNbaGames game awayTeam: ' + awayTeam);
-    console.log('loadNbaGames game homeTeam: ' + homeTeam);
-    console.log('loadNbaGames game formatted: ' + JSON.stringify(spreadTeam));
+    // console.log('loadNbaGames game awayTeam: ' + awayTeam);
+    // console.log('loadNbaGames game homeTeam: ' + homeTeam);
+    // console.log('loadNbaGames game formatted: ' + JSON.stringify(spreadTeam));
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
