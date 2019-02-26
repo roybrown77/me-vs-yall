@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import URLSearchParams from 'url-search-params';
+import moment from 'moment-timezone';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
@@ -64,6 +65,13 @@ export const GAMESINPROGRESS_SUCCESS = 'GAMESINPROGRESS_SUCCESS';
 export const GAMESINPROGRESS_FAILURE = 'GAMESINPROGRESS_FAILURE';
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
+
+const getCurrentWeek = (weeks = []) => {
+    // must check if any games in progress then if have not started to return it as current week
+    const currentDateTime = moment();
+    const dateFound = weeks.find(x=>currentDateTime.diff(moment(x.startDateTime),'seconds') >= 0 && currentDateTime.diff(moment(x.endDateTime),'seconds') <= 0);
+    return dateFound || last(weeks);
+};
 
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE
@@ -225,7 +233,8 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
         const authenticationDomain = currentState.get('authenticationDomain').toJS();
         const userInSession = getUser();
         const user = get(authenticationDomain,'user',userInSession);
-        const currentWeek = last(get(result,'response',[]));
+        const weeks = get(result,'response',[]);
+        const currentWeek = getCurrentWeek(weeks);
 
         const request = {
           weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
@@ -277,7 +286,8 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
   const year = get(query, 'year', 2018);
 
   return dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
-    const currentWeek = last(get(result,'response',[]));
+    const weeks = get(result,'response',[]);
+    const currentWeek = getCurrentWeek(weeks);
 
     const request = {
       weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
