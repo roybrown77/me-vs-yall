@@ -209,7 +209,7 @@ const areAnyGamesOver = (games = []) => {
 const getCurrentWeek = (weeks = []) => {
     // must check if any games in progress then if have not started to return it as current week
     const currentDateTime = moment();
-    const dateFound = weeks.find(x=>currentDateTime.diff(moment(x.startDateTime),'seconds') >= 0 && currentDateTime.diff(moment(x.endDateTime),'seconds') <= 0);
+    const dateFound = weeks.find(x=>currentDateTime.diff(moment(x.startDateTime),'seconds') >= 0 && currentDateTime.diff(moment(x.endDateTime).add(8,'hours'),'seconds') <= 0);
     return dateFound || last(weeks);
 };
 
