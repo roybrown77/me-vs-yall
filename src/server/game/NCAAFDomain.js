@@ -193,7 +193,7 @@ const loadNCAAFootballGames = async () => {
         spread: {
          team: spread.split(' ').length === 3 ? spread.replace('Line: ','').split(' ')[0] : '',
          amount: spread.split(' ').length === 3 ? parseFloat(spread.replace('Line: ','').split(' ')[1]) : '',
-         spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+         spreadDateTime: moment().toISOString()
         },
         awayId: awayId,
         awayLocation: awayLocation,
@@ -561,7 +561,7 @@ const updateNCAAFootballScores = async () => {
       $gt: 0
     },
     startDateTime: {
-      $lt: new Date(new Date().toUTCString()).toISOString()
+      $lt: moment().toISOString()
     }
   };
 

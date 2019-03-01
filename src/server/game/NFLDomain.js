@@ -237,7 +237,7 @@ const loadNflGames = async () => {
         spread: {
          team: spread.replace('Line: ','').split(' ')[0],
          amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-         spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+         spreadDateTime: moment().toISOString()
         },
         awayTeam: awayTeam,
         awayRecord: awayRecord,
@@ -587,7 +587,7 @@ const updateNflScores = async () => {
         spread: {
          team: spread.replace('Line: ','').split(' ')[0],
          amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-         spreadDateTime: new Date(new Date().toUTCString()).toISOString()
+         spreadDateTime: moment().toISOString()
         },
         gameOverText: gameOverText,
         awayTeam: awayTeam,

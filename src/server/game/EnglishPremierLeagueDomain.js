@@ -318,7 +318,7 @@ const updateEnglishPremierLeagueScores = async () => {
       $ne: true
     },
     startDateTime: {
-      $lt: new Date(new Date().toUTCString()).toISOString()
+      $lt: moment().toISOString()
     },
     isStub: {
       $ne: true

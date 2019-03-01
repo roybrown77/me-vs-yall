@@ -16,7 +16,7 @@ router.post('/picks/', function (req, res) {
         userId: req.user.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
-        createDateTime: new Date(new Date().toUTCString()).toISOString()
+        createDateTime: moment().toISOString()
     };
 
     pickDomain.upsert(pick, (err, pickCreated) => {
@@ -30,7 +30,7 @@ router.put('/picks/:id', function (req, res) {
         userId: req.user.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
-        createDateTime: new Date(new Date().toUTCString()).toISOString()
+        createDateTime: moment().toISOString()
     };
 
     pickDomain.upsert(pick, (err, updatedPick) => {
