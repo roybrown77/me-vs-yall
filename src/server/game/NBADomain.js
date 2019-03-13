@@ -352,8 +352,6 @@ const loadNbaGames = async () => {
 
   console.log('loadNbaGames games processed: ' + JSON.stringify(games));
 
-  return;
-
   if (!startDateTime) {
     isLoadNbaGamesRunning = false;
     console.log('loadNbaGames no startDateTime');
@@ -681,8 +679,8 @@ const updateNbaScores = async () => {
       spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
-    set(updatedGame,'competitors.0.record',get(game,'awayRecord'));
-    set(updatedGame,'competitors.1.record',get(game,'homeRecord'));
+    // set(updatedGame,'competitors.0.record',get(game,'awayRecord'));
+    // set(updatedGame,'competitors.1.record',get(game,'homeRecord'));
 
     set(updatedGame,'competitors.0.score', isGameOver ? 
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
