@@ -4,6 +4,8 @@ it's sports.  it's fun.  it's facts.
 
 https://www.mevsyall.com
 
-Follow live game action, pick winners of sporting events and compete with others around the world.
+pick winners.  every week.  against others around the world.
+
+follow action when u can't watch the game.
 
 Based on https://github.com/roybrown77/wu-tang-react-node-template
