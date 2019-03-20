@@ -60,7 +60,6 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
-
   // console.log("updateNbaGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
   // console.log("updateNbaGames overTime: " + overTime);
   // console.log("updateNbaGames currentTimeQuarterNumber: " + currentTimeQuarterNumber);
@@ -222,22 +221,6 @@ const loadNbaGames = async () => {
     });
 
     page = await browser.newPage();
-    
-    //await page.setDefaultNavigationTimeout(120000);
-
-    // await page.setRequestInterception(true);
-
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || 
-    //       req.resourceType() == 'font' || 
-    //       req.resourceType() == 'image' || 
-    //       req.resourceType() == 'media') {
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
 
     date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
 
@@ -457,20 +440,6 @@ const updateNbaScores = async () => {
     });
 
     page = await browser.newPage();
-    //await page.setDefaultNavigationTimeout(240000);
-    // await page.setRequestInterception(true);
-
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || 
-    //       req.resourceType() == 'font' || 
-    //       req.resourceType() == 'image' || 
-    //       req.resourceType() == 'media') {
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
 
     await page.goto('http://www.espn.com/nba/scoreboard');
 
@@ -678,9 +647,6 @@ const updateNbaScores = async () => {
       amount: get(score,'spread.amount', 0),
       spreadDateTime: get(score,'spread.spreadDateTime')
     });
-
-    // set(updatedGame,'competitors.0.record',get(game,'awayRecord'));
-    // set(updatedGame,'competitors.1.record',get(game,'homeRecord'));
 
     set(updatedGame,'competitors.0.score', isGameOver ? 
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));

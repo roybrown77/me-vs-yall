@@ -59,7 +59,6 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
-
   // console.log("updateNflGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
   // console.log("updateNflGames overTime: " + overTime);
   // console.log("updateNflGames currentTimeQuarterNumber: " + currentTimeQuarterNumber);
@@ -139,22 +138,6 @@ const loadNflGames = async () => {
     });
 
     page = await browser.newPage();
-
-    //await page.setDefaultNavigationTimeout(120000);
-
-    // await page.setRequestInterception(true);
-
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || 
-    //       req.resourceType() == 'font' || 
-    //       req.resourceType() == 'image' || 
-    //       req.resourceType() == 'media') {
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
 
     await page.goto('http://www.espn.com/nfl/scoreboard');
 
@@ -421,20 +404,6 @@ const updateNflScores = async () => {
     });
 
     page = await browser.newPage();
-    //await page.setDefaultNavigationTimeout(240000);
-    // await page.setRequestInterception(true);
-
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || 
-    //       req.resourceType() == 'font' || 
-    //       req.resourceType() == 'image' || 
-    //       req.resourceType() == 'media') {
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
 
     await page.goto('http://www.espn.com/nfl/scoreboard');
 
