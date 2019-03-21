@@ -295,7 +295,7 @@ const loadNbaGames = async () => {
       const homeRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
+      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
 
       startDateTime = await page.evaluate((sel) => {
         return document.querySelector(sel).getAttribute('data-date');
