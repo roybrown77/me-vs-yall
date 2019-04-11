@@ -145,9 +145,12 @@ class LeaderPage extends Component {
             isAuthenticated,
             isCurrentWeek,
             dataLoading,
-            weeksDataLoading
+            weeksDataLoading,
+            weeks = [],
+            weekId
         } = this.props;
 
+        const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
@@ -203,7 +206,7 @@ class LeaderPage extends Component {
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins!</div>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>{get(currentWeek,'prize.message','player with the most correct wins!')} <span style={{fontWeight: "700", color: "darkgreen"}}>{get(currentWeek,'prize.amount')}</span></div>
                     </div>
                     {
                         areAnyGamesInProgress &&

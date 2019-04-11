@@ -210,9 +210,12 @@ class ScoreboardPage extends Component {
             isCurrentWeek, 
             isAuthenticated, 
             dataLoading, 
-            weeksDataLoading
+            weeksDataLoading,
+            weeks = [],
+            weekId
         } = this.props;
 
+        const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
@@ -221,6 +224,7 @@ class ScoreboardPage extends Component {
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
         const timeUntilNextGameStarts = getStartDateTime(games);
         gameDate = null;
+
 
         return (
             <div>
@@ -281,7 +285,7 @@ class ScoreboardPage extends Component {
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
-                        <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins!</div>
+                        <div style={{color: 'darkgreen', fontSize: '17px'}}>{get(currentWeek,'prize.message','player with the most correct wins!')} <span style={{fontWeight: "700", color: "darkgreen"}}>{get(currentWeek,'prize.amount')}</span></div>
                     </div>
                     {
                         areAnyGamesInProgress &&
