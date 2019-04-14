@@ -179,7 +179,7 @@ class Game extends Component {
                   </Button>
                 }
                 <div className={classes.startDateTime}>
-                    {game.startDateTimeDisplay} 
+                    {game.gameName} {game.startDateTimeDisplay} 
                     {
                       game.isGameOver && 
                       <span style={{marginLeft:'12px'}}>Final</span>

@@ -275,6 +275,7 @@ const loadNbaGames = async () => {
     let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+    let GAME_NAME = 'div#events > articlee:nth-of-type(INDEX) > div > div > section.sb-notes > p';
 
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
@@ -305,6 +306,11 @@ const loadNbaGames = async () => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, SPREAD_SELECTOR.replace("INDEX", i));
 
+      const gameName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, GAME_NAME.replace("INDEX", i));
+
       games.push({
         startDateTime: startDateTime,
         spread: {
@@ -315,7 +321,8 @@ const loadNbaGames = async () => {
         awayTeam: awayTeam,
         awayRecord: awayRecord,
         homeTeam: homeTeam,
-        homeRecord: homeRecord
+        homeRecord: homeRecord,
+        gameName: gameName
       });
     }
 
@@ -360,6 +367,7 @@ const loadNbaGames = async () => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       startDateTime: game.startDateTime,
+      gameName: game.gameName,
       spread: {
        teamId: get(spreadTeam,'_id'),
        amount: get(game,'spread.amount', 0),
@@ -448,6 +456,8 @@ const updateNbaScores = async () => {
     let listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard basketball');
+
+    let GAME_NAME = 'div#events > articlee:nth-of-type(INDEX) > div > div > section.sb-notes';
 
     // pregame
     let LIST_NAME_PREGAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
@@ -557,6 +567,11 @@ const updateNbaScores = async () => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, SPREAD_SELECTOR.replace("INDEX", i));
 
+      const gameName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, GAME_NAME.replace("INDEX", i));
+
       scores.push({
         spread: {
          team: spread.replace('Line: ','').split(' ')[0],
@@ -577,7 +592,8 @@ const updateNbaScores = async () => {
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
-        currentTime: currentTime
+        currentTime: currentTime,
+        gameName: gameName
       });
     }
 
@@ -637,7 +653,8 @@ const updateNbaScores = async () => {
       lastPlay: undefined,
       playHistory: newPlayHistory,
       lastPlay: lastPlays,
-      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter
+      currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter,
+      gameName: game.gameName
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
