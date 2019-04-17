@@ -66,7 +66,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   // console.log("updateNbaGames quarter: " + quarter);
   // console.log("updateNbaGames time: " + time);
 
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100)) {
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
     console.log("updateNbaGames invalid2");
     return playHistory;
   }
