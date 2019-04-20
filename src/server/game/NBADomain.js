@@ -105,86 +105,115 @@ const loadNbaGames = async () => {
 
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay !== 2) {
-    console.log('loadNbaGames new games will be loaded on tuesday.');
-    return;
-  }
+  //if (isRegularSeasons) {
+    // if (currentWeekDay !== 2) {
+    //   console.log('loadNbaGames new games will be loaded on tuesday.');
+    //   return;
+    // }
 
-  const gameSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    isGameOver: {
-      $ne: true
-    },
-    year: year
-  };
+    // const gameSearch = {
+    //   leagueId: mongoose.Types.ObjectId(leagueId),
+    //   isGameOver: {
+    //     $ne: true
+    //   },
+    //   year: year
+    // };
 
-  const gamesStillInProgress = await gameRepository.find(gameSearch);
+    // const gamesStillInProgress = await gameRepository.find(gameSearch);
 
-  const startDateTimes = gamesStillInProgress.map(x=>{
-    return new Date(x.startDateTime);
-  });
+    // const startDateTimes = gamesStillInProgress.map(x=>{
+    //   return new Date(x.startDateTime);
+    // });
 
-  const todaysDate = new Date();
+    // const todaysDate = new Date();
 
-  const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
+    // const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
+    // const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
 
-  console.log('loadNbaGames days left to get new games: ' + daysLeftToGetGames);
+    // console.log('loadNbaGames days left to get new games: ' + daysLeftToGetGames);
 
-  console.log('loadNbaGames todaysDate: ' + todaysDate);
+    // console.log('loadNbaGames todaysDate: ' + todaysDate);
 
-  console.log('loadNbaGames lastStartGameTime: ' + lastStartGameTime);
+    // console.log('loadNbaGames lastStartGameTime: ' + lastStartGameTime);
 
-  if (daysLeftToGetGames === 0) {
-    console.log('loadNbaGames unable to get more than 7 days of games: ' + lastStartGameTime);
+    // if (daysLeftToGetGames === 0) {
+    //   console.log('loadNbaGames unable to get more than 7 days of games: ' + lastStartGameTime);
 
-    const search = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-7, 'days').startOf('day')),
-          $lte: new Date(moment(lastStartGameTime).endOf('day'))
-        },
-        isStub: {
-          $ne: true
-        }
-      };
+    //   const search = {
+    //       leagueId: mongoose.Types.ObjectId(leagueId),
+    //       startDateTime: {
+    //         $gte: new Date(moment(lastStartGameTime).add(-7, 'days').startOf('day')),
+    //         $lte: new Date(moment(lastStartGameTime).endOf('day'))
+    //       },
+    //       isStub: {
+    //         $ne: true
+    //       }
+    //     };
 
-    console.log('loadNbaGames search: ' + JSON.stringify(search));
-  
-    const gamesFound = await gameRepository.find(search);
+    //   console.log('loadNbaGames search: ' + JSON.stringify(search));
+    
+    //   const gamesFound = await gameRepository.find(search);
 
-    if (gamesFound.length === 0) {
-      console.log('loadNbaGames no games loaded for week');
-      return;
-    }
+    //   if (gamesFound.length === 0) {
+    //     console.log('loadNbaGames no games loaded for week');
+    //     return;
+    //   }
 
-    const finalDayStub = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      startDateTime: moment(lastStartGameTime).startOf('day'),
-      isStub: true
-    };
+    //   const finalDayStub = {
+    //     leagueId: mongoose.Types.ObjectId(leagueId),
+    //     year: year,
+    //     startDateTime: moment(lastStartGameTime).startOf('day'),
+    //     isStub: true
+    //   };
 
-    gameRepository.find(finalDayStub, function (err, games) {
-      if ((games || []).length > 0) {
-        console.log("loadNbaGames games already exists: " + JSON.stringify(finalDayStub));
-      } else {
-        gameRepository.create(finalDayStub, function (err, gameCreated) {
-          if (err) {
-            console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadNbaGames success creating final day stub: " + gameCreated._id);
-          }
-        });
-      }
-    });
+    //   gameRepository.find(finalDayStub, function (err, games) {
+    //     if ((games || []).length > 0) {
+    //       console.log("loadNbaGames games already exists: " + JSON.stringify(finalDayStub));
+    //     } else {
+    //       gameRepository.create(finalDayStub, function (err, gameCreated) {
+    //         if (err) {
+    //           console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
+    //         } else {
+    //           console.log("loadNbaGames success creating final day stub: " + gameCreated._id);
+    //         }
+    //       });
+    //     }
+    //   });
 
+    //   const gameWeek = {
+    //     leagueId: mongoose.Types.ObjectId(leagueId),
+    //     year: year,
+    //     beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+    //     endDateTime: new Date(moment().add(7, 'days').endOf('day'))
+    //   };
+
+    //   console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
+
+    //   gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
+    //     if ((gameWeeks || []).length > 0) {
+    //       console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeeks));
+    //     } else {
+    //       gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+    //           if (err) {
+    //               console.log("loadNbaGames there was a problem adding week to the database: " + err.message);
+    //           } else {
+    //             console.log("loadNbaGames success creating week: " + gameWeekCreated._id);
+    //           }
+    //       });
+    //     }
+    //   });
+
+    //   return;
+    // }
+  //}
+
+  if (currentWeekDay === 6) {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
+      beginDateTime: new Date(moment().startOf('day')),
+      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
@@ -202,8 +231,6 @@ const loadNbaGames = async () => {
         });
       }
     });
-
-    return;
   }
 
   let games = [];
@@ -222,7 +249,9 @@ const loadNbaGames = async () => {
 
     page = await browser.newPage();
 
-    date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
+    //date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
+
+    const date = moment().format('YYYYMMDD');
 
     console.log('loadNbaGames date: ' + date);
 
@@ -384,9 +413,18 @@ const loadNbaGames = async () => {
 
   mvyGames.forEach(game=>{
     if (!get(game,'startDateTime')) return;
-    gameRepository.find(game, function (err, games) {
-      if ((games || []).length > 0) {
-        console.log("loadNbaGames games already exists: " + JSON.stringify(game));
+
+    const gameFind = {
+      leagueId: get(game,'leagueId'),
+      year: get(game,'year'),
+      startDateTime: new Date(moment(get(game,'startDateTime')))
+    };
+
+    console.log('loadNbaGames game: ' + JSON.stringify(game));
+
+    gameRepository.find(gameFind, function (err, gameFound) {
+      if (gameFound) {
+        console.log("loadNbaGames game already exists: " + JSON.stringify(game));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {

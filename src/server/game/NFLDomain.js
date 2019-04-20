@@ -288,10 +288,16 @@ const loadNflGames = async () => {
 
   console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames));
 
+  const gameFind = {
+    leagueId: get(game,'leagueId'),
+    year: get(game,'year'),
+    startDateTime: new Date(moment(get(game,'startDateTime')))
+  };
+
   mvyGames.forEach(game=>{
-    gameRepository.find(game, function (err, games) {
-      if ((games || []).length > 0) {
-        console.log("loadNflGames games already exists: " + JSON.stringify(game));
+    gameRepository.find(gameFind, function (err, gameFound) {
+      if (gameFound) {
+        console.log("loadNflGames game already exists: " + JSON.stringify(game));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
