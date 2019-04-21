@@ -295,9 +295,9 @@ const loadNflGames = async () => {
   };
 
   mvyGames.forEach(game=>{
-    gameRepository.find(gameFind, function (err, gameFound) {
-      if (gameFound) {
-        console.log("loadNflGames game already exists: " + JSON.stringify(game));
+    gameRepository.find(gameFind, function (err, gamesFound) {
+      if ((gamesFound || []).length > 0) {
+        console.log("loadNflGames games already exists: " + JSON.stringify(gamesFound));
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
