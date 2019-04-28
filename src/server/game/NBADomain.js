@@ -83,7 +83,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   return newPlayHistory;
 };
 
-const loadNbaGames = async () => {
+const loadNbaGames = async (dayCount) => {
   if (isLoadNbaGamesRunning) {
     console.log("loadNbaGames already running.");
     return;
@@ -91,7 +91,22 @@ const loadNbaGames = async () => {
 
   const leagueId = '59723313734d1d6202a85f19';
   const year = 2018;
+  const gameExistDate = moment().add(dayCount, 'days');
+  const date = gameExistDate.format('YYYYMMDD');
   
+  const gameExistSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: year,
+    startDateTime: new Date(gameExistDate)
+  };
+
+  const gamesExistSearch = await gameRepository.find(gameExistSearch);
+
+  if ((gamesExistSearch || []).length === 0) {
+    console.log("loadNbaGames games exist for: " + date);
+    return;
+  }
+
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
 
@@ -109,7 +124,7 @@ const loadNbaGames = async () => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment().startOf('day')),
+      beginDateTime: new Date(moment().add(0, 'days').startOf('day')),
       endDateTime: new Date(moment().add(6, 'days').endOf('day'))
     };
 
@@ -134,7 +149,6 @@ const loadNbaGames = async () => {
   let browser;
   let page;
   let startDateTime;
-  let date;
 
   isLoadNbaGamesRunning = true;
 
@@ -145,8 +159,6 @@ const loadNbaGames = async () => {
     });
 
     page = await browser.newPage();
-
-    const date = moment().format('YYYYMMDD');
 
     console.log('loadNbaGames date: ' + date);
 

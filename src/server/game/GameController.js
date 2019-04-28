@@ -160,7 +160,8 @@ router.get('/games', function (req, res) {
   // }
 
   // try {
-  //   loadNbaGames();
+  //   loadNbaGames(0);
+  //   loadNbaGames(1);
   // } catch(err) {
   //   isLoadNbaGamesRunning = false;
   //   console.log('loadNbaGames error: ' + err.message);
@@ -194,19 +195,19 @@ router.get('/games', function (req, res) {
     console.log('updateNbaScores error: ' + err.message);
   }
 
-  try {
-    updateNflScores();
-  } catch(err) {
-    isUpdateNflScoresRunning = false;
-    console.log('updateNflScores error: ' + err.message);
-  }
+  // try {
+  //   updateNflScores();
+  // } catch(err) {
+  //   isUpdateNflScoresRunning = false;
+  //   console.log('updateNflScores error: ' + err.message);
+  // }
 
-  try {
-    updateEnglishPremierLeagueScores();
-  } catch(err) {
-    isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log('updateEnglishPremierLeagueScores error: ' + err.message);
-  }
+  // try {
+  //   updateEnglishPremierLeagueScores();
+  // } catch(err) {
+  //   isUpdateEnglishPremierLeagueScoresRunning = false;
+  //   console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+  // }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
