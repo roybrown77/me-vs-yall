@@ -98,10 +98,12 @@ const loadNbaGames = async (dayCount) => {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: year,
     startDateTime: {
-      $gte: new Date(gameExistDate.startOf('day')),
-      $lte: new Date(gameExistDate.endOf('day')),
+      $gte: gameExistDate.startOf('day').format(),
+      $lte: gameExistDate.endOf('day').format(),
     }
   };
+
+  console.log("loadNbaGames gameExistSearch: " + JSON.stringify(gameExistSearch));
 
   const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
@@ -109,6 +111,8 @@ const loadNbaGames = async (dayCount) => {
     console.log("loadNbaGames games already exists: " + date);
     return;
   }
+
+  return;
 
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
@@ -129,8 +133,8 @@ const loadNbaGames = async (dayCount) => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: new Date(moment().add(0, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(6, 'days').endOf('day'))
+      beginDateTime: moment().add(0, 'days').startOf('day').format(),
+      endDateTime: moment().add(6, 'days').endOf('day').format()
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
@@ -189,9 +193,14 @@ const loadNbaGames = async (dayCount) => {
       const gameSearch = {
         leagueId: mongoose.Types.ObjectId(leagueId),
         year: year,
-        startDateTime: moment(date),
+        startDateTime: {
+          $gte: gameExistDate.startOf('day').format(),
+          $lte: gameExistDate.endOf('day').format(),
+        },
         isStub: true
       };
+
+      console.log("loadNbaGames gameSearch: " + JSON.stringify(gameSearch));
 
       gameRepository.find(gameSearch, function (err, games) {
         if ((games || []).length > 0) {
@@ -329,8 +338,13 @@ const loadNbaGames = async (dayCount) => {
     const gameFind = {
       leagueId: get(game,'leagueId'),
       year: get(game,'year'),
-      startDateTime: new Date(moment(get(game,'startDateTime')))
+      startDateTime: {
+        $gte: moment(get(game,'startDateTime')).startOf('day').format(),
+        $lte: moment(get(game,'startDateTime')).endOf('day').format(),
+      }
     };
+
+    console.log("loadNbaGames gameFind: " + JSON.stringify(gameFind));
 
     console.log('loadNbaGames game: ' + JSON.stringify(game));
 
