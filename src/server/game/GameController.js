@@ -161,7 +161,6 @@ router.get('/games', function (req, res) {
 
   try {
     loadNbaGames(0);
-    loadNbaGames(1);
   } catch(err) {
     isLoadNbaGamesRunning = false;
     console.log('loadNbaGames error: ' + err.message);
