@@ -99,10 +99,13 @@ export const loadUser = () => (dispatch, getState) => {
   const ui = state.get('ui').toJS();
   const request = get(ui,'request');
 
-  const lookup = state.get('lookup').toJS();
+  const requestStorageJson = localStorage.getItem('request');
+  const requestStorage = JSON.parse(requestStorageJson);
 
+  const leagueId = get(requestStorage, 'leagueId') || get(request, 'leagueId');
+
+  const lookup = state.get('lookup').toJS();
   const leagues = get(lookup, 'leagues', []);
-  const leagueId = get(request, 'leagueId');
   const league = leagues.find(x=>x.id === leagueId);
 
   const leagueName = get(league,'name','nfl');
