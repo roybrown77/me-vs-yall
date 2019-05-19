@@ -97,13 +97,16 @@ const loadNbaGames = async (dayCount) => {
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: year,
-    startDateTime: new Date(gameExistDate)
+    startDateTime: {
+      $gte: new Date(gameExistDate.startOf('day')),
+      $lte: new Date(gameExistDate.endOf('day')),
+    }
   };
 
   const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
-  if ((gamesExistSearch || []).length === 0) {
-    console.log("loadNbaGames games exist for: " + date);
+  if ((gamesExistSearch || []).length > 0) {
+    console.log("loadNbaGames games already exists: " + date);
     return;
   }
 
@@ -119,6 +122,8 @@ const loadNbaGames = async (dayCount) => {
   }
 
   const currentWeekDay = moment().weekday();
+
+  console.log('loadNbaGames currentWeekDay: ' + currentWeekDay);
 
   if (currentWeekDay === 6) {
     const gameWeek = {
