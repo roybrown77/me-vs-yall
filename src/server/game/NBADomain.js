@@ -112,8 +112,6 @@ const loadNbaGames = async (dayCount) => {
     return;
   }
 
-  return;
-
   const currentMonth = moment().month()+1;
   console.log('loadNbaGames currentMonth: ' + currentMonth);
 
