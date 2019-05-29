@@ -91,15 +91,14 @@ const loadNbaGames = async (dayCount) => {
 
   const leagueId = '59723313734d1d6202a85f19';
   const year = 2018;
-  const gameExistDate = moment().add(dayCount, 'days');
-  const date = gameExistDate.format('YYYYMMDD');
+  const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: year,
     startDateTime: {
-      $gte: gameExistDate.startOf('day').format(),
-      $lte: gameExistDate.endOf('day').format(),
+      $gte: moment().add(dayCount, 'days').startOf('day').format(),
+      $lte: moment().add(dayCount, 'days').endOf('day').format(),
     }
   };
 
@@ -162,7 +161,7 @@ const loadNbaGames = async (dayCount) => {
   try {
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: false
+      //headless: false
     });
 
     page = await browser.newPage();
@@ -185,37 +184,10 @@ const loadNbaGames = async (dayCount) => {
 
     if (listLength === 0) {
       isLoadNbaGamesRunning = false;
-
-      console.log("loadNbaGames no games found");
-
-      const gameSearch = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: year,
-        startDateTime: {
-          $gte: gameExistDate.startOf('day').format(),
-          $lte: gameExistDate.endOf('day').format(),
-        },
-        isStub: true
-      };
-
-      console.log("loadNbaGames gameSearch: " + JSON.stringify(gameSearch));
-
-      gameRepository.find(gameSearch, function (err, games) {
-        if ((games || []).length > 0) {
-          console.log("loadNbaGames games already exists: " + JSON.stringify(gameSearch));
-        } else {
-          gameRepository.create(gameSearch, function (err, gameCreated) {
-            if (err) {
-              console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-            } else {
-              console.log("loadNbaGames success creating stub: " + gameCreated._id);
-            }
-          });
-        }
-      });
-
       await page.close();
       await browser.close();
+      console.log("loadNbaGames no games found");
+      
       return;
     }
 

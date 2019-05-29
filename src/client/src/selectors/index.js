@@ -10,7 +10,7 @@ const leagues = [
     {
         id: '59723313734d1d6202a85f10', 
         name: 'nfl', 
-        description: 'nfl', 
+        description: 'nfl',
         years: [2017, 2018]
     },
     {
