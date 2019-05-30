@@ -49,6 +49,28 @@ const getLeagueStartDateTime = (leagueId, games) => {
     return getStartDateTime(games);
 }
 
+const getLeagueNextGameStartDateTime = (leagueId, games) => {
+    const month = moment().month()+1;
+    const day = moment().date();
+
+    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9 && day > 8)) {
+        const months = 9-month;
+        return moment().add(months,'month').toISOString();
+    }
+
+    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8 && day > 15)) {
+        const months = 8-month;
+        return moment().add(months,'month').toISOString();
+    }
+
+    if (leagueId === '59723313734d1d6202a85f19' && (month > 6 && month < 10)) {
+        const months = 10-month;
+        return moment().add(months,'month').toISOString();
+    }
+
+    return getNextGameStartDateTime(games);
+}
+
 const getStartDateTime = (games) => {
     return getAreAllGamesOver(games) ? getTimeUntilNextGamesLoad(games) : getNextGameStartDateTime(games);
 }
@@ -347,5 +369,6 @@ export {
     getNextGameStartDateTime,
     getStartDateTime,
     getLeaderIndicator,
-    getLeagueStartDateTime
+    getLeagueStartDateTime,
+    getLeagueNextGameStartDateTime
 };

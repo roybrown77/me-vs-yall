@@ -31,7 +31,8 @@ import {
     getTimeUntilNextGamesLoad,
     getGroupedGames,
     getAreAnyGamesInProgress,
-    getLeagueStartDateTime
+    getLeagueStartDateTime,
+    getLeagueNextGameStartDateTime
 } from '../selectors';
 
 const styles = theme => ({
@@ -220,7 +221,7 @@ class ScoreboardPage extends Component {
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
-        const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
+        const timeUntilNextGamesLoad = getLeagueNextGameStartDateTime(leagueId, games);
         const groupedGames = getGroupedGames(games, picks, teams);
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);

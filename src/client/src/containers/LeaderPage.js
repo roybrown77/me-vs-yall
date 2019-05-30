@@ -32,9 +32,9 @@ import {
     formatWeeks, 
     getCurrentWeek, 
     getAreAllGamesOver,
-    getTimeUntilNextGamesLoad,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
+    getLeagueNextGameStartDateTime
 } from '../selectors';
 
 const styles = theme => ({
@@ -154,7 +154,7 @@ class LeaderPage extends Component {
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
-        const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
+        const timeUntilNextGamesLoad = getLeagueNextGameStartDateTime(leagueId, games);
 
         return (
             <div>
