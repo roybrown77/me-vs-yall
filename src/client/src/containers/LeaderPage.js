@@ -34,7 +34,7 @@ import {
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
     getAreAnyGamesInProgress,
-    getStartDateTime,
+    getLeagueStartDateTime,
 } from '../selectors';
 
 const styles = theme => ({
@@ -147,7 +147,8 @@ class LeaderPage extends Component {
             dataLoading,
             weeksDataLoading,
             weeks = [],
-            weekId
+            weekId,
+            leagueId
         } = this.props;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
@@ -160,7 +161,7 @@ class LeaderPage extends Component {
                 <PageContainer>
                     {
                         <GameSearchBar 
-                            leagueId={this.props.leagueId}
+                            leagueId={leagueId}
                             leagues={this.props.leagues}
                             year={this.props.year}
                             years={this.props.years}
@@ -194,7 +195,7 @@ class LeaderPage extends Component {
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
-                            <Countdown date={getStartDateTime(games)}/>
+                            <Countdown date={getLeagueStartDateTime(leagueId,games)}/>
                         </div>
                     }
                     {

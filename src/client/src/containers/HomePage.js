@@ -24,7 +24,7 @@ import { loadGamesInProgress } from '../actions';
 
 import { 
     getAreAnyGamesInProgress,
-    getStartDateTime
+    getLeagueStartDateTime
 } from '../selectors';
 
 const styles = {
@@ -107,9 +107,9 @@ class HomePage extends Component {
       const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
 
-      const nflStartDateTime = getStartDateTime(nflGames);
-      const premierStartDateTime = getStartDateTime(premierGames);
-      const nbaStartDateTime = getStartDateTime(nbaGames);
+      const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
+      const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
+      const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
 
       return (
         <div className="fade-in home-page-container">

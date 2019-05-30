@@ -31,7 +31,7 @@ import {
     getTimeUntilNextGamesLoad,
     getGroupedGames,
     getAreAnyGamesInProgress,
-    getStartDateTime
+    getLeagueStartDateTime
 } from '../selectors';
 
 const styles = theme => ({
@@ -212,7 +212,8 @@ class ScoreboardPage extends Component {
             dataLoading, 
             weeksDataLoading,
             weeks = [],
-            weekId
+            weekId,
+            leagueId
         } = this.props;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
@@ -222,7 +223,7 @@ class ScoreboardPage extends Component {
         const timeUntilNextGamesLoad = getTimeUntilNextGamesLoad(games);
         const groupedGames = getGroupedGames(games, picks, teams);
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
-        const timeUntilNextGameStarts = getStartDateTime(games);
+        const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
         gameDate = null;
 
 
@@ -231,7 +232,7 @@ class ScoreboardPage extends Component {
                 <PageContainer>
                     {
                         <GameSearchBar 
-                            leagueId={this.props.leagueId}
+                            leagueId={leagueId}
                             leagues={this.props.leagues}
                             year={this.props.year}
                             years={this.props.years}
