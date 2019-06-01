@@ -29,14 +29,14 @@ const leagues = [
 
 const getLeagueStartDateTime = (leagueId, games) => {
     const month = moment().month()+1;
-    const day = moment().date();
+    const monthDay = parseInt(moment().format('MMDD'));
 
-    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9 && day > 8)) {
+    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9) && monthDay > 208) {
         const months = 9-month;
         return moment().add(months,'month').toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8 && day > 15)) {
+    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8) && monthDay > 515) {
         const months = 8-month;
         return moment().add(months,'month').toISOString();
     }
@@ -51,14 +51,14 @@ const getLeagueStartDateTime = (leagueId, games) => {
 
 const getLeagueNextGameStartDateTime = (leagueId, games) => {
     const month = moment().month()+1;
-    const day = moment().date();
+    const monthDay = parseInt(moment().format('MMDD'));
 
-    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9 && day > 8)) {
+    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9) && monthDay > 208) {
         const months = 9-month;
         return moment().add(months,'month').toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8 && day > 15)) {
+    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8) && monthDay > 515) {
         const months = 8-month;
         return moment().add(months,'month').toISOString();
     }
