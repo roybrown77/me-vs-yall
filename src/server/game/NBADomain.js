@@ -30,10 +30,6 @@ const getLastPlays = (playHistory = []) => {
 };
 
 const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  //console.log("updateNbaGames playHistory: " + JSON .stringify(playHistory));
-  //console.log("updateNbaGames lastPlay: " + lastPlay);
-  //console.log("updateNbaGames currentTime: " + currentTime);
-
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
     console.log("updateNbaGames invalid");
     return playHistory;
@@ -59,12 +55,6 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
-
-  // console.log("updateNbaGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
-  // console.log("updateNbaGames overTime: " + overTime);
-  // console.log("updateNbaGames currentTimeQuarterNumber: " + currentTimeQuarterNumber);
-  // console.log("updateNbaGames quarter: " + quarter);
-  // console.log("updateNbaGames time: " + time);
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
     console.log("updateNbaGames invalid2");
@@ -102,8 +92,6 @@ const loadNbaGames = async (dayCount) => {
     }
   };
 
-  console.log("loadNbaGames gameExistSearch: " + JSON.stringify(gameExistSearch));
-
   const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
   if ((gamesExistSearch || []).length > 0) {
@@ -112,10 +100,8 @@ const loadNbaGames = async (dayCount) => {
   }
 
   const currentMonth = moment().month()+1;
-  console.log('loadNbaGames currentMonth: ' + currentMonth);
 
   const currentDay = moment().date();
-  console.log('loadNbaGames currentDay: ' + currentDay);
 
   if (![12,1,2,3,4,5,6].includes(currentMonth)) {
     console.log('loadNbaGames new games will be loaded during season.');
@@ -123,8 +109,6 @@ const loadNbaGames = async (dayCount) => {
   }
 
   const currentWeekDay = moment().weekday();
-
-  console.log('loadNbaGames currentWeekDay: ' + currentWeekDay);
 
   if (currentWeekDay === 6) {
     const gameWeek = {
@@ -142,8 +126,6 @@ const loadNbaGames = async (dayCount) => {
         $lte: moment().add(6, 'days').endOf('day').format(),
       }
     };
-
-    console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
 
     gameWeekRepository.find(gameWeekFind, function (err, gameWeeks) {
       if ((gameWeeks || []).length > 0) {
@@ -179,11 +161,7 @@ const loadNbaGames = async (dayCount) => {
 
     await page.goto('http://www.espn.com/nba/scoreboard/_/date/' + date);
 
-    console.log('loadNbaGames page loaded');
-
     await page.waitForSelector('#events');
-
-    console.log('loadNbaGames events loaded');
 
     let listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
@@ -196,7 +174,6 @@ const loadNbaGames = async (dayCount) => {
       await page.close();
       await browser.close();
       console.log("loadNbaGames no games found");
-      
       return;
     }
 
@@ -269,8 +246,6 @@ const loadNbaGames = async (dayCount) => {
     console.log('loadNbaGames browser error: ' + err.message);
   }
 
-  console.log('loadNbaGames games processed: ' + JSON.stringify(games));
-
   if (!startDateTime) {
     isLoadNbaGamesRunning = false;
     console.log('loadNbaGames no startDateTime');
@@ -289,9 +264,7 @@ const loadNbaGames = async (dayCount) => {
     const awayTeam = nbaTeams.find(x=>x.shortLocation === game.awayTeam);
     const homeTeam = nbaTeams.find(x=>x.shortLocation === game.homeTeam);
     const spreadTeam = nbaTeams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-    // console.log('loadNbaGames game awayTeam: ' + awayTeam);
-    // console.log('loadNbaGames game homeTeam: ' + homeTeam);
-    // console.log('loadNbaGames game formatted: ' + JSON.stringify(spreadTeam));
+
     return {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
@@ -323,13 +296,9 @@ const loadNbaGames = async (dayCount) => {
       }
     };
 
-    console.log("loadNbaGames gameFind: " + JSON.stringify(gameFind));
-
-    console.log('loadNbaGames game: ' + JSON.stringify(game));
-
     gameRepository.find(gameFind, function (err, gamesFound) {
       if ((gamesFound || []).length > 0) {
-        console.log(`loadNbaGames games already exists: ${JSON.stringify(gamesFound)}`);
+        console.log(`loadNbaGames games already exists: ${JSON.stringify(game)}`);
       } else {
         gameRepository.create(game, function (err, gameCreated) {
           if (err) {
@@ -560,8 +529,6 @@ const updateNbaScores = async () => {
     return;
   }
 
-  console.log('updateNbaScores scores: ' + JSON.stringify(scores));
-
   games.forEach(game=>{
     const awayTeam = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const awayShortLocation = get(awayTeam,'shortLocation');
@@ -577,8 +544,6 @@ const updateNbaScores = async () => {
     const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
     const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
-
-    //console.log("updateNbaScores score: " + JSON.stringify(score));
 
     const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
       (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
@@ -612,8 +577,6 @@ const updateNbaScores = async () => {
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
     set(updatedGame,'competitors.1.score', isGameOver ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
-
-    //console.log("updateNbaScores updatedGame: " + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
