@@ -9,7 +9,13 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
 const {
-  nflTeams
+  nflTeams,
+  hasGameStarted,
+  getLastPlays,
+  getPlayHistory,
+  createWeek,
+  createGames,
+  formatGames
 } = require('./teams');
 
 const get = require('lodash/get');
@@ -17,110 +23,37 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const hasGameStarted = (dateTime) => {
-    const gameStartDateTime = moment(new Date(dateTime));
-    const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 0;
-};
-
-const getLastPlays = (playHistory = []) => {
-  const newPlays = playHistory.map(x=>x.lastPlay);
-  return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
-};
-
-const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  //console.log("updateNflGames playHistory: " + JSON .stringify(playHistory));
-  //console.log("updateNflGames lastPlay: " + lastPlay);
-  //console.log("updateNflGames currentTime: " + currentTime);
-
-  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    console.log("updateNflGames invalid");
-    return playHistory;
-  }
-
-  const currenTimeSplit = currentTime.split(' ');
-
-  const overTime = currenTimeSplit.includes('OT') ? 5 : undefined;
-  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
-  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
-
-  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
-  const currenTimeNumber = parseInt(currentTimeString);
-
-  const lastPlaySplit = lastPlay.split(' ');
-  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const lastPlayTimeNumber = parseInt(lastPlayCurrentTimeString);
-  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end quarter');
-  
-  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
-  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
-
-  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
-  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
-
-  // console.log("updateNflGames lastPlayEndOfQuarter: " + lastPlayEndOfQuarter);
-  // console.log("updateNflGames overTime: " + overTime);
-  // console.log("updateNflGames currentTimeQuarterNumber: " + currentTimeQuarterNumber);
-  // console.log("updateNflGames quarter: " + quarter);
-  // console.log("updateNflGames time: " + time);
-
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100)) {
-    console.log("updateNflGames invalid2");
-    return playHistory;
-  }
-
-  const newPlayHistory = orderBy([
-    ...playHistory,
-    {
-      quarter,
-      time,
-      lastPlay
-    }
-  ], ['quarter', 'time'], ['desc', 'asc']);
-  
-  return newPlayHistory;
-};
-
-const loadNflGames = async () => {
+const loadNflGames = async (dayCount) => {
   if (isLoadNflGamesRunning) {
     console.log("loadNflGames already running.");
     return;
   }
 
   const leagueId = '59723313734d1d6202a85f10';
-  const year = 2019;
-
-  const currentMonth = moment().month()+1;
-  console.log('loadNflGames currentMonth: ' + currentMonth);
-
-  const currentDay = moment().date();
-  console.log('loadNflGames currentDay: ' + currentDay);
-
-  if (![8,9,10,11,12,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
-    console.log('loadNflGames new games will be loaded during season.');
-    return;
-  }
-
-  const currentWeekDay = moment().weekday();
-
-  if (currentWeekDay !== 2) {
-    console.log('loadNflGames new games will be loaded on tuesday.');
-    return;
-  }
-
-  const gameSearch = {
+  const year = 2018;
+  const date = moment().add(dayCount, 'days').format('YYYYMMDD');
+  
+  const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
-    isGameOver: {
-      $ne: true
-    },
-    year: year
+    year: year,
+    startDateTime: {
+      $gte: moment().add(dayCount, 'days').startOf('day').format(),
+      $lte: moment().add(dayCount, 'days').endOf('day').format(),
+    }
   };
 
-  const gamesStillInProgress = await gameRepository.find(gameSearch);
+  const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
-  if (!!gamesStillInProgress && gamesStillInProgress.length > 0) {
-    console.log('loadNflGames unable to load new games until all games have ended.');
+  if ((gamesExistSearch || []).length > 0) {
+    console.log("loadNflGames games already exists: " + date);
+    return;
+  }
+
+  const currentMonth = moment().month()+1;
+  const monthDay = parseInt(moment().format('MMDD'));
+
+  if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
+    console.log('loadNflGames new games will be loaded during season.');
     return;
   }
 
@@ -179,9 +112,8 @@ const loadNflGames = async () => {
       return;
     }
 
-    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
     let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
     let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
 
@@ -254,7 +186,9 @@ const loadNflGames = async () => {
     console.log('loadNflGames no games');
     return;
   }
-  
+
+  console.log('loadNflGames game formatting...');
+
   const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
   const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 0 : 
   currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
@@ -263,104 +197,16 @@ const loadNflGames = async () => {
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
-  const mvyGames = games.map(game=>{
-    const awayTeam = nflTeams.find(x=>x.shortLocation === game.awayTeam.toString());
-    const homeTeam = nflTeams.find(x=>x.shortLocation === game.homeTeam.toString());
-    const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === game.spread.team.toLowerCase());
-
-    return {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      seasonType: seasonType,
-      weekNo: weekNo,
-      startDateTime: game.startDateTime,
-      spread: {
-       teamId: get(spreadTeam,'_id'),
-       amount: get(game,'spread.amount', 0),
-       spreadDateTime: game.spread.spreadDateTime
-      },
-      competitors: [
-        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
-        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
-      ]
-    };
-  });
+  const mvyGames = formatGames(games);
 
   console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames));
 
-  const gameFind = {
-    leagueId: get(game,'leagueId'),
-    year: get(game,'year'),
-    startDateTime: new Date(moment(get(game,'startDateTime')))
-  };
+  createGames(mvyGames, 'loadNflGames');
 
-  mvyGames.forEach(game=>{
-    gameRepository.find(gameFind, function (err, gamesFound) {
-      if ((gamesFound || []).length > 0) {
-        console.log("loadNflGames games already exists: " + JSON.stringify(gamesFound));
-      } else {
-        gameRepository.create(game, function (err, gameCreated) {
-          if (err) {
-            console.log("loadNflGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadNflGames success creating game: " + gameCreated._id);
-          }
-        });
-      }
-    });
-  });
-
-  const gameStartDateTimes = mvyGames.map(x=>{
-    return new Date(x.startDateTime);
-  });
-
-  const earliestGameTime = new Date(Math.min.apply(null, gameStartDateTimes));
-  const latestGameTime = new Date(Math.max.apply(null, gameStartDateTimes));
-
-  const gameWeek = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    seasonType: seasonType,
-    weekNo: weekNo,
-    description: currentWeek,
-    beginDateTime: earliestGameTime,
-    endDateTime: latestGameTime
-  };
-
-  console.log('loadNflGames gameWeek: ' + JSON.stringify(gameWeek));
-
-  const gameWeekSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    seasonType: seasonType,
-    weekNo: weekNo
-  };
-
-  gameWeekRepository.find(gameWeekSearch, function (err, gameWeeks) {
-    if ((gameWeeks || []).length > 0) {
-      console.log("loadNflGames game week already exists: " + JSON.stringify(gameWeeks));
-    } else {
-      gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-          if (err) {
-              console.log("loadNflGames there was a problem adding week to the database: " + err.message);
-          } else {
-            console.log("loadNflGames success creating week: " + gameWeekCreated._id);
-          }
-      });
-    }
-  });
+  createWeek({leagueId, year, seasonType, weekNo, message: 'loadNflGames'});
 
   isLoadNflGamesRunning = false;
 };
-
-// const month = moment().add(2, 'months');
-// const firstDayOfMarch = month.startOf('month');
-// const daysToNextThursday = Math.abs(4 - firstDayOfMarch.weekday());
-// const startOfMarchMadness = firstDayOfMarch.add(daysToNextThursday, 'days').add(2, 'weeks');
-// const endOfMarchMadness = moment(startOfMarchMadness).add(4, 'days').add(2, 'weeks');
-
-// console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
-// console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
 const updateNflScores = async () => {
   if (isUpdateNflScoresRunning) {
@@ -369,12 +215,9 @@ const updateNflScores = async () => {
   }
 
   const currentMonth = moment().month()+1;
-  console.log('updateNflScores currentMonth: ' + currentMonth);
+  const monthDay = parseInt(moment().format('MMDD'));
 
-  const currentDay = moment().date();
-  console.log('updateNflScores currentDay: ' + currentDay);
-
-  if (![8,9,10,11,12,1,2].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
+  if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
     console.log('updateNflScores new games will be loaded during season.');
     return;
   }
@@ -390,9 +233,9 @@ const updateNflScores = async () => {
     year: year
   };
 
-  const games = await gameRepository.find(search);
+  const gamesNotOver = await gameRepository.find(search);
 
-  if (!!games && games.length === 0) {
+  if ((gamesNotOver || []).length === 0) {
     console.log("updateNflScores all scores have been updated.");
     return;
   }
@@ -597,8 +440,6 @@ const updateNflScores = async () => {
     console.log('updateNflScores browser error: ' + err.message);
   }
 
-  //console.log('updateNflScores scores: ' + JSON.stringify(scores));
-
   if (scores.length === 0) {
     isUpdateNflScoresRunning = false;
     console.log("updateNflScores no scores.");
@@ -609,17 +450,11 @@ const updateNflScores = async () => {
     const team = nflTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const shortLocation = get(team,'shortLocation');
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation || x.awayTeamPregame === shortLocation);
-    
-    // console.log('updateNflScores shortLocation: ' + shortLocation);
-
     const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
     const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-    ;
-
-    console.log("updateNflScores score: " + JSON.stringify(score));
-
+    
     const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');
     const currentTime = get(score,'currentTime');
     const currenTimeSplit = (currentTime || '').split(' ');
@@ -643,9 +478,6 @@ const updateNflScores = async () => {
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
-
-    // console.log('updateNflScores gameStarted: ' + gameStarted);
-    // console.log('updateNflScores spreadTeam: ' + JSON.stringify(spreadTeam));
 
     set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
       teamId: get(spreadTeam,'_id'),
@@ -675,8 +507,6 @@ const updateNflScores = async () => {
       
       set(updatedGame,'competitors.1.finalRecord',recordSplitHome.join('-'));
     }
-
-    //console.log('updateNflScores updatedGame: ' + JSON.stringify(updatedGame));
 
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });

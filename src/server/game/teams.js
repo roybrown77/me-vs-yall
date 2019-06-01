@@ -1,3 +1,14 @@
+const moment = require('moment-timezone');
+
+const get = require('lodash/get');
+const set = require('lodash/set');
+const orderBy = require('lodash/orderBy');
+const isNaN = require('lodash/isNaN');
+
+const mongoose = require('mongoose');
+const gameRepository = require('./GameRepository');
+const gameWeekRepository = require('./GameWeekRepository');
+
 const countries = [
     {
         _id: "19823783734d1d04a1b39020",
@@ -1171,10 +1182,160 @@ const nbaTeams = [
     }
 ];
 
+const hasGameStarted = (dateTime) => {
+    const gameStartDateTime = moment(new Date(dateTime));
+    const currentDateTime = moment(new Date());
+    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    return difference <= 0;
+};
+
+const getLastPlays = (playHistory = []) => {
+  const newPlays = playHistory.map(x=>x.lastPlay);
+  return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
+};
+
+const getPlayHistory = (playHistory, lastPlay, currentTime) => {
+  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
+    console.log("updateNbaGames invalid");
+    return playHistory;
+  }
+
+  const currenTimeSplit = currentTime.split(' ');
+
+  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
+  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
+  const overTime = currentTimeQuarter.includes('OT') ? 
+    (currentTimeQuarter.replace('OT','') === '' ? 5 : parseInt(currentTimeQuarter.replace('OT','')) + 4) : undefined;
+
+  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
+  const currenTimeNumber = parseFloat(currentTimeString);
+
+  const lastPlaySplit = lastPlay.split(' ');
+  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
+  const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
+  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of');
+  
+  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
+  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
+
+  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
+  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
+
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
+    console.log("updateNbaGames invalid2");
+    return playHistory;
+  }
+
+  const newPlayHistory = orderBy([
+    ...playHistory,
+    {
+      quarter,
+      time,
+      lastPlay
+    }
+  ], ['quarter', 'time'], ['desc', 'asc']);
+  
+  return newPlayHistory;
+};
+
+const createWeek = ({leagueId, year, seasonType, weekNo, message}) => {
+  const currentWeekDay = moment().weekday();
+
+  if (currentWeekDay === 2) {
+    const gameWeek = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: year,
+      seasonType: seasonType,
+      weekNo: weekNo,
+      beginDateTime: moment().startOf('day').format(),
+      endDateTime: moment().add(6, 'days').endOf('day').format()
+    };
+
+    const gameWeekFind = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: year,
+      beginDateTime: {
+        $gte: moment().startOf('day').format(),
+        $lte: moment().add(6, 'days').endOf('day').format(),
+      }
+    };
+
+    gameWeekRepository.find(gameWeekFind, function (err, gameWeeks) {
+      if ((gameWeeks || []).length > 0) {
+        console.log(`${message} game week already exists: ${JSON.stringify(gameWeek)}`);
+      } else {
+        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+            if (err) {
+                console.log(`${message} there was a problem adding week to the database:  ${err.message}`);
+            } else {
+              console.log(`${message} success creating week: ${gameWeekCreated._id}`);
+            }
+        });
+      }
+    });
+  }
+};
+
+const createGames = (games, message) => {
+    games.forEach(game=>{
+        const gameFind = {
+          leagueId: get(game,'leagueId'),
+          year: get(game,'year'),
+          startDateTime: {
+            $gte: moment(get(game,'startDateTime')).startOf('day').format(),
+            $lte: moment(get(game,'startDateTime')).endOf('day').format(),
+          }
+        };
+
+        gameRepository.find(gameFind, function (err, gamesFound) {
+          if ((gamesFound || []).length > 0) {
+            console.log(`${message} games already exists: ${JSON.stringify(game)}`);
+          } else {
+            gameRepository.create(game, function (err, gameCreated) {
+              if (err) {
+                console.log(`${message} there was a problem adding game to the database:  ${err.message}`);
+              } else {
+                console.log(`${message} success creating game: ${gameWeekCreated._id}`);
+              }
+            });
+          }
+        });
+  });
+}
+
+const formatGames = (games) => {
+    return games.map(game=>{
+        const awayTeam = nflTeams.find(x=>x.shortLocation === game.awayTeam);
+        const homeTeam = nflTeams.find(x=>x.shortLocation === game.homeTeam);
+        const spreadTeam = nflTeams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
+
+        return {
+          leagueId: mongoose.Types.ObjectId(leagueId),
+          year: year,
+          startDateTime: game.startDateTime,
+          spread: {
+           teamId: get(spreadTeam,'_id'),
+           amount: get(game,'spread.amount', 0),
+           spreadDateTime: game.spread.spreadDateTime
+          },
+          competitors: [
+            {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
+            {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
+          ]
+        };
+  });
+}
+
 module.exports = {
     nbaTeams,
 	nflTeams,
     eplTeams,
     ncaaTeams,
-    countries
+    countries,
+    hasGameStarted,
+    getLastPlays,
+    getPlayHistory,
+    createWeek,
+    createGames,
+    formatGames
 };

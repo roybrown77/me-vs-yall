@@ -9,69 +9,19 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
 const {
-  nbaTeams
+  nbaTeams,
+  hasGameStarted,
+  getLastPlays,
+  getPlayHistory,
+  createWeek,
+  createGames,
+  formatGames
 } = require('./teams');
 
 const get = require('lodash/get');
 const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
-
-const hasGameStarted = (dateTime) => {
-    const gameStartDateTime = moment(new Date(dateTime));
-    const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 0;
-};
-
-const getLastPlays = (playHistory = []) => {
-  const newPlays = playHistory.map(x=>x.lastPlay);
-  return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
-};
-
-const getPlayHistory = (playHistory, lastPlay, currentTime) => {
-  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    console.log("updateNbaGames invalid");
-    return playHistory;
-  }
-
-  const currenTimeSplit = currentTime.split(' ');
-
-  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
-  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
-  const overTime = currentTimeQuarter.includes('OT') ? 
-    (currentTimeQuarter.replace('OT','') === '' ? 5 : parseInt(currentTimeQuarter.replace('OT','')) + 4) : undefined;
-
-  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
-  const currenTimeNumber = parseFloat(currentTimeString);
-
-  const lastPlaySplit = lastPlay.split(' ');
-  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of');
-  
-  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
-  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
-
-  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
-  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
-
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
-    console.log("updateNbaGames invalid2");
-    return playHistory;
-  }
-
-  const newPlayHistory = orderBy([
-    ...playHistory,
-    {
-      quarter,
-      time,
-      lastPlay
-    }
-  ], ['quarter', 'time'], ['desc', 'asc']);
-  
-  return newPlayHistory;
-};
 
 const loadNbaGames = async (dayCount) => {
   if (isLoadNbaGamesRunning) {
@@ -101,46 +51,12 @@ const loadNbaGames = async (dayCount) => {
 
   const currentMonth = moment().month()+1;
 
-  const currentDay = moment().date();
-
   if (![12,1,2,3,4,5,6].includes(currentMonth)) {
     console.log('loadNbaGames new games will be loaded during season.');
     return;
   }
 
-  const currentWeekDay = moment().weekday();
-
-  if (currentWeekDay === 6) {
-    const gameWeek = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      beginDateTime: moment().startOf('day').format(),
-      endDateTime: moment().add(6, 'days').endOf('day').format()
-    };
-
-    const gameWeekFind = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      beginDateTime: {
-        $gte: moment().startOf('day').format(),
-        $lte: moment().add(6, 'days').endOf('day').format(),
-      }
-    };
-
-    gameWeekRepository.find(gameWeekFind, function (err, gameWeeks) {
-      if ((gameWeeks || []).length > 0) {
-        console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeek));
-      } else {
-        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-            if (err) {
-                console.log("loadNbaGames there was a problem adding week to the database: " + err.message);
-            } else {
-              console.log("loadNbaGames success creating week: " + gameWeekCreated._id);
-            }
-        });
-      }
-    });
-  }
+  createWeek({leagueId, year, message: 'loadNbaGames'});
 
   let games = [];
   let browser;
@@ -260,56 +176,11 @@ const loadNbaGames = async (dayCount) => {
 
   console.log('loadNbaGames game formatting...');
   
-  const mvyGames = games.map(game=>{
-    const awayTeam = nbaTeams.find(x=>x.shortLocation === game.awayTeam);
-    const homeTeam = nbaTeams.find(x=>x.shortLocation === game.homeTeam);
-    const spreadTeam = nbaTeams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-
-    return {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      startDateTime: game.startDateTime,
-      gameName: game.gameName,
-      spread: {
-       teamId: get(spreadTeam,'_id'),
-       amount: get(game,'spread.amount', 0),
-       spreadDateTime: get(game,'spread.spreadDateTime')
-      },
-      competitors: [
-        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
-        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
-      ]
-    };
-  });
+  const mvyGames = formatGames(games);
 
   console.log('loadNbaGames mvyGames: ' + JSON.stringify(mvyGames));
 
-  mvyGames.forEach(game=>{
-    if (!get(game,'startDateTime')) return;
-
-    const gameFind = {
-      leagueId: get(game,'leagueId'),
-      year: get(game,'year'),
-      startDateTime: {
-        $gte: moment(get(game,'startDateTime')).startOf('day').format(),
-        $lte: moment(get(game,'startDateTime')).endOf('day').format(),
-      }
-    };
-
-    gameRepository.find(gameFind, function (err, gamesFound) {
-      if ((gamesFound || []).length > 0) {
-        console.log(`loadNbaGames games already exists: ${JSON.stringify(game)}`);
-      } else {
-        gameRepository.create(game, function (err, gameCreated) {
-          if (err) {
-            console.log("loadNbaGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadNbaGames success creating game: " + gameCreated._id);
-          }
-        });
-      }
-    });
-  });
+  createGames(mvyGames, 'loadNbaGames');
 
   isLoadNbaGamesRunning = false;
 };
@@ -329,8 +200,15 @@ const updateNbaScores = async () => {
     return;
   }
 
+  const currentMonth = moment().month()+1;
+
+  if (currentMonth > 6 && currentMonth < 10) {
+    console.log('updateNbaScores new games will be loaded during season.');
+    return;
+  }
+
   const leagueId = '59723313734d1d6202a85f19';
-  const year = 2018;
+  const year = 2019;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -342,7 +220,7 @@ const updateNbaScores = async () => {
 
   const games = await gameRepository.find(search);
 
-  if (!!games && games.length === 0) {
+  if ((gamesNotOver || []).lenth === 0) {
     console.log("updateNbaScores all scores have been updated.");
     return;
   }
