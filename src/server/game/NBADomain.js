@@ -130,15 +130,24 @@ const loadNbaGames = async (dayCount) => {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      beginDateTime: moment().add(0, 'days').startOf('day').format(),
+      beginDateTime: moment().startOf('day').format(),
       endDateTime: moment().add(6, 'days').endOf('day').format()
+    };
+
+    const gameWeekFind = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: year,
+      beginDateTime: {
+        $gte: moment().startOf('day').format(),
+        $lte: moment().add(6, 'days').endOf('day').format(),
+      }
     };
 
     console.log('loadNbaGames gameWeek: ' + JSON.stringify(gameWeek));
 
-    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
+    gameWeekRepository.find(gameWeekFind, function (err, gameWeeks) {
       if ((gameWeeks || []).length > 0) {
-        console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeeks));
+        console.log("loadNbaGames game week already exists: " + JSON.stringify(gameWeek));
       } else {
         gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
             if (err) {
