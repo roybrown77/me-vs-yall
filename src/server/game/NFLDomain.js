@@ -203,7 +203,7 @@ const loadNflGames = async (dayCount) => {
 
   createGames(mvyGames, 'loadNflGames');
 
-  createWeek({leagueId, year, seasonType, weekNo, message: 'loadNflGames'});
+  createWeek({leagueId, year, seasonType, weekNo, beginDayCount: 1, endDayCount: 7, message: 'loadNflGames'});
 
   isLoadNflGamesRunning = false;
 };
