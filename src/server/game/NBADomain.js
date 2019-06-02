@@ -344,6 +344,8 @@ const updateNbaScores = async () => {
     set(updatedGame,'competitors.1.score', isGameOver ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
 
+    console.log('updateNbaScores score updated: ' + JSON.stringify(updatedGame));
+    
     gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
   });
 
