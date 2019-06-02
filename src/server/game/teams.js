@@ -1303,7 +1303,7 @@ const createGames = (games, message) => {
   });
 };
 
-const formatGames = ({games, leagueId, year, teams}) => {
+const formatGames = ({games, leagueId, year, seasonType, weekNo, teams}) => {
     return games.map(game=>{
         const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
         const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
@@ -1313,6 +1313,8 @@ const formatGames = ({games, leagueId, year, teams}) => {
           leagueId: mongoose.Types.ObjectId(leagueId),
           year: year,
           startDateTime: game.startDateTime,
+          seasonType: seasonType,
+          weekNo: weekNo,
           spread: {
            teamId: get(spreadTeam,'_id'),
            amount: get(game,'spread.amount', 0),

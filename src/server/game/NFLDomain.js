@@ -197,7 +197,7 @@ const loadNflGames = async (dayCount) => {
   currentWeek.toLowerCase().includes('divisional') ? 2 : 
   currentWeek.toLowerCase().includes('conference') ? 3 : 5;
 
-  const mvyGames = formatGames({games, leagueId, year, teams: nflTeams});
+  const mvyGames = formatGames({games, leagueId, year, seasonType, weekNo, teams: nflTeams});
 
   console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames));
 
