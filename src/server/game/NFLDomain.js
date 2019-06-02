@@ -49,14 +49,6 @@ const loadNflGames = async (dayCount) => {
     return;
   }
 
-  const currentMonth = moment().month()+1;
-  const monthDay = parseInt(moment().format('MMDD'));
-
-  if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
-    console.log('loadNflGames new games will be loaded during season.');
-    return;
-  }
-
   let games = [];
   let browser;
   let page;
