@@ -56,8 +56,6 @@ const loadNbaGames = async (dayCount) => {
     return;
   }
 
-  createWeek({leagueId, year, message: 'loadNbaGames'});
-
   let games = [];
   let browser;
   let page;

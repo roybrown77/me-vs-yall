@@ -1238,25 +1238,25 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   return newPlayHistory;
 };
 
-const createWeek = ({leagueId, year, seasonType, weekNo, beginDayCount=0, endDayCount=6, message}) => {
+const createWeek = ({leagueId, year, seasonType, weekNo, day=6, message}) => {
   const currentWeekDay = moment().weekday();
 
-  if (currentWeekDay === 2) {
+  if (currentWeekDay === day) {
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       seasonType: seasonType,
       weekNo: weekNo,
-      beginDateTime: moment().add(beginDayCount, 'days').startOf('day').format(),
-      endDateTime: moment().add(endDayCount, 'days').endOf('day').format()
+      beginDateTime: moment().startOf('day').format(),
+      endDateTime: moment().add(6, 'days').endOf('day').format()
     };
 
     const gameWeekFind = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       beginDateTime: {
-        $gte: moment().add(beginDayCount, 'days').startOf('day').format(),
-        $lte: moment().add(endDayCount, 'days').endOf('day').format(),
+        $gte: moment().startOf('day').format(),
+        $lte: moment().add(6, 'days').endOf('day').format(),
       }
     };
 

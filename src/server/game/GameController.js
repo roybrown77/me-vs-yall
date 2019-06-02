@@ -47,7 +47,8 @@ const {
   nflTeams,
   eplTeams, 
   ncaafTeams, 
-  countries
+  countries,
+  createWeek
 } = require('./teams');
 
 const omit = require('lodash/omit');
@@ -162,6 +163,7 @@ router.get('/games', function (req, res) {
   try {
     loadNbaGames(0);
     loadNbaGames(1);
+    createWeek({leagueId: '59723313734d1d6202a85f19', year: 2018, message: 'loadNbaGames'});
   } catch(err) {
     isLoadNbaGamesRunning = false;
     console.log('loadNbaGames error: ' + err.message);
