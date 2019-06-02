@@ -174,11 +174,13 @@ const loadNbaGames = async (dayCount) => {
 
   console.log('loadNbaGames game formatting...');
   
-  const mvyGames = formatGames(games);
+  const mvyGames = formatGames({games, leagueId, year, teams: nbaTeams});
 
   console.log('loadNbaGames mvyGames: ' + JSON.stringify(mvyGames));
 
   createGames(mvyGames, 'loadNbaGames');
+
+  console.log('loadNbaGames mvyGames saved');
 
   isLoadNbaGamesRunning = false;
 };

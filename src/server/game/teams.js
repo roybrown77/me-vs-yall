@@ -1295,20 +1295,20 @@ const createGames = (games, message) => {
               if (err) {
                 console.log(`${message} there was a problem adding game to the database:  ${err.message}`);
               } else {
-                console.log(`${message} success creating game: ${gameWeekCreated._id}`);
+                console.log(`${message} success creating game: ${gameCreated._id}`);
               }
             });
           }
         });
   });
-}
+};
 
-const formatGames = (games) => {
+const formatGames = ({games, leagueId, year, teams}) => {
     return games.map(game=>{
-        const awayTeam = nflTeams.find(x=>x.shortLocation === game.awayTeam);
-        const homeTeam = nflTeams.find(x=>x.shortLocation === game.homeTeam);
-        const spreadTeam = nflTeams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-
+        const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
+        const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
+        const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
+        
         return {
           leagueId: mongoose.Types.ObjectId(leagueId),
           year: year,
@@ -1324,7 +1324,7 @@ const formatGames = (games) => {
           ]
         };
   });
-}
+};
 
 module.exports = {
     nbaTeams,

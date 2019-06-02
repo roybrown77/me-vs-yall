@@ -147,7 +147,13 @@ const backupData = async () => {
 
 router.get('/games', function (req, res) {
   // try {
-  //   loadNflGames();
+  //   loadNflGames(0);
+  //   loadNflGames(1);
+  //   loadNflGames(2);
+  //   loadNflGames(3);
+  //   loadNflGames(4);
+  //   loadNflGames(5);
+  //   createWeek({leagueId: '59723313734d1d6202a85f10', year: 2019, message: 'loadNflGames'});
   // } catch(err) {
   //   isLoadNflGamesRunning = false;
   //   console.log('loadNflGames error: ' + err.message);
