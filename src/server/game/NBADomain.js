@@ -15,7 +15,8 @@ const {
   getPlayHistory,
   createWeek,
   createGames,
-  formatGames
+  formatGames,
+  getGames
 } = require('./teams');
 
 const get = require('lodash/get');
@@ -49,122 +50,25 @@ const loadNbaGames = async (dayCount) => {
     return;
   }
 
-  const currentMonth = moment().month()+1;
+  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+  const recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
+  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
+  const spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+  const gameNameSelector = 'div#events > articlee:nth-of-type(INDEX) > div > div > section.sb-notes > p';
+  const url = 'http://www.espn.com/nba/scoreboard/_/date';
+  const root = 'scoreboard basketball';
 
-  if (![12,1,2,3,4,5,6].includes(currentMonth)) {
-    console.log('loadNbaGames new games will be loaded during season.');
-    return;
-  }
-
-  let games = [];
-  let browser;
-  let page;
-  let startDateTime;
-
-  isLoadNbaGamesRunning = true;
-
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false
-    });
-
-    page = await browser.newPage();
-
-    console.log('loadNbaGames date: ' + date);
-
-    await page.goto('http://www.espn.com/nba/scoreboard/_/date/' + date);
-
-    await page.waitForSelector('#events');
-
-    let listLength = await page.evaluate((sel) => {
-      return document.getElementsByClassName(sel).length;
-    }, 'scoreboard basketball');
-
-    console.log('loadNbaGames listLength: ' + listLength);
-
-    if (listLength === 0) {
-      isLoadNbaGamesRunning = false;
-      await page.close();
-      await browser.close();
-      console.log("loadNbaGames no games found");
-      return;
-    }
-
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
-    let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
-    let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-    let GAME_NAME = 'div#events > articlee:nth-of-type(INDEX) > div > div > section.sb-notes > p';
-
-    for (let i = 1; i <= listLength; i++) {
-      const awayTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
-      const awayRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
-
-      const homeTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-      const homeRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
-
-      startDateTime = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-date');
-      }, STARTDATETIME_SELECTOR.replace("INDEX", i));
-
-      const spread = await page.evaluate((sel) => {
-        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
-      }, SPREAD_SELECTOR.replace("INDEX", i));
-
-      const gameName = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, GAME_NAME.replace("INDEX", i));
-
-      games.push({
-        startDateTime: startDateTime,
-        spread: {
-         team: spread.replace('Line: ','').split(' ')[0],
-         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-         spreadDateTime: moment().toISOString()
-        },
-        awayTeam: awayTeam,
-        awayRecord: awayRecord,
-        homeTeam: homeTeam,
-        homeRecord: homeRecord,
-        gameName: gameName
-      });
-    }
-
-    await page.close();
-    await browser.close();
-  } catch(err) {
-    if (page) {
-      await page.close();
-    }
-
-    if (browser) {
-      await browser.close();
-    }
-
-    console.log('loadNbaGames browser error: ' + err.message);
-  }
-
-  if (!startDateTime) {
-    isLoadNbaGamesRunning = false;
-    console.log('loadNbaGames no startDateTime');
-    return;
-  }
+  const games = getGames({
+    date,
+    message,
+    url,
+    root,
+    nameSelector,
+    recordSelector,
+    startDateTimeSelector,
+    spreadSelector,
+    gameNameSelector
+  });
 
   if (!games) {
     isLoadNbaGamesRunning = false;
@@ -197,13 +101,6 @@ const loadNbaGames = async (dayCount) => {
 const updateNbaScores = async () => {
   if (isUpdateNbaScoresRunning) {
     console.log("updateNbaScores already running.")
-    return;
-  }
-
-  const currentMonth = moment().month()+1;
-
-  if (currentMonth > 6 && currentMonth < 10) {
-    console.log('updateNbaScores new games will be loaded during season.');
     return;
   }
 
@@ -266,7 +163,6 @@ const updateNbaScores = async () => {
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     
-
     console.log('updateNbaScores listLength: ' + listLength);
 
     if (listLength === 0) {

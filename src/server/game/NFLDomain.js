@@ -212,14 +212,6 @@ const updateNflScores = async () => {
     return;
   }
 
-  const currentMonth = moment().month()+1;
-  const monthDay = parseInt(moment().format('MMDD'));
-
-  if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
-    console.log('updateNflScores new games will be loaded during season.');
-    return;
-  }
-
   const leagueId = '59723313734d1d6202a85f10';
   const year = 2019;
 

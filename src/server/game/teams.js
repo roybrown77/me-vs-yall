@@ -5,6 +5,7 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
@@ -1328,6 +1329,109 @@ const formatGames = ({games, leagueId, year, seasonType, weekNo, teams}) => {
   });
 };
 
+const getGames = async ({date,message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector}) => {
+  let games = [];
+  
+  let browser;
+  let page;
+  
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
+    });
+
+    page = await browser.newPage();
+
+    console.log(`${message} date: date`);
+
+    await page.goto(`${ur}/date`);
+
+    await page.waitForSelector('#events');
+
+    let listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, root);
+
+    console.log(`${message} listLength: listLength`);
+
+    if (listLength === 0) {
+      await page.close();
+      await browser.close();
+      return [];
+    }
+
+    for (let i = 1; i <= listLength; i++) {
+      const awayTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayRecord = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
+
+      const homeTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeRecord = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
+
+      const startDateTime = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-date');
+      }, startDateTimeSelector.replace("INDEX", i));
+
+      const spread = await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+      }, spreadSelector.replace("INDEX", i));
+
+      const gameName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, gameNameSelector.replace("INDEX", i));
+
+      if (!startDateTime) {
+        isLoadNbaGamesRunning = false;
+        console.log(`${message} no startDateTime`);
+      } else {
+        games.push({
+            startDateTime: startDateTime,
+            spread: {
+             team: spread.replace('Line: ','').split(' ')[0],
+             amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
+             spreadDateTime: moment().toISOString()
+            },
+            awayTeam: awayTeam,
+            awayRecord: awayRecord,
+            homeTeam: homeTeam,
+            homeRecord: homeRecord,
+            gameName: gameName
+        });
+      }
+    }
+
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (page) {
+      await page.close();
+    }
+
+    if (browser) {
+      await browser.close();
+    }
+
+    console.log(`${message} browser error: err.message`);
+  }
+
+  return games;
+};
+
 module.exports = {
     nbaTeams,
 	nflTeams,
@@ -1339,5 +1443,6 @@ module.exports = {
     getPlayHistory,
     createWeek,
     createGames,
-    formatGames
+    formatGames,
+    getGames
 };

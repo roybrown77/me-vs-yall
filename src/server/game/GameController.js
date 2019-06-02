@@ -146,18 +146,52 @@ const backupData = async () => {
 };
 
 router.get('/games', function (req, res) {
-  // try {
-  //   loadNflGames(0);
-  //   loadNflGames(1);
-  //   loadNflGames(2);
-  //   loadNflGames(3);
-  //   loadNflGames(4);
-  //   loadNflGames(5);
-  //   createWeek({leagueId: '59723313734d1d6202a85f10', year: 2019, message: 'loadNflGames'});
-  // } catch(err) {
-  //   isLoadNflGamesRunning = false;
-  //   console.log('loadNflGames error: ' + err.message);
-  // }
+  const currentMonth = moment().month()+1;
+  const monthDay = parseInt(moment().format('MMDD'));
+
+  if (currentMonth > 6 && currentMonth < 10) {
+    console.log('new nba games will be loaded during season.');
+  } else {
+    try {
+      loadNbaGames(0);
+      loadNbaGames(1);
+      createWeek({leagueId: '59723313734d1d6202a85f19', year: 2018, message: 'loadNbaGames'});
+    } catch(err) {
+      isLoadNbaGamesRunning = false;
+      console.log('loadNbaGames error: ' + err.message);
+    }
+
+    try {
+      updateNbaScores();
+    } catch(err) {
+      isUpdateNbaScoresRunning = false;
+      console.log('updateNbaScores error: ' + err.message);
+    }
+  }
+
+  if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
+    console.log('new nfl games will be loaded during season.');
+  } else {
+    // try {
+    //   loadNflGames(0);
+    //   loadNflGames(1);
+    //   loadNflGames(2);
+    //   loadNflGames(3);
+    //   loadNflGames(4);
+    //   loadNflGames(5);
+    //   createWeek({leagueId: '59723313734d1d6202a85f10', year: 2019, message: 'loadNflGames'});
+    // } catch(err) {
+    //   isLoadNflGamesRunning = false;
+    //   console.log('loadNflGames error: ' + err.message);
+    // }
+
+    // try {
+    //   updateNflScores();
+    // } catch(err) {
+    //   isUpdateNflScoresRunning = false;
+    //   console.log('updateNflScores error: ' + err.message);
+    // }
+  }
 
   // try {
   //   loadEnglishPremierLeagueGames();
@@ -166,15 +200,13 @@ router.get('/games', function (req, res) {
   //   console.log('loadEnglishPremierLeagueGames error: ' + err.message);
   // }
 
-  try {
-    loadNbaGames(0);
-    loadNbaGames(1);
-    createWeek({leagueId: '59723313734d1d6202a85f19', year: 2018, message: 'loadNbaGames'});
-  } catch(err) {
-    isLoadNbaGamesRunning = false;
-    console.log('loadNbaGames error: ' + err.message);
-  }
-  
+  // try {
+  //   updateEnglishPremierLeagueScores();
+  // } catch(err) {
+  //   isUpdateEnglishPremierLeagueScoresRunning = false;
+  //   console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+  // }
+
   // try {
   //   loadNCAAFootballTeams();
   // } catch(err) {
@@ -194,27 +226,6 @@ router.get('/games', function (req, res) {
   // } catch(err) {
   //   isUpdateNCAAFootballScoresRunning = false;
   //   console.log('updateNCAAFootballScores error: ' + err.message);
-  // }
-
-  try {
-    updateNbaScores();
-  } catch(err) {
-    isUpdateNbaScoresRunning = false;
-    console.log('updateNbaScores error: ' + err.message);
-  }
-
-  // try {
-  //   updateNflScores();
-  // } catch(err) {
-  //   isUpdateNflScoresRunning = false;
-  //   console.log('updateNflScores error: ' + err.message);
-  // }
-
-  // try {
-  //   updateEnglishPremierLeagueScores();
-  // } catch(err) {
-  //   isUpdateEnglishPremierLeagueScoresRunning = false;
-  //   console.log('updateEnglishPremierLeagueScores error: ' + err.message);
   // }
 
   const search = {
