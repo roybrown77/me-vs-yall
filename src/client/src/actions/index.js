@@ -9,8 +9,8 @@ import { CALL_API, Schemas } from '../middleware/api';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 import history from '../middleware/history';
 
-import createHistory from 'history/createBrowserHistory';
-const localHistory = createHistory({forceRefresh: false});
+import {createBrowserHistory} from 'history';
+const localHistory = createBrowserHistory({forceRefresh: false});
 
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';

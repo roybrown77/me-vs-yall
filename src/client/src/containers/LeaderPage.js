@@ -155,6 +155,7 @@ class LeaderPage extends Component {
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGamesLoad = getLeagueNextGameStartDateTime(leagueId, games);
+        const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
 
         return (
             <div>
@@ -193,14 +194,16 @@ class LeaderPage extends Component {
                     {
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
+                        timeUntilNextGameStarts &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
-                            <Countdown date={getLeagueStartDateTime(leagueId,games)}/>
+                            <Countdown date={timeUntilNextGameStarts}/>
                         </div>
                     }
                     {
                         areAllGamesOver &&
                         isCurrentWeek &&
+                        timeUntilNextGamesLoad &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>new games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>

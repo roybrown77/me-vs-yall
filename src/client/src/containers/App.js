@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import routes from '../routes';
 import { Router } from 'react-router-dom';
 
-import createHistory from 'history/createBrowserHistory';
-const history = createHistory();
+import {createBrowserHistory} from 'history';
+const history = createBrowserHistory();
 
 const App = () => {
   return (

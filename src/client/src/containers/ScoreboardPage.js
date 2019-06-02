@@ -227,7 +227,6 @@ class ScoreboardPage extends Component {
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
         gameDate = null;
 
-
         return (
             <div>
                 <PageContainer>
@@ -273,6 +272,7 @@ class ScoreboardPage extends Component {
                     {
                         games.find(x=>x.isGameOver !== true) &&
                         !areAnyGamesInProgress &&
+                        timeUntilNextGameStarts &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={timeUntilNextGameStarts}/>
@@ -281,6 +281,7 @@ class ScoreboardPage extends Component {
                     {
                         areAllGamesOver &&
                         isCurrentWeek &&
+                        timeUntilNextGamesLoad &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>new games load in</div>
                             <Countdown date={timeUntilNextGamesLoad}/>
