@@ -108,9 +108,9 @@ const updateNbaScores = async () => {
     year: year
   };
 
-  const gamesNotOver = await gameRepository.find(search);
+  const games = await gameRepository.find(search);
 
-  if ((gamesNotOver || []).lenth === 0) {
+  if ((games || []).lenth === 0) {
     console.log("updateNbaScores all scores have been updated.");
     return;
   }
