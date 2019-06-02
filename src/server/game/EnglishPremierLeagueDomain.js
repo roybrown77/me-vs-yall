@@ -30,17 +30,6 @@ const loadEnglishPremierLeagueGames = async () => {
   const leagueId = '59723313734d1d6202a85f17';
   const year = 2018;
 
-  // const currentMonth = moment().month()+1;
-  // console.log('loadEnglishPremierLeagueGames currentMonth: ' + currentMonth);
-
-  // const currentDay = moment().date();
-  // console.log('loadEnglishPremierLeagueGames currentDay: ' + currentDay);
-
-  // if (![8,9,10,11,12,1,2,3,4,5].includes(currentMonth) || (currentMonth === 2 && currentDay > 8)) {
-  //   console.log('loadEnglishPremierLeagueGames new games will be loaded during season.');
-  //   return;
-  // }
-
   const currentWeekDay = moment().weekday();
 
   if (currentWeekDay !== 2) {
@@ -356,7 +345,6 @@ const updateEnglishPremierLeagueScores = async () => {
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
-    let LIST_NAME_ID_SELECTOR = 'div#events > article:nth-of-type(INDEX)';
     let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
