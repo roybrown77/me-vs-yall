@@ -1240,7 +1240,11 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
 };
 
 const createWeek = ({leagueId, year, seasonType, weekNo, day=6, message}) => {
+  console.log(`${message} creating week`);
+
   const currentWeekDay = moment().weekday();
+
+  console.log(`${message} currentWeekDay: ${currentWeekDay}`);
 
   if (currentWeekDay === day) {
     const gameWeek = {
@@ -1343,9 +1347,9 @@ const getGames = async ({date,message,url,root,nameSelector,recordSelector,start
 
     page = await browser.newPage();
 
-    console.log(`${message} date: date`);
+    console.log(`${message} date: ${date}`);
 
-    await page.goto(`${ur}/date`);
+    await page.goto(`${url}/${date}`);
 
     await page.waitForSelector('#events');
 
@@ -1396,7 +1400,6 @@ const getGames = async ({date,message,url,root,nameSelector,recordSelector,start
       }, gameNameSelector.replace("INDEX", i));
 
       if (!startDateTime) {
-        isLoadNbaGamesRunning = false;
         console.log(`${message} no startDateTime`);
       } else {
         games.push({

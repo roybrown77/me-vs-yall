@@ -50,33 +50,26 @@ const loadNbaGames = async (dayCount) => {
     return;
   }
 
+  console.log('loadNbaGames get games');
+
+  const message = 'loadNbaGames';
+  const url = 'http://www.espn.com/nba/scoreboard/_/date';
+  const root = 'scoreboard basketball';
   const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
   const recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
   const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
   const spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-  const gameNameSelector = 'div#events > articlee:nth-of-type(INDEX) > div > div > section.sb-notes > p';
-  const url = 'http://www.espn.com/nba/scoreboard/_/date';
-  const root = 'scoreboard basketball';
+  const gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
 
-  const games = getGames({
-    date,
-    message,
-    url,
-    root,
-    nameSelector,
-    recordSelector,
-    startDateTimeSelector,
-    spreadSelector,
-    gameNameSelector
-  });
+  const games = await getGames({date,message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector});
 
-  if (!games) {
+  if ((games || []).length === 0) {
     isLoadNbaGamesRunning = false;
     console.log('loadNbaGames no games');
     return;
   }
 
-  console.log('loadNbaGames game formatting...');
+  console.log('loadNbaGames formatting: ' + JSON.stringify(games));
   
   const mvyGames = formatGames({games, leagueId, year, teams: nbaTeams});
 
