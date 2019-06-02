@@ -288,7 +288,6 @@ const updateNbaScores = async () => {
     }
     console.log('updateNbaScores browser error: ' + err.message);
   }
-
   
   if (scores.length === 0) {
     isUpdateNbaScoresRunning = false;
