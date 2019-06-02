@@ -30,13 +30,6 @@ const loadEnglishPremierLeagueGames = async () => {
   const leagueId = '59723313734d1d6202a85f17';
   const year = 2018;
 
-  const currentWeekDay = moment().weekday();
-
-  if (currentWeekDay !== 2) {
-    console.log('loadEnglishPremierLeagueGames new games will be loaded on tuesday.');
-    return;
-  }
-
   const gameSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {

@@ -1195,9 +1195,9 @@ const getLastPlays = (playHistory = []) => {
   return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
 };
 
-const getPlayHistory = (playHistory, lastPlay, currentTime) => {
+const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    console.log("updateNbaGames invalid");
+    console.log(`${message} invalid`);
     return playHistory;
   }
 
@@ -1223,7 +1223,7 @@ const getPlayHistory = (playHistory, lastPlay, currentTime) => {
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
-    console.log("updateNbaGames invalid2");
+    console.log(`${message} invalid2 invalid2`);
     return playHistory;
   }
 

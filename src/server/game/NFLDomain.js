@@ -52,7 +52,6 @@ const loadNflGames = async (dayCount) => {
   let games = [];
   let browser;
   let page;
-  let currentWeek;
   let startDateTime;
   
   isLoadNflGamesRunning = true;
@@ -70,7 +69,7 @@ const loadNflGames = async (dayCount) => {
 
     let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
 
-    currentWeek = await page.evaluate((sel) => {
+    const currentWeek = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, CURRENTWEEK_SELECTOR);
 
@@ -225,8 +224,7 @@ const updateNflScores = async () => {
   let scores = [];
   let browser;
   let page;
-  let currentWeek;
-
+  
   isUpdateNflScoresRunning = true;
 
   try {
@@ -242,7 +240,7 @@ const updateNflScores = async () => {
 
     let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
 
-    currentWeek = await page.evaluate((sel) => {
+    const currentWeek = await page.evaluate((sel) => {
         return document.querySelector(sel).innerText;
       }, CURRENTWEEK_SELECTOR);
 
@@ -434,7 +432,7 @@ const updateNflScores = async () => {
     const score = scores.find(x=>x.awayTeam === shortLocation || x.awayTeamInProgress === shortLocation || x.awayTeamPregame === shortLocation);
     const spreadTeam = nflTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
-    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const newPlayHistory = getPlayHistory({message: 'updateNflGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     
     const currentTimeFormatted = (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':');

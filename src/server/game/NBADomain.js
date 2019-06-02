@@ -305,7 +305,7 @@ const updateNbaScores = async () => {
                                   (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation  || x.homeTeamPregame === homeShortLocation));
     const spreadTeam = nbaTeams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
     const playHistory = get(game,'playHistory',[]);
-    const newPlayHistory = getPlayHistory(playHistory, get(score,'lastPlay'), get(score,'currentTime'));
+    const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
     const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
     const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
     const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
