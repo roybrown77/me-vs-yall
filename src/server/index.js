@@ -85,6 +85,8 @@ process.on('SIGTERM', () => {
   });
 });
 
-process.on('unhandledRejection', () => {
-  console.info('unhandledRejection');
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at: ', promise, 'reason: ', reason);
+  // Application specific logging, throwing an error, or other logic here
 });
+
