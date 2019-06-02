@@ -214,9 +214,9 @@ const updateNflScores = async () => {
     year: year
   };
 
-  const gamesNotOver = await gameRepository.find(search);
+  const games = await gameRepository.find(search);
 
-  if ((gamesNotOver || []).length === 0) {
+  if ((games || []).length === 0) {
     console.log("updateNflScores all scores have been updated.");
     return;
   }
