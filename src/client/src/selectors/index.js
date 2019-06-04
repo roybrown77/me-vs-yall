@@ -312,7 +312,7 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
                         'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
                         name: team.name || team.location,
                         color: team.color,
-                        record: game.isGameOver ? competitor.finalRecord : competitor.record,
+                        record: competitor.finalRecord || competitor.record,
                         selected: picks.find(x=>x.gameId === game._id && 
                             (x.pickId === competitor._id || x.pickId === '000000000000000000000000')) ? true : false
                     };
