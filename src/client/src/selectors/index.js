@@ -30,20 +30,20 @@ const leagues = [
 const getLeagueStartDateTime = (leagueId, games) => {
     const month = moment().month()+1;
     const monthDay = parseInt(moment().format('MMDD'));
-
+    
     if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9) && monthDay > 208) {
-        const months = 9-month;
-        return moment().add(months,'month').toISOString();
+        const year = moment().format('YYYY');
+        return moment(`${year}0901`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8) && monthDay > 515) {
-        const months = 8-month;
-        return moment().add(months,'month').toISOString();
+        const year = moment().format('YYYY');
+        return moment(`${year}0801`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f19' && (month > 6 && month < 10)) {
-        const months = 10-month;
-        return moment().add(months,'month').toISOString();
+        const year = moment().format('YYYY');
+        return moment(`${year}1001`).toISOString();
     }
 
     return getStartDateTime(games);
@@ -54,18 +54,18 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
     const monthDay = parseInt(moment().format('MMDD'));
 
     if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9) && monthDay > 208) {
-        const months = 9-month;
-        return moment().add(months,'month').toISOString();
+        const year = moment().format('YYYY');
+        return moment(`${year}0901`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8) && monthDay > 515) {
-        const months = 8-month;
-        return moment().add(months,'month').toISOString();
+        const year = moment().format('YYYY');
+        return moment(`${year}0801`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f19' && (month > 6 && month < 10)) {
-        const months = 10-month;
-        return moment().add(months,'month').toISOString();
+        const year = moment().format('YYYY');
+        return moment(`${year}1001`).toISOString();
     }
 
     return getNextGameStartDateTime(games);
