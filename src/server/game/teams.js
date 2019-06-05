@@ -1354,7 +1354,9 @@ const getGames = async ({date,message,url,root,nameSelector,recordSelector,start
 
     await page.waitForSelector('#events');
 
-    let listLength = await page.evaluate((sel) => {
+    let listLength = 0;
+    
+    listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, root);
 

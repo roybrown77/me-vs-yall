@@ -77,8 +77,6 @@ const loadNbaGames = async (dayCount) => {
 
   createGames(mvyGames, 'loadNbaGames');
 
-  console.log('loadNbaGames mvyGames saved');
-
   isLoadNbaGamesRunning = false;
 };
 
@@ -98,11 +96,14 @@ const updateNbaScores = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f19';
-  const year = 2019;
+  const year = 2018;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
+      $ne: true
+    },
+    isStub: {
       $ne: true
     },
     year: year
@@ -138,7 +139,7 @@ const updateNbaScores = async () => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard basketball');
 
-    let GAME_NAME = 'div#events > articlee:nth-of-type(INDEX) > div > div > section.sb-notes';
+    let GAME_NAME = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
 
     // pregame
     let LIST_NAME_PREGAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
@@ -296,13 +297,19 @@ const updateNbaScores = async () => {
     return;
   }
 
+  console.log('updateNbaScores games: ' + JSON.stringify(games));
+
   console.log('updateNbaScores scores: ' + JSON.stringify(scores));
 
   games.forEach(game=>{
+    console.log('x1');
+
     const awayTeam = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const awayShortLocation = get(awayTeam,'shortLocation');
     const homeTeam = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
     const homeShortLocation = get(homeTeam,'shortLocation');
+
+    console.log('x2');
 
     const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation  || x.awayTeamPregame === awayShortLocation) && 
                                   (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation  || x.homeTeamPregame === homeShortLocation));
@@ -313,6 +320,8 @@ const updateNbaScores = async () => {
     const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
     const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
     const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
+    
+    console.log('x3');
 
     const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
       (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
@@ -324,6 +333,8 @@ const updateNbaScores = async () => {
     const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
     const lastPlays = getLastPlays(newPlayHistory);
 
+    console.log('x4: ' + JSON.stringify(score));
+
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
       isGameOver: isGameOver,
@@ -331,8 +342,10 @@ const updateNbaScores = async () => {
       playHistory: newPlayHistory,
       lastPlay: lastPlays,
       currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter,
-      gameName: score.gameName
+      gameName: get(score,'gameName')
     };
+
+    console.log('x6');  
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));
 
@@ -342,10 +355,14 @@ const updateNbaScores = async () => {
       spreadDateTime: get(score,'spread.spreadDateTime')
     });
 
+    console.log('x7');
+
     set(updatedGame,'competitors.0.score', isGameOver ? 
       get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
     set(updatedGame,'competitors.1.score', isGameOver ? 
       get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
+
+    console.log('x8');
 
     if (isGameOver) {
       set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.score'));
