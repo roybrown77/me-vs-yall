@@ -1334,7 +1334,7 @@ const formatGames = ({games, leagueId, year, seasonType, weekNo, teams}) => {
   });
 };
 
-const getGames = async ({date,message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector}) => {
+const getGames = async ({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector}) => {
   let games = [];
   
   let browser;
@@ -1348,9 +1348,7 @@ const getGames = async ({date,message,url,root,nameSelector,recordSelector,start
 
     page = await browser.newPage();
 
-    console.log(`${message} date: ${date}`);
-
-    await page.goto(`${url}/${date}`);
+    await page.goto(url);
 
     await page.waitForSelector('#events');
 

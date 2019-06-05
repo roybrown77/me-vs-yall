@@ -34,6 +34,8 @@ const loadNbaGames = async (dayCount) => {
   const year = 2018;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
+  console.log(`loadNbaGames date: ${date}`);
+
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: year,
@@ -53,7 +55,7 @@ const loadNbaGames = async (dayCount) => {
   console.log('loadNbaGames get games');
 
   const message = 'loadNbaGames';
-  const url = 'http://www.espn.com/nba/scoreboard/_/date';
+  const url = `http://www.espn.com/nba/scoreboard/_/date/${date}`;
   const root = 'scoreboard basketball';
   const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
   const recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
@@ -61,7 +63,7 @@ const loadNbaGames = async (dayCount) => {
   const spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
   const gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
 
-  const games = await getGames({date,message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector});
+  const games = await getGames({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector});
 
   if ((games || []).length === 0) {
     isLoadNbaGamesRunning = false;
