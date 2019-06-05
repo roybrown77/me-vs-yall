@@ -133,7 +133,8 @@ const updateNbaScores = async () => {
 
     await page.waitForSelector('#events');
 
-    let listLength = await page.evaluate((sel) => {
+    let listLength = 0;
+    listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard basketball');
 
@@ -295,6 +296,8 @@ const updateNbaScores = async () => {
     return;
   }
 
+  console.log('updateNbaScores scores: ' + JSON.stringify(scores));
+
   games.forEach(game=>{
     const awayTeam = nbaTeams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const awayShortLocation = get(awayTeam,'shortLocation');
@@ -328,7 +331,7 @@ const updateNbaScores = async () => {
       playHistory: newPlayHistory,
       lastPlay: lastPlays,
       currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter,
-      gameName: game.gameName
+      gameName: score.gameName
     };
 
     const gameStarted = hasGameStarted(get(game,'startDateTime'));

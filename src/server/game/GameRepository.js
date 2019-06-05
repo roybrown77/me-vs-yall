@@ -14,6 +14,7 @@ const GameSchema = new mongoose.Schema({
     down: String,
     lastPlay: String,
     playHistory: Array,
-    currentTime: String
+    currentTime: String,
+    gameName: String
 });
 module.exports = mongoose.model('Game', GameSchema);

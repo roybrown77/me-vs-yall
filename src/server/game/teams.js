@@ -1325,6 +1325,7 @@ const formatGames = ({games, leagueId, year, seasonType, weekNo, teams}) => {
            amount: get(game,'spread.amount', 0),
            spreadDateTime: game.spread.spreadDateTime
           },
+          gameName: game.gameName,
           competitors: [
             {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
             {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
