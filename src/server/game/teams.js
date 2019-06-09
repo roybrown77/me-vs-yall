@@ -1242,7 +1242,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
 const createWeek = ({leagueId, year, seasonType, weekNo, day=6, message}) => {
   console.log(`${message} creating week`);
 
-  const currentWeekDay = moment().weekday();
+  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
   console.log(`${message} currentWeekDay: ${currentWeekDay}`);
 
