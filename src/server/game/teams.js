@@ -1223,7 +1223,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
-    console.log(`${message} invalid2 invalid2`);
+    console.log(`${message} invalid2`);
     return playHistory;
   }
 
@@ -1358,7 +1358,7 @@ const getGames = async ({message,url,root,nameSelector,recordSelector,startDateT
       return document.getElementsByClassName(sel).length;
     }, root);
 
-    console.log(`${message} listLength: listLength`);
+    console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
       await page.close();
@@ -1430,7 +1430,7 @@ const getGames = async ({message,url,root,nameSelector,recordSelector,startDateT
       await browser.close();
     }
 
-    console.log(`${message} browser error: err.message`);
+    console.log(`${message} browser error: ${err.message}`);
   }
 
   return games;
