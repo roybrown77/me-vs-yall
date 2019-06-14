@@ -41,7 +41,7 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (month > 6 && month < 10) && monthDay > 615) {
+    if (leagueId === '59723313734d1d6202a85f19' && (month >= 6 && month < 10) && monthDay > 615) {
         const year = moment().format('YYYY');
         return moment(`${year}1001`).toISOString();
     }
@@ -63,7 +63,7 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (month > 6 && month < 10) && monthDay > 615) {
+    if (leagueId === '59723313734d1d6202a85f19' && (month >=6 && month < 10) && monthDay > 615) {
         const year = moment().format('YYYY');
         return moment(`${year}1001`).toISOString();
     }
