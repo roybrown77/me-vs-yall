@@ -25,7 +25,7 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
 const loadNbaGames = async (dayCount) => {
-  if (isLoadNbaGamesRunning) {
+  if (isLoadNbaGamesRunning || isUpdateNbaScoresRunning) {
     console.log("loadNbaGames already running.");
     return;
   }
