@@ -1276,7 +1276,7 @@ const createWeek = async ({leagueId, year, seasonType, weekNo, day=6, message}) 
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       endDateTime: {
-        $gte: moment().add(6, 'days').endOf('day').format(),
+        $gte: moment().add(6, 'days').startOf('day').format(),
         $lte: moment().add(6, 'days').endOf('day').format(),
       }
     };
