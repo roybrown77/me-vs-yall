@@ -149,7 +149,7 @@ router.get('/games', function (req, res) {
   const currentMonth = moment().month()+1;
   const monthDay = parseInt(moment().format('MMDD'));
   
-  if (currentMonth > 6 && currentMonth < 10) {
+  if (currentMonth >= 6 && currentMonth < 10 && monthDay > 615) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
