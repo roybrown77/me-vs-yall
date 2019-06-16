@@ -113,7 +113,7 @@ const updateNbaScores = async () => {
 
   const games = await gameRepository.find(search);
 
-  if ((games || []).lenth === 0) {
+  if ((games || []).length === 0) {
     console.log("updateNbaScores all scores have been updated.");
     return;
   }
