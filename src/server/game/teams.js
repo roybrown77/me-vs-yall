@@ -1324,13 +1324,21 @@ const createGames = (games, message) => {
   });
 };
 
-const formatGames = ({games, leagueId, year, seasonType, weekNo, teams}) => {
-    return games.map(game=>{
+const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}) => {
+    let formattedGames = [];
+
+    for(let i=0; i<games.length;i++) {
+        const game = games[i];
         const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
         const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
         const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
         
-        return {
+        if (!awayTeam || !homeTeam) {
+            console.log(`${message} formatGames team not found: ${game}`);
+            continue;
+        }
+
+        formattedGames.push({
           leagueId: mongoose.Types.ObjectId(leagueId),
           year: year,
           startDateTime: game.startDateTime,
@@ -1346,8 +1354,10 @@ const formatGames = ({games, leagueId, year, seasonType, weekNo, teams}) => {
             {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
             {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
           ]
-        };
-  });
+        });
+    }
+
+  return formattedGames;
 };
 
 const getGames = async ({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector}) => {

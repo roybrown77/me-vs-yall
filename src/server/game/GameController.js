@@ -153,8 +153,17 @@ router.get('/games', function (req, res) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
-      loadNbaGames(0);
-      loadNbaGames(1);
+      if (monthDay < 414 || monthDay >= 1001) {
+        loadNbaGames(0);
+        loadNbaGames(1);
+        loadNbaGames(2);
+        loadNbaGames(3);
+        loadNbaGames(4);
+        loadNbaGames(5);
+      } else {
+        loadNbaGames(0);
+        loadNbaGames(1);
+      }
       createWeek({leagueId: '59723313734d1d6202a85f19', year: 2018, message: 'loadNbaGames'});
     } catch(err) {
       isLoadNbaGamesRunning = false;
@@ -193,41 +202,6 @@ router.get('/games', function (req, res) {
     }
   }
 
-  // try {
-  //   loadEnglishPremierLeagueGames();
-  // } catch(err) {
-  //   isLoadEnglishPremierLeagueGamesRunning = false;
-  //   console.log('loadEnglishPremierLeagueGames error: ' + err.message);
-  // }
-
-  // try {
-  //   updateEnglishPremierLeagueScores();
-  // } catch(err) {
-  //   isUpdateEnglishPremierLeagueScoresRunning = false;
-  //   console.log('updateEnglishPremierLeagueScores error: ' + err.message);
-  // }
-
-  // try {
-  //   loadNCAAFootballTeams();
-  // } catch(err) {
-  //   isLoadNCAAFootballTeamsRunning = false;
-  //   console.log('loadNCAAFootballTeams error: ' + err.message);
-  // }
-
-  // try {
-  //   loadNCAAFootballGames();
-  // } catch(err) {
-  //   isLoadNCAAFootballGamesRunning = false;
-  //   console.log('loadNCAAFootballGames error: ' + err.message);
-  // }
-
-  // try {
-  //   updateNCAAFootballScores();
-  // } catch(err) {
-  //   isUpdateNCAAFootballScoresRunning = false;
-  //   console.log('updateNCAAFootballScores error: ' + err.message);
-  // }
-
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
     year: get(req, 'query.year'),
@@ -254,7 +228,6 @@ router.get('/games', function (req, res) {
   console.log('games search criteria: ' + JSON.stringify(finalSearch));
   
   gameRepository.find(finalSearch, function (err, games) {
-      //console.log('games games found: ' + JSON.stringify(games));
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       games.map(game=>{
         const x = game;
