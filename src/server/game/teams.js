@@ -1197,7 +1197,7 @@ const getLastPlays = (playHistory = []) => {
 
 const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    console.log(`${message} invalid`);
+    console.log(`${message} getPlayHistory invalid`);
     return playHistory;
   }
 
@@ -1223,7 +1223,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
-    console.log(`${message} invalid2`);
+    console.log(`${message} getPlayHistory invalid2`);
     return playHistory;
   }
 
@@ -1239,12 +1239,28 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   return newPlayHistory;
 };
 
-const createWeek = ({leagueId, year, seasonType, weekNo, day=6, message}) => {
+const createWeek = async ({leagueId, year, seasonType, weekNo, day=6, message}) => {
   console.log(`${message} creating week`);
+
+  const gameExistSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: year,
+    startDateTime: {
+      $gte: moment().startOf('day').format(),
+      $lte: moment().add(6, 'days').endOf('day').format(),
+    }
+  };
+
+  const games = await gameRepository.find(gameExistSearch);
+
+  if (games.length === 0) {
+    console.log(`${message} createWeek games don't exist.`);
+    return;
+  }
 
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
-  console.log(`${message} currentWeekDay: ${currentWeekDay}`);
+  console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
 
   if (currentWeekDay === day) {
     const gameWeek = {
@@ -1267,13 +1283,13 @@ const createWeek = ({leagueId, year, seasonType, weekNo, day=6, message}) => {
 
     gameWeekRepository.find(gameWeekFind, function (err, gameWeeks) {
       if ((gameWeeks || []).length > 0) {
-        console.log(`${message} game week already exists: ${JSON.stringify(gameWeek)}`);
+        console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeek)}`);
       } else {
         gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
             if (err) {
-                console.log(`${message} there was a problem adding week to the database:  ${err.message}`);
+                console.log(`${message} createWeek there was a problem adding week to the database:  ${err.message}`);
             } else {
-              console.log(`${message} success creating week: ${gameWeekCreated._id}`);
+              console.log(`${message} createWeek success creating week: ${gameWeekCreated._id}`);
             }
         });
       }
@@ -1294,13 +1310,13 @@ const createGames = (games, message) => {
 
         gameRepository.find(gameFind, function (err, gamesFound) {
           if ((gamesFound || []).length > 0) {
-            console.log(`${message} games already exists: ${JSON.stringify(game)}`);
+            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
           } else {
             gameRepository.create(game, function (err, gameCreated) {
               if (err) {
-                console.log(`${message} there was a problem adding game to the database:  ${err.message}`);
+                console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
               } else {
-                console.log(`${message} success creating game: ${gameCreated._id}`);
+                console.log(`${message} createGames success creating game: ${gameCreated._id}`);
               }
             });
           }
@@ -1358,7 +1374,7 @@ const getGames = async ({message,url,root,nameSelector,recordSelector,startDateT
       return document.getElementsByClassName(sel).length;
     }, root);
 
-    console.log(`${message} listLength: ${listLength}`);
+    console.log(`${message} getGames listLength: ${listLength}`);
 
     if (listLength === 0) {
       await page.close();
@@ -1401,7 +1417,7 @@ const getGames = async ({message,url,root,nameSelector,recordSelector,startDateT
       }, gameNameSelector.replace("INDEX", i));
 
       if (!startDateTime) {
-        console.log(`${message} no startDateTime`);
+        console.log(`${message} getGames no startDateTime`);
       } else {
         games.push({
             startDateTime: startDateTime,
@@ -1430,7 +1446,7 @@ const getGames = async ({message,url,root,nameSelector,recordSelector,startDateT
       await browser.close();
     }
 
-    console.log(`${message} browser error: ${err.message}`);
+    console.log(`${message} getGames browser error: ${err.message}`);
   }
 
   return games;
