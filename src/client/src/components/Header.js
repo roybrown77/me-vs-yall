@@ -83,7 +83,7 @@ class Header extends Component {
   };
 
   gram = () => {
-    window.location = "https://www.instagram.com/mevsyallsports/";
+    window.location = "https://www.instagram.com/mevsyallgames";
   };
 
   render() {
