@@ -1183,6 +1183,249 @@ const nbaTeams = [
     }
 ];
 
+const mlbTeams = [
+    {
+        "color": "#BD3039",
+        "_id": "5b9060e59a4c08bca6d80800",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Boston",
+        "shortLocation": "BOS",
+        "name": "Red Sox"
+    },
+    {
+        "color": "#0C2340",
+        "_id": "5b9060e59a4c08bca6d80801",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "New York",
+        "shortLocation": "NY",
+        "name": "Yankees"
+    },
+    {
+        "color": "#FC4C02",
+        "_id": "5b9060e59a4c08bca6d80802",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Baltimore",
+        "shortLocation": "BAL",
+        "name": "Orioles"
+    },
+    {
+        "color": "#134A8E",
+        "_id": "5b9060e59a4c08bca6d80803",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Toronto",
+        "shortLocation": "TOR",
+        "name": "Blue Jays"
+    },
+    {
+        "color": "#8FBCE6",
+        "_id": "5b9060e59a4c08bca6d80804",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Tampa Bay",
+        "shortLocation": "TB",
+        "name": "Rays"
+    },
+    {
+        "color": "#D31145",
+        "_id": "5b9060e59a4c08bca6d80805",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Minnesota",
+        "shortLocation": "MIN",
+        "name": "Twins"
+    },
+    {
+        "color": "#E31937",
+        "_id": "5b9060e59a4c08bca6d80806",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Cleveland",
+        "shortLocation": "CLE",
+        "name": "Indians"
+    },
+    {
+        "color": "#27251F",
+        "_id": "5b9060e59a4c08bca6d80807",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Chicago",
+        "shortLocation": "CHW",
+        "name": "White Sox"
+    },
+    {
+        "color": "#FA4616",
+        "_id": "5b9060e59a4c08bca6d80808",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Detroit",
+        "shortLocation": "DET",
+        "name": "Tigers"
+    },
+    {
+        "color": "#004687",
+        "_id": "5b9060e59a4c08bca6d80809",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Kansas City",
+        "shortLocation": "KC",
+        "name": "Royals"
+    },
+    {
+        "color": "#EB6E1F",
+        "_id": "5b9060e59a4c08bca6d80810",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Houston",
+        "shortLocation": "HOU",
+        "name": "Astros"
+    },
+    {
+        "color": "#C0111F",
+        "_id": "5b9060e59a4c08bca6d80811",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Texas",
+        "shortLocation": "TEX",
+        "name": "Rangers"
+    },
+    {
+        "color": "#003831",
+        "_id": "5b9060e59a4c08bca6d80812",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Oakland",
+        "shortLocation": "OAK",
+        "name": "Athletics"
+    },
+    {
+        "color": "#BA0021",
+        "_id": "5b9060e59a4c08bca6d80813",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Los Angeles",
+        "shortLocation": "LAA",
+        "name": "Angels"
+    },
+    {
+        "color": "#005C5C",
+        "_id": "5b9060e59a4c08bca6d80814",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Seattle",
+        "shortLocation": "SEA",
+        "name": "Mariners"
+    },
+    {
+        "color": "#13274F",
+        "_id": "5b9060e59a4c08bca6d80815",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Atlanta",
+        "shortLocation": "ATL",
+        "name": "Braves"
+    },
+    {
+        "color": "#E81828",
+        "_id": "5b9060e59a4c08bca6d80816",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Philadelphia",
+        "shortLocation": "PHI",
+        "name": "Phillies"
+    },
+    {
+        "color": "#AB0003",
+        "_id": "5b9060e59a4c08bca6d80817",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Washington",
+        "shortLocation": "WAS",
+        "name": "Nationals"
+    },
+    {
+        "color": "#FF5910",
+        "_id": "5b9060e59a4c08bca6d80818",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "New York",
+        "shortLocation": "NY",
+        "name": "Mets"
+    },
+    {
+        "color": "#EF3340",
+        "_id": "5b9060e59a4c08bca6d80819",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Miami",
+        "shortLocation": "MIA",
+        "name": "Marlins"
+    },
+    {
+        "color": "#0E3386",
+        "_id": "5b9060e59a4c08bca6d80820",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Chicago",
+        "shortLocation": "CHI",
+        "name": "Cubs"
+    },
+    {
+        "color": "#0A2351",
+        "_id": "5b9060e59a4c08bca6d80821",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Milwaukee",
+        "shortLocation": "MIL",
+        "name": "Brewers"
+    },
+    {
+        "color": "#C41E3A",
+        "_id": "5b9060e59a4c08bca6d80822",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "St. Louis",
+        "shortLocation": "STL",
+        "name": "Cardinals"
+    },
+    {
+        "color": "#FDB827",
+        "_id": "5b9060e59a4c08bca6d80823",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Pittsburgh",
+        "shortLocation": "PIT",
+        "name": "Pirates"
+    },
+    {
+        "color": "#C6011F",
+        "_id": "5b9060e59a4c08bca6d80824",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Cincinnati",
+        "shortLocation": "CIN",
+        "name": "Reds"
+    },
+    {
+        "color": "#005A9C",
+        "_id": "5b9060e59a4c08bca6d80825",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Los Angeles",
+        "shortLocation": "LA",
+        "name": "Dodgers"
+    },
+    {
+        "color": "#33006F",
+        "_id": "5b9060e59a4c08bca6d80826",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Colorado",
+        "shortLocation": "COL",
+        "name": "Rockies"
+    },
+    {
+        "color": "#A71930",
+        "_id": "5b9060e59a4c08bca6d80827",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "Arizona",
+        "shortLocation": "ARI",
+        "name": "Diamondbacks"
+    },
+    {
+        "color": "#473729",
+        "_id": "5b9060e59a4c08bca6d80828",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "San Diego",
+        "shortLocation": "SD",
+        "name": "Padres"
+    },
+    {
+        "color": "#FD5A1E",
+        "_id": "5b9060e59a4c08bca6d80829",
+        "leagueId": "59723313734d1d6202a85f21",
+        "location": "San Francisco",
+        "shortLocation": "SF",
+        "name": "Giants"
+    }
+];
+
 const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
