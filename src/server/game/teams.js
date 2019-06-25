@@ -1360,7 +1360,16 @@ const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}
   return formattedGames;
 };
 
-const getGames = async ({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector}) => {
+const getGames = async ({
+    message,
+    url,
+    root,
+    nameSelector,
+    recordSelector,
+    startDateTimeSelector,
+    spreadSelector,
+    gameNameSelector
+}) => {
   let games = [];
   
   let browser;

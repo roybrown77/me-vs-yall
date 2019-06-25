@@ -141,24 +141,24 @@ const updateNbaScores = async () => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard basketball');
 
-    let GAME_NAME = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
+    let gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
+    let spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
 
     // pregame
-    let LIST_NAME_PREGAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+    let namePregameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
 
     // live
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
-    let LIST_QUARTER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
-    let LIST_IN_PROGRESS_TOTAL_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-    let LIST_IN_PROGRESS_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_IN_PROGRESS_LAST_PLAY_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p';
-    let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
+    let liveRecordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
+    let liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
+    let liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+    let liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+    let livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p';
+    let liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
 
     // final
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
-    let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
+    let finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+    let finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
+    let finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
     
     console.log('updateNbaScores listLength: ' + listLength);
 
@@ -174,86 +174,86 @@ const updateNbaScores = async () => {
       const currentTime = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
+      }, liveCurrentTimeSelector.replace("INDEX", i));
 
       const lastPlay = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, LIST_IN_PROGRESS_LAST_PLAY_SELECTOR.replace("INDEX", i));
+      }, livePlaySelector.replace("INDEX", i));
 
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
+      }, finalGameOverSelector.replace("INDEX", i));
 
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayTeamPregame = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_NAME_PREGAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_TOTAL_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayInProgressName = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
 
       const awayRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
+      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
 
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeTeamPregame = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_NAME_PREGAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_TOTAL_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeInProgressName = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
 
       const homeRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
+      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
 
       const spread = await page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
-      }, SPREAD_SELECTOR.replace("INDEX", i));
+      }, spreadSelector.replace("INDEX", i));
 
       const gameName = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, GAME_NAME.replace("INDEX", i));
+      }, gameNameSelector.replace("INDEX", i));
 
       scores.push({
         spread: {

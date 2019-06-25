@@ -102,14 +102,17 @@ class HomePage extends Component {
       const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
       const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
+      const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
       const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
+      const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
 
       const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
       const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
+      const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
 
       return (
         <div className="fade-in home-page-container">
@@ -178,6 +181,23 @@ class HomePage extends Component {
                 )}/>
                 {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
               </Grid>
+              {
+                false &&
+                 <Grid item xs={6}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
+                          MLB
+                          {
+                            areAnyMlbGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50032'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {mlbStartDateTime && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
+                </Grid>
+              }
             </Grid>
           </div>
           <Grid container item xs={12} justify="center">
