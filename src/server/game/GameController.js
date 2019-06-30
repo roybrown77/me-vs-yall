@@ -34,6 +34,13 @@ const {
 } = require('./NBADomain');
 
 const { 
+  loadMlbGames, 
+  updateMlbScores,
+  isLoadMlbGamesRunning,
+  isUpdateMlbScoresRunning
+} = require('./MLBDomain');
+
+const { 
   loadNCAAFootballGames,
   loadNCAAFootballTeams, 
   updateNCAAFootballScores,
@@ -47,6 +54,7 @@ const {
   nflTeams,
   eplTeams, 
   ncaafTeams, 
+  mlbTeams,
   countries,
   createWeek
 } = require('./teams');
@@ -178,6 +186,35 @@ router.get('/games', function (req, res) {
     }
   }
 
+  if (monthDay <= 401 || monthDay >= 1101) {
+    console.log('new mlb games will be loaded during season.');
+  } else {
+    try {
+      if (monthDay < 914) {
+        loadMlbGames(0);
+        loadMlbGames(1);
+        // loadMlbGames(2);
+        // loadMlbGames(3);
+        // loadMlbGames(4);
+        // loadMlbGames(5);
+      } else {
+        loadMlbGames(0);
+        loadMlbGames(1);
+      }
+      createWeek({leagueId: '59723313734d1d6202a85f21', year: 2018, day: 0, message: 'loadMlbGames'});
+    } catch(err) {
+      isLoadMlbGamesRunning = false;
+      console.log('loadMlbGames error: ' + err.message);
+    }
+
+    try {
+      updateMlbScores();
+    } catch(err) {
+      isUpdateMlbScoresRunning = false;
+      console.log('updateMlbScores error: ' + err.message);
+    }
+  }
+
   if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
     console.log('new nfl games will be loaded during season.');
   } else {
@@ -301,7 +338,8 @@ router.get('/teams', function (req, res) {
   const teams = [
     ...nflTeams,
     ...eplTeams,
-    ...nbaTeams
+    ...nbaTeams,
+    ...mlbTeams
   ];
 
   res.status(200).send(teams);

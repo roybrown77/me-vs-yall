@@ -181,9 +181,7 @@ class HomePage extends Component {
                 )}/>
                 {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
               </Grid>
-              {
-                false &&
-                 <Grid item xs={6}>
+              <Grid item xs={6}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -195,9 +193,8 @@ class HomePage extends Component {
                           }
                       </Button>
                   )}/>
-                  {mlbStartDateTime && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
+                  {<Countdown styles={styles.countdown} date={areAnyMlbGamesInProgress ? mlbStartDateTime : get(mlbGames,'[0].startDateTime')}/>}
                 </Grid>
-              }
             </Grid>
           </div>
           <Grid container item xs={12} justify="center">

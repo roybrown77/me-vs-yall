@@ -25,12 +25,12 @@ const leagues = [
         description: 'nba', 
         years: [2018]
     },
-    // {
-    //     id: '59723313734d1d6202a85f21', 
-    //     name: 'mlb', 
-    //     description: 'mlb', 
-    //     years: [2019]
-    // }
+    {
+        id: '59723313734d1d6202a85f21', 
+        name: 'mlb', 
+        description: 'mlb', 
+        years: [2019]
+    }
 ];
 
 const getLeagueStartDateTime = (leagueId, games) => {
@@ -324,8 +324,8 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
                     const team = teams.find(x=>x._id === competitor._id);
                     return {
                         ...competitor,
-                        shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' || team.shortLocation === 'LAL' ? 
-                        'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' ? 'NY' : team.shortLocation,
+                        shortLocation: team.shortLocation === 'LAR' || team.shortLocation === 'LAC' || team.shortLocation === 'LAL' || team.shortLocation === 'LAD'  || team.shortLocation === 'LAA' ? 
+                        'LA' : team.shortLocation === 'NYG' || team.shortLocation === 'NYJ' || team.shortLocation === 'NYY' || team.shortLocation === 'NYM'? 'NY' : team.shortLocation,
                         name: team.name || team.location,
                         color: team.color,
                         record: competitor.finalRecord || competitor.record,

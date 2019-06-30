@@ -1197,7 +1197,7 @@ const mlbTeams = [
         "_id": "5b9060e59a4c08bca6d80801",
         "leagueId": "59723313734d1d6202a85f21",
         "location": "New York",
-        "shortLocation": "NY",
+        "shortLocation": "NYY",
         "name": "Yankees"
     },
     {
@@ -1333,7 +1333,7 @@ const mlbTeams = [
         "_id": "5b9060e59a4c08bca6d80818",
         "leagueId": "59723313734d1d6202a85f21",
         "location": "New York",
-        "shortLocation": "NY",
+        "shortLocation": "NYM",
         "name": "Mets"
     },
     {
@@ -1389,7 +1389,7 @@ const mlbTeams = [
         "_id": "5b9060e59a4c08bca6d80825",
         "leagueId": "59723313734d1d6202a85f21",
         "location": "Los Angeles",
-        "shortLocation": "LA",
+        "shortLocation": "LAD",
         "name": "Dodgers"
     },
     {
@@ -1540,69 +1540,6 @@ const createWeek = async ({leagueId, year, seasonType, weekNo, day=6, message}) 
   }
 };
 
-const createGames = (games, message) => {
-    games.forEach(game=>{
-        const gameFind = {
-          leagueId: get(game,'leagueId'),
-          year: get(game,'year'),
-          startDateTime: {
-            $gte: moment(get(game,'startDateTime')).startOf('day').format(),
-            $lte: moment(get(game,'startDateTime')).endOf('day').format(),
-          }
-        };
-
-        gameRepository.find(gameFind, function (err, gamesFound) {
-          if ((gamesFound || []).length > 0) {
-            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
-          } else {
-            gameRepository.create(game, function (err, gameCreated) {
-              if (err) {
-                console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
-              } else {
-                console.log(`${message} createGames success creating game: ${gameCreated._id}`);
-              }
-            });
-          }
-        });
-  });
-};
-
-const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}) => {
-    let formattedGames = [];
-
-    for(let i=0; i<games.length;i++) {
-        const game = games[i];
-        const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
-        const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
-        const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-        
-        if (!awayTeam || !homeTeam) {
-            console.log(`${message} formatGames team not found: ${game}`);
-            continue;
-        }
-
-        formattedGames.push({
-          leagueId: mongoose.Types.ObjectId(leagueId),
-          year: year,
-          startDateTime: game.startDateTime,
-          seasonType: seasonType,
-          weekNo: weekNo,
-          spread: {
-           teamId: get(spreadTeam,'_id'),
-           amount: get(game,'spread.amount', 0),
-           spreadDateTime: game.spread.spreadDateTime
-          },
-          gameName: game.gameName,
-          competitors: [
-            {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
-            {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
-          ]
-        });
-    }
-
-  return formattedGames;
-};
-
 const getGames = async ({
     message,
     url,
@@ -1714,17 +1651,318 @@ const getGames = async ({
   return games;
 };
 
+const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}) => {
+    let formattedGames = [];
+
+    for(let i=0; i<games.length;i++) {
+        const game = games[i];
+        const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
+        const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
+        const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
+        
+        if (!awayTeam || !homeTeam) {
+            console.log(`${message} formatGames team not found: ${game}`);
+            continue;
+        }
+
+        formattedGames.push({
+          leagueId: mongoose.Types.ObjectId(leagueId),
+          year: year,
+          startDateTime: game.startDateTime,
+          seasonType: seasonType,
+          weekNo: weekNo,
+          spread: {
+           teamId: get(spreadTeam,'_id'),
+           amount: get(game,'spread.amount', 0),
+           spreadDateTime: game.spread.spreadDateTime
+          },
+          gameName: game.gameName,
+          competitors: [
+            {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
+            {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
+          ]
+        });
+    }
+
+  return formattedGames;
+};
+
+const createGames = ({message, games}) => {
+    games.forEach(game=>{
+        const gameFind = {
+          leagueId: get(game,'leagueId'),
+          year: get(game,'year'),
+          startDateTime: {
+            $gte: moment(get(game,'startDateTime')).startOf('day').format(),
+            $lte: moment(get(game,'startDateTime')).endOf('day').format(),
+          }
+        };
+
+        gameRepository.find(gameFind, function (err, gamesFound) {
+          if ((gamesFound || []).length > 0) {
+            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
+          } else {
+           gameRepository.create(game, function (err, gameCreated) {
+              if (err) {
+                console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
+              } else {
+                console.log(`${message} createGames success creating game: ${gameCreated._id}`);
+              }
+            });
+          }
+        });
+  });
+};
+
+const getScores = async ({
+    message,
+    url,
+    root,
+    gameNameSelector,
+    spreadSelector,
+    namePregameSelector,
+    liveRecordSelector,
+    liveQuarterSelector,
+    liveTotalSelector,
+    liveNameSelector,
+    livePlaySelector,
+    liveCurrentTimeSelector,
+    finalNameSelector,
+    finalGameOverSelector,
+    finalScoreSelector
+}) => {
+  let scores = [];
+  let browser;
+  let page;
+
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
+    });
+
+    page = await browser.newPage();
+
+    await page.goto(url);
+
+    await page.waitForSelector('#events');
+
+    let listLength = 0;
+    listLength = await page.evaluate((sel) => {
+      return document.getElementsByClassName(sel).length;
+    }, root);
+    
+    console.log(`${message} listLength: ${listLength}`);
+
+    if (listLength === 0) {
+      isUpdateNbaScoresRunning = false;
+      console.log(`${message} no games found`);
+      await page.close();
+      await browser.close();
+      return;
+    }
+
+    for (let i = 1; i <= listLength; i++) {
+      const currentTime = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, liveCurrentTimeSelector.replace("INDEX", i));
+
+      const lastPlay = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, livePlaySelector.replace("INDEX", i));
+
+      const gameOverText = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, finalGameOverSelector.replace("INDEX", i));
+
+      const awayTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayTeamPregame = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayInProgressScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayInProgressName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+
+      const awayRecord = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
+
+      const homeTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeTeamPregame = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeInProgressScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeInProgressName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+
+      const homeRecord = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
+
+      const spread = await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+      }, spreadSelector.replace("INDEX", i));
+
+      const gameName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, gameNameSelector.replace("INDEX", i));
+
+      scores.push({
+        spread: {
+         team: spread.replace('Line: ','').split(' ')[0],
+         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
+         spreadDateTime: moment().toISOString()
+        },
+        gameOverText: gameOverText,
+        awayTeam: awayTeam,
+        awayTeamPregame: awayTeamPregame,
+        awayTeamInProgress: awayInProgressName,
+        awayInProgressScore: parseInt(awayInProgressScore),
+        awayScore: parseInt(awayScore),
+        awayRecord: awayRecord,
+        homeTeam: homeTeam,
+        homeTeamPregame: homeTeamPregame,
+        homeTeamInProgress: homeInProgressName,
+        homeInProgressScore: parseInt(homeInProgressScore),
+        homeScore: parseInt(homeScore),
+        homeRecord: homeRecord,
+        lastPlay: (lastPlay || '').trim(),
+        currentTime: currentTime,
+        gameName: gameName
+      });
+    }
+
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (!!page) {
+      await page.close();
+    }
+
+    if (!!browser) {
+      await browser.close();
+    }
+    console.log(`${message} browser error: ${err.message}`);
+  }
+
+  return scores;
+};
+
+const updateGames = ({message, games, scores, teams}) => {
+    games.forEach(game=>{
+        const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+        const awayShortLocation = get(awayTeam,'shortLocation');
+        const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
+        const homeShortLocation = get(homeTeam,'shortLocation');
+
+        const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation  || x.awayTeamPregame === awayShortLocation) && 
+                                      (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation  || x.homeTeamPregame === homeShortLocation));
+        const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
+        const playHistory = get(game,'playHistory',[]);
+        const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+        const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
+        const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
+        const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
+        const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
+
+        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
+          (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
+        
+        const currentTime = get(score,'currentTime');
+        const currenTimeSplit = (currentTime || '').split(' ');
+        const quarter = currenTimeSplit[currenTimeSplit.length-1];
+        const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
+        const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
+        const lastPlays = getLastPlays(newPlayHistory);
+
+        const updatedGame = {
+          competitors: [...get(game,'competitors',[])],
+          isGameOver: isGameOver,
+          lastPlay: undefined,
+          playHistory: newPlayHistory,
+          lastPlay: lastPlays,
+          currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter,
+          gameName: get(score,'gameName')
+        }; 
+
+        const gameStarted = hasGameStarted(get(game,'startDateTime'));
+
+        set(updatedGame,'spread', gameStarted || !spreadTeam ? get(game,'spread') : {
+          teamId: get(spreadTeam,'_id'),
+          amount: get(score,'spread.amount', 0),
+          spreadDateTime: get(score,'spread.spreadDateTime')
+        });
+
+        set(updatedGame,'competitors.0.score', isGameOver ? 
+          get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
+        set(updatedGame,'competitors.1.score', isGameOver ? 
+          get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
+
+        if (isGameOver) {
+          set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.score'));
+          set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.score'));
+        }
+
+        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+        
+        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+    });
+};
+
 module.exports = {
     nbaTeams,
 	nflTeams,
     eplTeams,
     ncaaTeams,
+    mlbTeams,
     countries,
     hasGameStarted,
     getLastPlays,
     getPlayHistory,
     createWeek,
-    createGames,
+    getGames,
     formatGames,
-    getGames
+    createGames,
+    getScores,
+    updateGames
 };

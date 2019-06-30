@@ -228,7 +228,7 @@ const fetchAllTeams = (types) => ({
 
 export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
-  const year = get(query, 'year', 2018);
+  const year = get(query, 'year');
 
   return dispatch(fetchGameWeeks({leagueId,year})).then(
     result=>{
@@ -286,7 +286,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
 
 export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
-  const year = get(query, 'year', 2018);
+  const year = get(query, 'year');
 
   return dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
     const weeks = get(result,'response',[]);
