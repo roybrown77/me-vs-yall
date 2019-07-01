@@ -1939,8 +1939,8 @@ const updateGames = ({message, games, scores, teams}) => {
           get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
 
         if (isGameOver) {
-          set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.score'));
-          set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.score'));
+          set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
+          set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
         }
 
         console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
