@@ -34,26 +34,22 @@ const leagues = [
 ];
 
 const getLeagueStartDateTime = (leagueId, games) => {
-    const month = moment().month()+1;
     const monthDay = parseInt(moment().format('MMDD'));
-    
-    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9) && monthDay > 208) {
-        const year = moment().format('YYYY');
+    const year = moment().format('YYYY');
+
+    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 901)) {
         return moment(`${year}0901`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8) && monthDay > 515) {
-        const year = moment().format('YYYY');
+    if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 801)) {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (month >= 6 && month < 10) && monthDay > 615) {
-        const year = moment().format('YYYY');
+    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1001)) {
         return moment(`${year}1001`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f21' && (month >= 4 && month < 11) && monthDay > 401) {
-        const year = moment().format('YYYY');
+    if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 401 || monthDay > 1115)) {
         return moment(`${year}0401`).toISOString();
     }
 
@@ -61,27 +57,23 @@ const getLeagueStartDateTime = (leagueId, games) => {
 }
 
 const getLeagueNextGameStartDateTime = (leagueId, games) => {
-    const month = moment().month()+1;
     const monthDay = parseInt(moment().format('MMDD'));
+    const year = moment().format('YYYY');
 
-    if (leagueId === '59723313734d1d6202a85f10' && (month >= 2 && month < 9) && monthDay > 208) {
-        const year = moment().format('YYYY');
+    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 901)) {
         return moment(`${year}0901`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f17' && (month >= 5 && month < 8) && monthDay > 515) {
-        const year = moment().format('YYYY');
+    if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 801)) {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (month >=6 && month < 10) && monthDay > 615) {
-        const year = moment().format('YYYY');
+    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1001)) {
         return moment(`${year}1001`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f21' && (month >=4 && month < 11) && monthDay > 401) {
-        const year = moment().format('YYYY');
-        return moment(`${year}1101`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 401 || monthDay > 1115)) {
+        return moment(`${year}0401`).toISOString();
     }
 
     return getNextGameStartDateTime(games);

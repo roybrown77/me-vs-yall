@@ -157,21 +157,12 @@ router.get('/games', function (req, res) {
   const currentMonth = moment().month()+1;
   const monthDay = parseInt(moment().format('MMDD'));
   
-  if (currentMonth >= 6 && currentMonth < 10 && monthDay > 615) {
+  if (monthDay > 620 && monthDay < 1001) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
-      if (monthDay < 414 || monthDay >= 1001) {
-        loadNbaGames(0);
-        loadNbaGames(1);
-        loadNbaGames(2);
-        loadNbaGames(3);
-        loadNbaGames(4);
-        loadNbaGames(5);
-      } else {
-        loadNbaGames(0);
-        loadNbaGames(1);
-      }
+      loadNbaGames(0);
+      loadNbaGames(1);
       createWeek({leagueId: '59723313734d1d6202a85f19', year: 2018, message: 'loadNbaGames'});
     } catch(err) {
       isLoadNbaGamesRunning = false;
@@ -186,21 +177,12 @@ router.get('/games', function (req, res) {
     }
   }
 
-  if (monthDay <= 401 || monthDay >= 1101) {
+  if (monthDay < 401 || monthDay > 1115) {
     console.log('new mlb games will be loaded during season.');
   } else {
     try {
-      if (monthDay < 914) {
-        loadMlbGames(0);
-        loadMlbGames(1);
-        // loadMlbGames(2);
-        // loadMlbGames(3);
-        // loadMlbGames(4);
-        // loadMlbGames(5);
-      } else {
-        loadMlbGames(0);
-        loadMlbGames(1);
-      }
+      loadMlbGames(0);
+      loadMlbGames(1);
       createWeek({leagueId: '59723313734d1d6202a85f21', year: 2018, day: 0, message: 'loadMlbGames'});
     } catch(err) {
       isLoadMlbGamesRunning = false;
@@ -215,16 +197,11 @@ router.get('/games', function (req, res) {
     }
   }
 
-  if (currentMonth >= 2 && currentMonth < 9 && monthDay > 208) {
+  if (monthDay > 208 && monthDay < 901) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
-      loadNflGames(0);
-      loadNflGames(1);
-      loadNflGames(2);
-      loadNflGames(3);
-      loadNflGames(4);
-      loadNflGames(5);
+      loadNflGames();
       createWeek({leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3, message: 'loadNflGames'});
     } catch(err) {
       isLoadNflGamesRunning = false;

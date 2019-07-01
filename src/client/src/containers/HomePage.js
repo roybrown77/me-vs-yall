@@ -193,7 +193,7 @@ class HomePage extends Component {
                           }
                       </Button>
                   )}/>
-                  {<Countdown styles={styles.countdown} date={areAnyMlbGamesInProgress ? mlbStartDateTime : get(mlbGames,'[0].startDateTime')}/>}
+                  {!areAnyMlbGamesInProgress && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
                 </Grid>
             </Grid>
           </div>
