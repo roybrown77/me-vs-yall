@@ -1325,7 +1325,7 @@ const mlbTeams = [
         "_id": "5b9060e59a4c08bca6d80817",
         "leagueId": "59723313734d1d6202a85f21",
         "location": "Washington",
-        "shortLocation": "WAS",
+        "shortLocation": "WSH",
         "name": "Nationals"
     },
     {
@@ -1349,7 +1349,7 @@ const mlbTeams = [
         "_id": "5b9060e59a4c08bca6d80820",
         "leagueId": "59723313734d1d6202a85f21",
         "location": "Chicago",
-        "shortLocation": "CHI",
+        "shortLocation": "CHC",
         "name": "Cubs"
     },
     {
