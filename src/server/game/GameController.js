@@ -154,7 +154,6 @@ const backupData = async () => {
 };
 
 router.get('/games', function (req, res) {
-  const currentMonth = moment().month()+1;
   const monthDay = parseInt(moment().format('MMDD'));
   
   if (monthDay > 620 && monthDay < 1001) {
