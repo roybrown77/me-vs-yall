@@ -1867,7 +1867,7 @@ const getScores = async ({
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
-        currentTime: currentTime || '',
+        currentTime: currentTime,
         gameName: gameName
       });
     }
@@ -1888,7 +1888,7 @@ const getScores = async ({
   return scores;
 };
 
-const updateGames = ({message, games, scores, teams}) => {
+const updateGames = ({message, leagueId, games, scores, teams}) => {
     games.forEach(game=>{
         const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
         const awayShortLocation = get(awayTeam,'shortLocation');
@@ -1922,7 +1922,8 @@ const updateGames = ({message, games, scores, teams}) => {
           lastPlay: undefined,
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
-          currentTime: shouldSetCurrentTime ? currentTimeFormatted + " - " + quarter : quarter,
+          currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : 
+          shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
           gameName: get(score,'gameName')
         }; 
 

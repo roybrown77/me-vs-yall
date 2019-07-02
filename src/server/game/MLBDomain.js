@@ -170,6 +170,7 @@ const updateMlbScores = async () => {
 
   await updateGames({
     message,
+    leagueId, 
     games,
     scores,
     teams: mlbTeams
