@@ -1867,7 +1867,7 @@ const getScores = async ({
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
-        currentTime: currentTime !== 'undefined' ? currentTime : undefined,
+        currentTime: currentTime || '',
         gameName: gameName
       });
     }
