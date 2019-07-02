@@ -1661,7 +1661,7 @@ const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}
         const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
         
         if (!awayTeam || !homeTeam) {
-            console.log(`${message} formatGames team not found: ${game}`);
+            console.log(`${message} formatGames team not found: ${JSON.stringify(game)}`);
             continue;
         }
 
