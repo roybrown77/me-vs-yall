@@ -1693,8 +1693,8 @@ const createGames = ({message, games}) => {
           leagueId: get(game,'leagueId'),
           year: get(game,'year'),
           startDateTime: {
-            $gte: moment(get(game,'startDateTime')).startOf('day').format(),
-            $lte: moment(get(game,'startDateTime')).endOf('day').format(),
+            $gte: moment(get(game,'startDateTime')).format(),
+            $lte: moment(get(game,'startDateTime')).format(),
           }
         };
 
