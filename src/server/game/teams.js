@@ -1903,7 +1903,8 @@ const updateGames = ({message, games, scores, teams}) => {
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
         const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
-        const isGameOver = get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid;
+        const isGameOver = (get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid) || 
+        (get(score,'gameName') || '').toLowerCase().includes('tbd');
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
