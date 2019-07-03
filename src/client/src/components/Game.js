@@ -130,7 +130,7 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '8px' : '32px'}}>
+                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '4px' : '32px'}}>
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                   {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
                                                 </Typography>
