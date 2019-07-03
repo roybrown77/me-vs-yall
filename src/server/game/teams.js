@@ -1904,7 +1904,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
         const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
         const isGameOver = (get(score,'gameOverText') !== null && isOverOneHour && awayScoreFinalValid && homeScoreFinalValid) || 
-        (get(score,'gameName') || '').toLowerCase().includes('tbd');
+        (get(score,'gameName') || '').toLowerCase().includes('makeup');
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
