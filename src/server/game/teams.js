@@ -1482,7 +1482,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   return newPlayHistory;
 };
 
-const createWeek = async ({leagueId, year, seasonType, weekNo, day=6, message}) => {
+const createWeek = async ({message, url, leagueId, year, day=6}) => {
   console.log(`${message} creating week`);
 
   const gameExistSearch = {
@@ -1506,11 +1506,48 @@ const createWeek = async ({leagueId, year, seasonType, weekNo, day=6, message}) 
   console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
 
   if (currentWeekDay === day) {
+    let weekName;
+
+    if (url) {
+      let browser;
+      let page;
+    
+      try {
+        browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+
+        page = await browser.newPage();
+
+        await page.goto(url);
+
+        await page.waitForSelector('#events');
+
+        let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
+
+        weekName = await page.evaluate((sel) => {
+            return document.querySelector(sel).innerText;
+          }, CURRENTWEEK_SELECTOR);
+
+        await page.close();
+        await browser.close();
+      } catch(err) {
+        if (!!page) {
+          await page.close();
+        }
+
+        if (!!browser) {
+          await browser.close();
+        }
+
+        console.log(`${message} browser error: ${JSON.stringify(err.message)}`);
+      }
+    }
+
     const gameWeek = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      seasonType: seasonType,
-      weekNo: weekNo,
+      description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
       beginDateTime: moment().startOf('day').format(),
       endDateTime: moment().add(6, 'days').endOf('day').format()
     };
@@ -1651,7 +1688,7 @@ const getGames = async ({
   return games;
 };
 
-const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}) => {
+const formatGames = ({message, games, leagueId, year, teams}) => {
     let formattedGames = [];
 
     for(let i=0; i<games.length;i++) {
@@ -1669,8 +1706,6 @@ const formatGames = ({message, games, leagueId, year, seasonType, weekNo, teams}
           leagueId: mongoose.Types.ObjectId(leagueId),
           year: year,
           startDateTime: game.startDateTime,
-          seasonType: seasonType,
-          weekNo: weekNo,
           spread: {
            teamId: get(spreadTeam,'_id'),
            amount: get(game,'spread.amount', 0),

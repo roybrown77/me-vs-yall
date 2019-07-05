@@ -23,22 +23,31 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadNflGames = async (dayCount) => {
-  if (isLoadNflGamesRunning) {
+const loadNflGames = async () => {
+  const message = 'loadNflGames';
+
+  if (isLoadNflGamesRunning || isUpdateNflScoresRunning) {
     console.log("loadNflGames already running.");
+    return;
+  }
+
+  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+
+  if (currentWeekDay === 3) {
+    console.log("loadNflGames games load on Wednesday");
     return;
   }
 
   const leagueId = '59723313734d1d6202a85f10';
   const year = 2018;
-  const date = moment().add(dayCount, 'days').format('YYYYMMDD');
+  const date = moment().add(4, 'days').format('YYYYMMDD');
   
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: year,
     startDateTime: {
-      $gte: moment().add(dayCount, 'days').startOf('day').format(),
-      $lte: moment().add(dayCount, 'days').endOf('day').format(),
+      $gte: moment().add(4, 'days').startOf('day').format(),
+      $lte: moment().add(4, 'days').endOf('day').format(),
     }
   };
 
@@ -49,150 +58,28 @@ const loadNflGames = async (dayCount) => {
     return;
   }
 
-  let games = [];
-  let browser;
-  let page;
-  let startDateTime;
+  const url = 'http://www.espn.com/nfl/scoreboard';
+  const root = 'scoreboard football';
+  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
+  const recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
+  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
+  const spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
+
+  const games = await getGames({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector});
   
-  isLoadNflGamesRunning = true;
-
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-
-    page = await browser.newPage();
-
-    await page.goto('http://www.espn.com/nfl/scoreboard');
-
-    await page.waitForSelector('#events');
-
-    let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-    const currentWeek = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, CURRENTWEEK_SELECTOR);
-
-    if (!currentWeek) {
-      isLoadNflGamesRunning = false;
-      console.log("loadNflGames currentWeek error");
-      await page.close();
-      await browser.close();
-      return;
-    }
-
-    if (currentWeek.toLowerCase().includes('pro bowl')) {
-      isLoadNflGamesRunning = false;
-      console.log("loadNflGames pro bowl will not be added; super bowl will load next wednesday.");
-      await page.close();
-      await browser.close();
-      return;
-    }
-
-    let listLength = await page.evaluate((sel) => {
-      return document.getElementsByClassName(sel).length;
-    }, 'scoreboard football');
-
-    console.log('loadNflGames listLength: ' + listLength);
-
-    if (listLength === 0) {
-      isLoadNflGamesRunning = false;
-      console.log("loadNflGames no games found");
-      await page.close();
-      await browser.close();
-      return;
-    }
-
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-    let LIST_RECORD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
-    let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
-    let SPREAD_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-
-    for (let i = 1; i <= listLength; i++) {
-      const awayTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
-      const awayRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'away'));
-
-      const homeTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_NAME_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-      const homeRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_RECORD_SELECTOR.replace("INDEX", i).replace("HOMEAWAY",'home'));
-
-      startDateTime = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-date');
-      }, STARTDATETIME_SELECTOR.replace("INDEX", i));
-
-      const spread = currentWeek.toLowerCase().includes('hall of fame') ? 'Line: 0' : 
-      await page.evaluate((sel) => {
-        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
-      }, SPREAD_SELECTOR.replace("INDEX", i));
-
-      games.push({
-        startDateTime: startDateTime,
-        spread: {
-         team: spread.replace('Line: ','').split(' ')[0],
-         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
-         spreadDateTime: moment().toISOString()
-        },
-        awayTeam: awayTeam,
-        awayRecord: awayRecord,
-        homeTeam: homeTeam,
-        homeRecord: homeRecord
-      });
-    }
-
-    await page.close();
-    await browser.close();
-  } catch(err) {
-    if (!!page) {
-      await page.close();
-    }
-
-    if (!!browser) {
-      await browser.close();
-    }
-
-    console.log('loadNflGames browser error: ' + err.message);
-  }
-
-  if (!startDateTime) {
+    if ((games || []).length === 0) {
     isLoadNflGamesRunning = false;
-    console.log('loadNflGames no startDateTime');
+    console.log(`${message} no games`);
     return;
   }
 
-  if (!games) {
-    isLoadNflGamesRunning = false;
-    console.log('loadNflGames no games');
-    return;
-  }
+  console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  
+  const mvyGames = formatGames({games, leagueId, year, teams: nflTeams});
 
-  console.log('loadNflGames game formatting...');
+  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
-  const seasonType = currentWeek.toLowerCase().includes('hall of fame') || currentWeek.toLowerCase().includes('preseason') ? 1 : currentWeek.split(' ')[0].toLowerCase() === 'week' ? 2 : 3;
-  const weekNo = currentWeek.toLowerCase().includes('hall of fame') ? 0 : 
-  currentWeek.toLowerCase().includes('preseason') ? parseInt(currentWeek.toLowerCase().split('preseason week ')[1]) : 
-  currentWeek.split(' ')[0].toLowerCase() === 'week' ? parseInt(currentWeek.toLowerCase().split('week ')[1]) : 
-  currentWeek.toLowerCase().includes('wild') ? 1 : 
-  currentWeek.toLowerCase().includes('divisional') ? 2 : 
-  currentWeek.toLowerCase().includes('conference') ? 3 : 5;
-
-  const mvyGames = formatGames({games, leagueId, year, seasonType, weekNo, teams: nflTeams});
-
-  console.log('loadNflGames mvyGames: ' + JSON.stringify(mvyGames));
-
-  createGames(mvyGames, 'loadNflGames');
+  await createGames({message, games: mvyGames});
 
   isLoadNflGamesRunning = false;
 };
@@ -237,26 +124,6 @@ const updateNflScores = async () => {
     await page.goto('http://www.espn.com/nfl/scoreboard');
 
     await page.waitForSelector('#events');
-
-    let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-    const currentWeek = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, CURRENTWEEK_SELECTOR);
-
-    if (!currentWeek) {
-      isUpdateNflScoresRunning = false;
-      console.log("updateNflScores currentWeek error");
-      return;
-    }
-
-    if (currentWeek.toLowerCase().includes('pro bowl')) {
-      isUpdateNflScoresRunning = false;
-      console.log("updateNflScores Pro Bowl will not be added.  Super Bowl will load next Wednesday.");
-      await page.close();
-      await browser.close();
-      return;
-    }
 
     let listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
