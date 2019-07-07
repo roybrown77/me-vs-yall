@@ -15,8 +15,7 @@ function upsert(pick, cb) {
         const finalPick = { 
             ...pick,
             leagueId: get(game,'leagueId'),
-            year: get(game,'year'),
-            gameDateTime: get(game,'startDateTime')
+            year: get(game,'year')
         }
 
         return pickRepository.findOneAndUpdate(
