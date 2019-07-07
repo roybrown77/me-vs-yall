@@ -122,7 +122,6 @@ GameSearchBar.propTypes = {
   years: PropTypes.array,
   weekId: PropTypes.string,
   weeks: PropTypes.array,
-  seasonType: PropTypes.number,
   isDaily: PropTypes.bool,
   weekIndex: PropTypes.number,
   onFilterLeague: PropTypes.func,

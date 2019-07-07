@@ -244,10 +244,8 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
           userId: get(user,'sub'),
           leagueId: get(query, 'leagueId')  || get(currentWeek, 'leagueId'),
           year: get(query, 'year') || get(currentWeek, 'year'),
-          seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
-          weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
-          beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-          endDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+          beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+          endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
         };
 
         const requestStorageJson = localStorage.getItem('request');
@@ -296,10 +294,8 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
       leagueId: get(query, 'leagueId') || get(currentWeek, 'leagueId'),
       year: get(query, 'year') || get(currentWeek, 'year'),
-      seasonType: get(query, 'seasonType') || get(currentWeek, 'seasonType'),
-      weekNo: get(query, 'weekNo', get(currentWeek, 'weekNo')),
-      beginDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-      endDateTime: get(query, 'leagueId') === '59723313734d1d6202a85f10' ? undefined : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+      beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+      endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
     };
 
     const requestStorageJson = localStorage.getItem('request');

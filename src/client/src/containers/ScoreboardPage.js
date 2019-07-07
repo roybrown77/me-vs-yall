@@ -86,8 +86,6 @@ class ScoreboardPage extends Component {
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
             year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
-            seasonType: urlLeagueId !== this.props.leagueId ? undefined : this.props.seasonType,
-            weekNo: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekNo,
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
@@ -137,8 +135,6 @@ class ScoreboardPage extends Component {
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
             year: this.props.year,
-            seasonType: this.props.seasonType,
-            weekNo: this.props.weekNo,
             beginDateTime: this.props.beginDateTime,
             endDateTime: this.props.endDateTime,
             weekId: this.props.weekId
@@ -183,8 +179,6 @@ class ScoreboardPage extends Component {
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
             year: this.props.year,
-            seasonType: weekFound.seasonType,
-            weekNo: weekFound.weekNo,
             beginDateTime: weekFound.beginDateTime,
             endDateTime: weekFound.endDateTime,
             weekId: weekFound._id
@@ -238,7 +232,6 @@ class ScoreboardPage extends Component {
                             years={this.props.years}
                             weekId={this.props.weekId}
                             weeks={this.props.weeks}
-                            seasonType={this.props.seasonType}
                             beginDateTime={this.props.beginDateTime}
                             endDateTime={this.props.endDateTime}
                             onFilterLeague={this.handleFilterLeague}
@@ -369,8 +362,6 @@ const mapStateToProps = (state, ownProps) => {
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
     const weeks = formatWeeks(rawWeeks);
     const currentWeek = getCurrentWeek(weeks);
-    const weekNo = get(request, 'beginDateTime') ? undefined : get(request, 'weekNo') || get(currentWeek,'weekNo');
-    const seasonType = get(request, 'beginDateTime') ? undefined : get(request, 'seasonType') || get(currentWeek, 'seasonType');
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
     
@@ -394,8 +385,6 @@ const mapStateToProps = (state, ownProps) => {
         years,
         leagueId,
         year,
-        seasonType,
-        weekNo,
         weekId,
         beginDateTime,
         endDateTime,
@@ -417,10 +406,8 @@ ScoreboardPage.propTypes = {
     teams: PropTypes.array,
     leagueId: PropTypes.string,
     year: PropTypes.number,
-    seasonType: PropTypes.number,
     week: PropTypes.number,
     weekId: PropTypes.string,
-    weekNo: PropTypes.number,
     beginDateTime: PropTypes.string,
     endDateTime: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,

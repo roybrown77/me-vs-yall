@@ -218,8 +218,6 @@ router.get('/games', function (req, res) {
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
     year: get(req, 'query.year'),
-    seasonType: get(req, 'query.seasonType'),
-    weekNo: get(req, 'query.weekNo'),
     startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
       $gte: new Date(moment(get(req, 'query.beginDateTime'))),
       $lte: new Date(moment(get(req, 'query.endDateTime')))
@@ -232,8 +230,6 @@ router.get('/games', function (req, res) {
   const finalSearch = omit(search, 
     [
       get(req,'query.year','year'),
-      !get(req,'query.weekNo') || get(req,'query.weekNo') === '-1' ? 'weekNo' : undefined, 
-      !get(req,'query.seasonType') || get(req,'query.seasonType') === '-1' ? 'seasonType' : undefined, 
       !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
     ]
   );
@@ -282,7 +278,7 @@ router.get('/gameweeks', function (req, res) {
         return total;
       }, []);
 
-      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'seasonType', 'weekNo', 'beginDateTime']);
+      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'beginDateTime']);
 
       res.status(200).send(weeks);
   });

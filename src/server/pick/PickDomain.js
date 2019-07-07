@@ -16,8 +16,6 @@ function upsert(pick, cb) {
             ...pick,
             leagueId: get(game,'leagueId'),
             year: get(game,'year'),
-            seasonType: get(game,'seasonType'),
-            weekNo: get(game,'weekNo'),
             gameDateTime: get(game,'startDateTime')
         }
 
