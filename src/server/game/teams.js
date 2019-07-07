@@ -1485,27 +1485,27 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
 const createWeek = async ({message, url, leagueId, year, day=6}) => {
   console.log(`${message} creating week`);
 
-  const gameExistSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    startDateTime: {
-      $gte: moment().startOf('day').format(),
-      $lte: moment().add(6, 'days').endOf('day').format(),
-    }
-  };
-
-  const games = await gameRepository.find(gameExistSearch);
-
-  if (games.length === 0) {
-    console.log(`${message} createWeek games don't exist.`);
-    return;
-  }
-
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
   console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
 
   if (currentWeekDay === day) {
+    const gameExistSearch = {
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        year: year,
+        startDateTime: {
+          $gte: moment().startOf('day').format(),
+          $lte: moment().add(6, 'days').endOf('day').format(),
+        }
+    };
+
+    const games = await gameRepository.find(gameExistSearch);
+
+    if (games.length === 0) {
+        console.log(`${message} createWeek games don't exist.`);
+        return;
+    }
+
     let weekName;
 
     if (url) {

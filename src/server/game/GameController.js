@@ -182,7 +182,7 @@ router.get('/games', function (req, res) {
     try {
       loadMlbGames(0);
       loadMlbGames(1);
-      createWeek({leagueId: '59723313734d1d6202a85f21', year: 2018, day: 0, message: 'loadMlbGames'});
+      createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
     } catch(err) {
       isLoadMlbGamesRunning = false;
       console.log('loadMlbGames error: ' + err.message);
