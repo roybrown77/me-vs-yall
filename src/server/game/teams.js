@@ -1506,6 +1506,19 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
         return;
     }
 
+    const gameWeekFind = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: year,
+      endDateTime: moment().add(6, 'days').endOf('day').format()
+    };
+
+    const gameWeeks = await gameWeekRepository.find(gameWeekFind);
+    
+    if ((gameWeeks || []).length > 0) {
+        console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeek)}`);
+        return;
+    }
+
     let weekName;
 
     if (url) {
@@ -1552,27 +1565,12 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
       endDateTime: moment().add(6, 'days').endOf('day').format()
     };
 
-    const gameWeekFind = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      endDateTime: {
-        $gte: moment().add(6, 'days').startOf('day').format(),
-        $lte: moment().add(6, 'days').endOf('day').format(),
-      }
-    };
-
-    gameWeekRepository.find(gameWeekFind, function (err, gameWeeks) {
-      if ((gameWeeks || []).length > 0) {
-        console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeek)}`);
-      } else {
-        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-            if (err) {
-                console.log(`${message} createWeek there was a problem adding week to the database:  ${err.message}`);
-            } else {
-              console.log(`${message} createWeek success creating week: ${gameWeekCreated._id}`);
-            }
-        });
-      }
+    gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+        if (err) {
+            console.log(`${message} createWeek there was a problem adding week to the database:  ${err.message}`);
+        } else {
+            console.log(`${message} createWeek success creating week: ${gameWeekCreated._id}`);
+        }
     });
   }
 };
