@@ -1930,6 +1930,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation  || x.awayTeamPregame === awayShortLocation) && 
                                       (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation  || x.homeTeamPregame === homeShortLocation));
+
+        console.log('**** score: ' + JSON.stringify(score));
+
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
@@ -1956,8 +1959,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
           currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : 
-          shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
-          gameName: get(score,'gameName')
+          shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter
         }; 
 
         const gameStarted = hasGameStarted(get(game,'startDateTime'));
