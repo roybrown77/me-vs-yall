@@ -1969,9 +1969,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         });
 
         set(updatedGame,'competitors.0.score', isGameOver ? 
-          get(score,'awayScore') : (get(score,'awayInProgressScore') || 0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : (get(score,'awayInProgressScore') || 0);
+          get(score,'awayScore') : (get(score,'awayInProgressScore') || 0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : (get(score,'awayInProgressScore') || 0));
         set(updatedGame,'competitors.1.score', isGameOver ? 
-          get(score,'homeScore') : (get(score,'homeInProgressScore') || 0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : (get(score,'homeInProgressScore') || 0);
+          get(score,'homeScore') : (get(score,'homeInProgressScore') || 0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : (get(score,'homeInProgressScore') || 0));
 
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
