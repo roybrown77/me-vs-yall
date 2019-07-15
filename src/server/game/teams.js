@@ -1934,10 +1934,10 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-        const awayScoreFinalValid = (get(score,'awayScore') || 0) > 0;
-        const homeScoreFinalValid = (get(score,'homeScore') || 0) > 0;
-        const isGameOver = (get(score,'gameOverText') !== null && isOverOneHour) || 
-        (get(score,'gameName') || '').toLowerCase().includes('makeup');
+        const isGameOver = ((get(score,'gameOverText') !== null && isOverOneHour) || 
+        (get(score,'gameName') || '').toLowerCase().includes('makeup')) && 
+        ((get(score,'awayScore') || 0) >= get(game,'competitors.0.score',0)) && 
+        ((get(score,'homeScore') || 0) >= get(game,'competitors.1.score',0);
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
@@ -1969,9 +1969,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         });
 
         set(updatedGame,'competitors.0.score', isGameOver ? 
-          get(score,'awayScore') : get(score,'awayInProgressScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayInProgressScore',0));
+          get(score,'awayScore') : (get(score,'awayInProgressScore') || 0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : (get(score,'awayInProgressScore') || 0);
         set(updatedGame,'competitors.1.score', isGameOver ? 
-          get(score,'homeScore') : get(score,'homeInProgressScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeInProgressScore',0));
+          get(score,'homeScore') : (get(score,'homeInProgressScore') || 0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : (get(score,'homeInProgressScore') || 0);
 
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
