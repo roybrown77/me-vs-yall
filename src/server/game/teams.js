@@ -1509,13 +1509,18 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
     const gameWeekFind = {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
-      endDateTime: moment().add(6, 'days').endOf('day').format()
+      beginDateTime: {
+          $lte: moment().format()
+        },
+        endDateTime: {
+          $gte: moment().format()
+        }
     };
 
     const gameWeeks = await gameWeekRepository.find(gameWeekFind);
     
     if ((gameWeeks || []).length > 0) {
-        console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeek)}`);
+        console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeeks)}`);
         return;
     }
 
@@ -1930,8 +1935,6 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation  || x.awayTeamPregame === awayShortLocation) && 
                                       (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation  || x.homeTeamPregame === homeShortLocation));
-
-        console.log('**** score: ' + JSON.stringify(score));
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
         const playHistory = get(game,'playHistory',[]);
