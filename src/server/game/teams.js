@@ -1955,6 +1955,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const updatedGame = {
           competitors: [...get(game,'competitors',[])],
+          gameName: get(score,'gameName',''),
           isGameOver: isGameOver,
           lastPlay: undefined,
           playHistory: newPlayHistory,
