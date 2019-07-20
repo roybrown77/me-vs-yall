@@ -121,10 +121,11 @@ const updateMlbScores = async () => {
 
   let gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
   let spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-
+  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
+ 
   // pregame
   let namePregameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-  
+   
   // live
   let liveRecordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
   let liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
@@ -146,6 +147,7 @@ const updateMlbScores = async () => {
     url: 'http://www.espn.com/mlb/scoreboard',
     gameNameSelector,
     spreadSelector,
+    startDateTimeSelector,
     namePregameSelector,
     liveRecordSelector,
     liveQuarterSelector,
