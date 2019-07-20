@@ -1939,8 +1939,19 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
         const homeShortLocation = get(homeTeam,'shortLocation');
 
-        const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation || x.awayTeamPregame === awayShortLocation ) && 
-                                      (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation || x.homeTeamPregame === homeShortLocation));
+        const preGameScore = scores.find(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+
+        console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
+
+        const inProgressScore = scores.find(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+
+        console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
+
+        const finalScore = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+
+        console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
+
+        const score = preGameScore || inProgressScore || finalScore;
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
         const playHistory = get(game,'playHistory',[]);
@@ -1976,10 +1987,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           spreadDateTime: get(score,'spread.spreadDateTime')
         });
 
-        set(updatedGame,'competitors.0.score', isGameOver ? 
-          get(score,'awayScore') : (get(score,'awayInProgressScore') || 0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : (get(score,'awayInProgressScore') || 0));
-        set(updatedGame,'competitors.1.score', isGameOver ? 
-          get(score,'homeScore') : (get(score,'homeInProgressScore') || 0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : (get(score,'homeInProgressScore') || 0));
+        set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
+        set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
 
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
