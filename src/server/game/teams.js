@@ -1933,44 +1933,16 @@ const getScores = async ({
 };
 
 const updateGames = ({message, leagueId, games, scores, teams}) => {
-    const preScores = scores.filter(x=>x.startDateTime);
-    const inProgressScores = scores.filter(x=>!x.startDateTime);
-
     games.forEach(game=>{
         const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
         const awayShortLocation = get(awayTeam,'shortLocation');
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
         const homeShortLocation = get(homeTeam,'shortLocation');
 
-        const score = preScores.find(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        const score = scores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation || x.awayTeamPregame === awayShortLocation ) && 
+                                      (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation || x.homeTeamPregame === homeShortLocation));
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
-
-        const updatedGame = {
-            ...game,
-            gameName: get(score,'gameName','') 
-        }; 
-
-        set(game,'spread', !spreadTeam ? get(game,'spread') : {
-          teamId: get(spreadTeam,'_id'),
-          amount: get(score,'spread.amount', 0),
-          spreadDateTime: get(score,'spread.spreadDateTime')
-        });
-
-        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
-        
-        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
-    });
-
-    games.forEach(game=>{
-        const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-        const awayShortLocation = get(awayTeam,'shortLocation');
-        const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
-        const homeShortLocation = get(homeTeam,'shortLocation');
-
-        const score = inProgressScores.find(x=>(x.awayTeam === awayShortLocation || x.awayTeamInProgress === awayShortLocation) && 
-                                      (x.homeTeam === homeShortLocation || x.homeTeamInProgress === homeShortLocation));
-
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
@@ -1994,8 +1966,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
           currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : 
-          shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter
-        }; 
+          shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
+          gameName: get(score,'gameName','')
+        };
+
+        set(game,'spread', !spreadTeam ? get(game,'spread') : {
+          teamId: get(spreadTeam,'_id'),
+          amount: get(score,'spread.amount', 0),
+          spreadDateTime: get(score,'spread.spreadDateTime')
+        });
 
         set(updatedGame,'competitors.0.score', isGameOver ? 
           get(score,'awayScore') : (get(score,'awayInProgressScore') || 0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : (get(score,'awayInProgressScore') || 0));
