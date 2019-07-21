@@ -1566,7 +1566,7 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
-      beginDateTime: moment().startOf('day').format(),
+      beginDateTime: moment().add(0, 'days').startOf('day').format(),
       endDateTime: moment().add(6, 'days').endOf('day').format()
     };
 
