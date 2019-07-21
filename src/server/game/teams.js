@@ -1973,7 +1973,6 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const updatedGame = {
           competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
-          lastPlay: undefined,
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
           currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : 
