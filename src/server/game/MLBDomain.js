@@ -166,9 +166,9 @@ const updateMlbScores = async () => {
     return;
   }
 
-  console.log(`${message} games: ${JSON.stringify(games)}`);
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
 
-  console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,
