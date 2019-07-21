@@ -9,7 +9,12 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
 const {
-  eplTeams, 
+  eplTeams,
+  getGames,
+  formatGames,
+  createGames,
+  getScores,
+  updateGames
 } = require('./teams');
 
 const omit = require('lodash/omit');
@@ -21,276 +26,85 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const loadEnglishPremierLeagueGames = async () => {
-  if (isLoadEnglishPremierLeagueGamesRunning) {
-    console.log("loadEnglishPremierLeagueGames already running.");
+const loadEnglishPremierLeagueGames = async (dayCount) => {
+  const message = 'loadEnglishPremierLeagueGames';
+
+  if (isLoadEnglishPremierLeagueGamesRunning || isUpdateEnglishPremierLeagueScoresRunning) {
+    console.log(`${message} already running.`);
     return;
   }
 
   const leagueId = '59723313734d1d6202a85f17';
   const year = 2018;
+  const date = moment().add(dayCount, 'days').format('YYYYMMDD');
+  
+  console.log(`${message} date: ${date}`);
 
-  const gameSearch = {
+  const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
-    isGameOver: {
-      $ne: true
-    },
-    year: year
+    year: year,
+    startDateTime: {
+      $gte: moment().add(dayCount, 'days').startOf('day').format(),
+      $lte: moment().add(dayCount, 'days').endOf('day').format(),
+    }
   };
 
-  const gamesStillInProgress = await gameRepository.find(gameSearch);
+  const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
-  const startDateTimes = gamesStillInProgress.map(x=>{
-    return new Date(x.startDateTime);
-  });
-
-  const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
-
-  const daysLeftToGetGames = moment().add(8,'days').diff(moment(lastStartGameTime), 'days');
-
-  console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
-
-  console.log('loadEnglishPremierLeagueGames lastStartGameTime: ' + lastStartGameTime);
-
-  if (daysLeftToGetGames === 0) {
-    console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
-
-    const search = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-7, 'days').startOf('day')),
-          $lte: new Date(moment(lastStartGameTime).endOf('day'))
-        },
-        isStub: {
-          $ne: true
-        }
-      };
-
-    console.log('loadEnglishPremierLeagueGames search: ' + JSON.stringify(search));
-  
-    const gamesFound = await gameRepository.find(search);
-
-    if (gamesFound.length === 0) {
-      console.log('loadEnglishPremierLeagueGames no games loaded for week');
-      return;
-    }
-
-    const finalDayStub = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
-      startDateTime: moment(lastStartGameTime).startOf('day'),
-      isStub: true
-    };
-
-    gameRepository.find(finalDayStub, function (err, games) {
-      if ((games || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(finalDayStub));
-      } else {
-        gameRepository.create(finalDayStub, function (err, gameCreated) {
-          if (err) {
-            console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadEnglishPremierLeagueGames success creating final day stub: " + gameCreated._id);
-          }
-        });
-      }
-    });
-
-    const gameWeek = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
-      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
-    };
-
-    console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
-
-    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
-      if ((gameWeeks || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
-      } else {
-        gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-            if (err) {
-                console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
-            } else {
-              console.log("loadEnglishPremierLeagueGames success creating week: " + gameWeekCreated._id);
-            }
-        });
-      }
-    });
-
+  if ((gamesExistSearch || []).length > 0) {
+    console.log(`${message} games already exists: ${date}`);
     return;
   }
 
-  let games = [];
-  let date;
+  console.log(`${message} get games`);
 
-  let browser;
-  let page;
+  const url = `http://www.espn.com/mlb/scoreboard/_/league/eng.1/date/${date}`;
+  const root = 'scoreboard soccer';
+  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
+  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
   
-  let startDateTime;
+  const games = await getGames({
+    message,
+    url,
+    root,
+    nameSelector,
+    startDateTimeSelector,
+    away: 'a',
+    home: 'b'
+  });
 
-  isLoadEnglishPremierLeagueGamesRunning = true;
-
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false
-    });
-
-    page = await browser.newPage();
-
-    date = moment(lastStartGameTime).add(1, 'days').format('YYYYMMDD');
-
-    console.log('loadEnglishPremierLeagueGames date: ' + date);
-
-    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
-
-    await page.waitForSelector('#events');
-
-    let listLength = await page.evaluate((sel) => {
-      return document.getElementsByClassName(sel).length;
-    }, 'scoreboard soccer');
-
-    if (listLength === 0) {
-      isLoadEnglishPremierLeagueGamesRunning = false;
-
-      console.log("loadEnglishPremierLeagueGames no games found");
-
-      const gameSearch = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: parseInt(year),
-        startDateTime: moment(date),
-        isStub: true
-      };
-
-      gameRepository.find(gameSearch, function (err, games) {
-        if ((games || []).length > 0) {
-          console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gameSearch));
-        } else {
-          gameRepository.create(gameSearch, function (err, gameCreated) {
-            if (err) {
-              console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
-            } else {
-              console.log("loadEnglishPremierLeagueGames success creating stub: " + gameCreated._id);
-            }
-          });
-        }
-      });
-
-      await page.close();
-      await browser.close();
-      return;
-    }
-
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
-    let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
-    let STARTDATETIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
-
-    for (let i = 1; i <= listLength; i++) {
-      startDateTime = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-date');
-      }, STARTDATETIME_SELECTOR.replace("INDEX", i));
-
-      const awayTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'a'));
-
-      const homeTeam = await page.evaluate((sel) => {
-        return document.querySelector(sel).innerText;
-      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE", 'b'));
-
-      games.push({
-        startDateTime: moment(startDateTime),
-        awayTeam: awayTeam.trim(),
-        homeTeam: homeTeam.trim()
-      });
-    }
-
-    await page.close();
-    await browser.close();
-  } catch(err) {
-    if (!!page) {
-      await page.close();
-    }
-
-    if (!!browser) {
-      await browser.close();
-    }
-
-    console.log('loadEnglishPremierLeagueGames browser error: ' + err.message);
-  }
-
-  console.log('loadEnglishPremierLeagueGames games: ' + JSON.stringify(games));
-
-  if (games.some(x=>!x.startDateTime)) {
+  if ((games || []).length === 0) {
     isLoadEnglishPremierLeagueGamesRunning = false;
-    console.log('loadEnglishPremierLeagueGames no startDateTime');
+    console.log(`${message} no games`);
     return;
   }
 
-  const mvyGames = games.reduce((total, game)=>{
-    const awayTeam = eplTeams.find(x=>x.shortLocation === game.awayTeam);
-    const homeTeam = eplTeams.find(x=>x.shortLocation === game.homeTeam);
+  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  
+  const mvyGames = formatGames({games, leagueId, year, teams: eplTeams});
 
-    if (awayTeam && homeTeam) {
-      total.push({
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: parseInt(year),
-        startDateTime: game.startDateTime,
-        competitors: [
-          {_id: mongoose.Types.ObjectId(awayTeam._id), shortLocation: awayTeam.shortLocation},
-          {_id: mongoose.Types.ObjectId(homeTeam._id), shortLocation: homeTeam.shortLocation}
-        ]
-      });
-    }
+  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
-    return total;
-  }, []);
-
-  console.log('loadEnglishPremierLeagueGames mvyGames: ' + JSON.stringify(mvyGames));
-
-  const gameFind = {
-    leagueId: get(game,'leagueId'),
-    year: get(game,'year'),
-    startDateTime: new Date(moment(get(game,'startDateTime')))
-  };
-
-  mvyGames.forEach(game=>{
-    gameRepository.find(gameFind, function (err, gamesFound) {
-      if ((gamesFound || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(gamesFound));
-      } else {
-        gameRepository.create(game, function (err, gameCreated) {
-          if (err) {
-            console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadEnglishPremierLeagueGames success creating game: " + gameCreated._id);
-          }
-        });
-      }
-    });
-  });
+  await createGames({message, games: mvyGames});
 
   isLoadEnglishPremierLeagueGamesRunning = false;
 };
 
 const updateEnglishPremierLeagueScores = async () => {
-  if (isUpdateEnglishPremierLeagueScoresRunning) {
-    console.log("updateEnglishPremierLeagueScores already running.")
+  const message = 'updateMlbScores';
+
+  if (isUpdateMlbScoresRunning) {
+    console.log(`${message} already running.`)
     return;
   }
 
   const leagueId = '59723313734d1d6202a85f17';
-  const year = 2018;
+  const year = 2019;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
-    },
-    startDateTime: {
-      $lt: moment().toISOString()
     },
     isStub: {
       $ne: true
@@ -300,172 +114,49 @@ const updateEnglishPremierLeagueScores = async () => {
 
   const games = await gameRepository.find(search);
 
-  if (!!games && games.length === 0) {
-    console.log("updateEnglishPremierLeagueScores all scores have been updated.");
+  if ((games || []).length === 0) {
+    console.log(`${message} all scores have been updated.`);
     return;
   }
 
-  const startDateTimes = games.map(x=>{
-    return x.startDateTime;
-  });
-
-  const earliestStartDateTime = new Date(Math.min.apply(null, startDateTimes));
-
-  console.log("updateEnglishPremierLeagueScores earliestStartDateTime: " + earliestStartDateTime);
-
-  const date = moment(earliestStartDateTime).format('YYYYMMDD');
-  let scores = [];
-  let browser;
-  let page;
+  let liveTotalSelector, finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
+  let liveNameSelector, finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
+  let liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
+  let possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
+  let finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
 
   isUpdateEnglishPremierLeagueScoresRunning = true;
 
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-
-    page = await browser.newPage();
-
-    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
-
-    await page.waitForSelector('#events');
-
-    let listLength = await page.evaluate((sel) => {
-      return document.getElementsByClassName(sel).length;
-    }, 'scoreboard soccer');
-
-    let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
-    let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
-    let LIST_NAME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.short-name';
-    let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
-    let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
-    let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
-
-    console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
-
-    if (listLength === 0) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log("updateEnglishPremierLeagueScores no games found");
-      await page.close();
-      await browser.close();
-      return;
-    }
-
-    for (let i = 1; i <= listLength; i++) {
-      const currentTime = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR.replace("INDEX", i));
-
-      const possessionAway = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
-
-      const possessionHome = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, LIST_IN_PROGRESS_POSSESSION_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
-
-      const awayTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : '';
-      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
-
-      const awayScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
-
-      const homeTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : '';
-      }, LIST_NAME_ABBREV_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
-
-      const homeScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
-
-      const gameOverIndicator = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
-
-      scores.push({
-        awayTeam: awayTeam.trim(),
-        awayScore: parseInt(awayScore),
-        homeTeam: homeTeam.trim(),
-        homeScore: parseInt(homeScore),
-        isGameOver: (gameOverIndicator || '').trim() === 'FT',
-        currentTime: currentTime,
-        possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
-        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, '')
-      });
-    }
-
-    await page.close();
-    await browser.close();
-  } catch(err) {
-    if (!!page) {
-      await page.close();
-    }
-
-    if (!!browser) {
-      await browser.close();
-    }
-    console.log('updateEnglishPremierLeagueScores browser error: ' + err.message);
-  }
-
-  console.log('updateEnglishPremierLeagueScores games: ' + JSON.stringify(games));
-  console.log('updateEnglishPremierLeagueScores scores: ' + JSON.stringify(scores));
-
-  if (get({scores:scores},'scores',[]).length === 0) {
+  const scores = await getScores({
+    message, 
+    root: 'scoreboard soccer',
+    url: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1',
+    liveTotalSelector,
+    finalScoreSelector,
+    liveNameSelector,
+    finalNameSelector,
+    liveCurrentTimeSelector,
+    possesionSelector,
+    finalGameOverSelector,
+    away: 'a',
+    home: 'b'
+  });
+  
+  if (scores.length === 0) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log("updateEnglishPremierLeagueScores no scores.");
+    console.log(`${message} no scores.`);
     return;
   }
 
-  games.forEach(game=>{
-    const awayShortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
-    const homeShortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[1]._id.toString()).shortLocation;
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
-    const score = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
-    
-    console.log('updateEnglishPremierLeagueScores score: ' + JSON.stringify(score));
-
-    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
-      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
-      (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
-        moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
-
-      const isGameOver = get(score,'isGameOver',false);
-      const currentTimeNumber = parseInt(get(score,'currentTime','').replace('\'','').replace('\'','').replace('+',''));
-      const lastTimeNumber = parseInt((get(game,'currentTime') || '').replace('\'','').replace('\'','').replace('+',''));
-      const shouldSetCurrentTime = !isGameOver && ((currentTimeNumber >= lastTimeNumber) || ['HT','FT'].includes(get(score,'currentTime')) || isNaN(lastTimeNumber));
-      
-      //console.log('updateEnglishPremierLeagueScores currentTimeNumber: ' + currentTimeNumber);
-      //console.log('updateEnglishPremierLeagueScores lastTimeNumber: ' + lastTimeNumber);
-    
-      const updatedGame = {
-        competitors: [...get(game,'competitors',[])],
-          isGameOver: isGameOver,
-          currentTime: shouldSetCurrentTime ? get(score,'currentTime') : get(game,'currentTime'),
-          possession: get(score,'possession'),
-          lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
-          get(score,'homeTeam') + ': ' + get(score,'possessionHome')
-        };
-
-      set(updatedGame,'competitors.0.score', isGameOver ? 
-        get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0));
-      set(updatedGame,'competitors.1.score', isGameOver ? 
-        get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0));
-      
-      console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
-
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
-    }
+  await updateGames({
+    message,
+    leagueId, 
+    games,
+    scores,
+    teams: mlbTeams
   });
 
   isUpdateEnglishPremierLeagueScoresRunning = false;

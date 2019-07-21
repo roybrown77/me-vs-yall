@@ -60,14 +60,14 @@ const loadNflGames = async () => {
 
   const url = 'http://www.espn.com/nfl/scoreboard';
   const root = 'scoreboard football';
-  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-  const recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > div > p.record.overall'; 
-  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
-  const spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-
-  const games = await getGames({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector});
   
-    if ((games || []).length === 0) {
+  const games = await getGames({
+    message,
+    url,
+    root,
+  });
+  
+  if ((games || []).length === 0) {
     isLoadNflGamesRunning = false;
     console.log(`${message} no games`);
     return;

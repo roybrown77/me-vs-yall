@@ -1584,11 +1584,13 @@ const getGames = async ({
     message,
     url,
     root,
-    nameSelector,
-    recordSelector,
-    startDateTimeSelector,
-    spreadSelector,
-    gameNameSelector
+    nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
+    recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
+    startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
+    spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
+    gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
+    away='away',
+    home='home'
 }) => {
   let games = [];
   
@@ -1625,22 +1627,22 @@ const getGames = async ({
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
+      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
 
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       const homeRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
+      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
 
       const startDateTime = await page.evaluate((sel) => {
         return document.querySelector(sel).getAttribute('data-date');
@@ -1756,19 +1758,21 @@ const getScores = async ({
     message,
     url,
     root,
-    gameNameSelector,
-    spreadSelector,
-    startDateTimeSelector,
-    namePregameSelector,
-    liveRecordSelector,
-    liveQuarterSelector,
-    liveTotalSelector,
-    liveNameSelector,
-    livePlaySelector,
-    liveCurrentTimeSelector,
-    finalNameSelector,
-    finalGameOverSelector,
-    finalScoreSelector
+    gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
+    spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
+    namePregameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
+    liveRecordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
+    liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
+    liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
+    liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
+    livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p',
+    liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
+    finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
+    finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
+    finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
+    possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul',
+    away='away',
+    home='home'
 }) => {
   let scores = [];
   let browser;
@@ -1820,62 +1824,62 @@ const getScores = async ({
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayTeamPregame = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayInProgressName = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",'away'));
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'away'));
+      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
 
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       const homeTeamPregame = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       const homeInProgressScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       const homeInProgressName = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",'home'));
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       const homeRecord = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,'home'));
+      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
 
       const spread = await page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
@@ -1886,9 +1890,15 @@ const getScores = async ({
         return element ? element.innerHTML : null;
       }, gameNameSelector.replace("INDEX", i));
 
-      const startDateTime = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-date');
-      }, startDateTimeSelector.replace("INDEX", i));
+      const possessionAway = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, possesionSelector.replace("INDEX", i).replace("TEAMTYPE",away));
+
+      const possessionHome = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, possesionSelector.replace("INDEX", i).replace("TEAMTYPE",home));
 
       scores.push({
         spread: {
@@ -1912,7 +1922,8 @@ const getScores = async ({
         lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime,
         gameName: gameName,
-        startDateTime: startDateTime
+        possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
+        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, '')
       });
     }
 
@@ -1982,7 +1993,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-        const isGameOver = ((get(score,'gameOverText') !== null && isOverOneHour) || 
+        const isGameOver = ((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour) || 
         (get(score,'gameName') || '').toLowerCase().includes('makeup'));
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
@@ -1993,13 +2004,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const quarter = currenTimeSplit[currenTimeSplit.length-1];
         const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
         const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
-        const lastPlays = getLastPlays(newPlayHistory);
+        const lastPlays = leagueId === '59723313734d1d6202a85f17' ? (get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
+          get(score,'homeTeam') + ': ' + get(score,'possessionHome')) : getLastPlays(newPlayHistory);
 
         const updatedGame = {
           competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
+          possession: get(score,'possession'),
           currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : 
           shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
           gameName: get(score,'gameName','')

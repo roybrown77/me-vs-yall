@@ -56,13 +56,12 @@ const loadNbaGames = async (dayCount) => {
 
   const url = `http://www.espn.com/nba/scoreboard/_/date/${date}`;
   const root = 'scoreboard basketball';
-  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-  const recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
-  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time';
-  const spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-  const gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
-
-  const games = await getGames({message,url,root,nameSelector,recordSelector,startDateTimeSelector,spreadSelector,gameNameSelector});
+  
+  const games = await getGames({
+    message,
+    url,
+    root
+  });
 
   if ((games || []).length === 0) {
     isLoadNbaGamesRunning = false;
@@ -119,43 +118,12 @@ const updateNbaScores = async () => {
     return;
   }
 
-  let gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p';
-  let spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div';
-
-  // pregame
-  let namePregameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-
-  // live
-  let liveRecordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p';
-  let liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)';                                                                                                                     
-  let liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-  let liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-  let livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p';
-  let liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time';
-
-  // final
-  let finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev';
-  let finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time';
-  let finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span';
-
   isUpdateNbaScoresRunning = true;
 
   const scores = await getScores({
     message, 
     root: 'scoreboard basketball',
     url: 'http://www.espn.com/nba/scoreboard',
-    gameNameSelector,
-    spreadSelector,
-    namePregameSelector,
-    liveRecordSelector,
-    liveQuarterSelector,
-    liveTotalSelector,
-    liveNameSelector,
-    livePlaySelector,
-    liveCurrentTimeSelector,
-    finalNameSelector,
-    finalGameOverSelector,
-    finalScoreSelector
   });
   
   if (scores.length === 0) {
