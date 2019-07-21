@@ -31,7 +31,7 @@ const loadNbaGames = async (dayCount) => {
   }
 
   const leagueId = '59723313734d1d6202a85f19';
-  const year = 2018;
+  const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
   console.log(`${message} date: ${date}`);
@@ -98,7 +98,7 @@ const updateNbaScores = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f19';
-  const year = 2018;
+  const year = 2019;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),

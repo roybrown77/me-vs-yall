@@ -35,7 +35,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
   }
 
   const leagueId = '59723313734d1d6202a85f17';
-  const year = 2018;
+  const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
   console.log(`${message} date: ${date}`);

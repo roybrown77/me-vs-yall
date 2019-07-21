@@ -39,7 +39,7 @@ const loadNflGames = async () => {
   }
 
   const leagueId = '59723313734d1d6202a85f10';
-  const year = 2018;
+  const year = 2019;
   const date = moment().add(4, 'days').format('YYYYMMDD');
   
   const gameExistSearch = {
