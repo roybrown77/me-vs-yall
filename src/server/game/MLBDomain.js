@@ -70,11 +70,11 @@ const loadMlbGames = async (dayCount) => {
     return;
   }
 
-  console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = formatGames({games, leagueId, year, teams: mlbTeams});
 
-  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
+  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
