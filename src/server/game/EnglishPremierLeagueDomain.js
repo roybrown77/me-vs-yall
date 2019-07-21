@@ -58,7 +58,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
 
   console.log(`${message} get games`);
 
-  const url = `http://www.espn.com/mlb/scoreboard/_/league/eng.1/date/${date}`;
+  const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
   const root = 'scoreboard soccer';
   const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
   const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
@@ -91,9 +91,9 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
 };
 
 const updateEnglishPremierLeagueScores = async () => {
-  const message = 'updateMlbScores';
+  const message = 'updateEnglishPremierLeagueScores';
 
-  if (isUpdateMlbScoresRunning) {
+  if (isUpdateEnglishPremierLeagueScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
@@ -156,7 +156,7 @@ const updateEnglishPremierLeagueScores = async () => {
     leagueId, 
     games,
     scores,
-    teams: mlbTeams
+    teams: eplTeams
   });
 
   isUpdateEnglishPremierLeagueScoresRunning = false;
