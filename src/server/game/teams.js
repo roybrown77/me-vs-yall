@@ -1933,21 +1933,58 @@ const getScores = async ({
 };
 
 const updateGames = ({message, leagueId, games, scores, teams}) => {
+    const multiplePreGames = [];
+    const multipleInProgressGames = [];
+    const multipleFinalGames = [];
+
     games.forEach(game=>{
         const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
         const awayShortLocation = get(awayTeam,'shortLocation');
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
         const homeShortLocation = get(homeTeam,'shortLocation');
 
-        const preGameScore = scores.find(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        let preGameScore = scores.find(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        const multiplePre = scores.filter(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+
+        if (multipleGames.length > 1) {
+            const found = multiplePreGames.find(x=>x.key===awayShortLocation+homeShortLocation);
+            if (found) {
+                found.count += 1;
+                preGameScore = multiplePre[found.count];
+            } else {
+                multiplePreGames.push({key:awayShortLocation+homeShortLocation, count:0});
+            }
+        }
 
         console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-        const inProgressScore = scores.find(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+        let inProgressScore = scores.find(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+        const multipleInProgress = scores.filter(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+
+        if (multipleGames.length > 1) {
+            const found = multipleInProgressGames.find(x=>x.key===awayShortLocation+homeShortLocation);
+            if (found) {
+                found.count += 1;
+                inProgressScore = multipleInProgress[found.count];
+            } else {
+                multipleInProgressGames.push({key:awayShortLocation+homeShortLocation, count:0});
+            }
+        }
 
         console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-        const finalScore = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+        let finalScore = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+        const multipleFinal = scores.filter(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+
+        if (multipleGames.length > 1) {
+            const found = multipleFinalGames.find(x=>x.key===awayShortLocation+homeShortLocation);
+            if (found) {
+                found.count += 1;
+                multipleInProgress = multipleFinal[found.count];
+            } else {
+                multipleFinalGames.push({key:awayShortLocation+homeShortLocation, count:0});
+            }
+        }
 
         console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
