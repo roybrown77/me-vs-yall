@@ -1957,6 +1957,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const multiplePre = scores.filter(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
         if (multiplePre.length > 1) {
+            console.log(`${message} multiplePre: ${JSON.stringify(multiplePre)}`);
             const found = multiplePreGames.find(x=>x.key===awayShortLocation+homeShortLocation);
             if (found) {
                 found.count += 1;
@@ -1976,6 +1977,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const multipleFinal = scores.filter(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
         if (multipleFinal.length > 1) {
+            console.log(`${message} multipleFinal: ${JSON.stringify(multipleFinal)}`);
             const found = multipleFinalGames.find(x=>x.key===awayShortLocation+homeShortLocation);
             if (found) {
                 found.count += 1;
@@ -1989,7 +1991,12 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const score = preGameScore || inProgressScore || finalScore;
 
+        console.log(`${message} score: ${JSON.stringify(score)}`);
+
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
+
+        console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
+
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
@@ -2018,7 +2025,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           gameName: get(score,'gameName','')
         };
 
-        set(game,'spread', !spreadTeam ? get(game,'spread') : {
+        set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
           teamId: get(spreadTeam,'_id'),
           amount: get(score,'spread.amount', 0),
           spreadDateTime: get(score,'spread.spreadDateTime')
