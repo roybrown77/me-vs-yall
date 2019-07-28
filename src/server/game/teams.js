@@ -2001,7 +2001,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const isGameOver = ((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour) || 
-        (get(score,'gameName') || '').toLowerCase().includes('makeup'));
+        (get(score,'gameName') || '').toLowerCase().includes('makeup')) && 
+        !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0);
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
@@ -2031,8 +2032,12 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           spreadDateTime: get(score,'spread.spreadDateTime')
         });
 
-        set(updatedGame,'competitors.0.score', isGameOver ? get(score,'awayScore') : get(score,'awayInProgressScore'));
-        set(updatedGame,'competitors.1.score', isGameOver ? get(score,'homeScore') : get(score,'homeInProgressScore'));
+        set(updatedGame,'competitors.0.score', isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
+            : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
+
+        set(updatedGame,'competitors.1.score', isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
+            : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
+        
 
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
