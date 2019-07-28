@@ -164,10 +164,10 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
                     date,
                     awayTeam: get(teams.find(team=>team._id === game.competitors[0]._id), 'name'),
                     awayIndicator: getLeaderIndicator(game,picks,leader,0,1),
-                    awayScore: hasStarted ? get(game,'competitors.0.score',0) : undefined,
+                    awayScore: hasStarted ? (get(game,'competitors.0.score') || 0) : undefined,
                     homeTeam: get(teams.find(team=>team._id === game.competitors[1]._id), 'name'),
                     homeIndicator: getLeaderIndicator(game,picks,leader,1,0),
-                    homeScore: hasStarted ? get(game,'competitors.1.score',0) : undefined
+                    homeScore: hasStarted ? (get(game,'competitors.1.score') || 0) : undefined
                 }
             })
         }
