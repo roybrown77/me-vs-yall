@@ -1508,18 +1508,18 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
 
     const gameWeekFind = {
       leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      beginDateTime: {
-          $lte: moment().format()
-        },
-        endDateTime: {
-          $gte: moment().format()
-        }
+      year: year
     };
 
     const gameWeeks = await gameWeekRepository.find(gameWeekFind);
     
-    if ((gameWeeks || []).length > 0) {
+    const lastGame = gameWeeks.length > 0 ? gameWeeks[gameWeeks.length-1] : {};
+
+    const diff = moment(lastGame.endDateTime).diff(moment());
+
+    console.log(`${message} diff: ${diff}`);
+
+    if (gameWeeks.length > 0 && diff > 0) {
         console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeeks)}`);
         return;
     }
@@ -1566,8 +1566,8 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
-      beginDateTime: moment().add(0, 'days').startOf('day').format(),
-      endDateTime: moment().add(6, 'days').endOf('day').format()
+      beginDateTime: moment(lastGame.beginDateTime ? lastGame.beginDateTime : new Date()).add(7, 'days').startOf('day').format(),
+      endDateTime: moment(lastGame.endDateTime ? lastGame.endDateTime : new Date()).add(7, 'days').endOf('day').format()
     };
 
     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
