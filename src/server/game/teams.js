@@ -1955,25 +1955,27 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         let preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
-        console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
+        //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
         const inProgressScore = scores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
-        console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
+        //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
         let finalScore = scores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
-        console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
+        //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
         const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
 
-        scores = scores[scoreIndex];
+        console.log(`${message} scoreIndex: ${scoreIndex}`);
+
+        const score = scores[scoreIndex];
 
         console.log(`${message} score: ${JSON.stringify(score)}`);
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
-        console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
+        //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
 
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
@@ -2023,13 +2025,13 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         }
 
         console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
-        
+
+        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+
         scores = [
             ...scores.slice(0,scoreIndex),
             ...scores.slice(scoreIndex+1)
         ];
-
-        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
 };
 

@@ -156,45 +156,45 @@ const backupData = async () => {
 router.get('/games', function (req, res) {
   const monthDay = parseInt(moment().format('MMDD'));
   
-  if (monthDay > 515 && monthDay < 801) {
-    console.log('new premier games will be loaded during season.');
-  } else {
-    try {
-      loadEnglishPremierLeagueGames(0);
-      loadEnglishPremierLeagueGames(1);
-      createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 3});
-    } catch(err) {
-      isLoadEnglishPremierLeagueGamesRunning = false;
-      console.log('loadEnglishPremierLeagueGames error: ' + err.message);
-    }
+  // if (monthDay > 515 && monthDay < 801) {
+  //   console.log('new premier games will be loaded during season.');
+  // } else {
+  //   try {
+  //     loadEnglishPremierLeagueGames(0);
+  //     loadEnglishPremierLeagueGames(1);
+  //     createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 3});
+  //   } catch(err) {
+  //     isLoadEnglishPremierLeagueGamesRunning = false;
+  //     console.log('loadEnglishPremierLeagueGames error: ' + err.message);
+  //   }
 
-    try {
-      updateEnglishPremierLeagueScores();
-    } catch(err) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log('updateEnglishPremierLeagueScores error: ' + err.message);
-    }
-  }
+  //   try {
+  //     updateEnglishPremierLeagueScores();
+  //   } catch(err) {
+  //     isUpdateEnglishPremierLeagueScoresRunning = false;
+  //     console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+  //   }
+  // }
 
-  if (monthDay > 615 && monthDay < 1001) {
-    console.log('new nba games will be loaded during season.');
-  } else {
-    try {
-      loadNbaGames(0);
-      loadNbaGames(1);
-      createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
-    } catch(err) {
-      isLoadNbaGamesRunning = false;
-      console.log('loadNbaGames error: ' + err.message);
-    }
+  // if (monthDay > 615 && monthDay < 1001) {
+  //   console.log('new nba games will be loaded during season.');
+  // } else {
+  //   try {
+  //     loadNbaGames(0);
+  //     loadNbaGames(1);
+  //     createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
+  //   } catch(err) {
+  //     isLoadNbaGamesRunning = false;
+  //     console.log('loadNbaGames error: ' + err.message);
+  //   }
 
-    try {
-      updateNbaScores();
-    } catch(err) {
-      isUpdateNbaScoresRunning = false;
-      console.log('updateNbaScores error: ' + err.message);
-    }
-  }
+  //   try {
+  //     updateNbaScores();
+  //   } catch(err) {
+  //     isUpdateNbaScoresRunning = false;
+  //     console.log('updateNbaScores error: ' + err.message);
+  //   }
+  // }
 
   if (monthDay < 401 || monthDay > 1115) {
     console.log('new mlb games will be loaded during season.');
@@ -216,24 +216,24 @@ router.get('/games', function (req, res) {
     }
   }
 
-  if (monthDay > 208 && monthDay < 901) {
-    console.log('new nfl games will be loaded during season.');
-  } else {
-    try {
-      loadNflGames();
-      createWeek({message: 'loadNflGames', url: 'http://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3});
-    } catch(err) {
-      isLoadNflGamesRunning = false;
-      console.log('loadNflGames error: ' + err.message);
-    }
+  // if (monthDay > 208 && monthDay < 901) {
+  //   console.log('new nfl games will be loaded during season.');
+  // } else {
+  //   try {
+  //     loadNflGames();
+  //     createWeek({message: 'loadNflGames', url: 'http://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3});
+  //   } catch(err) {
+  //     isLoadNflGamesRunning = false;
+  //     console.log('loadNflGames error: ' + err.message);
+  //   }
 
-    try {
-      updateNflScores();
-    } catch(err) {
-      isUpdateNflScoresRunning = false;
-      console.log('updateNflScores error: ' + err.message);
-    }
-  }
+  //   try {
+  //     updateNflScores();
+  //   } catch(err) {
+  //     isUpdateNflScoresRunning = false;
+  //     console.log('updateNflScores error: ' + err.message);
+  //   }
+  // }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
