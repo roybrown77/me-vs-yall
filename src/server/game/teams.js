@@ -1967,7 +1967,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
 
-        const scores = scores[scoreIndex];
+        scores = scores[scoreIndex];
 
         console.log(`${message} score: ${JSON.stringify(score)}`);
 
