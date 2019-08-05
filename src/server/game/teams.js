@@ -1953,43 +1953,21 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
         const homeShortLocation = get(homeTeam,'shortLocation');
 
-        let preGameScore = scores.find(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
-        const multiplePre = scores.filter(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
-
-        if (multiplePre.length > 1) {
-            console.log(`${message} multiplePre: ${JSON.stringify(multiplePre)}`);
-            const found = multiplePreGames.find(x=>x.key===awayShortLocation+homeShortLocation);
-            if (found) {
-                found.count += 1;
-                preGameScore = multiplePre[found.count];
-            } else {
-                multiplePreGames.push({key:awayShortLocation+homeShortLocation, count:0});
-            }
-        }
+        let preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
         console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-        const inProgressScore = scores.find(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+        const inProgressScore = scores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
         console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-        let finalScore = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
-        const multipleFinal = scores.filter(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
-
-        if (multipleFinal.length > 1) {
-            console.log(`${message} multipleFinal: ${JSON.stringify(multipleFinal)}`);
-            const found = multipleFinalGames.find(x=>x.key===awayShortLocation+homeShortLocation);
-            if (found) {
-                found.count += 1;
-                finalScore = multipleFinal[found.count];
-            } else {
-                multipleFinalGames.push({key:awayShortLocation+homeShortLocation, count:0});
-            }
-        }
+        let finalScore = scores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
         console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
-        const score = preGameScore || inProgressScore || finalScore;
+        const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
+
+        const scores = scores[scoreIndex];
 
         console.log(`${message} score: ${JSON.stringify(score)}`);
 
@@ -2046,6 +2024,11 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
         
+        scores = [
+            ...scores.slice(0,scoreIndex),
+            ...scores.slice(scoreIndex+1)
+        ];
+
         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
 };
