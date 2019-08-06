@@ -245,7 +245,7 @@ const formatWeeks = (gameWeeks = []) => {
             moment(new Date(week.endDateTime)).format('ddd M/D');
         } else {
             week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + 
-            moment(new Date(week.beginDateTime)).tz('America/New_York').format('ddd M/D');
+            moment(new Date(week.beginDateTime)).format('ddd M/D');
         }
 
         return week;
