@@ -34,7 +34,7 @@ const loadNbaGames = async (dayCount) => {
   const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
-  console.log(`${message} date: ${date}`);
+  //console.log(`${message} date: ${date}`);
 
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -52,7 +52,7 @@ const loadNbaGames = async (dayCount) => {
     return;
   }
 
-  console.log(`${message} get games`);
+  //console.log(`${message} get games`);
 
   const url = `http://www.espn.com/nba/scoreboard/_/date/${date}`;
   const root = 'scoreboard basketball';
@@ -69,11 +69,11 @@ const loadNbaGames = async (dayCount) => {
     return;
   }
 
-  console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = formatGames({games, leagueId, year, teams: nbaTeams});
 
-  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
+  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
@@ -132,9 +132,8 @@ const updateNbaScores = async () => {
     return;
   }
 
-  console.log(`${message} games: ${JSON.stringify(games)}`);
-
-  console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
+  //0console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,

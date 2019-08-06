@@ -34,7 +34,7 @@ const loadMlbGames = async (dayCount) => {
   const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
-  console.log(`${message} date: ${date}`);
+  //console.log(`${message} date: ${date}`);
 
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -52,7 +52,7 @@ const loadMlbGames = async (dayCount) => {
     return;
   }
 
-  console.log(`${message} get games`);
+  //console.log(`${message} get games`);
 
   const url = `http://www.espn.com/mlb/scoreboard/_/date/${date}`;
   const root = 'scoreboard baseball';
@@ -123,8 +123,8 @@ const updateMlbScores = async () => {
     return;
   }
 
-  console.log(`${message} games: ${JSON.stringify(games)}`);
-  console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,

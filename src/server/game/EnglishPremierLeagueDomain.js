@@ -38,7 +38,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
   const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
-  console.log(`${message} date: ${date}`);
+  //console.log(`${message} date: ${date}`);
 
   const gameExistSearch = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -56,7 +56,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
     return;
   }
 
-  console.log(`${message} get games`);
+  //console.log(`${message} get games`);
 
   const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
   const root = 'scoreboard soccer';

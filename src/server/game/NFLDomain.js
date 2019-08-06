@@ -72,11 +72,11 @@ const loadNflGames = async () => {
     return;
   }
 
-  console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = formatGames({games, leagueId, year, teams: nflTeams});
 
-  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
+  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
@@ -126,8 +126,8 @@ const updateNflScores = async () => {
     return;
   }
 
-  console.log(`${message} games: ${JSON.stringify(games)}`);
-  console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,

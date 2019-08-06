@@ -1507,11 +1507,11 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
 };
 
 const createWeek = async ({message, url, leagueId, year, day=6}) => {
-  console.log(`${message} creating week`);
+  //console.log(`${message} creating week`);
 
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
-  console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
+  //console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
 
   if (currentWeekDay === day) {
     const gameExistSearch = {
@@ -1541,7 +1541,7 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
 
     const diff = moment(lastGame.endDateTime).diff(moment());
 
-    console.log(`${message} diff: ${diff}`);
+    //console.log(`${message} diff: ${diff}`);
 
     if (gameWeeks.length > 0 && diff > 0) {
         console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeeks)}`);
@@ -1639,7 +1639,7 @@ const getGames = async ({
       return document.getElementsByClassName(sel).length;
     }, root);
 
-    console.log(`${message} getGames listLength: ${listLength}`);
+    //console.log(`${message} getGames listLength: ${listLength}`);
 
     if (listLength === 0) {
       await page.close();
@@ -1812,7 +1812,7 @@ const getScores = async ({
       return document.getElementsByClassName(sel).length;
     }, root);
     
-    console.log(`${message} listLength: ${listLength}`);
+    //console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
       isUpdateNbaScoresRunning = false;
@@ -1984,11 +1984,11 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
 
-        console.log(`${message} scoreIndex: ${scoreIndex}`);
+        //console.log(`${message} scoreIndex: ${scoreIndex}`);
 
         const score = scores[scoreIndex];
 
-        console.log(`${message} score: ${JSON.stringify(score)}`);
+        //console.log(`${message} score: ${JSON.stringify(score)}`);
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
