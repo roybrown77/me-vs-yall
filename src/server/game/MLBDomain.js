@@ -36,21 +36,21 @@ const loadMlbGames = async (dayCount) => {
   
   console.log(`${message} date: ${date}`);
 
-  const gameExistSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    startDateTime: {
-      $gte: new Date(moment(date).startOf('day')),
-      $lte: new Date(moment(date).endOf('day'))
-    }
-  };
+  // const gameExistSearch = {
+  //   leagueId: mongoose.Types.ObjectId(leagueId),
+  //   year: year,
+  //   isGameOver: {
+  //     $ne: moment(date).startOf('day').format(),
+  //     $lte: moment(date).endOf('day').format()
+  //   }
+  // };
 
-  const gamesExistSearch = await gameRepository.find(gameExistSearch);
+  // const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
-  if ((gamesExistSearch || []).length > 0) {
-    console.log(`${message} games already exists: ${JSON.stringify(gameExistSearch)}`);
-    return;
-  }
+  // if ((gamesExistSearch || []).length > 0) {
+  //   console.log(`${message} games already exists: ${JSON.stringify(gameExistSearch)}`);
+  //   return;
+  // }
 
   console.log(`${message} get games`);
 
