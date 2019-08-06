@@ -1652,11 +1652,6 @@ const getGames = async ({
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, spreadSelector.replace("INDEX", i));
 
-      const gameName = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, gameNameSelector.replace("INDEX", i));
-
       if (!startDateTime) {
         console.log(`${message} getGames no startDateTime`);
       } else {
@@ -1670,8 +1665,7 @@ const getGames = async ({
             awayTeam: awayTeam,
             awayRecord: awayRecord,
             homeTeam: homeTeam,
-            homeRecord: homeRecord,
-            gameName: gameName
+            homeRecord: homeRecord
         });
       }
     }
@@ -1716,7 +1710,6 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
            amount: get(game,'spread.amount', 0),
            spreadDateTime: game.spread.spreadDateTime
           },
-          gameName: game.gameName,
           competitors: [
             {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
             {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
@@ -2026,12 +2019,12 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
-        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
-
         scores = [
             ...scores.slice(0,scoreIndex),
             ...scores.slice(scoreIndex+1)
         ];
+
+        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
 };
 
