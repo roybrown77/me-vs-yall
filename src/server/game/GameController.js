@@ -155,8 +155,11 @@ const backupData = async () => {
 
 router.get('/games', function (req, res) {
   const monthDay = parseInt(moment().format('MMDD'));
+  const seconds = parseInt(moment().format('ss'));
+
+  console.log('seconds: ' + seconds)
   
-  // if (monthDay > 515 && monthDay < 801) {
+  // if (monthDay > 515 && monthDay < 801 || seconds%7===0) {
   //   console.log('new premier games will be loaded during season.');
   // } else {
   //   try {
@@ -176,7 +179,7 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  // if (monthDay > 615 && monthDay < 1001) {
+  // if (monthDay > 615 && monthDay < 1001 || seconds%5===0) {
   //   console.log('new nba games will be loaded during season.');
   // } else {
   //   try {
@@ -196,7 +199,7 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  if (monthDay < 401 || monthDay > 1115) {
+  if (monthDay < 401 || monthDay > 1115 || seconds%3===0) {
     console.log('new mlb games will be loaded during season.');
   } else {
     try {
