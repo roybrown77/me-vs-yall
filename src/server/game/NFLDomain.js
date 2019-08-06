@@ -10,12 +10,11 @@ const gameWeekRepository = require('./GameWeekRepository');
 
 const {
   nflTeams,
-  hasGameStarted,
-  getLastPlays,
-  getPlayHistory,
-  createWeek,
+  getGames,
+  formatGames,
   createGames,
-  formatGames
+  getScores,
+  updateGames
 } = require('./teams');
 
 const get = require('lodash/get');
@@ -58,7 +57,7 @@ const loadNflGames = async () => {
     return;
   }
 
-  const url = 'http://www.espn.com/nfl/scoreboard';
+  const url = 'https://www.espn.com/nfl/scoreboard';
   const root = 'scoreboard football';
   
   const games = await getGames({

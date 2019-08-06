@@ -1566,7 +1566,7 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
-      beginDateTime: moment(lastGame.beginDateTime ? lastGame.beginDateTime : new Date()).add(7, 'days').startOf('day').format(),
+      beginDateTime: moment(lastGame.beginDateTime ? lastGame.beginDateTime : new Date()).add(0, 'days').startOf('day').format(),
       endDateTime: moment(lastGame.endDateTime ? lastGame.endDateTime : new Date()).add(7, 'days').endOf('day').format()
     };
 
@@ -1739,7 +1739,7 @@ const createGames = ({message, games}) => {
               if (err) {
                 console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
               } else {
-                console.log(`${message} createGames success creating game: ${gameCreated._id}`);
+               console.log(`${message} createGames success creating game: ${gameCreated._id}`);
               }
             });
           }

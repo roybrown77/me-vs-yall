@@ -196,44 +196,44 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  if (monthDay < 401 || monthDay > 1115) {
-    console.log('new mlb games will be loaded during season.');
-  } else {
-    try {
-      loadMlbGames(0);
-      loadMlbGames(1);
-      createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
-    } catch(err) {
-      isLoadMlbGamesRunning = false;
-      console.log('loadMlbGames error: ' + err.message);
-    }
-
-    try {
-      updateMlbScores();
-    } catch(err) {
-      isUpdateMlbScoresRunning = false;
-      console.log('updateMlbScores error: ' + err.message);
-    }
-  }
-
-  // if (monthDay > 208 && monthDay < 901) {
-  //   console.log('new nfl games will be loaded during season.');
+  // if (monthDay < 401 || monthDay > 1115) {
+  //   console.log('new mlb games will be loaded during season.');
   // } else {
   //   try {
-  //     loadNflGames();
-  //     createWeek({message: 'loadNflGames', url: 'http://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3});
+  //     loadMlbGames(0);
+  //     loadMlbGames(1);
+  //     createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
   //   } catch(err) {
-  //     isLoadNflGamesRunning = false;
-  //     console.log('loadNflGames error: ' + err.message);
+  //     isLoadMlbGamesRunning = false;
+  //     console.log('loadMlbGames error: ' + err.message);
   //   }
 
   //   try {
-  //     updateNflScores();
+  //     updateMlbScores();
   //   } catch(err) {
-  //     isUpdateNflScoresRunning = false;
-  //     console.log('updateNflScores error: ' + err.message);
+  //     isUpdateMlbScoresRunning = false;
+  //     console.log('updateMlbScores error: ' + err.message);
   //   }
   // }
+
+  if (monthDay > 208 && monthDay < 801) {
+    console.log('new nfl games will be loaded during season.');
+  } else {
+    try {
+      loadNflGames();
+      createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3});
+    } catch(err) {
+      isLoadNflGamesRunning = false;
+      console.log('loadNflGames error: ' + err.message);
+    }
+
+    try {
+      //updateNflScores();
+    } catch(err) {
+      isUpdateNflScoresRunning = false;
+      console.log('updateNflScores error: ' + err.message);
+    }
+  }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),

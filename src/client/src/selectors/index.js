@@ -11,7 +11,7 @@ const leagues = [
         id: '59723313734d1d6202a85f10', 
         name: 'nfl', 
         description: 'nfl',
-        years: [2017, 2018]
+        years: [2017, 2018, 2019]
     },
     {
         id: '59723313734d1d6202a85f17', 
@@ -37,7 +37,7 @@ const getLeagueStartDateTime = (leagueId, games) => {
     const monthDay = parseInt(moment().format('MMDD'));
     const year = moment().format('YYYY');
 
-    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 901)) {
+    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
         return moment(`${year}0901`).toISOString();
     }
 
@@ -60,7 +60,7 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
     const monthDay = parseInt(moment().format('MMDD'));
     const year = moment().format('YYYY');
 
-    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 901)) {
+    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
         return moment(`${year}0901`).toISOString();
     }
 
