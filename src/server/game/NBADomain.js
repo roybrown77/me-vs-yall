@@ -40,8 +40,8 @@ const loadNbaGames = async (dayCount) => {
     leagueId: mongoose.Types.ObjectId(leagueId),
     year: year,
     startDateTime: {
-      $gte: moment().add(dayCount, 'days').startOf('day').format(),
-      $lte: moment().add(dayCount, 'days').endOf('day').format(),
+      $gte: new Date(moment(date).startOf('day')),
+      $lte: new Date(moment(date).endOf('day'))
     }
   };
 

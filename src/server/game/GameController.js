@@ -228,7 +228,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      //updateNflScores();
+      updateNflScores();
     } catch(err) {
       isUpdateNflScoresRunning = false;
       console.log('updateNflScores error: ' + err.message);
