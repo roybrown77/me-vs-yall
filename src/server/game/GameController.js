@@ -221,7 +221,7 @@ router.get('/games', function (req, res) {
   } else {
     try {
       loadNflGames();
-      createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3});
+      createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
     } catch(err) {
       isLoadNflGamesRunning = false;
       console.log('loadNflGames error: ' + err.message);

@@ -32,8 +32,8 @@ const loadNflGames = async () => {
 
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
-  if (currentWeekDay === 3) {
-    console.log("loadNflGames games load on Wednesday");
+  if (currentWeekDay === 2) {
+    console.log("loadNflGames games load on Tuesday");
     return;
   }
 
