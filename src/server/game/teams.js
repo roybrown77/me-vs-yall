@@ -921,6 +921,30 @@ const eplTeams = [
         "location": "Brighton & Hove Albion",
         "shortLocation": "BHA",
         "name": "The Seagulls"
+    },
+    {
+        "color": "#FFF200",
+        "_id": "5b9060e59a4c08bca6d80514",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Norwich City",
+        "shortLocation": "NOR",
+        "name": "The Canaries"
+    },
+    {
+        "color": "#EC2227",
+        "_id": "5b9060e59a4c08bca6d80515",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Sheffield United",
+        "shortLocation": "SHFU",
+        "name": "The Blades"
+    },
+    {
+        "color": "#670E36",
+        "_id": "5b9060e59a4c08bca6d80515",
+        "leagueId": "59723313734d1d6202a85f17",
+        "location": "Aston Villa",
+        "shortLocation": "AVL",
+        "name": "Villans"
     }
 ];
 
