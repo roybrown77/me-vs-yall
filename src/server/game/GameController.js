@@ -199,7 +199,7 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  if (monthDay < 401 || monthDay > 1115 || !(hours > 6 && hours < 9)) {
+  if (monthDay < 401 || monthDay > 1115 || !(hours > 3 && hours < 16)) {
     console.log('new mlb games will be loaded during season.');
   } else {
     try {
@@ -219,7 +219,7 @@ router.get('/games', function (req, res) {
     }
   }
 
-  if (monthDay < 401 || monthDay > 1115 || !(hours > 6 && hours < 9)) {
+  if (monthDay < 401 || monthDay > 1115 || !(hours > 3 && hours < 16)) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
