@@ -1999,7 +1999,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
         !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
-        (get(score,'gameName') || '').toLowerCase().includes('makeup');
+        (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');

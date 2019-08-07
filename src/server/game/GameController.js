@@ -156,8 +156,10 @@ const backupData = async () => {
 router.get('/games', function (req, res) {
   const monthDay = parseInt(moment().format('MMDD'));
   const hours = parseInt(moment().format('HH'));
+  const minutes = parseInt(moment().format('mm'));
 
-  console.log('hours: ' + hours)
+  console.log('hours: ' + hours);
+  console.log('minutes: ' + minutes);
   
   // if (monthDay > 515 && monthDay < 801) {
   //   console.log('new premier games will be loaded during season.');
@@ -203,7 +205,7 @@ router.get('/games', function (req, res) {
     console.log('new mlb games will be loaded during season.');
   } else {
     try {
-      if (hours > 3 && hours < 16) {
+      if (hours > 3 && hours < 16 && minutes%30===0) {
         loadMlbGames(0);
         loadMlbGames(1);
         createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
@@ -214,7 +216,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      updateMlbScores();
+      if (minutes%20===0) {
+        updateMlbScores();
+      }
     } catch(err) {
       isUpdateMlbScoresRunning = false;
       console.log('updateMlbScores error: ' + err.message);
@@ -225,7 +229,7 @@ router.get('/games', function (req, res) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
-      if (hours > 3 && hours < 16) {
+      if (hours > 3 && hours < 16 && minutes%60===0) {
         loadNflGames();
         createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
       }
@@ -235,7 +239,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      updateNflScores();
+      if (minutes%2===0) {
+        updateNflScores();
+      }
     } catch(err) {
       isUpdateNflScoresRunning = false;
       console.log('updateNflScores error: ' + err.message);
