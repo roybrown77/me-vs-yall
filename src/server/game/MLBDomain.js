@@ -49,7 +49,7 @@ const loadMlbGames = async (dayCount) => {
 
   if ((gamesExistSearch || []).length > 0) {
     console.log(`${message} games already exists: ${JSON.stringify(gameExistSearch)}`);
-    return;
+    //return;
   }
 
   //console.log(`${message} get games`);

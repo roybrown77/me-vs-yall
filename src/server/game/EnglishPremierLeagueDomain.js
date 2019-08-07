@@ -53,7 +53,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
 
   if ((gamesExistSearch || []).length > 0) {
     console.log(`${message} games already exists: ${date}`);
-    return;
+    //return;
   }
 
   //console.log(`${message} get games`);
