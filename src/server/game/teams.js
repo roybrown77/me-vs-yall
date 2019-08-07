@@ -1997,9 +1997,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const playHistory = get(game,'playHistory',[]);
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-        const isGameOver = ((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour) || 
-        (get(score,'gameName') || '').toLowerCase().includes('makeup')) && 
-        !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0);
+        const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
+        !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
+        (get(score,'gameName') || '').toLowerCase().includes('makeup');
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
