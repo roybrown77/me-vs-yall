@@ -4,7 +4,7 @@ it's sports.  it's fun.  it's facts.
 
 https://www.mevsyall.com
 
-pick winners.  every week.  against others around the world.
+pick sports winners.  every week.  against others around the world.
 
 follow action when u can't watch the game.
 
