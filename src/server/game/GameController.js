@@ -155,10 +155,12 @@ const backupData = async () => {
 
 router.get('/games', function (req, res) {
   const monthDay = parseInt(moment().format('MMDD'));
+  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
   const hours = parseInt(moment().format('HH'));
   const minutes = parseInt(moment().format('mm'));
 
   console.log('monthDay: ' + monthDay);
+  console.log('currentWeekDay: ' + currentWeekDay);
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
   
@@ -230,7 +232,7 @@ router.get('/games', function (req, res) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
-      if (hours > 3 && hours < 16 && minutes%60===0) {
+      if (hours > 3 && hours < 13 && currentWeekDay === 2) {
         loadNflGames();
         createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
       }
@@ -240,7 +242,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      updateNflScores();
+      if (!(hours > 3 && hours < 13 && currentWeekDay === 2)) {
+        updateNflScores();
+      }
     } catch(err) {
       isUpdateNflScoresRunning = false;
       console.log('updateNflScores error: ' + err.message);
