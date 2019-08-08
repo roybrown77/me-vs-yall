@@ -158,6 +158,7 @@ router.get('/games', function (req, res) {
   const hours = parseInt(moment().format('HH'));
   const minutes = parseInt(moment().format('mm'));
 
+  console.log('monthDay: ' + monthDay);
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
   
@@ -201,29 +202,29 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  if (monthDay < 401 || monthDay > 1115) {
-    console.log('new mlb games will be loaded during season.');
-  } else {
-    try {
-      if (hours > 3 && hours < 16 && minutes%30===0) {
-        loadMlbGames(0);
-        loadMlbGames(1);
-        createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
-      }
-    } catch(err) {
-      isLoadMlbGamesRunning = false;
-      console.log('loadMlbGames error: ' + err.message);
-    }
+  // if (monthDay < 401 || monthDay > 1115) {
+  //   console.log('new mlb games will be loaded during season.');
+  // } else {
+  //   try {
+  //     if (hours > 3 && hours < 16 && minutes%30===0) {
+  //       loadMlbGames(0);
+  //       loadMlbGames(1);
+  //       createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
+  //     }
+  //   } catch(err) {
+  //     isLoadMlbGamesRunning = false;
+  //     console.log('loadMlbGames error: ' + err.message);
+  //   }
 
-    try {
-      if (minutes%20===0) {
-        updateMlbScores();
-      }
-    } catch(err) {
-      isUpdateMlbScoresRunning = false;
-      console.log('updateMlbScores error: ' + err.message);
-    }
-  }
+  //   try {
+  //     if (minutes%20===0) {
+  //       updateMlbScores();
+  //     }
+  //   } catch(err) {
+  //     isUpdateMlbScoresRunning = false;
+  //     console.log('updateMlbScores error: ' + err.message);
+  //   }
+  // }
 
   if (monthDay < 401 || monthDay > 1115) {
     console.log('new nfl games will be loaded during season.');
@@ -239,9 +240,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (minutes%2===0) {
-        updateNflScores();
-      }
+      updateNflScores();
     } catch(err) {
       isUpdateNflScoresRunning = false;
       console.log('updateNflScores error: ' + err.message);

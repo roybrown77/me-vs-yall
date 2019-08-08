@@ -135,11 +135,11 @@ class HomePage extends Component {
               </div>
           }
           <div style={styles.subTitle}>
-            pick sports winners.  every week.  against others around the world.
+            pick nfl winners.  every week.  against others around the world.
           </div>
           <div style={styles.buttonContainer}>
             <Grid container spacing={8}>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Route render={({ history }) => (
                     <Button 
                         variant="outlined" 
@@ -153,36 +153,44 @@ class HomePage extends Component {
                 )}/>
                 {nflStartDateTime && <Countdown styles={styles.countdown} date={nflStartDateTime}/>}
               </Grid>
-              <Grid item xs={6}>
-                <Route render={({ history }) => (
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
-                        PREMIER
-                        {
-                          areAnyPremierGamesInProgress &&
-                          <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
-                        }
-                    </Button>
-                )}/>
-                {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
-              </Grid>
-              <Grid item xs={6} style={{margin:'auto'}}>
-                <Route render={({ history }) => (
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
-                        NBA
-                        {
-                          areAnyNbaGamesInProgress &&
-                          <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
-                        }
-                    </Button>
-                )}/>
-                {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
-              </Grid>
-              <Grid item xs={6}>
+              {
+                false &&
+                <Grid item xs={6}>
                   <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
+                          PREMIER
+                          {
+                            areAnyPremierGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
+                </Grid>
+              }
+              {
+                false &&
+                <Grid item xs={6} style={{margin:'auto'}}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+                          NBA
+                          {
+                            areAnyNbaGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
+                </Grid>
+              }
+              {
+                false &&
+                <Grid item xs={6}>
+                    <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
                           style={{...styles.button, color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
@@ -192,9 +200,10 @@ class HomePage extends Component {
                             <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50032'}}></div>
                           }
                       </Button>
-                  )}/>
+                    )}/>
                   {!areAnyMlbGamesInProgress && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
                 </Grid>
+              }
             </Grid>
           </div>
           <Grid container item xs={12} justify="center">
