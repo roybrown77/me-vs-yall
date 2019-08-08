@@ -228,7 +228,7 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  if (monthDay < 401 || monthDay > 1115) {
+  if (monthDay > 208 && monthDay < 801) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
