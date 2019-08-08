@@ -135,7 +135,7 @@ class HomePage extends Component {
               </div>
           }
           <div style={styles.subTitle}>
-            pick nfl winners.  every week.  against others around the world.
+            pick sports winners.  every week.  against others around the world.
           </div>
           <div style={styles.buttonContainer}>
             <Grid container spacing={8}>
