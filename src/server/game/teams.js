@@ -2005,7 +2005,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         
         //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
-        const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+        const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
         !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
