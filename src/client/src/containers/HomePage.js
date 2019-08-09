@@ -188,7 +188,7 @@ class HomePage extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={6}>
                     <Route render={({ history }) => (
                       <Button 
