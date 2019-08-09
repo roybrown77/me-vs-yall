@@ -28,7 +28,6 @@ import {
     getCurrentWeek, 
     hasGameStarted,
     getAreAllGamesOver,
-    getTimeUntilNextGamesLoad,
     getGroupedGames,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
