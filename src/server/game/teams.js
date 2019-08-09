@@ -1463,9 +1463,9 @@ const getLastPlays = (playHistory = []) => {
 };
 
 const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
-    console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
-    console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
-    console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
+    //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
+    //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
+    //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
 
   if ((lastPlay && playHistory.length > 0 && playHistory.find(x=>get(x,'lastPlay')===lastPlay)) || !currentTime) {
     console.log(`${message} getPlayHistory invalid`);
@@ -2000,7 +2000,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const playHistory = get(game,'playHistory',[]);
         
-        console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
+        //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
@@ -2008,10 +2008,10 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
         (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
 
-        console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
+        //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 
-        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
-          (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
+        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
+          (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
         
         const currentTime = get(score,'currentTime');
         const currenTimeSplit = (currentTime || '').split(' ');
@@ -2021,7 +2021,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const lastPlays = leagueId === '59723313734d1d6202a85f17' ? (get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')) : getLastPlays(newPlayHistory);
 
-        console.log(`${message} lastPlays: ${JSON.stringify(lastPlays)}`);
+        //console.log(`${message} lastPlays: ${JSON.stringify(lastPlays)}`);
 
         const updatedGame = {
           competitors: [...get(game,'competitors',[])],
@@ -2052,7 +2052,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
         }
 
-        //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
         scores = [
             ...scores.slice(0,scoreIndex),
