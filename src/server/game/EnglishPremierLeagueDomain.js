@@ -119,10 +119,10 @@ const updateEnglishPremierLeagueScores = async () => {
     return;
   }
 
-  let liveTotalSelector, finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY > div > div.score-container > span';
-  let liveNameSelector, finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY > div > div.team-container > div.team-info > div > a > span.abbrev';
+  let liveTotalSelector, finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.score-container > span';
+  let liveNameSelector, finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.team-container > div.team-info > div > a > span.abbrev';
   let liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
-  let possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-HOMEAWAY > div > ul';
+  let possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-HOMEAWAY.tied > div > ul';
   let finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
 
   isUpdateEnglishPremierLeagueScoresRunning = true;

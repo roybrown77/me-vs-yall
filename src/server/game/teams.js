@@ -1929,15 +1929,15 @@ const getScores = async ({
          spreadDateTime: moment().toISOString()
         },
         gameOverText: gameOverText,
-        awayTeam: awayTeam,
-        awayTeamPregame: awayTeamPregame,
-        awayTeamInProgress: awayInProgressName,
+        awayTeam: (awayTeam || '').trim().replace(/,\s*$/, ''),
+        awayTeamPregame: (awayTeamPregame || '').trim().replace(/,\s*$/, ''),
+        awayTeamInProgress: (awayInProgressName || '').trim().replace(/,\s*$/, ''),
         awayInProgressScore: parseInt(awayInProgressScore),
         awayScore: parseInt(awayScore),
         awayRecord: awayRecord,
-        homeTeam: homeTeam,
-        homeTeamPregame: homeTeamPregame,
-        homeTeamInProgress: homeInProgressName,
+        homeTeam: (homeTeam || '').trim().replace(/,\s*$/, ''),
+        homeTeamPregame: (homeTeamPregame || '').trim().replace(/,\s*$/, ''),
+        homeTeamInProgress: (homeInProgressName || '').trim().replace(/,\s*$/, ''),
         homeInProgressScore: parseInt(homeInProgressScore),
         homeScore: parseInt(homeScore),
         homeRecord: homeRecord,
@@ -1968,6 +1968,8 @@ const getScores = async ({
 const updateGames = ({message, leagueId, games, scores, teams}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
+
+    //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
     games.forEach(game=>{
         const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
@@ -2011,7 +2013,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 
-        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
+        const currentTimeFormatted = leagueId === '59723313734d1d6202a85f17' ? get(newPlayHistory,'0.time') : get(newPlayHistory,'0.time',0) > 59 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
         
         const currentTime = get(score,'currentTime');

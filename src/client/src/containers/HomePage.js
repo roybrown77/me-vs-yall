@@ -154,7 +154,7 @@ class HomePage extends Component {
                 {nflStartDateTime && <Countdown styles={styles.countdown} date={nflStartDateTime}/>}
               </Grid>
               {
-                true &&
+                false &&
                 <Grid item xs={6}>
                   <Route render={({ history }) => (
                       <Button 
