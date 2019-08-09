@@ -83,7 +83,7 @@ function PromoPage () {
             <div style={styles.item}>
               @mevsyallsports
             </div>
-            <Grid style={styles.logoContainer} item xs={12} container justify="center">
+            <Grid style={styles.logoContainer} item xs={12} container spacing={8} justify="center">
               <Grid item xs={4}>
                 <img src={nfl} alt=""/>
               </Grid>

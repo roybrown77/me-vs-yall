@@ -37,7 +37,7 @@ class LoginPage extends Component {
     }
 
     render () { 
-        const { classes, isAuthenticated } = this.props;
+        const { classes, theme, isAuthenticated } = this.props;
 
         const userJson = localStorage.getItem('user');
         const user = JSON.parse(userJson || JSON.stringify({}));

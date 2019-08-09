@@ -30,7 +30,7 @@ const styles = theme => ({
     color: 'white'
   },
   formControl: {
-    margin: '8px',
+    margin: theme.spacing.unit,
     minWidth: 120,
   },
   button: {

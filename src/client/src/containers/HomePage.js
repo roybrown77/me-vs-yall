@@ -138,7 +138,7 @@ class HomePage extends Component {
             pick sports winners.  every week.  against others around the world.
           </div>
           <div style={styles.buttonContainer}>
-            <Grid container>
+            <Grid container spacing={8}>
               <Grid item xs={12}>
                 <Route render={({ history }) => (
                     <Button 
