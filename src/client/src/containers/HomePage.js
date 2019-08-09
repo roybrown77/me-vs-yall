@@ -139,7 +139,7 @@ class HomePage extends Component {
           </div>
           <div style={styles.buttonContainer}>
             <Grid container spacing={8}>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Route render={({ history }) => (
                     <Button 
                         variant="outlined" 
@@ -154,7 +154,7 @@ class HomePage extends Component {
                 {nflStartDateTime && <Countdown styles={styles.countdown} date={nflStartDateTime}/>}
               </Grid>
               {
-                false &&
+                true &&
                 <Grid item xs={6}>
                   <Route render={({ history }) => (
                       <Button 
@@ -171,7 +171,7 @@ class HomePage extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={6} style={{margin:'auto'}}>
                   <Route render={({ history }) => (
                       <Button 
@@ -188,7 +188,7 @@ class HomePage extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={6}>
                     <Route render={({ history }) => (
                       <Button 

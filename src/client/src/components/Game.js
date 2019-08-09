@@ -16,7 +16,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import green from '@material-ui/core/colors/green';
 
-import VideoGame from '@material-ui/icons/VideogameAssetTwoTone';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import angry from '../styles/images/angry.png';
@@ -108,13 +107,19 @@ class Game extends Component {
 
         return (
             <div key={game._id} className={classes.container}>
-                <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={16}>
+                <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={8}>
                     {game.competitors.map((competitor) => (
                         <Grid
                             key={game._id + "." + competitor._id}
                             item xs={6}
                             onClick={() => this.handleMakePick(game._id, competitor._id)}
-                            style={{cursor: 'pointer'}}>
+                            className={inProgress ? 'fast-flash' : ''} 
+                            style={{
+                              cursor: 'pointer',
+                              border: competitor.selected ? '8px solid rgb(0, 188, 212)' : '',
+                              borderRadius: '14px'
+                            }}
+                        >
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
@@ -146,11 +151,6 @@ class Game extends Component {
                                                     {competitor.record}
                                                   </div>
                                                 }
-                                              </div>
-                                              <div className={inProgress ? 'fast-flash' : ''} 
-                                                style={{zIndex:'999999', bottom: '-8px', width: '100%',
-                                                position: 'absolute', display: competitor.selected || inProgress ? 'block' : 'none'}}>
-                                                <VideoGame style={{color: 'rgb(0, 188, 212)', fontSize: 55}}/>
                                               </div>
                                             </Grid>
                                         </Grid>

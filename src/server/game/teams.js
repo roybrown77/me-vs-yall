@@ -1511,11 +1511,11 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
 };
 
 const createWeek = async ({message, url, leagueId, year, day=6}) => {
-  //console.log(`${message} creating week`);
+  console.log(`${message} creating week`);
 
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
-  //console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
+  console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
 
   if (currentWeekDay === day) {
     const gameExistSearch = {
@@ -1617,8 +1617,8 @@ const getGames = async ({
     startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
     gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
-    away='away',
-    home='home'
+    away = 'away',
+    home = 'home'
 }) => {
   let games = [];
   
@@ -1643,7 +1643,7 @@ const getGames = async ({
       return document.getElementsByClassName(sel).length;
     }, root);
 
-    //console.log(`${message} getGames listLength: ${listLength}`);
+    console.log(`${message} getGames listLength: ${listLength}`);
 
     if (listLength === 0) {
       await page.close();
@@ -1690,9 +1690,9 @@ const getGames = async ({
              amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
              spreadDateTime: moment().toISOString()
             },
-            awayTeam: awayTeam,
+            awayTeam: (awayTeam || '').trim(),
             awayRecord: awayRecord,
-            homeTeam: homeTeam,
+            homeTeam: (homeTeam || '').trim(),
             homeRecord: homeRecord
         });
       }
@@ -1718,32 +1718,33 @@ const getGames = async ({
 const formatGames = ({message, games, leagueId, year, teams}) => {
     let formattedGames = [];
 
-    for(let i=0; i<games.length;i++) {
-        const game = games[i];
+    //console.log(`${message} formatGames teams: ${JSON.stringify(teams)}`);
+
+    games.forEach(game=>{
         const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
         const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
         const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
         
         if (!awayTeam || !homeTeam) {
-            console.log(`${message} formatGames team not found: ${JSON.stringify(game)}`);
-            continue;
+            console.log(`${message} formatGames teams not found game: ${JSON.stringify(game)}`);
+            console.log(`${message} formatGames teams not found: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
+        } else {
+            formattedGames.push({
+              leagueId: mongoose.Types.ObjectId(leagueId),
+              year: year,
+              startDateTime: game.startDateTime,
+              spread: {
+               teamId: get(spreadTeam,'_id'),
+               amount: get(game,'spread.amount', 0),
+               spreadDateTime: game.spread.spreadDateTime
+              },
+              competitors: [
+                {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
+                {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
+              ]
+            });
         }
-
-        formattedGames.push({
-          leagueId: mongoose.Types.ObjectId(leagueId),
-          year: year,
-          startDateTime: game.startDateTime,
-          spread: {
-           teamId: get(spreadTeam,'_id'),
-           amount: get(game,'spread.amount', 0),
-           spreadDateTime: game.spread.spreadDateTime
-          },
-          competitors: [
-            {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
-            {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
-          ]
-        });
-    }
+    });
 
   return formattedGames;
 };
@@ -1791,7 +1792,7 @@ const getScores = async ({
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
     finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
-    possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul',
+    possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-HOMEAWAY > div > ul',
     away='away',
     home='home'
 }) => {
@@ -1914,12 +1915,12 @@ const getScores = async ({
       const possessionAway = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, possesionSelector.replace("INDEX", i).replace("TEAMTYPE",away));
+      }, possesionSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const possessionHome = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, possesionSelector.replace("INDEX", i).replace("TEAMTYPE",home));
+      }, possesionSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
       scores.push({
         spread: {

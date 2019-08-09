@@ -53,14 +53,14 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
 
   if ((gamesExistSearch || []).length > 0) {
     console.log(`${message} games already exists: ${date}`);
-    //return;
+    return;
   }
 
   //console.log(`${message} get games`);
 
   const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
   const root = 'scoreboard soccer';
-  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
+  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.team-container > div.team-info > div > a > span.abbrev';                                                
   const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
   
   const games = await getGames({
@@ -81,7 +81,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
 
   //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({games, leagueId, year, teams: eplTeams});
+  const mvyGames = formatGames({message, games, leagueId, year, teams: eplTeams});
 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
@@ -119,10 +119,10 @@ const updateEnglishPremierLeagueScores = async () => {
     return;
   }
 
-  let liveTotalSelector, finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
-  let liveNameSelector, finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
+  let liveTotalSelector, finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY > div > div.score-container > span';
+  let liveNameSelector, finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY > div > div.team-container > div.team-info > div > a > span.abbrev';
   let liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
-  let possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
+  let possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-HOMEAWAY > div > ul';
   let finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
 
   isUpdateEnglishPremierLeagueScoresRunning = true;
