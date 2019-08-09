@@ -171,6 +171,7 @@ router.get('/games', function (req, res) {
       if (hours > 1 && hours < 10) {
         loadEnglishPremierLeagueGames(0);
         loadEnglishPremierLeagueGames(1);
+        loadEnglishPremierLeagueGames(2);
         loadEnglishPremierLeagueGames(3);
         loadEnglishPremierLeagueGames(4);
         loadEnglishPremierLeagueGames(5);
