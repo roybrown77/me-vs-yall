@@ -244,7 +244,7 @@ class LeaderPage extends Component {
                                                             {index+1}
                                                         </div>
                                                     }
-                                                    <ListItemText style={{width: '50%', margin:'auto 0', display: 'flex'}}>
+                                                    <ListItemText style={{width: '100%', margin:'auto 0'}}>
                                                         <div style={{display: 'flex'}}>
                                                             <img className={classes.userPicture} src={leader.picture} alt=""/>
                                                             <div className={classes.userName}>{leader.userName}</div>
