@@ -172,6 +172,10 @@ router.get('/games', function (req, res) {
         loadEnglishPremierLeagueGames(0);
         loadEnglishPremierLeagueGames(1);
         loadEnglishPremierLeagueGames(3);
+        loadEnglishPremierLeagueGames(4);
+        loadEnglishPremierLeagueGames(5);
+        loadEnglishPremierLeagueGames(6);
+        loadEnglishPremierLeagueGames(7);
         createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 5});
       }
     } catch(err) {
@@ -197,6 +201,11 @@ router.get('/games', function (req, res) {
         loadNbaGames(0);
         loadNbaGames(1);
         loadNbaGames(2);
+        loadNbaGames(3);
+        loadNbaGames(4);
+        loadNbaGames(5);
+        loadNbaGames(6);
+        loadNbaGames(7);
         createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
       }
     } catch(err) {
@@ -222,6 +231,11 @@ router.get('/games', function (req, res) {
   //       loadMlbGames(0);
   //       loadMlbGames(1);
   //       loadMlbGames(2);
+  //       loadMlbGames(3);
+  //       loadMlbGames(4);
+  //       loadMlbGames(5);
+  //       loadMlbGames(6);
+  //       loadMlbGames(7);
   //       createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
   //     }
   //   } catch(err) {
