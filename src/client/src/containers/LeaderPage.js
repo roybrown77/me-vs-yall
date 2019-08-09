@@ -58,10 +58,15 @@ const styles = theme => ({
     padding: '4px'
   },
   userName: {
-    textAlign: 'left'
+    padding: '10px'
   },
   expansionSummary: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+  },
+  userPicture: {
+    height: '50px',
+    width: '50px',
+    borderRadius: '8px',
   }
 });                                            
 
@@ -239,7 +244,12 @@ class LeaderPage extends Component {
                                                             {index+1}
                                                         </div>
                                                     }
-                                                    <ListItemText style={{width: '50%', margin:'auto 0'}}><div className={classes.userName}>{leader.userName}</div></ListItemText>
+                                                    <ListItemText style={{width: '50%', margin:'auto 0', display: 'flex'}}>
+                                                        <div style={{display: 'flex'}}>
+                                                            <img className={classes.userPicture} src={leader.picture} alt=""/>
+                                                            <div className={classes.userName}>{leader.userName}</div>
+                                                        </div>
+                                                    </ListItemText>
                                                     <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
                                                         <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>

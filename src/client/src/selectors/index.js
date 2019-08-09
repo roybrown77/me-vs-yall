@@ -6,6 +6,8 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
+import alan from '../styles/images/alan.png';
+
 const leagues = [ 
     {
         id: '59723313734d1d6202a85f10', 
@@ -133,6 +135,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
             total.push({
                 id: item.userId,
                 userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
+                picture: get(user,'picture'),
                 wins: pickResult.wins,
                 losses: pickResult.losses,
                 spreadWins: pickResult.spreadWins,
@@ -288,8 +291,9 @@ const getTimeUntilNextGamesLoad = (games = []) => {
 
 const getVegasUser = () => {
     return {
-        firstName: 'Westgate Las Vegas SuperBook',
-        authServiceId: '1'
+        firstName: 'Vegas SuperBook',
+        authServiceId: '1',
+        picture: alan
     };
 };
 
