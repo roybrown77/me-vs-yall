@@ -1463,8 +1463,12 @@ const getLastPlays = (playHistory = []) => {
 };
 
 const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
-  if (!lastPlay || !currentTime || playHistory.find(x=>get(x,'lastPlay')===lastPlay)) {
-    //console.log(`${message} getPlayHistory invalid`);
+    console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
+    console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
+    console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
+
+  if ((lastPlay && playHistory.length > 0 && playHistory.find(x=>get(x,'lastPlay')===lastPlay)) || !currentTime) {
+    console.log(`${message} getPlayHistory invalid`);
     return playHistory;
   }
 
@@ -1782,7 +1786,7 @@ const getScores = async ({
     liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
     liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p',
+    livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
@@ -1995,11 +1999,16 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
 
         const playHistory = get(game,'playHistory',[]);
+        
+        console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
+
         const newPlayHistory = getPlayHistory({message: 'updateNbaGames', playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
         !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
         (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
+
+        console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 
         const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 99 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : get(newPlayHistory,'0.time');
@@ -2011,6 +2020,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
         const lastPlays = leagueId === '59723313734d1d6202a85f17' ? (get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')) : getLastPlays(newPlayHistory);
+
+        console.log(`${message} lastPlays: ${JSON.stringify(lastPlays)}`);
 
         const updatedGame = {
           competitors: [...get(game,'competitors',[])],
@@ -2041,7 +2052,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
         }
 
-        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+        //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
         scores = [
             ...scores.slice(0,scoreIndex),

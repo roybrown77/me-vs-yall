@@ -153,6 +153,8 @@ const backupData = async () => {
   console.log('teams: ' + JSON.stringify(teams));
 };
 
+let currentLeague = 'nfl';
+
 router.get('/games', function (req, res) {
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -204,52 +206,58 @@ router.get('/games', function (req, res) {
   //   }
   // }
 
-  // if (monthDay < 401 || monthDay > 1115) {
-  //   console.log('new mlb games will be loaded during season.');
+  // if (currentLeague === 'mlb' && !isLoadMlbGamesRunning && !isUpdateMlbScoresRunning && !isLoadNflGamesRunning && !isUpdateNflScoresRunning) {
+  //   currentLeague = 'nfl';
+  //   if (monthDay < 401 || monthDay > 1115) {
+  //     console.log('new mlb games will be loaded during season.');
+  //   } else {
+  //     try {
+  //       if (hours > 3 && hours < 16) {
+  //         loadMlbGames(0);
+  //         loadMlbGames(1);
+  //         createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
+  //       }
+  //     } catch(err) {
+  //       isLoadMlbGamesRunning = false;
+  //       console.log('loadMlbGames error: ' + err.message);
+  //     }
+
+  //     try {
+  //       if (!(hours > 3 && hours < 16)) {
+  //         updateMlbScores();
+  //       }
+  //     } catch(err) {
+  //       isUpdateMlbScoresRunning = false;
+  //       console.log('updateMlbScores error: ' + err.message);
+  //     }
+  //   }
   // } else {
-  //   try {
-  //     if (hours > 3 && hours < 16 && minutes%30===0) {
-  //       loadMlbGames(0);
-  //       loadMlbGames(1);
-  //       createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
-  //     }
-  //   } catch(err) {
-  //     isLoadMlbGamesRunning = false;
-  //     console.log('loadMlbGames error: ' + err.message);
-  //   }
+    //if (currentLeague === 'nfl' && !isLoadNflGamesRunning && !isUpdateNflScoresRunning && !isLoadMlbGamesRunning && !isUpdateMlbScoresRunning) {
+      //currentLeague = 'mlb';
+      if (monthDay > 208 && monthDay < 801) {
+        console.log('new nfl games will be loaded during season.');
+      } else {
+        try {
+          if (hours > 3 && hours < 13 && currentWeekDay === 2) {
+            loadNflGames();
+            createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+          }
+        } catch(err) {
+          isLoadNflGamesRunning = false;
+          console.log('loadNflGames error: ' + err.message);
+        }
 
-  //   try {
-  //     if (minutes%20===0) {
-  //       updateMlbScores();
-  //     }
-  //   } catch(err) {
-  //     isUpdateMlbScoresRunning = false;
-  //     console.log('updateMlbScores error: ' + err.message);
-  //   }
-  // }
-
-  if (monthDay > 208 && monthDay < 801) {
-    console.log('new nfl games will be loaded during season.');
-  } else {
-    try {
-      if (hours > 3 && hours < 13 && currentWeekDay === 2) {
-        loadNflGames();
-        createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+        try {
+          if (!(hours > 3 && hours < 13 && currentWeekDay === 2)) {
+            updateNflScores();
+          }
+        } catch(err) {
+          isUpdateNflScoresRunning = false;
+          console.log('updateNflScores error: ' + err.message);
+        }
       }
-    } catch(err) {
-      isLoadNflGamesRunning = false;
-      console.log('loadNflGames error: ' + err.message);
-    }
-
-    try {
-      if (!(hours > 3 && hours < 13 && currentWeekDay === 2)) {
-        updateNflScores();
-      }
-    } catch(err) {
-      isUpdateNflScoresRunning = false;
-      console.log('updateNflScores error: ' + err.message);
-    }
-  }
+    //}
+  //}
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
