@@ -40,9 +40,6 @@ const styles = theme => ({
     width: '100%',
     borderRadius: '8px'
   },
-  control: {
-    padding: theme.spacing.unit * 2,
-  },
   checkBox: {
     color: green[600],
     '&$checked': {
@@ -108,13 +105,13 @@ class Game extends Component {
 
         return (
             <div key={game._id} className={classes.container}>
-                <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={16}>
+                <Grid key={game._id + "-gridlist"} container className={classes.root}>
                     {game.competitors.map((competitor) => (
                         <Grid
                             key={game._id + "." + competitor._id}
                             item xs={6}
                             onClick={() => this.handleMakePick(game._id, competitor._id)}
-                            style={{cursor: 'pointer'}}>
+                            style={{cursor: 'pointer', padding: '8px'}}>
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
