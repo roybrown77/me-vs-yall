@@ -1969,7 +1969,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
 
-    console.log(`${message} scores: ${JSON.stringify(scores)}`);
+    //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
     games.forEach(game=>{
         //console.log(`${message} game: ${JSON.stringify(game)}`);
