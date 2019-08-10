@@ -1932,13 +1932,13 @@ const getScores = async ({
         awayTeam: (awayTeam || '').trim().replace(/,\s*$/, ''),
         awayTeamPregame: (awayTeamPregame || '').trim().replace(/,\s*$/, ''),
         awayTeamInProgress: (awayInProgressName || '').trim().replace(/,\s*$/, ''),
-        awayInProgressScore: parseInt(awayInProgressScore),
+        awayInProgressScore: parseInt((awayInProgressScore || '').trim()),
         awayScore: parseInt((awayScore || '').trim()),
         awayRecord: awayRecord,
         homeTeam: (homeTeam || '').trim().replace(/,\s*$/, ''),
         homeTeamPregame: (homeTeamPregame || '').trim().replace(/,\s*$/, ''),
         homeTeamInProgress: (homeInProgressName || '').trim().replace(/,\s*$/, ''),
-        homeInProgressScore: parseInt(homeInProgressScore),
+        homeInProgressScore: parseInt((homeInProgressScore || '').trim()),
         homeScore: parseInt((homeScore || '').trim()),
         homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
@@ -1969,7 +1969,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
 
-    //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+    console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
     games.forEach(game=>{
         //console.log(`${message} game: ${JSON.stringify(game)}`);
@@ -2059,10 +2059,10 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
-        scores = [
-            ...scores.slice(0,scoreIndex),
-            ...scores.slice(scoreIndex+1)
-        ];
+        // scores = [
+        //     ...scores.slice(0,scoreIndex),
+        //     ...scores.slice(scoreIndex+1)
+        // ];
 
         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
