@@ -1933,13 +1933,13 @@ const getScores = async ({
         awayTeamPregame: (awayTeamPregame || '').trim().replace(/,\s*$/, ''),
         awayTeamInProgress: (awayInProgressName || '').trim().replace(/,\s*$/, ''),
         awayInProgressScore: parseInt(awayInProgressScore),
-        awayScore: parseInt(awayScore),
+        awayScore: parseInt((awayScore || '').trim()),
         awayRecord: awayRecord,
         homeTeam: (homeTeam || '').trim().replace(/,\s*$/, ''),
         homeTeamPregame: (homeTeamPregame || '').trim().replace(/,\s*$/, ''),
         homeTeamInProgress: (homeInProgressName || '').trim().replace(/,\s*$/, ''),
         homeInProgressScore: parseInt(homeInProgressScore),
-        homeScore: parseInt(homeScore),
+        homeScore: parseInt((homeScore || '').trim()),
         homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime,
@@ -1972,6 +1972,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
     games.forEach(game=>{
+        //console.log(`${message} game: ${JSON.stringify(game)}`);
+
         const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
         const awayShortLocation = get(awayTeam,'shortLocation');
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
@@ -1995,7 +1997,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const score = scores[scoreIndex];
 
-        //console.log(`${message} score: ${JSON.stringify(score)}`);
+        console.log(`${message} score: ${JSON.stringify(score)}`);
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
@@ -2032,7 +2034,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
           possession: get(score,'possession'),
-          currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : 
+          currentTime: ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? get(score,'currentTime') : 
           shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
           gameName: get(score,'gameName','')
         };
@@ -2055,7 +2057,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
         }
 
-        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+        //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
         scores = [
             ...scores.slice(0,scoreIndex),

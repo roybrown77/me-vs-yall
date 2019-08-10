@@ -168,7 +168,7 @@ router.get('/games', function (req, res) {
     console.log('new premier games will be loaded during season.');
   } else {
     try {
-      if (hours > 16 || hours < 6) {
+      if (hours > 16 || hours < 6 && currentWeekDay === 2) {
         loadEnglishPremierLeagueGames(0);
         loadEnglishPremierLeagueGames(1);
         loadEnglishPremierLeagueGames(2);
@@ -185,7 +185,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 16 && hours < 6)) {
+      if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
         updateEnglishPremierLeagueScores();
       }
     } catch(err) {
@@ -198,7 +198,7 @@ router.get('/games', function (req, res) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
-      if (hours > 3 && hours < 16) {
+      if (hours > 3 && hours < 16 && currentWeekDay === 6) {
         loadNbaGames(0);
         loadNbaGames(1);
         loadNbaGames(2);
@@ -215,7 +215,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 3 && hours < 16)) {
+      if (!(hours > 3 && hours < 16 && currentWeekDay === 6)) {
         updateNbaScores();
       }
     } catch(err) {
@@ -228,7 +228,7 @@ router.get('/games', function (req, res) {
   //   console.log('new mlb games will be loaded during season.');
   // } else {
   //   try {
-  //     if (hours > 3 && hours < 16) {
+  //     if (hours > 3 && hours < 16 && currentWeekDay === 0) {
   //       loadMlbGames(0);
   //       loadMlbGames(1);
   //       loadMlbGames(2);
@@ -245,7 +245,7 @@ router.get('/games', function (req, res) {
   //   }
 
   //   try {
-  //     if (!(hours > 3 && hours < 16)) {
+  //     if (!(hours > 3 && hours < 16 && currentWeekDay === 0)) {
   //       updateMlbScores();
   //     }
   //   } catch(err) {
