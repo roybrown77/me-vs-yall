@@ -144,7 +144,7 @@ const updateEnglishPremierLeagueScores = async () => {
     home: 'b'
   });
   
-  if (scores.length === 0) {
+  if ((scores || []).length === 0) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
     console.log(`${message} no scores.`);
     return;
