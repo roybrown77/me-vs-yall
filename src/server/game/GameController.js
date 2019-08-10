@@ -153,6 +153,8 @@ const backupData = async () => {
   console.log('teams: ' + JSON.stringify(teams));
 };
 
+let currentLeague = 'nfl';
+
 router.get('/games', function (req, res) {
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -163,65 +165,115 @@ router.get('/games', function (req, res) {
   console.log('currentWeekDay: ' + currentWeekDay);
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
-  
-  if (monthDay > 515 && monthDay < 801) {
-    console.log('new premier games will be loaded during season.');
-  } else {
-    try {
-      if (hours > 16 || hours < 6 && currentWeekDay === 2) {
-        loadEnglishPremierLeagueGames(0);
-        loadEnglishPremierLeagueGames(1);
-        loadEnglishPremierLeagueGames(2);
-        loadEnglishPremierLeagueGames(3);
-        loadEnglishPremierLeagueGames(4);
-        loadEnglishPremierLeagueGames(5);
-        loadEnglishPremierLeagueGames(6);
-        loadEnglishPremierLeagueGames(7);
-        createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 2});
-      }
-    } catch(err) {
-      isLoadEnglishPremierLeagueGamesRunning = false;
-      console.log('loadEnglishPremierLeagueGames error: ' + err.message);
-    }
 
-    try {
-      if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
-        updateEnglishPremierLeagueScores();
+  if (currentLeague === 'nfl' && 
+    !isLoadNflGamesRunning && 
+    !isUpdateNflScoresRunning &&
+    !isLoadEnglishPremierLeagueGamesRunning &&
+    !isUpdateEnglishPremierLeagueScoresRunning &&
+    !isLoadNbaGamesRunning && 
+    !isUpdateNbaScoresRunning) {
+    if (monthDay > 208 && monthDay < 801) {
+      console.log('new nfl games will be loaded during season.');
+    } else {
+      try {
+        if (hours > 3 && hours < 13 && currentWeekDay === 2) {
+          loadNflGames();
+          createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+        }
+      } catch(err) {
+        isLoadNflGamesRunning = false;
+        console.log('loadNflGames error: ' + err.message);
       }
-    } catch(err) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+
+      try {
+        if (!(hours > 3 && hours < 13 && currentWeekDay === 2)) {
+          updateNflScores();
+        }
+      } catch(err) {
+        isUpdateNflScoresRunning = false;
+        console.log('updateNflScores error: ' + err.message);
+      }
+      currentLeague = 'premier';
     }
   }
-
-  if (monthDay > 615 && monthDay < 1001) {
-    console.log('new nba games will be loaded during season.');
-  } else {
-    try {
-      if (hours > 3 && hours < 16 && currentWeekDay === 6) {
-        loadNbaGames(0);
-        loadNbaGames(1);
-        loadNbaGames(2);
-        loadNbaGames(3);
-        loadNbaGames(4);
-        loadNbaGames(5);
-        loadNbaGames(6);
-        loadNbaGames(7);
-        createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
+  
+  if (currentLeague === 'premier' && 
+    !isLoadNflGamesRunning && 
+    !isUpdateNflScoresRunning &&
+    !isLoadEnglishPremierLeagueGamesRunning &&
+    !isUpdateEnglishPremierLeagueScoresRunning &&
+    !isLoadNbaGamesRunning && 
+    !isUpdateNbaScoresRunning) {
+    if (monthDay > 515 && monthDay < 801) {
+      console.log('new premier games will be loaded during season.');
+    } else {
+      try {
+        if (hours > 16 || hours < 6 && currentWeekDay === 2) {
+          loadEnglishPremierLeagueGames(0);
+          loadEnglishPremierLeagueGames(1);
+          loadEnglishPremierLeagueGames(2);
+          loadEnglishPremierLeagueGames(3);
+          loadEnglishPremierLeagueGames(4);
+          loadEnglishPremierLeagueGames(5);
+          loadEnglishPremierLeagueGames(6);
+          loadEnglishPremierLeagueGames(7);
+          createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 2});
+        }
+      } catch(err) {
+        isLoadEnglishPremierLeagueGamesRunning = false;
+        console.log('loadEnglishPremierLeagueGames error: ' + err.message);
       }
-    } catch(err) {
-      isLoadNbaGamesRunning = false;
-      console.log('loadNbaGames error: ' + err.message);
-    }
 
-    try {
-      if (!(hours > 3 && hours < 16 && currentWeekDay === 6)) {
-        updateNbaScores();
+      try {
+        if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
+          updateEnglishPremierLeagueScores();
+        }
+      } catch(err) {
+        isUpdateEnglishPremierLeagueScoresRunning = false;
+        console.log('updateEnglishPremierLeagueScores error: ' + err.message);
       }
-    } catch(err) {
-      isUpdateNbaScoresRunning = false;
-      console.log('updateNbaScores error: ' + err.message);
     }
+    currentLeague = 'nba';
+  }
+
+  if (currentLeague === 'nba' && 
+    !isLoadNflGamesRunning && 
+    !isUpdateNflScoresRunning &&
+    !isLoadEnglishPremierLeagueGamesRunning &&
+    !isUpdateEnglishPremierLeagueScoresRunning &&
+    !isLoadNbaGamesRunning && 
+    !isUpdateNbaScoresRunning) {
+    if (monthDay > 615 && monthDay < 1001) {
+      console.log('new nba games will be loaded during season.');
+    } else {
+      try {
+        if (hours > 3 && hours < 16 && currentWeekDay === 6) {
+          loadNbaGames(0);
+          loadNbaGames(1);
+          loadNbaGames(2);
+          loadNbaGames(3);
+          loadNbaGames(4);
+          loadNbaGames(5);
+          loadNbaGames(6);
+          loadNbaGames(7);
+          createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
+        }
+      } catch(err) {
+        isLoadNbaGamesRunning = false;
+        console.log('loadNbaGames error: ' + err.message);
+      }
+
+      try {
+        if (!(hours > 3 && hours < 16 && currentWeekDay === 6)) {
+          updateNbaScores();
+        }
+      } catch(err) {
+        isUpdateNbaScoresRunning = false;
+        console.log('updateNbaScores error: ' + err.message);
+      }
+    }
+    currentLeague = 'nfl';
   }
 
   // if (monthDay < 401 || monthDay > 1115) {
@@ -253,29 +305,6 @@ router.get('/games', function (req, res) {
   //     console.log('updateMlbScores error: ' + err.message);
   //   }
   // }
-
-  if (monthDay > 208 && monthDay < 801) {
-    console.log('new nfl games will be loaded during season.');
-  } else {
-    try {
-      if (hours > 3 && hours < 13 && currentWeekDay === 2) {
-        loadNflGames();
-        createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
-      }
-    } catch(err) {
-      isLoadNflGamesRunning = false;
-      console.log('loadNflGames error: ' + err.message);
-    }
-
-    try {
-      if (!(hours > 3 && hours < 13 && currentWeekDay === 2)) {
-        updateNflScores();
-      }
-    } catch(err) {
-      isUpdateNflScoresRunning = false;
-      console.log('updateNflScores error: ' + err.message);
-    }
-  }
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
