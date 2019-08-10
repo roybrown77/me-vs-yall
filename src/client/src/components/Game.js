@@ -209,6 +209,7 @@ class Game extends Component {
                   hasGameStarted(game.startDateTime) &&
                   !game.isGameOver && 
                   game.lastPlay && 
+                  !['59723313734d1d6202a85f17'].includes(get(game,'leagueId')) &&
                   <div className={classes.lastPlay}>
                     {' Last Play: ' + game.lastPlay}
                   </div>
