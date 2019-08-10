@@ -120,7 +120,7 @@ const updateEnglishPremierLeagueScores = async () => {
   }
 
   let liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.score-container > span';
-  let liveTotalSelector = liveTotalSelector;
+  let finalScoreSelector = liveTotalSelector;
   let liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY > div > div.team-container > div.team-info > div > a > span.abbrev';
   let finalNameSelector = liveNameSelector;
   let liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
