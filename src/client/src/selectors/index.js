@@ -7,6 +7,20 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import alan from '../styles/images/alan.png';
+import alanRainMan from '../styles/images/alan-rainman.png';
+import phil from '../styles/images/phil.jpeg';
+import crewHangover from '../styles/images/crew-hangover.png';
+import blackDougHangover from '../styles/images/black-doug-hangover.jpeg';
+import hangover from '../styles/images/hangover.jpeg';
+
+const vegasPictures = [
+    alan,
+    alanRainMan,
+    phil,
+    blackDougHangover,
+    crewHangover,
+    hangover
+];
 
 const leagues = [ 
     {
@@ -293,7 +307,7 @@ const getVegasUser = () => {
     return {
         firstName: 'Vegas SuperBook',
         authServiceId: '1',
-        picture: alan
+        picture: vegasPictures[Math.floor(Math.random()*vegasPictures.length)]
     };
 };
 
