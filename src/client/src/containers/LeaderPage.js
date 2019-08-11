@@ -33,8 +33,7 @@ import {
     getCurrentWeek, 
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
-    getLeagueStartDateTime,
-    getLeagueNextGameStartDateTime
+    getLeagueStartDateTime
 } from '../selectors';
 
 const styles = theme => ({
@@ -144,7 +143,6 @@ class LeaderPage extends Component {
             leaders, 
             games, 
             isAuthenticated,
-            isCurrentWeek,
             dataLoading,
             weeksDataLoading,
             weeks = [],
@@ -155,7 +153,6 @@ class LeaderPage extends Component {
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
-        const timeUntilNextGamesLoad = getLeagueNextGameStartDateTime(leagueId, games);
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
 
         return (
@@ -192,9 +189,8 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
-                        games.find(x=>x.isGameOver !== true) &&
+                        !areAllGamesOver &&
                         !areAnyGamesInProgress &&
-                        timeUntilNextGameStarts &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
                             <Countdown date={timeUntilNextGameStarts}/>
@@ -202,11 +198,9 @@ class LeaderPage extends Component {
                     }
                     {
                         areAllGamesOver &&
-                        isCurrentWeek &&
-                        timeUntilNextGamesLoad &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div style={{color: 'darkorange', fontSize: '17px'}}>new games load in</div>
-                            <Countdown date={timeUntilNextGamesLoad}/>
+                            <Countdown date={timeUntilNextGameStarts}/>
                         </div>
                     }
                     <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px'}}>
@@ -374,8 +368,7 @@ const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
-    const isCurrentWeek = get(currentWeek,'_id') === get(request,'weekId') || !get(request,'weekId');
-
+    
     return {
         isAuthenticated,
         dataLoading,
@@ -389,8 +382,7 @@ const mapStateToProps = (state, ownProps) => {
         weekId,
         beginDateTime,
         endDateTime,
-        games,
-        isCurrentWeek
+        games
     }
 };
 
@@ -400,7 +392,6 @@ LeaderPage.propTypes = {
     weeksDataLoading: PropTypes.bool,
     leaders: PropTypes.array,
     weeks: PropTypes.array,
-    isCurrentWeek: PropTypes.bool,
     leagues: PropTypes.array,
     years: PropTypes.array,
     leagueId: PropTypes.string,
