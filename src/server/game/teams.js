@@ -2007,7 +2007,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         
         //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
-        const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+        const newPlayHistory = ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? [] : 
+        getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
         !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
@@ -2023,7 +2024,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const quarter = currenTimeSplit[currenTimeSplit.length-1];
         const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
         const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
-        const lastPlays = leagueId === '59723313734d1d6202a85f17' ? (get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
+        const lastPlays = ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? 
+        (get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')) : getLastPlays(newPlayHistory);
 
         //console.log(`${message} lastPlays: ${JSON.stringify(lastPlays)}`);
@@ -2036,7 +2038,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           possession: get(score,'possession'),
           currentTime: ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? get(score,'currentTime') : 
           shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
-          gameName: get(score,'gameName','')
+          gameName: ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? '' : get(score,'gameName','')
         };
 
         set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
