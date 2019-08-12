@@ -129,14 +129,11 @@ class HomePage extends Component {
               </div>
           }
           {
-              false &&
-              <div style={{...styles.subTitle, margin: '0 8px 8px 8px'}}>
-                it's sports.  it's fun.  it's crazy facts.
+              true &&
+              <div style={styles.subTitle}>
+                it's sports.  it's fun.  it's facts.  it's free.
               </div>
           }
-          <div style={styles.subTitle}>
-            pick sports winners.  every week.  against others around the world.
-          </div>
           <div style={styles.buttonContainer}>
             <Grid container spacing={8}>
               <Grid item xs={6}>
@@ -223,8 +220,14 @@ class HomePage extends Component {
               <img src={tennis} alt=""/>
             </Grid>
           </Grid>
+          <div style={styles.subTitle}>
+            pick sports winners.  every week.  against others around the world.
+          </div>
+          <div style={styles.subTitle}>
+            follow games when u can't watch them.
+          </div>
           {
-            false &&
+            true &&
             <div style={styles.emojiContainer}>
               <div style={{left: '77%', position: 'absolute'}}>
                 <img src={confetti} alt=""/>
