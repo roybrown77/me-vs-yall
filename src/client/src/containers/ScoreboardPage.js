@@ -286,7 +286,6 @@ class ScoreboardPage extends Component {
                     }
                     {
                         !isAuthenticated &&
-                        !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** sign in then tap team **
                         </div>
@@ -298,6 +297,13 @@ class ScoreboardPage extends Component {
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             <div>tap team below</div>
                             <div className='fast-flash'><b>{gamesNotStarted.length - picks.length}</b> remaining</div>
+                        </div>
+                    }
+                    {
+                        isAuthenticated &&
+                        areAllGamesOver &&
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                            ** tap team before game starts **
                         </div>
                     }
                     {

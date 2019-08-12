@@ -214,6 +214,19 @@ class LeaderPage extends Component {
                         </div>
                     }
                     {
+                        !isAuthenticated &&
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                            ** sign in then tap team **
+                        </div>
+                    }
+                    {
+                        isAuthenticated &&
+                        areAllGamesOver &&
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                            ** tap team before game starts **
+                        </div>
+                    }
+                    {
                         leaders.length > 0 && 
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                             <div className={classes.root}>
