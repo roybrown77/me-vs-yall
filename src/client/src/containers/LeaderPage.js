@@ -222,7 +222,7 @@ class LeaderPage extends Component {
                     {
                         isAuthenticated &&
                         areAllGamesOver &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** tap team before game starts **
                         </div>
                     }
