@@ -35,6 +35,14 @@ const styles = {
 
 const stats = [
   {
+    title: 'DEAD LAST',
+    content: `The Chicago Bears and Houston Texans finished dead last in their division in 2017 but took their divisional crown last year.  Could 
+              it be the Jets, Bengals, Jaguars, Raiders, Giants, Lions, Bucs or Cardinals turn to do the same in 2019?`,
+    leagueName: 'NFL',
+    date: 'August 14, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: '1 GAME PER WEEK SEPARATES BAD FROM GOOD',
     content: `There are about 26 weeks in an NBA season (6 months) with 3 games played per week.  Bad teams win 1 while good teams win 2 
               per week.  This season the Bucks are only losing three times a month while Bulls, Knicks, Cavs and Suns are winning 2-3 a month.`,
