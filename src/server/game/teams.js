@@ -1594,8 +1594,8 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
-      beginDateTime: moment(lastGame.beginDateTime ? lastGame.beginDateTime : new Date()).add(7, 'days').startOf('day').format(),
-      endDateTime: moment(lastGame.endDateTime ? lastGame.endDateTime : new Date()).add(7, 'days').endOf('day').format()
+      beginDateTime: !!lastGame.beginDateTime ? (lastGame.beginDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).startOf('day').format(),
+      endDateTime: !!lastGame.endDateTime ? (lastGame.endDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).add(6, 'days').endOf('day').format()
     };
 
     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
