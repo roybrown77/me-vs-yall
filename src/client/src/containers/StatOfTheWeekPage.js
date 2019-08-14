@@ -35,8 +35,8 @@ const styles = {
 
 const stats = [
   {
-    title: 'DEAD LAST',
-    content: `The Chicago Bears and Houston Texans finished dead last in their division in 2017 but took their divisional crown last year.  Could 
+    title: 'FROM ASHY TO CLASSY',
+    content: `The Chicago Bears and Houston Texans finished dead last in their division in 2017 but won their divisional crown in 2018.  Could 
               it be the Jets, Bengals, Jaguars, Raiders, Giants, Lions, Bucs or Cardinals turn to do the same in 2019?`,
     leagueName: 'NFL',
     date: 'August 14, 2019',
