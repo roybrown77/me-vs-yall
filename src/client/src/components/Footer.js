@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom'
 import get from 'lodash/get';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
   root: {
@@ -18,9 +18,9 @@ const styles = {
     color: "black"
   },
   action: {
-    margin: '0 15px',
     fontSize: '15px',
-    color: 'rgba(0, 0, 0, 0.54)'
+    color: 'rgba(0, 0, 0, 0.54)',
+    cursor: 'pointer'
   }
 };
 
@@ -46,30 +46,30 @@ class Footer extends Component {
                     >
                     {(
                         <Route render={({ history}) => (
-                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/') }}>
+                            <IconButton style={styles.action} onClick={() => { history.push('/') }}>
                                 #MvY
-                            </ButtonBase>
+                            </IconButton>
                         )} />
                     )}
                     {(
                         <Route render={({ history}) => (
-                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
+                            <IconButton style={styles.action} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
                                 #Scores
-                            </ButtonBase>
+                            </IconButton>
                         )} />
                     )}
                     {(
                         <Route render={({ history}) => (
-                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/leaders/' + leagueName) }}>
+                            <IconButton style={styles.action} onClick={() => { history.push('/leaders/' + leagueName) }}>
                                 #Leaders
-                            </ButtonBase>
+                            </IconButton>
                     )} />
                     )}
                     {(
                         <Route render={({ history}) => (
-                            <ButtonBase focusRipple style={styles.action} onClick={() => { history.push('/statOfTheWeek') }}>
+                            <IconButton style={styles.action} onClick={() => { history.push('/statOfTheWeek') }}>
                                 #SOTW
-                            </ButtonBase>
+                            </IconButton>
                     )} />
                     )}
                 </BottomNavigation>
