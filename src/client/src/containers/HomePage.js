@@ -124,14 +124,14 @@ class HomePage extends Component {
           }
           {
               true &&
-              <div>
+              <div style={{marginTop: '16px'}}>
                 <img src={mvy} alt=""/>
               </div>
           }
           {
               true &&
               <div style={styles.subTitle}>
-                it's sports.  it's fun.  it's facts.  it's free.
+                sports.  fun.  facts.
               </div>
           }
           <div style={styles.buttonContainer}>
@@ -220,12 +220,26 @@ class HomePage extends Component {
               <img src={tennis} alt=""/>
             </Grid>
           </Grid>
-          <div style={styles.subTitle}>
-            pick sports winners.  every week.  against others around the world.
-          </div>
-          <div style={styles.subTitle}>
-            follow games when u can't watch them.
-          </div>
+          {
+            true &&
+            <div style={styles.subTitle}>
+              <div style={styles.subTitle}>
+                pick sports winners.
+              </div>
+              <div style={styles.subTitle}>
+                every week.
+              </div>
+              <div style={styles.subTitle}>
+                against others around the world.
+              </div>
+            </div>
+          }
+          {
+            false &&
+            <div style={styles.subTitle}>
+              follow games when u can't watch them.
+            </div>
+          }
           {
             true &&
             <div style={styles.emojiContainer}>
