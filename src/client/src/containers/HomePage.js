@@ -131,7 +131,7 @@ class HomePage extends Component {
           {
               true &&
               <div style={styles.subTitle}>
-                sports.  fun.  facts.
+                sports.  fun.  facts.  prizes.
               </div>
           }
           <div style={styles.buttonContainer}>
