@@ -22,9 +22,7 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadNflGames = async () => {
-  const message = 'loadNflGames';
-
+const loadNflGames = async ({message, url, leagueId, year, day}) => {
   if (isLoadNflGamesRunning || isUpdateNflScoresRunning) {
     console.log("loadNflGames already running.");
     return;
@@ -32,13 +30,11 @@ const loadNflGames = async () => {
 
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
-  if (currentWeekDay !== 3) {
+  if (currentWeekDay !== day) {
     console.log("loadNflGames games load on Wednesday");
     return;
   }
 
-  const leagueId = '59723313734d1d6202a85f10';
-  const year = 2019;
   const date = moment().add(4, 'days').format('YYYYMMDD');
   
   const gameExistSearch = {
@@ -57,7 +53,6 @@ const loadNflGames = async () => {
     return;
   }
 
-  const url = 'https://www.espn.com/nfl/scoreboard';
   const root = 'scoreboard football';
   
   const games = await getGames({
@@ -83,16 +78,12 @@ const loadNflGames = async () => {
   isLoadNflGamesRunning = false;
 };
 
-const updateNflScores = async () => {
-  const message = 'updateNflScores';
-
+const updateNflScores = async ({message, url, leagueId, year}) => {
   if (isUpdateNflScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
 
-  const leagueId = '59723313734d1d6202a85f10';
-  const year = 2019;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -117,7 +108,7 @@ const updateNflScores = async () => {
   const scores = await getScores({
     message, 
     root: 'scoreboard football',
-    url: 'http://www.espn.com/nfl/scoreboard',
+    url,
   });
   
   if (scores.length === 0) {

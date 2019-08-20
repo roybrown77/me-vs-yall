@@ -1545,7 +1545,7 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
 
     const diff = moment(lastGame.endDateTime).diff(moment());
 
-    //console.log(`${message} diff: ${diff}`);
+    console.log(`${message} lastGame: ${lastGame}`);
 
     if (gameWeeks.length > 0 && diff > 0) {
         console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeeks)}`);
@@ -1594,8 +1594,8 @@ const createWeek = async ({message, url, leagueId, year, day=6}) => {
       leagueId: mongoose.Types.ObjectId(leagueId),
       year: year,
       description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
-      beginDateTime: !!lastGame.beginDateTime ? (lastGame.beginDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).startOf('day').format(),
-      endDateTime: !!lastGame.endDateTime ? (lastGame.endDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).add(6, 'days').endOf('day').format()
+      beginDateTime: !!lastGame.beginDateTime ? moment(lastGame.beginDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).startOf('day').format(),
+      endDateTime: !!lastGame.endDateTime ? moment(lastGame.endDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).add(6, 'days').endOf('day').format()
     };
 
     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {

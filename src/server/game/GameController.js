@@ -177,9 +177,9 @@ router.get('/games', function (req, res) {
       console.log('new nfl games will be loaded during season.');
     } else {
       try {
-        if (hours > 3 && hours < 13 && currentWeekDay === 3) {
-          loadNflGames();
-          createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 3});
+        if (hours > 5 && hours < 19 && currentWeekDay === 2) {
+          loadNflGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+          createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
         }
       } catch(err) {
         isLoadNflGamesRunning = false;
@@ -187,8 +187,8 @@ router.get('/games', function (req, res) {
       }
 
       try {
-        if (!(hours > 3 && hours < 13 && currentWeekDay === 3)) {
-          updateNflScores();
+        if (!(hours > 5 && hours < 19 && currentWeekDay === 2)) {
+          updateNflScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019});
         }
       } catch(err) {
         isUpdateNflScoresRunning = false;
@@ -395,7 +395,7 @@ router.get('/gamesInProgress', function (req, res) {
 
 router.get('/teams', function (req, res) {
   //backupData();
-  //getEmailAddresses();
+  getEmailAddresses();
   //buySupreme();
 
   const teams = [
