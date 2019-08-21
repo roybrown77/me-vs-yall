@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -117,12 +117,6 @@ class HomePage extends Component {
       return (
         <div className="fade-in home-page-container">
           {
-              false &&
-              <div style={styles.plainTitle}>
-                Me vs Yall
-              </div>
-          }
-          {
               true &&
               <div style={{marginTop: '16px'}}>
                 <img src={mvy} alt=""/>
@@ -235,12 +229,6 @@ class HomePage extends Component {
             </div>
           }
           {
-            false &&
-            <div style={styles.subTitle}>
-              follow games when u can't watch them.
-            </div>
-          }
-          {
             true &&
             <div style={styles.emojiContainer}>
               <div style={{left: '77%', position: 'absolute'}}>
@@ -253,7 +241,7 @@ class HomePage extends Component {
           </div>
 
           <div style={styles.subTitle}>
-            <a style={{color:'#1E90FF'}} href='/tips'>tips</a>
+            <Link style={{color:'#1E90FF'}} to='/tips'>tips</Link>
           </div>
         </div>
       );
