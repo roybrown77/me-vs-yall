@@ -36,7 +36,7 @@ const styles = {
 const stats = [
   {
     title: 'NO DROPS',
-    content: `The Houston Texans DeAndre Hopkins didn't drop one pass in 2018 to set a record.  He ended with 115 catches and 11 tds.`,
+    content: `The Houston Texans wide receiver DeAndre Hopkins didn't drop one pass in 2018 to set a record.  He ended with 115 catches and 11 tds.`,
     leagueName: 'NFL',
     date: 'August 21, 2019',
     author: 'Ryan P.'
