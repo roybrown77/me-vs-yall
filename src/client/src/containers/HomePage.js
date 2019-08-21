@@ -249,8 +249,12 @@ class HomePage extends Component {
             </div>
           }
           <div style={styles.subTitle}>
-              <a style={{color:'#FF1493'}} href='https://www.instagram.com/mevsyallgames'>gram</a>
-            </div>
+            <a style={{color:'#FF1493'}} href='https://www.instagram.com/mevsyallgames'>gram</a>
+          </div>
+
+          <div style={styles.subTitle}>
+            <a style={{color:'#1E90FF'}} href='/tips'>tips</a>
+          </div>
         </div>
       );
     }

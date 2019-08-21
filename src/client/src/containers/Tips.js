@@ -35,6 +35,11 @@ const styles = {
 
 const stats = [
   {
+    title: 'THE BEST AROUND',
+    content: `This is the best way to practice how to pick winning teams without losing any money.  If you can't win here you prolly shouldn't 
+              bet real money anywhere.`
+  },
+  {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when u can't watch it.`
   },
