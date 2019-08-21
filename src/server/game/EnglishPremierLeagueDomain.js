@@ -58,19 +58,26 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
 
   //console.log(`${message} get games`);
 
-  const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
-  const root = 'scoreboard soccer';
-  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.team-container > div.team-info > div > a > span.abbrev';                                                
-  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
+  // const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
+  // const root = 'scoreboard soccer';
+  // const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.team-container > div.team-info > div > a > span.abbrev';                                                
+  // const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
+
+  const url = `https://www.google.com/search?q=premier+scores&oq=premier+scores#sie=lg;/g/11fj6snmjm;2;/m/02_tc;mt;fp;1;;`;
+  const root = '#liveresults-sports-immersive__updatable-league-matches > div:nth-of-type(WEEK_INDEX) > div:nth-child(2) > div > table > tbody';
+  const nameSelector = '#liveresults-sports-immersive__updatable-league-matches > div:nth-of-type(WEEK_INDEX) > div:nth-child(2) > div > table > tbody > tr:nth-of-type(INDEX) > td.liveresults-sports-immersive__match-tile.imso-hov.liveresults-sports-immersive__match-grid-bottom-border.liveresults-sports-immersive__match-grid-right-border > div > div > div > table > tbody > tr:nth-child(HOMEAWAY) > td.tns-c.imspo_mt__tt-w.imspo_mt__dt-t > div > span:nth-child(1)';                                                
+  const startDateTimeSelector = '#liveresults-sports-immersive__updatable-league-matches > div:nth-of-type(WEEK_INDEX) > div:nth-child(2) > div > table > tbody > tr:nth-of-type(INDEX) > td.liveresults-sports-immersive__match-tile.imso-hov.liveresults-sports-immersive__match-grid-bottom-border.liveresults-sports-immersive__match-grid-right-border > div > div > div > table > tbody > tr:nth-child(3) > td.imspo_mt__match-sc.imspo_mt__wt > div > div > div';
   
   const games = await getGames({
     message,
     url,
-    root,
-    nameSelector,
-    startDateTimeSelector,
-    away: 'a',
-    home: 'b'
+    root: root.replace('WEEK_INDEX', 4),
+    nameSelector: nameSelector.replace('WEEK_INDEX', 4),
+    startDateTimeSelector: startDateTimeSelector.replace('WEEK_INDEX', 4),
+    weekIndex: 4,
+    away: 5,
+    home: 6,
+    waitElement: '#liveresults-sports-immersive__updatable-league-matches'
   });
 
   if ((games || []).length === 0) {
@@ -79,11 +86,11 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
     return;
   }
 
-  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = formatGames({message, games, leagueId, year, teams: eplTeams});
 
-  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
+  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
