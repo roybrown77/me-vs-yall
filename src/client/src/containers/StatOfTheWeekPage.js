@@ -35,6 +35,13 @@ const styles = {
 
 const stats = [
   {
+    title: 'NO DROPS',
+    content: `The Houston Texans DeAndre Hopkins didn't drop one pass in 2018 to set a record.  He ended with 115 catches and 11 tds.`,
+    leagueName: 'NFL',
+    date: 'August 21, 2019',
+    author: 'Ryan P.'
+  },
+  {
     title: 'FROM ASHY TO CLASSY',
     content: `The Chicago Bears and Houston Texans finished dead last in their division in 2017 but won their divisional crown in 2018.  Could 
               it be the Jets, Bengals, Jaguars, Raiders, Giants, Lions, Bucs or Cardinals turn to do the same in 2019?`,
