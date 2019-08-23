@@ -17,7 +17,8 @@ const {
   updateEnglishPremierLeagueScores,
   isLoadEnglishPremierLeagueGamesRunning,
   isUpdateEnglishPremierLeagueScoresRunning, 
-} = require('./EnglishPremierLeagueDomain');
+} = require('./EnglishPremierLeagueDomain-old');
+//} = require('./EnglishPremierLeagueDomain');
 
 const { 
   loadNflGames, 
@@ -205,35 +206,28 @@ router.get('/games', function (req, res) {
   //   !isUpdateEnglishPremierLeagueScoresRunning &&
   //   !isLoadNbaGamesRunning && 
   //   !isUpdateNbaScoresRunning) {
-    // if (monthDay > 515 && monthDay < 801) {
-    //   console.log('new premier games will be loaded during season.');
-    // } else {
-    //   try {
-    //     if (hours > 16 || hours < 6 && currentWeekDay === 2) {
-    //       loadEnglishPremierLeagueGames(0);
-    //       loadEnglishPremierLeagueGames(1);
-    //       loadEnglishPremierLeagueGames(2);
-    //       loadEnglishPremierLeagueGames(3);
-    //       loadEnglishPremierLeagueGames(4);
-    //       loadEnglishPremierLeagueGames(5);
-    //       loadEnglishPremierLeagueGames(6);
-    //       loadEnglishPremierLeagueGames(7);
-    //       createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 2});
-    //     }
-    //   } catch(err) {
-    //     isLoadEnglishPremierLeagueGamesRunning = false;
-    //     console.log('loadEnglishPremierLeagueGames error: ' + err.message);
-    //   }
+    if (monthDay > 515 && monthDay < 801) {
+      console.log('new premier games will be loaded during season.');
+    } else {
+      try {
+        if (hours > 16 || hours < 6 && currentWeekDay === 2) {
+          //loadEnglishPremierLeagueGames();
+          //createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 2});
+        }
+      } catch(err) {
+        isLoadEnglishPremierLeagueGamesRunning = false;
+        console.log('loadEnglishPremierLeagueGames error: ' + err.message);
+      }
 
-    //   try {
-    //     if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
-    //       updateEnglishPremierLeagueScores();
-    //     }
-    //   } catch(err) {
-    //     isUpdateEnglishPremierLeagueScoresRunning = false;
-    //     console.log('updateEnglishPremierLeagueScores error: ' + err.message);
-    //   }
-    // }
+      try {
+        if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
+          updateEnglishPremierLeagueScores();
+        }
+      } catch(err) {
+        isUpdateEnglishPremierLeagueScoresRunning = false;
+        console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+      }
+    }
    // currentLeague = 'nba';
   //}
 

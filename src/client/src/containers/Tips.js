@@ -40,6 +40,14 @@ const stats = [
               bet real money anywhere.`
   },
   {
+    title: 'PRIZE POCKETS',
+    content: `Weekly prize amounts depend on what's in our pockets at the time.  Gift cards will be emailed to you promptly.`
+  },
+  {
+    title: 'THE CONNECT',
+    content: `If picks don't work, check your internet connection.  This is required to save your selection.`
+  },
+  {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when u can't watch it.`
   },

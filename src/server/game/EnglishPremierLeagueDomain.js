@@ -74,6 +74,7 @@ const loadEnglishPremierLeagueGames = async (dayCount) => {
     root: root.replace('WEEK_INDEX', 4),
     nameSelector: nameSelector.replace('WEEK_INDEX', 4),
     startDateTimeSelector: startDateTimeSelector.replace('WEEK_INDEX', 4),
+    startDateTimeSelector: startDateTimeSelector.replace('WEEK_INDEX', 4),
     weekIndex: 4,
     away: 5,
     home: 6,
