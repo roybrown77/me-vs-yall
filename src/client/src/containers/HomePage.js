@@ -229,6 +229,14 @@ class HomePage extends Component {
             </div>
           }
           {
+            false &&
+            <div style={styles.subTitle}>
+              <div style={styles.subTitle}>
+                promoting healthy betting habits via free play.
+              </div>
+            </div>
+          }
+          {
             true &&
             <div style={styles.emojiContainer}>
               <div style={{left: '77%', position: 'absolute'}}>

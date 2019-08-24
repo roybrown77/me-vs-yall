@@ -59,6 +59,10 @@ const stats = [
     content: `If picks don't work, check your internet connection.  This is required to save your selection.`
   },
   {
+    title: 'HEALTHY',
+    content: `Promoting healthy betting habits via free play.`
+  },
+  {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when u can't watch it.`
   },
@@ -81,6 +85,10 @@ const stats = [
     content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
   },
   {
+    title: 'EVERY WEEK WORLD WIDE',
+    content: `Pick winners.  Every week.  Against others around the world.`
+  },
+  {
     title: 'FRIENDS AND FAMILY',
     content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
   },
@@ -90,7 +98,7 @@ const stats = [
   },
   {
     title: 'TAGS',
-    content: `#football #soccer #basketball #baseball #bmx #skate #surf #nfl #premierleague #nba #mlb #xgames #statoftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love`
+    content: `#football #soccer #basketball #bmx #skate #surf #nfl #premierleague #nba #xgames #statoftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vega #litty #thatway`
   }
 ];
 
