@@ -60,7 +60,8 @@ const loadMlbGames = async (dayCount) => {
   const games = await getGames({
     message,
     url,
-    root
+    root,
+    minHour: 7
   });
 
   if ((games || []).length === 0) {
