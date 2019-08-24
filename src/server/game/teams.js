@@ -1493,7 +1493,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter) {
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter || playHistory.find(x=>x.time===time)) {
     console.log(`${message} getPlayHistory invalid2`);
     return playHistory;
   }
