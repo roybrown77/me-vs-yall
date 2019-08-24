@@ -98,7 +98,7 @@ const stats = [
   },
   {
     title: 'TAGS',
-    content: `#football #soccer #basketball #bmx #skate #surf #nfl #premierleague #nba #xgames #statoftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vega #litty #thatway`
+    content: `#football #soccer #basketball #bmx #skate #surf #nfl #premierleague #nba #xgames #statoftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vegas #litty #merch #thatway`
   }
 ];
 
