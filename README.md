@@ -4,7 +4,7 @@ sports. fun. facts. prizes.
 
 https://www.mevsyall.com
 
-best way to practice picking winning teams without losing money in vegas.  if you can't win here you prolly shouldn't bet real money anywhere.
+pick winners. every week. against others around the world.
 
 promoting healthy betting habits via free play.
 
