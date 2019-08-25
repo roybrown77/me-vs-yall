@@ -121,7 +121,7 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 export const selectWeek = (week) => (dispatch, getState) => {
-  return dispatch({
+  dispatch({
     type: 'GAMESEARCHUPDATE',
     week
   });
@@ -145,7 +145,7 @@ export const addPick = (pick) => (dispatch, getState) => {
   searchParams.set('gameId', pick.gameId);
   searchParams.set('pickId', pick.pickId);
 
-  return dispatch(createPick(searchParams));
+  dispatch(createPick(searchParams));
 };
 
 const editPick = (id, pick) => ({
@@ -167,7 +167,7 @@ export const updatePick = (id, pick) => (dispatch, getState) => {
   searchParams.set('pickId', pick.pickId);
   searchParams.set('gameId', pick.gameId);
 
-  return dispatch(editPick(id, searchParams));
+  dispatch(editPick(id, searchParams));
 };
 
 const fetchGamesInProgress = () => ({
@@ -179,7 +179,7 @@ const fetchGamesInProgress = () => ({
 });
 
 export const loadGamesInProgress = () => (dispatch, getState) => {
-  return dispatch(fetchGamesInProgress());
+  dispatch(fetchGamesInProgress());
 };
 
 const fetchGameWeeks = query => ({
@@ -191,7 +191,7 @@ const fetchGameWeeks = query => ({
 });
 
 export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState) => {
-  return dispatch(fetchGameWeeks(query));
+  dispatch(fetchGameWeeks(query));
 };
 
 const fetchGames = (query, types) => ({
@@ -230,7 +230,7 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
   const leagueId = get(query,'leagueId');
   const year = get(query, 'year');
 
-  return dispatch(fetchGameWeeks({leagueId,year})).then(
+  dispatch(fetchGameWeeks({leagueId,year})).then(
     result=>{
         const currentState = getState();
         const authenticationDomain = currentState.get('authenticationDomain').toJS();
@@ -286,7 +286,7 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
   const leagueId = get(query,'leagueId');
   const year = get(query, 'year');
 
-  return dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
+  dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
     const weeks = get(result,'response',[]);
     const currentWeek = getCurrentWeek(weeks);
 
