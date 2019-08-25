@@ -60,8 +60,7 @@ const stats = [
   },
   {
     title: 'HEALTHY',
-    content: `Promoting healthy betting habits via free play.  Cuz let's be real, betting has been around since the dawn of man and ain't going nowhere. might as well 
-              practice without losing anything.`
+    content: `Promoting healthy betting habits via free play.`
   },
   {
     title: 'NO GAME NO PROBLEM',
