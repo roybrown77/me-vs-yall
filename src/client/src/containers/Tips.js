@@ -36,8 +36,12 @@ const styles = {
 const stats = [
   {
     title: 'THE BEST AROUND',
-    content: `This is the best way to practice how to pick winning teams without losing any money.  If you can't win here you prolly shouldn't 
+    content: `This app is the best way to practice how to pick winning teams without losing any money.  If you can't win here you prolly shouldn't 
               bet real money anywhere.`
+  },
+  {
+    title: 'MATH STUDENTS',
+    content: `Engaging way to teach students about math, probability and money.`
   },
   {
     title: 'PRIZE POCKETS',
