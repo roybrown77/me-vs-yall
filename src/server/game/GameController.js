@@ -238,7 +238,7 @@ router.get('/games', function (req, res) {
   //   !isUpdateEnglishPremierLeagueScoresRunning &&
   //   !isLoadNbaGamesRunning && 
   //   !isUpdateNbaScoresRunning) {
-    if (monthDay > 615 && monthDay < 1001) {
+    if (monthDay > 615 && monthDay < 1201) {
       console.log('new nba games will be loaded during season.');
     } else {
       try {

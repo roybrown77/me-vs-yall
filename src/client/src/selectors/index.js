@@ -54,15 +54,15 @@ const getLeagueStartDateTime = (leagueId, games) => {
     const year = moment().format('YYYY');
 
     if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
-        return moment(`${year}0901`).toISOString();
+        return moment(`${year}0801`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 801)) {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1001)) {
-        return moment(`${year}1001`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1201)) {
+        return moment(`${year}1201`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 401 || monthDay > 1115)) {
@@ -77,15 +77,15 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
     const year = moment().format('YYYY');
 
     if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
-        return moment(`${year}0901`).toISOString();
+        return moment(`${year}0801`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 801)) {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1001)) {
-        return moment(`${year}1001`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1201)) {
+        return moment(`${year}1201`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 401 || monthDay > 1115)) {
@@ -295,11 +295,12 @@ const getAreAllGamesOver = (games = []) => {
 
 const getTimeUntilNextGamesLoad = (games = []) => {
     const day = moment().weekday();
+    console.log('day: ' + day);
     const areAllGamesOver = getAreAllGamesOver(games);
-    const time = areAllGamesOver ? day === 2 && new Date().getHours() <= 19 ? moment().startOf('day').add(19,'hours').toISOString() :
-    (day === 2 && new Date().getHours() > 19 ? moment().add(7,'day').startOf('day').add(19,'hours').toISOString() : 
+    const time = areAllGamesOver ? (day === 2 && new Date().getHours() <= 19 ? moment().startOf('day').add(19,'hours').toISOString() :
+    day === 2 && new Date().getHours() > 19 ? moment().add(7,'day').startOf('day').add(19,'hours').toISOString() : 
     day > 2 ? moment().add(7-Math.abs(3-day),'day').startOf('day').add(19,'hours').toISOString() : 
-    day === 2 ? moment().add(1,'day').startOf('day').add(19,'hours').toISOString() : moment().add(2,'day').startOf('day').add(19,'hours').toISOString()) : undefined;
+    moment().add(2-day,'day').startOf('day').add(19,'hours').toISOString()) : undefined;
     return time;
 };
 
