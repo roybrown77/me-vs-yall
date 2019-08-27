@@ -129,8 +129,8 @@ class HomePage extends Component {
               </div>
           }
           <div style={styles.buttonContainer}>
-            <Grid container spacing={8}>
-              <Grid item xs={6}>
+            <Grid>
+              <Grid item xs={8} style={{margin:'16px auto'}}>
                 <Route render={({ history }) => (
                     <Button 
                         variant="outlined" 
@@ -146,7 +146,7 @@ class HomePage extends Component {
               </Grid>
               {
                 true &&
-                <Grid item xs={6}>
+                <Grid item xs={8} style={{margin:'16px auto'}}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -163,7 +163,7 @@ class HomePage extends Component {
               }
               {
                 true &&
-                <Grid item xs={6} style={{margin:'auto'}}>
+                <Grid item xs={8} style={{margin:'16px auto'}}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -180,7 +180,7 @@ class HomePage extends Component {
               }
               {
                 false &&
-                <Grid item xs={6}>
+                <Grid item xs={8} style={{margin:'16px auto'}}>
                     <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -215,7 +215,7 @@ class HomePage extends Component {
             </Grid>
           </Grid>
           {
-            true &&
+            false &&
             <div style={styles.subTitle}>
               <div style={styles.subTitle}>
                 pick sports winners.
