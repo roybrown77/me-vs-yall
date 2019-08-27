@@ -46,7 +46,7 @@ const loadEnglishPremierLeagueGames = async () => {
 
   const lastStartGameTime = startDateTimes.length > 0 ? new Date(Math.max.apply(null, startDateTimes)) : new Date();
 
-  const daysLeftToGetGames = moment().add(3,'days').diff(moment(lastStartGameTime), 'days');
+  const daysLeftToGetGames = moment().add(6,'days').diff(moment(lastStartGameTime), 'days');
 
   console.log('loadEnglishPremierLeagueGames days left to get new games: ' + daysLeftToGetGames);
 
@@ -55,69 +55,69 @@ const loadEnglishPremierLeagueGames = async () => {
   if (daysLeftToGetGames === 0) {
     console.log('loadEnglishPremierLeagueGames unable to get more than 7 days of games: ' + lastStartGameTime);
 
-    const search = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        startDateTime: {
-          $gte: new Date(moment(lastStartGameTime).add(-7, 'days').startOf('day')),
-          $lte: new Date(moment(lastStartGameTime).endOf('day'))
-        },
-        isStub: {
-          $ne: true
-        }
-      };
+    // const search = {
+    //     leagueId: mongoose.Types.ObjectId(leagueId),
+    //     startDateTime: {
+    //       $gte: new Date(moment(lastStartGameTime).add(-7, 'days').startOf('day')),
+    //       $lte: new Date(moment(lastStartGameTime).endOf('day'))
+    //     },
+    //     isStub: {
+    //       $ne: true
+    //     }
+    //   };
 
-    console.log('loadEnglishPremierLeagueGames search: ' + JSON.stringify(search));
+    // console.log('loadEnglishPremierLeagueGames search: ' + JSON.stringify(search));
   
-    const gamesFound = await gameRepository.find(search);
+    // const gamesFound = await gameRepository.find(search);
 
-    if (gamesFound.length === 0) {
-      console.log('loadEnglishPremierLeagueGames no games loaded for week');
-      return;
-    }
+    // if (gamesFound.length === 0) {
+    //   console.log('loadEnglishPremierLeagueGames no games loaded for week');
+    //   return;
+    // }
 
-    const finalDayStub = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
-      startDateTime: moment(lastStartGameTime).startOf('day'),
-      isStub: true
-    };
+    // const finalDayStub = {
+    //   leagueId: mongoose.Types.ObjectId(leagueId),
+    //   year: parseInt(year),
+    //   startDateTime: moment(lastStartGameTime).startOf('day'),
+    //   isStub: true
+    // };
 
-    gameRepository.find(finalDayStub, function (err, games) {
-      if ((games || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(finalDayStub));
-      } else {
-        gameRepository.create(finalDayStub, function (err, gameCreated) {
-          if (err) {
-            console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
-          } else {
-            console.log("loadEnglishPremierLeagueGames success creating final day stub: " + gameCreated._id);
-          }
-        });
-      }
-    });
+    // gameRepository.find(finalDayStub, function (err, games) {
+    //   if ((games || []).length > 0) {
+    //     console.log("loadEnglishPremierLeagueGames games already exists: " + JSON.stringify(finalDayStub));
+    //   } else {
+    //     gameRepository.create(finalDayStub, function (err, gameCreated) {
+    //       if (err) {
+    //         console.log("loadEnglishPremierLeagueGames there was a problem adding game to the database: " + err.message);
+    //       } else {
+    //         console.log("loadEnglishPremierLeagueGames success creating final day stub: " + gameCreated._id);
+    //       }
+    //     });
+    //   }
+    // });
 
-    const gameWeek = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: parseInt(year),
-      beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
-      endDateTime: new Date(moment().add(7, 'days').endOf('day'))
-    };
+    // const gameWeek = {
+    //   leagueId: mongoose.Types.ObjectId(leagueId),
+    //   year: parseInt(year),
+    //   beginDateTime: new Date(moment().add(1, 'days').startOf('day')),
+    //   endDateTime: new Date(moment().add(7, 'days').endOf('day'))
+    // };
 
-    console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
+    // console.log('loadEnglishPremierLeagueGames gameWeek: ' + JSON.stringify(gameWeek));
 
-    gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
-      if ((gameWeeks || []).length > 0) {
-        console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
-      } else {
-        // gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-        //     if (err) {
-        //         console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
-        //     } else {
-        //       console.log("loadEnglishPremierLeagueGames success creating week: " + gameWeekCreated._id);
-        //     }
-        // });
-      }
-    });
+    // gameWeekRepository.find(gameWeek, function (err, gameWeeks) {
+    //   if ((gameWeeks || []).length > 0) {
+    //     console.log("loadEnglishPremierLeagueGames game week already exists: " + JSON.stringify(gameWeeks));
+    //   } else {
+    //     gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
+    //         if (err) {
+    //             console.log("loadEnglishPremierLeagueGames there was a problem adding week to the database: " + err.message);
+    //         } else {
+    //           console.log("loadEnglishPremierLeagueGames success creating week: " + gameWeekCreated._id);
+    //         }
+    //     });
+    //   }
+    //});
 
     return;
   }
