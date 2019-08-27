@@ -35,13 +35,13 @@ const styles = {
 
 const stats = [
   {
+    title: 'EVERY WEEK WORLD WIDE',
+    content: `Pick winners.  Every week.  Against others around the world.`
+  },
+  {
     title: 'THE BEST AROUND',
     content: `This app is the best way to practice how to pick winning teams without losing any money.  If you can't win here you prolly shouldn't 
               bet real money anywhere.`
-  },
-  {
-    title: 'MATH STUDENTS',
-    content: `Engaging way to teach students about math, probability and money.`
   },
   {
     title: 'PRIZE POCKETS',
@@ -90,8 +90,8 @@ const stats = [
     content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
   },
   {
-    title: 'EVERY WEEK WORLD WIDE',
-    content: `Pick winners.  Every week.  Against others around the world.`
+    title: 'MATH STUDENTS',
+    content: `Engaging way to teach students about math, probability and money.`
   },
   {
     title: 'FRIENDS AND FAMILY',
