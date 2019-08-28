@@ -35,6 +35,15 @@ const styles = {
 
 const stats = [
   {
+    title: 'SUPER BOWL VS NFC NORTH',
+    content: `Since 1967, only the Buffalo Bills have been to the Super Bowl 4 times in a row.  The New England Patriots could do it in 2019 after 
+              facing the NFC South (2016 Falcons), NFC East (2017 Eagles) and NFC West (2018 Rams).  Will it be against the NFC North (Bears, Packers, 
+              Vikings or Lions)?  It's also a division they've never beaten in the SB.`,
+    leagueName: 'NFL',
+    date: 'August 28, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: 'NO DROPS',
     content: `The Houston Texans wide receiver DeAndre Hopkins didn't drop one pass in 2018 to set a record.  He ended with 115 catches and 11 tds.`,
     leagueName: 'NFL',
