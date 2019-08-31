@@ -879,7 +879,7 @@ const eplTeams = [
         "_id": "5b9060e59a4c08bca6d8050e",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Wolverhampton",
-        "shortLocation": "WOL",
+        "shortLocation": "WOLV",
         "name": "Wanderers"
     },
     {
@@ -911,7 +911,7 @@ const eplTeams = [
         "_id": "5b9060e59a4c08bca6d80512",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Southampton",
-        "shortLocation": "SOU",
+        "shortLocation": "SOUT",
         "name": "The Saints"
     },
     {
@@ -935,7 +935,7 @@ const eplTeams = [
         "_id": "5b9060e59a4c08bca6d80515",
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Sheffield United",
-        "shortLocation": "SHFU",
+        "shortLocation": "SHU",
         "name": "The Blades"
     },
     {
