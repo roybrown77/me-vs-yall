@@ -880,7 +880,7 @@ const eplTeams = [
         "leagueId": "59723313734d1d6202a85f17",
         "location": "Wolverhampton",
         "shortLocation": "WOLV",
-        "name": "Wanderers"
+        "name": "Wolves"
     },
     {
         "color": "#6C1D45",
