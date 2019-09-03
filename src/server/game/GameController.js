@@ -179,8 +179,8 @@ router.get('/games', function (req, res) {
     } else {
       try {
         if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-          loadNflGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
-          createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+          // loadNflGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+          // createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
         }
       } catch(err) {
         isLoadNflGamesRunning = false;
@@ -243,15 +243,15 @@ router.get('/games', function (req, res) {
     } else {
       try {
         if (hours > 3 && hours < 16 && currentWeekDay === 6) {
-          loadNbaGames(0);
-          loadNbaGames(1);
-          loadNbaGames(2);
-          loadNbaGames(3);
-          loadNbaGames(4);
-          loadNbaGames(5);
-          loadNbaGames(6);
-          loadNbaGames(7);
-          createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
+          // loadNbaGames(0);
+          // loadNbaGames(1);
+          // loadNbaGames(2);
+          // loadNbaGames(3);
+          // loadNbaGames(4);
+          // loadNbaGames(5);
+          // loadNbaGames(6);
+          // loadNbaGames(7);
+          // createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
         }
       } catch(err) {
         isLoadNbaGamesRunning = false;

@@ -309,9 +309,9 @@ class Scoreboard extends Component {
                             {
                                 <div style={{padding:'16px'}}>
                                     <div style={{paddingBottom: '12px'}}>{get(currentWeek,'prize.message')}</div>
-                                    {get(currentWeek,'prize.rules',[]).map(rule=>{
+                                    {get(currentWeek,'prize.rules',[]).map((rule,ruleIndex)=>{
                                         return (
-                                            <div>{rule}</div>
+                                            <div key={ruleIndex}>{rule}</div>
                                         );
                                     })}
                                 </div>
