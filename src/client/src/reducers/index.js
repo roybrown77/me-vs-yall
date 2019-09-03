@@ -10,7 +10,7 @@ import {
   getLeaders,
   getVegasPicks,
   getVegasUser
-} from '../selectors';
+} from '../utilities';
 
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
 

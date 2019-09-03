@@ -6,12 +6,16 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-
+import PropTypes from 'prop-types';
+import { Router } from 'react-router-dom';
+import {createBrowserHistory} from 'history';
 import Immutable from 'immutable';
 
-import App from './containers/App';
 import api from './middleware/api';
 import rootReducer from './reducers';
+import routes from './routes';
+
+const history = createBrowserHistory();
 
 const initialState = Immutable.Map();
 
@@ -30,7 +34,9 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <App/>
+    <Router history={history}>
+      {routes}
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

@@ -1,0 +1,146 @@
+import React from 'react';
+
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
+import PageContainer from '../PageContainer';
+
+const styles = {
+  titleContainer: {
+    margin: '0 12px 12px 12px',
+  },
+  title: {
+    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: '1.2rem',
+    fontWeight: '700'
+  },
+  stats: {
+    marginTop: '12px',
+    backgroundColor: '#ffffff'
+  },
+  container: {
+    padding: '12px'
+  },
+  main: {
+    color: 'rgba(0, 0, 0, 0.87)'
+  },
+  contentTitle: {
+    color: '#767676'
+  },
+  content: {
+    fontWeight: '600',
+    fontSize: '1rem'
+  }
+};
+
+const stats = [
+  {
+    title: 'EVERY WEEK WORLD WIDE',
+    content: `Pick winners.  Every week.  Against others around the world.`
+  },
+  // {
+  //   title: 'THE BEST AROUND',
+  //   content: `This app is the best way to practice how to pick winning teams without losing any money.  If you can't win here you prolly shouldn't 
+  //             bet real money anywhere.`
+  // },
+  {
+    title: 'PRIZE POCKETS',
+    content: `Weekly prize amounts depend on what's in our pockets at the time.  Gift cards will be emailed to you promptly.`
+  },
+  {
+    title: 'PICKS',
+    content: `You can view another person's picks by tapping their name on Leaders page after game starts.  You can also change your pick until game starts.`
+  },
+  // {
+  //   title: 'IN VEGAS',
+  //   content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
+  //             $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
+  //             (team lost by less than spread) I would have won $200 and lost $110 which would show $90 (each game won also returns original $110).  If I picked 
+  //             the losing team and winning team did not win by the spread I would win.  Me vs Yall assumes you beat the spread so add $100 or subtract $110 when necessary.`
+  // },
+  {
+    title: 'THE CONNECT',
+    content: `If picks don't work, check your internet connection.  This is required to save your selection.`
+  },
+  // {
+  //   title: 'HEALTHY',
+  //   content: `Promoting healthy betting habits via free play.  Cuz let's be real, betting has been around since the dawn of man and ain't going nowhere. Might as well 
+  //             practice without losing anything.`
+  // },
+  {
+    title: 'NO GAME NO PROBLEM',
+    content: `Follow each play on Scores page when u can't watch it.`
+  },
+  {
+    title: 'SPREAD',
+    content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
+              by so the casino doesn't lose money.  This number can change all week as they adjust due to injuries, too many bets on one team 
+              and other factors.  Vegas currently has the best overall record in Me vs Yall for NFL/NBA.`
+  },
+  {
+    title: 'PREMIER LEAGUE',
+    content: `Games are normally on NBCSN, NBC and Telemundo early mornings Eastern Standard Time since their played in England.`
+  },
+  {
+    title: 'NFL',
+    content: `Home teams (team on right) win more than away teams.`
+  },
+  {
+    title: 'NBA',
+    content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
+  },
+  // {
+  //   title: 'MATH STUDENTS',
+  //   content: `Engaging way to teach students about math, probability and money.`
+  // },
+  {
+    title: 'FRIENDS AND FAMILY',
+    content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
+  },
+  {
+    title: 'NEW FEATURES',
+    content: `Sign in again to get new app features.`
+  },
+  {
+    title: 'TAGS',
+    content: `#football #soccer #basketball #bmx #skate #surf #nfl #premierleague #nba #xgames #statoftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vegas #litty #merch #thatway #art`
+  }
+];
+
+function Tips () {
+     return (
+            <div>
+                <PageContainer>
+                  <div style={styles.titleContainer}>
+                      <Typography component="h3" align={'left'} style={styles.title}>
+                        Tips
+                      </Typography>
+                      <Typography align={'left'} style={styles.contentTitle}>
+                        Not The Rib Plate Special But Still Nutritious
+                      </Typography>
+                    </div>
+                    {
+                      stats.map(stat=>(
+                        <div key={stat.title.replace(' ', '')} style={styles.stats}>
+                          <div style={styles.container}>
+                            <Typography align={'left'} style={styles.contentTitle}>
+                              {stat.title}
+                            </Typography>
+                            <br/>
+                            <Typography align={'left'} style={styles.content}>
+                              {stat.content}
+                            </Typography>
+                            <Divider style={{
+                              margin: '12px 0',
+                              height: '10px',
+                              backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                            }} />
+                          </div>
+                        </div>
+                    ))}
+                </PageContainer>
+            </div>
+        );
+}
+
+export default Tips;
