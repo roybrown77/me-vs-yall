@@ -1,5 +1,5 @@
 # Me vs Yall
 
-sports. fun. art.  facts. prizes.
+sports. art. fun. facts. prizes.
 
 https://www.mevsyall.com
