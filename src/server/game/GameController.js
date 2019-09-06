@@ -14,11 +14,11 @@ const teamRepository = require('../game/TeamRepository');
 
 const { 
   loadEnglishPremierLeagueGames, 
+  loadEnglishPremierLeagueGames2,
   updateEnglishPremierLeagueScores,
   isLoadEnglishPremierLeagueGamesRunning,
   isUpdateEnglishPremierLeagueScoresRunning, 
 } = require('./EnglishPremierLeagueDomain-old');
-//} = require('./EnglishPremierLeagueDomain');
 
 const { 
   loadNflGames, 
@@ -210,10 +210,13 @@ router.get('/games', function (req, res) {
       console.log('new premier games will be loaded during season.');
     } else {
       try {
-        if (hours > 16 || hours < 6 && currentWeekDay === 2) {
-          //loadEnglishPremierLeagueGames();
+        //if (hours > 16 || hours < 6 && currentWeekDay === 2) {
+          //loadEnglishPremierLeagueGames2({dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+          //loadEnglishPremierLeagueGames2({dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+          //loadEnglishPremierLeagueGames2({dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+          //loadEnglishPremierLeagueGames2({dayCount: 3, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
           //createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 2});
-        }
+        //}
       } catch(err) {
         isLoadEnglishPremierLeagueGamesRunning = false;
         console.log('loadEnglishPremierLeagueGames error: ' + err.message);

@@ -1618,8 +1618,7 @@ const getGames = async ({
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
     gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
     away = 'away',
-    home = 'home',
-    minHour = 0
+    home = 'home'
 }) => {
   let games = [];
   

@@ -9,7 +9,12 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
 const {
-  eplTeams, 
+  eplTeams,
+  getGames,
+  formatGames,
+  createGames,
+  getScores,
+  updateGames
 } = require('./teams');
 
 const omit = require('lodash/omit');
@@ -20,6 +25,66 @@ const transform = require('lodash/transform');
 const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
+
+const loadEnglishPremierLeagueGames2 = async ({dayCount, leagueId, year, message}) => {
+  if (isLoadEnglishPremierLeagueGamesRunning || isUpdateEnglishPremierLeagueScoresRunning) {
+    console.log(`${message} already running.`);
+    return;
+  }
+
+  const date = moment().add(dayCount, 'days').format('YYYYMMDD');
+  
+  //console.log(`${message} date: ${date}`);
+
+  const gameExistSearch = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    year: year,
+    startDateTime: {
+      $gte: new Date(moment(date).startOf('day')),
+      $lte: new Date(moment(date).endOf('day'))
+    }
+  };
+
+  const gamesExistSearch = await gameRepository.find(gameExistSearch);
+
+  if ((gamesExistSearch || []).length > 0) {
+    console.log(`${message} games already exists: ${date}`);
+    return;
+  }
+
+  //console.log(`${message} get games`);
+
+  const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
+  const root = 'scoreboard soccer';
+  const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.team-container > div.team-info > div > a > span.abbrev';                                                
+  const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
+
+  const games = await getGames({
+    message,
+    url,
+    root,
+    nameSelector,
+    startDateTimeSelector,
+    away: 'a',
+    home: 'b'
+  });
+
+  if ((games || []).length === 0) {
+    isLoadEnglishPremierLeagueGamesRunning = false;
+    console.log(`${message} no games`);
+    return;
+  }
+
+  console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  
+  const mvyGames = formatGames({message, games, leagueId, year, teams: eplTeams});
+
+  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
+
+  await createGames({message, games: mvyGames});
+
+  isLoadEnglishPremierLeagueGamesRunning = false;
+};
 
 const loadEnglishPremierLeagueGames = async () => {
   if (isLoadEnglishPremierLeagueGamesRunning) {
@@ -476,6 +541,7 @@ const updateEnglishPremierLeagueScores = async () => {
 
 const domain = { 
   loadEnglishPremierLeagueGames, 
+  loadEnglishPremierLeagueGames2,
   updateEnglishPremierLeagueScores,
   isLoadEnglishPremierLeagueGamesRunning,
   isUpdateEnglishPremierLeagueScoresRunning, 
