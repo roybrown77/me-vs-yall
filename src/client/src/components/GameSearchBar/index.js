@@ -63,7 +63,7 @@ class GameSearchBar extends Component {
                     <MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>
                   );
 
-    const ball = leagueId === '59723313734d1d6202a85f10' ? football : 
+    const ball = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(leagueId) ? football : 
       leagueId === '59723313734d1d6202a85f17' ? soccer : leagueId === '59723313734d1d6202a85f21' ? baseball : basketball; 
 
     return (

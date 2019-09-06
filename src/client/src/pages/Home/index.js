@@ -102,16 +102,19 @@ class Home extends Component {
         } = this.props;
 
       const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
+      const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
       const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
+      const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
       const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
 
       const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
+      const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', nflGames);
       const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
       const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
@@ -161,6 +164,23 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
+                </Grid>
+              }
+              {
+                false &&
+                <Grid item xs={8} style={{margin:'16px auto'}}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: 'SANDYBROWN'}} onClick={() => { history.push('/scoreboards/premier') }}>
+                          NCAAF
+                          {
+                            areAnyNCAAFGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'SANDYBROWN'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {ncaafStartDateTime && <Countdown styles={styles.countdown} date={ncaafStartDateTime}/>}
                 </Grid>
               }
               {

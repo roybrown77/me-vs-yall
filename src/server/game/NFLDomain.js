@@ -9,7 +9,6 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
 const {
-  nflTeams,
   getGames,
   formatGames,
   createGames,
@@ -22,7 +21,7 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadNflGames = async ({message, url, leagueId, year, day}) => {
+const loadNflGames = async ({message, url, leagueId, year, day, teams}) => {
   if (isLoadNflGamesRunning || isUpdateNflScoresRunning) {
     console.log("loadNflGames already running.");
     return;
@@ -69,7 +68,7 @@ const loadNflGames = async ({message, url, leagueId, year, day}) => {
 
   //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({games, leagueId, year, teams: nflTeams});
+  const mvyGames = formatGames({games, leagueId, year, teams});
 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
@@ -78,12 +77,11 @@ const loadNflGames = async ({message, url, leagueId, year, day}) => {
   isLoadNflGamesRunning = false;
 };
 
-const updateNflScores = async ({message, url, leagueId, year}) => {
+const updateNflScores = async ({message, url, leagueId, year, teams}) => {
   if (isUpdateNflScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
-
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -125,7 +123,7 @@ const updateNflScores = async ({message, url, leagueId, year}) => {
     leagueId, 
     games,
     scores,
-    teams: nflTeams
+    teams
   });
 
   isUpdateNflScoresRunning = false;
