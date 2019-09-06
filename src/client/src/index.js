@@ -6,16 +6,25 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import PropTypes from 'prop-types';
-import { Router } from 'react-router-dom';
-import {createBrowserHistory} from 'history';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import Immutable from 'immutable';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import api from './middleware/api';
 import rootReducer from './reducers';
-import routes from './routes';
-
-const history = createBrowserHistory();
+import Promo from './pages/Promo';
+import Home from './pages/Home';
+import Scoreboard from './pages/Scoreboard';
+import Leader from './pages/Leader';
+import Shop from './pages/Shop';
+import StatOfTheWeek from './pages/StatOfTheWeek';
+import Tips from './pages/Tips';
+import Contact from './pages/Contact';
+import About from './pages/About';
+import MailingList from './pages/MailingList';
+import Login from './pages/Login';
+import AuthenticationCallback from './pages/AuthenticationCallback';
 
 const initialState = Immutable.Map();
 
@@ -32,11 +41,37 @@ const store = createStore(
   )
 );
 
+const theme = createMuiTheme({
+  typography: {
+      useNextVariants: true
+    }
+});
+
 render(
   <Provider store={store}>
-    <Router history={history}>
-      {routes}
-    </Router>
+    <BrowserRouter>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+              <main>
+                <div style={{height:'100%'}}>
+                    <Switch>
+                        <Route exact path='/' component={Home}/>
+                        <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
+                        <Route path='/leaders/:leagueName' component={Leader}/>
+                        <Route path='/shop' component={Shop}/>
+                        <Route path='/statoftheweek' component={StatOfTheWeek}/>
+                        <Route path='/tips' component={Tips}/>
+                        <Route path='/contact' component={Contact}/>
+                        <Route path='/about' component={About}/>
+                        <Route path='/mailinglist' component={MailingList}/>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/authenticationCallback' component={AuthenticationCallback}/>
+                    </Switch>
+                </div>
+              </main>
+        </div>
+      </MuiThemeProvider>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

@@ -44,9 +44,6 @@ const styles = {
     textAlign: 'right',
     padding: '4px 0'
   },
-  toolbar: {
-    minHeight: '55px'
-  },
   hide: {
     display: 'none',
   },
@@ -66,29 +63,8 @@ const styles = {
 
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      anchor: 'left',
-    };
-  }
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
-  gram = () => {
-    window.location = "https://www.instagram.com/_mevsyall";
-  };
-
   render() {
     const { classes, theme, children, leagueName } = this.props;
-    const { anchor, open } = this.state;
     const userJson = localStorage.getItem('user');
     const user = JSON.parse(userJson || JSON.stringify({}));
     const picture = get(user,'picture');
@@ -97,15 +73,13 @@ class Header extends Component {
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <AppBar className={classNames(classes.appBar)}>
-            <Toolbar className={classNames(classes.toolbar)} disableGutters={!open}>
-              <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
-                Me vs Yall
-              </Typography>
-              {
-                this.props.isAuthenticated && picture &&
-                <img className={classes.userPicture} src={picture} alt=""/>
-              }
-            </Toolbar>
+            <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
+              Me vs Yall
+            </Typography>
+            {
+              this.props.isAuthenticated && picture &&
+              <img className={classes.userPicture} src={picture} alt=""/>
+            }
           </AppBar>
           <main>
             {children}

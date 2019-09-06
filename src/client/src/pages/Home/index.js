@@ -258,7 +258,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: 'DARKORANGE'}} onClick={() => { history.push('/contact') }}>
+                          style={{...styles.button, color: 'GREEN'}} onClick={() => { history.push('/contact') }}>
                           CONTACT
                       </Button>
                   )}/>

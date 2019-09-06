@@ -51,13 +51,13 @@ const stats = [
     title: 'PICKS',
     content: `You can view another person's picks by tapping their name on Leaders page after game starts.  You can also change your pick until game starts.`
   },
-  // {
-  //   title: 'IN VEGAS',
-  //   content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
-  //             $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
-  //             (team lost by less than spread) I would have won $200 and lost $110 which would show $90 (each game won also returns original $110).  If I picked 
-  //             the losing team and winning team did not win by the spread I would win.  Me vs Yall assumes you beat the spread so add $100 or subtract $110 when necessary.`
-  // },
+  {
+    title: 'IN VEGAS',
+    content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
+              $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
+              (team lost by less than spread) I would have won $200 and lost $110 which would show $90 (each game won also returns original $110).  If I picked 
+              the losing team and winning team did not win by the spread I would win.  Me vs Yall assumes you beat the spread so add $100 or subtract $110 when necessary.`
+  },
   {
     title: 'THE CONNECT',
     content: `If picks don't work, check your internet connection.  This is required to save your selection.`
