@@ -58,7 +58,7 @@ const {
   mlbTeams,
   countries,
   createWeek
-} = require('./teams');
+} = require('./utilities');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');

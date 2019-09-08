@@ -14,7 +14,7 @@ const {
   createGames,
   getScores,
   updateGames
-} = require('./teams');
+} = require('./utilities');
 
 const get = require('lodash/get');
 const set = require('lodash/set');

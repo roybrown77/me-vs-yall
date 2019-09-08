@@ -327,7 +327,7 @@ class Scoreboard extends Component {
                     }
                     {
                         !isAuthenticated &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                        <div style={{color: 'darkviolet', fontSize: '15px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** sign in then tap team **
                         </div>
                     }

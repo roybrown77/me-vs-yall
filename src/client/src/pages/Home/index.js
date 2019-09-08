@@ -11,11 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import confetti from '../../styles/images/confetti.png';
-import football from '../../styles/images/football.png';
-import soccer from '../../styles/images/soccer2.png';
-import tennis from '../../styles/images/tennis.png';
-import basketball from '../../styles/images/basketball3.png';
-import baseball from '../../styles/images/baseball1.png';
 import mvy from '../../styles/images/mvy.png';
 
 import Countdown from '../../components/Countdown';
@@ -329,62 +324,9 @@ class Home extends Component {
           </div>
           {
             false &&
-            <Grid container item xs={12} justify="center">
-              <Grid item xs={2}>
-                <img src={football} alt=""/>
-              </Grid>
-              <Grid item xs={2}>
-                <img src={soccer} alt=""/>
-              </Grid>
-              <Grid item xs={2}>
-                <img src={basketball} alt=""/>
-              </Grid>
-              <Grid item xs={2}>
-                <img src={baseball} alt=""/>
-              </Grid>
-              <Grid item xs={2}>
-                <img src={tennis} alt=""/>
-              </Grid>
-            </Grid>
-          }
-          {
-            false &&
-            <div style={styles.subTitle}>
-              <div style={styles.subTitle}>
-                pick sports winners.
-              </div>
-              <div style={styles.subTitle}>
-                every week.
-              </div>
-              <div style={styles.subTitle}>
-                against others around the world.
-              </div>
-            </div>
-          }
-          {
-            false &&
-            <div style={styles.subTitle}>
-              <div style={styles.subTitle}>
-                promoting healthy betting habits via free play.
-              </div>
-            </div>
-          }
-          {
-            false &&
             <div style={styles.emojiContainer}>
               <div style={{left: '77%', position: 'absolute'}}>
                 <img src={confetti} alt=""/>
-              </div>
-            </div>
-          }
-          {
-            false &&
-            <div>
-              <div style={styles.subTitle}>
-                <a style={{color:'#FF1493'}} href='https://www.instagram.com/_mevsyall'>gram</a>
-              </div>
-              <div style={styles.subTitle}>
-                <Link style={{color:'#1E90FF'}} to='/tips'>tips</Link>
               </div>
             </div>
           }

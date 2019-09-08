@@ -31,7 +31,7 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    minWidth: 100,
   },
   button: {
     width: '100%',
@@ -69,11 +69,11 @@ class GameSearchBar extends Component {
     return (
           <div className={classes.container}>
               {
-                <div style={{left: '12px', top: '12px', position: 'absolute'}}>
+                <div style={{left: '4px', top: '12px', position: 'absolute'}}>
                   <img src={ball} alt=""/>
                 </div>
               }
-              <Grid item xs={12} sm container justify="center">
+              <Grid item xs={12} justify="center">
                   <FormControl className={classes.formControl}>
                     <Select
                         value={leagueId}
