@@ -23,7 +23,6 @@ import Tips from './pages/Tips';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import MailingList from './pages/MailingList';
-import Login from './pages/Login';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
 const initialState = Immutable.Map();
@@ -64,7 +63,6 @@ render(
                         <Route path='/contact' component={Contact}/>
                         <Route path='/about' component={About}/>
                         <Route path='/mailinglist' component={MailingList}/>
-                        <Route path='/login' component={Login}/>
                         <Route path='/authenticationCallback' component={AuthenticationCallback}/>
                     </Switch>
                 </div>
