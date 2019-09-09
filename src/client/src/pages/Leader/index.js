@@ -26,7 +26,6 @@ import Popover from '../../components/Popover';
 import gold from '../../styles/images/gold.png';
 import silver from '../../styles/images/silver.png';
 import bronze from '../../styles/images/bronze.png';
-import google from '../../styles/images/google.png';
 
 import { googleLogin } from '../../middleware/authenticationService';
 import { loadLeaders } from '../../actions';

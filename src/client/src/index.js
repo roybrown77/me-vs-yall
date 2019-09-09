@@ -13,7 +13,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import api from './middleware/api';
 import rootReducer from './reducers';
-import Promo from './pages/Promo';
+
 import Home from './pages/Home';
 import Scoreboard from './pages/Scoreboard';
 import Leader from './pages/Leader';

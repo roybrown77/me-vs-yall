@@ -19,8 +19,6 @@ import Game from '../../components/Game';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
-import google from '../../styles/images/google.png';
-
 import { loadScoreboard, addPick, updatePick } from '../../actions';
 
 import { googleLogin } from '../../middleware/authenticationService';

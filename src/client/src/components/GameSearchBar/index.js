@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import football from '../../styles/images/football.png';
 import soccer from '../../styles/images/soccer2.png';
 import basketball from '../../styles/images/basketball3.png';
-import baseball from '../../styles/images/baseball1.png';
 
 import get from 'lodash/get';
 
@@ -67,7 +66,7 @@ class GameSearchBar extends Component {
                   );
 
     const ball = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(leagueId) ? football : 
-      leagueId === '59723313734d1d6202a85f17' ? soccer : leagueId === '59723313734d1d6202a85f21' ? baseball : basketball; 
+      leagueId === '59723313734d1d6202a85f17' ? soccer : leagueId === '59723313734d1d6202a85f21' ? basketball : basketball; 
 
     return (
           <div className={classes.container}>

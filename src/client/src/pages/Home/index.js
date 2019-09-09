@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import confetti from '../../styles/images/confetti.png';
 import mvy from '../../styles/images/mvy.png';
 
 import Countdown from '../../components/Countdown';
@@ -322,14 +321,6 @@ class Home extends Component {
               }
             </Grid>
           </div>
-          {
-            false &&
-            <div style={styles.emojiContainer}>
-              <div style={{left: '77%', position: 'absolute'}}>
-                <img src={confetti} alt=""/>
-              </div>
-            </div>
-          }
         </div>
       );
     }
