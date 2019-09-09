@@ -32,6 +32,9 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 100,
+    backgroundColor: '#fff',
+    padding: '10px',
+    fontWeight: 'bold'
   },
   button: {
     width: '100%',

@@ -6,6 +6,8 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 
+import mvy from '../../styles/images/mvy-small.png';
+
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -28,7 +30,8 @@ const styles = {
   appBar: {
     backgroundColor: '#f4f7f6',
     color: 'rgba(0, 0, 0, 0.87)',
-    height: '55px'
+    height: '55px',
+    padding: '10px'
   },
   menuButton: {
     marginLeft: 12,
@@ -74,7 +77,7 @@ class Header extends Component {
         <div className={classes.appFrame}>
           <AppBar className={classNames(classes.appBar)}>
             <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
-              Me vs Yall
+              <img src={mvy} alt=""/>
             </Typography>
             {
               this.props.isAuthenticated && picture &&

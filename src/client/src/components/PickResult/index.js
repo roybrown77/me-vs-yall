@@ -12,7 +12,7 @@ const PickResult = ({games, picks}) => {
 
 	return (gamesOver && 
 		<div>
-			<div style={{fontSize: '40px', color: '#FFC107'}}>
+			<div style={{fontSize: '40px', color: 'rgba(0, 0, 0, 0.87)'}}>
 				{results['wins'] +  " - " + results['losses']}
 			</div>
 			{

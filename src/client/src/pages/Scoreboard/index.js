@@ -49,10 +49,9 @@ const styles = theme => ({
     display: 'none',
   },
   pickResultContainer: {
-    border: '4px solid rgb(255, 193, 7)',
-    margin: '4px 25%',
-    borderRadius: '8px',
-    padding: '4px'
+    margin: '0 25% 6px 25%',
+    padding: '4px',
+    backgroundColor: 'white'
   },
   banner: {
     marginBottom: '10px'
