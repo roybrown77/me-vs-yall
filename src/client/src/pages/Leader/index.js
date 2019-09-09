@@ -297,7 +297,7 @@ class Leader extends Component {
                                                             <div className={classes.userName}>{leader.userName}</div>
                                                         </div>
                                                     </ListItemText>
-                                                    <div style={{textAlign:'right', margin: 'auto', width: '100%'}}>
+                                                    <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
                                                         <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>
