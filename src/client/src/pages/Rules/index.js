@@ -7,7 +7,7 @@ class Rules extends Component {
         return (
             <div>
                 <PageContainer>
-                    <div style={{textAlign: 'left'}}>
+                    <div style={{paddingTop: '12px', textAlign: 'left'}}>
                         All dollar amounts are fake.
                     </div>
                     <br/>

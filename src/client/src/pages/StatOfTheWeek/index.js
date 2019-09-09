@@ -8,6 +8,7 @@ import PageContainer from '../PageContainer';
 const styles = {
   titleContainer: {
     margin: '0 12px 12px 12px',
+    paddingTop: '12px'
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',

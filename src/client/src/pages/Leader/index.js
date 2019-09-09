@@ -59,7 +59,7 @@ const styles = theme => ({
     padding: '4px'
   },
   userName: {
-    padding: '10px'
+    padding: '5px 10px'
   },
   expansionSummary: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
@@ -249,14 +249,13 @@ class Leader extends Component {
                     }
                     {
                         areAnyGamesInProgress &&
-                        <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div className='fast-flash'>** games in progress **</div>
-                            <div>auto update: on</div>
                         </div>
                     }
                     {
                         !isAuthenticated &&
-                        <div style={{color: 'darkviolet', fontSize: '15px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** sign in then tap team **
                         </div>
                     }
@@ -298,7 +297,7 @@ class Leader extends Component {
                                                             <div className={classes.userName}>{leader.userName}</div>
                                                         </div>
                                                     </ListItemText>
-                                                    <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
+                                                    <div style={{textAlign:'right', margin: 'auto', width: '100%'}}>
                                                         <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>

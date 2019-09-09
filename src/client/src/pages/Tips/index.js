@@ -8,6 +8,7 @@ import PageContainer from '../PageContainer';
 const styles = {
   titleContainer: {
     margin: '0 12px 12px 12px',
+    paddingTop: '12px'
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -61,6 +62,10 @@ const stats = [
   {
     title: 'THE CONNECT',
     content: `If picks don't work, check your internet connection.  This is required to save your selection.`
+  },
+  {
+    title: 'TAP TO VIEW PRIZE AND RULES',
+    content: `If you don't see 'tap to view prize and rules' then there is no prize for that sport that week.`
   },
   // {
   //   title: 'HEALTHY',

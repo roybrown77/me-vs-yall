@@ -320,14 +320,13 @@ class Scoreboard extends Component {
                     }
                     {
                         areAnyGamesInProgress &&
-                        <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
+                        <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
                             <div className='fast-flash'>** games in progress **</div>
-                            <div>auto update: on</div>
                         </div>
                     }
                     {
                         !isAuthenticated &&
-                        <div style={{color: 'darkviolet', fontSize: '15px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
+                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** sign in then tap team **
                         </div>
                     }
