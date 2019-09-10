@@ -6,7 +6,6 @@ import InputBase from '@material-ui/core/InputBase';
 
 import PageContainer from '../PageContainer';
 import blue from '../../styles/images/blue-mvy.png'
-import white from '../../styles/images/white-mvy.jpg'
 
 function Shop () {
      return (
