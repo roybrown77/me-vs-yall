@@ -169,10 +169,10 @@ router.get('/games', function (req, res) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
-      if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-        // loadNflGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
-        // createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
-      }
+      //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
+        //loadNflGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+        //createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
+      //}
     } catch(err) {
       isLoadNflGamesRunning = false;
       console.log('loadNflGames error: ' + err.message);
@@ -229,7 +229,7 @@ router.get('/games', function (req, res) {
 
     try {
       if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
-        //updateEnglishPremierLeagueScores();
+        updateEnglishPremierLeagueScores();
       }
     } catch(err) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
