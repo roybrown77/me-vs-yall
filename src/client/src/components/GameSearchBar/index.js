@@ -75,7 +75,7 @@ class GameSearchBar extends Component {
                   <img src={ball} alt=""/>
                 </div>
               }
-              <Grid item xs={12} justify="center">
+              <Grid item xs={12} justify="center" sm container>
                   <FormControl className={classes.formControl}>
                     <Select
                         value={leagueId}
