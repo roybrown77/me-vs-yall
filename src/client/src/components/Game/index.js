@@ -16,8 +16,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import green from '@material-ui/core/colors/green';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/money.png';
 
@@ -211,26 +209,6 @@ class Game extends Component {
                   <div className={classes.lastPlay}>
                     {' Last Play: ' + game.lastPlay}
                   </div>
-                }
-                {
-                  false &&
-                  hasGameStarted(game.startDateTime) &&
-                  (game.playHistory || []).length > 0 &&
-                    <ExpansionPanel>
-                      <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                        <div>
-                            Play History
-                        </div>
-                      </ExpansionPanelSummary>
-                      <ExpansionPanelDetails>
-                        {
-                          (game.playHistory || []).map((play, index) => (
-                          <div>
-                            {index+1}: {play}
-                          </div>
-                        ))}
-                      </ExpansionPanelDetails>
-                  </ExpansionPanel>
                 }
             </div>
         );

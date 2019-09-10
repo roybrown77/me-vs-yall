@@ -5,7 +5,6 @@ import { Route } from 'react-router-dom'
 import get from 'lodash/get';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
-import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
   root: {

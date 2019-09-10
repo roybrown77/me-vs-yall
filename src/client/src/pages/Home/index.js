@@ -53,10 +53,6 @@ const styles = {
     position:'relative', 
     height: '24px'
   },
-  emojiContainer: {
-    height: '70px',
-    position:'relative'
-  },
   inProgress: {
     width:'12px', 
     height: '12px', 

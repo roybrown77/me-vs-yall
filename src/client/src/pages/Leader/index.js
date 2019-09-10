@@ -16,7 +16,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -308,10 +307,6 @@ class Leader extends Component {
                                                             color: leader.color}}>
                                                             in Vegas you would have won: {leader.vegasWinnings}
                                                         </div>
-                                                        {
-                                                            false &&
-                                                            <div><InfoIcon/></div>
-                                                        }
                                                         {
                                                             <table style={{
                                                                 width:"100%", 
