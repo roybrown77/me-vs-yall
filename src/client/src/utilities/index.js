@@ -14,10 +14,7 @@ import hangover from '../styles/images/hangover.jpeg';
 
 const vegasPictures = [
     alan,
-    alanRainMan,
-    phil,
-    blackDougHangover,
-    hangover
+    phil
 ];
 
 const leagues = [ 
