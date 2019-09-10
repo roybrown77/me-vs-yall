@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const options = {
+  useUnifiedTopology: true,
   useNewUrlParser: true, // use new connection string parser
   autoIndex: false, // Don't build indexes
   reconnectTries: 100, // Never stop trying to reconnect
