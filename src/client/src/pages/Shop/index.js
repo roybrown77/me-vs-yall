@@ -16,7 +16,7 @@ function Shop () {
                   	<div style={{fontWeight: '700', fontSize: '15px'}}>Blue</div>
                   </div>
                 	<div style={{display: 'flex', padding: '12px 0'}}>
-                  	<div style={{margin: 'auto', padding: '16px', border: '16px solid #fff'}}>
+                  	<div style={{margin: 'auto', width: '100%', padding: '16px', backgroundColor: '#fff'}}>
                     	<img src={blue} alt=""/>
                 	  </div>
                 	</div>
