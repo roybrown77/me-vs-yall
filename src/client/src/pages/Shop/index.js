@@ -11,13 +11,13 @@ function Shop () {
      return (
             <PageContainer>
                 <div style={{padding: '12px 0'}}>
-                  <div style={{textAlign:'left', fontFamily: 'Courier New,Courier,Monaco', paddingLeft: '12px'}}>
+                  <div style={{textAlign:'left', fontFamily: 'Courier New,Courier,Monaco', padding: '12px', backgroundColor: '#fff', width:'75px'}}>
                     <div style={{fontSize: '17px'}}>MvY Tee</div>
                   	<div style={{fontWeight: '700', fontSize: '15px'}}>Blue</div>
                   </div>
                 	<div style={{display: 'flex', padding: '12px 0'}}>
                   	<div style={{margin: 'auto', width: '100%', padding: '16px', backgroundColor: '#fff'}}>
-                    	<img src={blue} alt=""/>
+                    	<img style={{height:'250px'}} src={blue} alt=""/>
                 	  </div>
                 	</div>
                   {

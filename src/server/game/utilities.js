@@ -534,6 +534,7 @@ const ncaaTeams = [{
     "leagueId": "59723313734d1d6202a85f15",
     "location": "Alabama",
     "shortLocation": "ALA",
+    "name": "Crimson Tide",
     "color": "#9E1B32"
 }, {
     "colors": [],
@@ -753,13 +754,56 @@ const ncaaTeams = [{
     "leagueId": "59723313734d1d6202a85f15",
     "location": "Florida",
     "shortLocation": "FLA"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80260",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Arizona State",
-    "shortLocation": "ASU"
-}];
+}, 
+    {
+        _id: "5b9060e59a4c08bca6d80260",
+        location: "Arizona State",
+        shortLocation: "ASU"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80261",
+        location: 'Washington State',
+        shortLocation: "WSU",
+        name: "Cougars",
+        color: "#981E32"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80262",
+        location: 'Houston',
+        shortLocation: "HOU",
+        name: "Cougars"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80263",
+        location: 'Indiana',
+        shortLocation: "IND",
+        name: "Hoosiers"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80264",
+        location: 'Temple',
+        shortLocation: "TEM",
+        name: "Owls"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80265",
+        location: 'Brigham Young',
+        shortLocation: "BYU",
+        name: "Cougars"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80266",
+        location: 'Iowa',
+        shortLocation: "IOWA",
+        name: "Hawkeyes"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80267",
+        location: 'Iowa State',
+        shortLocation: "ISU",
+        name: "Cyclones"
+    }
+];
 
 const eplTeams = [
     {
