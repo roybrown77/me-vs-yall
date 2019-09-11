@@ -21,16 +21,16 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadNflGames = async ({message, url, leagueId, year, day, teams}) => {
+const loadFootballGames = async ({message, url, leagueId, year, day, teams}) => {
   if (isLoadNflGamesRunning || isUpdateNflScoresRunning) {
-    console.log("loadNflGames already running.");
+    console.log(`${message} already running.`);
     return;
   }
 
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
 
   if (currentWeekDay !== day) {
-    console.log("loadNflGames games load on Wednesday");
+    console.log(`${message} games load on Wednesday`);
     return;
   }
 
@@ -48,7 +48,7 @@ const loadNflGames = async ({message, url, leagueId, year, day, teams}) => {
   const gamesExistSearch = await gameRepository.find(gameExistSearch);
 
   if ((gamesExistSearch || []).length > 0) {
-    console.log("loadNflGames games already exists: " + date);
+    console.log(`${message} games already exists: ${date}`);
     return;
   }
 
@@ -77,7 +77,7 @@ const loadNflGames = async ({message, url, leagueId, year, day, teams}) => {
   isLoadNflGamesRunning = false;
 };
 
-const updateNflScores = async ({message, url, leagueId, year, teams}) => {
+const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
   if (isUpdateNflScoresRunning) {
     console.log(`${message} already running.`)
     return;
@@ -130,8 +130,8 @@ const updateNflScores = async ({message, url, leagueId, year, teams}) => {
 };
 
 const domain = { 
-  loadNflGames, 
-  updateNflScores,
+  loadFootballGames, 
+  updateFootballScores,
   isLoadNflGamesRunning,
   isUpdateNflScoresRunning, 
 };

@@ -106,7 +106,7 @@ class Home extends Component {
       const areAnyXGamesInProgress = getAreAnyGamesInProgress(xGames);
 
       const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
-      const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', nflGames);
+      const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', ncaafGames);
       const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
       const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
@@ -160,16 +160,16 @@ class Home extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={{margin:'16px auto'}}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: 'SANDYBROWN'}} onClick={() => { history.push('/scoreboards/premier') }}>
+                          style={{...styles.button, color: '#EC8800'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
                           NCAAF
                           {
                             areAnyNCAAFGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'SANDYBROWN'}}></div>
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#EC8800'}}></div>
                           }
                       </Button>
                   )}/>

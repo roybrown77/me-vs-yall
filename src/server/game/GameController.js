@@ -21,11 +21,11 @@ const {
 } = require('./EnglishPremierLeagueDomain-old');
 
 const { 
-  loadNflGames, 
-  updateNflScores,
+  loadFootballGames, 
+  updateFootballScores,
   isLoadNflGamesRunning,
   isUpdateNflScoresRunning, 
-} = require('./NFLDomain');
+} = require('./FootballDomain');
 
 const { 
   loadNbaGames, 
@@ -165,12 +165,12 @@ router.get('/games', function (req, res) {
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
 
- if (monthDay > 208 && monthDay < 801) {
+  if (monthDay > 208 && monthDay < 801) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
       //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-        //loadNflGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+        //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
         //createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
       //}
     } catch(err) {
@@ -180,7 +180,7 @@ router.get('/games', function (req, res) {
 
     try {
       if (!(hours > 5 && hours < 19 && currentWeekDay === 2)) {
-        updateNflScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+        updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
       isUpdateNflScoresRunning = false;
@@ -188,28 +188,28 @@ router.get('/games', function (req, res) {
     }
   }
 
-  // if (monthDay > 108 && monthDay < 801) {
-  //   console.log('new ncaaf games will be loaded during season.');
-  // } else {
-  //   try {
-  //     //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-  //       loadNflGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 5, teams: ncaaTeams});
-  //       // createWeek({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 5, teams: ncaaTeams});
-  //     //}
-  //   } catch(err) {
-  //     isLoadNflGamesRunning = false;
-  //     console.log('loadNflGames error: ' + err.message);
-  //   }
+  if (monthDay > 108 && monthDay < 801) {
+    console.log('new ncaaf games will be loaded during season.');
+  } else {
+    try {
+      //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
+        //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 3, teams: ncaaTeams});
+        // createWeek({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 5, teams: ncaaTeams});
+      //}
+    } catch(err) {
+      isLoadNflGamesRunning = false;
+      console.log('loadNCAAFGames error: ' + err.message);
+    }
 
-  //   try {
-  //     if (!(hours > 5 && hours < 19 && currentWeekDay === 2)) {
-  //       //updateNflScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
-  //     }
-  //   } catch(err) {
-  //     isUpdateNflScoresRunning = false;
-  //     console.log('updateNflScores error: ' + err.message);
-  //   }
-  // }
+    try {
+      if (!(hours > 5 && hours < 19 && currentWeekDay === 2)) {
+        updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+      }
+    } catch(err) {
+      isUpdateNflScoresRunning = false;
+      console.log('updateNCAAFscores error: ' + err.message);
+    }
+  }
   
   if (monthDay > 515 && monthDay < 801) {
     console.log('new premier games will be loaded during season.');
@@ -393,7 +393,8 @@ router.get('/teams', function (req, res) {
     ...nflTeams,
     ...eplTeams,
     ...nbaTeams,
-    ...mlbTeams
+    ...mlbTeams,
+    ...ncaaTeams
   ];
 
   res.status(200).send(teams);

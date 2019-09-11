@@ -371,1126 +371,1335 @@ const nflTeams = [
     }
 ];
 
-const ncaaTeams = [{
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9430",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Florida Atlantic",
-    "shortLocation": "FAU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9436",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "TCU",
-    "shortLocation": "TCU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9439",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Clemson",
-    "shortLocation": "CLEM"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab943f",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Appalachian State",
-    "shortLocation": "APP"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9442",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Auburn",
-    "shortLocation": "AUB"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9448",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Oklahoma",
-    "shortLocation": "OKLA"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab944b",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Ohio State",
-    "shortLocation": "OSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab944e",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Texas",
-    "shortLocation": "TEX"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9451",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Maryland",
-    "shortLocation": "MD"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9454",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Georgia",
-    "shortLocation": "UGA",
-    "color": "#BA0C2F"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9457",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Washington",
-    "shortLocation": "WASH"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab945a",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Penn State",
-    "shortLocation": "PSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab945d",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "UNLV",
-    "shortLocation": "UNLV"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9460",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "USC",
-    "shortLocation": "USC"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9463",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Boise State",
-    "shortLocation": "BSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9466",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Mississippi State",
-    "shortLocation": "MSST"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9469",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Notre Dame",
-    "shortLocation": "ND"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9471",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Bowling Green",
-    "shortLocation": "BGSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9472",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Miami",
-    "shortLocation": "MIAMI"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9475",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Tennessee",
-    "shortLocation": "TENN"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9478",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "West Virginia",
-    "shortLocation": "WVU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab947b",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Troy",
-    "shortLocation": "TROY"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab947e",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Oregon",
-    "shortLocation": "ORE"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9481",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Florida State",
-    "shortLocation": "FSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9484",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Michigan",
-    "shortLocation": "MICH"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9487",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Louisville",
-    "shortLocation": "LOU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab948a",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Alabama",
-    "shortLocation": "ALA",
-    "name": "Crimson Tide",
-    "color": "#9E1B32"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab948d",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "LSU",
-    "shortLocation": "LSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9490",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Virginia Tech",
-    "shortLocation": "VT"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8020b",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "William & Mary",
-    "shortLocation": "W&M"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8020f",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Portland State",
-    "shortLocation": "PRST"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80226",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "North Dakota",
-    "shortLocation": "UND"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8022a",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Youngstown State",
-    "shortLocation": "YSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab940a",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "UCF",
-    "shortLocation": "UCF",
-    "color": "#BA9B37"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab940b",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "UConn",
-    "shortLocation": "UCONN",
-    "color": "#000E2F"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab9416",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Utah State",
-    "shortLocation": "USU"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab9417",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Michigan State",
-    "shortLocation": "MSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab9421",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Stanford",
-    "shortLocation": "STAN"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab9423",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Western Kentucky",
-    "shortLocation": "WKU"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab9425",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "San Diego State",
-    "shortLocation": "SDSU"
-}, {
-    "colors": [],
-    "_id": "5b84a2879a4c08bca6ab9426",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Wisconsin",
-    "shortLocation": "WIS"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab942d",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Oregon State",
-    "shortLocation": "ORST"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9445",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Austin Peay",
-    "shortLocation": "PEAY"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab9433",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Southern",
-    "shortLocation": "SOU"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab946c",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Stephen F. Austin",
-    "shortLocation": "SFA"
-}, {
-    "colors": [],
-    "_id": "5b84a2889a4c08bca6ab943c",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Furman",
-    "shortLocation": "FUR"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d801ed",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "New Mexico",
-    "shortLocation": "UNM"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d801ee",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "SMU",
-    "shortLocation": "SMU"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d801f9",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Western Michigan",
-    "shortLocation": "WMU"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d801fc",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Kansas State",
-    "shortLocation": "KSU"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8020c",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "UCLA",
-    "shortLocation": "UCLA"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80214",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Arkansas State",
-    "shortLocation": "ARKST"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8021c",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "South Carolina",
-    "shortLocation": "SC"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80220",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Rutgers",
-    "shortLocation": "RUTG"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8022d",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "South Carolina State",
-    "shortLocation": "SCST"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80230",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Ball State",
-    "shortLocation": "BALL"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80235",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Savannah State",
-    "shortLocation": "SAV"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8023a",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Texas A&M",
-    "shortLocation": "TA&M"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80244",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Kentucky",
-    "shortLocation": "UK"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80248",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Alabama State",
-    "shortLocation": "ALST"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8024d",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Southeastern Louisiana",
-    "shortLocation": "SELA"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d8024e",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Pittsburgh",
-    "shortLocation": "PITT"
-}, {
-    "colors": [],
-    "_id": "5b9060e59a4c08bca6d80251",
-    "leagueId": "59723313734d1d6202a85f15",
-    "location": "Florida",
-    "shortLocation": "FLA"
-}, 
+const ncaaTeams = [
     {
-        _id: "5b9060e59a4c08bca6d80260",
-        location: "Arizona State",
-        shortLocation: "ASU"
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9000",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Florida Atlantic",
+        shortLocation: "FAU",
+        name: "Cougars"
     },
     {
-        _id: "5b9060e59a4c08bca6d80261",
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9001",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "TCU",
+        shortLocation: "TCU",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9002",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Clemson",
+        shortLocation: "CLEM",
+        name: "Tigers",
+        color: '#F56600',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9003",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Appalachian State",
+        shortLocation: "APP",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9004",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Auburn",
+        shortLocation: "AUB",
+        name: "Tigers",
+        color: '#E87722',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9005",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Oklahoma",
+        shortLocation: "OKLA",
+        name: "Sooners",
+        color: '#841617',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9006",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Ohio State",
+        shortLocation: "OSU",
+        name: "Buckeyes",
+        color: '#BB0000',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9007",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Texas",
+        shortLocation: "TEX",
+        name: "Longhorns",
+        color: '#BF5700',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9008",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Maryland",
+        shortLocation: "MD",
+        name: "Terrapins",
+        color: '#E03A3E',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9009",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Georgia",
+        shortLocation: "UGA",
+        name: "Bulldogs",
+        color: '#BA0C2F'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab900a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Washington",
+        shortLocation: "WASH",
+        name: "Huskies",
+        color: '#4B2E83',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab900b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Penn State",
+        shortLocation: "PSU",
+        name: "Nittany Lions",
+        color: '#041E42'
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab900c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UNLV",
+        shortLocation: "UNLV",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab900d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "USC",
+        shortLocation: "USC",
+        name: "Trojans",
+        color: '#990000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab900e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Boise State",
+        shortLocation: "BSU",
+        name: "Broncos",
+        color: '#D64309',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab900f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Mississippi State",
+        shortLocation: "MSST",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9010",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Notre Dame",
+        shortLocation: "ND",
+        name: "Fighting Irish",
+        color: '#AE9142',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9011",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Bowling Green",
+        shortLocation: "BGSU",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9012",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Miami",
+        shortLocation: "MIAMI",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9013",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Tennessee",
+        shortLocation: "TENN",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9014",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "West Virginia",
+        shortLocation: "WVU",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9015",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Troy",
+        shortLocation: "TROY",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9016",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Oregon",
+        shortLocation: "ORE",
+        name: "Ducks",
+        color: '#154733',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9017",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Florida State",
+        shortLocation: "FSU",
+        name: "Seminoles",
+        color: '#782F40',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9018",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Michigan",
+        shortLocation: "MICH",
+        name: "Wolverines",
+        color: '',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9019",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Louisville",
+        shortLocation: "LOU",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab901a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Alabama",
+        shortLocation: "ALA",
+        name: "Crimson Tide",
+        color: "#9E1B32"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab901b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Louisiana State",
+        shortLocation: "LSU",
+        name: "Tigers",
+        color: '#461D7C',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab901c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Virginia Tech",
+        shortLocation: "VT",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab901d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "William & Mary",
+        shortLocation: "W&M",
+        name: "Crimson Tide"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab901e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Portland State",
+        shortLocation: "PRST",
+        name: "Vikings",
+        color: '#154734',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab901f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "North Dakota",
+        shortLocation: "UND",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9020",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Youngstown State",
+        shortLocation: "YSU",
+        name: "Crimson Tide"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9021",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UCF",
+        shortLocation: "UCF",
+        name: 'Knights',
+        color: "#AE9142"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9022",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UConn",
+        shortLocation: "UCONN",
+        name: "Huskies",
+        color: "#000E2F"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9023",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Utah",
+        shortLocation: "UTAH",
+        name: "Utes",
+        color: '#CC0000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9024",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Michigan State",
+        shortLocation: "MSU",
+        name: 'Spartans',
+        color: '#18453B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9025",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Stanford",
+        shortLocation: "STAN",
+        name: "Cardinal",
+        color: '#8C1515',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9026",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Western Kentucky",
+        shortLocation: "WKU",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9027",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "San Diego State",
+        shortLocation: "SDSU",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9028",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Wisconsin",
+        shortLocation: "WIS",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9029",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Oregon State",
+        shortLocation: "ORST",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab902a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Austin Peay",
+        shortLocation: "PEAY",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab902b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Southern",
+        shortLocation: "SOU",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab902c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Stephen F. Austin",
+        shortLocation: "SFA",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab902d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Furman",
+        shortLocation: "FUR",
+        name: "Crimson Tide"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab902e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "New Mexico",
+        shortLocation: "UNM",
+        name: "Lobos",
+        color: '#BA0C2F',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab902f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "SMU",
+        shortLocation: "SMU",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9030",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Western Michigan",
+        shortLocation: "WMU",
+        name: "Crimson Tide"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9031",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Kansas State",
+        shortLocation: "KSU",
+        name: "Crimson Tide"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9032",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UCLA",
+        shortLocation: "UCLA",
+        name: "Bruins",
+        color: '#2D68C4',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9033",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Arkansas State",
+        shortLocation: "ARKST",
+        name: "Red Wolves",
+        color: '#CC092F'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9034",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "South Carolina",
+        shortLocation: "SC",
+        name: "Gamecocks",
+        color: '#73000A'
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9035",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Rutgers",
+        shortLocation: "RUTG",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9036",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "South Carolina State",
+        shortLocation: "SCST",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9037",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Ball State",
+        shortLocation: "BALL",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9038",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Savannah State",
+        shortLocation: "SAV",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9039",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Texas A&M",
+        shortLocation: "TA&M",
+        name: "Aggies",
+        color: '#500000',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9040",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Kentucky",
+        shortLocation: "UK",
+        name: "Wildcats",
+        color: '#0033A0',
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9041",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Alabama State",
+        shortLocation: "ALST",
+        name: "Cougars"
+    },
+    {
+        color: '',
+        _id: "5b84a2889a4c08bca6ab9042",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Southeastern Louisiana",
+        shortLocation: "SELA",
+        name: "Cougars"
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9043",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Pittsburgh",
+        shortLocation: "PITT",
+        name: "Panthers",
+        color: '#003594',
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9044",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Florida",
+        shortLocation: "FLA",
+        name: "Gators",
+        color: '#0021A5'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9045",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Arizona State",
+        shortLocation: "ASU",
+        name: "Sun Devils",
+        color: '#8C1D40'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9046",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Washington State',
         shortLocation: "WSU",
         name: "Cougars",
         color: "#981E32"
     },
     {
-        _id: "5b9060e59a4c08bca6d80262",
+        _id: "5b84a2889a4c08bca6ab9047",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Houston',
         shortLocation: "HOU",
-        name: "Cougars"
+        name: "Cougars",
+        color: '#C8102E'
     },
     {
-        _id: "5b9060e59a4c08bca6d80263",
+        _id: "5b84a2889a4c08bca6ab9048",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Indiana',
         shortLocation: "IND",
-        name: "Hoosiers"
+        name: "Hoosiers",
+        color: '#990000'
     },
     {
-        _id: "5b9060e59a4c08bca6d80264",
+        _id: "5b84a2889a4c08bca6ab9049",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Temple',
         shortLocation: "TEM",
-        name: "Owls"
+        name: "Owls",
+        color: '#9D2235',
     },
     {
-        _id: "5b9060e59a4c08bca6d80265",
+        _id: "5b84a2889a4c08bca6ab904a",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Brigham Young',
         shortLocation: "BYU",
-        name: "Cougars"
+        name: "Cougars",
+        color: '#002E5D'
     },
     {
-        _id: "5b9060e59a4c08bca6d80266",
+        _id: "5b84a2889a4c08bca6ab904b",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Iowa',
         shortLocation: "IOWA",
-        name: "Hawkeyes"
+        name: "Hawkeyes",
+        color: '#FFCD00'
     },
     {
-        _id: "5b9060e59a4c08bca6d80267",
+        _id: "5b84a2889a4c08bca6ab904c",
+        leagueId: "59723313734d1d6202a85f15",
         location: 'Iowa State',
         shortLocation: "ISU",
-        name: "Cyclones"
+        name: "Cyclones",
+        color: '#C8102E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab904d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Idaho State',
+        shortLocation: "IDST",
+        name: "Bengals",
+        color: '#FF671F'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab904e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Kent State',
+        shortLocation: "KENT",
+        name: "Golden Flashes",
+        color: '#002664'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab904f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Lamar',
+        shortLocation: "LAM",
+        name: "Cardinals",
+        color: '#990000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9050",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Syracuse',
+        shortLocation: "SYR",
+        name: "Orange",
+        color: '#D44500'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9051",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Northwestern',
+        shortLocation: "NWST",
+        name: "Wildcats",
+        color: '#4E2A84'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9052",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Hawaii',
+        shortLocation: "HAW",
+        name: "Warriors",
+        color: '#024731'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9053",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Virginia',
+        shortLocation: "UVA",
+        name: "Cavaliers",
+        color: '#F84C1E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9054",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Rice',
+        shortLocation: "RICE",
+        name: "Owls",
+        color: '#00205B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9055",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Montana',
+        shortLocation: "MONT",
+        name: "Grizzlies",
+        color: '#660033'
     }
 ];
 
 const eplTeams = [
     {
-        "color": "#132257",
-        "_id": "5b9060e59a4c08bca6d80500",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Tottenham",
-        "shortLocation": "TOT",
-        "name": "Spurs"
+        color: "#132257",
+        _id: "5b9060e59a4c08bca6d80500",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Tottenham",
+        shortLocation: "TOT",
+        name: "Spurs"
     },
     {
-        "color": "#00B2A9",
-        "_id": "5b9060e59a4c08bca6d80501",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Liverpool",
-        "shortLocation": "LIV",
-        "name": "The Reds"
+        color: "#00B2A9",
+        _id: "5b9060e59a4c08bca6d80501",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Liverpool",
+        shortLocation: "LIV",
+        name: "The Reds"
     },
     {
-        "color": "#B50E12",
-        "_id": "5b9060e59a4c08bca6d80502",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "AFC Bournemouth",
-        "shortLocation": "BOU",
-        "name": "The Cherries"
+        color: "#B50E12",
+        _id: "5b9060e59a4c08bca6d80502",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "AFC Bournemouth",
+        shortLocation: "BOU",
+        name: "The Cherries"
     },
     {
-        "color": "#FDBE11",
-        "_id": "5b9060e59a4c08bca6d80503",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Leicester City",
-        "shortLocation": "LEI",
-        "name": "The Foxes"
+        color: "#FDBE11",
+        _id: "5b9060e59a4c08bca6d80503",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Leicester City",
+        shortLocation: "LEI",
+        name: "The Foxes"
     },
     {
-        "color": "#034694",
-        "_id": "5b9060e59a4c08bca6d80504",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Chelsea",
-        "shortLocation": "CHE",
-        "name": "Blues"
+        color: "#034694",
+        _id: "5b9060e59a4c08bca6d80504",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Chelsea",
+        shortLocation: "CHE",
+        name: "Blues"
     },
     {
-        "color": "#005995",
-        "_id": "5b9060e59a4c08bca6d80505",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Cardiff City",
-        "shortLocation": "CAR",
-        "name": "The Bluebirds"
+        color: "#005995",
+        _id: "5b9060e59a4c08bca6d80505",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Cardiff City",
+        shortLocation: "CAR",
+        name: "The Bluebirds"
     },
     {
-        "color": "#0E63AD",
-        "_id": "5b9060e59a4c08bca6d80506",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Huddersfield Town",
-        "shortLocation": "HUD",
-        "name": "The Terriers"
+        color: "#0E63AD",
+        _id: "5b9060e59a4c08bca6d80506",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Huddersfield Town",
+        shortLocation: "HUD",
+        name: "The Terriers"
     },
     {
-        "color": "#1B458F",
-        "_id": "5b9060e59a4c08bca6d80507",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Crystal Palace",
-        "shortLocation": "CRY",
-        "name": "The Eagles"
+        color: "#1B458F",
+        _id: "5b9060e59a4c08bca6d80507",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Crystal Palace",
+        shortLocation: "CRY",
+        name: "The Eagles"
     },
     {
-        "color": "#1C2C5B",
-        "_id": "5b9060e59a4c08bca6d80508",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Manchester City",
-        "shortLocation": "MNC",
-        "name": "Citizens"
+        color: "#1C2C5B",
+        _id: "5b9060e59a4c08bca6d80508",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Manchester City",
+        shortLocation: "MNC",
+        name: "Citizens"
     },
     {
-        "color": "#CC0000",
-        "_id": "5b9060e59a4c08bca6d80509",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Fulham",
-        "shortLocation": "FUL",
-        "name": "The Cottagers"
+        color: "#CC0000",
+        _id: "5b9060e59a4c08bca6d80509",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Fulham",
+        shortLocation: "FUL",
+        name: "The Cottagers"
     },
     {
-        "color": "#41B6E6",
-        "_id": "5b9060e59a4c08bca6d8050a",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Newcastle United",
-        "shortLocation": "NEW",
-        "name": "The Magpies"
+        color: "#41B6E6",
+        _id: "5b9060e59a4c08bca6d8050a",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Newcastle United",
+        shortLocation: "NEW",
+        name: "The Magpies"
     },
     {
-        "color": "#DB0007",
-        "_id": "5b9060e59a4c08bca6d8050b",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Arsenal",
-        "shortLocation": "ARS",
-        "name": "The Gunners"
+        color: "#DB0007",
+        _id: "5b9060e59a4c08bca6d8050b",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Arsenal",
+        shortLocation: "ARS",
+        name: "The Gunners"
     },
     {
-        "color": "#FBEE23",
-        "_id": "5b9060e59a4c08bca6d8050c",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Watford",
-        "shortLocation": "WAT",
-        "name": "The Hornets"
+        color: "#FBEE23",
+        _id: "5b9060e59a4c08bca6d8050c",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Watford",
+        shortLocation: "WAT",
+        name: "The Hornets"
     },
     {
-        "color": "#DA291C",
-        "_id": "5b9060e59a4c08bca6d8050d",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Manchester United",
-        "shortLocation": "MAN",
-        "name": "Red Devils"
+        color: "#DA291C",
+        _id: "5b9060e59a4c08bca6d8050d",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Manchester United",
+        shortLocation: "MAN",
+        name: "Red Devils"
     },
     {
-        "color": "#FDB913",
-        "_id": "5b9060e59a4c08bca6d8050e",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Wolverhampton",
-        "shortLocation": "WOLV",
-        "name": "Wolves"
+        color: "#FDB913",
+        _id: "5b9060e59a4c08bca6d8050e",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Wolverhampton",
+        shortLocation: "WOLV",
+        name: "Wolves"
     },
     {
-        "color": "#6C1D45",
-        "_id": "5b9060e59a4c08bca6d8050f",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Burnley",
-        "shortLocation": "BUR",
-        "name": "The Clarets"
+        color: "#6C1D45",
+        _id: "5b9060e59a4c08bca6d8050f",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Burnley",
+        shortLocation: "BUR",
+        name: "The Clarets"
     },
     {
-        "color": "#003399",
-        "_id": "5b9060e59a4c08bca6d80510",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Everton",
-        "shortLocation": "EVE",
-        "name": "The Blues"
+        color: "#003399",
+        _id: "5b9060e59a4c08bca6d80510",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Everton",
+        shortLocation: "EVE",
+        name: "The Blues"
     },
     {
-        "color": "#7A263A",
-        "_id": "5b9060e59a4c08bca6d80511",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "West Ham United",
-        "shortLocation": "WHU",
-        "name": "The Hammers"
+        color: "#7A263A",
+        _id: "5b9060e59a4c08bca6d80511",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "West Ham United",
+        shortLocation: "WHU",
+        name: "The Hammers"
     },
     {
-        "color": "#D71920",
-        "_id": "5b9060e59a4c08bca6d80512",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Southampton",
-        "shortLocation": "SOUT",
-        "name": "The Saints"
+        color: "#D71920",
+        _id: "5b9060e59a4c08bca6d80512",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Southampton",
+        shortLocation: "SOUT",
+        name: "The Saints"
     },
     {
-        "color": "#0057B8",
-        "_id": "5b9060e59a4c08bca6d80513",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Brighton & Hove Albion",
-        "shortLocation": "BHA",
-        "name": "The Seagulls"
+        color: "#0057B8",
+        _id: "5b9060e59a4c08bca6d80513",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Brighton & Hove Albion",
+        shortLocation: "BHA",
+        name: "The Seagulls"
     },
     {
-        "color": "#FFF200",
-        "_id": "5b9060e59a4c08bca6d80514",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Norwich City",
-        "shortLocation": "NOR",
-        "name": "The Canaries"
+        color: "#FFF200",
+        _id: "5b9060e59a4c08bca6d80514",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Norwich City",
+        shortLocation: "NOR",
+        name: "The Canaries"
     },
     {
-        "color": "#EC2227",
-        "_id": "5b9060e59a4c08bca6d80515",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Sheffield United",
-        "shortLocation": "SHU",
-        "name": "The Blades"
+        color: "#EC2227",
+        _id: "5b9060e59a4c08bca6d80515",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Sheffield United",
+        shortLocation: "SHU",
+        name: "The Blades"
     },
     {
-        "color": "#670E36",
-        "_id": "5b9060e59a4c08bca6d80516",
-        "leagueId": "59723313734d1d6202a85f17",
-        "location": "Aston Villa",
-        "shortLocation": "AVL",
-        "name": "Villans"
+        color: "#670E36",
+        _id: "5b9060e59a4c08bca6d80516",
+        leagueId: "59723313734d1d6202a85f17",
+        location: "Aston Villa",
+        shortLocation: "AVL",
+        name: "Villans"
     }
 ];
 
 const nbaTeams = [
     {
-        "color": "#007A33",
-        "_id": "5b9060e59a4c08bca6d80700",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Boston",
-        "shortLocation": "BOS",
-        "name": "Celtics"
+        color: "#007A33",
+        _id: "5b9060e59a4c08bca6d80700",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Boston",
+        shortLocation: "BOS",
+        name: "Celtics"
     },
     {
-        "color": "#F58426",
-        "_id": "5b9060e59a4c08bca6d80701",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "New York",
-        "shortLocation": "NY",
-        "name": "Knicks"
+        color: "#F58426",
+        _id: "5b9060e59a4c08bca6d80701",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "New York",
+        shortLocation: "NY",
+        name: "Knicks"
     },
     {
-        "color": "#C4C9CC",
-        "_id": "5b9060e59a4c08bca6d80702",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Brooklyn",
-        "shortLocation": "BKN",
-        "name": "Nets"
+        color: "#C4C9CC",
+        _id: "5b9060e59a4c08bca6d80702",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Brooklyn",
+        shortLocation: "BKN",
+        name: "Nets"
     },
     {
-        "color": "#CE1141",
-        "_id": "5b9060e59a4c08bca6d80703",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Toronto",
-        "shortLocation": "TOR",
-        "name": "Raptors"
+        color: "#CE1141",
+        _id: "5b9060e59a4c08bca6d80703",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Toronto",
+        shortLocation: "TOR",
+        name: "Raptors"
     },
     {
-        "color": "#006BB6",
-        "_id": "5b9060e59a4c08bca6d80704",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Philadelphia",
-        "shortLocation": "PHI",
-        "name": "76ers"
+        color: "#006BB6",
+        _id: "5b9060e59a4c08bca6d80704",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Philadelphia",
+        shortLocation: "PHI",
+        name: "76ers"
     },
     {
-        "color": "#00471B",
-        "_id": "5b9060e59a4c08bca6d80705",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Milwaukee",
-        "shortLocation": "MIL",
-        "name": "Bucks"
+        color: "#00471B",
+        _id: "5b9060e59a4c08bca6d80705",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Milwaukee",
+        shortLocation: "MIL",
+        name: "Bucks"
     },
     {
-        "color": "#FDBB30",
-        "_id": "5b9060e59a4c08bca6d80706",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Indiana",
-        "shortLocation": "IND",
-        "name": "Pacers"
+        color: "#FDBB30",
+        _id: "5b9060e59a4c08bca6d80706",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Indiana",
+        shortLocation: "IND",
+        name: "Pacers"
     },
     {
-        "color": "#006BB6",
-        "_id": "5b9060e59a4c08bca6d80707",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Detroit",
-        "shortLocation": "DET",
-        "name": "Pistons"
+        color: "#006BB6",
+        _id: "5b9060e59a4c08bca6d80707",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Detroit",
+        shortLocation: "DET",
+        name: "Pistons"
     },
     {
-        "color": "#6F263D",
-        "_id": "5b9060e59a4c08bca6d80708",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Cleveland",
-        "shortLocation": "CLE",
-        "name": "Cavaliers"
+        color: "#6F263D",
+        _id: "5b9060e59a4c08bca6d80708",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Cleveland",
+        shortLocation: "CLE",
+        name: "Cavaliers"
     },
     {
-        "color": "#CE1141",
-        "_id": "5b9060e59a4c08bca6d80709",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Chicago",
-        "shortLocation": "CHI",
-        "name": "Bulls"
+        color: "#CE1141",
+        _id: "5b9060e59a4c08bca6d80709",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Chicago",
+        shortLocation: "CHI",
+        name: "Bulls"
     },
     {
-        "color": "#1D1160",
-        "_id": "5b9060e59a4c08bca6d80710",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Charlotte",
-        "shortLocation": "CHA",
-        "name": "Hornets"
+        color: "#1D1160",
+        _id: "5b9060e59a4c08bca6d80710",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Charlotte",
+        shortLocation: "CHA",
+        name: "Hornets"
     },
     {
-        "color": "#0077C0",
-        "_id": "5b9060e59a4c08bca6d80711",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Orlando",
-        "shortLocation": "ORL",
-        "name": "Magic"
+        color: "#0077C0",
+        _id: "5b9060e59a4c08bca6d80711",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Orlando",
+        shortLocation: "ORL",
+        name: "Magic"
     },
     {
-        "color": "#98002E",
-        "_id": "5b9060e59a4c08bca6d80712",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Miami",
-        "shortLocation": "MIA",
-        "name": "Heat"
+        color: "#98002E",
+        _id: "5b9060e59a4c08bca6d80712",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Miami",
+        shortLocation: "MIA",
+        name: "Heat"
     },
     {
-        "color": "#E31837",
-        "_id": "5b9060e59a4c08bca6d80713",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Washington",
-        "shortLocation": "WSH",
-        "name": "Wizards"
+        color: "#E31837",
+        _id: "5b9060e59a4c08bca6d80713",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Washington",
+        shortLocation: "WSH",
+        name: "Wizards"
     },
     {
-        "color": "#E03A3E",
-        "_id": "5b9060e59a4c08bca6d80714",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Atlanta",
-        "shortLocation": "ATL",
-        "name": "Hawks"
+        color: "#E03A3E",
+        _id: "5b9060e59a4c08bca6d80714",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Atlanta",
+        shortLocation: "ATL",
+        name: "Hawks"
     },
     {
-        "color": "#0E2240",
-        "_id": "5b9060e59a4c08bca6d80715",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Denver",
-        "shortLocation": "DEN",
-        "name": "Nuggets"
+        color: "#0E2240",
+        _id: "5b9060e59a4c08bca6d80715",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Denver",
+        shortLocation: "DEN",
+        name: "Nuggets"
     },
     {
-        "color": "#007AC1",
-        "_id": "5b9060e59a4c08bca6d80716",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Oklahoma City",
-        "shortLocation": "OKC",
-        "name": "Thunder"
+        color: "#007AC1",
+        _id: "5b9060e59a4c08bca6d80716",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Oklahoma City",
+        shortLocation: "OKC",
+        name: "Thunder"
     },
     {
-        "color": "#E03A3E",
-        "_id": "5b9060e59a4c08bca6d80717",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Portland",
-        "shortLocation": "POR",
-        "name": "Trail Blazers"
+        color: "#E03A3E",
+        _id: "5b9060e59a4c08bca6d80717",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Portland",
+        shortLocation: "POR",
+        name: "Trail Blazers"
     },
     {
-        "color": "#0C2340",
-        "_id": "5b9060e59a4c08bca6d80718",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Minnesota",
-        "shortLocation": "MIN",
-        "name": "Timberwolves"
+        color: "#0C2340",
+        _id: "5b9060e59a4c08bca6d80718",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Minnesota",
+        shortLocation: "MIN",
+        name: "Timberwolves"
     },
     {
-        "color": "#B50E12",
-        "_id": "5b9060e59a4c08bca6d80719",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Utah",
-        "shortLocation": "UTAH",
-        "name": "Jazz"
+        color: "#B50E12",
+        _id: "5b9060e59a4c08bca6d80719",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Utah",
+        shortLocation: "UTAH",
+        name: "Jazz"
     },
     {
-        "color": "#006BB6",
-        "_id": "5b9060e59a4c08bca6d80720",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Golden State",
-        "shortLocation": "GS",
-        "name": "Warriors"
+        color: "#006BB6",
+        _id: "5b9060e59a4c08bca6d80720",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Golden State",
+        shortLocation: "GS",
+        name: "Warriors"
     },
     {
-        "color": "#552583",
-        "_id": "5b9060e59a4c08bca6d80721",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Los Angeles",
-        "shortLocation": "LAL",
-        "name": "Lakers"
+        color: "#552583",
+        _id: "5b9060e59a4c08bca6d80721",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Los Angeles",
+        shortLocation: "LAL",
+        name: "Lakers"
     },
     {
-        "color": "#C8102E",
-        "_id": "5b9060e59a4c08bca6d80722",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Los Angeles",
-        "shortLocation": "LAC",
-        "name": "Clippers"
+        color: "#C8102E",
+        _id: "5b9060e59a4c08bca6d80722",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Los Angeles",
+        shortLocation: "LAC",
+        name: "Clippers"
     },
     {
-        "color": "#5A2D81",
-        "_id": "5b9060e59a4c08bca6d80723",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Sacramento",
-        "shortLocation": "SAC",
-        "name": "Kings"
+        color: "#5A2D81",
+        _id: "5b9060e59a4c08bca6d80723",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Sacramento",
+        shortLocation: "SAC",
+        name: "Kings"
     },
     {
-        "color": "#1D1160",
-        "_id": "5b9060e59a4c08bca6d80724",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Phoenix",
-        "shortLocation": "PHX",
-        "name": "Suns"
+        color: "#1D1160",
+        _id: "5b9060e59a4c08bca6d80724",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Phoenix",
+        shortLocation: "PHX",
+        name: "Suns"
     },
     {
-        "color": "#00538C",
-        "_id": "5b9060e59a4c08bca6d80725",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Dallas",
-        "shortLocation": "DAL",
-        "name": "Mavericks"
+        color: "#00538C",
+        _id: "5b9060e59a4c08bca6d80725",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Dallas",
+        shortLocation: "DAL",
+        name: "Mavericks"
     },
     {
-        "color": "#12173F",
-        "_id": "5b9060e59a4c08bca6d80726",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Memphis",
-        "shortLocation": "MEM",
-        "name": "Grizzlies"
+        color: "#12173F",
+        _id: "5b9060e59a4c08bca6d80726",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Memphis",
+        shortLocation: "MEM",
+        name: "Grizzlies"
     },
     {
-        "color": "#CE1141",
-        "_id": "5b9060e59a4c08bca6d80727",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "Houston",
-        "shortLocation": "HOU",
-        "name": "Rockets"
+        color: "#CE1141",
+        _id: "5b9060e59a4c08bca6d80727",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "Houston",
+        shortLocation: "HOU",
+        name: "Rockets"
     },
     {
-        "color": "#EF426F",
-        "_id": "5b9060e59a4c08bca6d80728",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "San Antonio",
-        "shortLocation": "SA",
-        "name": "Spurs"
+        color: "#EF426F",
+        _id: "5b9060e59a4c08bca6d80728",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "San Antonio",
+        shortLocation: "SA",
+        name: "Spurs"
     },
     {
-        "color": "#0C2340",
-        "_id": "5b9060e59a4c08bca6d80729",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "New Orleans",
-        "shortLocation": "NO",
-        "name": "Pelicans"
+        color: "#0C2340",
+        _id: "5b9060e59a4c08bca6d80729",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "New Orleans",
+        shortLocation: "NO",
+        name: "Pelicans"
     },
     {
-        "color": "#48494a",
-        "_id": "5b9060e59a4c08bca6d80730",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "WORLD",
-        "shortLocation": "WORLD",
-        "name": "WORLD"
+        color: "#48494a",
+        _id: "5b9060e59a4c08bca6d80730",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "WORLD",
+        shortLocation: "WORLD",
+        name: "WORLD"
     },
     {
-        "color": "#FFC20E",
-        "_id": "5b9060e59a4c08bca6d80731",
-        "leagueId": "59723313734d1d6202a85f19",
-        "location": "USA",
-        "shortLocation": "USA",
-        "name": "USA"
+        color: "#FFC20E",
+        _id: "5b9060e59a4c08bca6d80731",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "USA",
+        shortLocation: "USA",
+        name: "USA"
     }
 ];
 
 const mlbTeams = [
     {
-        "color": "#BD3039",
-        "_id": "5b9060e59a4c08bca6d80800",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Boston",
-        "shortLocation": "BOS",
-        "name": "Red Sox"
+        color: "#BD3039",
+        _id: "5b9060e59a4c08bca6d80800",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Boston",
+        shortLocation: "BOS",
+        name: "Red Sox"
     },
     {
-        "color": "#0C2340",
-        "_id": "5b9060e59a4c08bca6d80801",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "New York",
-        "shortLocation": "NYY",
-        "name": "Yankees"
+        color: "#0C2340",
+        _id: "5b9060e59a4c08bca6d80801",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "New York",
+        shortLocation: "NYY",
+        name: "Yankees"
     },
     {
-        "color": "#FC4C02",
-        "_id": "5b9060e59a4c08bca6d80802",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Baltimore",
-        "shortLocation": "BAL",
-        "name": "Orioles"
+        color: "#FC4C02",
+        _id: "5b9060e59a4c08bca6d80802",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Baltimore",
+        shortLocation: "BAL",
+        name: "Orioles"
     },
     {
-        "color": "#134A8E",
-        "_id": "5b9060e59a4c08bca6d80803",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Toronto",
-        "shortLocation": "TOR",
-        "name": "Blue Jays"
+        color: "#134A8E",
+        _id: "5b9060e59a4c08bca6d80803",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Toronto",
+        shortLocation: "TOR",
+        name: "Blue Jays"
     },
     {
-        "color": "#8FBCE6",
-        "_id": "5b9060e59a4c08bca6d80804",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Tampa Bay",
-        "shortLocation": "TB",
-        "name": "Rays"
+        color: "#8FBCE6",
+        _id: "5b9060e59a4c08bca6d80804",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Tampa Bay",
+        shortLocation: "TB",
+        name: "Rays"
     },
     {
-        "color": "#D31145",
-        "_id": "5b9060e59a4c08bca6d80805",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Minnesota",
-        "shortLocation": "MIN",
-        "name": "Twins"
+        color: "#D31145",
+        _id: "5b9060e59a4c08bca6d80805",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Minnesota",
+        shortLocation: "MIN",
+        name: "Twins"
     },
     {
-        "color": "#E31937",
-        "_id": "5b9060e59a4c08bca6d80806",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Cleveland",
-        "shortLocation": "CLE",
-        "name": "Indians"
+        color: "#E31937",
+        _id: "5b9060e59a4c08bca6d80806",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Cleveland",
+        shortLocation: "CLE",
+        name: "Indians"
     },
     {
-        "color": "#27251F",
-        "_id": "5b9060e59a4c08bca6d80807",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Chicago",
-        "shortLocation": "CHW",
-        "name": "White Sox"
+        color: "#27251F",
+        _id: "5b9060e59a4c08bca6d80807",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Chicago",
+        shortLocation: "CHW",
+        name: "White Sox"
     },
     {
-        "color": "#FA4616",
-        "_id": "5b9060e59a4c08bca6d80808",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Detroit",
-        "shortLocation": "DET",
-        "name": "Tigers"
+        color: "#FA4616",
+        _id: "5b9060e59a4c08bca6d80808",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Detroit",
+        shortLocation: "DET",
+        name: "Tigers"
     },
     {
-        "color": "#004687",
-        "_id": "5b9060e59a4c08bca6d80809",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Kansas City",
-        "shortLocation": "KC",
-        "name": "Royals"
+        color: "#004687",
+        _id: "5b9060e59a4c08bca6d80809",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Kansas City",
+        shortLocation: "KC",
+        name: "Royals"
     },
     {
-        "color": "#EB6E1F",
-        "_id": "5b9060e59a4c08bca6d80810",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Houston",
-        "shortLocation": "HOU",
-        "name": "Astros"
+        color: "#EB6E1F",
+        _id: "5b9060e59a4c08bca6d80810",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Houston",
+        shortLocation: "HOU",
+        name: "Astros"
     },
     {
-        "color": "#C0111F",
-        "_id": "5b9060e59a4c08bca6d80811",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Texas",
-        "shortLocation": "TEX",
-        "name": "Rangers"
+        color: "#C0111F",
+        _id: "5b9060e59a4c08bca6d80811",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Texas",
+        shortLocation: "TEX",
+        name: "Rangers"
     },
     {
-        "color": "#003831",
-        "_id": "5b9060e59a4c08bca6d80812",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Oakland",
-        "shortLocation": "OAK",
-        "name": "Athletics"
+        color: "#003831",
+        _id: "5b9060e59a4c08bca6d80812",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Oakland",
+        shortLocation: "OAK",
+        name: "Athletics"
     },
     {
-        "color": "#BA0021",
-        "_id": "5b9060e59a4c08bca6d80813",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Los Angeles",
-        "shortLocation": "LAA",
-        "name": "Angels"
+        color: "#BA0021",
+        _id: "5b9060e59a4c08bca6d80813",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Los Angeles",
+        shortLocation: "LAA",
+        name: "Angels"
     },
     {
-        "color": "#005C5C",
-        "_id": "5b9060e59a4c08bca6d80814",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Seattle",
-        "shortLocation": "SEA",
-        "name": "Mariners"
+        color: "#005C5C",
+        _id: "5b9060e59a4c08bca6d80814",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Seattle",
+        shortLocation: "SEA",
+        name: "Mariners"
     },
     {
-        "color": "#13274F",
-        "_id": "5b9060e59a4c08bca6d80815",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Atlanta",
-        "shortLocation": "ATL",
-        "name": "Braves"
+        color: "#13274F",
+        _id: "5b9060e59a4c08bca6d80815",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Atlanta",
+        shortLocation: "ATL",
+        name: "Braves"
     },
     {
-        "color": "#E81828",
-        "_id": "5b9060e59a4c08bca6d80816",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Philadelphia",
-        "shortLocation": "PHI",
-        "name": "Phillies"
+        color: "#E81828",
+        _id: "5b9060e59a4c08bca6d80816",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Philadelphia",
+        shortLocation: "PHI",
+        name: "Phillies"
     },
     {
-        "color": "#AB0003",
-        "_id": "5b9060e59a4c08bca6d80817",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Washington",
-        "shortLocation": "WSH",
-        "name": "Nationals"
+        color: "#AB0003",
+        _id: "5b9060e59a4c08bca6d80817",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Washington",
+        shortLocation: "WSH",
+        name: "Nationals"
     },
     {
-        "color": "#FF5910",
-        "_id": "5b9060e59a4c08bca6d80818",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "New York",
-        "shortLocation": "NYM",
-        "name": "Mets"
+        color: "#FF5910",
+        _id: "5b9060e59a4c08bca6d80818",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "New York",
+        shortLocation: "NYM",
+        name: "Mets"
     },
     {
-        "color": "#EF3340",
-        "_id": "5b9060e59a4c08bca6d80819",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Miami",
-        "shortLocation": "MIA",
-        "name": "Marlins"
+        color: "#EF3340",
+        _id: "5b9060e59a4c08bca6d80819",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Miami",
+        shortLocation: "MIA",
+        name: "Marlins"
     },
     {
-        "color": "#0E3386",
-        "_id": "5b9060e59a4c08bca6d80820",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Chicago",
-        "shortLocation": "CHC",
-        "name": "Cubs"
+        color: "#0E3386",
+        _id: "5b9060e59a4c08bca6d80820",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Chicago",
+        shortLocation: "CHC",
+        name: "Cubs"
     },
     {
-        "color": "#0A2351",
-        "_id": "5b9060e59a4c08bca6d80821",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Milwaukee",
-        "shortLocation": "MIL",
-        "name": "Brewers"
+        color: "#0A2351",
+        _id: "5b9060e59a4c08bca6d80821",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Milwaukee",
+        shortLocation: "MIL",
+        name: "Brewers"
     },
     {
-        "color": "#C41E3A",
-        "_id": "5b9060e59a4c08bca6d80822",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "St. Louis",
-        "shortLocation": "STL",
-        "name": "Cardinals"
+        color: "#C41E3A",
+        _id: "5b9060e59a4c08bca6d80822",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "St. Louis",
+        shortLocation: "STL",
+        name: "Cardinals"
     },
     {
-        "color": "#FDB827",
-        "_id": "5b9060e59a4c08bca6d80823",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Pittsburgh",
-        "shortLocation": "PIT",
-        "name": "Pirates"
+        color: "#FDB827",
+        _id: "5b9060e59a4c08bca6d80823",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Pittsburgh",
+        shortLocation: "PIT",
+        name: "Pirates"
     },
     {
-        "color": "#C6011F",
-        "_id": "5b9060e59a4c08bca6d80824",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Cincinnati",
-        "shortLocation": "CIN",
-        "name": "Reds"
+        color: "#C6011F",
+        _id: "5b9060e59a4c08bca6d80824",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Cincinnati",
+        shortLocation: "CIN",
+        name: "Reds"
     },
     {
-        "color": "#005A9C",
-        "_id": "5b9060e59a4c08bca6d80825",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Los Angeles",
-        "shortLocation": "LAD",
-        "name": "Dodgers"
+        color: "#005A9C",
+        _id: "5b9060e59a4c08bca6d80825",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Los Angeles",
+        shortLocation: "LAD",
+        name: "Dodgers"
     },
     {
-        "color": "#33006F",
-        "_id": "5b9060e59a4c08bca6d80826",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Colorado",
-        "shortLocation": "COL",
-        "name": "Rockies"
+        color: "#33006F",
+        _id: "5b9060e59a4c08bca6d80826",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Colorado",
+        shortLocation: "COL",
+        name: "Rockies"
     },
     {
-        "color": "#A71930",
-        "_id": "5b9060e59a4c08bca6d80827",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "Arizona",
-        "shortLocation": "ARI",
-        "name": "Diamondbacks"
+        color: "#A71930",
+        _id: "5b9060e59a4c08bca6d80827",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "Arizona",
+        shortLocation: "ARI",
+        name: "Diamondbacks"
     },
     {
-        "color": "#473729",
-        "_id": "5b9060e59a4c08bca6d80828",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "San Diego",
-        "shortLocation": "SD",
-        "name": "Padres"
+        color: "#473729",
+        _id: "5b9060e59a4c08bca6d80828",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "San Diego",
+        shortLocation: "SD",
+        name: "Padres"
     },
     {
-        "color": "#FD5A1E",
-        "_id": "5b9060e59a4c08bca6d80829",
-        "leagueId": "59723313734d1d6202a85f21",
-        "location": "San Francisco",
-        "shortLocation": "SF",
-        "name": "Giants"
+        color: "#FD5A1E",
+        _id: "5b9060e59a4c08bca6d80829",
+        leagueId: "59723313734d1d6202a85f21",
+        location: "San Francisco",
+        shortLocation: "SF",
+        name: "Giants"
     }
 ];
 
@@ -1661,6 +1870,7 @@ const getGames = async ({
     startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
     gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
+    rankSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > span',
     away = 'away',
     home = 'home'
 }) => {
@@ -1706,6 +1916,10 @@ const getGames = async ({
         return element ? element.innerText : null;
       }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
 
+      const awayRank = await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+      }, rankSelector.replace("INDEX", i).replace("HOMEAWAY", away));
+
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -1715,6 +1929,10 @@ const getGames = async ({
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
       }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
+
+      const homeRank = await page.evaluate((sel) => {
+        return document.querySelector(sel) ? document.querySelector(sel).innerText : '';
+      }, rankSelector.replace("INDEX", i).replace("HOMEAWAY", home));
 
       const startDateTime = await page.evaluate((sel) => {
         return document.querySelector(sel).getAttribute('data-date');
@@ -1736,8 +1954,10 @@ const getGames = async ({
             },
             awayTeam: (awayTeam || '').trim(),
             awayRecord: awayRecord,
+            awayRank: parseInt(awayRank).toString() === 'NaN' ? null : parseInt(awayRank),
             homeTeam: (homeTeam || '').trim(),
-            homeRecord: homeRecord
+            homeRecord: homeRecord,
+            homeRank: parseInt(homeRank).toString() === 'NaN' ? null : parseInt(homeRank)
         });
       }
     }
@@ -1783,8 +2003,8 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                spreadDateTime: game.spread.spreadDateTime
               },
               competitors: [
-                {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord')},
-                {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord')}
+                {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank')},
+                {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank')}
               ]
             });
         }

@@ -30,12 +30,12 @@ const leagues = [
         description: 'premier',
         years: [2018, 2019]
     },
-    // {
-    //     id: '59723313734d1d6202a85f15', 
-    //     name: 'ncaaf', 
-    //     description: 'ncaaf', 
-    //     years: [2019]
-    // },
+    {
+        id: '59723313734d1d6202a85f15', 
+        name: 'ncaaf', 
+        description: 'ncaaf', 
+        years: [2019]
+    },
     {
         id: '59723313734d1d6202a85f19', 
         name: 'nba', 

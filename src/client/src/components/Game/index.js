@@ -134,7 +134,7 @@ class Game extends Component {
                                                   {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
                                                 </Typography>
                                                 <span style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color }}>
-                                                  {competitor.shortLocation}
+                                                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
                                                 </span>
                                                 <div style={{fontSize: '20px'}}>
                                                   {competitor.name}
