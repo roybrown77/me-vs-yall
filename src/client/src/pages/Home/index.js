@@ -96,18 +96,21 @@ class Home extends Component {
       const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
+      const xGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f23');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
       const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
       const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
+      const areAnyXGamesInProgress = getAreAnyGamesInProgress(xGames);
 
       const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
       const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', nflGames);
       const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
       const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
+      const xStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f23', xGames);
 
       return (
         <div className="fade-in home-page-container">
@@ -188,6 +191,23 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={{margin:'16px auto'}}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#E52A34'}} onClick={() => {}}>
+                          X GAMES
+                          {
+                            areAnyXGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#E52A34'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
                 </Grid>
               }
               {
