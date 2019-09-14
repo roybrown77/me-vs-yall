@@ -146,7 +146,7 @@ class Leader extends Component {
 
         if (!areAnyGamesInProgress) return;
 
-        this.props.loadScoreboard({
+        this.props.loadLeaders({
             leagueId: this.props.leagueId,
             year: this.props.year,
             beginDateTime: this.props.beginDateTime,
