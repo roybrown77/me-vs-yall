@@ -179,7 +179,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 5 && hours < 19 && currentWeekDay === 2)) {
+      if (!(hours > 3 && hours < 12)) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -202,7 +202,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 5 && hours < 19 && currentWeekDay === 2)) {
+      if (!(hours > 3 && hours < 12)) {
         updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
@@ -228,9 +228,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 16 && hours < 6 && currentWeekDay === 2)) {
-        updateEnglishPremierLeagueScores();
-      }
+      updateEnglishPremierLeagueScores();
     } catch(err) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log('updateEnglishPremierLeagueScores error: ' + err.message);
@@ -241,7 +239,7 @@ router.get('/games', function (req, res) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
-      if (hours > 3 && hours < 16 && currentWeekDay === 6) {
+      if (!(hours > 3 && hours < 12)) {
         // loadNbaGames(0);
         // loadNbaGames(1);
         // loadNbaGames(2);
