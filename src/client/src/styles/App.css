@@ -55,6 +55,9 @@ body {
   .home-page-container {
     margin: 0 25%;
   }
+  .page-container {
+    margin: 0 35%;
+  }
 }
 
 /* --- loader start --- */
