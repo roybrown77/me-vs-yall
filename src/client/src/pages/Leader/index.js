@@ -90,9 +90,12 @@ class Leader extends Component {
         this.handleFilterLeague = this.handleFilterLeague.bind(this);
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
+        this.startPolling = this.startPolling.bind(this);
     }
 
     componentDidMount() {
+        this.startPolling();
+
         const { leagueName } = this.props.match.params;
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
@@ -104,6 +107,51 @@ class Leader extends Component {
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
+        });
+    }
+
+    componentWillUnmount() {
+        if (this._timer) {
+          clearInterval(this._timer);
+          this._timer = null;
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.leagueId !== prevProps.leagueId || 
+        this.props.year !== prevProps.year || 
+        this.props.weekId !== prevProps.weekId) {
+        this.resetPoll();
+      }
+    }
+
+    startPolling() {
+        let self = this;
+        self._timer = setInterval(self.poll.bind(self), 15000);
+    }
+
+    resetPoll() {
+        let self = this;
+        
+        if (this._timer) {
+          clearInterval(this._timer);
+          this._timer = null;
+        }
+
+        self._timer = setInterval(self.poll.bind(self), 15000);
+    }
+
+    poll() {
+        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
+
+        if (!areAnyGamesInProgress) return;
+
+        this.props.loadScoreboard({
+            leagueId: this.props.leagueId,
+            year: this.props.year,
+            beginDateTime: this.props.beginDateTime,
+            endDateTime: this.props.endDateTime,
+            weekId: this.props.weekId
         });
     }
 
