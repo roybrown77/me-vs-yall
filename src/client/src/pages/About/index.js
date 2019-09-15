@@ -16,14 +16,11 @@ class About extends Component {
                     Since then we've added the Premier League, NBA, NCAAF and in the future X Games, MLS and World Cup.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    We support athletes like skaters, music/graffiti/design artists, writers, entrepreneurs and learners so please reach out for more info.  It may be called 
-                    Me vs Yall but it also means We help U.
+                    Influences include everything from nature, skaters, musicians, graffiti and computer design artists 
+                    to writers, sneakerheads, entrepreneurs, learners.  Basically the good.  Feel free to reach out to us about support.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                   Good people, sneakers and graffiti to music and home architecture influences us.
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    Cop some merch too.  Enjoy.  :D
+                    Cop some merch too along the way.  Enjoy.  :D
                 </div>
             </PageContainer>
         );
