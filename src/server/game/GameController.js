@@ -202,7 +202,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 3 && hours < 12)) {
+      if (!(hours > 3 && hours < 12 && currentWeekDay === 6)) {
         updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
