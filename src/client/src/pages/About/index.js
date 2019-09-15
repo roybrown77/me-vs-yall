@@ -17,7 +17,7 @@ class About extends Component {
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Influences include everything from nature, skaters, musicians, graffiti and computer design artists 
-                    to writers, sneakerheads, entrepreneurs, learners.  Basically the good.  Feel free to reach out to us about support.
+                    to writers, sneakerheads, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about support.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Cop some merch too along the way.  Enjoy.  :D
