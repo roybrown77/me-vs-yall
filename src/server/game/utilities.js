@@ -373,20 +373,20 @@ const nflTeams = [
 
 const ncaaTeams = [
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9000",
         leagueId: "59723313734d1d6202a85f15",
         location: "Florida Atlantic",
         shortLocation: "FAU",
-        name: "Cougars"
+        name: "Cougars",
+        color: '',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9001",
         leagueId: "59723313734d1d6202a85f15",
         location: "TCU",
         shortLocation: "TCU",
-        name: "Cougars"
+        name: "Horned Frogs",
+        color: '#4D1979',
     },
     {
         _id: "5b84a2889a4c08bca6ab9002",
@@ -397,12 +397,12 @@ const ncaaTeams = [
         color: '#F56600',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9003",
         leagueId: "59723313734d1d6202a85f15",
         location: "Appalachian State",
         shortLocation: "APP",
-        name: "Cougars"
+        name: "Mountaineers",
+        color: '#FFCC00',
     },
     {
         _id: "5b84a2889a4c08bca6ab9004",
@@ -469,12 +469,12 @@ const ncaaTeams = [
         color: '#041E42'
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab900c",
         leagueId: "59723313734d1d6202a85f15",
         location: "UNLV",
         shortLocation: "UNLV",
-        name: "Cougars"
+        name: "Rebels",
+        color: '#CF0A2C',
     },
     {
         _id: "5b84a2889a4c08bca6ab900d",
@@ -493,12 +493,12 @@ const ncaaTeams = [
         color: '#D64309',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab900f",
         leagueId: "59723313734d1d6202a85f15",
         location: "Mississippi State",
         shortLocation: "MSST",
-        name: "Cougars"
+        name: "Bulldogs",
+        color: '#660000',
     },
     {
         _id: "5b84a2889a4c08bca6ab9010",
@@ -509,44 +509,44 @@ const ncaaTeams = [
         color: '#AE9142',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9011",
         leagueId: "59723313734d1d6202a85f15",
         location: "Bowling Green",
         shortLocation: "BGSU",
-        name: "Cougars"
+        name: "Falcons",
+        color: '#FE5000',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9012",
         leagueId: "59723313734d1d6202a85f15",
         location: "Miami",
         shortLocation: "MIAMI",
-        name: "Cougars"
+        name: "Hurricanes",
+        color: '#F47321',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9013",
         leagueId: "59723313734d1d6202a85f15",
         location: "Tennessee",
         shortLocation: "TENN",
-        name: "Cougars"
+        name: "Volunteers",
+        color: '#FF8200',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9014",
         leagueId: "59723313734d1d6202a85f15",
         location: "West Virginia",
         shortLocation: "WVU",
-        name: "Cougars"
+        name: "Mountaineers",
+        color: '#002855',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9015",
         leagueId: "59723313734d1d6202a85f15",
         location: "Troy",
         shortLocation: "TROY",
-        name: "Cougars"
+        name: "Cougars",
+        color: '',
     },
     {
         _id: "5b84a2889a4c08bca6ab9016",
