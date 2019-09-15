@@ -13,6 +13,7 @@ router.get('/users', function (req, res) {
         users.map(user=>{
             const x = user;
             x.email = undefined;
+            x.picture = get(user, 'sub') !== x.authServiceId && ['google-oauth2|105396867324708249567'].includes(x.authServiceId) ? null : x.picture;
             x.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
             return x;
         });

@@ -37,7 +37,7 @@ const styles = {
 const stats = [
   {
     title: 'EVERY WEEK WORLD WIDE',
-    content: `Pick winners.  Every week.  Against others around the world.`
+    content: `Pick winners.  Every week.  Against others around the world.  For free.`
   },
   {
     title: 'PRIZE POCKETS',

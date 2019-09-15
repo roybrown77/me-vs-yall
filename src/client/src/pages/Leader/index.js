@@ -67,6 +67,14 @@ const styles = theme => ({
     width: '50px',
     borderRadius: '8px',
   },
+  userDefaultPicture: {
+    width: '50px',
+    height: '50px',
+    borderRadius: '8px',
+    backgroundColor: '#3772FA',
+    color: '#fff',
+    fontSize: '1.5rem'
+  },
   button: {
     fontSize: '1rem',
     fontWeight: "700",
@@ -339,7 +347,16 @@ class Leader extends Component {
                                                     }
                                                     <ListItemText style={{width: '100%', margin:'auto 0'}}>
                                                         <div style={{display: 'flex'}}>
-                                                            <img className={classes.userPicture} src={leader.picture} alt=""/>
+                                                            {
+                                                                leader.picture &&
+                                                                <img className={classes.userPicture} src={leader.picture} alt=""/>
+                                                            }
+                                                            {
+                                                                !leader.picture &&
+                                                                <div className={classes.userDefaultPicture}>
+                                                                    <div style={{margin: '7px 0'}}>{leader.userName[0].toUpperCase()}</div>
+                                                                </div>
+                                                            }
                                                             <div className={classes.userName}>{leader.userName}</div>
                                                         </div>
                                                     </ListItemText>
