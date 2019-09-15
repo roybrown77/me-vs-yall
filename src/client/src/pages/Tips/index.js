@@ -39,14 +39,9 @@ const stats = [
     title: 'EVERY WEEK WORLD WIDE',
     content: `Pick winners.  Every week.  Against others around the world.`
   },
-  // {
-  //   title: 'THE BEST AROUND',
-  //   content: `This app is the best way to practice how to pick winning teams without losing any money.  If you can't win here you prolly shouldn't 
-  //             bet real money anywhere.`
-  // },
   {
     title: 'PRIZE POCKETS',
-    content: `Weekly prize amounts depend on what's in our pockets at the time.  Gift cards will be emailed to you promptly.`
+    content: `Weekly prize amounts depend on what's in our pockets at the time.  Prizes will be sent promptly.`
   },
   {
     title: 'PICKS',
@@ -67,11 +62,6 @@ const stats = [
     title: 'TAP TO VIEW PRIZE AND RULES',
     content: `If you don't see 'tap to view prize and rules' then there is no prize for that sport that week.`
   },
-  // {
-  //   title: 'HEALTHY',
-  //   content: `Promoting healthy betting habits via free play.  Cuz let's be real, betting has been around since the dawn of man and ain't going nowhere. Might as well 
-  //             practice without losing anything.`
-  // },
   {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when u can't watch it.`
@@ -94,10 +84,10 @@ const stats = [
     title: 'NBA',
     content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
   },
-  // {
-  //   title: 'MATH STUDENTS',
-  //   content: `Engaging way to teach students about math, probability and money.`
-  // },
+  {
+    title: 'MATH STUDENTS',
+    content: `Pick'em game is an engaging way to teach students about math, probability and money.`
+  },
   {
     title: 'FRIENDS AND FAMILY',
     content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
