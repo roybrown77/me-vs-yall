@@ -1986,8 +1986,8 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
     //console.log(`${message} formatGames teams: ${JSON.stringify(teams)}`);
 
     games.forEach(game=>{
-        const awayTeam = teams.find(x=>x.shortLocation === game.awayTeam);
-        const homeTeam = teams.find(x=>x.shortLocation === game.homeTeam);
+        const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
+        const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
         const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
         
         if (!awayTeam || !homeTeam) {
