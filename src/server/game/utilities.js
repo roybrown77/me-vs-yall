@@ -833,6 +833,7 @@ const ncaaTeams = [
         leagueId: "59723313734d1d6202a85f15",
         location: "Texas A&M",
         shortLocation: "TA&M",
+        alternateName: "TA&amp;M",
         name: "Aggies",
         color: '#500000',
     },
@@ -2233,15 +2234,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
 
-    //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+    console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
     games.forEach(game=>{
         //console.log(`${message} game: ${JSON.stringify(game)}`);
 
         const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-        const awayShortLocation = get(awayTeam,'shortLocation');
+        const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
-        const homeShortLocation = get(homeTeam,'shortLocation');
+        const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
 
         let preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 

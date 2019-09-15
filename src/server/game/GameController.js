@@ -179,7 +179,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 3 && hours < 12)) {
+      if (!(currentWeekDay === 6)) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
