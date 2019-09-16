@@ -354,7 +354,7 @@ class Leader extends Component {
                                                             {
                                                                 !leader.picture &&
                                                                 <div className={classes.userDefaultPicture}>
-                                                                    <div style={{margin: '7px 0'}}>{leader.userName[0].toUpperCase()}</div>
+                                                                    <div style={{margin: '7px 0'}}>{leader.userName[0]}</div>
                                                                 </div>
                                                             }
                                                             <div className={classes.userName}>{leader.userName}</div>

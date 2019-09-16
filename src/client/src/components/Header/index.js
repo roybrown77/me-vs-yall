@@ -51,7 +51,19 @@ const styles = {
     position: 'fixed',
     right: '0',
     top: '0'
-  }
+  },
+  userDefaultPicture: {
+    height: '40px',
+    width: '40px',
+    borderRadius: '8px',
+    margin: '8px',
+    position: 'fixed',
+    right: '0',
+    top: '0',
+    backgroundColor: '#3772FA',
+    color: '#fff',
+    fontSize: '1.25rem'
+  } 
 };
 
 
@@ -72,6 +84,12 @@ class Header extends Component {
             {
               this.props.isAuthenticated && picture &&
               <img className={classes.userPicture} src={picture} alt=""/>
+            }
+            {
+              this.props.isAuthenticated && !picture &&
+              <div className={classes.userDefaultPicture}>
+                <div style={{margin: '8px 0'}}>{user.name[0]}</div>
+              </div>
             }
           </AppBar>
           <main>
