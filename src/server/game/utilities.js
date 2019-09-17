@@ -95,7 +95,6 @@ const nflTeams = [
         shortLocation: "NE",
         name: "Patriots",
         color: "#002244",
-        colors: ['#002244','#C60C30','#B0B7BC'],
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxborough, MA"
     },
@@ -383,7 +382,7 @@ const ncaaTeams = [
     {
         _id: "5b84a2889a4c08bca6ab9001",
         leagueId: "59723313734d1d6202a85f15",
-        location: "TCU",
+        location: "Texas Christian",
         shortLocation: "TCU",
         name: "Horned Frogs",
         color: '#4D1979',
@@ -570,7 +569,7 @@ const ncaaTeams = [
         location: "Michigan",
         shortLocation: "MICH",
         name: "Wolverines",
-        color: '',
+        color: '#FFCB05',
     },
     {
         color: '',
@@ -693,12 +692,12 @@ const ncaaTeams = [
         name: "Crimson Tide"
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9028",
         leagueId: "59723313734d1d6202a85f15",
         location: "Wisconsin",
         shortLocation: "WIS",
-        name: "Crimson Tide"
+        name: "Badgers",
+        color: '#C5050C',
     },
     {
         color: '',
@@ -749,12 +748,12 @@ const ncaaTeams = [
         color: '#BA0C2F',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab902f",
         leagueId: "59723313734d1d6202a85f15",
         location: "SMU",
         shortLocation: "SMU",
-        name: "Crimson Tide"
+        name: "Mustangs",
+        color: '#0033A0',
     },
     {
         color: '',
@@ -1012,6 +1011,86 @@ const ncaaTeams = [
         shortLocation: "MONT",
         name: "Grizzlies",
         color: '#660033'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9056",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Air Force',
+        shortLocation: "AFA",
+        name: "Falcons",
+        color: '#003087'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9057",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Southern Mississippi',
+        shortLocation: "USM",
+        name: "Eagles",
+        color: '#FFAB00'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9058",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Vanderbilt',
+        shortLocation: "VAN",
+        name: "Commodores",
+        color: '#866D4B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9059",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'California',
+        shortLocation: "CAL",
+        name: "Golden Bears",
+        color: '#003262'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab905a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Ole Miss',
+        shortLocation: "MISS",
+        name: "Rebels",
+        color: '#CE1126'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab905b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Miami (OH)',
+        shortLocation: "M-OH",
+        name: "Redhawks",
+        color: '#B61E2E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab905c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Old Dominion',
+        shortLocation: "ODU",
+        name: "Monarchs",
+        color: '#003057'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab905d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Charlotte',
+        shortLocation: "CHAR",
+        name: "49ers",
+        color: '#046A38'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab905e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Oklahoma State',
+        shortLocation: "OKST",
+        name: "Cowboys",
+        color: '#FF7300'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab905f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Colorado',
+        shortLocation: "COLO",
+        name: "Buffaloes",
+        color: '#CFB87C'
     }
 ];
 

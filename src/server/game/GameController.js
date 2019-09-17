@@ -171,7 +171,6 @@ router.get('/games', function (req, res) {
     try {
       //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
         //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
-        //createWeek({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2});
       //}
     } catch(err) {
       isLoadNflGamesRunning = false;
@@ -193,8 +192,7 @@ router.get('/games', function (req, res) {
   } else {
     try {
       //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-        //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 3, teams: ncaaTeams});
-        // createWeek({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 5, teams: ncaaTeams});
+        //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/4', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
       //}
     } catch(err) {
       isLoadNflGamesRunning = false;
