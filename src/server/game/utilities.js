@@ -377,7 +377,7 @@ const ncaaTeams = [
         location: "Florida Atlantic",
         shortLocation: "FAU",
         name: "Cougars",
-        color: '',
+        color: '#003366',
     },
     {
         _id: "5b84a2889a4c08bca6ab9001",
@@ -544,8 +544,8 @@ const ncaaTeams = [
         leagueId: "59723313734d1d6202a85f15",
         location: "Troy",
         shortLocation: "TROY",
-        name: "Cougars",
-        color: '',
+        name: "Trojans",
+        color: '#9E0531',
     },
     {
         _id: "5b84a2889a4c08bca6ab9016",
@@ -572,12 +572,12 @@ const ncaaTeams = [
         color: '#FFCB05',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9019",
         leagueId: "59723313734d1d6202a85f15",
         location: "Louisville",
         shortLocation: "LOU",
-        name: "Cougars"
+        name: "Cardinals",
+        color: '#AD0000',
     },
     {
         _id: "5b84a2889a4c08bca6ab901a",
@@ -596,20 +596,21 @@ const ncaaTeams = [
         color: '#461D7C',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab901c",
         leagueId: "59723313734d1d6202a85f15",
         location: "Virginia Tech",
         shortLocation: "VT",
-        name: "Crimson Tide"
+        name: "Hokies",
+        color: '#630031',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab901d",
         leagueId: "59723313734d1d6202a85f15",
         location: "William & Mary",
         shortLocation: "W&M",
-        name: "Crimson Tide"
+        alternateName: "W&am;M",
+        name: "Crimson Tide",
+        color: '',
     },
     {
         _id: "5b84a2889a4c08bca6ab901e",
@@ -620,20 +621,20 @@ const ncaaTeams = [
         color: '#154734',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab901f",
         leagueId: "59723313734d1d6202a85f15",
         location: "North Dakota",
         shortLocation: "UND",
-        name: "Crimson Tide"
+        name: "Fighting Hawks",
+        color: '#009A44',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9020",
         leagueId: "59723313734d1d6202a85f15",
         location: "Youngstown State",
         shortLocation: "YSU",
-        name: "Crimson Tide"
+        name: "Penguins",
+        color: '#C8102E',
     },
     {
         _id: "5b84a2889a4c08bca6ab9021",

@@ -56,8 +56,7 @@ const {
   eplTeams, 
   ncaaTeams, 
   mlbTeams,
-  countries,
-  createWeek
+  countries
 } = require('./utilities');
 
 const omit = require('lodash/omit');
@@ -169,9 +168,7 @@ router.get('/games', function (req, res) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
-      //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-        //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
-      //}
+      //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/2', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
     } catch(err) {
       isLoadNflGamesRunning = false;
       console.log('loadNflGames error: ' + err.message);
@@ -191,9 +188,7 @@ router.get('/games', function (req, res) {
     console.log('new ncaaf games will be loaded during season.');
   } else {
     try {
-      //if (hours > 5 && hours < 19 && currentWeekDay === 2) {
-        //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/4', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
-      //}
+      //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/4', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
     } catch(err) {
       isLoadNflGamesRunning = false;
       console.log('loadNCAAFGames error: ' + err.message);
@@ -213,14 +208,11 @@ router.get('/games', function (req, res) {
     console.log('new premier games will be loaded during season.');
   } else {
     try {
-      //if (hours > 16 || hours < 6 && currentWeekDay === 2) {
-        //loadEnglishPremierLeagueGames2({dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-        //loadEnglishPremierLeagueGames2({dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-        //loadEnglishPremierLeagueGames2({dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-        //loadEnglishPremierLeagueGames2({dayCount: 3, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-        //createWeek({leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', day: 2});
-      //}
-    } catch(err) {
+      //loadEnglishPremierLeagueGames2({dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames2({dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames2({dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames2({dayCount: 3, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+  } catch(err) {
       isLoadEnglishPremierLeagueGamesRunning = false;
       console.log('loadEnglishPremierLeagueGames error: ' + err.message);
     }
@@ -237,17 +229,14 @@ router.get('/games', function (req, res) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
-      if (!(hours > 3 && hours < 12)) {
-        // loadNbaGames(0);
-        // loadNbaGames(1);
-        // loadNbaGames(2);
-        // loadNbaGames(3);
-        // loadNbaGames(4);
-        // loadNbaGames(5);
-        // loadNbaGames(6);
-        // loadNbaGames(7);
-        // createWeek({leagueId: '59723313734d1d6202a85f19', year: 2019, message: 'loadNbaGames'});
-      }
+      // loadNbaGames(0);
+      // loadNbaGames(1);
+      // loadNbaGames(2);
+      // loadNbaGames(3);
+      // loadNbaGames(4);
+      // loadNbaGames(5);
+      // loadNbaGames(6);
+      // loadNbaGames(7);
     } catch(err) {
       isLoadNbaGamesRunning = false;
       console.log('loadNbaGames error: ' + err.message);
@@ -267,7 +256,6 @@ router.get('/games', function (req, res) {
   //   console.log('new mlb games will be loaded during season.');
   // } else {
   //   try {
-  //     if (hours > 3 && hours < 16 && currentWeekDay === 0) {
   //       loadMlbGames(0);
   //       loadMlbGames(1);
   //       loadMlbGames(2);
@@ -276,8 +264,6 @@ router.get('/games', function (req, res) {
   //       loadMlbGames(5);
   //       loadMlbGames(6);
   //       loadMlbGames(7);
-  //       createWeek({leagueId: '59723313734d1d6202a85f21', year: 2019, day: 0, message: 'loadMlbGames'});
-  //     }
   //   } catch(err) {
   //     isLoadMlbGamesRunning = false;
   //     console.log('loadMlbGames error: ' + err.message);
