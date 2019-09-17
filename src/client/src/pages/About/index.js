@@ -16,8 +16,8 @@ class About extends Component {
                     Since then we've added the Premier League, NBA, NCAAF and in the future X Games, MLS and World Cup.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Influences include everything from nature, skaters, musicians, graffiti and computer design artists 
-                    to writers, sneakerheads, architects, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about support.
+                    Influences include everything from nature, skaters, musicians, graffiti and ux artists 
+                    to writers, fighters, sneakerheads, architects, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about support.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Cop some merch too along the way.  Enjoy.  :D
