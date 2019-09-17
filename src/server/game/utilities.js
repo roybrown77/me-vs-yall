@@ -376,7 +376,7 @@ const ncaaTeams = [
         leagueId: "59723313734d1d6202a85f15",
         location: "Florida Atlantic",
         shortLocation: "FAU",
-        name: "Cougars",
+        name: "Owls",
         color: '#003366',
     },
     {
