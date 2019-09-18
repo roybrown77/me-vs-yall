@@ -312,7 +312,6 @@ const getAreAllGamesOver = (games = []) => {
 
 const getTimeUntilNextGamesLoad = (games = []) => {
     const day = moment().weekday();
-    console.log('day: ' + day);
     const areAllGamesOver = getAreAllGamesOver(games);
     const time = areAllGamesOver ? (day === 2 && new Date().getHours() <= 19 ? moment().startOf('day').add(19,'hours').toISOString() :
     day === 2 && new Date().getHours() > 19 ? moment().add(7,'day').startOf('day').add(19,'hours').toISOString() : 

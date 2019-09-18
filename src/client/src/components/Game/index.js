@@ -32,7 +32,8 @@ const styles = theme => ({
   paper: {
     height: '100%',
     width: '100%',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    boxShadow: 'none'
   },
   control: {
     padding: theme.spacing.unit * 2,
@@ -58,8 +59,8 @@ const styles = theme => ({
   },
   tieButton: {
     width: '100%',
-    color: 'rgb(0, 188, 212)',
-    border: '4px solid rgb(0, 188, 212)',
+    color: '#3772FA',
+    border: '4px solid #3772FA',
     fontWeight: '600'
   },
 });
@@ -110,7 +111,7 @@ class Game extends Component {
                             className={inProgress ? 'fast-flash' : ''} 
                             style={{
                               cursor: 'pointer',
-                              border: competitor.selected ? '8px solid rgb(0, 188, 212)' : '',
+                              border: competitor.selected ? '8px solid #3772FA' : '',
                               borderRadius: '14px'
                             }}
                         >

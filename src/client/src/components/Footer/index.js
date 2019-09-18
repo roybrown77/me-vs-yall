@@ -12,13 +12,12 @@ const styles = {
     position: "fixed", 
     bottom: "0", 
     backgroundColor: "#f4f7f6", 
-    boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+    boxShadow: "none",
     width: "100%",
     color: "black"
   },
   action: {
     fontSize: '15px',
-    color: 'rgba(0, 0, 0, 0.54)',
     padding: '20px',
     cursor: 'pointer',
     fontWeight: 'bold'

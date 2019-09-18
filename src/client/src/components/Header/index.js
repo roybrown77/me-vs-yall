@@ -21,7 +21,8 @@ const styles = {
     backgroundColor: '#f4f7f6',
     color: 'rgba(0, 0, 0, 0.87)',
     height: '55px',
-    padding: '5px'
+    padding: '5px',
+    boxShadow: 'none'
   },
   menuButton: {
     marginLeft: 12,

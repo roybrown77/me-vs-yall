@@ -1,76 +1,135 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import compose from 'recompose/compose';
 
-import Button from '@material-ui/core/Button';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import InputBase from '@material-ui/core/InputBase';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
+
+import Grid from '@material-ui/core/Grid';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import Paper from '@material-ui/core/Paper';
 
 import PageContainer from '../PageContainer';
-import blue from '../../styles/images/blue-mvy.png'
 
-function Shop () {
-     return (
-            <PageContainer>
-                <div style={{padding: '12px 0'}}>
-                  <div style={{textAlign:'left', fontFamily: 'Courier New,Courier,Monaco', padding: '12px', backgroundColor: '#fff', width:'75px'}}>
-                    <div style={{fontSize: '17px'}}>MvY Tee</div>
-                  	<div style={{fontWeight: '700', fontSize: '15px'}}>Blue</div>
-                  </div>
-                	<div style={{display: 'flex', padding: '12px 0'}}>
-                  	<div style={{margin: 'auto', width: '100%', padding: '16px', backgroundColor: '#fff'}}>
-                    	<img style={{height:'250px'}} src={blue} alt=""/>
-                	  </div>
-                	</div>
-                  {
-                    false &&
-                  	<div style={{padding: '4px 12px', display: 'flex', backgroundColor: '#f4f7f6', boxShadow: '0 0px 3px 1px #ccc'}}>
-                  		<div style={{fontFamily: 'Courier New,Courier,Monaco', fontSize: '17px', margin: 'auto 0'}}>$30</div>
-                      <div>
-                        <NativeSelect
-                          style={{
-                                backgroundColor: 'white',
-                                borderRadius: '4px',
-                                padding: '0 20px',
-                                border: '4px solid lightgray'
-                          }}
-                          value={20}
-                          onChange={()=>{}}
-                          input={<InputBase name="size" id="size-customized-native-simple" />}
-                        >
-                          <option value={10}>Small</option>
-                          <option value={20}>Medium</option>
-                          <option value={30}>Large</option>
-                        </NativeSelect>
-                      </div>
-                      <div>
-                        <Button
-                            variant="contained" 
-                            style={{
-                              marginTop: '2px',
-                              fontWeight: "700",
-                              backgroundColor: '#3772FA',
-                              color: '#FFFFFF',
-                              borderColor: '#3772FA',
-                              '&:hover': {
-                                backgroundColor: '#3772FA',
-                                color: '#FFFFFF',
-                                borderColor: '#3772FA',
-                              }
-                            }}
-                            onClick={() => {}}>
-                          add to cart
-                        </Button>
-                      </div>
-                  	</div>
-                  }
-                  {
-                    true &&
-                    <div style={{margin: '0 12px', padding: '16px', display: 'flex', border: '4px solid lightblue', borderRadius: '8px'}}>
-                      <div style={{fontFamily: 'Courier New,Courier,Monaco', fontSize: '15px', margin: 'auto'}}>coming soon...please email mevsyallsports@gmail.com to be placed on mailing list</div>
-                    </div>
-                  }
-              	</div>
-            </PageContainer>
-        );
+import hoodiesBw from '../../styles/images/mvy-hoodie-white-bw.jpg';
+import hoodies from '../../styles/images/mvy-hoodie-white-jossie.jpg';
+import shirtsBw from '../../styles/images/mvy-tee-black-bw.jpg';
+import shirts from '../../styles/images/mvy-tee-white-romey.jpg';
+import stickers from '../../styles/images/mvy-sticker-gray.jpg';
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  item: {
+    borderRadius: '0',
+    boxShadow: 'none',
+    backgroundColor: 'transparent',
+    color: '#fff'
+  },
+  image: {
+    width: 300
+  },
+  name: {
+    position: 'relative',
+    top: '48px',
+    paddingRight: '65%'
+  },
+  price: {
+    position: 'relative',
+    paddingRight: '75%',
+    bottom: '48px'
+  },
+  contact: {
+    position: 'relative',
+    paddingLeft: '75%',
+    bottom: '48px'
+  }
+};
+
+const items = [
+  {
+    id: 1,
+    image: hoodiesBw,
+    name: 'Hoodies',
+    price: '$40'
+  },
+  {
+    id: 2,
+    image: hoodies,
+    name: 'Hoodies',
+    price: '$40'
+  },
+  {
+    id: 3,
+    image: shirtsBw,
+    name: 'Tees',
+    price: '$20'
+  },
+  {
+    id: 4,
+    image: shirts,
+    name: 'Tees',
+    price: '$20'
+  },
+  {
+    id: 5,
+    image: stickers,
+    name: 'Stickers',
+    price: '$1'
+  }
+];
+
+class Shop extends React.Component {
+  render() {
+    const {width} = this.props;
+
+    return (
+      <PageContainer>
+        <Grid container style={styles.root}>
+          <Grid item xs={12} style={{paddingTop:'12px'}}>
+            <Grid container justify="center">
+              {items.map(item => (
+                <Grid key={item.id} item style={{padding:'4px',cursor:'pointer'}}>
+                  <Paper style={{
+                      ...styles.item,
+                      //height: width === 'xl' ? 300 : width === 'lg' ? 300 : width === 'md' ? 300 : width === 'sm' ? 300 : 300,
+                      //width: width === 'xl' ? 350 : width === 'lg' ? 350 : width === 'md' ? 350 : width === 'sm' ? 350 : 350
+                    }}>
+                    <div style={styles.name}>{item.name}</div>
+                    <img src={item.image} style={styles.image}/>
+                    <div style={styles.price}>{item.price}</div>
+                    <div style={styles.contact}>{item.contact}</div>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+            <div style={{padding:'12px'}}>Please call 404.539.7786 to order.</div>
+          </Grid>
+        </Grid>
+      </PageContainer>
+    );
+  }
 }
 
-export default Shop;
+const mapStateToProps = (state) => {
+    return {
+    }
+};
+
+Shop.propTypes = {
+};
+
+Shop.defaultProps = {
+};
+
+export default compose(
+    withStyles(styles),
+    withWidth(),
+    connect(mapStateToProps,{})
+)(Shop);
