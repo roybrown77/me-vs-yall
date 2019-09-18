@@ -27,9 +27,6 @@ const styles = {
     flexGrow: 1,
   },
   item: {
-    borderRadius: '0',
-    boxShadow: 'none',
-    backgroundColor: 'transparent',
     color: '#fff'
   },
   image: {
@@ -47,8 +44,15 @@ const styles = {
   },
   contact: {
     position: 'relative',
-    paddingLeft: '75%',
+    paddingLeft: '55%',
     bottom: '48px'
+  },
+  source: {
+    fontWeight: 700,
+    position: 'absolute',
+    fontSize: '10px',
+    marginTop: '-16px',
+    color: '#ABB2B9'
   }
 };
 
@@ -57,25 +61,29 @@ const items = [
     id: 1,
     image: hoodiesBw,
     name: 'Hoodies',
-    price: '$40'
+    price: '$40',
+    source: 'courtesy @ _jayfilms'
   },
   {
     id: 2,
     image: hoodies,
     name: 'Hoodies',
-    price: '$40'
+    price: '$40',
+    source: 'courtesy @ _jayfilms'
   },
   {
     id: 3,
     image: shirtsBw,
     name: 'Tees',
-    price: '$20'
+    price: '$20',
+    contact: '@ _jayfilms'
   },
   {
     id: 4,
     image: shirts,
     name: 'Tees',
-    price: '$20'
+    price: '$20',
+    contact: '@ _romeyofficial'
   },
   {
     id: 5,
@@ -96,16 +104,13 @@ class Shop extends React.Component {
             <Grid container justify="center">
               {items.map(item => (
                 <Grid key={item.id} item style={{padding:'4px',cursor:'pointer'}}>
-                  <Paper style={{
-                      ...styles.item,
-                      //height: width === 'xl' ? 300 : width === 'lg' ? 300 : width === 'md' ? 300 : width === 'sm' ? 300 : 300,
-                      //width: width === 'xl' ? 350 : width === 'lg' ? 350 : width === 'md' ? 350 : width === 'sm' ? 350 : 350
-                    }}>
+                  <div style={styles.item}>
                     <div style={styles.name}>{item.name}</div>
                     <img src={item.image} style={styles.image}/>
                     <div style={styles.price}>{item.price}</div>
                     <div style={styles.contact}>{item.contact}</div>
-                  </Paper>
+                    <div style={styles.source}>{item.source}</div>
+                  </div>
                 </Grid>
               ))}
             </Grid>
