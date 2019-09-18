@@ -13,11 +13,11 @@ class About extends Component {
                     texts, we finally got around to building it.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Since then we've added the Premier League, NBA, NCAAF and in the future X Games, MLS and World Cup.
+                    Since then we've added pick games for Premier League, NBA, NCAAF and in the future X Games, MLS and World Cup.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Influences include everything from nature, skaters, musicians, graffiti and ux artists 
-                    to writers, fighters, sneakerheads, architects, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about support.
+                    to writers, fighters, sneakerheads, architects, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about sponsorship.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Cop some merch too along the way.  Enjoy.  :D
