@@ -12,13 +12,12 @@ const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 const teamRepository = require('../game/TeamRepository');
 
-const { 
-  loadEnglishPremierLeagueGames, 
-  loadEnglishPremierLeagueGames2,
+const {
+  loadEnglishPremierLeagueGames,
   updateEnglishPremierLeagueScores,
   isLoadEnglishPremierLeagueGamesRunning,
   isUpdateEnglishPremierLeagueScoresRunning, 
-} = require('./EnglishPremierLeagueDomain-old');
+} = require('./EnglishPremierLeagueDomain');
 
 const { 
   loadFootballGames, 
@@ -208,10 +207,10 @@ router.get('/games', function (req, res) {
     console.log('new premier games will be loaded during season.');
   } else {
     try {
-      //loadEnglishPremierLeagueGames2({dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-      //loadEnglishPremierLeagueGames2({dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-      //loadEnglishPremierLeagueGames2({dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-      //loadEnglishPremierLeagueGames2({dayCount: 3, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames({dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames({dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames({dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames({dayCount: 3, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
   } catch(err) {
       isLoadEnglishPremierLeagueGamesRunning = false;
       console.log('loadEnglishPremierLeagueGames error: ' + err.message);
