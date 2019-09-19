@@ -129,7 +129,7 @@ const ufcCompetitors = [
         _id: "19823783734d1d04a1b32003",
         location: 'Carla Esparza',
         shortLocation: "Carla",
-        name: "Cookie Monster Esparaza",
+        name: "Cookie Monster Esparza",
         country: "MEXICO"
     },
     {
