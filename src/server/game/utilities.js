@@ -79,6 +79,68 @@ const countries = [
     }
 ];
 
+const boxingCompetitors = [
+    {
+        _id: "19823783734d1d04a1b31001",
+        location: 'Peter Quillin',
+        shortLocation: "Peter",
+        name: "Kid Chocolate Quillin",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31002",
+        location: 'Alfredo Angulo',
+        shortLocation: "Alfredo",
+        name: "El Perro Angulo",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b31003",
+        location: 'Yair Rodriguez',
+        shortLocation: "Yair",
+        name: "El Pantera Rodriguez",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b31004",
+        location: 'Jeremy Stephens',
+        shortLocation: "Jeremy",
+        name: "Lil' Heathen Stephens",
+        country: "USA"
+    }
+];
+
+const ufcCompetitors = [
+    {
+        _id: "19823783734d1d04a1b32001",
+        location: 'Yair Rodriguez',
+        shortLocation: "Yair",
+        name: "El Pantera Rodriguez",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b32002",
+        location: 'Jeremy Stephens',
+        shortLocation: "Jeremy",
+        name: "Lil' Heathen Stephens",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32003",
+        location: 'Carla Esparaza',
+        shortLocation: "Carla",
+        name: "Cookie Monster Esparaza",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b32004",
+        location: 'Alexa Grasso',
+        shortLocation: "Alexa",
+        name: "Grasso",
+        country: "USA"
+    }
+];
+
 const nflTeams = [
     {
         _id: "19823783734d1d04a1b39001",
@@ -2430,5 +2492,7 @@ module.exports = {
     formatGames,
     createGames,
     getScores,
-    updateGames
+    updateGames,
+    boxingCompetitors,
+    ufcCompetitors
 };

@@ -16,6 +16,9 @@ import green from '@material-ui/core/colors/green';
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/money.png';
 
+import america from '../../styles/images/america.png';
+import mexico from '../../styles/images/mexico.png';
+
 import { hasGameStarted } from '../../utilities';
 
 const styles = theme => ({
@@ -96,6 +99,17 @@ class Game extends Component {
         this.props.handleMakePick(pick);
     }
 
+    getFlag(country) {
+      switch (country) {
+        case 'USA':
+          return america;
+        case 'MEXICO':
+          return mexico;
+        default:
+          return america;
+      };
+    }
+
     render() {
         const { classes, game, pick, isAuthenticated } = this.props;
         const inProgress = get(pick,'inProgress',false);
@@ -134,10 +148,10 @@ class Game extends Component {
                                                 <Typography style={{fontSize:'25px', color: competitor.color}}>
                                                   {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
                                                 </Typography>
-                                                <span style={{fontSize:'2.5rem', fontWeight: '600', color: competitor.color }}>
+                                                <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color }}>
                                                   <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
                                                 </span>
-                                                <div style={{fontSize: '20px'}}>
+                                                <div style={{fontSize: competitor.country ? '15px' : '20px'}}>
                                                   {competitor.name}
                                                 </div>
                                                 { 
@@ -145,6 +159,10 @@ class Game extends Component {
                                                   <div style={{fontSize: '16px', color: '#BDBDBD', paddingTop: '3px'}}>
                                                     {competitor.record}
                                                   </div>
+                                                }
+                                                {
+                                                  competitor.country &&
+                                                  <img style={{width:'50px'}} src={this.getFlag(competitor.country)}/>
                                                 }
                                               </div>
                                             </Grid>
@@ -164,7 +182,7 @@ class Game extends Component {
                 {
                   isAuthenticated &&
                   !hasGameStarted(game.startDateTime) &&
-                  ['59723313734d1d6202a85f10','59723313734d1d6202a85f17'].includes(get(game,'leagueId')) && 
+                  ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) && 
                   <Button 
                       variant="outlined" 
                       className={classes.tieButton} onClick={() => this.handleTie(game._id)}>

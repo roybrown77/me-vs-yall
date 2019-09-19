@@ -97,6 +97,8 @@ class Home extends Component {
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
       const xGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f23');
+      const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
+      const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
       const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
@@ -104,6 +106,8 @@ class Home extends Component {
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
       const areAnyXGamesInProgress = getAreAnyGamesInProgress(xGames);
+      const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
+      const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
 
       const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
       const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', ncaafGames);
@@ -111,6 +115,8 @@ class Home extends Component {
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
       const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
       const xStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f23', xGames);
+      const boxingStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f25', boxingMatches);
+      const mmaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f27', mmaMatches);
 
       return (
         <div className="fade-in home-page-container">
@@ -191,6 +197,40 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={{margin:'16px auto'}}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: 'BLACK'}} onClick={() => { history.push('/scoreboards/boxing') }}>
+                          BOXING
+                          {
+                            areAnyBoxingMatchesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {boxingStartDateTime && <Countdown styles={styles.countdown} date={boxingStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={{margin:'16px auto'}}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: 'BLACK'}} onClick={() => { history.push('/scoreboards/mma') }}>
+                          MMA
+                          {
+                            areAnyMMAMatchesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {mmaStartDateTime && <Countdown styles={styles.countdown} date={mmaStartDateTime}/>}
                 </Grid>
               }
               {

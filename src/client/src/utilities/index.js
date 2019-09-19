@@ -41,6 +41,18 @@ const leagues = [
         name: 'nba', 
         description: 'nba', 
         years: [2018]
+    },
+    {
+        id: '59723313734d1d6202a85f25', 
+        name: 'boxing', 
+        description: 'boxing', 
+        years: [2019]
+    },
+    {
+        id: '59723313734d1d6202a85f27', 
+        name: 'mma', 
+        description: 'mma', 
+        years: [2019]
     }
     // {
     //     id: '59723313734d1d6202a85f21', 
@@ -357,6 +369,7 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
                         name: team.name || team.location,
                         color: team.color,
                         record: competitor.finalRecord || competitor.record,
+                        country: team.country,
                         selected: picks.find(x=>x.gameId === game._id && 
                             (x.pickId === competitor._id || x.pickId === '000000000000000000000000')) ? true : false
                     };

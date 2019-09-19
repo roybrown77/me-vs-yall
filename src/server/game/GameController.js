@@ -55,7 +55,9 @@ const {
   eplTeams, 
   ncaaTeams, 
   mlbTeams,
-  countries
+  countries,
+  boxingCompetitors,
+  ufcCompetitors
 } = require('./utilities');
 
 const omit = require('lodash/omit');
@@ -375,7 +377,9 @@ router.get('/teams', function (req, res) {
     ...eplTeams,
     ...nbaTeams,
     ...mlbTeams,
-    ...ncaaTeams
+    ...ncaaTeams,
+    ...boxingCompetitors,
+    ...ufcCompetitors
   ];
 
   res.status(200).send(teams);

@@ -10,6 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import football from '../../styles/images/football.png';
 import soccer from '../../styles/images/soccer2.png';
 import basketball from '../../styles/images/basketball3.png';
+import boxing from '../../styles/images/boxing.png';
+import mma from '../../styles/images/mma.png';
 
 import get from 'lodash/get';
 
@@ -65,13 +67,14 @@ class GameSearchBar extends Component {
                   );
 
     const ball = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(leagueId) ? football : 
-      leagueId === '59723313734d1d6202a85f17' ? soccer : leagueId === '59723313734d1d6202a85f21' ? basketball : basketball; 
+      leagueId === '59723313734d1d6202a85f17' ? soccer : leagueId === '59723313734d1d6202a85f21' ? basketball : 
+      leagueId === '59723313734d1d6202a85f25' ? boxing : leagueId === '59723313734d1d6202a85f27' ? mma : basketball; 
 
     return (
           <div className={classes.container}>
               {
                 <div style={{left: '4px', top: '12px', position: 'absolute'}}>
-                  <img src={ball} alt=""/>
+                  <img style={{width:'40px'}} src={ball} alt=""/>
                 </div>
               }
               <Grid item xs={12} justify="center" sm container>
