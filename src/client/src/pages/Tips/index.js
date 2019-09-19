@@ -86,7 +86,7 @@ const stats = [
   },
   {
     title: 'MATH STUDENTS',
-    content: `Pick'em game is an engaging way to teach students about math, probability and money.`
+    content: `Pick games are an engaging way to teach students about math, probability and money.`
   },
   {
     title: 'FRIENDS AND FAMILY',
