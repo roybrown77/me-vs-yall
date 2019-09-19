@@ -8,7 +8,7 @@ class Contact extends Component {
             <div>
                 <PageContainer>
                 	<div style={{padding: '12px'}}>
-                    	Please email info@mevsyall.com or hit us up on the gram @ _mevsyall.
+                    	Please email mevsyallsports@gmail.com or hit us up on the gram @ _mevsyall.
                     </div>
                 </PageContainer>
             </div>
