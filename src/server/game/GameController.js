@@ -10,21 +10,20 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
-const teamRepository = require('../game/TeamRepository');
 
 const {
   loadEnglishPremierLeagueGames,
   updateEnglishPremierLeagueScores,
   isLoadEnglishPremierLeagueGamesRunning,
   isUpdateEnglishPremierLeagueScoresRunning, 
-} = require('./EnglishPremierLeagueDomain');
+} = require('./WorldFootballDomain');
 
 const { 
   loadFootballGames, 
   updateFootballScores,
   isLoadNflGamesRunning,
   isUpdateNflScoresRunning, 
-} = require('./FootballDomain');
+} = require('./AmericanFootballDomain');
 
 const { 
   loadNbaGames, 
@@ -40,24 +39,16 @@ const {
   isUpdateMlbScoresRunning
 } = require('./MLBDomain');
 
-const { 
-  loadNCAAFootballGames,
-  loadNCAAFootballTeams, 
-  updateNCAAFootballScores,
-  isLoadNCAAFootballGamesRunning,
-  isLoadNCAAFootballTeamsRunning, 
-  isUpdateNCAAFootballScoresRunning
-} = require('./NCAAFDomain');
-
 const {
   nbaTeams,
   nflTeams,
-  eplTeams, 
+  premierLeagueTeams, 
   ncaaTeams, 
   mlbTeams,
   countries,
   boxingCompetitors,
-  ufcCompetitors
+  ufcCompetitors,
+  mlsTeams
 } = require('./utilities');
 
 const omit = require('lodash/omit');
@@ -150,7 +141,6 @@ const backupData = async () => {
   console.log('picks: ' + JSON.stringify(picks));
   const users = await userRepository.find({});
   console.log('users: ' + JSON.stringify(users));
-  const teams = await teamRepository.find({});
   console.log('teams: ' + JSON.stringify(teams));
 };
 
@@ -209,20 +199,39 @@ router.get('/games', function (req, res) {
     console.log('new premier games will be loaded during season.');
   } else {
     try {
-      //loadEnglishPremierLeagueGames({dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-      //loadEnglishPremierLeagueGames({dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-      //loadEnglishPremierLeagueGames({dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
-      //loadEnglishPremierLeagueGames({dayCount: 3, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames'});
+      //loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+      //loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+      //loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
   } catch(err) {
       isLoadEnglishPremierLeagueGamesRunning = false;
       console.log('loadEnglishPremierLeagueGames error: ' + err.message);
     }
 
     try {
-      updateEnglishPremierLeagueScores();
+      updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
     } catch(err) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+    }
+  }
+
+  if (monthDay < 301 || monthDay > 1101) {
+    console.log('new mls games will be loaded during season.');
+  } else {
+    try {
+      //loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/',dayCount: 0, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
+      //loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/',dayCount: 1, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
+      //loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/',dayCount: 2, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
+  } catch(err) {
+      isLoadEnglishPremierLeagueGamesRunning = false;
+      console.log('loadMLSGames error: ' + err.message);
+    }
+
+    try {
+      updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+    } catch(err) {
+      isUpdateEnglishPremierLeagueScoresRunning = false;
+      console.log('updateMLSScores error: ' + err.message);
     }
   }
 
@@ -234,10 +243,6 @@ router.get('/games', function (req, res) {
       // loadNbaGames(1);
       // loadNbaGames(2);
       // loadNbaGames(3);
-      // loadNbaGames(4);
-      // loadNbaGames(5);
-      // loadNbaGames(6);
-      // loadNbaGames(7);
     } catch(err) {
       isLoadNbaGamesRunning = false;
       console.log('loadNbaGames error: ' + err.message);
@@ -261,10 +266,6 @@ router.get('/games', function (req, res) {
   //       loadMlbGames(1);
   //       loadMlbGames(2);
   //       loadMlbGames(3);
-  //       loadMlbGames(4);
-  //       loadMlbGames(5);
-  //       loadMlbGames(6);
-  //       loadMlbGames(7);
   //   } catch(err) {
   //     isLoadMlbGamesRunning = false;
   //     console.log('loadMlbGames error: ' + err.message);
@@ -374,12 +375,13 @@ router.get('/teams', function (req, res) {
 
   const teams = [
     ...nflTeams,
-    ...eplTeams,
+    ...premierLeagueTeams,
     ...nbaTeams,
     ...mlbTeams,
     ...ncaaTeams,
     ...boxingCompetitors,
-    ...ufcCompetitors
+    ...ufcCompetitors,
+    ...mlsTeams
   ];
 
   res.status(200).send(teams);

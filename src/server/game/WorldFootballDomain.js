@@ -9,7 +9,6 @@ const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
 const {
-  eplTeams,
   getGames,
   formatGames,
   createGames,
@@ -26,7 +25,7 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const loadEnglishPremierLeagueGames = async ({dayCount, leagueId, year, message}) => {
+const loadEnglishPremierLeagueGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
   if (isLoadEnglishPremierLeagueGamesRunning || isUpdateEnglishPremierLeagueScoresRunning) {
     console.log(`${message} already running.`);
     return;
@@ -54,7 +53,7 @@ const loadEnglishPremierLeagueGames = async ({dayCount, leagueId, year, message}
 
   //console.log(`${message} get games`);
 
-  const url = `http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/${date}`;
+  const url = `${baseUrl}${date}`;
   const root = 'scoreboard soccer';
   const nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-HOMEAWAY.tied > div > div.team-container > div.team-info > div > a > span.abbrev';                                                
   const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
@@ -77,7 +76,7 @@ const loadEnglishPremierLeagueGames = async ({dayCount, leagueId, year, message}
 
   console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({message, games, leagueId, year, teams: eplTeams});
+  const mvyGames = formatGames({message, games, leagueId, year, teams});
 
   console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
@@ -86,14 +85,11 @@ const loadEnglishPremierLeagueGames = async ({dayCount, leagueId, year, message}
   isLoadEnglishPremierLeagueGamesRunning = false;
 };
 
-const updateEnglishPremierLeagueScores = async () => {
+const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, year, teams}) => {
   if (isUpdateEnglishPremierLeagueScoresRunning) {
-    console.log("updateEnglishPremierLeagueScores already running.")
+    console.log(`${message} already running.`)
     return;
   }
-
-  const leagueId = '59723313734d1d6202a85f17';
-  const year = 2019;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -112,7 +108,7 @@ const updateEnglishPremierLeagueScores = async () => {
   const games = await gameRepository.find(search);
 
   if (!!games && games.length === 0) {
-    console.log("updateEnglishPremierLeagueScores all scores have been updated.");
+    console.log(`${message} all scores have been updated.`);
     return;
   }
 
@@ -122,7 +118,7 @@ const updateEnglishPremierLeagueScores = async () => {
 
   const earliestStartDateTime = new Date(Math.min.apply(null, startDateTimes));
 
-  console.log("updateEnglishPremierLeagueScores earliestStartDateTime: " + earliestStartDateTime);
+  console.log(`${message} earliestStartDateTime: ${earliestStartDateTime}`);
 
   const date = moment(earliestStartDateTime).format('YYYYMMDD');
   let scores = [];
@@ -138,7 +134,9 @@ const updateEnglishPremierLeagueScores = async () => {
 
     page = await browser.newPage();
 
-    await page.goto('http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/' + date);
+    const url = `${baseUrl}${date}`;
+
+    await page.goto(url);
 
     await page.waitForSelector('#events');
 
@@ -153,11 +151,11 @@ const updateEnglishPremierLeagueScores = async () => {
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
 
-    console.log('updateEnglishPremierLeagueScores listLength: ' + listLength);
+    console.log(`${message} listLength: ' + ${listLength}`);
 
     if (listLength === 0) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log("updateEnglishPremierLeagueScores no games found");
+      console.log(`${message} no games found`);
       await page.close();
       await browser.close();
       return;
@@ -226,25 +224,25 @@ const updateEnglishPremierLeagueScores = async () => {
     if (!!browser) {
       await browser.close();
     }
-    console.log('updateEnglishPremierLeagueScores browser error: ' + err.message);
+    console.log(`${message} browser error: ${err.message}`);
   }
 
-  console.log('updateEnglishPremierLeagueScores games: ' + JSON.stringify(games));
-  console.log('updateEnglishPremierLeagueScores scores: ' + JSON.stringify(scores));
+  console.log(`${message} games: ${JSON.stringify(games)}`);
+  console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   if (get({scores:scores},'scores',[]).length === 0) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log("updateEnglishPremierLeagueScores no scores.");
+    console.log(`${message} no scores.`);
     return;
   }
 
   games.forEach(game=>{
-    const awayShortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
-    const homeShortLocation = eplTeams.find(x=>x._id.toString() === game.competitors[1]._id.toString()).shortLocation;
+    const awayShortLocation = teams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
+    const homeShortLocation = teams.find(x=>x._id.toString() === game.competitors[1]._id.toString()).shortLocation;
 
     const score = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
     
-    console.log('updateEnglishPremierLeagueScores score: ' + JSON.stringify(score));
+    console.log(`${message} score: ${JSON.stringify(score)}`);
 
     if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
       (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
@@ -252,13 +250,7 @@ const updateEnglishPremierLeagueScores = async () => {
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
 
       const isGameOver = get(score,'isGameOver',false);
-      //const currentTimeNumber = parseInt(get(score,'currentTime','').replace('\'','').replace('\'','').replace('+',''));
-      //const lastTimeNumber = parseInt((get(game,'currentTime') || '').replace('\'','').replace('\'','').replace('+',''));
-      //const shouldSetCurrentTime = !isGameOver && ((currentTimeNumber >= lastTimeNumber) || ['HT','FT'].includes(get(score,'currentTime')) || isNaN(lastTimeNumber));
-      
-      //console.log('updateEnglishPremierLeagueScores currentTimeNumber: ' + currentTimeNumber);
-      //console.log('updateEnglishPremierLeagueScores lastTimeNumber: ' + lastTimeNumber);
-    
+
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
@@ -273,7 +265,7 @@ const updateEnglishPremierLeagueScores = async () => {
       set(updatedGame,'competitors.1.score', isGameOver ? 
         get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0));
       
-      console.log('updateEnglishPremierLeagueScores updating game: ' + JSON.stringify(updatedGame));
+      console.log(`${message} updating game: ${JSON.stringify(updatedGame)}`);
 
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }

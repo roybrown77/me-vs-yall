@@ -1157,7 +1157,7 @@ const ncaaTeams = [
     }
 ];
 
-const eplTeams = [
+const premierLeagueTeams = [
     {
         color: "#132257",
         _id: "5b9060e59a4c08bca6d80500",
@@ -1341,6 +1341,218 @@ const eplTeams = [
         location: "Aston Villa",
         shortLocation: "AVL",
         name: "Villans"
+    }
+];
+
+const mlsTeams = [
+    {
+        _id: "19823783734d1d04a1b33001",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Atlanta",
+        shortLocation: "ATL",
+        name: "United FC",
+        color: "#80000A"
+    },
+    {
+        _id: "19823783734d1d04a1b33002",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Austin",
+        shortLocation: "AUS",
+        name: "FC",
+        color: "#00B140"
+    },
+    {
+        _id: "19823783734d1d04a1b33003",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Chicago",
+        shortLocation: "CHI",
+        name: "Fire",
+        color: "#121F48"
+    },
+    {
+        _id: "19823783734d1d04a1b33004",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Cincinnati",
+        shortLocation: "CIN",
+        name: "FC",
+        color: "#003087"
+    },
+    {
+        _id: "19823783734d1d04a1b33005",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Colorado",
+        shortLocation: "COL",
+        name: "Rapids",
+        color: "#862633"
+    },
+    {
+        _id: "19823783734d1d04a1b33006",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Columbus",
+        shortLocation: "CLB",
+        name: "Crew SC",
+        color: "#FEF200"
+    },
+    {
+        _id: "19823783734d1d04a1b33007",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "D.C.",
+        shortLocation: "DC",
+        name: "United",
+        color: "#EE1A39"
+    },
+    {
+        _id: "19823783734d1d04a1b33008",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Dallas",
+        shortLocation: "DAL",
+        name: "FC",
+        color: "#D11241"
+    },
+    {
+        _id: "19823783734d1d04a1b33009",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Houston",
+        shortLocation: "HOU",
+        name: "Dynamo",
+        color: "#F4911E"
+    },
+    {
+        _id: "19823783734d1d04a1b3300a",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Miami",
+        shortLocation: "MIA",
+        name: "FC",
+        color: "#F7B5CD"
+    },
+    {
+        _id: "19823783734d1d04a1b3300b",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "LA",
+        shortLocation: "LA",
+        name: "Galaxy",
+        color: "#0065A4"
+    },
+    {
+        _id: "19823783734d1d04a1b3300c",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "LA",
+        shortLocation: "LA",
+        alternateName: "LAFC",
+        name: "FC",
+        color: "#C39E6D"
+    },
+    {
+        _id: "19823783734d1d04a1b3300d",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Minnesota",
+        shortLocation: "MIN",
+        name: "United FC",
+        color: "#9BCDE4"
+    },
+    {
+        _id: "19823783734d1d04a1b3300e",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "NE",
+        shortLocation: "NE",
+        name: "Revolution",
+        color: "#E51938"
+    },
+    {
+        _id: "19823783734d1d04a1b33010",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "NY",
+        shortLocation: "NYC",
+        name: "FC",
+        color: "#6CACE4"
+    },
+    {
+        _id: "19823783734d1d04a1b33011",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "NY",
+        shortLocation: "NY",
+        name: "Red Bulls",
+        color: "#E31351"
+    },
+    {
+        _id: "19823783734d1d04a1b33012",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Orlando City",
+        shortLocation: "ORL",
+        name: "FC",
+        color: "#61259E"
+    },
+    {
+        _id: "19823783734d1d04a1b33013",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Philadelphia",
+        shortLocation: "PHI",
+        name: "Union",
+        color: "#B38707"
+    },
+    {
+        _id: "19823783734d1d04a1b33014",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Portland",
+        shortLocation: "POR",
+        name: "Timbers",
+        color: "#00482B"
+    },
+    {
+        _id: "19823783734d1d04a1b33015",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Salt Lake",
+        shortLocation: "RSL",
+        name: "Real",
+        color: "#B30838"
+    },
+    {
+        _id: "19823783734d1d04a1b33016",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "San Jose",
+        shortLocation: "SJ",
+        name: "Earthquakes",
+        color: "#30457A"
+    },
+    {
+        _id: "19823783734d1d04a1b33017",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Seattle",
+        shortLocation: "SEA",
+        name: "Sounders FC",
+        color: "#236192"
+    },
+    {
+        _id: "19823783734d1d04a1b33018",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Kansas City",
+        shortLocation: "SKC",
+        name: "Sporting",
+        color: "#93B1D7"
+    },
+    {
+        _id: "19823783734d1d04a1b33019",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Toronto",
+        shortLocation: "TOR",
+        name: "FC",
+        color: "#AB1E2D"
+    },
+    {
+        _id: "19823783734d1d04a1b3301a",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Vancouver",
+        shortLocation: "VAN",
+        name: "Whitescaps FC",
+        color: "#04265C"
+    },
+    {
+        _id: "19823783734d1d04a1b3301b",
+        leagueId: "59723313734d1d6202a85f29",
+        location: "Montreal",
+        shortLocation: "MTL",
+        name: "Impact",
+        color: "#2B63AD"
     }
 ];
 
@@ -2480,7 +2692,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 module.exports = {
     nbaTeams,
 	nflTeams,
-    eplTeams,
+    premierLeagueTeams,
+    mlsTeams,
     ncaaTeams,
     mlbTeams,
     countries,

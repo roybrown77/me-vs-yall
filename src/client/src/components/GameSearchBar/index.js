@@ -67,7 +67,7 @@ class GameSearchBar extends Component {
                   );
 
     const ball = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(leagueId) ? football : 
-      leagueId === '59723313734d1d6202a85f17' ? soccer : leagueId === '59723313734d1d6202a85f21' ? basketball : 
+      ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(leagueId) ? soccer : leagueId === '59723313734d1d6202a85f21' ? basketball : 
       leagueId === '59723313734d1d6202a85f25' ? boxing : leagueId === '59723313734d1d6202a85f27' ? mma : basketball; 
 
     return (

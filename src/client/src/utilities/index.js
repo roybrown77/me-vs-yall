@@ -25,22 +25,22 @@ const leagues = [
         years: [2017, 2018, 2019]
     },
     {
-        id: '59723313734d1d6202a85f17', 
-        name: 'premier', 
-        description: 'premier',
-        years: [2018, 2019]
-    },
-    {
         id: '59723313734d1d6202a85f15', 
         name: 'ncaaf', 
         description: 'ncaaf', 
         years: [2019]
     },
     {
-        id: '59723313734d1d6202a85f19', 
-        name: 'nba', 
-        description: 'nba', 
-        years: [2018]
+        id: '59723313734d1d6202a85f17', 
+        name: 'premier', 
+        description: 'premier',
+        years: [2018, 2019]
+    },
+    {
+        id: '59723313734d1d6202a85f29', 
+        name: 'mls', 
+        description: 'mls',
+        years: [2019]
     },
     {
         id: '59723313734d1d6202a85f25', 
@@ -53,7 +53,13 @@ const leagues = [
         name: 'mma', 
         description: 'mma', 
         years: [2019]
-    }
+    },
+    {
+        id: '59723313734d1d6202a85f19', 
+        name: 'nba', 
+        description: 'nba', 
+        years: [2018]
+    },
     // {
     //     id: '59723313734d1d6202a85f21', 
     //     name: 'mlb', 
@@ -90,6 +96,10 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${year}1231`).toISOString();
     }
 
+    if (leagueId === '59723313734d1d6202a85f29' && (monthDay < 301 || monthDay > 1101)) {
+        return moment(`${year}0301`).toISOString();
+    }
+
     return getStartDateTime(games);
 }
 
@@ -119,6 +129,10 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
 
     if (leagueId === '59723313734d1d6202a85f23' && (monthDay > 115)) {
         return moment(`${year}1231`).toISOString();
+    }
+
+    if (leagueId === '59723313734d1d6202a85f29' && (monthDay < 301 || monthDay > 1101)) {
+        return moment(`${year}0301`).toISOString();
     }
 
     return getNextGameStartDateTime(games);
