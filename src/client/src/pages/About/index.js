@@ -20,7 +20,7 @@ class About extends Component {
                     to writers, fighters, sneakerheads, architects, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about sponsorship.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Cop some merch too along the way.  Enjoy.  :D
+                    Cop some merch too along the way.  Enjoy!  :D
                 </div>
             </PageContainer>
         );
