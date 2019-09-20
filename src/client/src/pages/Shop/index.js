@@ -1,18 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
-
 import Grid from '@material-ui/core/Grid';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import Paper from '@material-ui/core/Paper';
 
 import PageContainer from '../PageContainer';
 
@@ -95,8 +87,6 @@ const items = [
 
 class Shop extends React.Component {
   render() {
-    const {width} = this.props;
-
     return (
       <PageContainer>
         <Grid container style={styles.root}>
@@ -106,7 +96,7 @@ class Shop extends React.Component {
                 <Grid key={item.id} item style={{padding:'4px',cursor:'pointer'}}>
                   <div style={styles.item}>
                     <div style={styles.name}>{item.name}</div>
-                    <img src={item.image} style={styles.image}/>
+                    <img src={item.image} style={styles.image} alt=""/>
                     <div style={styles.price}>{item.price}</div>
                     <div style={styles.contact}>{item.contact}</div>
                     <div style={styles.source}>{item.source}</div>

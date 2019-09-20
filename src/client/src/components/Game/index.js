@@ -162,7 +162,7 @@ class Game extends Component {
                                                 }
                                                 {
                                                   competitor.country &&
-                                                  <img style={{width:'50px', paddingTop: '3px'}} src={this.getFlag(competitor.country)}/>
+                                                  <img alt="" style={{width:'50px', paddingTop: '3px'}} src={this.getFlag(competitor.country)}/>
                                                 }
                                               </div>
                                             </Grid>

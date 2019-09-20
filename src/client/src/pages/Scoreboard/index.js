@@ -276,14 +276,14 @@ class Scoreboard extends Component {
                         !areAllGamesOver &&
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>next game starts in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>next {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'match' : 'game'} starts in</div>
                             <Countdown date={timeUntilNextGameStarts}/>
                         </div>
                     }
                     {
                         areAllGamesOver &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>new games load in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>new {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'matches' : 'games'} load in</div>
                             <Countdown date={timeUntilNextGameStarts}/>
                         </div>
                     }
@@ -320,7 +320,7 @@ class Scoreboard extends Component {
                     {
                         !isAuthenticated &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** sign in then tap team **
+                            ** sign in then tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} **
                         </div>
                     }
                     {
@@ -328,7 +328,7 @@ class Scoreboard extends Component {
                         ((picks.length === 0 && gamesNotStarted.length > 0) || (picks.length < gamesNotStarted.length)) &&
                         !areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            <div>tap team below</div>
+                            <div>tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} below</div>
                             <div className='fast-flash'><b>{gamesNotStarted.length - picks.length}</b> remaining</div>
                         </div>
                     }
@@ -336,7 +336,7 @@ class Scoreboard extends Component {
                         isAuthenticated &&
                         areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** tap team before game starts **
+                            ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>
                     }
                     {

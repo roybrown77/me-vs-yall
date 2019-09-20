@@ -11,8 +11,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 
-import { googleLogin, logout } from '../../middleware/authenticationService';
-
 const styles = {
   root: {
     margin: '56px 0'
@@ -70,7 +68,7 @@ const styles = {
 
 class Header extends Component {
   render() {
-    const { classes, theme, children, leagueName } = this.props;
+    const { classes, children } = this.props;
     const userJson = localStorage.getItem('user');
     const user = JSON.parse(userJson || JSON.stringify({}));
     const picture = get(user,'picture');
@@ -106,25 +104,13 @@ const mapStateToProps = (state, ownProps) => {
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
-    const ui = state.get('ui').toJS();
-    const request = get(ui,'request');
-
-    const lookup = state.get('lookup').toJS();
-    const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
-    const league = leagues.find(x=>x.id === leagueId);
-
-    const leagueName = get(league,'name','nfl');
-
     return {
         isAuthenticated,
-        leagueName
     }
 };
 
 Header.propTypes = {
     isAuthenticated: PropTypes.bool,
-    leagueName: PropTypes.string,
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
