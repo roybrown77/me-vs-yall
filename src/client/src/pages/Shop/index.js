@@ -12,6 +12,7 @@ import hoodiesBw from '../../styles/images/mvy-hoodie-white-bw.jpg';
 import hoodies from '../../styles/images/mvy-hoodie-white-jossie.jpg';
 import shirtsBw from '../../styles/images/mvy-tee-black-bw.jpg';
 import shirts from '../../styles/images/mvy-tee-white-romey.jpg';
+import shirtGray from '../../styles/images/mvy-tee-gray.jpg';
 import stickers from '../../styles/images/mvy-sticker-gray.jpg';
 
 const styles = {
@@ -52,33 +53,39 @@ const items = [
   {
     id: 1,
     image: hoodiesBw,
-    name: 'Hoodies',
+    name: 'White Hoodie',
     price: '$40',
     source: 'courtesy @ _jayfilms'
   },
   {
     id: 2,
     image: hoodies,
-    name: 'Hoodies',
+    name: 'White Hoodie',
     price: '$40',
     source: 'courtesy @ _jayfilms'
   },
   {
     id: 3,
     image: shirtsBw,
-    name: 'Tees',
+    name: 'Black Tee',
     price: '$20',
     contact: '@ _jayfilms'
   },
   {
     id: 4,
     image: shirts,
-    name: 'Tees',
+    name: 'White Tee',
     price: '$20',
     contact: '@ _romeyofficial'
   },
   {
     id: 5,
+    image: shirtGray,
+    name: 'Gray Tee',
+    price: '$20'
+  },
+  {
+    id: 6,
     image: stickers,
     name: 'Stickers',
     price: '$1'
