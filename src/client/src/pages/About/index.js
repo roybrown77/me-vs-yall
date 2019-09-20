@@ -9,8 +9,8 @@ class About extends Component {
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     In 2007, a buddy of mine and I would text each other who we thought would win the
                     upcoming week's NFL games.  This was just for bragging rights or a meal.  After a 
-                    few weeks, he said 'hey, ur a dev make an app'.  10 years later, many seasons of 
-                    texts and being laid off for the 3rd time, we finally got around to building it.
+                    few weeks, he said 'hey, ur a dev make an app'.  10 years later and many seasons of 
+                    texts, we finally got around to building it.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Since then we've added pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in the future X Games and World Cup.
