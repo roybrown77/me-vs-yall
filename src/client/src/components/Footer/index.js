@@ -52,33 +52,27 @@ class Footer extends Component {
                             </div>
                         )} />
                     }
-                    {(
+                    {
+                        true &&
                         <Route render={({ history}) => (
                             <div style={styles.action} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
                                 Scores
-                            </div>
-                        )} />
-                    )}
-                    {(
-                        <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/leaders/' + leagueName) }}>
-                                Leaders
-                            </div>
-                        )} />
-                    )}
-                    {
-                        false &&
-                        <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/shop') }}>
-                                Shop
                             </div>
                         )} />
                     }
                     {
                         true &&
                         <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/statoftheweek') }}>
-                                SOTW
+                            <div style={styles.action} onClick={() => { history.push('/leaders/' + leagueName) }}>
+                                Leaders
+                            </div>
+                        )} />
+                    }
+                    {
+                        true &&
+                        <Route render={({ history}) => (
+                            <div style={styles.action} onClick={() => { history.push('/shop') }}>
+                                Shop
                             </div>
                         )} />
                     }
