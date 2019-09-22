@@ -166,7 +166,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(currentWeekDay === 6)) {
+      if (!(currentWeekDay === 6) && minutes % 2 === 0) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -186,9 +186,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      //if (!(hours > 3 && hours < 12 && currentWeekDay === 6)) {
+      if (minutes % 3 === 0) {
         updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
-      //}
+      }
     } catch(err) {
       isUpdateNflScoresRunning = false;
       console.log('updateNCAAFscores error: ' + err.message);
@@ -208,8 +208,10 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
-    } catch(err) {
+      if (minutes % 5 === 0) {
+        updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+      }
+   } catch(err) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log('updateEnglishPremierLeagueScores error: ' + err.message);
     }
@@ -228,7 +230,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      //updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+      if (minutes % 7 === 0) {
+        updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+      }
     } catch(err) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log('updateMLSScores error: ' + err.message);
@@ -242,7 +246,6 @@ router.get('/games', function (req, res) {
       // loadNbaGames(0);
       // loadNbaGames(1);
       // loadNbaGames(2);
-      // loadNbaGames(3);
     } catch(err) {
       isLoadNbaGamesRunning = false;
       console.log('loadNbaGames error: ' + err.message);
@@ -265,7 +268,6 @@ router.get('/games', function (req, res) {
   //       loadMlbGames(0);
   //       loadMlbGames(1);
   //       loadMlbGames(2);
-  //       loadMlbGames(3);
   //   } catch(err) {
   //     isLoadMlbGamesRunning = false;
   //     console.log('loadMlbGames error: ' + err.message);
