@@ -11,7 +11,16 @@ const pickRepository = require('./PickRepository');
 const omit = require('lodash/omit');
 const get = require('lodash/get');
 
+const ids = [
+    'google-oauth2|106585827534408667194',
+    'google-oauth2|102013494920578024535'
+];
+
 router.post('/picks/', function (req, res) {
+    if (ids.includes(req.user.sub)) {
+        return res.status(200).send({});
+    }
+
     const pick = {
         userId: req.user.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
@@ -26,6 +35,10 @@ router.post('/picks/', function (req, res) {
 });
 
 router.put('/picks/:id', function (req, res) {
+    if (ids.includes(req.user.sub)) {
+        return res.status(200).send({});
+    }
+
     const pick = {
         userId: req.user.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
