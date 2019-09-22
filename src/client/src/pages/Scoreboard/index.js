@@ -276,14 +276,14 @@ class Scoreboard extends Component {
                         !areAllGamesOver &&
                         !areAnyGamesInProgress &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>next {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'match' : 'game'} starts in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>next {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fight' : 'game'} starts in</div>
                             <Countdown date={timeUntilNextGameStarts}/>
                         </div>
                     }
                     {
                         areAllGamesOver &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid darkorange'}}>
-                            <div style={{color: 'darkorange', fontSize: '17px'}}>new {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'matches' : 'games'} load in</div>
+                            <div style={{color: 'darkorange', fontSize: '17px'}}>new {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fights' : 'games'} load in</div>
                             <Countdown date={timeUntilNextGameStarts}/>
                         </div>
                     }
@@ -314,7 +314,7 @@ class Scoreboard extends Component {
                     {
                         areAnyGamesInProgress &&
                         <div style={{color: 'darkorange', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkorange', borderRadius: '8px'}}>
-                            <div className='fast-flash'>** games in progress **</div>
+                            <div className='fast-flash'>** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fights' : 'games'} in progress **</div>
                         </div>
                     }
                     {
