@@ -228,7 +228,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+      //updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
     } catch(err) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log('updateMLSScores error: ' + err.message);
