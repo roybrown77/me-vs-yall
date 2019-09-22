@@ -154,6 +154,9 @@ router.get('/games', function (req, res) {
   console.log('currentWeekDay: ' + currentWeekDay);
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
+  const divider = (minutes > 18 ? 19 - (minutes % 18) : minutes);
+
+  console.log('divider: ' + divider);
 
   if (monthDay > 208 && monthDay < 801) {
     console.log('new nfl games will be loaded during season.');
@@ -166,7 +169,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (minutes % 2 === 0) {
+      if (divider % 2 === 0) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -186,7 +189,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (minutes % 3 === 0) {
+      if (divider % 3 === 0) {
         updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
@@ -208,7 +211,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (minutes % 5 === 0) {
+      if (divider % 5 === 0) {
         updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       }
    } catch(err) {
@@ -230,7 +233,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (minutes % 7 === 0) {
+      if (divider % 7 === 0) {
         updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
       }
     } catch(err) {
@@ -252,7 +255,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (minutes % 9 === 0) {
+      if (divider % 9 === 0) {
         updateNbaScores();
       }
     } catch(err) {
