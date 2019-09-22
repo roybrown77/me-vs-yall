@@ -252,7 +252,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (!(hours > 3 && hours < 16 && currentWeekDay === 6)) {
+      if (minutes % 9 === 0) {
         updateNbaScores();
       }
     } catch(err) {
