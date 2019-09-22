@@ -233,7 +233,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 7 === 0) {
+      if (divider % 7 === 0 || divider % 11 === 0 || divider % 13 === 0 || divider % 17 === 0) {
         updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
       }
     } catch(err) {
