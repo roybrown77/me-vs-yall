@@ -169,7 +169,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 2 === 0) {
+      if (divider % 2 === 0 || divider % 11 === 0) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -189,7 +189,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 3 === 0) {
+      if (divider % 3 === 0  || divider % 13 === 0) {
         updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
@@ -211,7 +211,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 5 === 0) {
+      if (divider % 5 === 0 || divider % 17 === 0) {
         updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       }
    } catch(err) {
@@ -233,7 +233,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 7 === 0 || divider % 11 === 0 || divider % 13 === 0 || divider % 17 === 0) {
+      if (divider % 7 === 0) {
         updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
       }
     } catch(err) {
