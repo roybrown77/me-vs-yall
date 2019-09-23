@@ -71,8 +71,8 @@ class Footer extends Component {
                     {
                         true &&
                         <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/shop') }}>
-                                Shop
+                            <div style={styles.action} onClick={() => { history.push('/statOfTheWeek') }}>
+                                SOTW
                             </div>
                         )} />
                     }
