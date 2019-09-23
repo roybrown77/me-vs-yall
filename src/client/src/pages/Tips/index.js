@@ -89,6 +89,10 @@ const stats = [
     content: `Pick games are an engaging way to teach students about math, probability and money.`
   },
   {
+    title: 'ADD TO HOME SCREEN',
+    content: `For quicker access, add this web app to your home screen.  Click browser menu and select Add to Home Screen.`
+  },
+  {
     title: 'FRIENDS AND FAMILY',
     content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
   },
