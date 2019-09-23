@@ -132,7 +132,7 @@ class Home extends Component {
           {
               true &&
               <div style={styles.subTitle}>
-                sports.  art.  fun.  facts.  prizes.
+                sports.  picks.  fun.  facts.  prizes.
               </div>
           }
           <div style={styles.buttonContainer}>

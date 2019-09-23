@@ -7,20 +7,13 @@ class About extends Component {
         return (
             <PageContainer>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    In 2007, a buddy of mine and I would text each other who we thought would win the
+                    In 2007, a buddy of mine and I would text our picks for the 
                     upcoming week's NFL games.  This was just for bragging rights or a meal.  After a 
                     few weeks, he said 'hey, ur a dev make an app'.  10 years later and many seasons of 
                     texts, we finally got around to building it.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Since then we've added pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in the future X Games and World Cup.
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    Influences include everything from nature, skaters, musicians, graffiti and ux artists 
-                    to writers, fighters, sneakerheads, architects, entrepreneurs and learners.  Basically the good.  Feel free to reach out to us about sponsorship.
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    Cop some merch too along the way.  Enjoy!  :D
+                    Since then we've added pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in the future X Games and World Cup.  Enjoy!  :D
                 </div>
             </PageContainer>
         );
