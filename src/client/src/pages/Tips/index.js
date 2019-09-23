@@ -70,7 +70,7 @@ const stats = [
     title: 'SPREAD',
     content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
               by so the casino doesn't lose money.  This number can change all week as they adjust due to injuries, too many bets on one team 
-              and other factors.  Vegas currently has the best overall record in Me vs Yall for NFL/NBA.`
+              and other factors.`
   },
   {
     title: 'PREMIER LEAGUE',
