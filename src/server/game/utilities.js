@@ -95,20 +95,6 @@ const boxingCompetitors = [
         country: "MEXICO"
     },
     {
-        _id: "19823783734d1d04a1b31003",
-        location: 'Yair Rodriguez',
-        shortLocation: "Yair",
-        name: "El Pantera Rodriguez",
-        country: "MEXICO"
-    },
-    {
-        _id: "19823783734d1d04a1b31004",
-        location: 'Jeremy Stephens',
-        shortLocation: "Jeremy",
-        name: "Lil' Heathen Stephens",
-        country: "USA"
-    },
-    {
         _id: "19823783734d1d04a1b31005",
         location: 'Errol Spence Jr.',
         shortLocation: "Errol",
