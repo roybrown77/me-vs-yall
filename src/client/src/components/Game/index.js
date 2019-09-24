@@ -159,7 +159,7 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '12px' : '40px'}}>
+                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '12px' : competitor.country ? '20px' : '40px'}}>
                                                 {
                                                   !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
                                                   <Typography style={{fontSize:'25px', color: competitor.color}}>
