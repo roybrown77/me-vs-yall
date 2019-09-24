@@ -710,7 +710,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9022",
         leagueId: "59723313734d1d6202a85f15",
         location: "UConn",
-        shortLocation: "UCONN",
+        shortLocation: "CONN",
         name: "Huskies",
         color: "#000E2F"
     },
@@ -827,12 +827,12 @@ const ncaaTeams = [
         name: "Crimson Tide"
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9031",
         leagueId: "59723313734d1d6202a85f15",
         location: "Kansas State",
         shortLocation: "KSU",
-        name: "Crimson Tide"
+        name: "Wildcats",
+        color: '#512888'
     },
     {
         _id: "5b84a2889a4c08bca6ab9032",
@@ -859,12 +859,12 @@ const ncaaTeams = [
         color: '#73000A'
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9035",
         leagueId: "59723313734d1d6202a85f15",
         location: "Rutgers",
         shortLocation: "RUTG",
-        name: "Cougars"
+        name: "Scarlet Knights",
+        color: '#CC0033'
     },
     {
         color: '',
@@ -1039,7 +1039,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9051",
         leagueId: "59723313734d1d6202a85f15",
         location: 'Northwestern',
-        shortLocation: "NWST",
+        shortLocation: "NW",
         name: "Wildcats",
         color: '#4E2A84'
     },
@@ -1154,6 +1154,54 @@ const ncaaTeams = [
         shortLocation: "COLO",
         name: "Buffaloes",
         color: '#CFB87C'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9060",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Texas Tech',
+        shortLocation: "TTU",
+        name: "Red Raiders",
+        color: '#CC0000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9061",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Middle Tennessee State',
+        shortLocation: "MTSU",
+        name: "Blue Raiders",
+        color: '#0066CC'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9062",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'North Carolina',
+        shortLocation: "UNC",
+        name: "Tar Heels",
+        color: '#7BAFD4'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9063",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Towson',
+        shortLocation: "TOW",
+        name: "Tigers",
+        color: '#FFCB05'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9064",
+        leagueId: "59723313734d1d6202a85f15",
+        location: 'Nebraska',
+        shortLocation: "NEB",
+        name: "Corhnhuskers",
+        color: '#E41C38'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9065",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Arkansas",
+        shortLocation: "ARK",
+        name: "Razorbacks",
+        color: '#9D2235'
     }
 ];
 
