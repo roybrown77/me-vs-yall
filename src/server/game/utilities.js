@@ -138,6 +138,48 @@ const ufcCompetitors = [
         shortLocation: "Alexa",
         name: "Grasso",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32005",
+        location: 'Gunnar Nelson',
+        shortLocation: "Gunnar",
+        name: "Gunni Nelson",
+        country: "ICELAND"
+    },
+    {
+        _id: "19823783734d1d04a1b32006",
+        location: 'Gilbert Burns',
+        shortLocation: "Gilbert",
+        name: "Durinho Burns",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b32007",
+        location: 'Mark Madsen',
+        shortLocation: "Mark",
+        name: "Mad Dog Madsen",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32008",
+        location: 'Danilo Belluardo',
+        shortLocation: "Danilo",
+        name: "Caterpillar Belluardo",
+        country: "ITALY"
+    },
+    {
+        _id: "19823783734d1d04a1b32009",
+        location: 'Jack Hermansson',
+        shortLocation: "Jack",
+        name: "The Joker Hermansson",
+        country: "SWEDEN"
+    },
+    {
+        _id: "19823783734d1d04a1b3200a",
+        location: 'Jared Cannonier',
+        shortLocation: "Jared",
+        name: "The Killa Gorilla Cannonier",
+        country: "USA"
     }
 ];
 

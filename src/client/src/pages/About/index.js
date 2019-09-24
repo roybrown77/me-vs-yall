@@ -13,7 +13,7 @@ class About extends Component {
                     texts, we finally got around to building it.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Since then we've added pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in the future X Games and World Cup.  Enjoy!  :D
+                    Since then we've added free pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in the future X Games and World Cup.  Enjoy!  :D
                 </div>
             </PageContainer>
         );

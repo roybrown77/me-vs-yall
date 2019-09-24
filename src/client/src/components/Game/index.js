@@ -18,6 +18,10 @@ import money from '../../styles/images/money.png';
 
 import america from '../../styles/images/america.png';
 import mexico from '../../styles/images/mexico.png';
+import brazil from '../../styles/images/brazil.png';
+import italy from '../../styles/images/italy.png';
+import iceland from '../../styles/images/iceland.png';
+import sweden from '../../styles/images/sweden.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -105,6 +109,14 @@ class Game extends Component {
           return america;
         case 'MEXICO':
           return mexico;
+        case 'BRAZIL':
+          return brazil;
+        case 'ITALY':
+          return italy;
+        case 'ICELAND':
+          return iceland;
+        case 'SWEDEN':
+          return sweden;
         default:
           return america;
       };
