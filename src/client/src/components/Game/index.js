@@ -22,6 +22,7 @@ import brazil from '../../styles/images/brazil.png';
 import italy from '../../styles/images/italy.png';
 import iceland from '../../styles/images/iceland.png';
 import sweden from '../../styles/images/sweden.png';
+import russia from '../../styles/images/russia.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -117,6 +118,8 @@ class Game extends Component {
           return iceland;
         case 'SWEDEN':
           return sweden;
+        case 'RUSSIA':
+          return russia;
         default:
           return america;
       };
@@ -165,7 +168,7 @@ class Game extends Component {
                                                 }
                                                 {
                                                   competitor.country &&
-                                                  <div>
+                                                  <div style={{paddingBottom: '4px'}}>
                                                     <img alt="" style={{width:'50px', paddingTop: '3px'}} src={this.getFlag(competitor.country)}/>
                                                   </div>
                                                 }

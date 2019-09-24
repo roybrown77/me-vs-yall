@@ -107,6 +107,48 @@ const boxingCompetitors = [
         shortLocation: "Jeremy",
         name: "Lil' Heathen Stephens",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31005",
+        location: 'Errol Spence Jr.',
+        shortLocation: "Errol",
+        name: "The Truth Spence Jr.",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31006",
+        location: 'Shawn Porter',
+        shortLocation: "Shawn",
+        name: "Showtime Porter",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31007",
+        location: 'Anthony Dirrell',
+        shortLocation: "Anthony",
+        name: "The Dog Dirrell",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31008",
+        location: 'David Benavidez',
+        shortLocation: "David",
+        name: "El Bandera Roja Benavidez",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31009",
+        location: 'Mario Barrios',
+        shortLocation: "Mario",
+        name: "El Azteca Barrios",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3100a",
+        location: 'Batyr Akhmedov',
+        shortLocation: "Batyr",
+        name: "Akhmedov",
+        country: "RUSSIA"
     }
 ];
 
