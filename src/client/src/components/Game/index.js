@@ -157,9 +157,18 @@ class Game extends Component {
                                         <Grid item xs>
                                             <Grid item>
                                               <div style={{marginTop: hasGameStarted(game.startDateTime) ? '12px' : '40px'}}>
-                                                <Typography style={{fontSize:'25px', color: competitor.color}}>
-                                                  {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
-                                                </Typography>
+                                                {
+                                                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
+                                                  <Typography style={{fontSize:'25px', color: competitor.color}}>
+                                                    {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
+                                                  </Typography>
+                                                }
+                                                {
+                                                  competitor.country &&
+                                                  <div>
+                                                    <img alt="" style={{width:'50px', paddingTop: '3px'}} src={this.getFlag(competitor.country)}/>
+                                                  </div>
+                                                }
                                                 <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color }}>
                                                   <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
                                                 </span>
@@ -171,10 +180,6 @@ class Game extends Component {
                                                   <div style={{fontSize: '16px', color: '#BDBDBD', paddingTop: '3px'}}>
                                                     {competitor.record}
                                                   </div>
-                                                }
-                                                {
-                                                  competitor.country &&
-                                                  <img alt="" style={{width:'50px', paddingTop: '3px'}} src={this.getFlag(competitor.country)}/>
                                                 }
                                               </div>
                                             </Grid>
