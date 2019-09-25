@@ -33,10 +33,13 @@ const styles = {
     width: '50%'
   },
   subTitle: {
-    color: '#000000', 
-    fontSize: '1rem', 
-    fontWeight: '500',
-    margin: '8px 8px'
+    color: '#000000',
+    margin: '8px 8px',
+    fontFamily: 'Poppins, sans serif',
+    fontSize: '2rem',
+    fontWeight: 'bold !important',
+    letterSpacing: '-1px',
+    lineHeight: '1.1'
   },
   buttonContainer: {
     padding: '0 8px',
@@ -135,7 +138,7 @@ class Home extends Component {
               true &&
               <Slide direction={'left'} in={true} mountOnEnter unmountOnExit timeout={500}>
                 <div style={styles.subTitle}>
-                  sports.  picks.  fun.  facts.  prizes.
+                  sports.  picks.  fun.  facts.  prizes.  free.
                 </div>
               </Slide>
           }

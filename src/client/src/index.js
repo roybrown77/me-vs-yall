@@ -25,6 +25,8 @@ import About from './pages/About';
 import MailingList from './pages/MailingList';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
+import './index.css';
+
 const initialState = Immutable.Map();
 
 const composeAll = process.env.NODE_ENV.toLowerCase() === 'development' ? composeWithDevTools : compose;
