@@ -11,7 +11,7 @@ const styles = {
     zIndex: 1,
     position: "fixed", 
     bottom: "0", 
-    backgroundColor: "#f4f7f6", 
+    backgroundColor: "#f0f8ff", 
     boxShadow: "none",
     width: "100%",
     color: "black"

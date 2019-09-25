@@ -23,7 +23,7 @@ import {
 
 const styles = {
   plainTitle: {
-    color: '#f4f7f6', 
+    color: 'transparent', 
     backgroundColor: '#000000',
     fontSize: '2rem', 
     fontStyle: 'italic',

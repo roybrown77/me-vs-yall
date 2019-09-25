@@ -17,7 +17,7 @@ import get from 'lodash/get';
 
 const styles = theme => ({
   container: {
-    backgroundColor: '#f4f7f6', 
+    backgroundColor: 'transparent', 
     boxShadow: 'none'
   },
   select: {
