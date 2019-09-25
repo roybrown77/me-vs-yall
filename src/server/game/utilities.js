@@ -1262,7 +1262,7 @@ const ncaaTeams = [
         leagueId: "59723313734d1d6202a85f15",
         location: 'Nebraska',
         shortLocation: "NEB",
-        name: "Corhnhuskers",
+        name: "Cornhuskers",
         color: '#E41C38'
     },
     {
