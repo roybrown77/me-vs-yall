@@ -130,7 +130,7 @@ class Home extends Component {
               true &&
               <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
                 <div style={{marginTop: '16px'}}>
-                  <img src={mvy} alt=""/>
+                  <img style={{width:'275px'}} src={mvy} alt=""/>
                 </div>
               </Slide>
           }
