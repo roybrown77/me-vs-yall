@@ -237,8 +237,10 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
   }
 
   games.forEach(game=>{
-    const awayShortLocation = teams.find(x=>x._id.toString() === game.competitors[0]._id.toString()).shortLocation;
-    const homeShortLocation = teams.find(x=>x._id.toString() === game.competitors[1]._id.toString()).shortLocation;
+    const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+    const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
+    const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
+    const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
 
     const score = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
     
