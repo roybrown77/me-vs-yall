@@ -189,12 +189,12 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 3 === 0  || divider % 13 === 0) {
-        updateFootballScores({message: 'updateNCAAFscores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+      if (divider % 3 === 0 || divider % 13 === 0) {
+        updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
       isUpdateNflScoresRunning = false;
-      console.log('updateNCAAFscores error: ' + err.message);
+      console.log('updateNCAAFScores error: ' + err.message);
     }
   }
   
