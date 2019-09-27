@@ -86,6 +86,10 @@ class Scoreboard extends Component {
         this.startPolling = this.startPolling.bind(this);
     }
 
+    componentWillMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentDidMount() {
         this.startPolling();
 
