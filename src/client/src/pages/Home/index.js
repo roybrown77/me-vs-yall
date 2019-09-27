@@ -81,6 +81,10 @@ const styles = {
 };
 
 class Home extends Component {
+    componentWillMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentDidMount() {
         this.props.loadGamesInProgress();
     }
