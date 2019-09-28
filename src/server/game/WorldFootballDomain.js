@@ -258,7 +258,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
           isGameOver: isGameOver,
           currentTime: get(score,'currentTime'),
           possession: get(score,'possession'),
-          lastPlay: get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
+          lastPlay: get(score,'isGameOver',false) ? get(score,'lastPlay') : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')
         };
 
