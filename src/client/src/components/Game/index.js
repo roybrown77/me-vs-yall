@@ -240,7 +240,6 @@ class Game extends Component {
                 }
                 {
                   hasGameStarted(game.startDateTime) &&
-                  !game.isGameOver && 
                   game.lastPlay && 
                   <div className={classes.lastPlay}>
                     {' Last Play: ' + game.lastPlay}

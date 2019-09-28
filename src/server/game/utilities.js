@@ -2744,16 +2744,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         
         //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
-        const newPlayHistory = ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? [] : 
-        getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+        const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
         const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
-        !(leagueId !== '59723313734d1d6202a85f17' && (get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
+        !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
         (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
 
         //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 
-        const currentTimeFormatted = leagueId === '59723313734d1d6202a85f17' ? get(newPlayHistory,'0.time') : get(newPlayHistory,'0.time',0) > 59 ? 
+        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
           (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
         
         const currentTime = get(score,'currentTime');
@@ -2761,9 +2760,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const quarter = currenTimeSplit[currenTimeSplit.length-1];
         const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
         const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
-        const lastPlays = ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? 
-        (get(score,'isGameOver',false) ? undefined : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
-          get(score,'homeTeam') + ': ' + get(score,'possessionHome')) : getLastPlays(newPlayHistory);
+        const lastPlays = getLastPlays(newPlayHistory);
 
         //console.log(`${message} lastPlays: ${JSON.stringify(lastPlays)}`);
 
@@ -2773,9 +2770,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
           possession: get(score,'possession'),
-          currentTime: ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? get(score,'currentTime') : 
-          shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
-          gameName: ['59723313734d1d6202a85f21','59723313734d1d6202a85f17'].includes(leagueId) ? '' : get(score,'gameName','')
+          currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
+          gameName: get(score,'gameName','')
         };
 
         set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
