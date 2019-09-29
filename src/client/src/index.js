@@ -23,6 +23,7 @@ import Tips from './pages/Tips';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import MailingList from './pages/MailingList';
+import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
 import './index.css';
@@ -65,6 +66,7 @@ render(
                         <Route path='/contact' component={Contact}/>
                         <Route path='/about' component={About}/>
                         <Route path='/mailinglist' component={MailingList}/>
+                        <Route path='/play' component={Play}/>
                         <Route path='/authenticationCallback' component={AuthenticationCallback}/>
                     </Switch>
                 </div>

@@ -13,7 +13,8 @@ const {
   formatGames,
   createGames,
   getScores,
-  updateGames
+  updateGames,
+  hasGameStarted
 } = require('./utilities');
 
 const omit = require('lodash/omit');
@@ -150,6 +151,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     let LIST_NAME_ABBREV_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.team-container > div.team-info > div > a > span.abbrev';
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
+    const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
 
     console.log(`${message} listLength: ' + ${listLength}`);
 
@@ -202,6 +204,10 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
         return element ? element.innerHTML : null;
       }, LIST_GAME_OVER_SELECTOR.replace("INDEX", i));
 
+      const startDateTime = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-date');
+      }, startDateTimeSelector.replace("INDEX", i));
+
       scores.push({
         awayTeam: awayTeam.trim(),
         awayScore: parseInt(awayScore),
@@ -210,7 +216,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
         isGameOver: (gameOverIndicator || '').trim() === 'FT',
         currentTime: currentTime,
         possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
-        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, '')
+        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, ''),
+        startDateTime: startDateTime
       });
     }
 
@@ -258,6 +265,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
           isGameOver: isGameOver,
           currentTime: get(score,'currentTime'),
           possession: get(score,'possession'),
+          startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
           lastPlay: (get(score,'isGameOver') || false) ? get(game,'lastPlay') : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
           get(score,'homeTeam') + ': ' + get(score,'possessionHome')
         };
