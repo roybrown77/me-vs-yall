@@ -2519,6 +2519,7 @@ const getScores = async ({
     root,
     gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
+    startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
     namePregameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     liveRecordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
     liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
@@ -2529,7 +2530,6 @@ const getScores = async ({
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
     finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
-    possesionSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-HOMEAWAY > div > ul',
     away='away',
     home='home'
 }) => {
@@ -2569,6 +2569,10 @@ const getScores = async ({
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, liveCurrentTimeSelector.replace("INDEX", i));
+
+      const startDateTime = await page.evaluate((sel) => {
+        return document.querySelector(sel).getAttribute('data-date');
+      }, startDateTimeSelector.replace("INDEX", i));
 
       const lastPlay = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -2649,16 +2653,6 @@ const getScores = async ({
         return element ? element.innerHTML : null;
       }, gameNameSelector.replace("INDEX", i));
 
-      const possessionAway = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, possesionSelector.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const possessionHome = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, possesionSelector.replace("INDEX", i).replace("HOMEAWAY",home));
-
       scores.push({
         spread: {
          team: spread.replace('Line: ','').split(' ')[0],
@@ -2681,8 +2675,7 @@ const getScores = async ({
         lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime,
         gameName: gameName,
-        possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
-        possessionHome: (possessionHome || '').trim().replace(/,\s*$/, '')
+        startDateTime: startDateTime
       });
     }
 
@@ -2769,9 +2762,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           isGameOver: isGameOver,
           playHistory: newPlayHistory,
           lastPlay: lastPlays,
-          possession: get(score,'possession'),
           currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
-          gameName: get(score,'gameName','')
+          gameName: get(score,'gameName',''),
+          startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime')
         };
 
         set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
