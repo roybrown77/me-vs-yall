@@ -9,6 +9,7 @@ const get = require('lodash/get');
 
 const ids = ['google-oauth2|105396867324708249567'];
 const rollupIds = ['google-oauth2|114172296334563495985'];
+const vegas = {firstName: 'Vegas',authServiceId: '1'};
 
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
@@ -23,7 +24,7 @@ router.get('/users', function (req, res) {
                 goodUsers.push(x);
             }
         });
-        res.status(200).send(goodUsers);
+        res.status(200).send(req.query.isRollup ? [...goodUsers, vegas] : goodUsers);
     });
 });
 
