@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 const GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
-	weekNo: Number,
     startDateTime: 'date',
     station: String,
     isGameOver: mongoose.Schema.Types.Boolean,
     competitors: Array,
-    seasonType: Number,
     year: Number,
     spread: mongoose.Schema.Types.Mixed,
     isStub: mongoose.Schema.Types.Boolean,

@@ -194,6 +194,8 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
                 losses: pickResult.losses,
                 spreadWins: pickResult.spreadWins,
                 spreadLosses: pickResult.spreadLosses,
+                winsBeforeGameOver: pickResult.winsBeforeGameOver,
+                lossesBeforeGameOver: pickResult.lossesBeforeGameOver,
                 games
           });
         }
@@ -201,7 +203,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
         return total;
     }, []);
 
-    const pickResultsOrdered = orderBy(pickResults, ['wins', 'losses', 'userName'], ['desc', 'asc', 'asc', 'asc']);
+    const pickResultsOrdered = orderBy(pickResults, ['winsBeforeGameOver', 'lossesBeforeGameOver', 'userName'], ['desc', 'asc', 'asc']);
 
     return pickResultsOrdered.map(leader=>{
         const winnings = getWinnings(leader);
@@ -233,7 +235,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
 
 const getResults = (games = [], picks = []) => {
     const result = games.reduce((total,game)=>{
-        if (get(game,'isGameOver',false)) {
+        //if (get(game,'isGameOver',false)) {
             const gamePicked = picks.find(x=>x.gameId === game._id);
 
             if (gamePicked) {
@@ -252,41 +254,57 @@ const getResults = (games = [], picks = []) => {
                 const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
 
                 if (winnerSelected) {
-                    if (spreadTeamWon) {
-                        if (pickedSpreadTeam) {
-                            if (wonBySpread) {
-                                total['spreadWins']++;
-                            } else {
-                                total['spreadLosses']++;
-                            }
-                        } else {
-                            total['spreadLosses']++;
-                        }
+                    // if (spreadTeamWon) {
+                    //     if (pickedSpreadTeam) {
+                    //         if (wonBySpread) {
+                    //             total['spreadWins']++;
+                    //         } else {
+                    //             total['spreadLosses']++;
+                    //         }
+                    //     } else {
+                    //         total['spreadLosses']++;
+                    //     }
+                    // } else {
+                    //     if (pickedSpreadTeam) {
+                    //         total['spreadLosses']++;
+                    //     } else {
+                    //         total['spreadWins']++;
+                    //     }
+                    // }
+
+                    if (get(game,'isGameOver',false)) {
+                        total['wins']++;
+                        total['winsBeforeGameOver']++;
                     } else {
-                        if (pickedSpreadTeam) {
-                            total['spreadLosses']++;
-                        } else {
-                            total['spreadWins']++;
+                        if (hasGameStarted(game.startDateTime)) {
+                            total['winsBeforeGameOver']++;
                         }
                     }
-                    total['wins']++;
                 } else {
-                    if (pickedSpreadTeam) {
-                        total['spreadLosses']++;
+                    // if (pickedSpreadTeam) {
+                    //     total['spreadLosses']++;
+                    // } else {
+                    //     if (wonBySpread) {
+                    //         total['spreadLosses']++;
+                    //     } else {
+                    //         total['spreadWins']++;
+                    //     }
+                    // }
+
+                    if (get(game,'isGameOver',false)) {
+                        total['losses']++;
+                        total['lossesBeforeGameOver']++;
                     } else {
-                        if (wonBySpread) {
-                            total['spreadLosses']++;
-                        } else {
-                            total['spreadWins']++;
+                        if (hasGameStarted(game.startDateTime)) {
+                            total['lossesBeforeGameOver']++;
                         }
                     }
-                    total['losses']++;
                 }
             }
-        }
+        //}
 
         return total;
-    }, {wins: 0, losses: 0, spreadWins: 0, spreadLosses: 0});
+    }, {wins: 0, losses: 0, winsBeforeGameOver: 0, lossesBeforeGameOver: 0, spreadWins: 0, spreadLosses: 0});
 
     return result;
 };

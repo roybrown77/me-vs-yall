@@ -210,10 +210,10 @@ const fetchPicks = (query, types) => ({
   }
 });
 
-const fetchAllUsers = (types) => ({
+const fetchAllUsers = (query) => ({
   [CALL_API]: {
-    types,
-    endpoint: `/api/usermanagement/users`,
+    types: [ USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE ],
+    endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
     schema: Schemas.USER_ARRAY
   }
 });
@@ -285,8 +285,9 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
 export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
   const year = get(query, 'year');
+  const isRollup = get(query, 'isRollup');
 
-  dispatch(fetchGameWeeks({leagueId,year})).then(result=>{
+  dispatch(fetchGameWeeks({leagueId,year,isRollup})).then(result=>{
     const weeks = get(result,'response',[]);
     const currentWeek = getCurrentWeek(weeks);
 
@@ -316,7 +317,7 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
     Promise.all([
       dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
       dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
-      dispatch(fetchAllUsers([ USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE ])),
+      dispatch(fetchAllUsers({isRollup})),
       dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
     ]).then(
     result=>{ 

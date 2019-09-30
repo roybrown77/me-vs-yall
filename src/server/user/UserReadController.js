@@ -8,18 +8,22 @@ const userRepository = require('./UserRepository');
 const get = require('lodash/get');
 
 const ids = ['google-oauth2|105396867324708249567'];
+const rollupIds = ['google-oauth2|114172296334563495985'];
 
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
-        users.map(user=>{
-            const x = user;
-            x.email = undefined;
-            x.picture = ids.includes(x.authServiceId) ? null : x.picture;
-            x.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
-            return x;
+        const goodUsers = [];
+        users.forEach(user=>{
+            if (req.query.isRollup || (!req.query.isRollup && !rollupIds.includes(user.authServiceId))) {
+                const x = user;
+                x.email = undefined;
+                x.picture = ids.includes(x.authServiceId) ? null : x.picture;
+                x.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
+                goodUsers.push(x);
+            }
         });
-        res.status(200).send(users);
+        res.status(200).send(goodUsers);
     });
 });
 

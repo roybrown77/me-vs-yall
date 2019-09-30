@@ -33,7 +33,8 @@ import {
     getCurrentWeek, 
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
-    getLeagueStartDateTime
+    getLeagueStartDateTime,
+    hasGameStarted
 } from '../../utilities';
 
 const styles = theme => ({
@@ -118,7 +119,8 @@ class Leader extends Component {
             year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
+            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+            isRollup: urlLeagueId !== this.props.leagueId ? undefined : this.props.isRollup
         });
     }
 
@@ -163,7 +165,8 @@ class Leader extends Component {
             year: this.props.year,
             beginDateTime: this.props.beginDateTime,
             endDateTime: this.props.endDateTime,
-            weekId: this.props.weekId
+            weekId: this.props.weekId,
+            isRollup: this.props.isRollup
         });
     }
 
@@ -207,7 +210,8 @@ class Leader extends Component {
             year: this.props.year,
             beginDateTime: weekFound.beginDateTime,
             endDateTime: weekFound.endDateTime,
-            weekId: weekFound._id
+            weekId: weekFound._id,
+            isRollup: weekFound.isRollup
         });
     }
 
@@ -364,7 +368,8 @@ class Leader extends Component {
                                                             <div className={classes.userName}>{leader.userName}</div>
                                                         </div>
                                                     </ListItemText>
-                                                    <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
+                                                    <div style={{textAlign:'right', margin: 'auto', width: '35%'}}>
+                                                        <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
                                                         <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>
@@ -484,6 +489,7 @@ const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
+    const isRollup = get(request,'isRollup') || get(currentWeek,'isRollup');
     
     return {
         isAuthenticated,
@@ -498,7 +504,8 @@ const mapStateToProps = (state, ownProps) => {
         weekId,
         beginDateTime,
         endDateTime,
-        games
+        games,
+        isRollup
     }
 };
 
@@ -520,6 +527,7 @@ Leader.propTypes = {
     teams: PropTypes.array,
     loadLeaders: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
+    isRollup: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, {

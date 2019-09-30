@@ -44,6 +44,10 @@ const stats = [
     content: `Weekly prize amounts depend on what's in our pockets at the time.  Prizes will be sent promptly.`
   },
   {
+    title: 'LEADERS',
+    content: `As scores change, leaders will move around depending on team picked.  Builds drama.`
+  },
+  {
     title: 'PICKS',
     content: `You can view another person's picks by tapping their name on Leaders page after game starts.  You can also change your pick until game starts.`
   },
