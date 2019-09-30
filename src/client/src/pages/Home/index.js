@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
-import Slide from '@material-ui/core/Slide';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
@@ -129,24 +128,19 @@ class Home extends Component {
       const mmaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f27', mmaMatches);
 
       return (
-        <div className="home-page-container">
+        <div className="fade-in home-page-container">
           {
               true &&
-              <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
                 <div style={{marginTop: '16px'}}>
                   <img style={{width:'275px'}} src={mvy} alt=""/>
                 </div>
-              </Slide>
           }
           {
               true &&
-              <Slide direction={'left'} in={true} mountOnEnter unmountOnExit timeout={500}>
                 <div style={styles.subTitle}>
                   sports.  picks.  fun.  facts.  prizes.  free.
                 </div>
-              </Slide>
           }
-          <Slide direction={'right'} in={true} mountOnEnter unmountOnExit timeout={750}>
             <div style={styles.buttonContainer}>
               <Grid>
                 <Grid item xs={8} style={{margin:'16px auto'}}>
@@ -409,7 +403,6 @@ class Home extends Component {
                 }
               </Grid>
             </div>
-          </Slide>
         </div>
       );
     }
