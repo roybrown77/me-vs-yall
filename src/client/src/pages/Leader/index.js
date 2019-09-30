@@ -369,7 +369,10 @@ class Leader extends Component {
                                                         </div>
                                                     </ListItemText>
                                                     <div style={{textAlign:'right', margin: 'auto', width: '35%'}}>
-                                                        <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
+                                                        {
+                                                            areAnyGamesInProgress &&
+                                                            <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
+                                                        }
                                                         <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>
