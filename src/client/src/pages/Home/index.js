@@ -42,7 +42,7 @@ const styles = {
   },
   buttonContainer: {
     padding: '0 8px',
-    margin: '24px 0 16px 0'
+    margin: '40px 0 16px 0'
   },
   button: {
     width: '100%',
