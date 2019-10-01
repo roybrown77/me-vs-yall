@@ -1303,7 +1303,7 @@ const ncaaTeams = [
         leagueId: "59723313734d1d6202a85f15",
         location: "Tulsa",
         shortLocation: "TLSA",
-        name: "Boilermakers",
+        name: "Golden Hurricane",
         color: '#F5002E'
     },
     {
