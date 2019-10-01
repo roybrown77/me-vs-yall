@@ -8,8 +8,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 
 import football from '../../styles/images/football.png';
-import soccer from '../../styles/images/soccer2.png';
-import basketball from '../../styles/images/basketball3.png';
+import soccer from '../../styles/images/soccer.png';
+import basketball from '../../styles/images/basketball.png';
 import boxing from '../../styles/images/boxing.png';
 import mma from '../../styles/images/mma.png';
 
