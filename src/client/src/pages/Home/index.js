@@ -10,6 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import mvy from '../../styles/images/mvy.png';
+import fattMatt from '../../styles/images/fatt-matt.jpg';
+import hudsonGrille from '../../styles/images/hudson-grille.jpg';
 
 import Countdown from '../../components/Countdown';
 
@@ -128,7 +130,7 @@ class Home extends Component {
       const mmaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f27', mmaMatches);
 
       return (
-        <div className="fade-in home-page-container">
+        <div className="fade-in">
           {
               true &&
                 <div style={{marginTop: '16px'}}>
@@ -402,6 +404,21 @@ class Home extends Component {
                   </Grid>
                 }
               </Grid>
+            </div>
+            <div style={{backgroundColor: '#EFFD57', padding: '50px', fontFamily: 'Poppins, sans serif',}}>
+              <img style={{width:'90%'}} src={fattMatt} alt=""/>
+              <div>1811 Piedmont Ave NE, Atlanta, GA</div>
+              <div>Best bbq & live blues in town!</div>
+              <div>Spot the sticker?</div>
+            </div>
+            <div style={{backgroundColor: '#fff', padding: '50px', fontFamily: 'Poppins, sans serif',}}>
+              <img style={{width:'90%'}} src={hudsonGrille} alt=""/>
+              <div>4046 Peachtree Rd NE, Atlanta, GA</div>
+              <div>Great place for wings, football, mma and boxing!</div>
+              <div>Spot the sticker?</div>
+            </div>
+            <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif',}}>
+              © 2019 Me vs Yall. All rights reserved.
             </div>
         </div>
       );
