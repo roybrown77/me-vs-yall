@@ -408,7 +408,7 @@ class Home extends Component {
             <div style={{backgroundColor: '#EFFD57', padding: '50px', fontFamily: 'Poppins, sans serif',}}>
               <img style={{width:'90%'}} src={fattMatt} alt=""/>
               <div>1811 Piedmont Ave NE, Atlanta, GA</div>
-              <div>Best bbq & live blues in town!</div>
+              <div>Best bbq & live blues in town! Pic taken at 9 am before the line wraps around the block. :D</div>
               <div>Spot the sticker?</div>
             </div>
             <div style={{backgroundColor: '#fff', padding: '50px', fontFamily: 'Poppins, sans serif',}}>
