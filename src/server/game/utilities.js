@@ -2817,8 +2817,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
               playHistory: newPlayHistory,
               lastPlay: lastPlays,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
-              gameName: get(score,'gameName',''),
-              startDateTime: hasGameStarted(get(game,'startDateTime')) || get(score,'startDateTime') === null ? get(game,'startDateTime') : get(score,'startDateTime')
+              gameName: get(score,'gameName','')
             };
 
             set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
