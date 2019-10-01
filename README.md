@@ -1,3 +1,3 @@
-![mvy-official-small](https://user-images.githubusercontent.com/1335262/65960070-99fc1900-e421-11e9-966c-2d102252fc42.png)
+![mvy-official-small](https://user-images.githubusercontent.com/1335262/65960146-cb74e480-e421-11e9-9031-7387bb29c8c9.png)
 
 https://www.mevsyall.com
