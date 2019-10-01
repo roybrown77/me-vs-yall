@@ -6,12 +6,7 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
-import alan from '../styles/images/alan.png';
-import phil from '../styles/images/phil.jpeg';
-
 const vegasPictures = [
-    alan,
-    phil
 ];
 
 const leagues = [ 

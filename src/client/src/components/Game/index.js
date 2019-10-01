@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import green from '@material-ui/core/colors/green';
 
 import angry from '../../styles/images/angry.png';
-import money from '../../styles/images/money.png';
+import money from '../../styles/images/smile-sweat.png';
 
 import america from '../../styles/images/america.png';
 import mexico from '../../styles/images/mexico.png';
@@ -149,11 +149,11 @@ class Game extends Component {
                                     <Grid item>
                                         <div style={{position:'absolute', padding: '4px',
                                             display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                            <img src={angry} alt=""/>
+                                            <img style={{width:'40px'}} src={angry} alt=""/>
                                         </div>
                                         <div style={{position:'absolute', padding: '4px',
                                             display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                            <img src={money} alt=""/>
+                                            <img style={{width:'40px'}} src={money} alt=""/>
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm container>
