@@ -341,7 +341,7 @@ class Leader extends Component {
                                                     {
                                                         [1,2,3].includes(index+1) &&
                                                         <div>
-                                                            <img src={index+1 === 1 ? gold : index+1 === 2 ? silver : bronze} alt=""/>
+                                                            <img style={{width:'40px'}}src={index+1 === 1 ? gold : index+1 === 2 ? silver : bronze} alt=""/>
                                                         </div>
                                                     }
                                                     {
