@@ -1273,6 +1273,46 @@ const ncaaTeams = [
         shortLocation: "ARK",
         name: "Razorbacks",
         color: '#9D2235'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9066",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Utah State",
+        shortLocation: "USU",
+        name: "Aggies",
+        color: '#0F24395'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9067",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Kansas",
+        shortLocation: "KU",
+        name: "Jayhawks",
+        color: '#0051BA'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9068",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Purdue",
+        shortLocation: "PUR",
+        name: "Boilermakers",
+        color: '#CEB888'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9069",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Tulsa",
+        shortLocation: "TLSA",
+        name: "Boilermakers",
+        color: '#F5002E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab906a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Cincinnati",
+        shortLocation: "CIN",
+        name: "Bearcats",
+        color: '#E00122'
     }
 ];
 
