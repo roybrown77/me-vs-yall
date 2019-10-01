@@ -1,5 +1,5 @@
 # Me vs Yall
 
-![mvy-official-cut](https://user-images.githubusercontent.com/1335262/65959980-60c3a900-e421-11e9-974d-2e41590e1ecd.png)
+![mvy-official-small](https://user-images.githubusercontent.com/1335262/65960070-99fc1900-e421-11e9-966c-2d102252fc42.png)
 
 https://www.mevsyall.com
