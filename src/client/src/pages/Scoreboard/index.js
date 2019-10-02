@@ -373,7 +373,6 @@ class Scoreboard extends Component {
                     }
                     {
                         image &&
-                        !(dataLoading || weeksDataLoading) &&
                         <div>
                             <img style={{width:'90%'}} src={image.picture} alt=""/>
                             <div style={{
