@@ -80,7 +80,7 @@ const styles = {
     marginTop: '4px'
   },
   footerLinks: {
-    padding:'20px',
+    paddingBottom:'20px',
     display:'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -88,13 +88,6 @@ const styles = {
   link: {
     color: 'white',
     textDecoration: 'none'
-  },
-  howToPlay: {
-    backgroundColor: '#3772FA',
-    padding: '10px',
-    textDecoration: 'none',
-    color: 'black',
-    fontWeight: 'bold'
   }
 };
 
