@@ -16,67 +16,78 @@ const countries = [
         _id: "19823783734d1d04a1b39020",
         location: 'Russia',
         shortLocation: 'RUS',
-        colors: ['#FFFFFF', '#0039A6', '#D52B1E']
+        name: "Russia",
+        country: "RUSSIA"
     },
     {
         _id: "19823783734d1d04a1b39021",
         location: 'Saudi Arabia',
         shortLocation: 'KSA',
-        colors: ['#006C35', '#FFFFFF']
+        name: 'Saudi Arabia',
+        country: "SAUDI ARABIA"
     },
     {
         _id: "19823783734d1d04a1b39022",
         location: 'Egypt',
         shortLocation: 'EGY',
-        colors: ['#CE1126', '#FFFFFF', '#000000', '#C09300']
+        name: 'Egypt',
+        country: "EGYPT"
     },
     {
         _id: "19823783734d1d04a1b39023",
         location: 'Uruguay',
         shortLocation: 'URU',
-        colors: ['#FCD116', '#FFFFFF', '#0038A8']
+        name: 'Uruguay',
+        country: "URUGUAY"
     },
     {
         _id: "19823783734d1d04a1b39024",
         location: 'Morocco',
         shortLocation: 'MAR',
-        colors: ['#C1272D', '#006233']
+        name: 'Morocco',
+        country: "MOROCCO"
     },
     {
         _id: "19823783734d1d04a1b39025",
-        location: 'IRAN',
+        location: 'Iran',
         shortLocation: 'IRN',
-        colors: ['#239F40', '#FFFFFF', '#DA0000']
+        name: 'Iran',
+        country: "IRAN"
     },
     {
         _id: "19823783734d1d04a1b39026",
         location: 'Mexico',
         shortLocation: 'MXO',
-        colors: ['#006847', '#FFFFFF', '#CE1126']
+        name: 'Mexico',
+        country: "MEXICO"
     },
     {
         _id: "19823783734d1d04a1b39027",
         location: 'Portugal',
         shortLocation: 'POR',
-        colors: ['#006600', '#FF0000', '#FFFF00']
+        name: 'Portugal',
+        country: "PORTUGAL"
     },
     {
         _id: "19823783734d1d04a1b39028",
         location: 'Spain',
         shortLocation: 'ESP',
-        colors: ['#C60B1E', '#FFC400']
+        name: 'Spain',
+        country: "SPAIN"
     },
     {
         _id: "19823783734d1d04a1b39029",
         location: 'France',
         shortLocation: 'FR',
-        colors: ['#002395', '#FFFFFF', '#ED2939']
+        name: 'France',
+        country: "FRANCE"
     },
     {
-        _id: "19823783734d1d04a1b39030",
+        _id: "19823783734d1d04a1b3902a",
         location: 'Croatia',
         shortLocation: 'CRO',
-        colors: ['#FF0000', '#FFFFFF', '#0093DD']
+        name: 'Croatia',
+        country: "CROATIA"
     }
 ];
 
@@ -136,6 +147,48 @@ const boxingCompetitors = [
         shortLocation: "Batyr",
         name: "Akhmedov",
         country: "RUSSIA"
+    },
+    {
+        _id: "19823783734d1d04a1b3100b",
+        location: 'Sergey Kovalev',
+        shortLocation: "Sergey",
+        name: "Krusher Kovalev",
+        country: "RUSSIA"
+    },
+    {
+        _id: "19823783734d1d04a1b3100c",
+        location: 'Canelo Alvarez',
+        shortLocation: "Canelo",
+        name: "Alvarez",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b3100d",
+        location: 'Ryan Garcia',
+        shortLocation: "Ryan",
+        name: "The Flash Garcia",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3100e",
+        location: 'Romero Duno',
+        shortLocation: "Romero",
+        name: "Duno",
+        country: "PHILLIPINES"
+    },
+    {
+        _id: "19823783734d1d04a1b3100f",
+        location: 'Evan Holyfield',
+        shortLocation: "Evan",
+        name: "The Real Deal Holyfield",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31010",
+        location: 'Nick Winstead',
+        shortLocation: "Nick",
+        name: "Winstead",
+        country: "USA"
     }
 ];
 
@@ -208,6 +261,62 @@ const ufcCompetitors = [
         location: 'Jared Cannonier',
         shortLocation: "Jared",
         name: "The Killa Gorilla Cannonier",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3200b",
+        location: 'Katlyn Chookagian',
+        shortLocation: "Katlyn",
+        name: "Blonde Fighter Chookagian",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3200c",
+        location: 'Jennifer Maia',
+        shortLocation: "Jennifer",
+        name: "Maia",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b3200d",
+        location: 'Corey Anderson',
+        shortLocation: "Corey",
+        name: "Overtime Anderson",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3200e",
+        location: 'Johnny Walker',
+        shortLocation: "Johnny",
+        name: "Walker",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b3200f",
+        location: 'Derrick Lewis',
+        shortLocation: "Derrick",
+        name: "The Black Beast Lewis",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32010",
+        location: 'Blagoy Ivanov',
+        shortLocation: "Blagoy",
+        name: "Baga Ivanov",
+        country: "BULGARIA "
+    },
+    {
+        _id: "19823783734d1d04a1b32011",
+        location: 'Jorge Masvidal',
+        shortLocation: "Jorge",
+        name: "Gamebred Masvidal",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32012",
+        location: 'Nate Diaz',
+        shortLocation: "Nate",
+        name: "The Stockton Slugger Diaz",
         country: "USA"
     }
 ];
@@ -2541,19 +2650,19 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
 
 const createGames = ({message, games}) => {
     games.forEach(game=>{
-        const gameFind = {
-          leagueId: get(game,'leagueId'),
-          year: get(game,'year'),
-          startDateTime: {
-            $gte: moment(get(game,'startDateTime')).format(),
-            $lte: moment(get(game,'startDateTime')).format(),
-          }
-        };
+        // const gameFind = {
+        //   leagueId: get(game,'leagueId'),
+        //   year: get(game,'year'),
+        //   startDateTime: {
+        //     $gte: moment(get(game,'startDateTime')).format(),
+        //     $lte: moment(get(game,'startDateTime')).format(),
+        //   }
+        // };
 
-        gameRepository.find(gameFind, function (err, gamesFound) {
-          if ((gamesFound || []).length > 0) {
-            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
-          } else {
+        // gameRepository.find(gameFind, function (err, gamesFound) {
+        //   if ((gamesFound || []).length > 0) {
+        //     console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
+        //   } else {
            gameRepository.create(game, function (err, gameCreated) {
               if (err) {
                 console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
@@ -2561,8 +2670,8 @@ const createGames = ({message, games}) => {
                console.log(`${message} createGames success creating game: ${gameCreated._id}`);
               }
             });
-          }
-        });
+          //}
+        //});
   });
 };
 

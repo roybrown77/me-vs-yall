@@ -284,6 +284,18 @@ class Home extends Component {
                     <Route render={({ history }) => (
                         <Button 
                             variant="outlined" 
+                            style={{...styles.button}} onClick={() => { history.push('/play') }}>
+                            PLAY
+                        </Button>
+                    )}/>
+                  </Grid>
+                }
+                {
+                  true &&
+                  <Grid item xs={8} style={{margin:'16px auto'}}>
+                    <Route render={({ history }) => (
+                        <Button 
+                            variant="outlined" 
                             style={{...styles.button, color: 'PURPLE'}} onClick={() => { history.push('/statoftheweek') }}>
                             STAT OF THE WEEK
                         </Button>
@@ -315,36 +327,12 @@ class Home extends Component {
                   </Grid>
                 }
                 {
-                  false &&
-                  <Grid item xs={8} style={{margin:'16px auto'}}>
-                    <Route render={({ history }) => (
-                        <Button 
-                            variant="outlined" 
-                            style={{...styles.button, color: 'GREEN'}} onClick={() => { history.push('/news') }}>
-                            NEWS
-                        </Button>
-                    )}/>
-                  </Grid>
-                }
-                {
-                  false &&
-                  <Grid item xs={8} style={{margin:'16px auto'}}>
-                    <Route render={({ history }) => (
-                        <Button 
-                            variant="outlined" 
-                            style={{...styles.button, color: 'GRAY'}} onClick={() => { history.push('/random') }}>
-                            RANDOM
-                        </Button>
-                    )}/>
-                  </Grid>
-                }
-                {
                   true &&
                   <Grid item xs={8} style={{margin:'16px auto'}}>
                     <Route render={({ history }) => (
                         <Button 
                             variant="outlined" 
-                            style={{...styles.button, color: 'LIGHTPURPLE'}} onClick={() => { history.push('/mailinglist') }}>
+                            style={{...styles.button}} onClick={() => { history.push('/mailinglist') }}>
                             MAILING LIST
                         </Button>
                     )}/>

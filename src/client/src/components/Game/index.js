@@ -23,6 +23,8 @@ import italy from '../../styles/images/italy.png';
 import iceland from '../../styles/images/iceland.png';
 import sweden from '../../styles/images/sweden.png';
 import russia from '../../styles/images/russia.png';
+import phillipines from '../../styles/images/phillipines.png';
+import bulgaria from '../../styles/images/bulgaria.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -120,6 +122,10 @@ class Game extends Component {
           return sweden;
         case 'RUSSIA':
           return russia;
+        case 'PHILLIPINES':
+          return phillipines;
+        case 'BULGARIA':
+          return bulgaria;
         default:
           return america;
       };
