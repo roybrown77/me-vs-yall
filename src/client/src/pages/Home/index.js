@@ -93,7 +93,7 @@ const styles = {
 
 const rules = [
   '1. Tap a sport.',
-  '2. Tap "Press To Play."',
+  '2. Tap "Press To Play".',
   '3. Sign in with Google.',
   '4. Tap all teams you think will win this week.',
   '5. View Leaders to see if you won.',
