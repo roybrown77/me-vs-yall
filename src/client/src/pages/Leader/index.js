@@ -460,13 +460,12 @@ class Leader extends Component {
                     }
                     {
                         image &&
+                        !(dataLoading || weeksDataLoading) &&
                         <div>
                             <img style={{width:'90%'}} src={image.picture} alt=""/>
                             <div style={{
-                                textAlign: 'left',
-                                paddingLeft: '20px',
                                 color: 'gray',
-                                fontSize: '14px'
+                                fontSize: '10px'
                             }}>Image via {image.source}</div>
                         </div>
                     }
