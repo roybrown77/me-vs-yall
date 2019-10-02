@@ -380,7 +380,7 @@ class Scoreboard extends Component {
                                 paddingLeft: '20px',
                                 color: 'gray',
                                 fontSize: '14px'
-                            }}>By {image.source}</div>
+                            }}>Image via {image.source}</div>
                         </div>
                     }
                 </PageContainer>
