@@ -6,8 +6,31 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
+import reggie from '../styles/images/reggie.jpg';
+import trevor from '../styles/images/trevor.png';
+
 const vegasPictures = [
 ];
+
+const getImage = (screen, leagueId) => {
+    switch (leagueId) {
+        // case '59723313734d1d6202a85f10':
+        //   return reggie;
+        case '59723313734d1d6202a85f15':
+          return screen === 'scores' ? {picture: reggie, source: 'Lucy Nicholson / REUTERS'} : {picture: trevor, source: 'John McDonough / SI'};
+        // case '59723313734d1d6202a85f17':
+        //   return reggie;
+        // case '59723313734d1d6202a85f29':
+        //   return reggie;
+        // case '59723313734d1d6202a85f25':
+        //   return reggie;
+        // case '59723313734d1d6202a85f27':
+        //   return reggie;
+        // case '59723313734d1d6202a85f19':
+        default:
+          return null;
+    };
+};
 
 const leagues = [ 
     {
@@ -451,5 +474,6 @@ export {
     getStartDateTime,
     getLeaderIndicator,
     getLeagueStartDateTime,
-    getLeagueNextGameStartDateTime
+    getLeagueNextGameStartDateTime,
+    getImage
 };

@@ -34,7 +34,8 @@ import {
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    hasGameStarted
+    hasGameStarted,
+    getImage
 } from '../../utilities';
 
 const styles = theme => ({
@@ -232,6 +233,7 @@ class Leader extends Component {
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
+        const image = getImage('leaders',leagueId);
 
         return (
             <div>
@@ -455,6 +457,18 @@ class Leader extends Component {
                                 </div>
                             </div>
                         </Slide>
+                    }
+                    {
+                        image &&
+                        <div>
+                            <img style={{width:'90%'}} src={image.picture} alt=""/>
+                            <div style={{
+                                textAlign: 'left',
+                                paddingLeft: '20px',
+                                color: 'gray',
+                                fontSize: '14px'
+                            }}>By {image.source}</div>
+                        </div>
                     }
                 </PageContainer>
             </div>

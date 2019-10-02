@@ -20,9 +20,7 @@ import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
 import { loadScoreboard, addPick, updatePick } from '../../actions';
-
 import { googleLogin } from '../../middleware/authenticationService';
-
 import { 
     formatWeeks, 
     getCurrentWeek, 
@@ -30,7 +28,8 @@ import {
     getAreAllGamesOver,
     getGroupedGames,
     getAreAnyGamesInProgress,
-    getLeagueStartDateTime
+    getLeagueStartDateTime,
+    getImage
 } from '../../utilities';
 
 const styles = theme => ({
@@ -231,6 +230,8 @@ class Scoreboard extends Component {
 
         gameDate = null;
 
+        const image = getImage('scores',leagueId);
+
         return (
             <div>
                 <PageContainer>
@@ -368,6 +369,18 @@ class Scoreboard extends Component {
                                         </div>
                                     );
                             })}
+                        </div>
+                    }
+                    {
+                        image &&
+                        <div>
+                            <img style={{width:'90%'}} src={image.picture} alt=""/>
+                            <div style={{
+                                textAlign: 'left',
+                                paddingLeft: '20px',
+                                color: 'gray',
+                                fontSize: '14px'
+                            }}>By {image.source}</div>
                         </div>
                     }
                 </PageContainer>
