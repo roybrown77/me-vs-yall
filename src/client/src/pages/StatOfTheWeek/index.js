@@ -36,6 +36,14 @@ const styles = {
 
 const stats = [
   {
+    title: '85 REVENGE',
+    content: `After 4 games, the Chicago Bears have 17 sacks with a 3-1 record.  That's about a sack per quarter.  The only team with more sacks 
+              and wins is the New England Patriots with 18 sacks and a record of 4-0.  A rematch of the 1985 Super Bowl would be epic with Mack vs Brady.`,
+    leagueName: 'NFL',
+    date: 'October 3, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: 'SUPER BOWL VS NFC NORTH',
     content: `Since 1967, only the Buffalo Bills have been to the Super Bowl 4 times in a row.  The New England Patriots could do it in 2019 after 
               facing the NFC South (2016 Falcons), NFC East (2017 Eagles) and NFC West (2018 Rams).  Will it be against the NFC North (Bears, Packers, 
