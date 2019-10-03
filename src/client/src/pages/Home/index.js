@@ -48,7 +48,7 @@ const styles = {
   },
   buttonBorder: {
     maxWidth: '325px',
-    margin: '0 auto'
+    margin: '10px auto'
   },
   button: {
     width: '100%',
