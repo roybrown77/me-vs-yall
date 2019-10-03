@@ -1389,7 +1389,7 @@ const ncaaTeams = [
         location: "Utah State",
         shortLocation: "USU",
         name: "Aggies",
-        color: '#0F24395'
+        color: '#0F2439'
     },
     {
         _id: "5b84a2889a4c08bca6ab9067",
