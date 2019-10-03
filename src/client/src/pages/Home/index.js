@@ -46,6 +46,10 @@ const styles = {
     padding: '0 8px',
     margin: '40px 0'
   },
+  buttonBorder: {
+    maxWidth: '325px',
+    margin: '0 auto'
+  },
   button: {
     width: '100%',
     color: 'black',
@@ -96,9 +100,11 @@ const rules = [
   '2. Tap "Press To Play".',
   '3. Sign in with Google.',
   '4. Tap all teams you think will win this week.',
-  '5. View Leaders to see if you won.',
-  '6. Prizes are available when "Tap to View Prize" is present.',
-  '7. Winner will be emailed by Tuesday 8 pm ET with instructions to collect.'
+  '5. Follow plays on Scores.',
+  '6. View Leaders to see if you won.',
+  '7. Eat your favorite meal and dance, dance, dance. :D',
+  '8. Prizes are available when "Tap to View Prize" is present.',
+  '9. Winner will be emailed by Tuesday 8 pm ET with instructions to collect.'
 ];
 
 class Home extends Component {
@@ -165,7 +171,7 @@ class Home extends Component {
           }
           <div style={styles.buttonContainer}>
              <Popover 
-                borderStyle={{margin: '0 auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer'}}
+                borderStyle={{margin: '0 auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer', marginBottom: '16px'}}
                 titleStyle={{fontWeight: 'bold'}}
                 title={'How To Play'}>
                 {
@@ -182,7 +188,7 @@ class Home extends Component {
             </Popover>
             {
                false &&
-               <Grid item xs={8} style={{margin:'16px auto'}}>
+               <Grid item xs={8} style={styles.buttonBorder}>
                 <Route render={({ history }) => (
                     <Button 
                         variant="outlined" 
@@ -193,7 +199,7 @@ class Home extends Component {
               </Grid>
             }
             <Grid>
-              <Grid item xs={8} style={{margin:'16px auto'}}>
+              <Grid item xs={8} style={styles.buttonBorder}>
                 <Route render={({ history }) => (
                     <Button 
                         variant="outlined" 
@@ -209,7 +215,7 @@ class Home extends Component {
               </Grid>
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -226,7 +232,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -243,7 +249,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -260,7 +266,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -277,7 +283,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -294,7 +300,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -311,7 +317,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -328,7 +334,7 @@ class Home extends Component {
               }
               {
                 true &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
@@ -340,7 +346,7 @@ class Home extends Component {
               }
               {
                 false &&
-                <Grid item xs={8} style={{margin:'16px auto'}}>
+                <Grid item xs={8} style={styles.buttonBorder}>
                     <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
