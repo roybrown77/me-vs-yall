@@ -12,6 +12,7 @@ import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
 import diaz from '../styles/images/diaz-brothers-ufc.jpg';
 import nunes from '../styles/images/nunes.jpg';
+import pogba from '../styles/images/pogba.jpg';
 
 const vegasPictures = [
 ];
@@ -22,8 +23,8 @@ const getImage = (screen, leagueId) => {
         return screen === 'scores' ? {picture: polamalu, source: 'Getty Images'} : {picture: mack, source: 'ChicagoBears.com'};
         case '59723313734d1d6202a85f15':
           return screen === 'scores' ? {picture: reggie, source: 'Lucy Nicholson / REUTERS'} : {picture: trevor, source: 'Christian Petersen / Getty Images'};
-        // case '59723313734d1d6202a85f17':
-        //   return reggie;
+        case '59723313734d1d6202a85f17':
+          return screen === 'scores' ? null : {picture: pogba, source: 'Getty Images'};
         // case '59723313734d1d6202a85f19':
         //   return reggie;
         // case '59723313734d1d6202a85f25':
