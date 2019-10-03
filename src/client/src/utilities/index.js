@@ -10,6 +10,8 @@ import polamalu from '../styles/images/polamalu.jpg';
 import mack from '../styles/images/mack.jpg';
 import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
+import diaz from '../styles/images/diaz-brothers-ufc.jpg';
+import nunes from '../styles/images/nunes.jpg';
 
 const vegasPictures = [
 ];
@@ -22,13 +24,13 @@ const getImage = (screen, leagueId) => {
           return screen === 'scores' ? {picture: reggie, source: 'Lucy Nicholson / REUTERS'} : {picture: trevor, source: 'Christian Petersen / Getty Images'};
         // case '59723313734d1d6202a85f17':
         //   return reggie;
-        // case '59723313734d1d6202a85f29':
+        // case '59723313734d1d6202a85f19':
         //   return reggie;
         // case '59723313734d1d6202a85f25':
         //   return reggie;
-        // case '59723313734d1d6202a85f27':
-        //   return reggie;
-        // case '59723313734d1d6202a85f19':
+        case '59723313734d1d6202a85f27':
+          return screen === 'scores' ? {picture: diaz, source: 'SouthLandPost.com'} : {picture: nunes, source: 'Esther Lin / MMA Fighting'};
+        // case '59723313734d1d6202a85f29':
         default:
           return null;
     };
