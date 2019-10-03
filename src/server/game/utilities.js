@@ -303,7 +303,7 @@ const ufcCompetitors = [
         location: 'Blagoy Ivanov',
         shortLocation: "Blagoy",
         name: "Baga Ivanov",
-        country: "BULGARIA "
+        country: "BULGARIA"
     },
     {
         _id: "19823783734d1d04a1b32011",
