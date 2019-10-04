@@ -141,7 +141,6 @@ const backupData = async () => {
   console.log('picks: ' + JSON.stringify(picks));
   const users = await userRepository.find({});
   console.log('users: ' + JSON.stringify(users));
-  console.log('teams: ' + JSON.stringify(teams));
 };
 
 router.get('/games', function (req, res) {
