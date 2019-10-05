@@ -210,7 +210,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 5 === 0 || divider % 13 === 0) {
+      if (divider % 5 === 0 || divider % 13 === 0 || ([6,7].includes(currentWeekDay) && hours >= 7 && hours <= 16)) {
         updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       }
    } catch(err) {
