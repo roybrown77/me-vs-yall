@@ -109,10 +109,11 @@ const styles = {
 };
 
 const instructions = [
-  '1. Tap "Press To Play"',
-  '2. Tap all teams you think will win this week.',
-  '3. View Leaders to see if you won.',
-  '4. View details for prize and rules.'
+  '1. Tap sport.'
+  '2. Tap "Press To Play".',
+  '3. Tap all teams you think will win this week.',
+  '4. View Leaders to see if you won.',
+  '5. View details for prize and rules.'
 ];
 
 class Home extends Component {
