@@ -761,7 +761,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9012",
         leagueId: "59723313734d1d6202a85f15",
         location: "Miami",
-        shortLocation: "MIAMI",
+        shortLocation: "MIA",
         name: "Hurricanes",
         color: '#F47321',
     },
@@ -1422,6 +1422,38 @@ const ncaaTeams = [
         shortLocation: "CIN",
         name: "Bearcats",
         color: '#E00122'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab906b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Illinois",
+        shortLocation: "ILL",
+        name: "Fighting Illini",
+        color: '#E84A27'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab906c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Memphis",
+        shortLocation: "MEM",
+        name: "Tigers",
+        color: '#003087'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab906d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Baylor",
+        shortLocation: "BAY",
+        name: "Bears",
+        color: '#003015'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab906e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Wake Forest",
+        shortLocation: "WAKE",
+        name: "Demon Deacons",
+        color: '#9E7E38'
     }
 ];
 
