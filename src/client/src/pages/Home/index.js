@@ -79,7 +79,7 @@ const styles = {
     border: '2px solid black'
   },
   countdown: {
-    fontSize: '16px',
+    fontSize: '14px',
     color: 'black',
     marginTop: '4px'
   },
