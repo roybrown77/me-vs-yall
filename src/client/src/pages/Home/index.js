@@ -109,7 +109,7 @@ const styles = {
 };
 
 const instructions = [
-  '1. Tap sport.'
+  '1. Tap sport.',
   '2. Tap "Press To Play".',
   '3. Tap all teams you think will win this week.',
   '4. View Leaders to see if you won.',
