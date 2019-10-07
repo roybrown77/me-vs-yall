@@ -17,10 +17,8 @@ import lsu from '../../styles/images/lsu.jpg';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
-import { 
-    getAreAnyGamesInProgress,
-    getLeagueStartDateTime
-} from '../../utilities';
+import { googleLogin } from '../../middleware/authenticationService';
+import { getAreAnyGamesInProgress, getLeagueStartDateTime} from '../../utilities';
 
 const styles = {
   plainTitle: {
@@ -92,19 +90,29 @@ const styles = {
   link: {
     color: 'white',
     textDecoration: 'none'
+  },
+  loginButton: {
+    fontSize: '1rem',
+    fontWeight: "700",
+    paddingBottom: '4px',
+    width: '100%',
+    backgroundColor: '#3772FA',
+    color: '#FFFFFF',
+    maxWidth: '325px',
+    borderColor: '#3772FA',
+    '&:hover': {
+      backgroundColor: '#3772FA',
+      color: '#FFFFFF',
+      borderColor: '#3772FA',
+    }
   }
 };
 
-const rules = [
-  '1. Tap a sport.',
-  '2. Tap "Press To Play".',
-  '3. Sign in with Google.',
-  '4. Tap all teams you think will win this week.',
-  '5. Follow plays on Scores.',
-  '6. View Leaders to see if you won.',
-  '7. Eat your favorite meal and dance, dance, dance. :D',
-  '8. Prizes are available when "Tap to View Prize" is present.',
-  '9. Winner will be emailed by Tuesday 8 pm ET with instructions to collect.'
+const instructions = [
+  '1. Tap "Press To Play"',
+  '2. Tap all teams you think will win this week.',
+  '3. View Leaders to see if you won.',
+  '4. View details for prize and rules.'
 ];
 
 class Home extends Component {
@@ -121,9 +129,7 @@ class Home extends Component {
     };
 
     render() {
-      const { 
-            games
-        } = this.props;
+      const {isAuthenticated, games} = this.props;
 
       const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
       const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
@@ -177,15 +183,24 @@ class Home extends Component {
                 {
                     <div style={{padding:'16px'}}>
                       {
-                        rules.map((rule,ruleIndex)=>{
+                        instructions.map((instruction,instructionIndex)=>{
                           return (
-                              <div key={ruleIndex}>{rule}</div>
+                              <div key={instructionIndex}>{instruction}</div>
                           );
                         })
                       }
                     </div>
                 }
             </Popover>
+            {
+              !isAuthenticated && 
+              <Button
+                  variant="contained" 
+                  style={styles.loginButton}
+                  onClick={() => googleLogin()}>
+                Press to Play
+              </Button>
+            }
             {
                false &&
                <Grid item xs={8} style={styles.buttonBorder}>
@@ -406,16 +421,20 @@ class Home extends Component {
 const mapStateToProps = (state, ownProps) => {
     const homePageDomain = state.get('homePageDomain').toJS();
     const games = get(homePageDomain, 'games', []);
+    const authenticationDomain = state.get('authenticationDomain').toJS();
+    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     return {
-        games
+      isAuthenticated,
+      games
     }
 };
 
 Home.propTypes = {
     classes: PropTypes.object.isRequired,
     games: PropTypes.array,
-    loadGamesInProgress: PropTypes.func.isRequired
+    loadGamesInProgress: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, {
