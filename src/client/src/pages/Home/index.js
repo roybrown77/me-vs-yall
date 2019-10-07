@@ -112,7 +112,8 @@ const instructions = [
   '1. Tap "Press To Play".',
   '2. Tap teams you think will win this week.',
   '3. View Leaders to see if you won.',
-  '4. View details for prize and rules.'
+  '4. View details for prize and rules.',
+  '5. Eat your favorite meal and dance, dance, dance. :D'
 ];
 
 class Home extends Component {
