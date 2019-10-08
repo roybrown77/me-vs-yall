@@ -172,8 +172,8 @@ const boxingCompetitors = [
     {
         _id: "19823783734d1d04a1b3100e",
         location: 'Romero Duno',
-        shortLocation: "Ruthless Romero",
-        name: "Duno",
+        shortLocation: "Romero",
+        name: "Ruthless Duno",
         country: "PHILLIPINES"
     },
     {
