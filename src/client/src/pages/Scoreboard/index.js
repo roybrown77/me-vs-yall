@@ -295,15 +295,19 @@ class Scoreboard extends Component {
                     {
                         !get(currentWeek,'prize') &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins!</div>
+                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins bragging rights!</div>
                         </div>
                     }
                     {
                         get(currentWeek,'prize') &&
                         <Popover 
-                            borderStyle={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}
-                            titleStyle={{color: 'darkgreen', fontSize: '17px'}}
-                            title={'player with the most correct wins!  tap to view prize and rules.'}>
+                            borderStyle={{margin: '4px 14%', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}
+                            titleStyle={{color: 'darkgreen', fontSize: '17px', borderBottom:'3px solid lightgreen', padding: '4px'}}
+                            subTitleStyle={{color: 'darkgreen', fontSize: '17px', borderTop:'3px solid lightgreen', padding: '4px'}}
+                            title={'player with the most correct wins!'}
+                            subTitle={'tap to view rules.'}
+                            segments={get(currentWeek,'prizes')}
+                        >
                             {
                                 <div style={{padding:'16px'}}>
                                     <div style={{paddingBottom: '12px'}}>{get(currentWeek,'prize.message')}</div>

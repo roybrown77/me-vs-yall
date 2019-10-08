@@ -6,6 +6,7 @@ const GameSchema = new mongoose.Schema({
     endDateTime: 'date',
     description: String,
     prize: mongoose.Schema.Types.Mixed,
+    prizes: Array,
     isRollup: mongoose.Schema.Types.Boolean
 });
 module.exports = mongoose.model('Game_Week', GameSchema);

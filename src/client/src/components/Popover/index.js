@@ -17,10 +17,27 @@ export default function SimplePopover(props) {
 
   return (
     <div style={props.borderStyle}>
-      <div 
-        style={props.titleStyle}
-        onClick={handleClick}>
+      <div style={props.titleStyle} onClick={handleClick}>
         {props.title}
+      </div>
+      {
+        (props.segments || []).map((segment,index)=>
+          <div 
+            key={index} 
+            onClick={handleClick}
+            style={{fontSize:'30px', display:'flex', color:'darkgreen', borderBottom: props.segments.length-1 === index ? 'none' : '3px solid lightgreen'}}
+          >
+            <div style={{minWidth:'75px', padding:'10px', borderRight:'solid 3px lightgreen'}}>
+              {segment.amount}
+            </div>
+            <div style={{width:'100%', padding:'10px'}}>
+              {segment.description}
+            </div>
+          </div>
+        )
+      }
+      <div style={props.subTitleStyle} onClick={handleClick}>
+        {props.subTitle}
       </div>
       <Popover
         id={id}
