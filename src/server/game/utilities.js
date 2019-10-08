@@ -2566,8 +2566,8 @@ const getGames = async ({
 
     if (shouldLimit) {
         const isStart = sample([true, false]);
-        startLength = listLength < 4 ? 1 : isStart ? 1 : listLength-2;
-        endLength = listLength < 4 ? listLength : isStart ? 3 : listLength;
+        startLength = listLength < 3 ? 1 : isStart ? 1 : listLength-1;
+        endLength = listLength < 3 ? listLength : isStart ? 2 : listLength;
     }
 
     for (let i = startLength; i <= endLength; i++) {

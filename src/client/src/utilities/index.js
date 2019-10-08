@@ -78,7 +78,7 @@ const leagues = [
         id: '59723313734d1d6202a85f19', 
         name: 'nba', 
         description: 'nba', 
-        years: [2018]
+        years: [2018, 2019]
     },
     // {
     //     id: '59723313734d1d6202a85f21', 
@@ -104,8 +104,8 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1201)) {
-        return moment(`${year}1201`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1015)) {
+        return moment(`${year}1015`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 401 || monthDay > 1115)) {
@@ -139,8 +139,8 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1201)) {
-        return moment(`${year}1201`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1015)) {
+        return moment(`${year}1015`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 401 || monthDay > 1115)) {

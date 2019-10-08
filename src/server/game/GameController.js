@@ -241,20 +241,20 @@ router.get('/games', function (req, res) {
     }
   }
 
-  if (monthDay > 615 && monthDay < 1201) {
+  if (monthDay > 615 && monthDay < 1015) {
     console.log('new nba games will be loaded during season.');
   } else {
     try {
-      // loadNbaGames(0);
-      // loadNbaGames(1);
-      // loadNbaGames(2);
+      //loadNbaGames({dayCount: 0, shouldLimit: true});
+      //loadNbaGames({dayCount: 1, shouldLimit: true});
+      //loadNbaGames({dayCount: 2, shouldLimit: true});
     } catch(err) {
       isLoadNbaGamesRunning = false;
       console.log('loadNbaGames error: ' + err.message);
     }
 
     try {
-      if (divider % 9 === 0) {
+      if (divider % 3 === 0 || divider % 1 === 0 || ([1,2,3,4,5].includes(currentWeekDay))) {
         updateNbaScores();
       }
     } catch(err) {
