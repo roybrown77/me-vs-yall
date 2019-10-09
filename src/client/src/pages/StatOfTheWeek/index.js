@@ -38,7 +38,7 @@ const stats = [
   {
     title: 'UNDEFEATED',
     content: `Patriots and 49ers are currently undefeated.  Bills, Chiefs, Packers, Panthers and Seahawks are also perfect on the road while Saints 
-              are untouchable at home.`,
+              and Vikings are untouchable at home.`,
     leagueName: 'NFL',
     date: 'October 9, 2019',
     author: 'Roy B.'
