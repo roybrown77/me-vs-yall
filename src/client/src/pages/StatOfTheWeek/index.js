@@ -36,6 +36,14 @@ const styles = {
 
 const stats = [
   {
+    title: 'UNDEFEATED',
+    content: `Patriots and 49ers are currently undefeated.  Bills, Chiefs, Packers, Panthers and Seahawks are also perfect on the road while Saints 
+              are untouchable at home.`,
+    leagueName: 'NFL',
+    date: 'October 9, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: '85 REVENGE',
     content: `After 4 games, the Chicago Bears have 17 sacks with a 3-1 record.  That's about a sack per quarter.  The only team with more sacks 
               and wins is the New England Patriots with 18 sacks and a record of 4-0.  A rematch of the 1985 Super Bowl would be epic with Mack vs Brady.`,
