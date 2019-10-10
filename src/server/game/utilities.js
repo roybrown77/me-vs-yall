@@ -851,8 +851,8 @@ const ncaaTeams = [
         location: "William & Mary",
         shortLocation: "W&M",
         alternateName: "W&am;M",
-        name: "Crimson Tide",
-        color: '',
+        name: "Tribe",
+        color: '#115740',
     },
     {
         _id: "5b84a2889a4c08bca6ab901e",
@@ -919,20 +919,20 @@ const ncaaTeams = [
         color: '#8C1515',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9026",
         leagueId: "59723313734d1d6202a85f15",
         location: "Western Kentucky",
         shortLocation: "WKU",
-        name: "Crimson Tide"
+        name: "Hilltoppers",
+        color: '#C60C30',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9027",
         leagueId: "59723313734d1d6202a85f15",
         location: "San Diego State",
         shortLocation: "SDSU",
-        name: "Crimson Tide"
+        name: "Aztecs",
+        color: '#A6192E',
     },
     {
         _id: "5b84a2889a4c08bca6ab9028",
@@ -943,44 +943,36 @@ const ncaaTeams = [
         color: '#C5050C',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9029",
         leagueId: "59723313734d1d6202a85f15",
         location: "Oregon State",
         shortLocation: "ORST",
-        name: "Crimson Tide"
+        name: "Beavers",
+        color: '#DC4405',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab902a",
         leagueId: "59723313734d1d6202a85f15",
         location: "Austin Peay",
         shortLocation: "PEAY",
-        name: "Crimson Tide"
+        name: "Governors",
+        color: '#ba0c2f',
     },
     {
-        color: '',
-        _id: "5b84a2889a4c08bca6ab902b",
-        leagueId: "59723313734d1d6202a85f15",
-        location: "Southern",
-        shortLocation: "SOU",
-        name: "Crimson Tide"
-    },
-    {
-        color: '',
         _id: "5b84a2889a4c08bca6ab902c",
         leagueId: "59723313734d1d6202a85f15",
         location: "Stephen F. Austin",
         shortLocation: "SFA",
-        name: "Crimson Tide"
+        name: "Lumberjacks",
+        color: '#5f259f',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab902d",
         leagueId: "59723313734d1d6202a85f15",
         location: "Furman",
         shortLocation: "FUR",
-        name: "Crimson Tide"
+        name: "Paladins",
+        color: '#201547',
     },
     {
         _id: "5b84a2889a4c08bca6ab902e",
@@ -999,12 +991,12 @@ const ncaaTeams = [
         color: '#0033A0',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9030",
         leagueId: "59723313734d1d6202a85f15",
         location: "Western Michigan",
         shortLocation: "WMU",
-        name: "Crimson Tide"
+        name: "Broncos",
+        color: '#6C4023',
     },
     {
         _id: "5b84a2889a4c08bca6ab9031",
@@ -1047,28 +1039,28 @@ const ncaaTeams = [
         color: '#CC0033'
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9036",
         leagueId: "59723313734d1d6202a85f15",
         location: "South Carolina State",
         shortLocation: "SCST",
-        name: "Cougars"
+        name: "Bulldogs",
+        color: '#041E42',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9037",
         leagueId: "59723313734d1d6202a85f15",
         location: "Ball State",
         shortLocation: "BALL",
-        name: "Cougars"
+        name: "Cardinals",
+        color: '#BA0C2F',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9038",
         leagueId: "59723313734d1d6202a85f15",
         location: "Savannah State",
         shortLocation: "SAV",
-        name: "Cougars"
+        name: "Tigers",
+        color: '#ff5b00',
     },
     {
         _id: "5b84a2889a4c08bca6ab9039",
@@ -1088,20 +1080,20 @@ const ncaaTeams = [
         color: '#0033A0',
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9041",
         leagueId: "59723313734d1d6202a85f15",
         location: "Alabama State",
         shortLocation: "ALST",
-        name: "Cougars"
+        name: "Hornets",
+        color: '#d4ac2a'
     },
     {
-        color: '',
         _id: "5b84a2889a4c08bca6ab9042",
         leagueId: "59723313734d1d6202a85f15",
         location: "Southeastern Louisiana",
         shortLocation: "SELA",
-        name: "Cougars"
+        name: "Lions",
+        color: '#AE9142'
     },
     {
         _id: "5b84a2889a4c08bca6ab9043",
