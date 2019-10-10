@@ -42,7 +42,7 @@ const styles = {
   },
   buttonContainer: {
     padding: '0 8px',
-    margin: '40px 0'
+    margin: '32px 0'
   },
   buttonBorder: {
     maxWidth: '325px',
@@ -188,7 +188,7 @@ class Home extends Component {
         <div className="fade-in">
           {
             true &&
-            <div style={{marginTop: '16px'}}>
+            <div style={{marginTop: '32px'}}>
               <img style={{width:'275px'}} src={mvy} alt=""/>
             </div>
           }
@@ -198,22 +198,20 @@ class Home extends Component {
           <div style={styles.streaming}>
             streaming live game data
           </div>
-          <div style={styles.buttonContainer}>
+          <div style={{marginTop:'32px'}}>
             <Popover 
               borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer'}}
               titleStyle={{fontWeight: 'bold'}}
               title={'How To Play'}>
-              {
-                  <div style={{padding:'16px'}}>
-                    {
-                      instructions.map((instruction,instructionIndex)=>{
-                        return (
-                            <div key={instructionIndex}>{instruction}</div>
-                        );
-                      })
-                    }
-                  </div>
-              }
+              <div style={{padding:'16px'}}>
+                {
+                  instructions.map((instruction,instructionIndex)=>{
+                    return (
+                        <div key={instructionIndex}>{instruction}</div>
+                    );
+                  })
+                }
+              </div>
             </Popover>
             {
               !isAuthenticated && 
@@ -224,6 +222,8 @@ class Home extends Component {
                 Press to Play
               </Button>
             }
+          </div>
+          <div style={styles.buttonContainer}>
             {
                false &&
                <Grid item xs={8} style={styles.buttonBorder}>
