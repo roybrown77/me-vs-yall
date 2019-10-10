@@ -155,12 +155,12 @@ class Game extends Component {
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
                                         <div style={{position:'absolute', padding: '4px',
-                                            display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                            <img style={{width:'40px'}} src={angry} alt=""/>
+                                          display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                          <img style={{width:'40px'}} src={angry} alt=""/>
                                         </div>
                                         <div style={{position:'absolute', padding: '4px',
-                                            display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                            <img style={{width:'40px'}} src={pumpkin} alt=""/>
+                                          display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                          <img style={{width:'40px'}} src={money} alt=""/>
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm container>
