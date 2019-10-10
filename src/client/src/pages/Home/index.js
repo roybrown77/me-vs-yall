@@ -105,6 +105,29 @@ const styles = {
       color: '#FFFFFF',
       borderColor: '#3772FA',
     }
+  },
+  favoriteSports: {
+    lineHeight: '50px',
+    fontSize: '40px',
+    fontFamily: 'Poppins',
+    textAlign: 'left',
+    fontWeight: 'bold',
+    padding: '0 50px',
+    margin: '16px auto',
+    maxWidth: '650px'
+  },
+  streaming: {
+    lineHeight: '50px',
+    fontSize: '40px',
+    fontFamily: 'Poppins',
+    textAlign: 'left',
+    fontWeight: 'bold',
+    padding: '16px 50px',
+    margin: '16px auto',
+    maxWidth: '650px',
+    backgroundColor: 'lightblue',
+    color: '#fff'
+
   }
 };
 
@@ -112,7 +135,7 @@ const instructions = [
   '1. Tap "Press To Play".',
   '2. Tap teams you think will win this week.',
   '3. View Leaders to see if you won.',
-  '4. Enjoy your favorite meal and dance, dance, dance. :D'
+  "4. No purchase necessary.  It's free yall."
 ];
 
 class Home extends Component {
@@ -169,28 +192,28 @@ class Home extends Component {
               <img style={{width:'275px'}} src={mvy} alt=""/>
             </div>
           }
-          {
-            true &&
-            <div style={styles.subTitle}>
-              sports.  picks.  fun.  facts.  prizes.  free.
-            </div>
-          }
+          <div style={styles.favoriteSports}>
+            pick your favorite sports teams and fighters for prizes
+          </div>
+          <div style={styles.streaming}>
+            streaming live game data
+          </div>
           <div style={styles.buttonContainer}>
-             <Popover 
-                borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer'}}
-                titleStyle={{fontWeight: 'bold'}}
-                title={'How To Play'}>
-                {
-                    <div style={{padding:'16px'}}>
-                      {
-                        instructions.map((instruction,instructionIndex)=>{
-                          return (
-                              <div key={instructionIndex}>{instruction}</div>
-                          );
-                        })
-                      }
-                    </div>
-                }
+            <Popover 
+              borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer'}}
+              titleStyle={{fontWeight: 'bold'}}
+              title={'How To Play'}>
+              {
+                  <div style={{padding:'16px'}}>
+                    {
+                      instructions.map((instruction,instructionIndex)=>{
+                        return (
+                            <div key={instructionIndex}>{instruction}</div>
+                        );
+                      })
+                    }
+                  </div>
+              }
             </Popover>
             {
               !isAuthenticated && 
