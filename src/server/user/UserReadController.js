@@ -7,8 +7,8 @@ const userRepository = require('./UserRepository');
 
 const get = require('lodash/get');
 
-const ids = ['google-oauth2|105396867324708249567'];
-const rollupIds = ['google-oauth2|114172296334563495985'];
+const censoredIds = ['google-oauth2|105396867324708249567'];
+const rollupIds = ['google-oauth2|114172296334563495985','google-oauth2|118235893610557038598'];
 const vegas = {firstName: 'Vegas',authServiceId: '1'};
 
 router.get('/users', function (req, res) {
@@ -19,7 +19,7 @@ router.get('/users', function (req, res) {
             if (req.query.isRollup || (!req.query.isRollup && !rollupIds.includes(user.authServiceId))) {
                 const x = user;
                 x.email = undefined;
-                x.picture = ids.includes(x.authServiceId) ? null : x.picture;
+                x.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
                 x.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
                 goodUsers.push(x);
             }
@@ -33,7 +33,7 @@ router.get('/users/:id', function (req, res) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
         user.email = undefined;
-        user.picture = ids.includes(x.authServiceId) ? null : x.picture;
+        user.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
         user.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
         res.status(200).send(user);
     });
