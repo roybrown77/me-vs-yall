@@ -105,6 +105,10 @@ const stats = [
     content: `Sign in again to get new app features or clear browser cache.`
   },
   {
+    title: 'CREATOR VIEW',
+    content: `You may see a week selection for Creator View.  This includes picks from the creator of the app and Vegas.  It's to prevent interfering with contest week but still allow them to play.`
+  },
+  {
     title: 'TAGS',
     content: `#football #soccer #basketball #boxing #mma #bmx #skate #surf #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #statoftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vegas #litty #merch #thatway #art #picks #free`
   }

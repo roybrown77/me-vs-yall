@@ -403,12 +403,10 @@ class Home extends Component {
               <div>
                 <div><Link style={styles.link} to={'/about'}>About</Link></div>
                 <div><Link style={styles.link} to={'/shop'}>Shop</Link></div>
-                <div><Link style={styles.link} to={'/contact'}>Contact</Link></div>
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link style={styles.link} to={'/tips'}>Tips</Link></div>
                 <div><Link style={styles.link} to={'/statoftheweek'}>Stat of the Week</Link></div>
-                <div><Link style={styles.link} to={'/mailinglist'}>Mailing List</Link></div>
               </div>
             </div>
             <div>© 2019 Me vs Yall. All rights reserved.</div>
