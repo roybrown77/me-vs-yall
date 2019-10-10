@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import mvy from '../../styles/images/mvy.png';
+import gram from '../../styles/images/gram.png';
 import fattMatt from '../../styles/images/fatt-matt.jpg';
 import hudsonGrille from '../../styles/images/hudson-grille.jpg';
 import lsu from '../../styles/images/lsu.jpg';
@@ -192,11 +193,8 @@ class Home extends Component {
               <img style={{width:'275px'}} src={mvy} alt=""/>
             </div>
           }
-          <div style={styles.favoriteSports}>
-            pick your favorite sports teams and fighters for prizes
-          </div>
-          <div style={styles.streaming}>
-            streaming live game data
+          <div style={{marginTop: '32px'}}>
+            <img style={{width:'275px'}} src={gram} alt=""/>
           </div>
           <div style={{marginTop:'32px'}}>
             <Popover 
