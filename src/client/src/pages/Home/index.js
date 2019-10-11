@@ -14,6 +14,8 @@ import gram from '../../styles/images/gram.png';
 import fattMatt from '../../styles/images/fatt-matt.jpg';
 import hudsonGrille from '../../styles/images/hudson-grille.jpg';
 import lsu from '../../styles/images/lsu.jpg';
+import rocket from '../../styles/images/rocket.png';
+import money from '../../styles/images/money.png';
 
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
@@ -107,28 +109,12 @@ const styles = {
       borderColor: '#3772FA',
     }
   },
-  favoriteSports: {
-    lineHeight: '50px',
-    fontSize: '40px',
+  subTitle2: {
+    fontSize: '24px',
     fontFamily: 'Poppins',
-    textAlign: 'left',
     fontWeight: 'bold',
-    padding: '0 50px',
     margin: '16px auto',
-    maxWidth: '650px'
-  },
-  streaming: {
-    lineHeight: '50px',
-    fontSize: '40px',
-    fontFamily: 'Poppins',
-    textAlign: 'left',
-    fontWeight: 'bold',
-    padding: '16px 50px',
-    margin: '16px auto',
-    maxWidth: '650px',
-    backgroundColor: 'lightblue',
-    color: '#fff'
-
+    padding: '0 16px'
   }
 };
 
@@ -193,8 +179,11 @@ class Home extends Component {
               <img style={{width:'275px'}} src={mvy} alt=""/>
             </div>
           }
-          <div style={{marginTop: '32px'}}>
-            <img style={{width:'275px'}} src={gram} alt=""/>
+          <div style={styles.subTitle2}>
+            pick your favorite sports teams and fighters for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
+          </div>
+          <div style={styles.subTitle2}>
+            streaming live game plays <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
           </div>
           <div style={{marginTop:'32px'}}>
             <Popover 
@@ -369,18 +358,6 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#FF1493'}} onClick={() => this.gram()}>
-                          GRAM
-                      </Button>
-                  )}/>
-                </Grid>
-              }
-              {
                 false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                     <Route render={({ history }) => (
@@ -404,6 +381,19 @@ class Home extends Component {
             <div style={{fontSize: '10px'}}>Image via LSU Sports Information</div>
             <div><svg width="62" height="43" xmlns="http://www.w3.org/2000/svg"><path d="M5.266 38.877c1.452.833 2.918.32 4.32.057 3.251-.615 6.476-1.387 9.728-1.987 1.096-.202 2.252-.155 3.367-.08.612.04 1.158.465 1.187 1.158.036.836-.586 1.398-1.296 1.371-5.507-.205-10.51 2.352-15.828 3.104-3.789.535-5.922-1.198-5.838-4.952.128-5.752 2.184-11.108 4.47-16.369.324-.743.922-1.304 1.878-.977 1.07.366 1.137 1.213.858 2.1-.754 2.389-1.6 4.752-2.35 7.143-.408 1.3-.841 2.617-.706 4.01.861.305 1.095-.384 1.43-.82 5.204-6.806 10.957-13.122 17.665-18.508C33.95 6.26 44.6.39 57.591.488c.606.006 1.228-.073 1.816.027 1.083.184 2.082.601 1.887 1.95-.19 1.322-1.2 1.623-2.346 1.467-13.31-1.817-24 3.952-33.929 12.042-7.941 6.47-14.268 14.264-19.753 22.903" fill="#EF1F6B" fillRule="evenodd"></path></svg></div>
             <div>let's go!</div>
+          </div>
+          <div style={{backgroundColor: '#fff', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
+            <img style={{width:'90%'}} src={gram} alt=""/>
+            <div style={{transform: 'scaleX(-1)'}}><svg width="62" height="43" xmlns="http://www.w3.org/2000/svg"><path d="M5.266 38.877c1.452.833 2.918.32 4.32.057 3.251-.615 6.476-1.387 9.728-1.987 1.096-.202 2.252-.155 3.367-.08.612.04 1.158.465 1.187 1.158.036.836-.586 1.398-1.296 1.371-5.507-.205-10.51 2.352-15.828 3.104-3.789.535-5.922-1.198-5.838-4.952.128-5.752 2.184-11.108 4.47-16.369.324-.743.922-1.304 1.878-.977 1.07.366 1.137 1.213.858 2.1-.754 2.389-1.6 4.752-2.35 7.143-.408 1.3-.841 2.617-.706 4.01.861.305 1.095-.384 1.43-.82 5.204-6.806 10.957-13.122 17.665-18.508C33.95 6.26 44.6.39 57.591.488c.606.006 1.228-.073 1.816.027 1.083.184 2.082.601 1.887 1.95-.19 1.322-1.2 1.623-2.346 1.467-13.31-1.817-24 3.952-33.929 12.042-7.941 6.47-14.268 14.264-19.753 22.903" fill="#EF1F6B" fillRule="evenodd"></path></svg></div> 
+            <Grid item xs={8} style={styles.buttonBorder}>
+              <Route render={({ history }) => (
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#FF1493'}} onClick={() => this.gram()}>
+                      GRAM
+                  </Button>
+              )}/>
+            </Grid>
           </div>
           <div style={{backgroundColor: '#EFFD57', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
             <img style={{width:'90%'}} src={fattMatt} alt=""/>
