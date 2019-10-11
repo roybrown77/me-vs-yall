@@ -97,7 +97,6 @@ const styles = {
   loginButton: {
     fontSize: '1rem',
     fontWeight: "700",
-    marginBottom: '8px',
     width: '100%',
     backgroundColor: '#3772FA',
     color: '#FFFFFF',
