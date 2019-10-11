@@ -101,8 +101,7 @@ const styles = {
   },
   subTitle: {
     fontSize: '24px',
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
+    fontFamily: 'monospace',
     margin: '16px auto',
     padding: '0 32px'
   }
