@@ -34,15 +34,6 @@ const styles = {
     padding: '8px',
     width: '50%'
   },
-  subTitle: {
-    color: '#000000',
-    margin: '8px 8px',
-    fontFamily: 'Poppins, sans serif',
-    fontSize: '2rem',
-    fontWeight: 'bold !important',
-    letterSpacing: '-1px',
-    lineHeight: '1.1'
-  },
   buttonContainer: {
     padding: '0 8px',
     margin: '32px 0'
@@ -97,7 +88,7 @@ const styles = {
   loginButton: {
     fontSize: '1rem',
     fontWeight: "700",
-    width: '100%',
+    width: '95%',
     backgroundColor: '#3772FA',
     color: '#FFFFFF',
     maxWidth: '325px',
@@ -108,12 +99,12 @@ const styles = {
       borderColor: '#3772FA',
     }
   },
-  subTitle2: {
+  subTitle: {
     fontSize: '24px',
     fontFamily: 'Poppins',
     fontWeight: 'bold',
     margin: '16px auto',
-    padding: '0 16px'
+    padding: '0 32px'
   }
 };
 
@@ -178,10 +169,10 @@ class Home extends Component {
               <img style={{width:'275px'}} src={mvy} alt=""/>
             </div>
           }
-          <div style={styles.subTitle2}>
+          <div style={styles.subTitle}>
             pick your favorite sports teams and fighters for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
           </div>
-          <div style={styles.subTitle2}>
+          <div style={styles.subTitle}>
             streaming live game plays <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
           </div>
           <div style={{marginTop:'32px'}}>
