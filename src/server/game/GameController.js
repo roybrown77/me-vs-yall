@@ -310,7 +310,7 @@ router.get('/games', function (req, res) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       games.map(game=>{
         const x = game;
-        x.playHistory = [];
+        x.playHistory = game.playHistory.slice(0,5);
         return x;
       });
       res.status(200).send(games);
