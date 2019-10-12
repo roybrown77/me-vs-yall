@@ -2716,6 +2716,8 @@ const getScores = async ({
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
     finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
+    liveDownSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down',
+    livePossession = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2.icon-possession-football-after',
     away='away',
     home='home'
 }) => {
@@ -2769,6 +2771,21 @@ const getScores = async ({
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
       }, finalGameOverSelector.replace("INDEX", i));
+
+      const down = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveDownSelector.replace("INDEX", i));
+
+      const possessionHome = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, livePossession.replace("INDEX", i).replace("HOMEAWAY",home));
+
+      const possessionAway = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, livePossession.replace("INDEX", i).replace("HOMEAWAY",away));
 
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -2861,7 +2878,9 @@ const getScores = async ({
         lastPlay: (lastPlay || '').trim(),
         currentTime: currentTime,
         gameName: gameName,
-        startDateTime: startDateTime
+        startDateTime: startDateTime,
+        down: (down || '').trim(),
+        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined)
       });
     }
 
@@ -2950,7 +2969,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
               playHistory: newPlayHistory,
               lastPlay: lastPlays,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
-              gameName: get(score,'gameName','')
+              gameName: get(score,'gameName',''),
+              down: get(score,'down'),
+              possession: get(score,'possession')
             };
 
             set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
