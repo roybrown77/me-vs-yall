@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const styles = {
   countDown: {
     fontSize: '17px',
-    color: 'darkorange'
+    color: 'deeppink'
   }
 };
 
