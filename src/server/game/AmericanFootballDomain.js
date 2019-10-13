@@ -21,34 +21,9 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadFootballGames = async ({message, url, leagueId, year, day, teams}) => {
+const loadFootballGames = async ({message, url, leagueId, year, teams}) => {
   if (isLoadNflGamesRunning || isUpdateNflScoresRunning) {
     console.log(`${message} already running.`);
-    return;
-  }
-
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-
-  if (currentWeekDay !== day) {
-    console.log(`${message} games load on Wednesday`);
-    return;
-  }
-
-  const date = moment().add(4, 'days').format('YYYYMMDD');
-  
-  const gameExistSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    startDateTime: {
-      $gte: new Date(moment(date).startOf('day')),
-      $lte: new Date(moment(date).endOf('day'))
-    }
-  };
-
-  const gamesExistSearch = await gameRepository.find(gameExistSearch);
-
-  if ((gamesExistSearch || []).length > 0) {
-    console.log(`${message} games already exists: ${date}`);
     return;
   }
 
@@ -86,9 +61,6 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
-      $ne: true
-    },
-    isStub: {
       $ne: true
     },
     year: year

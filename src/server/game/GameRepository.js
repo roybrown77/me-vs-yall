@@ -7,7 +7,6 @@ const GameSchema = new mongoose.Schema({
     competitors: Array,
     year: Number,
     spread: mongoose.Schema.Types.Mixed,
-    isStub: mongoose.Schema.Types.Boolean,
     possession: String,
     down: String,
     lastPlay: String,

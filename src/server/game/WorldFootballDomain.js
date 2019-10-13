@@ -100,15 +100,12 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     startDateTime: {
       $lt: moment().toISOString()
     },
-    isStub: {
-      $ne: true
-    },
     year: year
   };
 
   const games = await gameRepository.find(search);
 
-  if (!!games && games.length === 0) {
+  if ((games || []).length === 0) {
     console.log(`${message} all scores have been updated.`);
     return;
   }

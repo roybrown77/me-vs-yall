@@ -213,7 +213,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 3 === 0 || divider % 1 === 0  || ([5,6].includes(currentWeekDay))) {
+      if (divider % 3 === 0 || divider % 1 === 0 || ([5,6].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {

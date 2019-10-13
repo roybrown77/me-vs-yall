@@ -97,9 +97,6 @@ const updateMlbScores = async () => {
     isGameOver: {
       $ne: true
     },
-    isStub: {
-      $ne: true
-    },
     year: year
   };
 
