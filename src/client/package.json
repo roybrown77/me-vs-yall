@@ -9,6 +9,7 @@
     "auth0-js": "^9.10.2",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "howler": "^2.1.2",
     "immutable": "^3.8.2",
     "lodash": "^4.17.11",
     "moment-timezone": "^0.5.25",

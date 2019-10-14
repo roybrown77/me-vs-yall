@@ -32,8 +32,7 @@ import { hasGameStarted } from '../../utilities';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: '192px',
-    marginBottom: '4px'
+    height: '192px'
   },
   container: {
     backgroundColor: '#ffffff',

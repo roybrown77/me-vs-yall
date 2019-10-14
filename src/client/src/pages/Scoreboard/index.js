@@ -19,6 +19,9 @@ import Game from '../../components/Game';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
+import {Howl, Howler} from 'howler';
+import touchdown from './madden-touchdown.webm';
+
 import { loadScoreboard, addPick, updatePick } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationService';
 import { 
@@ -31,6 +34,13 @@ import {
     getLeagueStartDateTime,
     getImage
 } from '../../utilities';
+
+Howler.volume(1);
+
+const sound = new Howl({
+  src: [touchdown],
+  format: ['webm']
+});
 
 const styles = theme => ({
   root: {
@@ -97,6 +107,8 @@ class Scoreboard extends Component {
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
         
+        //sound.play();
+
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
             year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,

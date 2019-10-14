@@ -255,7 +255,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([1,4,5].includes(currentWeekDay)))) {
+      if (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
         updateNbaScores();
       }
     } catch(err) {
