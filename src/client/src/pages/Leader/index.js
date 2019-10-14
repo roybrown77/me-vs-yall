@@ -288,6 +288,12 @@ class Leader extends Component {
                         </div>
                     }
                     {
+                        areAnyGamesInProgress &&
+                        <div style={{color: 'deeppink', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid deeppink', borderRadius: '8px'}}>
+                            <div className='fast-flash'>** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fights' : 'games'} in progress **</div>
+                        </div>
+                    }
+                    {
                         !get(currentWeek,'prize') &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}>
                             <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins bragging rights!</div>
@@ -314,12 +320,6 @@ class Leader extends Component {
                                 </div>
                             }
                         </Popover>
-                    }
-                    {
-                        areAnyGamesInProgress &&
-                        <div style={{color: 'deeppink', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid deeppink', borderRadius: '8px'}}>
-                            <div className='fast-flash'>** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fights' : 'games'} in progress **</div>
-                        </div>
                     }
                     {
                         !isAuthenticated &&

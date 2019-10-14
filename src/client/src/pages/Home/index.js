@@ -174,6 +174,9 @@ class Home extends Component {
           <div style={styles.subTitle}>
             streaming live game plays <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
           </div>
+          <div style={{...styles.subTitle, fontWeight:'bold'}}>
+            {"it's free yall"}
+          </div>
           <div style={{marginTop:'32px'}}>
             <Popover 
               borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer'}}

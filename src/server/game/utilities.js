@@ -1446,6 +1446,46 @@ const ncaaTeams = [
         shortLocation: "WAKE",
         name: "Demon Deacons",
         color: '#9E7E38'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab906f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Louisiana Monroe",
+        shortLocation: "ULM",
+        name: "Warhawks",
+        color: '#800029'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9070",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Missouri",
+        shortLocation: "MIZ",
+        name: "Tigers",
+        color: '#F1B82D'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9071",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Boston College",
+        shortLocation: "BC",
+        name: "Eagles",
+        color: '#98002E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9072",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Minnesota",
+        shortLocation: "MINN",
+        name: "Golden Gophers",
+        color: '#7A0019'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9073",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "South Alabama",
+        shortLocation: "USA",
+        name: "Jaguars",
+        color: '#00205B'
     }
 ];
 
