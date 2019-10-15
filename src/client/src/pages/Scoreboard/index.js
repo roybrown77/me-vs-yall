@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
+import sample from 'lodash/sample';
 
 import moment from 'moment-timezone';
 
@@ -20,7 +21,8 @@ import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
 import {Howl, Howler} from 'howler';
-import touchdown from './madden-touchdown.webm';
+import tecmo from './tecmo-touchdown.webm';
+import madden from './madden-touchdown.webm';
 
 import { loadScoreboard, addPick, updatePick } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationService';
@@ -36,6 +38,8 @@ import {
 } from '../../utilities';
 
 Howler.volume(1);
+
+const touchdown = sample([tecmo, madden]);
 
 const sound = new Howl({
   src: [touchdown],
@@ -106,8 +110,6 @@ class Scoreboard extends Component {
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
-        
-        //sound.play();
 
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
@@ -208,6 +210,8 @@ class Scoreboard extends Component {
     }
 
     handleMakePick(pick) {
+        sound.play();
+        
         if (!this.props.isAuthenticated) return;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
