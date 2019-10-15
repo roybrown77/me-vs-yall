@@ -77,7 +77,7 @@ const styles = theme => ({
 });
 
 const getField = (props) => (
-  <svg id="drivechart-mobile" className="mobile-svg mobile-only" height="100" version="1.1" width="372" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 372 72" style={{maxWidth:'500px', width:'90%', overflow: 'hidden', position: 'relative'}} preserveAspectRatio="xMinYMin">
+  <svg id="drivechart-mobile" className="mobile-svg mobile-only" height="100" version="1.1" width="372" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 372 72" style={{height:'100%',maxWidth:'500px', width:'90%', overflow: 'hidden', position: 'relative'}} preserveAspectRatio="xMinYMin">
       <rect className="field-bottom" x="185.468" y="67.814" width="1.055" height="4.043" rx="0" ry="0" fill="#2c7b3d" stroke="#000" strokeWidth="0" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}} strokeOpacity="1"></rect>
       <path className="field-bottom" fill="#356732" stroke="#000000" d="M216.127,67.814L216.086,71.857L186.523,71.857L186.523,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-bottom" fill="#356732" stroke="#000000" d="M247.854,67.814L247.77,71.857L216.087,71.857L216.127,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
