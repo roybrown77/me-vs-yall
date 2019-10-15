@@ -13,8 +13,8 @@ class About extends Component {
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     But after 10 years of messaging/emailing, I still didn't find time to create it.  Only 
-                    after getting laid off in July 2017 did I decide to have it ready for the next NFL season.  This 
-                    increased my dev skills to prepare for my next job and grew confidence I can build something great.
+                    after getting laid off in July 2017 did I decide to have it ready for the NFL season.  This 
+                    prepared me for my next job in addition to growing confidence I can build something great we can use.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Since then we've added free pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in 
