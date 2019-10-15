@@ -1486,6 +1486,46 @@ const ncaaTeams = [
         shortLocation: "USA",
         name: "Jaguars",
         color: '#00205B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9074",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Wofford",
+        shortLocation: "WOF",
+        name: "Terriers",
+        color: '#886E4C'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9075",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "East Carolina",
+        shortLocation: "ECU",
+        name: "Pirates",
+        color: '#592A8A'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9076",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "San Jose State",
+        shortLocation: "SJSU",
+        name: "Spartans",
+        color: '#0055A2'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9077",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "NC State",
+        shortLocation: "NCST",
+        name: "Wolfpack",
+        color: '#CC0000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9078",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Duke",
+        shortLocation: "DUKE",
+        name: "Blue Devils",
+        color: '#003087'
     }
 ];
 
