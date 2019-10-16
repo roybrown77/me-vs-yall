@@ -228,11 +228,11 @@ class Scoreboard extends Component {
 
     handleMakePick(pick) {
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            footballSound.play();
+            //footballSound.play();
         }
 
         if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
-            basketballSound.play();
+            //basketballSound.play();
         }
         
         if (!this.props.isAuthenticated) return;
