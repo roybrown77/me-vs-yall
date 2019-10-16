@@ -269,14 +269,14 @@ const getResults = (games = [], picks = []) => {
                 
                 const winnerSelected = gamePicked.pickId === winner;
 
-                const pickedSpreadTeam = gamePicked.pickId === get(game,'spread.teamId');
+                // const pickedSpreadTeam = gamePicked.pickId === get(game,'spread.teamId');
 
-                const spreadTeamWon = get(game,'spread.teamId') === winner;
+                // const spreadTeamWon = get(game,'spread.teamId') === winner;
 
-                const spreadDiff = winner === game.competitors[0].id ? 
-                    game.competitors[0].score - game.competitors[1].score : winner === game.competitors[1].id ? game.competitors[1].score - game.competitors[0].score : 0;
+                // const spreadDiff = winner === game.competitors[0].id ? 
+                //     game.competitors[0].score - game.competitors[1].score : winner === game.competitors[1].id ? game.competitors[1].score - game.competitors[0].score : 0;
 
-                const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
+                // const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
 
                 if (winnerSelected) {
                     // if (spreadTeamWon) {

@@ -34,7 +34,6 @@ import {
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    hasGameStarted,
     getImage
 } from '../../utilities';
 

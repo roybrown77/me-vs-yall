@@ -8,8 +8,7 @@ import * as ActionTypes from '../actions';
 import { 
   leagues, 
   getLeaders,
-  getVegasPicks,
-  getVegasUser
+  getVegasPicks
 } from '../utilities';
 
 import { getUser, isLoggedIn } from '../middleware/authenticationService';
@@ -155,7 +154,6 @@ const leaderDomain = (
       return state.set('dataLoading', true).set('leagueId', get(action,'request.leagueId'));
     case ActionTypes.LEADERS_SUCCESS:  
       if (action.response) {
-        const leagueId = state.get('leagueId');
         const gameList = get(action, 'response[0].response', []);
         const pickList = get(action, 'response[1].response', []);
         const userList = get(action, 'response[2].response', []);

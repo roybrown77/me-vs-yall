@@ -15,7 +15,6 @@ import green from '@material-ui/core/colors/green';
 
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/smile-sweat.png';
-import pumpkin from '../../styles/images/pumpkin.png';
 
 import america from '../../styles/images/america.png';
 import mexico from '../../styles/images/mexico.png';
@@ -146,7 +145,7 @@ const getFootballField = (props) => (
 );
 
 const getBasketballCourt = (props) => (
-  <svg id="shotChart-02-svg" style={{padding: '16px 0', height: '100%', maxWidth:'500px', width:'90%', width: '100%', overflow: 'visible'}} preserveAspectRatio="xMinYMax meet" viewBox="0 0 590 120">
+  <svg id="shotChart-02-svg" style={{padding: '16px 0', height: '100%', maxWidth:'500px', width:'90%', overflow: 'visible'}} preserveAspectRatio="xMinYMax meet" viewBox="0 0 590 120">
     <defs>
       <radialGradient cx="0" cy="0" r="5" id="radialGradientSij1i6j9n2c">
         <stop offset="0%" stopColor="#d56900"></stop>
