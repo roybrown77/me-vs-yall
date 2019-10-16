@@ -21,9 +21,15 @@ import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
 import {Howl, Howler} from 'howler';
-import tecmo from './tecmo-touchdown.webm';
-import madden from './madden-touchdown.webm';
-import boom from './nba-jams-boom-shakalaka.m4a';
+
+import maddenM4a from './madden-touchdown.m4a';
+import maddenWebm from './madden-touchdown.webm';
+
+import tecmoM4a from './tecmo-touchdown.m4a';
+import tecmoWebm from './tecmo-touchdown.webm';
+
+import boomM4a from './nba-jams-boom-shakalaka.m4a';
+import boomWebm from './nba-jams-boom-shakalaka.webm';
 
 import { loadScoreboard, addPick, updatePick } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationService';
@@ -40,16 +46,21 @@ import {
 
 Howler.volume(1);
 
-const touchdown = sample([tecmo, madden]);
-
-const footballSound = new Howl({
-  src: [touchdown],
-  format: ['webm']
+const maddenSound = new Howl({
+  src: [maddenM4a, maddenWebm]],
+  format: ['m4a','webm']
 });
 
+const tecmoSound = new Howl({
+  src: [tecmoM4a, tecmoWebm]],
+  format: ['m4a','webm']
+});
+
+const footballSound = sample([tecmoSound, maddenSound]);
+
 const basketballSound = new Howl({
-  src: [boom],
-  format: ['m4a']
+  src: [boomM4a, boomWebm],
+  format: ['m4a','webm']
 });
 
 const styles = theme => ({
