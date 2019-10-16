@@ -23,6 +23,7 @@ import Popover from '../../components/Popover';
 import {Howl, Howler} from 'howler';
 import tecmo from './tecmo-touchdown.webm';
 import madden from './madden-touchdown.webm';
+import boom from './nba-jams-boom-shakalaka.m4a';
 
 import { loadScoreboard, addPick, updatePick } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationService';
@@ -41,9 +42,14 @@ Howler.volume(1);
 
 const touchdown = sample([tecmo, madden]);
 
-const sound = new Howl({
+const footballSound = new Howl({
   src: [touchdown],
   format: ['webm']
+});
+
+const basketballSound = new Howl({
+  src: [boom],
+  format: ['m4a']
 });
 
 const styles = theme => ({
@@ -211,7 +217,11 @@ class Scoreboard extends Component {
 
     handleMakePick(pick) {
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            sound.play();
+            footballSound.play();
+        }
+
+        if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
+            basketballSound.play();
         }
         
         if (!this.props.isAuthenticated) return;
