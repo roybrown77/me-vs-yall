@@ -1526,6 +1526,46 @@ const ncaaTeams = [
         shortLocation: "DUKE",
         name: "Blue Devils",
         color: '#003087'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9079",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Wyoming",
+        shortLocation: "WYO",
+        name: "Cowboys",
+        color: '#492F24'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab907a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Arizona",
+        shortLocation: "ARIZ",
+        name: "Wildcats",
+        color: '#CC0033'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab907b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Georgia State",
+        shortLocation: "GAST",
+        name: "Panthers",
+        color: '#0039A6'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab907c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Navy",
+        shortLocation: "NAVY",
+        name: "Midshipmen",
+        color: '#C5B783'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab907d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Western Carolina",
+        shortLocation: "WCU",
+        name: "Catamounts",
+        color: '#592C88'
     }
 ];
 
