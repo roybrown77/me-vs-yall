@@ -47,20 +47,20 @@ import {
 Howler.volume(1);
 
 const maddenSound = new Howl({
-  src: [maddenM4a, maddenWebm]],
-  format: ['m4a','webm']
+  src: [maddenM4a, maddenWebm],
+  format: ['m4a', 'webm']
 });
 
 const tecmoSound = new Howl({
-  src: [tecmoM4a, tecmoWebm]],
-  format: ['m4a','webm']
+  src: [tecmoM4a, tecmoWebm],
+  format: ['m4a', 'webm']
 });
 
 const footballSound = sample([tecmoSound, maddenSound]);
 
 const basketballSound = new Howl({
   src: [boomM4a, boomWebm],
-  format: ['m4a','webm']
+  format: ['m4a', 'webm']
 });
 
 const styles = theme => ({
