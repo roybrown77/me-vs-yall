@@ -44,6 +44,20 @@ const stats = [
     author: 'Roy B.'
   },
   {
+    title: "SCOTT & ROY'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Oakland Raiders over Green Bay Packers`,
+    leagueName: 'NFL',
+    date: 'October 17, 2019',
+    author: 'Scott T. & Roy B.'
+  },
+  {
+    title: "SCOTT & ROY'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Seattle Seahawks over Cleveland Browns`,
+    leagueName: 'NFL',
+    date: 'October 10, 2019',
+    author: 'Scott T. & Roy B.'
+  },
+  {
     title: 'UNDEFEATED',
     content: `Patriots and 49ers are currently undefeated.  Bills, Chiefs, Packers, Panthers and Seahawks are also perfect on the road while Saints 
               and Vikings are untouchable at home.`,
