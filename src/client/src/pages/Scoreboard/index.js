@@ -12,6 +12,9 @@ import moment from 'moment-timezone';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
+import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -19,9 +22,6 @@ import PickResult from '../../components/PickResult';
 import Game from '../../components/Game';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
-
-import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
-import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 
 import {Howl, Howler} from 'howler';
 
@@ -101,6 +101,9 @@ const styles = theme => ({
       color: '#FFFFFF',
       borderColor: '#3772FA',
     }
+  },
+  soundButton: {
+    color: '#000'
   }
 });
 
@@ -411,12 +414,11 @@ class Scoreboard extends Component {
                                 display:'flex', 
                                 fontSize: '17px', 
                                 fontFamily: 'monospace', 
-                                fontWeight: 'bold', 
-                                padding:'4px 0', 
-                                cursor:'pointer'}} 
-                                onClick={this.handleToggleSound}>
-                            <div style={{padding:'3px 8px 0 0'}}>retro arcade sound</div>
-                            <div>{soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}</div>
+                                fontWeight: 'bold'}}>
+                            <div style={{margin:'auto 0'}}>retro arcade sound</div>
+                            <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
+                                {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
+                            </IconButton>
                         </div>
                     }
                     {
