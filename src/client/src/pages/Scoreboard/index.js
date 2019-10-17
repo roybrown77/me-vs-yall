@@ -20,6 +20,9 @@ import Game from '../../components/Game';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
+import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
+import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
+
 import {Howl, Howler} from 'howler';
 
 import maddenM4a from './madden.m4a';
@@ -28,8 +31,8 @@ import maddenWebm from './madden.webm';
 import tecmoM4a from './tecmo.m4a';
 import tecmoWebm from './tecmo.webm';
 
-import boomM4a from './nba-jams-boom-shakalaka.m4a';
-import boomWebm from './nba-jams-boom-shakalaka.webm';
+import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
+import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
 import { loadScoreboard, addPick, updatePick } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationService';
@@ -56,10 +59,8 @@ const tecmoSound = new Howl({
   format: ['m4a', 'webm']
 });
 
-const footballSound = sample([tecmoSound, maddenSound]);
-
-const basketballSound = new Howl({
-  src: [boomM4a, boomWebm],
+const nbaJamsSound = new Howl({
+  src: [nbaJamsM4a, nbaJamsWebm],
   format: ['m4a', 'webm']
 });
 
@@ -114,6 +115,11 @@ class Scoreboard extends Component {
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
         this.handleMakePick = this.handleMakePick.bind(this);
         this.startPolling = this.startPolling.bind(this);
+        this.handleToggleSound = this.handleToggleSound.bind(this);
+
+        this.state = {
+            soundOn: true
+        };
     }
 
     componentWillMount() {
@@ -227,12 +233,16 @@ class Scoreboard extends Component {
     }
 
     handleMakePick(pick) {
-        if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            //footballSound.play();
+        if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
+            if (this.state.soundOn) { maddenSound.play() };
+        }
+
+        if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
+            if (this.state.soundOn) { tecmoSound.play() };
         }
 
         if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
-            //basketballSound.play();
+            if (this.state.soundOn) { nbaJamsSound.play() };
         }
         
         if (!this.props.isAuthenticated) return;
@@ -243,6 +253,12 @@ class Scoreboard extends Component {
         } else {
             this.props.addPick(pick);
         }
+    }
+
+    handleToggleSound() {
+        this.setState((state) => ({
+            soundOn: !state.soundOn
+        }));
     }
 
     render() {
@@ -258,6 +274,8 @@ class Scoreboard extends Component {
             weekId,
             leagueId
         } = this.props;
+
+        const {soundOn} = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
@@ -385,6 +403,20 @@ class Scoreboard extends Component {
                         areAllGamesOver &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
+                        </div>
+                    }
+                    {
+                        <div style={{
+                                justifyContent: 'center',
+                                display:'flex', 
+                                fontSize: '17px', 
+                                fontFamily: 'monospace', 
+                                fontWeight: 'bold', 
+                                padding:'4px 0', 
+                                cursor:'pointer'}} 
+                                onClick={this.handleToggleSound}>
+                            <div style={{padding:'1px 8px 0 0'}}>retro arcade sound</div>
+                            <div>{soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}</div>
                         </div>
                     }
                     {

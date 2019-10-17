@@ -21,13 +21,8 @@ const styles = theme => ({
     boxShadow: 'none'
   },
   select: {
-    width: '50%'
-  },
-  selectMenu: {
-    border: 0,
-    borderRadius: '6px',
-    backgroundColor: '#F2F2F2',
-    color: 'white'
+    fontFamily: 'monospace',
+    fontSize: '17px'
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -35,14 +30,6 @@ const styles = theme => ({
     backgroundColor: '#fff',
     padding: '10px',
     fontWeight: 'bold'
-  },
-  button: {
-    width: '100%',
-    color: 'black',
-    fontSize: '1rem', 
-    fontWeight: '700',
-    border: '5px solid black',
-    borderRadius: '8px'
   }
 });
 
@@ -84,6 +71,7 @@ class GameSearchBar extends Component {
                         onChange={this.props.onFilterLeague}
                         displayEmpty
                         name='league'
+                        className={classes.select}
                         >
                         {leagues}
                     </Select>
@@ -94,6 +82,7 @@ class GameSearchBar extends Component {
                         onChange={this.props.onFilterYear}
                         displayEmpty
                         name='year'
+                        className={classes.select}
                         >
                         {years}
                     </Select>
@@ -107,6 +96,7 @@ class GameSearchBar extends Component {
                       displayEmpty
                       name='year'
                       style={styles.select}
+                      className={classes.select}
                       >
                       {weeksToDisplay}
                   </Select>

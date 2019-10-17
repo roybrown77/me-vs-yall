@@ -20,7 +20,8 @@ const styles = {
     fontSize: '15px',
     padding: '20px',
     cursor: 'pointer',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'monospace'
   }
 };
 
