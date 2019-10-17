@@ -44,18 +44,18 @@ const stats = [
     author: 'Roy B.'
   },
   {
-    title: "SCOTT & ROY'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Denver Broncos over Kansas City Chiefs`,
     leagueName: 'NFL',
     date: 'October 17, 2019',
-    author: 'Scott T. & Roy B.'
+    author: 'Mack & Beezie'
   },
   {
-    title: "SCOTT & ROY'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Seattle Seahawks over Cleveland Browns`,
     leagueName: 'NFL',
     date: 'October 10, 2019',
-    author: 'Scott T. & Roy B.'
+    author: 'Mack & Beezie'
   },
   {
     title: 'UNDEFEATED',
