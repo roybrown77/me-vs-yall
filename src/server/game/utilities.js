@@ -1566,6 +1566,46 @@ const ncaaTeams = [
         shortLocation: "WCU",
         name: "Catamounts",
         color: '#592C88'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab907e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Samford",
+        shortLocation: "SAM",
+        name: "Bulldogs",
+        color: '#002649'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab907f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Texas State",
+        shortLocation: "TXST",
+        name: "Bobcats",
+        color: '#501214'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9080",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Colorado State",
+        shortLocation: "CSU",
+        name: "Rams",
+        color: '#1E4D2B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9081",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Georgia Tech",
+        shortLocation: "GT",
+        name: "Yellow Jackets",
+        color: '#B3A369'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9082",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Tulane",
+        shortLocation: "TULN",
+        name: "Green Wave",
+        color: '#006747'
     }
 ];
 
