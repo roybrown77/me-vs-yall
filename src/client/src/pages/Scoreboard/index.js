@@ -415,7 +415,7 @@ class Scoreboard extends Component {
                                 padding:'4px 0', 
                                 cursor:'pointer'}} 
                                 onClick={this.handleToggleSound}>
-                            <div style={{padding:'4px 8px 0 0'}}>retro arcade sound</div>
+                            <div style={{padding:'3px 8px 0 0'}}>retro arcade sound</div>
                             <div>{soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}</div>
                         </div>
                     }
