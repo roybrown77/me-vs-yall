@@ -45,7 +45,7 @@ const stats = [
   },
   {
     title: "SCOTT & ROY'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
-    content: `Oakland Raiders over Green Bay Packers`,
+    content: `Denver Broncos over Kansas City Chiefs`,
     leagueName: 'NFL',
     date: 'October 17, 2019',
     author: 'Scott T. & Roy B.'
