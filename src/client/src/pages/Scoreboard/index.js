@@ -25,11 +25,11 @@ import Popover from '../../components/Popover';
 
 import {Howl, Howler} from 'howler';
 
-import maddenM4a from './madden.m4a';
-import maddenWebm from './madden.webm';
+import maddenM4a from './madden-touchdown.m4a';
+import maddenWebm from './madden-touchdown.webm';
 
-import tecmoM4a from './tecmo.m4a';
-import tecmoWebm from './tecmo.webm';
+import tecmoM4a from './tecmo-touchdown.m4a';
+import tecmoWebm from './tecmo-touchdown.webm';
 
 import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
