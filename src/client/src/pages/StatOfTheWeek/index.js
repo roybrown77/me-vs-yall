@@ -12,7 +12,7 @@ const styles = {
   },
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
-    fontSize: '1.2rem',
+    fontSize: '17px',
     fontWeight: '700',
     fontFamily: 'monospace'
   },
