@@ -121,7 +121,7 @@ class Scoreboard extends Component {
         this.handleToggleSound = this.handleToggleSound.bind(this);
 
         this.state = {
-            soundOn: true
+            soundOn: false
         };
     }
 
