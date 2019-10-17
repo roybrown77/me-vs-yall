@@ -13,7 +13,8 @@ const styles = {
   title: {
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: '1.2rem',
-    fontWeight: '700'
+    fontWeight: '700',
+    fontFamily: 'monospace'
   },
   stats: {
     marginTop: '12px',

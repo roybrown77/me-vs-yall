@@ -433,7 +433,7 @@ class Scoreboard extends Component {
                                         <div key={game._id}>
                                             {
                                                 newDate &&
-                                                <div style={{backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                <div style={{fontFamily:'monospace', backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
                                                     <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600',color:'deeppink'}}>{gameDate}</div>
                                                 </div>
                                             }
