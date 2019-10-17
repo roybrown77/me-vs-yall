@@ -38,7 +38,7 @@ const styles = {
 const stats = [
   {
     title: "WE DON'T HAVE TO KICK IT",
-    content: `Who are the only top 10 scoring players that are not field goal kickers?  Panther's Christian MacCaffrey (54) at #4 and Packer's Aaron Jones (48) at #10.`,
+    content: `Who are the only top 10 scoring players that are not field goal kickers?  Panther's running back Christian MacCaffrey (54) at #4 and Packer's running back Aaron Jones (48) at #10.`,
     leagueName: 'NFL',
     date: 'October 17, 2019',
     author: 'Roy B.'
