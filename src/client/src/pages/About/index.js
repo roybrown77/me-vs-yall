@@ -24,7 +24,7 @@ class About extends Component {
                     This app was built for the love of sports, competition and the fighting spirit.  Enjoy!  :D
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Feel free to contact us or get added to the mailing list at info@mevsyall.com.
+                    Feel free to contact us or join our mailing list at info@mevsyall.com.
                 </div>
             </PageContainer>
         );
