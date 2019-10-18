@@ -403,7 +403,7 @@ class Home extends Component {
           </div>
           <div style={{backgroundColor: 'lightgray', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
             <div>
-              {`We rely on new users joining to keep cash prizes available and games free so we appreciate everyone you can invite to play.  The best way we've seen folks sign up is when you show them how since just telling them doesn't always work.`}
+              {`We rely on new users joining to keep cash prizes available and games free so we appreciate everyone you can invite to play.  The best way we've seen folks sign up is when you show them how since just telling them doesn't always work.  Thanks!`}
             </div>
           </div>
           <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif'}}>
