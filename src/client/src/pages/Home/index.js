@@ -401,6 +401,11 @@ class Home extends Component {
             <div>Great place for wings, football, mma and boxing!</div>
             <div>Spot the sticker?</div>
           </div>
+          <div style={{backgroundColor: 'lightgray', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
+            <div>
+              {`We rely on new users joining to keep cash prizes available and games free so we appreciate everyone you can invite to play.  The best way we've seen folks sign up is when you show them how since just telling them doesn't always work.`}
+            </div>
+          </div>
           <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif'}}>
             <div style={styles.footerLinks}>
               <div>
@@ -409,7 +414,7 @@ class Home extends Component {
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link style={styles.link} to={'/tips'}>Tips</Link></div>
-                <div><Link style={styles.link} to={'/statoftheweek'}>Stat of the Week</Link></div>
+                <div><Link style={styles.link} to={'/oftheweek'}>#$%@ of the Week</Link></div>
               </div>
             </div>
             <div>© 2019 Me vs Yall. All rights reserved.</div>

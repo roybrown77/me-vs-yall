@@ -18,7 +18,7 @@ import Home from './pages/Home';
 import Scoreboard from './pages/Scoreboard';
 import Leader from './pages/Leader';
 import Shop from './pages/Shop';
-import StatOfTheWeek from './pages/StatOfTheWeek';
+import OfTheWeek from './pages/OfTheWeek';
 import Tips from './pages/Tips';
 import About from './pages/About';
 import Play from './pages/Play';
@@ -59,7 +59,7 @@ render(
                         <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
                         <Route path='/leaders/:leagueName' component={Leader}/>
                         <Route path='/shop' component={Shop}/>
-                        <Route path='/statoftheweek' component={StatOfTheWeek}/>
+                        <Route path='/oftheweek' component={OfTheWeek}/>
                         <Route path='/tips' component={Tips}/>
                         <Route path='/about' component={About}/>
                         <Route path='/play' component={Play}/>
