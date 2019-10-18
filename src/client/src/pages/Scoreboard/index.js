@@ -54,15 +54,21 @@ const maddenSound = new Howl({
   format: ['m4a', 'webm']
 });
 
+const madden = sample([maddenSound, maddenSound]);
+
 const tecmoSound = new Howl({
   src: [tecmoM4a, tecmoWebm],
   format: ['m4a', 'webm']
 });
 
+const tecmo = sample([tecmoSound, tecmoSound]);
+
 const nbaJamsSound = new Howl({
   src: [nbaJamsM4a, nbaJamsWebm],
   format: ['m4a', 'webm']
 });
+
+const nbaJams = sample([nbaJamsSound, nbaJamsSound]);
 
 const styles = theme => ({
   root: {
@@ -237,15 +243,15 @@ class Scoreboard extends Component {
 
     handleMakePick(pick) {
         if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
-            if (this.state.soundOn) { maddenSound.play() };
+            if (this.state.soundOn) { madden.play() };
         }
 
         if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            if (this.state.soundOn) { tecmoSound.play() };
+            if (this.state.soundOn) { tecmo.play() };
         }
 
         if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
-            if (this.state.soundOn) { nbaJamsSound.play() };
+            if (this.state.soundOn) { nbaJams.play() };
         }
         
         if (!this.props.isAuthenticated) return;
