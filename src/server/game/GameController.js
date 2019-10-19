@@ -149,13 +149,15 @@ router.get('/games', function (req, res) {
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
   const hours = parseInt(moment().format('HH'));
   const minutes = parseInt(moment().format('mm'));
+  const timezoneOffset = moment().utcOffset();
 
   console.log('monthDay: ' + monthDay);
   console.log('currentWeekDay: ' + currentWeekDay);
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+  console.log('timezoneOffset: ' + timezoneOffset);
 
+  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
   console.log('divider: ' + divider);
 
   if (monthDay > 515 && monthDay < 801) {
@@ -213,7 +215,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if ((hours < 19 && [0].includes(currentWeekDay)) || ([5,6].includes(currentWeekDay))) {
+      if ((hours < 12 && [0].includes(currentWeekDay)) || ([5,6].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
@@ -233,7 +235,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (([1,12].includes(month) && [6].includes(currentWeekDay)) || ([0,1,4].includes(currentWeekDay)) || (hours < 19 && [2,5].includes(currentWeekDay))) {
+      if (([1,12].includes(month) && [6].includes(currentWeekDay)) || ([0,1,4].includes(currentWeekDay)) || (hours < 12 && [2,5].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -255,7 +257,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
+      if (hours > 12 && (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay))))) {
         updateNbaScores();
       }
     } catch(err) {
