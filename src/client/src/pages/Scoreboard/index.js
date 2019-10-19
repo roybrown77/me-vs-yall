@@ -127,7 +127,7 @@ class Scoreboard extends Component {
         this.handleToggleSound = this.handleToggleSound.bind(this);
 
         this.state = {
-            soundOn: false
+            soundOn: true
         };
     }
 
@@ -415,6 +415,7 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
+                        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19'].includes(leagueId) &&
                         <div style={{
                                 justifyContent: 'center',
                                 display:'flex', 

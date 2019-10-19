@@ -149,13 +149,15 @@ router.get('/games', function (req, res) {
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
   const hours = parseInt(moment().format('HH'));
   const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset();
+  const timezoneOffset = moment().utcOffset()/60;
+  const hoursOffset = hours+(-1*timezoneOffset);
 
   console.log('monthDay: ' + monthDay);
   console.log('currentWeekDay: ' + currentWeekDay);
   console.log('hours: ' + hours);
   console.log('minutes: ' + minutes);
   console.log('timezoneOffset: ' + timezoneOffset);
+  console.log('hoursOffset: ' + hoursOffset);
 
   const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
   console.log('divider: ' + divider);
@@ -173,7 +175,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 5 === 0 || divider % 13 === 0 || ([6,0].includes(currentWeekDay) && hours >= 7 && hours <= 16)) {
+      if (divider % 5 === 0 || divider % 13 === 0 || ([6,0].includes(currentWeekDay) && hoursOffset >= 11 && hoursOffset <= 16)) {
         updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       }
    } catch(err) {
@@ -215,7 +217,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if ((hours < 12 && [0].includes(currentWeekDay)) || ([5,6].includes(currentWeekDay))) {
+      if ((hoursOffset < 16 && [0].includes(currentWeekDay)) || (hoursOffset > 15 && [5,6].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
@@ -235,7 +237,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (([1,12].includes(month) && [6].includes(currentWeekDay)) || ([0,1,4].includes(currentWeekDay)) || (hours < 12 && [2,5].includes(currentWeekDay))) {
+      if (([1,12].includes(month) && [6].includes(currentWeekDay)) || ([0,1,4].includes(currentWeekDay)) || (hoursOffset < 16 && [2,5].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -257,7 +259,7 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (hours > 12 && (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay))))) {
+      if (hoursOffset > 16 && (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay))))) {
         updateNbaScores();
       }
     } catch(err) {
@@ -279,7 +281,7 @@ router.get('/games', function (req, res) {
   //   }
 
   //   try {
-  //     if (!(hours > 3 && hours < 16 && currentWeekDay === 0)) {
+  //     if (!(hoursOffset > 3 && hoursOffset < 16 && currentWeekDay === 0)) {
   //       updateMlbScores();
   //     }
   //   } catch(err) {
