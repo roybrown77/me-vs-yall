@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -115,40 +115,46 @@ const stats = [
   }
 ];
 
-function Tips () {
-     return (
-            <div>
-                <PageContainer>
-                  <div style={styles.titleContainer}>
-                      <Typography component="h3" align={'left'} style={styles.title}>
-                        Tips
-                      </Typography>
-                      <Typography align={'left'} style={styles.contentTitle}>
-                        Not The Rib Plate Special But Still Nutritious
-                      </Typography>
-                    </div>
-                    {
-                      stats.map(stat=>(
-                        <div key={stat.title.replace(' ', '')} style={styles.stats}>
-                          <div style={styles.container}>
-                            <Typography align={'left'} style={styles.contentTitle}>
-                              {stat.title}
-                            </Typography>
-                            <br/>
-                            <Typography align={'left'} style={styles.content}>
-                              {stat.content}
-                            </Typography>
-                            <Divider style={{
-                              margin: '12px 0',
-                              height: '10px',
-                              backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
-                            }} />
-                          </div>
-                        </div>
-                    ))}
-                </PageContainer>
+class Tips extends Component {
+  componentWillMount() {
+      window.scrollTo(0, 0);
+  }
+
+  render() {
+    return (
+      <div>
+          <PageContainer>
+            <div style={styles.titleContainer}>
+              <Typography component="h3" align={'left'} style={styles.title}>
+                Tips
+              </Typography>
+              <Typography align={'left'} style={styles.contentTitle}>
+                Not The Rib Plate Special But Still Nutritious
+              </Typography>
             </div>
-        );
+            {
+              stats.map(stat=>(
+                <div key={stat.title.replace(' ', '')} style={styles.stats}>
+                  <div style={styles.container}>
+                    <Typography align={'left'} style={styles.contentTitle}>
+                      {stat.title}
+                    </Typography>
+                    <br/>
+                    <Typography align={'left'} style={styles.content}>
+                      {stat.content}
+                    </Typography>
+                    <Divider style={{
+                      margin: '12px 0',
+                      height: '10px',
+                      backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                    }} />
+                  </div>
+                </div>
+            ))}
+          </PageContainer>
+      </div>
+    );
+  }
 }
 
 export default Tips;

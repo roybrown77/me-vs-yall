@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -293,48 +293,54 @@ const stats = [
   }
 ];
 
-function OfTheWeek () {
-     return (
-            <div>
-                <PageContainer>
-                  <div style={styles.titleContainer}>
-                      <Typography component="h3" align={'left'} style={styles.title}>
-                        #$%@ of the Week
-                      </Typography>
-                      <Typography align={'left'} style={styles.contentTitle}>
-                        That Might Help You With Picks And In Life
-                      </Typography>
-                    </div>
-                    {
-                      stats.map(stat=>(
-                        <div key={stat.title.replace(' ', '')} style={styles.stats}>
-                          <div style={styles.container}>
-                            <Typography align={'left'} style={styles.contentTitle}>
-                              {stat.title}
-                            </Typography>
-                            <br/>
-                            <Typography align={'left'} style={styles.content}>
-                              <div style={{margin:'auto 0'}}>{stat.content}</div>
-                              {!stat.lockOfTheWeek ? null : stat.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
-                            </Typography>
-                            <br/>
-                            <Typography align={'left'}>
-                              - {stat.author}
-                            </Typography>
-                            <Divider style={{
-                              margin: '12px 0',
-                              height: '10px',
-                              backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
-                            }} />
-                            <Typography>
-                              {stat.leagueName} {stat.date}
-                            </Typography>
-                          </div>
-                        </div>
-                    ))}
-                </PageContainer>
-            </div>
-        );
+class OfTheWeek extends Component {
+  componentWillMount() {
+      window.scrollTo(0, 0);
+  }
+  
+  render() {
+    return (
+      <div>
+        <PageContainer>
+          <div style={styles.titleContainer}>
+            <Typography component="h3" align={'left'} style={styles.title}>
+              #$%@ of the Week
+            </Typography>
+            <Typography align={'left'} style={styles.contentTitle}>
+              That Might Help You With Picks And In Life
+            </Typography>
+          </div>
+          {
+            stats.map(stat=>(
+              <div key={stat.title.replace(' ', '')} style={styles.stats}>
+                <div style={styles.container}>
+                  <Typography align={'left'} style={styles.contentTitle}>
+                    {stat.title}
+                  </Typography>
+                  <br/>
+                  <Typography align={'left'} style={styles.content}>
+                    <div style={{margin:'auto 0'}}>{stat.content}</div>
+                    {!stat.lockOfTheWeek ? null : stat.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
+                  </Typography>
+                  <br/>
+                  <Typography align={'left'}>
+                    - {stat.author}
+                  </Typography>
+                  <Divider style={{
+                    margin: '12px 0',
+                    height: '10px',
+                    backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                  }} />
+                  <Typography>
+                    {stat.leagueName} {stat.date}
+                  </Typography>
+                </div>
+              </div>
+          ))}
+        </PageContainer>
+      </div>
+    );
+  }
 }
 
 export default OfTheWeek;
