@@ -127,7 +127,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
 
   try {
     browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
     });
 
     page = await browser.newPage();
@@ -210,7 +211,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam.trim(),
         homeScore: parseInt(homeScore),
-        isGameOver: (gameOverIndicator || '').trim() === 'FT',
+        isGameOver: ['FT','AET'].includes((gameOverIndicator || '').trim()),
         currentTime: currentTime,
         possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
         possessionHome: (possessionHome || '').trim().replace(/,\s*$/, ''),
