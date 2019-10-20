@@ -169,7 +169,7 @@ class Scoreboard extends Component {
 
     startPolling() {
         let self = this;
-        self._timer = setInterval(self.poll.bind(self), 10000);
+        self._timer = setInterval(self.poll.bind(self), 15000);
     }
 
     resetPoll() {
@@ -180,7 +180,7 @@ class Scoreboard extends Component {
           this._timer = null;
         }
 
-        self._timer = setInterval(self.poll.bind(self), 10000);
+        self._timer = setInterval(self.poll.bind(self), 15000);
     }
 
     poll() {

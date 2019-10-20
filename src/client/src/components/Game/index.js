@@ -449,10 +449,30 @@ class Game extends Component {
                 }
                 {
                   hasGameStarted(game.startDateTime) &&
-                  game.lastPlay && 
+                  game.lastPlay &&
+                  (game.playHistory || []).length === 0 && 
                   ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                   <div className={classes.lastPlay}>
-                    {' Last Play: ' + game.lastPlay}
+                    {game.lastPlay}
+                  </div>
+                }
+                {
+                  hasGameStarted(game.startDateTime) &&
+                  (game.playHistory || []).length > 0 && 
+                  ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+                  <div className={classes.lastPlay}>
+                    {
+                      (game.playHistory || []).map((play,playIndex)=> (
+                        <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
+                          <div style={{minWidth:'40px',padding:'4px',backgroundColor:play.color,marginRight:'4px',color:'#fff'}}>
+                            {play.shortLocation}
+                          </div>
+                          <div style={{textAlign:'left'}}>
+                            {play.lastPlay}
+                          </div>
+                        </div>
+                      ))
+                    }
                   </div>
                 }
                 {
