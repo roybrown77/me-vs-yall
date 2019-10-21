@@ -2570,104 +2570,6 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   return newPlayHistory;
 };
 
-const createWeek = async ({message, url, leagueId, year, day=6}) => {
-  console.log(`${message} creating week`);
-
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-
-  console.log(`${message} createWeek currentWeekDay: ${currentWeekDay}`);
-
-  if (currentWeekDay === day) {
-    const gameExistSearch = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: year,
-        startDateTime: {
-          $gte: moment().add(0, 'days').startOf('day').format(),
-          $lte: moment().add(6, 'days').endOf('day').format(),
-        }
-    };
-
-    const games = await gameRepository.find(gameExistSearch);
-
-    if (games.length === 0) {
-        console.log(`${message} createWeek games don't exist.`);
-        return;
-    }
-
-    const gameWeekFind = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year
-    };
-
-    const gameWeeks = await gameWeekRepository.find(gameWeekFind);
-    
-    const lastGame = gameWeeks.length > 0 ? gameWeeks[gameWeeks.length-1] : {};
-
-    const diff = moment(lastGame.endDateTime).diff(moment());
-
-    console.log(`${message} lastGame: ${lastGame}`);
-
-    if (gameWeeks.length > 0 && diff > 0) {
-        console.log(`${message} createWeek game week already exists: ${JSON.stringify(gameWeeks)}`);
-        return;
-    }
-
-    let weekName;
-
-    if (url) {
-      let browser;
-      let page;
-    
-      try {
-        browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
-
-        page = await browser.newPage();
-
-        await page.goto(url);
-
-        await page.waitForSelector('#events');
-
-        let CURRENTWEEK_SELECTOR = 'div.display-desktop > div.dropdown-type-week > button';
-
-        weekName = await page.evaluate((sel) => {
-            return document.querySelector(sel).innerText;
-          }, CURRENTWEEK_SELECTOR);
-
-        await page.close();
-        await browser.close();
-      } catch(err) {
-        if (!!page) {
-          await page.close();
-        }
-
-        if (!!browser) {
-          await browser.close();
-        }
-
-        console.log(`${message} browser error: ${JSON.stringify(err.message)}`);
-      }
-    }
-
-    const gameWeek = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: year,
-      description: (weekName || '').toLowerCase().includes('pro bowl') ? undefined : weekName,
-      beginDateTime: !!lastGame.beginDateTime ? moment(lastGame.beginDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).startOf('day').format(),
-      endDateTime: !!lastGame.endDateTime ? moment(lastGame.endDateTime).add(7, 'days').startOf('day').format() : moment(new Date()).add(6, 'days').endOf('day').format()
-    };
-
-    gameWeekRepository.create(gameWeek, function (err, gameWeekCreated) {
-        if (err) {
-            console.log(`${message} createWeek there was a problem adding week to the database:  ${err.message}`);
-        } else {
-            console.log(`${message} createWeek success creating week: ${gameWeekCreated._id}`);
-        }
-    });
-  }
-};
-
 const getGames = async ({
     message,
     url,
@@ -3175,7 +3077,6 @@ module.exports = {
     hasGameStarted,
     getLastPlays,
     getPlayHistory,
-    createWeek,
     getGames,
     formatGames,
     createGames,

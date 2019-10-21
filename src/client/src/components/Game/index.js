@@ -65,7 +65,7 @@ const styles = theme => ({
     fontSize: '12px',
     fontWeight: 'bold',
     color: 'rgba(0,0,0,.87)',
-    marginTop: '4px'
+    margin: '8px 0'
   },
   tieButton: {
     width: '100%',
