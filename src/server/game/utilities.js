@@ -2517,11 +2517,6 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
-const getLastPlays = (playHistory = []) => {
-  const newPlays = playHistory.map(x=>x.lastPlay);
-  return newPlays.length >= 5 ? newPlays.slice(0,5).join('<--') : newPlays.slice(0,newPlays.length).join('<--');
-};
-
 const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
     //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
     //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
@@ -2708,11 +2703,15 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
             const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
             const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
             const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-            
             if (!awayTeam || !homeTeam) {
                 console.log(`${message} formatGames teams not found game: ${JSON.stringify(game)}`);
                 console.log(`${message} formatGames teams not found: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
             } else {
+                const competitors = [
+                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank')},
+                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank')}
+                ];
+
                 formattedGames.push({
                   leagueId: mongoose.Types.ObjectId(leagueId),
                   year: year,
@@ -2722,10 +2721,8 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                    amount: get(game,'spread.amount', 0),
                    spreadDateTime: game.spread.spreadDateTime
                   },
-                  competitors: [
-                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank')},
-                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank')}
-                  ]
+                  competitors: competitors,
+                  hashCompetitors: JSON.stringify(competitors)
                 });
             }
         }
@@ -2736,19 +2733,17 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
 
 const createGames = ({message, games}) => {
     games.forEach(game=>{
-        // const gameFind = {
-        //   leagueId: get(game,'leagueId'),
-        //   year: get(game,'year'),
-        //   startDateTime: {
-        //     $gte: moment(get(game,'startDateTime')).format(),
-        //     $lte: moment(get(game,'startDateTime')).format(),
-        //   }
-        // };
+        const gameFind = {
+          leagueId: get(game,'leagueId'),
+          year: get(game,'year'),
+          hashCompetitors: JSON.stringify(game.competitors),
+          startDateTime: game.startDateTime
+        };
 
-        // gameRepository.find(gameFind, function (err, gamesFound) {
-        //   if ((gamesFound || []).length > 0) {
-        //     console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
-        //   } else {
+        gameRepository.find(gameFind, function (err, gamesFound) {
+          if ((gamesFound || []).length > 0) {
+            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
+          } else {
            gameRepository.create(game, function (err, gameCreated) {
               if (err) {
                 console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
@@ -2756,8 +2751,8 @@ const createGames = ({message, games}) => {
                console.log(`${message} createGames success creating game: ${gameCreated._id}`);
               }
             });
-          //}
-        //});
+          }
+        });
   });
 };
 
@@ -3021,15 +3016,11 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             const quarter = currenTimeSplit[currenTimeSplit.length-1];
             const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
             const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
-            const lastPlays = getLastPlays(newPlayHistory);
-
-            //console.log(`${message} lastPlays: ${JSON.stringify(lastPlays)}`);
 
             const updatedGame = {
               competitors: [...get(game,'competitors',[])],
               isGameOver: isGameOver,
               playHistory: newPlayHistory,
-              lastPlay: lastPlays,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
               gameName: get(score,'gameName',''),
               down: get(score,'down'),
@@ -3075,7 +3066,6 @@ module.exports = {
     mlbTeams,
     countries,
     hasGameStarted,
-    getLastPlays,
     getPlayHistory,
     getGames,
     formatGames,

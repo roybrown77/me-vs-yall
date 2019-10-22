@@ -9,9 +9,9 @@ const GameSchema = new mongoose.Schema({
     spread: mongoose.Schema.Types.Mixed,
     possession: String,
     down: String,
-    lastPlay: String,
     playHistory: Array,
     currentTime: String,
-    gameName: String
+    gameName: String,
+    hashCompetitors: String
 });
 module.exports = mongoose.model('Game', GameSchema);

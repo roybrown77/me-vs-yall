@@ -449,15 +449,6 @@ class Game extends Component {
                 }
                 {
                   hasGameStarted(game.startDateTime) &&
-                  game.lastPlay &&
-                  (game.playHistory || []).length === 0 && 
-                  ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-                  <div className={classes.lastPlay}>
-                    {game.lastPlay}
-                  </div>
-                }
-                {
-                  hasGameStarted(game.startDateTime) &&
                   (game.playHistory || []).length > 0 && 
                   ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                   <div className={classes.lastPlay}>

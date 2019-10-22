@@ -264,8 +264,6 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
           currentTime: get(score,'currentTime'),
           possession: get(score,'possession'),
           startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
-          lastPlay: (get(score,'isGameOver') || false) ? get(game,'lastPlay') : get(score,'awayTeam') + ': ' + get(score,'possessionAway') + ' ' + 
-          get(score,'homeTeam') + ': ' + get(score,'possessionHome'),
           playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
           [{shortLocation: get(score,'awayTeam'), lastPlay: get(score,'possessionAway'), color: awayTeam.color},{shortLocation: get(score,'homeTeam'), lastPlay: get(score,'possessionHome'), color: homeTeam.color}]
         };

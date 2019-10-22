@@ -166,9 +166,9 @@ router.get('/games', function (req, res) {
     console.log('new premier games will be loaded during season.');
   } else {
     try {
-      //loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
-      //loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
-      //loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+      // loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+      // loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+      // loadEnglishPremierLeagueGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 2, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
   } catch(err) {
       isLoadEnglishPremierLeagueGamesRunning = false;
       console.log('loadEnglishPremierLeagueGames error: ' + err.message);
@@ -188,9 +188,9 @@ router.get('/games', function (req, res) {
     console.log('new mls games will be loaded during season.');
   } else {
     try {
-      //loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
-      //loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
-      //loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', dayCount: 2, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
+      // loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
+      // loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
+      // loadEnglishPremierLeagueGames({baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', dayCount: 2, leagueId: '59723313734d1d6202a85f29', year: 2019, message: 'loadMLSGames', teams: mlsTeams});
   } catch(err) {
       isLoadEnglishPremierLeagueGamesRunning = false;
       console.log('loadMLSGames error: ' + err.message);
@@ -210,7 +210,7 @@ router.get('/games', function (req, res) {
     console.log('new ncaaf games will be loaded during season.');
   } else {
     try {
-      //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/8', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
+      //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/9', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
     } catch(err) {
       isLoadNflGamesRunning = false;
       console.log('loadNCAAFGames error: ' + err.message);
@@ -230,7 +230,7 @@ router.get('/games', function (req, res) {
     console.log('new nfl games will be loaded during season.');
   } else {
     try {
-      //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/7', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+      //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/8', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
     } catch(err) {
       isLoadNflGamesRunning = false;
       console.log('loadNflGames error: ' + err.message);
@@ -315,6 +315,7 @@ router.get('/games', function (req, res) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
       games.map(game=>{
         const x = game;
+        x.hashCompetitors = null;
         x.playHistory = game.playHistory.slice(0,5);
         return x;
       });
