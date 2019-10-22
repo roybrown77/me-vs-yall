@@ -16,6 +16,7 @@ import pogba from '../styles/images/pogba.jpg';
 import zlatan from '../styles/images/zlatan.jpg';
 import jwill from '../styles/images/j-will-hair.jpg';
 import kawhi from '../styles/images/kawhi.jpg';
+import tysonFury from '../styles/images/tyson-fury.jpg';
 
 const vegasPictures = [
 ];
@@ -30,6 +31,8 @@ const getImage = (screen, leagueId) => {
           return screen === 'scores' ? null : {picture: pogba, source: 'Getty Images'};
         case '59723313734d1d6202a85f19':
           return screen === 'scores' ? {picture: jwill, source: 'NiceKicks.com'} : {picture: kawhi, source: 'Vaughn Ridley / Getty Images'};
+        case '59723313734d1d6202a85f25':
+          return screen === 'scores' ? null : {picture: tysonFury, source: 'Getty Images'};
         case '59723313734d1d6202a85f27':
           return screen === 'scores' ? {picture: diaz, source: 'SouthLandPost.com'} : {picture: nunes, source: 'Esther Lin / MMA Fighting'};
         case '59723313734d1d6202a85f29':
