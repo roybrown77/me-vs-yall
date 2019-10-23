@@ -3001,8 +3001,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
             const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
-            const isOverOneHour = moment().diff(moment(game.startDateTime),'hours') > 1;
-            const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isOverOneHour)) && 
+            const isPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') > 30;
+            const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
             !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
             (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
 
@@ -3027,11 +3027,13 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
               possession: get(score,'possession')
             };
 
-            set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
-              teamId: get(spreadTeam,'_id'),
-              amount: get(score,'spread.amount', 0),
-              spreadDateTime: get(score,'spread.spreadDateTime')
-            });
+            if (!hasGameStarted(game.startDateTime)) {
+                set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
+                    teamId: get(spreadTeam,'_id'),
+                    amount: get(score,'spread.amount', 0),
+                    spreadDateTime: get(score,'spread.spreadDateTime')
+                });
+            }
 
             set(updatedGame,'competitors.0.score', isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
                 : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore')));
