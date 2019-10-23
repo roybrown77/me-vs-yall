@@ -122,7 +122,7 @@ const updateNbaScores = async () => {
     message, 
     root: 'scoreboard basketball',
     url: 'http://www.espn.com/nba/scoreboard',
-    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div > section > div.sb-beta > p'
+    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
   if (scores.length === 0) {
