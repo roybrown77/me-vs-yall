@@ -3001,7 +3001,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
             const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
-            const isPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') > 30;
+            const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
             const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
             !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
             (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
