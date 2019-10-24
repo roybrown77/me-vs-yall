@@ -41,6 +41,13 @@ const styles = {
 
 const stats = [
   {
+    title: "STAT OF THE WEEK: NFC WEST ROAD GAMES",
+    content: `The NFC West (49ers, Seahawks, Rams and Cardinals) have a combined record of 9 wins and 2 losses on the road.`,
+    leagueName: 'NFL',
+    date: 'October 24, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: "STAT OF THE WEEK: WE DON'T HAVE TO KICK IT",
     content: `Who are the only top 10 scoring players that are not field goal kickers?  Panther's running back Christian McCaffrey (54) at #4 and Packer's running back Aaron Jones (48) at #10.`,
     leagueName: 'NFL',
