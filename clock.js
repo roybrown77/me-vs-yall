@@ -15,14 +15,14 @@ const JOBS = [{  // You could store these jobs in a database
 { 
   name: "Cron process 2",
   message: { "taskName": "updateCollegeFootballGames", "queue": "worker-queue" },  // message in json format
-  dateTime: 15 * * * * *,  // At specific time. Only executed once
-  repeat: 0
+  crontTime: 15 * * * * *,
+  repeat: 1
 },
 { 
   name: "Cron process 3",
   message: { "taskName": "updateNBAGames", "queue": "worker-queue" },  // message in json format
-  dateTime: 15 * * * * *,  // At specific time. Only executed once
-  repeat: 0
+  crontTime: 15 * * * * *,
+  repeat: 1
 }]
 
 // Create a new connection manager from AMQP
