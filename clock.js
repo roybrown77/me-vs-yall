@@ -9,19 +9,19 @@ const CLOCK_QUEUE = 'clock-queue'  // To consume from clock process
 const JOBS = [{  // You could store these jobs in a database
   name: "Cron process 1",
   message: { "taskName": "updateNFLGames", "queue": "worker-queue" },  // message in json format
-  crontTime: 15 * * * * *,
+  crontTime: */15 * * * * *,
   repeat: 1
 },
 { 
   name: "Cron process 2",
   message: { "taskName": "updateCollegeFootballGames", "queue": "worker-queue" },  // message in json format
-  crontTime: 15 * * * * *,
+  crontTime: */15 * * * * *,
   repeat: 1
 },
 { 
   name: "Cron process 3",
   message: { "taskName": "updateNBAGames", "queue": "worker-queue" },  // message in json format
-  crontTime: 15 * * * * *,
+  crontTime: */15 * * * * *,
   repeat: 1
 }]
 
