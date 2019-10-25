@@ -8,19 +8,19 @@ const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 const CLOCK_QUEUE = 'clock-queue';  // To consume from clock process
 const JOBS = [{  // You could store these jobs in a database
   name: "Cron process 1",
-  message: { "taskName": "updateNFLGames", "queue": "worker-queue" },  // message in json format
+  message: {taskName: 'updateNFLGames', queue: 'worker-queue'},  // message in json format
   cronTime: '15 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 2",
-  message: { "taskName": "updateCollegeFootballGames", "queue": "worker-queue" },  // message in json format
+  message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue'},  // message in json format
   cronTime: '15 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 3",
-  message: { "taskName": "updateNBAGames", "queue": "worker-queue" },  // message in json format
+  message:  {taskName: 'updateNBAGames', queue: 'worker-queue'},  // message in json format
   cronTime: '15 * * * * *',
   repeat: true
 }];
@@ -47,7 +47,7 @@ const startCronProcess = (jobs) => {
       let j = new CronJob({
         cronTime: job.cronTime ? job.cronTime : new Date(job.dateTime),
         onTick: () => {
-          sendMessage(job.message);
+          sendMessage(JSON.stringify(job.message));
           if (!job.repeat) j.stop();
         },
         onComplete: () => {
