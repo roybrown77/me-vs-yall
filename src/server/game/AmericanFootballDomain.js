@@ -58,6 +58,8 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
     return;
   }
 
+  console.log(`${message} starting.`);
+
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
@@ -75,6 +77,8 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
 
   isUpdateNflScoresRunning = true;
 
+  console.log(`${message} getting scores.`);
+
   const scores = await getScores({
     message, 
     root: 'scoreboard football',
@@ -87,8 +91,8 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
     return;
   }
 
-  //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  console.log(`${message} games: ${JSON.stringify(games)}`);
+  console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,
@@ -97,6 +101,8 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
     scores,
     teams
   });
+
+  console.log(`${message} ending.`);
 
   isUpdateNflScoresRunning = false;
 };
