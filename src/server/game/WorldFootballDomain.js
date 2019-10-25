@@ -86,6 +86,10 @@ const loadEnglishPremierLeagueGames = async ({message, baseUrl, dayCount, league
   isLoadEnglishPremierLeagueGamesRunning = false;
 };
 
+const charCount = (s, c) => {
+  return (s.match(new RegExp(c[0], 'g')) || []).length;
+};
+
 const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, year, teams}) => {
   if (isUpdateEnglishPremierLeagueScoresRunning) {
     console.log(`${message} already running.`)
@@ -257,6 +261,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
 
       const isGameOver = get(score,'isGameOver',false);
+      const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
+      const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
 
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
@@ -265,13 +271,12 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
           possession: get(score,'possession'),
           startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
           playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
-          [{shortLocation: get(score,'awayTeam'), lastPlay: get(score,'possessionAway'), color: awayTeam.color},{shortLocation: get(score,'homeTeam'), lastPlay: get(score,'possessionHome'), color: homeTeam.color}]
+          [{shortLocation: get(score,'awayTeam'), lastPlay: charCount(get(score,'possessionAway'),"'") === awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
+          {shortLocation: get(score,'homeTeam'), lastPlay: charCount(get(score,'possessionHome'),"'") === homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
         };
 
-      set(updatedGame,'competitors.0.score', isGameOver ? 
-        get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0));
-      set(updatedGame,'competitors.1.score', isGameOver ? 
-        get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0));
+      set(updatedGame,'competitors.0.score', awayScore);
+      set(updatedGame,'competitors.1.score', homeScore);
       
       console.log(`${message} updating game: ${JSON.stringify(updatedGame)}`);
 
