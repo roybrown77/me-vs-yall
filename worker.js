@@ -47,7 +47,7 @@ if (!AMQP_URL) process.exit(1);
 const WORKER_QUEUE = 'worker-queue';
 
 // Create a new connection manager from AMQP
-var connection = amqp.connect([AMQP_URL]);
+const connection = amqp.connect([AMQP_URL]);
 console.log('[AMQP] - Connecting....');
 
 connection.on('connect', function() {

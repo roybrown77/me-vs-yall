@@ -26,7 +26,7 @@ const JOBS = [{  // You could store these jobs in a database
 }];
 
 // Create a new connection manager from AMQP
-var connection = amqp.connect([AMQP_URL]);
+const connection = amqp.connect([AMQP_URL]);
 console.log('[AMQP] - Connecting...');
 
 connection.on('connect', function() {
