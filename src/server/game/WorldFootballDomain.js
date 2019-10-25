@@ -87,7 +87,7 @@ const loadEnglishPremierLeagueGames = async ({message, baseUrl, dayCount, league
 };
 
 const charCount = (s, c) => {
-  return (s.match(new RegExp(c[0], 'g')) || []).length;
+  return (s.match(new RegExp('\\d'+c[0], 'g')) || []).length;
 };
 
 const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, year, teams}) => {
