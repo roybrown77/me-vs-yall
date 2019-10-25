@@ -9,19 +9,19 @@ const CLOCK_QUEUE = 'clock-queue'  // To consume from clock process
 const JOBS = [{  // You could store these jobs in a database
   name: "Cron process 1",
   message: { "taskName": "updateNFLGames", "queue": "worker-queue" },  // message in json format
-  crontTime: "0 17 03 01 * *",  // Every 1st of every month at 3:17 AM
+  crontTime: * * * * * 15,
   repeat: 1
 },
 { 
   name: "Cron process 2",
   message: { "taskName": "updateCollegeFootballGames", "queue": "worker-queue" },  // message in json format
-  dateTime: new Date("Mon Sep 17 2018 14:08:00 GMT-0300"),  // At specific time. Only executed once
+  dateTime: * * * * * 15,  // At specific time. Only executed once
   repeat: 0
 },
 { 
   name: "Cron process 3",
   message: { "taskName": "updateNBAGames", "queue": "worker-queue" },  // message in json format
-  dateTime: new Date("Mon Sep 17 2018 14:08:00 GMT-0300"),  // At specific time. Only executed once
+  dateTime: * * * * * 15,  // At specific time. Only executed once
   repeat: 0
 }]
 
