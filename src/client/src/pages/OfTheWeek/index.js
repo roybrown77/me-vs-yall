@@ -41,6 +41,13 @@ const styles = {
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Philadelphia Eagles over Buffalo Bills`,
+    leagueName: 'NFL',
+    date: 'October 27, 2019',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "STAT OF THE WEEK: NFC WEST ROAD GAMES",
     content: `The NFC West (49ers, Seahawks, Rams and Cardinals) have a combined record of 9 wins and 2 losses on the road.`,
     leagueName: 'NFL',
