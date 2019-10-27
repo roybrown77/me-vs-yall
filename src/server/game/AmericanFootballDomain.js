@@ -60,18 +60,25 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
 
   console.log(`${message} starting.`);
 
+  const time = moment().add(30, 'minutes').toISOString();
+
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
+    },
+    startDateTime: {
+      $lte: time,
     },
     year: year
   };
 
   const games = await gameRepository.find(search);
 
+  console.log(`${message} time: ${time} for games: ${games.length}`);
+
   if ((games || []).length === 0) {
-    console.log(`${message} all scores have been updated.`);
+    console.log(`${message} all scores have been updated or games are not 30 minutes away.`);
     return;
   }
 

@@ -92,27 +92,33 @@ const loadNbaGames = async ({dayCount, shouldLimit}) => {
 
 const updateNbaScores = async () => {
   const message = 'updateNbaScores';
+  const leagueId = '59723313734d1d6202a85f19';
+  const year = 2019;
 
   if (isUpdateNbaScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
 
-  const leagueId = '59723313734d1d6202a85f19';
-  const year = 2019;
+  const time = moment().add(30, 'minutes').toISOString();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
+    startDateTime: {
+      $lte: time,
+    },
     year: year
   };
 
   const games = await gameRepository.find(search);
 
+  console.log(`${message} time: ${time} for games: ${games.length}`);
+
   if ((games || []).length === 0) {
-    console.log(`${message} all scores have been updated.`);
+    console.log(`${message} all scores have been updated or games are not 30 minutes away.`);
     return;
   }
 
