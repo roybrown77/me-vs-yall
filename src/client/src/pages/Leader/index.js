@@ -300,7 +300,7 @@ class Leader extends Component {
                     }
                     {
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid blue', borderRadius: '8px', cursor: 'pointer'}}>
-                            <div style={{color: 'blue', fontSize: '17px'}}>watch your name rise and fall as scores change</div>
+                            <div style={{color: 'blue', fontSize: '17px'}}>watch your name rise and fall as scores change.  builds drama. :D</div>
                         </div>
                     }
                     {
