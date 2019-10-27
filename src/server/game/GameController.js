@@ -175,7 +175,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (divider % 5 === 0 || divider % 13 === 0 || ([6,0].includes(currentWeekDay) && hoursOffset >= 11 && hoursOffset <= 16)) {
+      if ([1,2,3,4,5].includes(currentWeekDay) || 
+        ([6,0].includes(currentWeekDay) && hoursOffset >= 11 && hoursOffset <= 16) ||
+        (divider % 5 === 0 || divider % 13 === 0 && [6,0].includes(currentWeekDay) && hoursOffset > 16)) {
         updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       }
    } catch(err) {
@@ -217,7 +219,8 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if ((hoursOffset < 16 && [0].includes(currentWeekDay)) || (hoursOffset > 15 && [5,6].includes(currentWeekDay))) {
+      if ((hoursOffset < 16 && [0].includes(currentWeekDay)) || 
+        (hoursOffset > 15 && [5,6].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
@@ -237,7 +240,9 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (([1,12].includes(month) && [6].includes(currentWeekDay)) || ([0,1,4].includes(currentWeekDay)) || (hoursOffset < 16 && [2,5].includes(currentWeekDay))) {
+      if (([1,12].includes(month) && [6].includes(currentWeekDay)) || 
+        ([0,1,4].includes(currentWeekDay)) || 
+        (hoursOffset < 16 && [2,5].includes(currentWeekDay))) {
         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
@@ -259,7 +264,8 @@ router.get('/games', function (req, res) {
     }
 
     try {
-      if (hoursOffset > 16 && (([2,3].includes(currentWeekDay)) || (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay))))) {
+      if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
+        (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
         updateNbaScores();
       }
     } catch(err) {
