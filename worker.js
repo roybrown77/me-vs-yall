@@ -124,6 +124,37 @@ const updateNFLGames = () => {
   }
 }
 
+const updateCollegeFootballGames = () => {
+  const month = parseInt(moment().format('MM'));
+  const monthDay = parseInt(moment().format('MMDD'));
+  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+  const hours = parseInt(moment().format('HH'));
+  const minutes = parseInt(moment().format('mm'));
+  const timezoneOffset = moment().utcOffset()/60;
+  const hoursOffset = hours+(-1*timezoneOffset);
+
+  console.log('monthDay: ' + monthDay);
+  console.log('currentWeekDay: ' + currentWeekDay);
+  console.log('hours: ' + hours);
+  console.log('minutes: ' + minutes);
+  console.log('timezoneOffset: ' + timezoneOffset);
+  console.log('hoursOffset: ' + hoursOffset);
+
+  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+  console.log('divider: ' + divider);
+
+  if (monthDay > 108 && monthDay < 801) {
+    console.log('new ncaaf games will be loaded during season.');
+  } else {
+    try {
+      updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+    } catch(err) {
+      isUpdateNflScoresRunning = false;
+      console.log('updateNCAAFScores error: ' + err.message);
+    }
+  }
+}
+
 const updateNBAGames = () => {
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
@@ -177,10 +208,12 @@ const updatePremierLeagueGames = () => {
   if (monthDay > 515 && monthDay < 801) {
     console.log('new premier games will be loaded during season.');
   } else {
-    updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
-   } catch(err) {
-    isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+    try {
+      updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+    } catch(err) {
+      isUpdateEnglishPremierLeagueScoresRunning = false;
+      console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+    }
   }
 }
 
@@ -206,10 +239,12 @@ const updateMLSGames = () => {
   if (monthDay < 301 || monthDay > 1101) {
     console.log('new mls games will be loaded during season.');
   } else {
-    updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
-  } catch(err) {
-    isUpdateEnglishPremierLeagueScoresRunning = false;
-    console.log('updateMLSScores error: ' + err.message);
+    try {
+      updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+    } catch(err) {
+      isUpdateEnglishPremierLeagueScoresRunning = false;
+      console.log('updateMLSScores error: ' + err.message);
+    }
   }
 } 
 
@@ -235,6 +270,7 @@ function onMessage(data) {
       break;
     case 'updateCollegeFootballGames': 
       console.log('updating college football games');
+      updateCollegeFootballGames();
       break;
     case 'updateNBAGames': 
       console.log('updating nba games');
