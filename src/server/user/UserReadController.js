@@ -8,23 +8,21 @@ const userRepository = require('./UserRepository');
 const get = require('lodash/get');
 
 const censoredIds = ['google-oauth2|105396867324708249567'];
-const rollupIds = ['google-oauth2|114172296334563495985','google-oauth2|118235893610557038598'];
-const vegas = {firstName: 'Vegas',authServiceId: '1'};
+const excludedIds = ['google-oauth2|114172296334563495985','google-oauth2|118235893610557038598'];
+const vegas = {firstName: 'Vegas - excluded',authServiceId: '1'};
 
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
         const goodUsers = [];
         users.forEach(user=>{
-            if (req.query.isRollup || (!req.query.isRollup && !rollupIds.includes(user.authServiceId))) {
-                const x = user;
-                x.email = undefined;
-                x.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
-                x.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
-                goodUsers.push(x);
-            }
+            const x = user;
+            x.email = undefined;
+            x.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
+            x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
+            goodUsers.push(x);
         });
-        res.status(200).send(req.query.isRollup ? [...goodUsers, vegas] : goodUsers);
+        res.status(200).send(goodUsers);
     });
 });
 
@@ -34,7 +32,7 @@ router.get('/users/:id', function (req, res) {
         if (!user) return res.status(404).send("No user found.");
         user.email = undefined;
         user.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
-        user.lastName = !!get(user,'lastName') ? get(user,'lastName')[0] + '.' : '';
+        user.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
         res.status(200).send(user);
     });
 });
