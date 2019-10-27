@@ -27,13 +27,13 @@ const JOBS = [{  // You could store these jobs in a database
 { 
   name: "Cron process 4",
   message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue'},  // message in json format
-  cronTime: '15 * * * * *',
+  cronTime: '* 2 * * * *',
   repeat: true
 },
 { 
   name: "Cron process 5",
   message:  {taskName: 'updateMLSGames', queue: 'worker-queue'},  // message in json format
-  cronTime: '15 * * * * *',
+  cronTime: '* 2 * * * *',
   repeat: true
 }];
 
