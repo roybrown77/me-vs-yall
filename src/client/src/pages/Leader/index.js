@@ -299,6 +299,11 @@ class Leader extends Component {
                         </div>
                     }
                     {
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid blue', borderRadius: '8px', cursor: 'pointer'}}>
+                            <div style={{color: 'blue', fontSize: '17px'}}>watch your name rise and fall as scores change</div>
+                        </div>
+                    }
+                    {
                         get(currentWeek,'prize') &&
                         <Popover 
                             borderStyle={{margin: '4px 14%', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}
