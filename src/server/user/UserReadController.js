@@ -22,7 +22,7 @@ router.get('/users', function (req, res) {
             x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
             goodUsers.push(x);
         });
-        res.status(200).send(goodUsers);
+        res.status(200).send([...goodUsers,vegas]);
     });
 });
 
