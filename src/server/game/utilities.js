@@ -3048,12 +3048,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
               set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
             }
 
-            //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
-
-            // scores = [
-            //     ...scores.slice(0,scoreIndex),
-            //     ...scores.slice(scoreIndex+1)
-            // ];
+            console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
             gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
         }

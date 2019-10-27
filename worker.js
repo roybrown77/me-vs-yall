@@ -149,14 +149,12 @@ function onMessage(data) {
 
   switch (message.taskName) {
     case 'updateNFLGames': 
-        console.log('updating nfl games');
-        updateNFLGames();
-      break
-
+      console.log('updating nfl games');
+      updateNFLGames();
+      break;
     case 'updateCollegeFootballGames': 
       console.log('updating college football games');
-      break
-
+      break;
     default:
       console.error('No task was found with name => '+message.taskName)
   }
