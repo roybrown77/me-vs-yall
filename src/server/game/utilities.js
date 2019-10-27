@@ -2523,7 +2523,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
     //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
 
   if ((lastPlay && playHistory.length > 0 && playHistory.find(x=>get(x,'lastPlay')===lastPlay)) || !currentTime) {
-    console.log(`${message} getPlayHistory invalid`);
+    console.log(`${message} getPlayHistory no play.`);
     return playHistory;
   }
 
@@ -2549,7 +2549,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter || playHistory.find(x=>x.time===time)) {
-    console.log(`${message} getPlayHistory invalid2`);
+    console.log(`${message} getPlayHistory no valid play.`);
     return playHistory;
   }
 
@@ -2962,6 +2962,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     const multipleFinalGames = [];
 
     //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+    console.log(`${message} updating scores.`);
 
     games.forEach(game=>{
         if (!(game.gameName || '').toLowerCase().includes('header')) {
@@ -2990,7 +2991,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
             const score = scores[scoreIndex];
 
-            console.log(`${message} score: ${JSON.stringify(score)}`);
+            //console.log(`${message} score: ${JSON.stringify(score)}`);
 
             const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 

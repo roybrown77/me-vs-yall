@@ -91,8 +91,8 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
     return;
   }
 
-  console.log(`${message} games: ${JSON.stringify(games)}`);
-  console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,
