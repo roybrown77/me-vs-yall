@@ -1,8 +1,30 @@
 const CronJob = require('cron').CronJob;
 const amqp = require('amqp-connection-manager');
+const moment = require('moment-timezone');
+const mongoose = require('mongoose');
 
+console.log('db username: ' + process.env.DB_USERNAME);
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
 if (!AMQP_URL) process.exit(1);
+
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true, // use new connection string parser
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 100, // Never stop trying to reconnect
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
+};
+
+mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev',options).then(
+    () => {
+    console.log("connected to mongoDB")
+  },
+    (err) => {
+    console.log("err",err);
+  }
+);
 
 const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 const CLOCK_QUEUE = 'clock-queue';  // To consume from clock process
@@ -79,6 +101,22 @@ const sendMessage = (data) => {
   } catch(e) {
     console.error(e);
   }
+
+  const month = parseInt(moment().format('MM'));
+  const monthDay = parseInt(moment().format('MMDD'));
+  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+  const hours = parseInt(moment().format('HH'));
+  const minutes = parseInt(moment().format('mm'));
+  const timezoneOffset = moment().utcOffset()/60;
+  const hoursOffset = hours+(-1*timezoneOffset);
+
+  console.log('monthDay: ' + monthDay);
+  console.log('currentWeekDay: ' + currentWeekDay);
+  console.log('hours: ' + hours);
+  console.log('minutes: ' + minutes);
+  console.log('timezoneOffset: ' + timezoneOffset);
+  console.log('hoursOffset: ' + hoursOffset);
+  
   if (!message) { return; }
 
   let queue = message.queue || WORKER_QUEUE;
