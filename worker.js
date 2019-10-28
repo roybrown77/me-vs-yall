@@ -2,27 +2,6 @@ const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 
-console.log('db username: ' + process.env.DB_USERNAME);
-
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true, // use new connection string parser
-  autoIndex: false, // Don't build indexes
-  reconnectTries: 100, // Never stop trying to reconnect
-  reconnectInterval: 500, // Reconnect every 500ms
-  poolSize: 10, // Maintain up to 10 socket connections
-  bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
-};
-
-mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev',options).then(
-    () => {
-    console.log("connected to mongoDB")
-  },
-    (err) => {
-    console.log("err",err);
-  }
-);
-
 const {
   updateEnglishPremierLeagueScores,
   isUpdateEnglishPremierLeagueScoresRunning, 
@@ -56,7 +35,28 @@ const {
 } = require('./src/server/game/utilities');
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
-if (!AMQP_URL) process.exit(1);
+const DB_USERNAME = process.env.DB_USERNAME;
+
+if (!AMQP_URL && !DB_USERNAME) process.exit(1);
+
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true, // use new connection string parser
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 100, // Never stop trying to reconnect
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
+};
+
+mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev',options).then(
+    () => {
+    console.log("connected to mongoDB")
+  },
+    (err) => {
+    console.log("err",err);
+  }
+);
 
 const WORKER_QUEUE = 'worker-queue';
 
@@ -88,167 +88,12 @@ let channelWrapper = connection.createChannel({
 });
 
 channelWrapper.waitForConnect()
-  .then(function() {
-    console.log('[AMQP] - Listening for messages on queue => '+WORKER_QUEUE);
-  })
-  .catch(function(err) {
-    console.error('[AMQP] - Error! ', err);
-  });
-
-const updateNFLGames = () => {
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
-
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
-
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
-
-  if (monthDay > 208 && monthDay < 801) {
-    console.log('new nfl games will be loaded during season.');
-  } else {
-    try {
-      updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
-    } catch(err) {
-      isUpdateNflScoresRunning = false;
-      console.log('updateNflScores error: ' + err.message);
-    }
-  }
-}
-
-const updateCollegeFootballGames = () => {
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
-
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
-
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
-
-  if (monthDay > 108 && monthDay < 801) {
-    console.log('new ncaaf games will be loaded during season.');
-  } else {
-    try {
-      updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
-    } catch(err) {
-      isUpdateNflScoresRunning = false;
-      console.log('updateNCAAFScores error: ' + err.message);
-    }
-  }
-}
-
-const updateNBAGames = () => {
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
-
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
-
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
-
-  if (monthDay > 615 && monthDay < 1015) {
-    console.log('new nba games will be loaded during season.');
-  } else {
-    try {
-      updateNbaScores();
-    } catch(err) {
-      isUpdateNbaScoresRunning = false;
-      console.log('updateNbaScores error: ' + err.message);
-    }
-  }
-}
-
-const updatePremierLeagueGames = () => {
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
-
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
-
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
-
-  if (monthDay > 515 && monthDay < 801) {
-    console.log('new premier games will be loaded during season.');
-  } else {
-    try {
-      updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
-    } catch(err) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log('updateEnglishPremierLeagueScores error: ' + err.message);
-    }
-  }
-}
-
-const updateMLSGames = () => {
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
-
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
-
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
-
-  if (monthDay < 301 || monthDay > 1101) {
-    console.log('new mls games will be loaded during season.');
-  } else {
-    try {
-      updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
-    } catch(err) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log('updateMLSScores error: ' + err.message);
-    }
-  }
-} 
+.then(function() {
+  console.log('[AMQP] - Listening for messages on queue => '+WORKER_QUEUE);
+})
+.catch(function(err) {
+  console.error('[AMQP] - Error! ', err);
+}); 
 
 // Process message from AMQP
 function onMessage(data) {
@@ -265,26 +110,52 @@ function onMessage(data) {
     return;
   }
 
+  console.log('db username: ' + process.env.DB_USERNAME);
+
   switch (message.taskName) {
     case 'updateNFLGames': 
       console.log('updating nfl games');
-      updateNFLGames();
+      try {
+        updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+      } catch(err) {
+        console.log('updateNflScores error: ' + err.message);
+      }
       break;
     case 'updateCollegeFootballGames': 
       console.log('updating college football games');
-      updateCollegeFootballGames();
+      try {
+        updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+      } catch(err) {
+        isUpdateNflScoresRunning = false;
+        console.log('updateNCAAFScores error: ' + err.message);
+      }
       break;
     case 'updateNBAGames': 
       console.log('updating nba games');
-      updateNBAGames();
+      try {
+        updateNbaScores();
+      } catch(err) {
+        isUpdateNbaScoresRunning = false;
+        console.log('updateNbaScores error: ' + err.message);
+      }
       break;
     case 'updatePremierLeagueGames': 
       console.log('updating premier games');
-      updatePremierLeagueGames();
+      try {
+        updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+      } catch(err) {
+        isUpdateEnglishPremierLeagueScoresRunning = false;
+        console.log('updateEnglishPremierLeagueScores error: ' + err.message);
+      }
       break;
     case 'updateMLSGames': 
       console.log('updating mls games');
-      updateMLSGames();
+      try {
+        updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+      } catch(err) {
+        isUpdateEnglishPremierLeagueScoresRunning = false;
+        console.log('updateMLSScores error: ' + err.message);
+      }
       break;
     default:
       console.error('No task was found with name => '+message.taskName)
