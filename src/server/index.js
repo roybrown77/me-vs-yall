@@ -11,14 +11,60 @@ const options = {
   bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
 };
 
-mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options).then(
-    () => {
-    console.log("connected to mongoDB")
-  },
-    (err) => {
-    console.log("err",err);
-  }
-);
+mongoose.connection.on("connected", function(ref) {
+  console.log("Connected to DB!");
+});
+
+// If the connection throws an error
+mongoose.connection.on("error", function(err) {
+  console.error('Failed to connect to DB on startup: ', err);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose default connection to DB disconnected.');
+});
+
+const gracefulExitSIGINT = () => {
+  console.info(`SIGINT signal received.`);
+  
+  server.close(() => {
+    console.log('Http server closed.');
+  });
+
+  mongoose.connection.close(function () {
+    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    process.exit(0);
+  });
+};
+
+const gracefulExitSIGTERM = () => {
+  console.info(`SIGTERM signal received.`);
+  
+  server.close(() => {
+    console.log('Http server closed.');
+  });
+
+  mongoose.connection.close(function () {
+    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    process.exit(0);
+  });
+};
+
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at: ', promise, 'reason: ', reason);
+  // Application specific logging, throwing an error, or other logic here
+});
+
+try {
+  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options)
+  console.log('Trying to connect to DB');
+} catch (err) {
+  console.log("Server initialization failed: " , err.message);
+}
 
 const path = require('path');
 
@@ -73,22 +119,3 @@ app.get('*', function(request, response) {
 const server = app.listen(app.get("port"), () => {
     console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
 });
-
-process.on('SIGTERM', () => {
-  console.info('SIGTERM signal received.');
-  console.log('Closing http server.');
-  server.close(() => {
-    console.log('Http server closed.');
-    // boolean means [force], see in mongoose doc
-    mongoose.connection.close(false, () => {
-      console.log('MongoDb connection closed.');
-      process.exit(0);
-    });
-  });
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at: ', promise, 'reason: ', reason);
-  // Application specific logging, throwing an error, or other logic here
-});
-
