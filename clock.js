@@ -381,7 +381,7 @@ const sendMessage = async (data) => {
       const games = await gameRepository.find(search);
 
       if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
+        console.log(`${message.taskName} all scores have been updated.`);
         return;
       }
     }
@@ -408,7 +408,7 @@ const sendMessage = async (data) => {
       const games = await gameRepository.find(search);
 
       if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
+        console.log(`${message.taskName} all scores have been updated.`);
         return;
       }
     }
