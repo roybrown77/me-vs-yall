@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+console.log('db username: ' + process.env.DB_USERNAME);
+
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true, // use new connection string parser
