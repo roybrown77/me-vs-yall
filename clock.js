@@ -252,7 +252,7 @@ const updateMLSGames = () => {
   }
 }
 
-const sendMessage = (data) => {
+const sendMessage = async (data) => {
   let message;
   try {
     message = JSON.parse(data);
