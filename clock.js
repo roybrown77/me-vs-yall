@@ -7,7 +7,7 @@ const { dbUsername, dbPassword } = require('./config');
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
 
-//if (!AMQP_URL || !dbUsername || !dbPassword) process.exit(1);
+if (!AMQP_URL || !dbUsername || !dbPassword) process.exit(1);
 
 const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 const CLOCK_QUEUE = 'clock-queue';  // To consume from clock process
@@ -43,21 +43,21 @@ const JOBS = [{  // You could store these jobs in a database
   repeat: true
 }];
 
-// Create a new connection manager from AMQP
-// const connection = amqp.connect([AMQP_URL]);
-// console.log('[AMQP] - Connecting...');
+//Create a new connection manager from AMQP
+const connection = amqp.connect([AMQP_URL]);
+console.log('[AMQP] - Connecting...');
 
-// connection.on('connect', function() {
-//   process.once('SIGINT', function() {  // Close conn on exit
-//     connection.close();
-//   });
-//   console.log('[AMQP] - Connected!');
-//   return startCronProcess(JOBS);
-// });
+connection.on('connect', function() {
+  process.once('SIGINT', function() {  // Close conn on exit
+    connection.close();
+  });
+  console.log('[AMQP] - Connected!');
+  return startCronProcess(JOBS);
+});
 
-// connection.on('disconnect', function(params) {
-//   return console.error('[AMQP] - Disconnected.', params.err.stack);
-// });
+connection.on('disconnect', function(params) {
+  return console.error('[AMQP] - Disconnected.', params.err.stack);
+});
 
 const options = {
   useUnifiedTopology: true,
@@ -71,7 +71,6 @@ const options = {
 
 mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options).then(
     () => {
-      return startCronProcess(JOBS);
     console.log("connected to mongoDB")
   },
     (err) => {
@@ -262,20 +261,20 @@ const sendMessage = async (data) => {
 
   let queue = message.queue || WORKER_QUEUE;
 
-  // let senderChannelWrapper = connection.createChannel({
-  //   json: true,
-  //   setup: function(channel) {
-  //     return channel.assertQueue(queue, {durable: true});
-  //   }
-  // });
+  let senderChannelWrapper = connection.createChannel({
+    json: true,
+    setup: function(channel) {
+      return channel.assertQueue(queue, {durable: true});
+    }
+  });
 
-  // senderChannelWrapper.sendToQueue(queue, message, { contentType: 'application/json', persistent: true })
-  //   .then(function() {
-  //     console.log('[AMQP] - Message sent to queue =>', queue);
-  //     senderChannelWrapper.close();
-  //   })
-  //   .catch(err => {
-  //     console.error('[AMQP] - Message to queue => '+queue+ '<= was rejected! ', err.stack);
-  //     senderChannelWrapper.close();
-  //   })
+  senderChannelWrapper.sendToQueue(queue, message, { contentType: 'application/json', persistent: true })
+    .then(function() {
+      console.log('[AMQP] - Message sent to queue =>', queue);
+      senderChannelWrapper.close();
+    })
+    .catch(err => {
+      console.error('[AMQP] - Message to queue => '+queue+ '<= was rejected! ', err.stack);
+      senderChannelWrapper.close();
+    })
 };

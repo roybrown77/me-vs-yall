@@ -1,6 +1,7 @@
 const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
+const { dbUsername, dbPassword } = require('./config');
 
 const {
   updateEnglishPremierLeagueScores,
@@ -35,28 +36,8 @@ const {
 } = require('./src/server/game/utilities');
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
-const DB_USERNAME = process.env.DB_USERNAME;
 
-if (!AMQP_URL && !DB_USERNAME) process.exit(1);
-
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true, // use new connection string parser
-  autoIndex: false, // Don't build indexes
-  reconnectTries: 100, // Never stop trying to reconnect
-  reconnectInterval: 500, // Reconnect every 500ms
-  poolSize: 10, // Maintain up to 10 socket connections
-  bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
-};
-
-mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev',options).then(
-    () => {
-    console.log("connected to mongoDB")
-  },
-    (err) => {
-    console.log("err",err);
-  }
-);
+if (!AMQP_URL || !dbUsername || !dbPassword) process.exit(1);
 
 const WORKER_QUEUE = 'worker-queue';
 
@@ -94,6 +75,25 @@ channelWrapper.waitForConnect()
 .catch(function(err) {
   console.error('[AMQP] - Error! ', err);
 }); 
+
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true, // use new connection string parser
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 100, // Never stop trying to reconnect
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
+};
+
+mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options).then(
+    () => {
+    console.log("connected to mongoDB")
+  },
+    (err) => {
+    console.log("err",err);
+  }
+);
 
 // Process message from AMQP
 function onMessage(data) {
