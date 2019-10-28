@@ -6,7 +6,6 @@ const moment = require('moment-timezone');
 const puppeteer = require('puppeteer');
 
 const gameRepository = require('./GameRepository');
-const gameWeekRepository = require('./GameWeekRepository');
 
 const {
   getGames,

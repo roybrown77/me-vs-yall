@@ -2,6 +2,7 @@ const CronJob = require('cron').CronJob;
 const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
+const gameRepository = require('./src/server/game/GameRepository');
 
 const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
 const DB_USERNAME = process.env.DB_USERNAME;
