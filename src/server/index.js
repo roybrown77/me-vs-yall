@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-
-console.log('db username: ' + process.env.DB_USERNAME);
+const { dbUsername, dbPassword } = require('../../config');
 
 const options = {
   useUnifiedTopology: true,
@@ -12,7 +11,7 @@ const options = {
   bufferMaxEntries: 0 // If not connected, return errors immediately rather than waiting for reconnect
 };
 
-mongoose.connect('mongodb://admin:9gidget9@ds129183.mlab.com:29183/mevsyall-dev',options).then(
+mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options).then(
     () => {
     console.log("connected to mongoDB")
   },

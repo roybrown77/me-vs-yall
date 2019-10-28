@@ -1,3 +1,3 @@
 web: npm run prod-server
-worker: node worker.js
-clock: node clock.js
+worker: npm run prod-worker
+clock: npm run prod-clock
