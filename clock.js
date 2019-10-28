@@ -13,31 +13,31 @@ const CLOCK_QUEUE = 'clock-queue';  // To consume from clock process
 
 const JOBS = [{  // You could store these jobs in a database
   name: "Cron process 1",
-  message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10'},  // message in json format
+  message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
   cronTime: '15 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 2",
-  message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15'},  // message in json format
+  message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
   cronTime: '15 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 3",
-  message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19'},  // message in json format
+  message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
   cronTime: '15 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 4",
-  message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17'},  // message in json format
+  message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
   cronTime: '* 2 * * * *',
   repeat: true
 },
 { 
   name: "Cron process 5",
-  message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29'},  // message in json format
+  message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
   cronTime: '* 2 * * * *',
   repeat: true
 }];
@@ -293,7 +293,7 @@ const sendMessage = async (data) => {
         startDateTime: {
           $lte: time,
         },
-        year: year
+        year: message.year
       };
 
       const games = await gameRepository.find(search);
@@ -320,7 +320,7 @@ const sendMessage = async (data) => {
         startDateTime: {
           $lte: time,
         },
-        year: year
+        year: message.year
       };
 
       const games = await gameRepository.find(search);
@@ -347,7 +347,7 @@ const sendMessage = async (data) => {
         startDateTime: {
           $lte: time,
         },
-        year: year
+        year: message.year
       };
 
       const games = await gameRepository.find(search);
@@ -374,7 +374,7 @@ const sendMessage = async (data) => {
         startDateTime: {
           $lte: time,
         },
-        year: year
+        year: message.year
       };
 
       const games = await gameRepository.find(search);
@@ -401,7 +401,7 @@ const sendMessage = async (data) => {
         startDateTime: {
           $lte: time,
         },
-        year: year
+        year: message.year
       };
 
       const games = await gameRepository.find(search);
