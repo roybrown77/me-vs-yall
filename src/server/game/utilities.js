@@ -1606,6 +1606,14 @@ const ncaaTeams = [
         shortLocation: "TULN",
         name: "Green Wave",
         color: '#006747'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9083",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Georgia Southern",
+        shortLocation: "GASO",
+        name: "Eagles",
+        color: '#011E41'
     }
 ];
 

@@ -156,8 +156,6 @@ function onMessage(data) {
     return;
   }
 
-  console.log('db username: ' + process.env.DB_USERNAME);
-
   switch (message.taskName) {
     case 'updateNFLGames': 
       console.log('updating nfl games');
