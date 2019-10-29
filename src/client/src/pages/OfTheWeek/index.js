@@ -45,7 +45,9 @@ const stats = [
     content: `Philadelphia Eagles over Buffalo Bills`,
     leagueName: 'NFL',
     date: 'October 27, 2019',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "STAT OF THE WEEK: NFC WEST ROAD GAMES",

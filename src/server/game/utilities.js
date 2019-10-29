@@ -2724,11 +2724,11 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                   leagueId: mongoose.Types.ObjectId(leagueId),
                   year: year,
                   startDateTime: game.startDateTime,
-                  spread: {
-                   teamId: get(spreadTeam,'_id'),
-                   amount: get(game,'spread.amount', 0),
-                   spreadDateTime: game.spread.spreadDateTime
-                  },
+                  // spread: {
+                  //  teamId: get(spreadTeam,'_id'),
+                  //  amount: get(game,'spread.amount', 0),
+                  //  spreadDateTime: game.spread.spreadDateTime
+                  // },
                   competitors: competitors,
                   hashCompetitors: JSON.stringify(competitors)
                 });
