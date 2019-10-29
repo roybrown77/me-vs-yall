@@ -116,6 +116,13 @@ process.on('unhandledRejection', (reason, promise) => {
   // Application specific logging, throwing an error, or other logic here
 });
 
+try {
+  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options)
+  console.log('Trying to connect to DB');
+} catch (err) {
+  console.log("Server initialization failed: " , err.message);
+}
+
 const startCronProcess = (jobs) => {
   if (jobs && jobs.length) {
     jobs.forEach(job => {
