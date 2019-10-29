@@ -33,13 +33,13 @@ const JOBS = [{  // You could store these jobs in a database
 { 
   name: "Cron process 4",
   message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
-  cronTime: '* 2 * * * *',
+  cronTime: '15 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 5",
   message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
-  cronTime: '* 2 * * * *',
+  cronTime: '15 * * * * *',
   repeat: true
 }];
 
@@ -166,6 +166,8 @@ const sendMessage = async (data) => {
   console.log('minutes: ' + minutes);
   console.log('timezoneOffset: ' + timezoneOffset);
   console.log('hoursOffset: ' + hoursOffset);
+  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+  console.log('divider: ' + divider);
 
   if (message.leagueId === '59723313734d1d6202a85f10') {
     if (monthDay > 208 && monthDay < 801) {
@@ -253,6 +255,10 @@ const sendMessage = async (data) => {
       console.log('new premier league games will be loaded during season.');
       return;
     } else {
+      if (divider % 2 !== 0) {
+        return;
+      }
+      
       const time = moment().toISOString();
 
       const search = {
@@ -280,6 +286,10 @@ const sendMessage = async (data) => {
       console.log('new mls games will be loaded during season.');
       return;
     } else {
+      if (divider % 2 !== 0) {
+        return;
+      }
+
       const time = moment().toISOString();
 
       const search = {
