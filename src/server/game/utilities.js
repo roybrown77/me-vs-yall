@@ -3026,10 +3026,16 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
             const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
 
+            const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
+                : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
+
+            const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
+                : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
+
             const updatedGame = {
               competitors: [...get(game,'competitors',[])],
               isGameOver: isGameOver,
-              playHistory: newPlayHistory,
+              playHistory: isPastGracePeriod && (awayScore > 50 || homeScore > 50) ? [] : newPlayHistory,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
               gameName: get(score,'gameName',''),
               down: get(score,'down'),
@@ -3044,13 +3050,10 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
                 });
             }
 
-            set(updatedGame,'competitors.0.score', isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
-                : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore')));
+            set(updatedGame,'competitors.0.score', isPastGracePeriod && (awayScore > 50 || homeScore > 50) ? 0 : awayScore);
 
-            set(updatedGame,'competitors.1.score', isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
-                : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore')));
+            set(updatedGame,'competitors.1.score',  isPastGracePeriod && (awayScore > 50 || homeScore > 50) ? 0 : homeScore);
             
-
             if (isGameOver) {
               set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
               set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
