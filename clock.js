@@ -255,10 +255,6 @@ const sendMessage = async (data) => {
       console.log('new premier league games will be loaded during season.');
       return;
     } else {
-      if (divider % 2 !== 0) {
-        return;
-      }
-      
       const time = moment().toISOString();
 
       const search = {
@@ -286,10 +282,6 @@ const sendMessage = async (data) => {
       console.log('new mls games will be loaded during season.');
       return;
     } else {
-      if (divider % 2 !== 0) {
-        return;
-      }
-
       const time = moment().toISOString();
 
       const search = {
