@@ -3010,6 +3010,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
             const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+            const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
             const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
             const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
             !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
@@ -3035,7 +3036,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             const updatedGame = {
               competitors: [...get(game,'competitors',[])],
               isGameOver: isGameOver,
-              playHistory: !isPastGracePeriod && (awayScore > 25 || homeScore > 25) ? [] : newPlayHistory,
+              playHistory: isUnderPastGracePeriod && (awayScore > 25 || homeScore > 25) ? [] : newPlayHistory,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
               gameName: get(score,'gameName',''),
               down: get(score,'down'),
@@ -3050,9 +3051,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
                 });
             }
 
-            set(updatedGame,'competitors.0.score', !isPastGracePeriod && (awayScore > 25 || homeScore > 25) ? 0 : awayScore);
+            set(updatedGame,'competitors.0.score', isUnderPastGracePeriod && (awayScore > 25 || homeScore > 25) ? 0 : awayScore);
 
-            set(updatedGame,'competitors.1.score',  !isPastGracePeriod && (awayScore > 25 || homeScore > 25) ? 0 : homeScore);
+            set(updatedGame,'competitors.1.score', isUnderPastGracePeriod && (awayScore > 25 || homeScore > 25) ? 0 : homeScore);
             
             if (isGameOver) {
               set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
