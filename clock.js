@@ -3,11 +3,9 @@ const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 const gameRepository = require('./src/server/game/GameRepository');
-const { dbUsername, dbPassword } = require('./config');
+const { dbUsername, dbPassword, queueUrl } = require('./config');
 
-const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
-
-if (!AMQP_URL || !dbUsername || !dbPassword) process.exit(1);
+if (!queueUrl || !dbUsername || !dbPassword) process.exit(1);
 
 const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 const CLOCK_QUEUE = 'clock-queue';  // To consume from clock process
@@ -44,7 +42,7 @@ const JOBS = [{  // You could store these jobs in a database
 }];
 
 //Create a new connection manager from AMQP
-const connection = amqp.connect([AMQP_URL]);
+const connection = amqp.connect([queueUrl]);
 console.log('[AMQP] - Connecting...');
 
 connection.on('connect', function() {
@@ -117,8 +115,8 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 try {
+  console.log('[MONGODB] - Connecting...');
   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options)
-  console.log('Trying to connect to DB');
 } catch (err) {
   console.log("Server initialization failed: " , err.message);
 }

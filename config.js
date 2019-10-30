@@ -3,5 +3,6 @@ dotenv.config();
 
 module.exports = {
   dbUsername: process.env.DB_USERNAME,
-  dbPassword: process.env.DB_PASSWORD
+  dbPassword: process.env.DB_PASSWORD,
+  queueUrl: process.env.CLOUDAMQP_URL || 'amqp://localhost'
 };
