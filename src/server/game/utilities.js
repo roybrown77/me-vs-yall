@@ -3035,7 +3035,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             const updatedGame = {
               competitors: [...get(game,'competitors',[])],
               isGameOver: isGameOver,
-              playHistory: !isPastGracePeriod && (awayScore > 50 || homeScore > 50) ? [] : newPlayHistory,
+              playHistory: !isPastGracePeriod && (awayScore > 25 || homeScore > 25) ? [] : newPlayHistory,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
               gameName: get(score,'gameName',''),
               down: get(score,'down'),
@@ -3050,9 +3050,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
                 });
             }
 
-            set(updatedGame,'competitors.0.score', !isPastGracePeriod && (awayScore > 50 || homeScore > 50) ? 0 : awayScore);
+            set(updatedGame,'competitors.0.score', !isPastGracePeriod && (awayScore > 25 || homeScore > 25) ? 0 : awayScore);
 
-            set(updatedGame,'competitors.1.score',  !isPastGracePeriod && (awayScore > 50 || homeScore > 50) ? 0 : homeScore);
+            set(updatedGame,'competitors.1.score',  !isPastGracePeriod && (awayScore > 25 || homeScore > 25) ? 0 : homeScore);
             
             if (isGameOver) {
               set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
