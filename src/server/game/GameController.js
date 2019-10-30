@@ -298,10 +298,7 @@ router.get('/games', function (req, res) {
     startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
       $gte: new Date(moment(get(req, 'query.beginDateTime'))),
       $lte: new Date(moment(get(req, 'query.endDateTime')))
-    } : undefined,
-    isStub: {
-      $ne: true
-    }
+    } : undefined
   };
 
   const finalSearch = omit(search, 
@@ -328,10 +325,7 @@ router.get('/games', function (req, res) {
 router.get('/gameweeks', function (req, res) {
   const search = {
     leagueId: mongoose.Types.ObjectId(req.query.leagueId),
-    year: req.query.year,
-    isStub: {
-      $ne: true
-    }
+    year: req.query.year
   };
 
   const finalSearch = omit(search, 
@@ -365,9 +359,6 @@ router.get('/gameweeks', function (req, res) {
 router.get('/gamesInProgress', function (req, res) {
   const search = {
     isGameOver: {
-      $ne: true
-    },
-    isStub: {
       $ne: true
     }
   };
