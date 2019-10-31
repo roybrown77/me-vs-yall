@@ -42,6 +42,9 @@ if (!queueUrl || !dbUsername || !dbPassword) {
   process.exit(1);
 }
 
+const reader = PuppeteerSingleton.getInstance();
+const browser = reader.browser;
+
 const WORKER_QUEUE = 'worker-queue';
 
 // Create a new connection manager from AMQP
