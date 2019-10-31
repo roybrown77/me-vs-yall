@@ -184,7 +184,7 @@ const backupData = async () => {
 //     }
 //   }
 
-//   if (monthDay < 301 || monthDay > 1101) {
+//   if (monthDay < 301 || monthDay > 1115) {
 //     console.log('new mls games will be loaded during season.');
 //   } else {
 //     try {
