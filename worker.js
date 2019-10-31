@@ -1,8 +1,6 @@
 const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
-const PuppeteerSingleton = require('./PuppeteerSingleton');
-
 const { dbUsername, dbPassword, queueUrl } = require('./config');
 
 const {
@@ -76,9 +74,6 @@ channelWrapper.waitForConnect()
   console.error('[AMQP] - Error! ', err);
 }); 
 
-const reader = PuppeteerSingleton.getInstance();
-const browser = reader.browser;
-
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true, // use new connection string parser
@@ -106,13 +101,6 @@ mongoose.connection.on('disconnected', function () {
 const gracefulExitSIGINT = () => {
   console.info(`SIGINT signal received.`);
 
-  if (!!browser) {
-    browser.close(function () {
-      console.log('Puppeteer is closed through app termination.');
-      process.exit(0);
-    });
-  }
-
   connection.close(function () {
     console.log('AMQP is disconnected through app termination.');
     process.exit(0);
@@ -127,13 +115,6 @@ const gracefulExitSIGINT = () => {
 const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
   
-  if (!!browser) {
-    browser.close(function () {
-      console.log('Puppeteer is closed through app termination.');
-      process.exit(0);
-    });
-  }
-
   connection.close(function () {
     console.log('AMQP is disconnected through app termination.');
     process.exit(0);

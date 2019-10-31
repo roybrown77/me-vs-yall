@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const { dbUsername, dbPassword, httpPort, nodeEnv } = require('../../config');
-const {PuppeteerSingleton} = require('../../PuppeteerSingleton');
 
 if (!dbUsername || !dbPassword) {
   console.log('Missing an environment variable');
   process.exit(1);
 }
-
-const reader = PuppeteerSingleton.getInstance();
-const browser = reader.browser;
 
 const options = {
   useUnifiedTopology: true,
@@ -37,16 +33,8 @@ mongoose.connection.on('disconnected', function () {
 const gracefulExitSIGINT = () => {
   console.info(`SIGINT signal received.`);
   
-  if (!!browser) {
-    browser.close(function () {
-      console.log('Puppeteer is closed through app termination.');
-      process.exit(0);
-    });
-  }
-
   server.close(() => {
     console.log('Http server closed.');
-    process.exit(0);
   });
 
   mongoose.connection.close(function () {
@@ -58,16 +46,8 @@ const gracefulExitSIGINT = () => {
 const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
   
-  if (!!browser) {
-    browser.close(function () {
-      console.log('Puppeteer is closed through app termination.');
-      process.exit(0);
-    });
-  }
-  
   server.close(() => {
     console.log('Http server closed.');
-    process.exit(0);
   });
 
   mongoose.connection.close(function () {

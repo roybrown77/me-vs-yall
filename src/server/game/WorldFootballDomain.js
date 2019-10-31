@@ -3,7 +3,7 @@ let isUpdateEnglishPremierLeagueScoresRunning = false;
 
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const {PuppeteerSingleton} = require('../../../PuppeteerSingleton');
+const puppeteer = require('puppeteer');
 
 const gameRepository = require('./GameRepository');
 
@@ -90,46 +90,51 @@ const charCount = (s, c) => {
 };
 
 const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, year, teams}) => {
-    if (isUpdateEnglishPremierLeagueScoresRunning) {
-      console.log(`${message} already running.`)
-      return;
-    }
+  if (isUpdateEnglishPremierLeagueScoresRunning) {
+    console.log(`${message} already running.`)
+    return;
+  }
 
-    const search = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      isGameOver: {
-        $ne: true
-      },
-      startDateTime: {
-        $lt: moment().toISOString()
-      },
-      year: year
-    };
+  const search = {
+    leagueId: mongoose.Types.ObjectId(leagueId),
+    isGameOver: {
+      $ne: true
+    },
+    startDateTime: {
+      $lt: moment().toISOString()
+    },
+    year: year
+  };
 
-    const games = await gameRepository.find(search);
+  const games = await gameRepository.find(search);
 
-    if ((games || []).length === 0) {
-      console.log(`${message} all scores have been updated.`);
-      return;
-    }
+  if ((games || []).length === 0) {
+    console.log(`${message} all scores have been updated.`);
+    return;
+  }
 
-    const startDateTimes = games.map(x=>{
-      return x.startDateTime;
+  const startDateTimes = games.map(x=>{
+    return x.startDateTime;
+  });
+
+  const earliestStartDateTime = new Date(Math.min.apply(null, startDateTimes));
+
+  console.log(`${message} earliestStartDateTime: ${earliestStartDateTime}`);
+
+  const date = moment(earliestStartDateTime).format('YYYYMMDD');
+  let scores = [];
+  let browser;
+  let page;
+
+  isUpdateEnglishPremierLeagueScoresRunning = true;
+
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
     });
 
-    const earliestStartDateTime = new Date(Math.min.apply(null, startDateTimes));
-
-    console.log(`${message} earliestStartDateTime: ${earliestStartDateTime}`);
-
-    const date = moment(earliestStartDateTime).format('YYYYMMDD');
-
-    let scores = [];
-
-    isUpdateEnglishPremierLeagueScoresRunning = true;
-
-    const reader = await PuppeteerSingleton.getInstance();
-    const browser = reader.browser;
-    const page = reader.page;
+    page = await browser.newPage();
 
     const url = `${baseUrl}${date}`;
 
@@ -154,6 +159,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     if (listLength === 0) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log(`${message} no games found`);
+      await page.close();
+      await browser.close();
       return;
     }
 
@@ -215,55 +222,68 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       });
     }
 
-    console.log(`${message} games: ${JSON.stringify(games)}`);
-    console.log(`${message} scores: ${JSON.stringify(scores)}`);
-
-    if (get({scores:scores},'scores',[]).length === 0) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
-      console.log(`${message} no scores.`);
-      return;
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (!!page) {
+      await page.close();
     }
 
-    games.forEach(game=>{
-      const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-      const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
-      const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
-      const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
+    if (!!browser) {
+      await browser.close();
+    }
+    console.log(`${message} browser error: ${err.message}`);
+  }
 
-      const score = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
-      
-      console.log(`${message} score: ${JSON.stringify(score)}`);
+  console.log(`${message} games: ${JSON.stringify(games)}`);
+  console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
-      if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
-        (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
-        (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
-          moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
-
-        const isGameOver = get(score,'isGameOver',false);
-        const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
-        const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
-
-        const updatedGame = {
-          competitors: [...get(game,'competitors',[])],
-            isGameOver: isGameOver,
-            currentTime: get(score,'currentTime'),
-            possession: get(score,'possession'),
-            startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
-            playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
-            [{shortLocation: get(score,'awayTeam'), lastPlay: charCount(get(score,'possessionAway','').replace("90'+",''),"'") <= awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
-            {shortLocation: get(score,'homeTeam'), lastPlay: charCount(get(score,'possessionHome','').replace("90'+",''),"'") <= homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
-          };
-
-        set(updatedGame,'competitors.0.score', awayScore);
-        set(updatedGame,'competitors.1.score', homeScore);
-        
-        console.log(`${message} updating game: ${JSON.stringify(updatedGame)}`);
-
-        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
-      }
-    });
-
+  if (get({scores:scores},'scores',[]).length === 0) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
+    console.log(`${message} no scores.`);
+    return;
+  }
+
+  games.forEach(game=>{
+    const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+    const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
+    const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
+    const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
+
+    const score = scores.find(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+    
+    console.log(`${message} score: ${JSON.stringify(score)}`);
+
+    if ((!!get(score,'awayScore') || get(score,'awayScore') === 0) && 
+      (!!get(score,'homeScore') || get(score,'homeScore') === 0) && 
+      (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
+        moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
+
+      const isGameOver = get(score,'isGameOver',false);
+      const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
+      const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
+
+      const updatedGame = {
+        competitors: [...get(game,'competitors',[])],
+          isGameOver: isGameOver,
+          currentTime: get(score,'currentTime'),
+          possession: get(score,'possession'),
+          startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
+          playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
+          [{shortLocation: get(score,'awayTeam'), lastPlay: charCount(get(score,'possessionAway','').replace("90'+",''),"'") <= awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
+          {shortLocation: get(score,'homeTeam'), lastPlay: charCount(get(score,'possessionHome','').replace("90'+",''),"'") <= homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
+        };
+
+      set(updatedGame,'competitors.0.score', awayScore);
+      set(updatedGame,'competitors.1.score', homeScore);
+      
+      console.log(`${message} updating game: ${JSON.stringify(updatedGame)}`);
+
+      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+    }
+  });
+
+  isUpdateEnglishPremierLeagueScoresRunning = false;
 };
 
 const domain = { 

@@ -6,10 +6,10 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 const sample = require('lodash/sample');
 
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
-const {PuppeteerSingleton} = require('../../../PuppeteerSingleton');
 
 const countries = [
     {
@@ -2587,11 +2587,18 @@ const getGames = async ({
     home = 'home',
     shouldLimit = false
 }) => {
-    let games = [];
-    
-    const reader = await PuppeteerSingleton.getInstance();
-    const browser = reader.browser;
-    const page = reader.page;
+  let games = [];
+  
+  let browser;
+  let page;
+  
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
+    });
+
+    page = await browser.newPage();
 
     await page.goto(url);
 
@@ -2606,6 +2613,8 @@ const getGames = async ({
     console.log(`${message} getGames listLength: ${listLength}`);
 
     if (listLength === 0) {
+      await page.close();
+      await browser.close();
       return [];
     }
 
@@ -2675,7 +2684,21 @@ const getGames = async ({
       }
     }
 
-    return games;
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (page) {
+      await page.close();
+    }
+
+    if (browser) {
+      await browser.close();
+    }
+
+    console.log(`${message} getGames browser error: ${err.message}`);
+  }
+
+  return games;
 };
 
 const formatGames = ({message, games, leagueId, year, teams}) => {
@@ -2763,12 +2786,18 @@ const getScores = async ({
     away='away',
     home='home'
 }) => {
-    let scores = [];
+  let scores = [];
+  let browser;
+  let page;
 
-    const reader = await PuppeteerSingleton.getInstance();
-    const browser = reader.browser;
-    const page = reader.page;
-    
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      //headless: false
+    });
+
+    page = await browser.newPage();
+
     await page.goto(url);
 
     await page.waitForSelector('#events');
@@ -2777,12 +2806,14 @@ const getScores = async ({
     listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, root);
-
+    
     //console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
       isUpdateNbaScoresRunning = false;
       console.log(`${message} no games found`);
+      await page.close();
+      await browser.close();
       return;
     }
 
@@ -2918,7 +2949,20 @@ const getScores = async ({
       });
     }
 
-    return scores;
+    await page.close();
+    await browser.close();
+  } catch(err) {
+    if (!!page) {
+      await page.close();
+    }
+
+    if (!!browser) {
+      await browser.close();
+    }
+    console.log(`${message} browser error: ${err.message}`);
+  }
+
+  return scores;
 };
 
 const updateGames = ({message, leagueId, games, scores, teams}) => {

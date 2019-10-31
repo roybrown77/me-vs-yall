@@ -2,16 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const {PuppeteerSingleton} = require('../../../PuppeteerSingleton');
 
-const omit = require('lodash/omit');
-const get = require('lodash/get');
-const set = require('lodash/set');
-const uniq = require('lodash/uniq');
-const transform = require('lodash/transform');
-const groupBy = require('lodash/groupBy');
-const some = require('lodash/some');
-const sortBy = require('lodash/sortBy');
+let router = express.Router();
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
@@ -58,12 +50,25 @@ const {
   mlsTeams
 } = require('./utilities');
 
-let router = express.Router();
+const omit = require('lodash/omit');
+const get = require('lodash/get');
+const set = require('lodash/set');
+const uniq = require('lodash/uniq');
+const transform = require('lodash/transform');
+const groupBy = require('lodash/groupBy');
+const some = require('lodash/some');
+const sortBy = require('lodash/sortBy');
 
 const buySupreme = async () => {
-    const reader = await PuppeteerSingleton.getInstance();
-    const browser = reader.browser;
-    const page = reader.page;
+  let browser;
+  let page;
+
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: false
+    });
+    page = await browser.newPage();
 
     //await page.setViewport({width:1000,height:700});
     //await page.setRequestInterception(true);
@@ -105,6 +110,18 @@ const buySupreme = async () => {
       // await page.type("#orcer", '515');
       await page.waitForNavigation();
     }
+
+    await page.close();
+    await browser.close();
+  } catch (err) {
+    if (page) {
+      await page.close();
+    }
+
+    if (browser) {
+      await browser.close();
+    }
+  }
 };
 
 const getEmailAddresses = async () => {
