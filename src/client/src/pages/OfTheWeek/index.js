@@ -41,6 +41,20 @@ const styles = {
 
 const stats = [
   {
+    title: "STAT OF THE WEEK: NFC WEST ROAD GAMES",
+    content: `Jacoby Brissett and the Indianapolis Colts have won 3 straight games.  It's one of the toughest 3 game stretches teams have faced in the league.`,
+    leagueName: 'NFL',
+    date: 'October 31, 2019',
+    author: 'Roy B.'
+  },
+  {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Miami Dolphins over New York Jets`,
+    leagueName: 'NFL',
+    date: 'October 31, 2019',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Philadelphia Eagles over Buffalo Bills`,
     leagueName: 'NFL',
