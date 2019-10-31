@@ -61,7 +61,7 @@ const {
 let router = express.Router();
 
 const buySupreme = async () => {
-    const reader = await PuppeteerSingleton.getInstance();
+    const reader = PuppeteerSingleton.getInstance();
     const browser = reader.browser;
     const page = reader.page;
 
