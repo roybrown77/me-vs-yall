@@ -127,7 +127,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
 
     isUpdateEnglishPremierLeagueScoresRunning = true;
 
-    const reader = PuppeteerSingleton.getInstance();
+    const reader = await PuppeteerSingleton.getInstance();
     const browser = reader.browser;
     const page = reader.page;
 
