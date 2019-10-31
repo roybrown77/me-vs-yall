@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { dbUsername, dbPassword, httpPort } = require('../../config');
+const { dbUsername, dbPassword, httpPort, nodeEnv } = require('../../config');
 
 if (!dbUsername || !dbPassword) {
   console.log('Missing an environment variable');
@@ -82,7 +82,7 @@ app.use(express.json());
 
 app.set("port", httpPort || 3001);
 
-if (process.env.NODE_ENV === "production") {
+if (nodeEnv === "production") {
     app.use(express.static(path.resolve(__dirname, '../client/build')));
 }
 
