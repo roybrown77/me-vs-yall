@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
-const { dbUsername, dbPassword } = require('../../config');
+const { dbUsername, dbPassword, httpPort } = require('../../config');
+
+if (!dbUsername || !dbPassword) {
+  console.log('Missing an environment variable');
+  process.exit(1);
+}
 
 const options = {
   useUnifiedTopology: true,
@@ -60,8 +65,8 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 try {
-  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options)
-  console.log('Trying to connect to DB');
+  console.log('[MONGODB] - Connecting...');
+  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options);
 } catch (err) {
   console.log("Server initialization failed: " , err.message);
 }
@@ -75,7 +80,7 @@ const app = express();
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 
-app.set("port", process.env.PORT || 3001);
+app.set("port", httpPort || 3001);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.resolve(__dirname, '../client/build')));

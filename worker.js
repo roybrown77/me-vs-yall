@@ -1,7 +1,7 @@
 const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
-const { dbUsername, dbPassword } = require('./config');
+const { dbUsername, dbPassword, queueUrl } = require('./config');
 
 const {
   updateEnglishPremierLeagueScores,
@@ -35,16 +35,16 @@ const {
   mlsTeams
 } = require('./src/server/game/utilities');
 
-const AMQP_URL = process.env.CLOUDAMQP_URL || 'amqp://localhost';
-
-if (!AMQP_URL || !dbUsername || !dbPassword) process.exit(1);
+if (!queueUrl || !dbUsername || !dbPassword) {
+  console.log('Missing an environment variable');
+  process.exit(1);
+}
 
 const WORKER_QUEUE = 'worker-queue';
 
 // Create a new connection manager from AMQP
-const connection = amqp.connect([AMQP_URL]);
-
 console.log('[AMQP] - Connecting....');
+const connection = amqp.connect([queueUrl]);
 
 connection.on('connect', function() {
   return console.log('[AMQP] - Connected!');
@@ -135,8 +135,8 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 try {
-  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options)
-  console.log('Trying to connect to DB');
+  console.log('[MONGODB] - Connecting...');
+  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options);
 } catch (err) {
   console.log("Server initialization failed: " , err.message);
 }
