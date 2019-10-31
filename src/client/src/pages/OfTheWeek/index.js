@@ -41,7 +41,7 @@ const styles = {
 
 const stats = [
   {
-    title: "STAT OF THE WEEK: NFC WEST ROAD GAMES",
+    title: "STAT OF THE WEEK: LIGHTNING COLTS",
     content: `Jacoby Brissett and the Indianapolis Colts have won 3 straight games.  It's one of the toughest 3 game stretches teams have faced in the league.`,
     leagueName: 'NFL',
     date: 'October 31, 2019',
