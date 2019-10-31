@@ -279,7 +279,7 @@ const sendMessage = async (data) => {
   }
 
   if (message.leagueId === '59723313734d1d6202a85f29') {
-    if (monthDay < 301 || monthDay > 1101) {
+    if (monthDay < 301 || monthDay > 1115) {
       console.log('new mls games will be loaded during season.');
       return;
     } else {
