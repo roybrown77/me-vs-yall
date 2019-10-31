@@ -143,7 +143,7 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
-router.get('/games', function (req, res) {
+const updateGames = () => {
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -291,6 +291,10 @@ router.get('/games', function (req, res) {
   //     console.log('updateMlbScores error: ' + err.message);
   //   }
   // }
+};
+
+router.get('/games', function (req, res) {
+  updateGames();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(get(req, 'query.leagueId')),
