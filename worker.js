@@ -1,7 +1,7 @@
 const amqp = require('amqp-connection-manager');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
-const PuppeteerSingleton = require('./PuppeteerSingleton');
+const {PuppeteerSingleton} = require('./PuppeteerSingleton');
 
 const { dbUsername, dbPassword, queueUrl } = require('./config');
 
