@@ -58,7 +58,7 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
 
   console.log(`${message} starting.`);
 
-  const time = moment().add(30, 'minutes').toISOString();
+  const time = moment().add(4, 'hours').toISOString();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
