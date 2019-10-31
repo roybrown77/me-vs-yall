@@ -2589,7 +2589,7 @@ const getGames = async ({
 }) => {
     let games = [];
     
-    const reader = PuppeteerSingleton.getInstance();
+    const reader = await PuppeteerSingleton.getInstance();
     const browser = reader.browser;
     const page = reader.page;
 
@@ -2765,7 +2765,7 @@ const getScores = async ({
 }) => {
     let scores = [];
 
-    const reader = PuppeteerSingleton.getInstance();
+    const reader = await PuppeteerSingleton.getInstance();
     const browser = reader.browser;
     const page = reader.page;
     
