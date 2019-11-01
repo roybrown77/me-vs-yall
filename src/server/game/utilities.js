@@ -2613,7 +2613,6 @@ const getGames = async ({
     console.log(`${message} getGames listLength: ${listLength}`);
 
     if (listLength === 0) {
-      await page.close();
       await browser.close();
       return [];
     }
@@ -2684,14 +2683,9 @@ const getGames = async ({
       }
     }
 
-    await page.close();
     await browser.close();
   } catch(err) {
-    if (page) {
-      await page.close();
-    }
-
-    if (browser) {
+    if (!!browser) {
       await browser.close();
     }
 
@@ -2812,7 +2806,6 @@ const getScores = async ({
     if (listLength === 0) {
       isUpdateNbaScoresRunning = false;
       console.log(`${message} no games found`);
-      await page.close();
       await browser.close();
       return;
     }
@@ -2949,13 +2942,8 @@ const getScores = async ({
       });
     }
 
-    await page.close();
     await browser.close();
   } catch(err) {
-    if (!!page) {
-      await page.close();
-    }
-
     if (!!browser) {
       await browser.close();
     }

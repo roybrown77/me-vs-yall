@@ -111,14 +111,9 @@ const buySupreme = async () => {
       await page.waitForNavigation();
     }
 
-    await page.close();
     await browser.close();
   } catch (err) {
-    if (page) {
-      await page.close();
-    }
-
-    if (browser) {
+    if (!!browser) {
       await browser.close();
     }
   }

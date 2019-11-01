@@ -159,7 +159,6 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     if (listLength === 0) {
       isUpdateEnglishPremierLeagueScoresRunning = false;
       console.log(`${message} no games found`);
-      await page.close();
       await browser.close();
       return;
     }
@@ -222,13 +221,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       });
     }
 
-    await page.close();
     await browser.close();
   } catch(err) {
-    if (!!page) {
-      await page.close();
-    }
-
     if (!!browser) {
       await browser.close();
     }
