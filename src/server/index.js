@@ -1,10 +1,57 @@
-const mongoose = require('mongoose');
 const { dbUsername, dbPassword, httpPort, nodeEnv } = require('../../config');
 
-if (!dbUsername || !dbPassword) {
-  console.log('Missing an environment variable');
+if (!dbUsername || !dbPassword || !httpPort || !nodeEnv) {
+  console.log(`Missing an environment variable`);
   process.exit(1);
 }
+
+const mongoose = require('mongoose');
+const path = require('path');
+const express = require('express');
+const jwks = require('jwks-rsa');
+const jwt = require('express-jwt');
+
+const GameController = require('./game/GameController');
+const PickReadController = require('./pick/PickReadController');
+const PickWriteController = require('./pick/PickWriteController');
+const UserReadController = require('./user/UserReadController');
+const UserWriteController = require('./user/UserWriteController');
+
+const secret = jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
+});
+
+const authCheck = jwt({
+    secret: secret,
+    audience: 'https://mevsyallcom/api/',
+    issuer: "https://mevsyall.auth0.com/",
+    algorithms: ['RS256']
+});
+
+const app = express();
+
+app.use('/api/gamemanagement', GameController);
+app.use('/api/pickmanagement', PickReadController);
+app.use('/api/pickmanagement', authCheck, PickWriteController);
+app.use('/api/usermanagement', UserReadController);
+app.use('/api/usermanagement', authCheck, UserWriteController);
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
+app.use(express.urlencoded({extended: true})); 
+app.use(express.json());
+app.set("port", httpPort || 3001);
+
+if (nodeEnv === "production") {
+    app.use(express.static(path.resolve(__dirname, '../client/build')));
+}
+
+const server = app.listen(app.get("port"), () => {
+    console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+});
 
 const options = {
   useUnifiedTopology: true,
@@ -56,14 +103,6 @@ const gracefulExitSIGTERM = () => {
   });
 };
 
-// If the Node process ends, close the Mongoose connection
-process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at: ', promise, 'reason: ', reason);
-  // Application specific logging, throwing an error, or other logic here
-});
-
 try {
   console.log('[MONGODB] - Connecting...');
   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options);
@@ -71,56 +110,10 @@ try {
   console.log("Server initialization failed: " , err.message);
 }
 
-const path = require('path');
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
 
-const express = require('express');
-
-const app = express();
-
-app.use(express.urlencoded({extended: true})); 
-app.use(express.json());
-
-app.set("port", httpPort || 3001);
-
-if (nodeEnv === "production") {
-    app.use(express.static(path.resolve(__dirname, '../client/build')));
-}
-
-const jwks = require('jwks-rsa');
-const secret = jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
-});
-
-const jwt = require('express-jwt');
-const authCheck = jwt({
-    secret: secret,
-    audience: 'https://mevsyallcom/api/',
-    issuer: "https://mevsyall.auth0.com/",
-    algorithms: ['RS256']
-});
-
-const GameController = require('./game/GameController');
-app.use('/api/gamemanagement', GameController);
-
-const PickReadController = require('./pick/PickReadController');
-app.use('/api/pickmanagement', PickReadController);
-
-const PickWriteController = require('./pick/PickWriteController');
-app.use('/api/pickmanagement', authCheck, PickWriteController);
-
-const UserReadController = require('./user/UserReadController');
-app.use('/api/usermanagement', UserReadController);
-
-const UserWriteController = require('./user/UserWriteController');
-app.use('/api/usermanagement', authCheck, UserWriteController);
-
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
-
-const server = app.listen(app.get("port"), () => {
-    console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at: ', promise, 'reason: ', reason);
+  // Application specific logging, throwing an error, or other logic here
 });
