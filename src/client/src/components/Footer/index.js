@@ -26,22 +26,14 @@ const styles = {
 };
 
 class Footer extends Component {
-    state = {
-        value: 0,
-    };
-
-    handleChange = (event, value) => {
-        this.setState({ value });
-    };
-
     render() {
         const leagueName = this.props.leagueName;
-        const { value } = this.state;
+        const selected = window.location.pathname.includes('scoreboards') ? 'scoreboards' : 
+        window.location.pathname.includes('leaders') ? 'leaders' : 
+        window.location.pathname.includes('oftheweek') ? 'oftheweek' : 'MvY';
 
         return (
             <BottomNavigation 
-                    value={value} 
-                    onChange={this.handleChange}
                     style={styles.root}
                     showLabels
                     >
@@ -56,7 +48,7 @@ class Footer extends Component {
                     {
                         true &&
                         <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
+                            <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid rgb(239, 253, 87)' : ''}} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
                                 Scores
                             </div>
                         )} />
@@ -64,7 +56,7 @@ class Footer extends Component {
                     {
                         true &&
                         <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/leaders/' + leagueName) }}>
+                            <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} onClick={() => { history.push('/leaders/' + leagueName) }}>
                                 Leaders
                             </div>
                         )} />
@@ -72,7 +64,7 @@ class Footer extends Component {
                     {
                         true &&
                         <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/oftheweek') }}>
+                            <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid rgb(239, 253, 87)' : ''}} onClick={() => { history.push('/oftheweek') }}>
                                 OTW
                             </div>
                         )} />
