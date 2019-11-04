@@ -247,8 +247,8 @@ const backupData = async () => {
 //     console.log('new nba games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadNbaGames({dayCount: 0, shouldLimit: true});
-//       //loadNbaGames({dayCount: 1, shouldLimit: true});
+//       //loadNbaGames({dayCount: 0, shouldLimit: true, isStart: false});
+//       //loadNbaGames({dayCount: 1, shouldLimit: true, isStart: false});
 //     } catch(err) {
 //       isLoadNbaGamesRunning = false;
 //       console.log('loadNbaGames error: ' + err.message);
@@ -269,8 +269,8 @@ const backupData = async () => {
 //   //   console.log('new mlb games will be loaded during season.');
 //   // } else {
 //   //   try {
-//   //       loadMlbGames(0);
-//   //       loadMlbGames(1);
+//   //       loadMlbGames({dayCount: 0, shouldLimit: true, isStart: false});
+//   //       loadMlbGames({dayCount: 0, shouldLimit: true, isStart: false});
 //   //   } catch(err) {
 //   //     isLoadMlbGamesRunning = false;
 //   //     console.log('loadMlbGames error: ' + err.message);

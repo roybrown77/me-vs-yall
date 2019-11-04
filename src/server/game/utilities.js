@@ -2585,7 +2585,8 @@ const getGames = async ({
     rankSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > span',
     away = 'away',
     home = 'home',
-    shouldLimit = false
+    shouldLimit = false,
+    isStart = true
 }) => {
   let games = [];
   
@@ -2621,7 +2622,6 @@ const getGames = async ({
     let endLength = listLength; 
 
     if (shouldLimit) {
-        const isStart = sample([true, false]);
         startLength = listLength < 4 ? 1 : isStart ? 1 : listLength-2;
         endLength = listLength < 4 ? listLength : isStart ? 3 : listLength;
     }

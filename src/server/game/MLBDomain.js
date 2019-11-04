@@ -21,7 +21,7 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadMlbGames = async ({dayCount, shouldLimit}) => {
+const loadMlbGames = async ({dayCount, shouldLimit, isStart}) => {
   const message = 'loadMlbGames';
 
   if (isLoadMlbGamesRunning || isUpdateMlbScoresRunning) {
@@ -60,7 +60,8 @@ const loadMlbGames = async ({dayCount, shouldLimit}) => {
     message,
     url,
     root,
-    shouldLimit
+    shouldLimit,
+    isStart
   });
 
   if ((games || []).length === 0) {
