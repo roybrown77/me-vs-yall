@@ -31,9 +31,9 @@
   },
   "scripts": {
     "start_local": "concurrently \"npm run local-server\" \"npm run client\"",
-    "local-server": "node --optimize_for_size --max_old_space_size=460 -r dotenv/config src/server",
-    "local-clock": "node --optimize_for_size --max_old_space_size=460 -r dotenv/config clock.js",
-    "local-worker": "node --optimize_for_size --max_old_space_size=460 -r dotenv/config worker.js",
+    "local-server": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config src/server",
+    "local-clock": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config clock.js",
+    "local-worker": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config worker.js",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon src/server",
     "prod-server": "node --optimize_for_size --max_old_space_size=460 src/server",
