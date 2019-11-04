@@ -115,11 +115,8 @@ const instructions = [
 ];
 
 class Home extends Component {
-    componentWillMount() {
-        window.scrollTo(0, 0);
-    }
-
     componentDidMount() {
+      window.scrollTo(0, 0);
         this.props.loadGamesInProgress();
     }
 

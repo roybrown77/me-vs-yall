@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 import angry from '../../styles/images/angry.png';
@@ -26,11 +25,9 @@ const styles = {
   container: {
     padding: '12px'
   },
-  main: {
-    color: 'rgba(0, 0, 0, 0.87)'
-  },
   contentTitle: {
-    color: '#767676'
+    color: '#767676',
+    fontSize: '0.875rem'
   },
   content: {
     fontWeight: '600',
@@ -326,7 +323,7 @@ const stats = [
 ];
 
 class OfTheWeek extends Component {
-  componentWillMount() {
+  componentDidMount() {
       window.scrollTo(0, 0);
   }
   
@@ -334,41 +331,43 @@ class OfTheWeek extends Component {
     return (
       <div>
         <PageContainer>
-          <div style={styles.titleContainer}>
-            <Typography component="h3" align={'left'} style={styles.title}>
-              #$%@ of the Week
-            </Typography>
-            <Typography align={'left'} style={styles.contentTitle}>
-              That Might Help You With Picks And In Life
-            </Typography>
-          </div>
-          {
-            stats.map(stat=>(
-              <div key={stat.title.replace(' ', '')} style={styles.stats}>
-                <div style={styles.container}>
-                  <Typography align={'left'} style={styles.contentTitle}>
-                    {stat.title}
-                  </Typography>
-                  <br/>
-                  <Typography align={'left'} style={styles.content}>
-                    <div style={{margin:'auto 0'}}>{stat.content}</div>
-                    {!stat.lockOfTheWeek ? null : stat.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
-                  </Typography>
-                  <br/>
-                  <Typography align={'left'}>
-                    - {stat.author}
-                  </Typography>
-                  <Divider style={{
-                    margin: '12px 0',
-                    height: '10px',
-                    backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
-                  }} />
-                  <Typography>
-                    {stat.leagueName} {stat.date}
-                  </Typography>
-                </div>
+          <div style={{textAlign: 'left', lineHeight: '1.5', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.87)'}}>
+            <div style={styles.titleContainer}>
+              <div component="h3" style={styles.title}>
+                #$%@ of the Week
               </div>
-          ))}
+              <div style={styles.contentTitle}>
+                That Might Help You With Picks And In Life
+              </div>
+            </div>
+            {
+              stats.map((stat,index)=>(
+                <div key={index} style={styles.stats}>
+                  <div style={styles.container}>
+                    <div style={styles.contentTitle}>
+                      {stat.title}
+                    </div>
+                    <br/>
+                    <div style={styles.content}>
+                      <div style={{margin:'auto 0'}}>{stat.content}</div>
+                      {!stat.lockOfTheWeek ? null : stat.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
+                    </div>
+                    <br/>
+                    <div style={{fontSize: '0.875rem'}}>
+                      - {stat.author}
+                    </div>
+                    <Divider style={{
+                      margin: '12px 0',
+                      height: '10px',
+                      backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                    }} />
+                    <div style={{textAlign: 'center', fontSize: '0.875rem'}}>
+                      {stat.leagueName} {stat.date}
+                    </div>
+                  </div>
+                </div>
+            ))}
+          </div>
         </PageContainer>
       </div>
     );

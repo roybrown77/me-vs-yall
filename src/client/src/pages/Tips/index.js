@@ -116,7 +116,7 @@ const stats = [
 ];
 
 class Tips extends Component {
-  componentWillMount() {
+  componentDidMount() {
       window.scrollTo(0, 0);
   }
 

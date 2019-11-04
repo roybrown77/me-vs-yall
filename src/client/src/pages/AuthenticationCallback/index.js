@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { loadUser } from '../../actions';
 
 class AuthenticationCallback extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadUser();
   }
 

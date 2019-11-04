@@ -6,7 +6,7 @@ import { isLoggedIn, googleLogin } from '../../middleware/authenticationService'
 import mvy from '../../styles/images/mvy.png';
 
 class Play extends Component {
-    componentWillMount() {
+    componentDidMount() {
         if (isLoggedIn()) {
             setTimeout(() => { window.location = '/scoreboards/nfl'; }, 1000);
         } else {

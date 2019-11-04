@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 import green from '@material-ui/core/colors/green';
 
@@ -40,13 +39,11 @@ const styles = theme => ({
     marginBottom: '8px'
   },
   paper: {
-    height: '100%',
-    width: '100%',
     borderRadius: '8px',
     boxShadow: 'none'
   },
   control: {
-    padding: theme.spacing.unit * 2,
+    padding: '32px',
   },
   checkBox: {
     color: green[600],
@@ -332,7 +329,7 @@ class Game extends Component {
 
         return (
             <div key={game._id} className={classes.container}>
-                <Grid key={game._id + "-gridlist"} container className={classes.root} spacing={8}>
+                <Grid key={game._id + "-gridlist"} container className={classes.root}>
                     {game.competitors.map((competitor) => (
                         <Grid
                             key={game._id + "." + competitor._id}
@@ -348,24 +345,29 @@ class Game extends Component {
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     <Grid item>
-                                        <div style={{position:'absolute', padding: '4px',
-                                          display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                          <img style={{width:'40px'}} src={angry} alt=""/>
-                                        </div>
-                                        <div style={{position:'absolute', padding: '4px',
-                                          display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                          <img style={{width:'40px'}} src={money} alt=""/>
-                                        </div>
+                                      <div style={{position:'absolute', padding: '4px',
+                                        display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                        <img style={{width:'40px'}} src={angry} alt=""/>
+                                      </div>
+                                      <div style={{position:'absolute', padding: '4px',
+                                        display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                        <img style={{width:'40px'}} src={money} alt=""/>
+                                      </div>
+                                      <div style={{position:'absolute', fontSize: '17px', paddingTop: '5px', 
+                                          display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
+                                          right:competitor._id === game.competitors[0]._id && competitor._id === get(game,'spread.teamId') ? '53%' : '5%'}}>
+                                          {get(game,'spread.amount')}
+                                      </div>
                                     </Grid>
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '12px' : competitor.country ? '20px' : '40px'}}>
+                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '24px' : competitor.country ? '20px' : '40px'}}>
                                                 {
                                                   !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
-                                                  <Typography style={{fontSize:'25px', color: competitor.color}}>
+                                                  <div style={{fontSize:'25px', color: competitor.color}}>
                                                     {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
-                                                  </Typography>
+                                                  </div>
                                                 }
                                                 {
                                                   competitor.country &&
@@ -388,12 +390,6 @@ class Game extends Component {
                                               </div>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography style={{position:'absolute', fontSize: '17px', right: '8px', top: '4px',
-                                            display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none'}}>
-                                            {get(game,'spread.amount')}
-                                        </Typography>
                                     </Grid>
                                 </Paper>
                             </Grow>

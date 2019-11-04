@@ -58,10 +58,15 @@ const styles = theme => ({
     padding: '4px'
   },
   userName: {
-    padding: '10px'
+    padding: '10px',
+    textAlign: 'left'
   },
   expansionSummary: {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    padding: '0 12px'
+  },
+  expansionPanelDetails: {
+    padding: '8px'
   },
   userPicture: {
     height: '50px',
@@ -102,11 +107,9 @@ class Leader extends Component {
         this.startPolling = this.startPolling.bind(this);
     }
 
-    componentWillMount() {
-        window.scrollTo(0, 0);
-    }
-
     componentDidMount() {
+        window.scrollTo(0, 0);
+
         this.startPolling();
 
         const { leagueName } = this.props.match.params;
@@ -350,14 +353,14 @@ class Leader extends Component {
                                                 <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
                                                     {
                                                         [1,2,3].includes(index+1) &&
-                                                        <div>
+                                                        <div style={{margin: 'auto 10px auto 0'}}>
                                                             <img style={{width:'40px'}}src={index+1 === 1 ? gold : index+1 === 2 ? silver : bronze} alt=""/>
                                                         </div>
                                                     }
                                                     {
                                                         ![1,2,3].includes(index+1) &&
                                                         <div style={{
-                                                            margin: 'auto 0',
+                                                            margin: 'auto 10px auto 0',
                                                             color: index === 0 ? '#FFC107' : '#000', 
                                                             fontWeight: index === 0 ? '700' : '400'}}>
                                                             {index+1}
@@ -387,7 +390,7 @@ class Leader extends Component {
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>
                                                 </ExpansionPanelSummary>
-                                                <ExpansionPanelDetails>
+                                                <ExpansionPanelDetails className={classes.expansionPanelDetails}>
                                                     <div style={{margin: '12px auto'}}>
                                                         <div style={{
                                                             fontWeight: '700',
