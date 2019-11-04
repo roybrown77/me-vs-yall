@@ -68,7 +68,7 @@ const options = {
 };
 
 mongoose.connection.on("connected", function(ref) {
-  console.log("Connected to DB!");
+  console.log("Connected to DB!", ref);
 });
 
 // If the connection throws an error
@@ -86,12 +86,10 @@ const gracefulExitSIGINT = () => {
   
   connection.close(function () {
     console.log('AMQP is disconnected through app termination.');
-    process.exit(0);
   });
 
   mongoose.connection.close(function () {
     console.log('Mongoose default connection with DB is disconnected through app termination.');
-    process.exit(0);
   });
 };
 
@@ -100,12 +98,10 @@ const gracefulExitSIGTERM = () => {
   
   connection.close(function () {
     console.log('AMQP is disconnected through app termination.');
-    process.exit(0);
   });
 
   mongoose.connection.close(function () {
     console.log('Mongoose default connection with DB is disconnected through app termination.');
-    process.exit(0);
   });
 };
 
@@ -113,10 +109,40 @@ const gracefulExitSIGTERM = () => {
 process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at: ', promise, 'reason: ', reason);
+  console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
   // Application specific logging, throwing an error, or other logic here
 });
 
+process.on('uncaughtException', function(err) {
+  //log the error
+  console.error(`Process uncaughtException error: ${JSON.stringify(warning)}`);
+  //let's tell our master we need to be disconnected
+  //require('forky').disconnect();
+  //in a worker process, this will signal the master that something is wrong
+  //the master will immediately spawn a new worker
+  //and the master will disconnect our server, allowing all existing traffic to end naturally
+  //but not allowing this process to accept any new traffic
+});
+
+process.on('multipleResolves', (type, promise, reason) => {
+  console.error(`Process multipleResolves type: ${type}, promise: ${promise}, reason: ${reason}`);
+});
+
+process.on('beforeExit', (code) => {
+  console.log(`Process beforeExit code: ${code}`);
+});
+
+process.on('exit', (code) => {
+  console.log(`Process exit code: ${code}`);
+});
+
+process.on('disconnect', (code) => {
+  console.log(`Process disconnect code: ${code}`);
+});
+
+process.on('warning', (warning) => {
+  console.warn(`Process warning: ${JSON.stringify(warning)}`);
+});
 try {
   console.log('[MONGODB] - Connecting...');
   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/mevsyall-dev`,options);
