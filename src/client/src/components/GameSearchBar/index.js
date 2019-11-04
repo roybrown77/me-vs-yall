@@ -34,24 +34,18 @@ const styles = theme => ({
 });
 
 class GameSearchBar extends Component {  
-  shouldComponenetUpdate() {
-    return false;
-  }
-  
   render() {
-    const { classes, weeks, years, leagues, weekId, leagueId, year } = this.props;
-
+    const { classes, weeks, weekId, leagueId } = this.props;
     const weekIndex = weeks.findIndex(x=>x._id === weekId);
-    
-    const weekList = weeks.map((week, index) =>
+    const weeksToDisplay = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index}>{week.displayName}</MenuItem>
                   );
 
-    const yearList = years.map((year, index) =>
+    const years = this.props.years.map((year, index) =>
                     <MenuItem key={year} value={year}>{year}</MenuItem>
                   );
 
-    const leagueList = leagues.map((league, index) =>
+    const leagues = this.props.leagues.map((league, index) =>
                     <MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>
                   );
 
@@ -75,32 +69,32 @@ class GameSearchBar extends Component {
                         name='league'
                         className={classes.select}
                         >
-                        {leagueList}
+                        {leagues}
                     </Select>
                   </FormControl> 
                   <FormControl className={classes.formControl}>
                     <Select
-                        value={year}
+                        value={this.props.year}
                         onChange={this.props.onFilterYear}
                         displayEmpty
                         name='year'
                         className={classes.select}
                         >
-                        {yearList}
+                        {years}
                     </Select>
                   </FormControl>  
               </Grid>
               <Grid item xs={12} justify="center" sm container>
                 <FormControl className={classes.formControl}>
                   <Select
-                      value={weekIndex === '-1' || !weekIndex ? '' : weekIndex}
+                      value={weekIndex !== -1 ? weekIndex : this.props.weeks.length-1}
                       onChange={this.props.onFilterWeek}
                       displayEmpty
-                      name='week'
+                      name='year'
                       style={styles.select}
                       className={classes.select}
                       >
-                      {weekList}
+                      {weeksToDisplay}
                   </Select>
                 </FormControl>
               </Grid>
