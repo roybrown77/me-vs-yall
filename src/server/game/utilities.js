@@ -1614,6 +1614,14 @@ const ncaaTeams = [
         shortLocation: "GASO",
         name: "Eagles",
         color: '#011E41'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9084",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Nevada",
+        shortLocation: "NEV",
+        name: "Wild Cats",
+        color: '#011E41'
     }
 ];
 
