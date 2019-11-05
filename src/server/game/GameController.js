@@ -204,7 +204,7 @@ const backupData = async () => {
 //     console.log('new ncaaf games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/10', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
+//       //loadFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/11', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
 //     } catch(err) {
 //       isLoadNflGamesRunning = false;
 //       console.log('loadNCAAFGames error: ' + err.message);
@@ -225,7 +225,7 @@ const backupData = async () => {
 //     console.log('new nfl games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/9', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+//       //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/10', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
 //     } catch(err) {
 //       isLoadNflGamesRunning = false;
 //       console.log('loadNflGames error: ' + err.message);
@@ -247,8 +247,8 @@ const backupData = async () => {
 //     console.log('new nba games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadNbaGames({dayCount: 0, shouldLimit: true, isStart: false});
-//       //loadNbaGames({dayCount: 1, shouldLimit: true, isStart: false});
+//       //loadNbaGames({dayCount: 0, shouldLimit: true, isStart: true});
+//       //loadNbaGames({dayCount: 1, shouldLimit: true, isStart: true});
 //     } catch(err) {
 //       isLoadNbaGamesRunning = false;
 //       console.log('loadNbaGames error: ' + err.message);

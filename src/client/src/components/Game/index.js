@@ -353,16 +353,16 @@ class Game extends Component {
                                         display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                         <img style={{width:'40px'}} src={money} alt=""/>
                                       </div>
-                                      <div style={{position:'absolute', fontSize: '17px', paddingTop: '5px', 
+                                      <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
                                           display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
-                                          right:competitor._id === game.competitors[0]._id && competitor._id === get(game,'spread.teamId') ? '53%' : '5%'}}>
+                                          textAlign: 'right'}}>
                                           {get(game,'spread.amount')}
                                       </div>
                                     </Grid>
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '24px' : competitor.country ? '20px' : '40px'}}>
+                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '16px' : competitor.country ? '20px' : '40px'}}>
                                                 {
                                                   !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
                                                   <div style={{fontSize:'25px', color: competitor.color}}>
