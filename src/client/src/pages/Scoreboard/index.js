@@ -127,7 +127,7 @@ class Scoreboard extends Component {
         this.handleToggleSound = this.handleToggleSound.bind(this);
 
         this.state = {
-            soundOn: true
+            soundOn: false
         };
     }
 
@@ -238,18 +238,6 @@ class Scoreboard extends Component {
     }
 
     handleMakePick(pick) {
-        if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
-            if (this.state.soundOn) { madden.play() };
-        }
-
-        if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            if (this.state.soundOn) { tecmo.play() };
-        }
-
-        if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
-            if (this.state.soundOn) { nbaJams.play() };
-        }
-        
         if (!this.props.isAuthenticated) return;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
@@ -261,6 +249,18 @@ class Scoreboard extends Component {
     }
 
     handleToggleSound() {
+        if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
+            if (!this.state.soundOn) { madden.play() };
+        }
+
+        if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
+            if (!this.state.soundOn) { tecmo.play() };
+        }
+
+        if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
+            if (!this.state.soundOn) { nbaJams.play() };
+        }
+
         this.setState((state) => ({
             soundOn: !state.soundOn
         }));
