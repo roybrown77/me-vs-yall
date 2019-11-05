@@ -70,6 +70,9 @@ const styles = theme => ({
     border: '4px solid #3772FA',
     fontWeight: '600'
   },
+  gameHeader: {
+    minHeight: '32px'
+  }
 });
 
 const getFootballField = (props) => (
@@ -344,7 +347,7 @@ class Game extends Component {
                         >
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
-                                    <Grid item>
+                                    <Grid item className={classNames(classes.gameHeader)}>
                                       <div style={{position:'absolute', padding: '4px',
                                         display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                         <img style={{width:'40px'}} src={angry} alt=""/>
@@ -362,7 +365,7 @@ class Game extends Component {
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
                                             <Grid item>
-                                              <div style={{marginTop: hasGameStarted(game.startDateTime) ? '16px' : competitor.country ? '20px' : '40px'}}>
+                                              <div>
                                                 {
                                                   !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
                                                   <div style={{fontSize:'25px', color: competitor.color}}>
