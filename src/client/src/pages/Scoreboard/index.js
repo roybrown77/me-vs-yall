@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+
 import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
 import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 
@@ -24,7 +25,6 @@ import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 
 import {Howl, Howler} from 'howler';
-
 import maddenM4a from './madden-touchdown.m4a';
 import maddenWebm from './madden-touchdown.webm';
 

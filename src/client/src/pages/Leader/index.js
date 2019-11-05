@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
+import sample from 'lodash/sample';
 
 import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
@@ -14,7 +15,10 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 
+import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
+import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import PageContainer from '../PageContainer';
@@ -26,6 +30,10 @@ import gold from '../../styles/images/gold.png';
 import silver from '../../styles/images/silver.png';
 import bronze from '../../styles/images/bronze.png';
 
+import {Howl, Howler} from 'howler';
+import boastyM4a from './boasty.m4a';
+import boastyWebm from './boasty.webm';
+
 import { googleLogin } from '../../middleware/authenticationService';
 import { loadLeaders } from '../../actions';
 import { 
@@ -36,6 +44,15 @@ import {
     getLeagueStartDateTime,
     getImage
 } from '../../utilities';
+
+Howler.volume(1);
+
+const boastySound = new Howl({
+  src: [boastyM4a, boastyWebm],
+  format: ['m4a', 'webm']
+});
+
+const boasty = sample([boastySound, boastySound]);
 
 const styles = theme => ({
   root: {
@@ -94,6 +111,9 @@ const styles = theme => ({
       color: '#FFFFFF',
       borderColor: '#3772FA',
     }
+  },
+  soundButton: {
+    color: '#000'
   }
 });                                            
 
@@ -105,6 +125,11 @@ class Leader extends Component {
         this.handleFilterYear = this.handleFilterYear.bind(this);
         this.handleFilterWeek = this.handleFilterWeek.bind(this);
         this.startPolling = this.startPolling.bind(this);
+        this.handleToggleSound = this.handleToggleSound.bind(this);
+
+        this.state = {
+            soundOn: false
+        };
     }
 
     componentDidMount() {
@@ -218,6 +243,14 @@ class Leader extends Component {
         });
     }
 
+    handleToggleSound() {
+        if (!this.state.soundOn) { boasty.play() };
+
+        this.setState((state) => ({
+            soundOn: !state.soundOn
+        }));
+    }
+
     render() {
         const { 
             classes, 
@@ -230,6 +263,8 @@ class Leader extends Component {
             weekId,
             leagueId
         } = this.props;
+
+        const {soundOn} = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
@@ -341,6 +376,17 @@ class Leader extends Component {
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>
                     }
+                    <div style={{
+                            justifyContent: 'center',
+                            display:'flex', 
+                            fontSize: '17px', 
+                            fontFamily: 'monospace', 
+                            fontWeight: 'bold'}}>
+                        <div style={{margin:'auto 0'}}>boasty when u win</div>
+                        <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
+                            {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
+                        </IconButton>
+                    </div>
                     {
                         leaders.length > 0 && 
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
