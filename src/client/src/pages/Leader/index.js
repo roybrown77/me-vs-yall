@@ -244,7 +244,7 @@ class Leader extends Component {
     }
 
     handleToggleSound() {
-        if (!this.state.soundOn) { boasty.play() };
+        if (!this.state.soundOn) { boasty.play(); } else { boasty.stop(); };
 
         this.setState((state) => ({
             soundOn: !state.soundOn

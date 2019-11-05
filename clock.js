@@ -115,7 +115,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 process.on('uncaughtException', function(err) {
   //log the error
-  console.error(`Process uncaughtException error: ${JSON.stringify(warning)}`);
+  console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
   //let's tell our master we need to be disconnected
   //require('forky').disconnect();
   //in a worker process, this will signal the master that something is wrong

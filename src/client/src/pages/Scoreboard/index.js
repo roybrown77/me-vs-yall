@@ -250,15 +250,15 @@ class Scoreboard extends Component {
 
     handleToggleSound() {
         if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { madden.play() };
+            if (!this.state.soundOn) { madden.play(); } else { madden.stop(); };
         }
 
         if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { tecmo.play() };
+            if (!this.state.soundOn) { tecmo.play(); } else { tecmo.stop(); };
         }
 
         if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { nbaJams.play() };
+            if (!this.state.soundOn) { nbaJams.play(); } else { nbaJams.stop(); };
         }
 
         this.setState((state) => ({
