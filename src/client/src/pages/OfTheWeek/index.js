@@ -38,6 +38,13 @@ const styles = {
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Tennessee Titans over Kansas City Chiefs`,
+    leagueName: 'NFL',
+    date: 'November 7, 2019',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "STAT OF THE WEEK: LIGHTNING COLTS",
     content: `Jacoby Brissett and the Indianapolis Colts have won 3 straight games.  It's one of the toughest 3 game stretches teams have faced in the league.`,
     leagueName: 'NFL',
