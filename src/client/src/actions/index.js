@@ -10,7 +10,7 @@ import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } fr
 import history from '../middleware/history';
 
 import {createBrowserHistory} from 'history';
-const localHistory = createBrowserHistory({forceRefresh: false});
+const localHistory = createBrowserHistory({forceRefresh: true});
 
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';

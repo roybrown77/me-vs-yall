@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom'
 import get from 'lodash/get';
+import {createBrowserHistory} from 'history';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
+
+const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
   root: {
@@ -26,6 +28,10 @@ const styles = {
 };
 
 class Footer extends Component {
+    navigateTo = (route) => {
+      history.push(route);
+    };
+
     render() {
         const leagueName = this.props.leagueName;
         const selected = window.location.pathname.includes('scoreboards') ? 'scoreboards' : 
@@ -39,35 +45,31 @@ class Footer extends Component {
                     >
                     {
                         true &&
-                        <Route render={({ history}) => (
-                            <div style={styles.action} onClick={() => { history.push('/') }}>
-                                MvY
-                            </div>
-                        )} />
+                        <div style={styles.action} 
+                        onClick={() => {this.navigateTo('/')}}>
+                            MvY
+                        </div>
                     }
                     {
                         true &&
-                        <Route render={({ history}) => (
-                            <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid rgb(239, 253, 87)' : ''}} onClick={() => { history.push('/scoreboards/' + leagueName) }}>
-                                Scores
-                            </div>
-                        )} />
+                        <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                        onClick={() => {this.navigateTo('/scoreboards/' + leagueName)}}>
+                            Scores
+                        </div>
                     }
                     {
                         true &&
-                        <Route render={({ history}) => (
-                            <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} onClick={() => { history.push('/leaders/' + leagueName) }}>
-                                Leaders
-                            </div>
-                        )} />
+                        <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                        onClick={() => {this.navigateTo('/leaders/' + leagueName)}}>
+                            Leaders
+                        </div>
                     }
                     {
                         true &&
-                        <Route render={({ history}) => (
-                            <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid rgb(239, 253, 87)' : ''}} onClick={() => { history.push('/oftheweek') }}>
-                                OTW
-                            </div>
-                        )} />
+                        <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                        onClick={() => {this.navigateTo('/oftheweek')}}>
+                            OTW
+                        </div>
                     }
                 </BottomNavigation>
         );
