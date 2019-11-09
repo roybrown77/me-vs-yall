@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import {createBrowserHistory} from 'history';
 
 import get from 'lodash/get';
 
@@ -22,6 +23,8 @@ import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationService';
 import { getAreAnyGamesInProgress, getLeagueStartDateTime} from '../../utilities';
+
+const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
   plainTitle: {
@@ -124,6 +127,10 @@ class Home extends Component {
       window.location = "https://www.instagram.com/_mevsyall";
     };
 
+    navigateTo = (route) => {
+      history.push(route);
+    };
+
     render() {
       const {isAuthenticated, games} = this.props;
 
@@ -203,163 +210,153 @@ class Home extends Component {
             {
                false &&
                <Grid item xs={8} style={styles.buttonBorder}>
-                <Route render={({ history }) => (
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button}} onClick={() => { history.push('/play') }}>
-                        PLAY
-                    </Button>
-                )}/>
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button}} 
+                    onClick={() => {this.navigateTo('/play')}}>
+                    PLAY
+                </Button>
               </Grid>
             }
             <Grid>
               <Grid item xs={8} style={styles.buttonBorder}>
-                <Route render={({ history }) => (
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
-                        <div>NFL</div>
-                        {
-                          areAnyNflGamesInProgress &&
-                          <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50A0A'}}></div>
-                        }
-                    </Button>
-                )}/>
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button, color: '#D50A0A'}} 
+                    onClick={() => {this.navigateTo('/scoreboards/nfl')}}>
+                    <div>NFL</div>
+                    {
+                      areAnyNflGamesInProgress &&
+                      <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50A0A'}}></div>
+                    }
+                </Button>
                 {nflStartDateTime && <Countdown styles={styles.countdown} date={nflStartDateTime}/>}
               </Grid>
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#EC8800'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
-                          NCAAF
-                          {
-                            areAnyNCAAFGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#EC8800'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#EC8800'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/ncaaf')}}>
+                      NCAAF
+                      {
+                        areAnyNCAAFGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#EC8800'}}></div>
+                      }
+                  </Button>
                   {ncaafStartDateTime && <Countdown styles={styles.countdown} date={ncaafStartDateTime}/>}
                 </Grid>
               }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
-                          PREMIER
-                          {
-                            areAnyPremierGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#3D195B'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/premier')}}>
+                      PREMIER
+                      {
+                        areAnyPremierGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
+                      }
+                  </Button>
                   {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
                 </Grid>
               }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/mls') }}>
-                          MLS
-                          {
-                            areAnyMlsGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#17408B'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/mls')}}>
+                      MLS
+                      {
+                        areAnyMlsGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                      }
+                  </Button>
                   {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
                 </Grid>
               }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: 'BLACK'}} onClick={() => { history.push('/scoreboards/boxing') }}>
-                          BOXING
-                          {
-                            areAnyBoxingMatchesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: 'BLACK'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/boxing')}}>
+                      BOXING
+                      {
+                        areAnyBoxingMatchesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
+                      }
+                  </Button>
                   {boxingStartDateTime && <Countdown styles={styles.countdown} date={boxingStartDateTime}/>}
                 </Grid>
               }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: 'BLACK'}} onClick={() => { history.push('/scoreboards/mma') }}>
-                          MMA
-                          {
-                            areAnyMMAMatchesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: 'BLACK'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/mma')}}>
+                      MMA
+                      {
+                        areAnyMMAMatchesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
+                      }
+                  </Button>
                   {mmaStartDateTime && <Countdown styles={styles.countdown} date={mmaStartDateTime}/>}
                 </Grid>
               }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
-                          NBA
-                          {
-                            areAnyNbaGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#17408B'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/nba')}}>
+                      NBA
+                      {
+                        areAnyNbaGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                      }
+                  </Button>
                   {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
                 </Grid>
               }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#E52A34'}} onClick={() => {}}>
-                          X GAMES
-                          {
-                            areAnyXGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#E52A34'}}></div>
-                          }
-                      </Button>
-                  )}/>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#E52A34'}} 
+                      onClick={() => {}}>
+                      X GAMES
+                      {
+                        areAnyXGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#E52A34'}}></div>
+                      }
+                  </Button>
                   {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
                 </Grid>
               }
               {
                 false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
-                    <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
-                          MLB
-                          {
-                            areAnyMlbGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50032'}}></div>
-                          }
-                      </Button>
-                    )}/>
+                    <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#D50032'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/mlb')}}>
+                      MLB
+                      {
+                        areAnyMlbGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50032'}}></div>
+                      }
+                  </Button>
                   {!areAnyMlbGamesInProgress && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
                 </Grid>
               }
@@ -375,13 +372,11 @@ class Home extends Component {
             <img style={{width:'90%', maxWidth: '750px'}} src={gram} alt=""/>
             <div style={{transform: 'scaleX(-1)'}}><svg width="62" height="43" xmlns="http://www.w3.org/2000/svg"><path d="M5.266 38.877c1.452.833 2.918.32 4.32.057 3.251-.615 6.476-1.387 9.728-1.987 1.096-.202 2.252-.155 3.367-.08.612.04 1.158.465 1.187 1.158.036.836-.586 1.398-1.296 1.371-5.507-.205-10.51 2.352-15.828 3.104-3.789.535-5.922-1.198-5.838-4.952.128-5.752 2.184-11.108 4.47-16.369.324-.743.922-1.304 1.878-.977 1.07.366 1.137 1.213.858 2.1-.754 2.389-1.6 4.752-2.35 7.143-.408 1.3-.841 2.617-.706 4.01.861.305 1.095-.384 1.43-.82 5.204-6.806 10.957-13.122 17.665-18.508C33.95 6.26 44.6.39 57.591.488c.606.006 1.228-.073 1.816.027 1.083.184 2.082.601 1.887 1.95-.19 1.322-1.2 1.623-2.346 1.467-13.31-1.817-24 3.952-33.929 12.042-7.941 6.47-14.268 14.264-19.753 22.903" fill="#EF1F6B" fillRule="evenodd"></path></svg></div> 
             <Grid item xs={8} style={styles.buttonBorder}>
-              <Route render={({ history }) => (
-                  <Button 
-                      variant="outlined" 
-                      style={{...styles.button, color: '#FF1493'}} onClick={() => this.gram()}>
-                      GRAM
-                  </Button>
-              )}/>
+              <Button 
+                  variant="outlined" 
+                  style={{...styles.button, color: '#FF1493'}} onClick={() => this.gram()}>
+                  GRAM
+              </Button>
             </Grid>
           </div>
           <div style={{backgroundColor: '#EFFD57', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
