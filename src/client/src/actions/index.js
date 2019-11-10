@@ -7,10 +7,6 @@ import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/api';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
-import history from '../middleware/history';
-
-import {createBrowserHistory} from 'history';
-const localHistory = createBrowserHistory({forceRefresh: true});
 
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
@@ -116,7 +112,6 @@ export const loadUser = () => (dispatch, getState) => {
   getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
     dispatch({type: 'LOGIN_SUCCESS', user: profile});
-    history.push('/scoreboards/' + leagueName);
   });
 };
 
@@ -257,7 +252,6 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
           const leagueId = get(request, 'leagueId');
           const league = leagues.find(x=>x.id === leagueId);
           const leagueName = get(league,'name','nfl');
-          localHistory.push('/scoreboards/' + leagueName);
         }
 
         Promise.all([
@@ -309,7 +303,6 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       const leagueId = get(request, 'leagueId');
       const league = leagues.find(x=>x.id === leagueId);
       const leagueName = get(league,'name','nfl');
-      localHistory.push('/leaders/' + leagueName);
     }
 
     dispatch({type: LEADERS_REQUEST, request});

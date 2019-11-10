@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js';
-import history from './history';
 import moment from 'moment-timezone';
+import {createBrowserHistory} from 'history';
+const history = createBrowserHistory({forceRefresh: true});
 
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
