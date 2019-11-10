@@ -266,7 +266,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
-          currentTime: time > lastTime ? get(score,'currentTime') : get(game,'currentTime'),
+          currentTime: time > lastTime || lastTime.toString() === 'NaN' ? get(score,'currentTime') : get(game,'currentTime'),
           possession: get(score,'possession'),
           startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
           playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
