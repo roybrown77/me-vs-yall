@@ -229,8 +229,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     console.log(`${message} browser error: ${err.message}`);
   }
 
-  console.log(`${message} games: ${JSON.stringify(games)}`);
-  console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} games: ${JSON.stringify(games)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   if (get({scores:scores},'scores',[]).length === 0) {
     isUpdateEnglishPremierLeagueScoresRunning = false;
@@ -257,11 +257,11 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
       const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
 
-      const lastTime = parseInt((get(game,'currentTime') || '').replace("90'+",'').replace("'",''));
-      const time = parseInt((get(score,'currentTime') || '').replace("90'+",'').replace("'",''));
+      const lastTime = parseInt((get(game,'currentTime') || '').replace("'",''));
+      const time = parseInt((get(score,'currentTime') || '').replace("'",''));
 
-      console.log('lastTime: ' + lastTime);
-      console.log('time: ' + time);
+      console.log(`${message} lastTime: ${lastTime}`);
+      console.log(`${message} time: ${time}`);
 
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
