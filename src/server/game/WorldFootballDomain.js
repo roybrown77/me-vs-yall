@@ -257,10 +257,16 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
       const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
 
+      const lastTime = parseInt((get(game,'currentTime') || '').replace("90'+",'').replace("'",''));
+      const time = parseInt((get(score,'currentTime') || '').replace("90'+",'').replace("'",''));
+
+      console.log('lastTime: ' + lastTime);
+      console.log('time: ' + time);
+
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
-          currentTime: get(score,'currentTime'),
+          currentTime: time > lastTime ? get(score,'currentTime') : get(game,'currentTime'),
           possession: get(score,'possession'),
           startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
           playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
