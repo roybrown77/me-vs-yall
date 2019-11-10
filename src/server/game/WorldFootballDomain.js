@@ -270,8 +270,8 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
           possession: get(score,'possession'),
           startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
           playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
-          [{shortLocation: get(score,'awayTeam'), lastPlay: charCount(get(score,'possessionAway','').replace("90'+",''),"'") <= awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
-          {shortLocation: get(score,'homeTeam'), lastPlay: charCount(get(score,'possessionHome','').replace("90'+",''),"'") <= homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
+          [{shortLocation: get(score,'awayTeam'), lastPlay: charCount(get(score,'possessionAway','').replace("45'+",'').replace("90'+",''),"'") <= awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
+          {shortLocation: get(score,'homeTeam'), lastPlay: charCount(get(score,'possessionHome','').replace("45'+",'').replace("90'+",''),"'") <= homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
         };
 
       set(updatedGame,'competitors.0.score', awayScore);
