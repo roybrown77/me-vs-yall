@@ -1,16 +1,15 @@
 import queryString from 'query-string';
 import URLSearchParams from 'url-search-params';
 import moment from 'moment-timezone';
+import {createBrowserHistory} from 'history';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/api';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
-import history from '../middleware/history';
 
-import {createBrowserHistory} from 'history';
-const localHistory = createBrowserHistory({forceRefresh: true});
+const history = createBrowserHistory({forceRefresh: true});
 
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
@@ -257,7 +256,6 @@ export const loadScoreboard = (query, requiredFields = []) => (dispatch, getStat
           const leagueId = get(request, 'leagueId');
           const league = leagues.find(x=>x.id === leagueId);
           const leagueName = get(league,'name','nfl');
-          localHistory.push('/scoreboards/' + leagueName);
         }
 
         Promise.all([
@@ -309,7 +307,6 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       const leagueId = get(request, 'leagueId');
       const league = leagues.find(x=>x.id === leagueId);
       const leagueName = get(league,'name','nfl');
-      localHistory.push('/leaders/' + leagueName);
     }
 
     dispatch({type: LEADERS_REQUEST, request});
