@@ -42,7 +42,9 @@ const stats = [
     content: `Tennessee Titans over Kansas City Chiefs`,
     leagueName: 'NFL',
     date: 'November 7, 2019',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "STAT OF THE WEEK: LIGHTNING COLTS",
