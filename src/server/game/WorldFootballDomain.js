@@ -253,7 +253,13 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       (moment(game.startDateTime) >= new Date(moment(get(games, '0.startDateTime')).startOf('day')) && 
         moment(game.startDateTime) <= new Date(moment(get(games, '0.startDateTime')).endOf('day')))) {
 
-      const isGameOver = get(score,'isGameOver',false);
+      const awayGoalCount = charCount(get(score,'possessionAway','').replace("45'+",'').replace("90'+",''),"'");
+      const homeGoalCount = charCount(get(score,'possessionHome','').replace("45'+",'').replace("90'+",''),"'");
+
+      const awayScoreValid = awayGoalCount === awayScore;
+      const homeScoreValid = homeGoalCount === homeScore;
+
+      const isGameOver = get(score,'isGameOver',false) && awayScoreValid && homeScoreValid;
       const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
       const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
 
@@ -266,12 +272,12 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
       const updatedGame = {
         competitors: [...get(game,'competitors',[])],
           isGameOver: isGameOver,
-          currentTime: time > lastTime || lastTime.toString() === 'NaN' ? get(score,'currentTime') : get(game,'currentTime'),
+          currentTime: time > lastTime || time.toString() === 'NaN' || lastTime.toString() === 'NaN' ? get(score,'currentTime') : get(game,'currentTime'),
           possession: get(score,'possession'),
           startDateTime: hasGameStarted(get(game,'startDateTime')) ? get(game,'startDateTime') : get(score,'startDateTime'),
           playHistory: (get(score,'isGameOver') || false) ? get(game,'playHistory',[]) : 
-          [{shortLocation: get(score,'awayTeam'), lastPlay: charCount(get(score,'possessionAway','').replace("45'+",'').replace("90'+",''),"'") <= awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
-          {shortLocation: get(score,'homeTeam'), lastPlay: charCount(get(score,'possessionHome','').replace("45'+",'').replace("90'+",''),"'") <= homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
+          [{shortLocation: get(score,'awayTeam'), lastPlay: awayGoalCount <= awayScore ? get(score,'possessionAway') : null, color: awayTeam.color}, 
+          {shortLocation: get(score,'homeTeam'), lastPlay: homeGoalCount <= homeScore ? get(score,'possessionHome') : null, color: homeTeam.color}]
         };
 
       set(updatedGame,'competitors.0.score', awayScore);
