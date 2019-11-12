@@ -171,7 +171,7 @@ const backupData = async () => {
 //       if ([1,2,3,4,5].includes(currentWeekDay) || 
 //         ([6,0].includes(currentWeekDay) && hoursOffset >= 11 && hoursOffset <= 16) ||
 //         (divider % 5 === 0 || divider % 13 === 0 && [6,0].includes(currentWeekDay) && hoursOffset > 16)) {
-//         updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+//         //updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
 //       }
 //    } catch(err) {
 //       isUpdateEnglishPremierLeagueScoresRunning = false;
@@ -192,7 +192,7 @@ const backupData = async () => {
 
 //     try {
 //       if (divider % 7 === 0 || divider % 11 === 0) {
-//         updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+//         //updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
 //       }
 //     } catch(err) {
 //       isUpdateEnglishPremierLeagueScoresRunning = false;
@@ -213,7 +213,7 @@ const backupData = async () => {
 //     try {
 //       if ((hoursOffset < 16 && [0].includes(currentWeekDay)) || 
 //         (hoursOffset > 15 && [5,6].includes(currentWeekDay))) {
-//         updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+//         //updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
 //       }
 //     } catch(err) {
 //       isUpdateNflScoresRunning = false;
@@ -225,7 +225,7 @@ const backupData = async () => {
 //     console.log('new nfl games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/10', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+//       //loadFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/11', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
 //     } catch(err) {
 //       isLoadNflGamesRunning = false;
 //       console.log('loadNflGames error: ' + err.message);
@@ -235,7 +235,7 @@ const backupData = async () => {
 //       if (([1,12].includes(month) && [6].includes(currentWeekDay)) || 
 //         ([0,1,4].includes(currentWeekDay)) || 
 //         (hoursOffset < 16 && [2,5].includes(currentWeekDay))) {
-//         updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+//         //updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
 //       }
 //     } catch(err) {
 //       isUpdateNflScoresRunning = false;
@@ -247,7 +247,7 @@ const backupData = async () => {
 //     console.log('new nba games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadNbaGames({dayCount: 0, shouldLimit: true, isStart: true});
+//       //loadNbaGames({dayCount: 0, shouldLimit: true, isStart: false});
 //       //loadNbaGames({dayCount: 1, shouldLimit: true, isStart: true});
 //     } catch(err) {
 //       isLoadNbaGamesRunning = false;
@@ -257,7 +257,7 @@ const backupData = async () => {
 //     try {
 //       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
 //         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
-//         updateNbaScores();
+//         //updateNbaScores();
 //       }
 //     } catch(err) {
 //       isUpdateNbaScoresRunning = false;
