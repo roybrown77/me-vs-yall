@@ -1696,7 +1696,7 @@ const ncaaTeams = [
         color: '#0142BC'
     },
     {
-        _id: "5b84a2889a4c08bca6ab908d",
+        _id: "5b84a2889a4c08bca6ab908e",
         leagueId: "59723313734d1d6202a85f15",
         location: "Houston Baptist",
         shortLocation: "HB",
