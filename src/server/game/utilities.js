@@ -1622,6 +1622,86 @@ const ncaaTeams = [
         shortLocation: "NEV",
         name: "Wild Cats",
         color: '#011E41'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9085",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Evansville",
+        shortLocation: "EVAN",
+        name: "Purple Aces",
+        color: '#52237F'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9086",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Central Arkansas",
+        shortLocation: "UCA",
+        name: "Bears",
+        color: '#4f2d7f'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9087",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Xavier",
+        shortLocation: "XAV",
+        name: "Musketeers",
+        color: '#0C2340'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9088",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Gonzaga",
+        shortLocation: "GONZ",
+        name: "Bulldogs",
+        color: '#C8102E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9089",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Denver",
+        shortLocation: "DEN",
+        name: "Pioneers",
+        color: '#8B2332'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab908a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Mt. St. Mary's",
+        shortLocation: "MSM",
+        name: "Mountaineers",
+        color: '#002F6C'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab908b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Virginia Commonwealth",
+        shortLocation: "VCU",
+        name: "Rams",
+        color: '#FFB300'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab908c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Villanova",
+        shortLocation: "VILL",
+        name: "Wildcats",
+        color: '#00205B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab908d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Indiana State",
+        shortLocation: "INST",
+        name: "Sycamores",
+        color: '#0142BC'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab908d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Houston Baptist",
+        shortLocation: "HB",
+        name: "Huskies",
+        color: '#00529b'
     }
 ];
 
