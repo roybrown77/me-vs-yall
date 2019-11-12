@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 
-import mvy from '../../styles/images/mvy.png';
+import mvy from '../../styles/images/mvy-balls-cut.png';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';

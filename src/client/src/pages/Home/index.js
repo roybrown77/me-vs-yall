@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import mvy from '../../styles/images/mvy.png';
+import mvy from '../../styles/images/mvy-balls-cut.png';
 import gram from '../../styles/images/gram.png';
 import fattMatt from '../../styles/images/fatt-matt.jpg';
 import hudsonGrille from '../../styles/images/hudson-grille.jpg';
@@ -173,7 +173,7 @@ class Home extends Component {
             </div>
           }
           <div style={styles.subTitle}>
-            pick your favorite sports teams and fighters for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
+            pick your favorite sports teams for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
           </div>
           <div style={styles.subTitle}>
             streaming live game plays <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
