@@ -1702,6 +1702,14 @@ const ncaaTeams = [
         shortLocation: "HB",
         name: "Huskies",
         color: '#00529b'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab908f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "South Florida",
+        shortLocation: "USF",
+        name: "Bulls",
+        color: '#006747'
     }
 ];
 
