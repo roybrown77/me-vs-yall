@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
-import sample from 'lodash/sample';
 
 import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
@@ -47,12 +46,10 @@ import {
 
 Howler.volume(1);
 
-const boastySound = new Howl({
+const boasty = new Howl({
   src: [boastyM4a, boastyWebm],
   format: ['m4a', 'webm']
 });
-
-const boasty = sample([boastySound, boastySound]);
 
 const styles = theme => ({
   root: {

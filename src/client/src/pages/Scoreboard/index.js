@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
-import sample from 'lodash/sample';
 
 import moment from 'moment-timezone';
 
@@ -49,26 +48,20 @@ import {
 
 Howler.volume(1);
 
-const maddenSound = new Howl({
+const madden = new Howl({
   src: [maddenM4a, maddenWebm],
   format: ['m4a', 'webm']
 });
 
-const madden = sample([maddenSound, maddenSound]);
-
-const tecmoSound = new Howl({
+const tecmo = new Howl({
   src: [tecmoM4a, tecmoWebm],
   format: ['m4a', 'webm']
 });
 
-const tecmo = sample([tecmoSound, tecmoSound]);
-
-const nbaJamsSound = new Howl({
+const nbaJams = new Howl({
   src: [nbaJamsM4a, nbaJamsWebm],
   format: ['m4a', 'webm']
 });
-
-const nbaJams = sample([nbaJamsSound, nbaJamsSound]);
 
 const styles = theme => ({
   root: {
