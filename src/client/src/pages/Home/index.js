@@ -237,12 +237,12 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#EC8800'}} 
+                      style={{...styles.button, color: '#7BAFD4'}} 
                       onClick={() => {this.navigateTo('/scoreboards/ncaaf')}}>
-                      NCAAF
+                      COLLEGE FOOTBALL
                       {
                         areAnyNCAAFGamesInProgress &&
-                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#EC8800'}}></div>
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#7BAFD4'}}></div>
                       }
                   </Button>
                   {ncaafStartDateTime && <Countdown styles={styles.countdown} date={ncaafStartDateTime}/>}
@@ -255,7 +255,7 @@ class Home extends Component {
                       variant="outlined" 
                       style={{...styles.button, color: '#3D195B'}} 
                       onClick={() => {this.navigateTo('/scoreboards/premier')}}>
-                      PREMIER
+                      PREMIER LEAGUE
                       {
                         areAnyPremierGamesInProgress &&
                         <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3D195B'}}></div>
