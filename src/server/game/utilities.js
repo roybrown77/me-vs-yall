@@ -400,7 +400,7 @@ const ufcCompetitors = [
         _id: "19823783734d1d04a1b32018",
         location: 'Jairzinho Rozenstruik',
         shortLocation: "Jairzinho",
-        name: "The Stockton Slugger Rozenstruik",
+        name: "Bigi Boy Slugger Rozenstruik",
         country: "SURINAME"
     }
 ];
