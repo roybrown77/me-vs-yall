@@ -329,6 +329,21 @@ class Home extends Component {
                 </Grid>
               }
               {
+                <Grid item xs={8} style={styles.buttonBorder}>
+                    <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#D50032'}} 
+                      onClick={() => {}}>
+                      MLB
+                      {
+                        areAnyMlbGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50032'}}></div>
+                      }
+                  </Button>
+                  {!areAnyMlbGamesInProgress && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
+                </Grid>
+              }
+              {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
@@ -342,22 +357,6 @@ class Home extends Component {
                       }
                   </Button>
                   {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
-                </Grid>
-              }
-              {
-                false &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                      variant="outlined" 
-                      style={{...styles.button, color: '#D50032'}} 
-                      onClick={() => {this.navigateTo('/scoreboards/mlb')}}>
-                      MLB
-                      {
-                        areAnyMlbGamesInProgress &&
-                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D50032'}}></div>
-                      }
-                  </Button>
-                  {!areAnyMlbGamesInProgress && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
                 </Grid>
               }
             </Grid>
