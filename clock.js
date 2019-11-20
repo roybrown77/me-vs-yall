@@ -55,7 +55,7 @@ const JOBS = [{  // You could store these jobs in a database
 { 
   name: "Cron process 3",
   message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
-  cronTime: '15 * * * * *',
+  cronTime: '5 * * * * *',
   repeat: true
 },
 { 
