@@ -24,6 +24,10 @@ import sweden from '../../styles/images/sweden.png';
 import russia from '../../styles/images/russia.png';
 import phillipines from '../../styles/images/phillipines.png';
 import bulgaria from '../../styles/images/bulgaria.png';
+import england from '../../styles/images/england.png';
+import suriname from '../../styles/images/suriname.png';
+import croatia from '../../styles/images/croatia.png';
+import netherlands from '../../styles/images/netherlands.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -321,6 +325,14 @@ class Game extends Component {
           return phillipines;
         case 'BULGARIA':
           return bulgaria;
+        case 'ENGLAND':
+          return england;
+        case 'CROATIA':
+          return croatia;
+        case 'SURINAME':
+          return suriname;
+        case 'NETHERLANDS':
+          return netherlands;
         default:
           return america;
       };

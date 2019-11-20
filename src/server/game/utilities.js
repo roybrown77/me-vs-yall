@@ -107,6 +107,20 @@ const boxingCompetitors = [
         country: "MEXICO"
     },
     {
+        _id: "19823783734d1d04a1b31003",
+        location: 'Anthony Joshua',
+        shortLocation: "Anthony",
+        name: "AJ Joshua",
+        country: "ENGLAND"
+    },
+    {
+        _id: "19823783734d1d04a1b31004",
+        location: 'Andy Ruiz Jr.',
+        shortLocation: "Andy",
+        name: "Destroyer Ruiz",
+        country: "USA"
+    },
+    {
         _id: "19823783734d1d04a1b31005",
         location: 'Errol Spence Jr.',
         shortLocation: "Errol",
@@ -188,6 +202,34 @@ const boxingCompetitors = [
         location: 'Nick Winstead',
         shortLocation: "Nick",
         name: "Winstead",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31011",
+        location: 'Alexander Povetkin',
+        shortLocation: "Alexander",
+        name: "White Lion Povetkin",
+        country: "RUSSIA"
+    },
+    {
+        _id: "19823783734d1d04a1b31012",
+        location: 'Michael Hunter',
+        shortLocation: "Michael",
+        name: "The Bounty Hunter",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31013",
+        location: 'Filip Hrgovic',
+        shortLocation: "Filip",
+        name: "EL Animal Hrgovic",
+        country: "CROATIA"
+    },
+    {
+        _id: "19823783734d1d04a1b31014",
+        location: 'Eric Molina',
+        shortLocation: "Eric",
+        name: "Drummer Boy Molina",
         country: "USA"
     }
 ];
@@ -318,6 +360,48 @@ const ufcCompetitors = [
         shortLocation: "Nate",
         name: "The Stockton Slugger Diaz",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32013",
+        location: 'Stefan Struve',
+        shortLocation: "Struve",
+        name: "Skyscraper Struve",
+        country: "NETHERLANDS"
+    },
+    {
+        _id: "19823783734d1d04a1b32014",
+        location: 'Ben Rothwell',
+        shortLocation: "Ben",
+        name: "Big Ben Rothwell",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32015",
+        location: 'Marina Rodriguez',
+        shortLocation: "Marina",
+        name: "Rodriguez",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b32016",
+        location: 'Cynthia Calvillo',
+        shortLocation: "Cynthia",
+        name: "Calvillo",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32017",
+        location: 'Alistair Overeem',
+        shortLocation: "Alistair",
+        name: "The Reem Overeem",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32018",
+        location: 'Jairzinho Rozenstruik',
+        shortLocation: "Jairzinho",
+        name: "The Stockton Slugger Rozenstruik",
+        country: "SURINAME"
     }
 ];
 
