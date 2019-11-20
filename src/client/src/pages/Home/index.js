@@ -237,12 +237,12 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#7BAFD4'}} 
+                      style={{...styles.button, color: '#D3212D'}} 
                       onClick={() => {this.navigateTo('/scoreboards/ncaaf')}}>
                       COLLEGE FOOTBALL
                       {
                         areAnyNCAAFGamesInProgress &&
-                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#7BAFD4'}}></div>
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#D3212D'}}></div>
                       }
                   </Button>
                   {ncaafStartDateTime && <Countdown styles={styles.countdown} date={ncaafStartDateTime}/>}
@@ -285,12 +285,12 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: 'BLACK'}} 
+                      style={{...styles.button, color: '#3B7A57'}} 
                       onClick={() => {this.navigateTo('/scoreboards/boxing')}}>
                       BOXING
                       {
                         areAnyBoxingMatchesInProgress &&
-                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#3B7A57'}}></div>
                       }
                   </Button>
                   {boxingStartDateTime && <Countdown styles={styles.countdown} date={boxingStartDateTime}/>}
@@ -301,12 +301,12 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: 'BLACK'}} 
+                      style={{...styles.button, color: '#FF7E00'}} 
                       onClick={() => {this.navigateTo('/scoreboards/mma')}}>
                       MMA
                       {
                         areAnyMMAMatchesInProgress &&
-                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: 'BLACK'}}></div>
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#FF7E00'}}></div>
                       }
                   </Button>
                   {mmaStartDateTime && <Countdown styles={styles.countdown} date={mmaStartDateTime}/>}
