@@ -2984,7 +2984,6 @@ const getScores = async ({
     //console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
-      isUpdateNbaScoresRunning = false;
       console.log(`${message} no games found`);
       await browser.close();
       return;

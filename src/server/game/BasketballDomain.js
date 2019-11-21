@@ -1,5 +1,5 @@
-let isLoadNbaGamesRunning = false;
-let isUpdateNbaScoresRunning = false;
+let isLoadBasketballGamesRunning = false;
+let isUpdateBasketballScoresRunning = false;
 
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
@@ -8,7 +8,6 @@ const puppeteer = require('puppeteer');
 const gameRepository = require('./GameRepository');
 
 const {
-  nbaTeams,
   getGames,
   formatGames,
   createGames,
@@ -21,40 +20,15 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadNbaGames = async ({dayCount, shouldLimit, isStart}) => {
-  const message = 'loadNbaGames';
-
-  if (isLoadNbaGamesRunning || isUpdateNbaScoresRunning) {
+const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
+  if (isLoadBasketballGamesRunning || isUpdateBasketballScoresRunning) {
     console.log(`${message} already running.`);
     return;
   }
 
-  const leagueId = '59723313734d1d6202a85f19';
-  const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
-  
-  //console.log(`${message} date: ${date}`);
-
-  const gameExistSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    startDateTime: {
-      $gte: new Date(moment(date).startOf('day')),
-      $lte: new Date(moment(date).endOf('day'))
-    }
-  };
-
-  const gamesExistSearch = await gameRepository.find(gameExistSearch);
-
-  if ((gamesExistSearch || []).length > 0) {
-    console.log(`${message} games already exists: ${date}`);
-    return;
-  }
-
-  //console.log(`${message} get games`);
-
-  const url = `http://www.espn.com/nba/scoreboard/_/date/${date}`;
   const root = 'scoreboard basketball';
+  const url = `${baseUrl}${date}`;
   
   const games = await getGames({
     message,
@@ -65,20 +39,20 @@ const loadNbaGames = async ({dayCount, shouldLimit, isStart}) => {
   });
 
   if ((games || []).length === 0) {
-    isLoadNbaGamesRunning = false;
+    isLoadBasketballGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
 
   //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({games, leagueId, year, teams: nbaTeams});
+  const mvyGames = formatGames({games, leagueId, year, teams});
 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
-  isLoadNbaGamesRunning = false;
+  isLoadBasketballGamesRunning = false;
 };
 
 // const month = moment().add(2, 'months');
@@ -90,12 +64,8 @@ const loadNbaGames = async ({dayCount, shouldLimit, isStart}) => {
 // console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
 // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
-const updateNbaScores = async () => {
-  const message = 'updateNbaScores';
-  const leagueId = '59723313734d1d6202a85f19';
-  const year = 2019;
-
-  if (isUpdateNbaScoresRunning) {
+const updateBasketballScores = async ({leagueId, year, message, baseUrl, teams}) => {
+  if (isUpdateBasketballScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
@@ -122,17 +92,19 @@ const updateNbaScores = async () => {
     return;
   }
 
-  isUpdateNbaScoresRunning = true;
+  isUpdateBasketballScoresRunning = true;
+
+  const url = `${baseUrl}${date}`;
 
   const scores = await getScores({
     message, 
     root: 'scoreboard basketball',
-    url: 'http://www.espn.com/nba/scoreboard',
+    url,
     livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
   if (scores.length === 0) {
-    isUpdateNbaScoresRunning = false;
+    isUpdateBasketballScoresRunning = false;
     console.log(`${message} no scores.`);
     return;
   }
@@ -144,17 +116,17 @@ const updateNbaScores = async () => {
     message,
     games,
     scores,
-    teams: nbaTeams
+    teams
   });
 
-  isUpdateNbaScoresRunning = false;
+  isUpdateBasketballScoresRunning = false;
 };
 
 const domain = { 
-  loadNbaGames, 
-  updateNbaScores,
-  isLoadNbaGamesRunning,
-  isUpdateNbaScoresRunning, 
+  loadBasketballGames, 
+  updateBasketballScores,
+  isLoadBasketballGamesRunning,
+  isUpdateBasketballScoresRunning
 };
 
 module.exports = domain;

@@ -1,5 +1,5 @@
-let isLoadNflGamesRunning = false;
-let isUpdateNflScoresRunning = false;
+let isLoadAmericanFootballGamesRunning = false;
+let isUpdateAmericanFootballScoresRunning = false;
 
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
@@ -20,8 +20,8 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
-const loadFootballGames = async ({message, url, leagueId, year, teams}) => {
-  if (isLoadNflGamesRunning || isUpdateNflScoresRunning) {
+const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) => {
+  if (isLoadAmericanFootballGamesRunning || isUpdateAmericanFootballScoresRunning) {
     console.log(`${message} already running.`);
     return;
   }
@@ -35,7 +35,7 @@ const loadFootballGames = async ({message, url, leagueId, year, teams}) => {
   });
   
   if ((games || []).length === 0) {
-    isLoadNflGamesRunning = false;
+    isLoadAmericanFootballGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
@@ -48,11 +48,11 @@ const loadFootballGames = async ({message, url, leagueId, year, teams}) => {
 
   await createGames({message, games: mvyGames});
 
-  isLoadNflGamesRunning = false;
+  isLoadAmericanFootballGamesRunning = false;
 };
 
-const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
-  if (isUpdateNflScoresRunning) {
+const updateAmericanFootballScores = async ({message, url, leagueId, year, teams}) => {
+  if (isUpdateAmericanFootballScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
@@ -81,7 +81,7 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
     return;
   }
 
-  isUpdateNflScoresRunning = true;
+  isUpdateAmericanFootballScoresRunning = true;
 
   console.log(`${message} getting scores.`);
 
@@ -92,7 +92,7 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
   });
   
   if (scores.length === 0) {
-    isUpdateNflScoresRunning = false;
+    isUpdateAmericanFootballScoresRunning = false;
     console.log(`${message} no scores.`);
     return;
   }
@@ -110,14 +110,14 @@ const updateFootballScores = async ({message, url, leagueId, year, teams}) => {
 
   console.log(`${message} ending.`);
 
-  isUpdateNflScoresRunning = false;
+  isUpdateAmericanFootballScoresRunning = false;
 };
 
 const domain = { 
-  loadFootballGames, 
-  updateFootballScores,
-  isLoadNflGamesRunning,
-  isUpdateNflScoresRunning, 
+  loadAmericanFootballGames, 
+  updateAmericanFootballScores,
+  isLoadAmericanFootballGamesRunning,
+  isUpdateAmericanFootballScoresRunning, 
 };
 
 module.exports = domain;

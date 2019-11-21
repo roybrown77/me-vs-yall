@@ -6,19 +6,19 @@ if (!queueUrl || !dbUsername || !dbPassword || !dbName) {
 }
 
 const {
-  updateEnglishPremierLeagueScores,
-  isUpdateEnglishPremierLeagueScoresRunning, 
+  updateWorldFootballScores,
+  isUpdateWorldFootballScoresRunning, 
 } = require('./src/server/game/WorldFootballDomain');
 
 const {
-  updateFootballScores,
-  isUpdateNflScoresRunning, 
+  updateAmericanFootballScores,
+  isUpdateAmericanFootballScoresRunning, 
 } = require('./src/server/game/AmericanFootballDomain');
 
 const {
-  updateNbaScores,
-  isUpdateNbaScoresRunning
-} = require('./src/server/game/NBADomain');
+  updateBasketballScores,
+  isUpdateBasketballScoresRunning
+} = require('./src/server/game/BasketballDomain');
 
 const {
   updateMlbScores,
@@ -123,7 +123,7 @@ function onMessage(data) {
     case 'updateNFLGames': 
       console.log('updating nfl games');
       try {
-        updateFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+        updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       } catch(err) {
         console.log('updateNflScores error: ' + err.message);
       }
@@ -131,16 +131,16 @@ function onMessage(data) {
     case 'updateCollegeFootballGames': 
       console.log('updating college football games');
       try {
-        updateFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+        updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       } catch(err) {
-        isUpdateNflScoresRunning = false;
+        isUpdateAmericanFootballScoresRunning = false;
         console.log('updateNCAAFScores error: ' + err.message);
       }
       break;
     case 'updateNBAGames': 
       console.log('updating nba games');
       try {
-        updateNbaScores();
+        updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
       } catch(err) {
         isUpdateNbaScoresRunning = false;
         console.log('updateNbaScores error: ' + err.message);
@@ -149,18 +149,18 @@ function onMessage(data) {
     case 'updatePremierLeagueGames': 
       console.log('updating premier games');
       try {
-        updateEnglishPremierLeagueScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+        updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       } catch(err) {
-        isUpdateEnglishPremierLeagueScoresRunning = false;
+        isUpdateWorldFootballScoresRunning = false;
         console.log('updateEnglishPremierLeagueScores error: ' + err.message);
       }
       break;
     case 'updateMLSGames': 
       console.log('updating mls games');
       try {
-        updateEnglishPremierLeagueScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+        updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
       } catch(err) {
-        isUpdateEnglishPremierLeagueScoresRunning = false;
+        isUpdateWorldFootballScoresRunning = false;
         console.log('updateMLSScores error: ' + err.message);
       }
       break;

@@ -62,11 +62,23 @@ const leagues = [
         years: [2018, 2019]
     },
     {
-        id: '59723313734d1d6202a85f29', 
-        name: 'mls', 
-        description: 'mls',
-        years: [2019]
+        id: '59723313734d1d6202a85f19', 
+        name: 'nba', 
+        description: 'nba', 
+        years: [2018, 2019]
     },
+    // {
+    //     id: '59723313734d1d6202a85f21', 
+    //     name: 'mlb', 
+    //     description: 'mlb', 
+    //     years: [2019]
+    // },
+    // {
+    //     id: '59723313734d1d6202a85f23', 
+    //     name: 'xgames', 
+    //     description: 'x games', 
+    //     years: [2019]
+    // },
     {
         id: '59723313734d1d6202a85f25', 
         name: 'boxing', 
@@ -80,15 +92,15 @@ const leagues = [
         years: [2019]
     },
     {
-        id: '59723313734d1d6202a85f19', 
-        name: 'nba', 
-        description: 'nba', 
-        years: [2018, 2019]
+        id: '59723313734d1d6202a85f29', 
+        name: 'mls', 
+        description: 'mls',
+        years: [2019]
     },
     // {
-    //     id: '59723313734d1d6202a85f21', 
-    //     name: 'mlb', 
-    //     description: 'mlb', 
+    //     id: '59723313734d1d6202a85f31', 
+    //     name: 'ncaaw', 
+    //     description: 'ncaaw', 
     //     years: [2019]
     // }
 ];
@@ -126,6 +138,10 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${nextYear}0301`).toISOString();
     }
 
+    if (leagueId === '59723313734d1d6202a85f31' && (monthDay > 615 && monthDay < 1007)) {
+        return moment(`${year}1007`).toISOString();
+    }
+
     return getStartDateTime(games);
 }
 
@@ -160,6 +176,10 @@ const getLeagueNextGameStartDateTime = (leagueId, games) => {
 
     if (leagueId === '59723313734d1d6202a85f29' && (monthDay < 301 || monthDay > 1115)) {
         return moment(`${nextYear}0301`).toISOString();
+    }
+
+    if (leagueId === '59723313734d1d6202a85f31' && (monthDay > 615 && monthDay < 1007)) {
+        return moment(`${year}1007`).toISOString();
     }
 
     return getNextGameStartDateTime(games);

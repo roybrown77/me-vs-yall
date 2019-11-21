@@ -1,5 +1,5 @@
-let isLoadEnglishPremierLeagueGamesRunning = false;
-let isUpdateEnglishPremierLeagueScoresRunning = false;
+let isLoadWorldFootballGamesRunning = false;
+let isUpdateWorldFootballScoresRunning = false;
 
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
@@ -25,8 +25,8 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const loadEnglishPremierLeagueGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
-  if (isLoadEnglishPremierLeagueGamesRunning || isUpdateEnglishPremierLeagueScoresRunning) {
+const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
+  if (isLoadWorldFootballGamesRunning || isUpdateWorldFootballScoresRunning) {
     console.log(`${message} already running.`);
     return;
   }
@@ -69,7 +69,7 @@ const loadEnglishPremierLeagueGames = async ({message, baseUrl, dayCount, league
   });
 
   if ((games || []).length === 0) {
-    isLoadEnglishPremierLeagueGamesRunning = false;
+    isLoadWorldFootballGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
@@ -82,15 +82,15 @@ const loadEnglishPremierLeagueGames = async ({message, baseUrl, dayCount, league
 
   await createGames({message, games: mvyGames});
 
-  isLoadEnglishPremierLeagueGamesRunning = false;
+  isLoadWorldFootballGamesRunning = false;
 };
 
 const charCount = (s, c) => {
   return (s.match(new RegExp('\\d'+c[0], 'g')) || []).length;
 };
 
-const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, year, teams}) => {
-  if (isUpdateEnglishPremierLeagueScoresRunning) {
+const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, teams}) => {
+  if (isUpdateWorldFootballScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
@@ -126,7 +126,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
   let browser;
   let page;
 
-  isUpdateEnglishPremierLeagueScoresRunning = true;
+  isUpdateWorldFootballScoresRunning = true;
 
   try {
     browser = await puppeteer.launch({
@@ -157,7 +157,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     console.log(`${message} listLength: ' + ${listLength}`);
 
     if (listLength === 0) {
-      isUpdateEnglishPremierLeagueScoresRunning = false;
+      isUpdateWorldFootballScoresRunning = false;
       console.log(`${message} no games found`);
       await browser.close();
       return;
@@ -233,7 +233,7 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
   //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   if (get({scores:scores},'scores',[]).length === 0) {
-    isUpdateEnglishPremierLeagueScoresRunning = false;
+    isUpdateWorldFootballScoresRunning = false;
     console.log(`${message} no scores.`);
     return;
   }
@@ -289,14 +289,14 @@ const updateEnglishPremierLeagueScores = async ({message, baseUrl, leagueId, yea
     }
   });
 
-  isUpdateEnglishPremierLeagueScoresRunning = false;
+  isUpdateWorldFootballScoresRunning = false;
 };
 
 const domain = { 
-  loadEnglishPremierLeagueGames, 
-  updateEnglishPremierLeagueScores,
-  isLoadEnglishPremierLeagueGamesRunning,
-  isUpdateEnglishPremierLeagueScoresRunning, 
+  loadWorldFootballGames, 
+  updateWorldFootballScores,
+  isLoadWorldFootballGamesRunning,
+  isUpdateWorldFootballScoresRunning, 
 };
 
 module.exports = domain;
