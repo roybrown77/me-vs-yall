@@ -364,7 +364,7 @@ const ufcCompetitors = [
     {
         _id: "19823783734d1d04a1b32013",
         location: 'Stefan Struve',
-        shortLocation: "Struve",
+        shortLocation: "Stefan",
         name: "Skyscraper Struve",
         country: "NETHERLANDS"
     },
@@ -400,7 +400,7 @@ const ufcCompetitors = [
         _id: "19823783734d1d04a1b32018",
         location: 'Jairzinho Rozenstruik',
         shortLocation: "Jairzinho",
-        name: "Bigi Boy Slugger Rozenstruik",
+        name: "Bigi Boy Rozenstruik",
         country: "SURINAME"
     }
 ];
