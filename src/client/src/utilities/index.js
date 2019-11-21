@@ -97,12 +97,12 @@ const leagues = [
         description: 'nba', 
         years: [2018, 2019]
     },
-    {
-        id: '59723313734d1d6202a85f31', 
-        name: 'ncaaw', 
-        description: 'ncaaw', 
-        years: [2019]
-    }
+    // {
+    //     id: '59723313734d1d6202a85f31', 
+    //     name: 'ncaaw', 
+    //     description: 'ncaaw', 
+    //     years: [2019]
+    // }
 ];
 
 const getLeagueStartDateTime = (leagueId, games) => {
