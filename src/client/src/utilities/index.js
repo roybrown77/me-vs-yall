@@ -10,7 +10,7 @@ import polamalu from '../styles/images/polamalu.jpg';
 import mack from '../styles/images/mack.jpg';
 import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
-import diaz from '../styles/images/diaz-brothers-ufc.jpg';
+import masvidalDiaz from '../styles/images/masvidal-diaz.png';
 import nunes from '../styles/images/nunes.jpg';
 import pogba from '../styles/images/pogba.jpg';
 import josef from '../styles/images/josef-martinez.jpg';
@@ -34,7 +34,7 @@ const getImage = (screen, leagueId) => {
         case '59723313734d1d6202a85f25':
           return screen === 'scores' ? null : {picture: tysonFury, source: 'Getty Images'};
         case '59723313734d1d6202a85f27':
-          return screen === 'scores' ? {picture: diaz, source: 'SouthLandPost.com'} : {picture: nunes, source: 'Esther Lin / MMA Fighting'};
+          return screen === 'scores' ? {picture: masvidalDiaz, source: 'ESPN MMA'} : {picture: nunes, source: 'Esther Lin / MMA Fighting'};
         case '59723313734d1d6202a85f29':
           return screen === 'scores' ? null : {picture: josef, source: 'Dale Zanine / mlssoccer.com'};
         default:
