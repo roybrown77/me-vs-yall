@@ -332,7 +332,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 

@@ -62,10 +62,10 @@ const leagues = [
         years: [2018, 2019]
     },
     {
-        id: '59723313734d1d6202a85f19', 
-        name: 'nba', 
-        description: 'nba', 
-        years: [2018, 2019]
+        id: '59723313734d1d6202a85f29', 
+        name: 'mls', 
+        description: 'mls',
+        years: [2019]
     },
     // {
     //     id: '59723313734d1d6202a85f21', 
@@ -92,17 +92,17 @@ const leagues = [
         years: [2019]
     },
     {
-        id: '59723313734d1d6202a85f29', 
-        name: 'mls', 
-        description: 'mls',
-        years: [2019]
+        id: '59723313734d1d6202a85f19', 
+        name: 'nba', 
+        description: 'nba', 
+        years: [2018, 2019]
     },
-    // {
-    //     id: '59723313734d1d6202a85f31', 
-    //     name: 'ncaaw', 
-    //     description: 'ncaaw', 
-    //     years: [2019]
-    // }
+    {
+        id: '59723313734d1d6202a85f31', 
+        name: 'ncaaw', 
+        description: 'ncaaw', 
+        years: [2019]
+    }
 ];
 
 const getLeagueStartDateTime = (leagueId, games) => {

@@ -1794,6 +1794,30 @@ const ncaaTeams = [
         shortLocation: "USF",
         name: "Bulls",
         color: '#006747'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9090",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Yale",
+        shortLocation: "YALE",
+        name: "Bulldogs",
+        color: '#00356B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9091",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Arkansas-Pine Bluff",
+        shortLocation: "UAPB",
+        name: "Golden Lions",
+        color: '#eeb310'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9092",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Grambling",
+        shortLocation: "GRAM",
+        name: "Tigers",
+        color: '#ecaa00'
     }
 ];
 
