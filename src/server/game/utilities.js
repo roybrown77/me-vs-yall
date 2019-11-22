@@ -1922,6 +1922,62 @@ const ncaaTeams = [
         shortLocation: "DSU",
         name: "Hornets",
         color: '#EE3124'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a0",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Seton Hall",
+        shortLocation: "HALL",
+        name: "Pirates",
+        color: '#004488'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a1",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Maine",
+        shortLocation: "ME",
+        name: "Black Bears",
+        color: '#B0D7FF'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a2",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Lipscomb",
+        shortLocation: "LIP",
+        name: "Bisons",
+        color: '#F4AA00'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a3",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "McNeese",
+        shortLocation: "MCN",
+        name: "Cowboys",
+        color: '#00529B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a4",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Sacramento State",
+        shortLocation: "SAC",
+        name: "Hornets",
+        color: '#043927'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a5",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "La Salle",
+        shortLocation: "LAS",
+        name: "Explorers",
+        color: '#003366'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a6",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "South Dakota",
+        shortLocation: "SDAK",
+        name: "Coyotes",
+        color: '#AD0000'
     }
 ];
 
