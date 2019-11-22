@@ -1818,6 +1818,110 @@ const ncaaTeams = [
         shortLocation: "GRAM",
         name: "Tigers",
         color: '#ecaa00'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9093",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Eastern Michigan",
+        shortLocation: "EMU",
+        name: "Eagles",
+        color: '#006633'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9094",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Prairie View A&M",
+        shortLocation: "PV",
+        name: "Panthers",
+        color: '#330066'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9095",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "California Baptist",
+        shortLocation: "CBU",
+        name: "Lancers",
+        color: '#041E42'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9096",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Florida Gulf Coast",
+        shortLocation: "FGCU",
+        name: "Eagles",
+        color: '#007749'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9097",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Dayton",
+        shortLocation: "DAY",
+        name: "Flyers",
+        color: '#CE1141'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9098",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Morgan State",
+        shortLocation: "MORG",
+        name: "Bears",
+        color: '#f47937'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab9099",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "DePaul",
+        shortLocation: "DEP",
+        name: "Demons",
+        color: '#005EB8'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab909a",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Montreat College",
+        shortLocation: "MOCO",
+        name: "Cavaliers",
+        color: '#041E42'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab909b",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UNC Asheville",
+        shortLocation: "UNCA",
+        name: "Bulldogs",
+        color: '#003DA5'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab909c",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UMass Lowell",
+        shortLocation: "UML",
+        name: "River Hawks",
+        color: '#C8102E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab909d",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Bryant",
+        shortLocation: "BRY",
+        name: "Demons",
+        color: '#005EB8'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab909e",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Cleveland State",
+        shortLocation: "CLEV",
+        name: "Vikings",
+        color: '#006747'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab909f",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Delaware State",
+        shortLocation: "DSU",
+        name: "Hornets",
+        color: '#EE3124'
     }
 ];
 
