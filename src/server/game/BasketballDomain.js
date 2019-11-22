@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer');
 const gameRepository = require('./GameRepository');
 
 const {
+  nbaTeams,
   getGames,
   formatGames,
   createGames,
