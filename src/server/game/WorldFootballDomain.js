@@ -138,7 +138,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         width: 1500,
         height: 1000
       },
-      //timeout: 60000,
+      timeout: 15000,
       //pipe: true,
       //ignoreHTTPSErrors: true
     });
@@ -162,7 +162,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
      console.log(`${message} 4`);
 
-    await page.goto(url, {waitUntil: 'domcontentloaded'});
+    await page.goto(url, {timeout: 15000, waitUntil: 'domcontentloaded'});
 
      console.log(`${message} 5`);
 
