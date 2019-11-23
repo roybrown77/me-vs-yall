@@ -239,7 +239,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         awayScore: parseInt(awayScore),
         homeTeam: homeTeam.trim(),
         homeScore: parseInt(homeScore),
-        isGameOver: ['FT','AET'].includes((gameOverIndicator || '').trim()),
+        isGameOver: ['FT','AET'].includes((gameOverIndicator || '').trim()) || ['FT','AET'].includes((currentTime || '').trim()),
         currentTime: currentTime,
         possessionAway: (possessionAway || '').trim().replace(/,\s*$/, ''),
         possessionHome: (possessionHome || '').trim().replace(/,\s*$/, ''),
