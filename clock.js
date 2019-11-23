@@ -668,6 +668,8 @@ const sendMessage = async (data) => {
     return;
   }
 
+  console.log(`count ${count}`);
+
   switch (count) {
     case 1: 
       console.log('updating nfl games');
