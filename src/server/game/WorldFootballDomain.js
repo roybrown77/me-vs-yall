@@ -279,12 +279,14 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       const awayGoalCount = charCount(get(score,'possessionAway','').replace("45'+",'').replace("90'+",''),"'");
       const homeGoalCount = charCount(get(score,'possessionHome','').replace("45'+",'').replace("90'+",''),"'");
 
-      const isGameOver = get(score,'isGameOver',false) && awayScoreValid && homeScoreValid;
+      let isGameOver = get(score,'isGameOver',false);
       const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
       const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
 
       const awayScoreValid = awayGoalCount === awayScore;
       const homeScoreValid = homeGoalCount === homeScore;
+
+      isGameOver = get(score,'isGameOver',false) && awayScoreValid && homeScoreValid;
 
       const lastTime = parseInt((get(game,'currentTime') || '').replace("'",''));
       const time = parseInt((get(score,'currentTime') || '').replace("'",''));
