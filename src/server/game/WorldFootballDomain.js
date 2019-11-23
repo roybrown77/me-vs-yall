@@ -129,22 +129,50 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   isUpdateWorldFootballScoresRunning = true;
 
   try {
+    console.log(`${message} 1`);
+
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false
+      //headless: false,
+      defaultViewport: {
+        width: 1500,
+        height: 1000
+      },
+      //timeout: 60000,
+      //pipe: true,
+      //ignoreHTTPSErrors: true
     });
+
+     console.log(`${message} 2`);
 
     page = await browser.newPage();
 
+    await page.setRequestInterception(true);
+
+    page.on('request', interceptedRequest => {
+      if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
+        interceptedRequest.abort();
+      else
+        interceptedRequest.continue();
+    });
+
+     console.log(`${message} 3`);
+
     const url = `${baseUrl}${date}`;
 
-    await page.goto(url);
+     console.log(`${message} 4`);
 
-    await page.waitForSelector('#events');
+    await page.goto(url, {waitUntil: 'domcontentloaded'});
 
-    let listLength = await page.evaluate((sel) => {
+     console.log(`${message} 5`);
+
+    await page.waitForSelector('#events', {visible: true});
+
+    const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, 'scoreboard soccer');
+
+    console.log(`${message} listLength: ${listLength}`);
 
     let LIST_SCORE_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.team.team-TEAMTYPE > div > div.score-container > span';
     let LIST_GAME_OVER_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
@@ -153,8 +181,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     let LIST_IN_PROGRESS_CURRENT_TIME_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status > span.game-time';
     let LIST_IN_PROGRESS_POSSESSION_SELECTOR = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > div.game-details.footer.soccer.live > div > div > div.team.team-TEAMTYPE > div > ul';
     const startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div.main-container > header > div > div.game-status';
-
-    console.log(`${message} listLength: ' + ${listLength}`);
 
     if (listLength === 0) {
       isUpdateWorldFootballScoresRunning = false;
@@ -186,7 +212,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
+        return element ? element.innerText : null;
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'a'));
 
       const homeTeam = await page.evaluate((sel) => {
@@ -196,7 +222,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
+        return element ? element.innerText : null;
       }, LIST_SCORE_SELECTOR.replace("INDEX", i).replace("TEAMTYPE",'b'));
 
       const gameOverIndicator = await page.evaluate((sel) => {
@@ -229,9 +255,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     console.log(`${message} browser error: ${err.message}`);
   }
 
-  //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
-
   if (get({scores:scores},'scores',[]).length === 0) {
     isUpdateWorldFootballScoresRunning = false;
     console.log(`${message} no scores.`);
@@ -256,12 +279,12 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       const awayGoalCount = charCount(get(score,'possessionAway','').replace("45'+",'').replace("90'+",''),"'");
       const homeGoalCount = charCount(get(score,'possessionHome','').replace("45'+",'').replace("90'+",''),"'");
 
-      const awayScoreValid = awayGoalCount === awayScore;
-      const homeScoreValid = homeGoalCount === homeScore;
-
       const isGameOver = get(score,'isGameOver',false) && awayScoreValid && homeScoreValid;
       const awayScore = isGameOver ? get(score,'awayScore') : get(score,'awayScore',0) <= get(game,'competitors.0.score',0) ? get(game,'competitors.0.score',0) : get(score,'awayScore',0);
       const homeScore = isGameOver ? get(score,'homeScore') : get(score,'homeScore',0) <= get(game,'competitors.1.score',0) ? get(game,'competitors.1.score',0) : get(score,'homeScore',0);
+
+      const awayScoreValid = awayGoalCount === awayScore;
+      const homeScoreValid = homeGoalCount === homeScore;
 
       const lastTime = parseInt((get(game,'currentTime') || '').replace("'",''));
       const time = parseInt((get(score,'currentTime') || '').replace("'",''));

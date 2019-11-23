@@ -13,13 +13,13 @@
     "jwks-rsa": "^1.6.0",
     "lodash": "^4.17.15",
     "moment-timezone": "^0.5.27",
-    "mongoose": "^5.7.7",
+    "mongoose": "^5.7.12",
     "path": "^0.12.7",
     "puppeteer": "^2.0.0"
   },
   "devDependencies": {
     "concurrently": "^5.0.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.1"
   },
   "cacheDirectories": [
     "node_modules",
