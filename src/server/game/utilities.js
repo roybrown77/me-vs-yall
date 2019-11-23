@@ -3152,11 +3152,12 @@ const getScores = async ({
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       //headless: false
+      timeout: 15000
     });
 
     page = await browser.newPage();
 
-    await page.goto(url);
+    await page.goto(url,{timeout:15000});
 
     await page.waitForSelector('#events');
 
