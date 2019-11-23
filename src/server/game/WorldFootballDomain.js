@@ -286,7 +286,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       const awayScoreValid = awayGoalCount === awayScore;
       const homeScoreValid = homeGoalCount === homeScore;
 
-      isGameOver = get(score,'isGameOver',false) && awayScoreValid && homeScoreValid;
+      isGameOver = get(score,'isGameOver',false);
 
       const lastTime = parseInt((get(game,'currentTime') || '').replace("'",''));
       const time = parseInt((get(score,'currentTime') || '').replace("'",''));
