@@ -406,24 +406,24 @@ const options = {
 const mongoose = require('mongoose');
 
 mongoose.connection.on("connected", function(ref) {
-  console.log("Connected to DB!", ref);
+  console.log('[MONGODB] - Connected!');
 });
 
 // If the connection throws an error
 mongoose.connection.on("error", function(err) {
-  console.error('Failed to connect to DB on startup: ', err);
+  console.error('[MONGODB] - Failed to connect on startup: ', err);
 });
 
 // When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
-  console.log('Mongoose default connection to DB disconnected.');
+  console.log('[MONGODB] - default connection to DB disconnected.');
 });
 
 try {
   console.log('[MONGODB] - Connecting...');
   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
 } catch (err) {
-  console.log("Server initialization failed: " , err.message);
+  console.log("[MONGODB] - initialization failed: " , err.message);
 }
 
 const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
@@ -487,7 +487,7 @@ const startCronProcess = (jobs) => {
           if (!job.repeat) j.stop();
         },
         onComplete: () => {
-          console.log('Job completed! Removing now...')
+          console.log('[AMQP] - Job completed! removing now...')
         },  
         timeZone: 'America/Argentina/Buenos_Aires',
         start: true  // Start now
@@ -662,13 +662,13 @@ const sendMessage = async (data) => {
   //   }
   // }
 
-  if (isUpdateWorldFootballScoresRunning ||
-    isUpdateAmericanFootballScoresRunning ||
-    isUpdateBasketballScoresRunning || 
-    isUpdateMlbScoresRunning) {
-    console.log(`still running`);
-    return;
-  }
+  // if (isUpdateWorldFootballScoresRunning ||
+  //   isUpdateAmericanFootballScoresRunning ||
+  //   isUpdateBasketballScoresRunning || 
+  //   isUpdateMlbScoresRunning) {
+  //   console.log(`[PUPPETEER] - still running`);
+  //   return;
+  // }
 
   console.log(`count ${count}`);
 
@@ -732,11 +732,11 @@ const gracefulExitSIGINT = () => {
   console.info(`SIGINT signal received.`);
   
   connection.close(function () {
-    console.log('AMQP is disconnected through app termination.');
+    console.log('[AMQP] - disconnected through app termination.');
   });
 
   mongoose.connection.close(function () {
-    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    console.log('[MONGODB] - default connection is disconnected through app termination.');
   });
 };
 
@@ -744,11 +744,11 @@ const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
   
   connection.close(function () {
-    console.log('AMQP is disconnected through app termination.');
+    console.log('[AMQP] - disconnected through app termination.');
   });
 
   mongoose.connection.close(function () {
-    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    console.log('[MONGODB] - default connection is disconnected through app termination.');
   });
 };
 
