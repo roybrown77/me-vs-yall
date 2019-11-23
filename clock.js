@@ -428,36 +428,38 @@ try {
 
 const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 
-const JOBS = [{  // You could store these jobs in a database
-  name: "Cron process 1",
-  message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
-  cronTime: '1 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 2",
-  message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
-  cronTime: '1 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 3",
-  message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
-  cronTime: '1 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 4",
-  message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
-  cronTime: '1 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 5",
-  message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
-  cronTime: '1 * * * * *',
-  repeat: true
-}];
+const JOBS = [
+  {  // You could store these jobs in a database
+    name: "Cron process 1",
+    message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
+    cronTime: '5 * * * * *',
+    repeat: true
+  },
+  // { 
+  //   name: "Cron process 2",
+  //   message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
+  //   cronTime: '1 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 3",
+  //   message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
+  //   cronTime: '1 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 4",
+  //   message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
+  //   cronTime: '1 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 5",
+  //   message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
+  //   cronTime: '1 * * * * *',
+  //   repeat: true
+  // }
+];
 
 //Create a new connection manager from AMQP
 console.log('[AMQP] - Connecting...');
@@ -508,157 +510,157 @@ const sendMessage = async (data) => {
 
   if (!message) { return; }
 
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
+  // const month = parseInt(moment().format('MM'));
+  // const monthDay = parseInt(moment().format('MMDD'));
+  // const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+  // const hours = parseInt(moment().format('HH'));
+  // const minutes = parseInt(moment().format('mm'));
+  // const timezoneOffset = moment().utcOffset()/60;
+  // const hoursOffset = hours+(-1*timezoneOffset);
 
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
+  // console.log('monthDay: ' + monthDay);
+  // console.log('currentWeekDay: ' + currentWeekDay);
+  // console.log('hours: ' + hours);
+  // console.log('minutes: ' + minutes);
+  // console.log('timezoneOffset: ' + timezoneOffset);
+  // console.log('hoursOffset: ' + hoursOffset);
+  // const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+  // console.log('divider: ' + divider);
 
-  if (message.leagueId === '59723313734d1d6202a85f10') {
-    if (monthDay > 208 && monthDay < 801) {
-      console.log('new nfl games will be loaded during season.');
-      return;
-    } else {
-      const time = moment().add(30, 'minutes').toISOString();
+  // if (message.leagueId === '59723313734d1d6202a85f10') {
+  //   if (monthDay > 208 && monthDay < 801) {
+  //     console.log('new nfl games will be loaded during season.');
+  //     return;
+  //   } else {
+  //     const time = moment().add(30, 'minutes').toISOString();
 
-      const search = {
-        leagueId: mongoose.Types.ObjectId(message.leagueId),
-        isGameOver: {
-          $ne: true
-        },
-        startDateTime: {
-          $lte: time,
-        },
-        year: message.year
-      };
+  //     const search = {
+  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
+  //       isGameOver: {
+  //         $ne: true
+  //       },
+  //       startDateTime: {
+  //         $lte: time,
+  //       },
+  //       year: message.year
+  //     };
 
-      const games = await gameRepository.find(search);
+  //     const games = await gameRepository.find(search);
 
-      if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
-        return;
-      }
-    }
-  }
+  //     if ((games || []).length === 0) {
+  //       console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
+  //       return;
+  //     }
+  //   }
+  // }
 
-  if (message.leagueId === '59723313734d1d6202a85f15') {
-    if (monthDay > 108 && monthDay < 801) {
-      console.log('new college football games will be loaded during season.');
-      return;
-    } else {
-      const time = moment().add(30, 'minutes').toISOString();
+  // if (message.leagueId === '59723313734d1d6202a85f15') {
+  //   if (monthDay > 108 && monthDay < 801) {
+  //     console.log('new college football games will be loaded during season.');
+  //     return;
+  //   } else {
+  //     const time = moment().add(30, 'minutes').toISOString();
 
-      const search = {
-        leagueId: mongoose.Types.ObjectId(message.leagueId),
-        isGameOver: {
-          $ne: true
-        },
-        startDateTime: {
-          $lte: time,
-        },
-        year: message.year
-      };
+  //     const search = {
+  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
+  //       isGameOver: {
+  //         $ne: true
+  //       },
+  //       startDateTime: {
+  //         $lte: time,
+  //       },
+  //       year: message.year
+  //     };
 
-      const games = await gameRepository.find(search);
+  //     const games = await gameRepository.find(search);
 
-      if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
-        return;
-      }
-    }
-  }
+  //     if ((games || []).length === 0) {
+  //       console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
+  //       return;
+  //     }
+  //   }
+  // }
 
-  if (message.leagueId === '59723313734d1d6202a85f19') {
-    if (monthDay > 615 && monthDay < 1015) {
-      console.log('new nba games will be loaded during season.');
-      return;
-    } else {
-      const time = moment().add(30, 'minutes').toISOString();
+  // if (message.leagueId === '59723313734d1d6202a85f19') {
+  //   if (monthDay > 615 && monthDay < 1015) {
+  //     console.log('new nba games will be loaded during season.');
+  //     return;
+  //   } else {
+  //     const time = moment().add(30, 'minutes').toISOString();
 
-      const search = {
-        leagueId: mongoose.Types.ObjectId(message.leagueId),
-        isGameOver: {
-          $ne: true
-        },
-        startDateTime: {
-          $lte: time,
-        },
-        year: message.year
-      };
+  //     const search = {
+  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
+  //       isGameOver: {
+  //         $ne: true
+  //       },
+  //       startDateTime: {
+  //         $lte: time,
+  //       },
+  //       year: message.year
+  //     };
 
-      const games = await gameRepository.find(search);
+  //     const games = await gameRepository.find(search);
 
-      if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
-        return;
-      }
-    }
-  }
+  //     if ((games || []).length === 0) {
+  //       console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
+  //       return;
+  //     }
+  //   }
+  // }
 
-  if (message.leagueId === '59723313734d1d6202a85f17') {
-    if (monthDay > 515 && monthDay < 801) {
-      console.log('new premier league games will be loaded during season.');
-      return;
-    } else {
-      const time = moment().toISOString();
+  // if (message.leagueId === '59723313734d1d6202a85f17') {
+  //   if (monthDay > 515 && monthDay < 801) {
+  //     console.log('new premier league games will be loaded during season.');
+  //     return;
+  //   } else {
+  //     const time = moment().toISOString();
 
-      const search = {
-        leagueId: mongoose.Types.ObjectId(message.leagueId),
-        isGameOver: {
-          $ne: true
-        },
-        startDateTime: {
-          $lte: time,
-        },
-        year: message.year
-      };
+  //     const search = {
+  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
+  //       isGameOver: {
+  //         $ne: true
+  //       },
+  //       startDateTime: {
+  //         $lte: time,
+  //       },
+  //       year: message.year
+  //     };
 
-      const games = await gameRepository.find(search);
+  //     const games = await gameRepository.find(search);
 
-      if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated.`);
-        return;
-      }
-    }
-  }
+  //     if ((games || []).length === 0) {
+  //       console.log(`${message.taskName} all scores have been updated.`);
+  //       return;
+  //     }
+  //   }
+  // }
 
-  if (message.leagueId === '59723313734d1d6202a85f29') {
-    if (monthDay < 301 || monthDay > 1115) {
-      console.log('new mls games will be loaded during season.');
-      return;
-    } else {
-      const time = moment().toISOString();
+  // if (message.leagueId === '59723313734d1d6202a85f29') {
+  //   if (monthDay < 301 || monthDay > 1115) {
+  //     console.log('new mls games will be loaded during season.');
+  //     return;
+  //   } else {
+  //     const time = moment().toISOString();
 
-      const search = {
-        leagueId: mongoose.Types.ObjectId(message.leagueId),
-        isGameOver: {
-          $ne: true
-        },
-        startDateTime: {
-          $lte: time,
-        },
-        year: message.year
-      };
+  //     const search = {
+  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
+  //       isGameOver: {
+  //         $ne: true
+  //       },
+  //       startDateTime: {
+  //         $lte: time,
+  //       },
+  //       year: message.year
+  //     };
 
-      const games = await gameRepository.find(search);
+  //     const games = await gameRepository.find(search);
 
-      if ((games || []).length === 0) {
-        console.log(`${message.taskName} all scores have been updated.`);
-        return;
-      }
-    }
-  }
+  //     if ((games || []).length === 0) {
+  //       console.log(`${message.taskName} all scores have been updated.`);
+  //       return;
+  //     }
+  //   }
+  // }
 
   if (isUpdateWorldFootballScoresRunning ||
     isUpdateAmericanFootballScoresRunning ||
