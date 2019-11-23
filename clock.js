@@ -435,30 +435,30 @@ const JOBS = [
     cronTime: '5 * * * * *',
     repeat: true
   },
-  // { 
-  //   name: "Cron process 2",
-  //   message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
-  //   cronTime: '1 * * * * *',
-  //   repeat: true
-  // },
-  // { 
-  //   name: "Cron process 3",
-  //   message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
-  //   cronTime: '1 * * * * *',
-  //   repeat: true
-  // },
-  // { 
-  //   name: "Cron process 4",
-  //   message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
-  //   cronTime: '1 * * * * *',
-  //   repeat: true
-  // },
-  // { 
-  //   name: "Cron process 5",
-  //   message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
-  //   cronTime: '1 * * * * *',
-  //   repeat: true
-  // }
+  { 
+    name: "Cron process 2",
+    message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
+    cronTime: '5 * * * * *',
+    repeat: true
+  },
+  { 
+    name: "Cron process 3",
+    message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
+    cronTime: '5 * * * * *',
+    repeat: true
+  },
+  { 
+    name: "Cron process 4",
+    message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
+    cronTime: '5 * * * * *',
+    repeat: true
+  },
+  { 
+    name: "Cron process 5",
+    message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
+    cronTime: '5 * * * * *',
+    repeat: true
+  }
 ];
 
 //Create a new connection manager from AMQP
@@ -670,10 +670,10 @@ const sendMessage = async (data) => {
   //   return;
   // }
 
-  console.log(`count ${count}`);
+  //console.log(`count ${count}`);
 
-  switch (count) {
-    case 1: 
+  switch (message.taskName) {
+    case 'updateNFLGames': 
       console.log('updating nfl games');
       try {
         updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
@@ -681,7 +681,7 @@ const sendMessage = async (data) => {
         console.log('updateNflScores error: ' + err.message);
       }
       break;
-    case 2: 
+    case 'updateCollegeFootballGames': 
       console.log('updating college football games');
       try {
         updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
@@ -690,7 +690,7 @@ const sendMessage = async (data) => {
         console.log('updateNCAAFScores error: ' + err.message);
       }
       break;
-    case 3: 
+    case 'updateNBAGames': 
       console.log('updating nba games');
       try {
         updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
@@ -699,7 +699,7 @@ const sendMessage = async (data) => {
         console.log('updateNbaScores error: ' + err.message);
       }
       break;
-    case 4: 
+    case 'updatePremierLeagueGames': 
       console.log('updating premier games');
       try {
         updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
@@ -708,7 +708,7 @@ const sendMessage = async (data) => {
         console.log('updateEnglishPremierLeagueScores error: ' + err.message);
       }
       break;
-    case 5: 
+    case 'updateMLSGames': 
       console.log('updating mls games');
       try {
         updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
@@ -718,14 +718,14 @@ const sendMessage = async (data) => {
       }
       break;
     default:
-      console.error('No task was found with name => ' + count)
+      console.error('No task was found with name => '+ message.taskName)
   }
 
-  ++count;
+  // ++count;
   
-  if (count === 6) {
-    count = 1;
-  }
+  // if (count === 6) {
+  //   count = 1;
+  // }
 };
 
 const gracefulExitSIGINT = () => {
