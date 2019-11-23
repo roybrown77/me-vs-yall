@@ -450,13 +450,13 @@ const JOBS = [
   { 
     name: "Cron process 4",
     message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
-    cronTime: '30 * * * * *',
+    cronTime: '5 * * * * *',
     repeat: true
   },
   { 
     name: "Cron process 5",
     message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
-    cronTime: '30 * * * * *',
+    cronTime: '5 * * * * *',
     repeat: true
   }
 ];
