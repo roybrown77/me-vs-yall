@@ -668,12 +668,6 @@ const sendMessage = async (data) => {
     return;
   }
 
-  if (count === 6) {
-    count = 1;
-  } else {
-    ++count;
-  }
-
   switch (count) {
     case 1: 
       console.log('updating nfl games');
@@ -721,6 +715,12 @@ const sendMessage = async (data) => {
       break;
     default:
       console.error('No task was found with name => '+message.taskName)
+  }
+
+  ++count;
+  
+  if (count === 6) {
+    count = 1;
   }
 };
 
