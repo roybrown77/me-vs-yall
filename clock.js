@@ -496,7 +496,7 @@ const startCronProcess = (jobs) => {
 
 const moment = require('moment-timezone');
 const gameRepository = require('./src/server/game/GameRepository');
-let count = 0;
+let count = 1;
 
 const sendMessage = async (data) => {
   let message;
@@ -716,7 +716,7 @@ const sendMessage = async (data) => {
       }
       break;
     default:
-      console.error('No task was found with name => '+message.taskName)
+      console.error('No task was found with name => ' + count)
   }
 
   ++count;
