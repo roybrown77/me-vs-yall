@@ -498,7 +498,6 @@ const startCronProcess = (jobs) => {
 
 const moment = require('moment-timezone');
 const gameRepository = require('./src/server/game/GameRepository');
-let count = 1;
 
 const sendMessage = async (data) => {
   let message;
@@ -509,168 +508,6 @@ const sendMessage = async (data) => {
   }
 
   if (!message) { return; }
-
-  // const month = parseInt(moment().format('MM'));
-  // const monthDay = parseInt(moment().format('MMDD'));
-  // const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  // const hours = parseInt(moment().format('HH'));
-  // const minutes = parseInt(moment().format('mm'));
-  // const timezoneOffset = moment().utcOffset()/60;
-  // const hoursOffset = hours+(-1*timezoneOffset);
-
-  // console.log('monthDay: ' + monthDay);
-  // console.log('currentWeekDay: ' + currentWeekDay);
-  // console.log('hours: ' + hours);
-  // console.log('minutes: ' + minutes);
-  // console.log('timezoneOffset: ' + timezoneOffset);
-  // console.log('hoursOffset: ' + hoursOffset);
-  // const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  // console.log('divider: ' + divider);
-
-  // if (message.leagueId === '59723313734d1d6202a85f10') {
-  //   if (monthDay > 208 && monthDay < 801) {
-  //     console.log('new nfl games will be loaded during season.');
-  //     return;
-  //   } else {
-  //     const time = moment().add(30, 'minutes').toISOString();
-
-  //     const search = {
-  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
-  //       isGameOver: {
-  //         $ne: true
-  //       },
-  //       startDateTime: {
-  //         $lte: time,
-  //       },
-  //       year: message.year
-  //     };
-
-  //     const games = await gameRepository.find(search);
-
-  //     if ((games || []).length === 0) {
-  //       console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // if (message.leagueId === '59723313734d1d6202a85f15') {
-  //   if (monthDay > 108 && monthDay < 801) {
-  //     console.log('new college football games will be loaded during season.');
-  //     return;
-  //   } else {
-  //     const time = moment().add(30, 'minutes').toISOString();
-
-  //     const search = {
-  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
-  //       isGameOver: {
-  //         $ne: true
-  //       },
-  //       startDateTime: {
-  //         $lte: time,
-  //       },
-  //       year: message.year
-  //     };
-
-  //     const games = await gameRepository.find(search);
-
-  //     if ((games || []).length === 0) {
-  //       console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // if (message.leagueId === '59723313734d1d6202a85f19') {
-  //   if (monthDay > 615 && monthDay < 1015) {
-  //     console.log('new nba games will be loaded during season.');
-  //     return;
-  //   } else {
-  //     const time = moment().add(30, 'minutes').toISOString();
-
-  //     const search = {
-  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
-  //       isGameOver: {
-  //         $ne: true
-  //       },
-  //       startDateTime: {
-  //         $lte: time,
-  //       },
-  //       year: message.year
-  //     };
-
-  //     const games = await gameRepository.find(search);
-
-  //     if ((games || []).length === 0) {
-  //       console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // if (message.leagueId === '59723313734d1d6202a85f17') {
-  //   if (monthDay > 515 && monthDay < 801) {
-  //     console.log('new premier league games will be loaded during season.');
-  //     return;
-  //   } else {
-  //     const time = moment().toISOString();
-
-  //     const search = {
-  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
-  //       isGameOver: {
-  //         $ne: true
-  //       },
-  //       startDateTime: {
-  //         $lte: time,
-  //       },
-  //       year: message.year
-  //     };
-
-  //     const games = await gameRepository.find(search);
-
-  //     if ((games || []).length === 0) {
-  //       console.log(`${message.taskName} all scores have been updated.`);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // if (message.leagueId === '59723313734d1d6202a85f29') {
-  //   if (monthDay < 301 || monthDay > 1115) {
-  //     console.log('new mls games will be loaded during season.');
-  //     return;
-  //   } else {
-  //     const time = moment().toISOString();
-
-  //     const search = {
-  //       leagueId: mongoose.Types.ObjectId(message.leagueId),
-  //       isGameOver: {
-  //         $ne: true
-  //       },
-  //       startDateTime: {
-  //         $lte: time,
-  //       },
-  //       year: message.year
-  //     };
-
-  //     const games = await gameRepository.find(search);
-
-  //     if ((games || []).length === 0) {
-  //       console.log(`${message.taskName} all scores have been updated.`);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // if (isUpdateWorldFootballScoresRunning ||
-  //   isUpdateAmericanFootballScoresRunning ||
-  //   isUpdateBasketballScoresRunning || 
-  //   isUpdateMlbScoresRunning) {
-  //   console.log(`[PUPPETEER] - still running`);
-  //   return;
-  // }
-
-  //console.log(`count ${count}`);
 
   switch (message.taskName) {
     case 'updateNFLGames': 
@@ -720,12 +557,6 @@ const sendMessage = async (data) => {
     default:
       console.error('No task was found with name => '+ message.taskName)
   }
-
-  // ++count;
-  
-  // if (count === 6) {
-  //   count = 1;
-  // }
 };
 
 const gracefulExitSIGINT = () => {
