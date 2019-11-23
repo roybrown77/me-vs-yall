@@ -496,7 +496,7 @@ const startCronProcess = (jobs) => {
 
 const moment = require('moment-timezone');
 const gameRepository = require('./src/server/game/GameRepository');
-let count = 1;
+let count = 0;
 
 const sendMessage = async (data) => {
   let message;
@@ -666,6 +666,12 @@ const sendMessage = async (data) => {
     isUpdateMlbScoresRunning) {
     console.log(`still running`);
     return;
+  }
+
+  if (count === 6) {
+    count = 1;
+  } else {
+    ++count;
   }
 
   switch (count) {
