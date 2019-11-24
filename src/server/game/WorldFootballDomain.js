@@ -139,8 +139,8 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         height: 1000
       },
       timeout: 15000,
-      //pipe: true,
-      //ignoreHTTPSErrors: true
+      pipe: true,
+      ignoreHTTPSErrors: true
     });
 
      console.log(`${message} 2`);

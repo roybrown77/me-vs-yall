@@ -49,7 +49,7 @@ const options = {
 
 const mongoose = require('mongoose');
 mongoose.connection.on("connected", function(ref) {
-  console.log("Connected to DB!", ref);
+  console.log("[MONGODB] - Connected!", ref);
 });
 
 // If the connection throws an error
@@ -59,7 +59,7 @@ mongoose.connection.on("error", function(err) {
 
 // When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
-  console.log('Mongoose default connection to DB disconnected.');
+  console.log('[MONGODB] - Disconnected.');
 });
 
 try {
@@ -98,7 +98,7 @@ let channelWrapper = connection.createChannel({
 
 channelWrapper.waitForConnect()
 .then(function() {
-  console.log('[AMQP] - Listening for messages on queue => '+WORKER_QUEUE);
+  console.log('[AMQP] - Listening for messages on queue: ' + WORKER_QUEUE);
 })
 .catch(function(err) {
   console.error('[AMQP] - Error! ', err);
@@ -165,19 +165,19 @@ function onMessage(data) {
       }
       break;
     default:
-      console.error('No task was found with name => '+message.taskName)
+      console.error('No task was found with name: ' + message.taskName);
   }
 }
 
 const gracefulExitSIGINT = () => {
   console.info(`SIGINT signal received.`);
-
+  
   connection.close(function () {
-    console.log('AMQP is disconnected through app termination.');
+    console.log('[AMQP] - disconnected through app termination.');
   });
 
   mongoose.connection.close(function () {
-    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    console.log('[MONGODB] - disconnected through app termination.');
   });
 };
 
@@ -185,11 +185,11 @@ const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
   
   connection.close(function () {
-    console.log('AMQP is disconnected through app termination.');
+    console.log('[AMQP] - disconnected through app termination.');
   });
 
   mongoose.connection.close(function () {
-    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    console.log('[MONGODB] - disconnected through app termination.');
   });
 };
 
