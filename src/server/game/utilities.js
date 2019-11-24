@@ -3170,8 +3170,8 @@ const getScores = async ({
         height: 1000
       },
       timeout: 15000,
-      pipe: true,
-      ignoreHTTPSErrors: true
+      //pipe: true,
+      //ignoreHTTPSErrors: true
     });
 
     page = await browser.newPage();
@@ -3187,7 +3187,7 @@ const getScores = async ({
 
     await page.goto(url,{timeout:15000, waitUntil: 'domcontentloaded'});
 
-    await page.waitForSelector('#events', {visible: true});
+    await page.waitForSelector('#events');
 
     const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
