@@ -2960,22 +2960,35 @@ const getGames = async ({
   try {
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false
+      defaultViewport: {
+        width: 1500,
+        height: 1000
+      },
+      timeout: 15000,
+      pipe: true,
+      ignoreHTTPSErrors: true
     });
 
     page = await browser.newPage();
 
-    await page.goto(url);
+    await page.setRequestInterception(true);
 
-    await page.waitForSelector('#events');
+    page.on('request', interceptedRequest => {
+      if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
+        interceptedRequest.abort();
+      else
+        interceptedRequest.continue();
+    });
 
-    let listLength = 0;
-    
-    listLength = await page.evaluate((sel) => {
+    await page.goto(url,{timeout:15000, waitUntil: 'domcontentloaded'});
+
+    await page.waitForSelector('#events', {visible: true});
+
+    const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, root);
-
-    console.log(`${message} getGames listLength: ${listLength}`);
+    
+    console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
       await browser.close();
