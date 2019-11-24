@@ -53,8 +53,8 @@ const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) 
 
 const updateAmericanFootballScores = async ({message, url, leagueId, year, teams}) => {
   if (isUpdateAmericanFootballScoresRunning) {
-    //console.log(`${message} already running.`)
-    //return;
+    console.log(`${message} already running.`)
+    return;
   }
 
   console.log(`${message} starting.`);
