@@ -43,31 +43,31 @@ const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 const JOBS = [{  // You could store these jobs in a database
   name: "Cron process 1",
   message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
-  cronTime: '5 * * * * *',
+  cronTime: '*/5 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 2",
   message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
-  cronTime: '5 * * * * *',
+  cronTime: '*/5 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 3",
   message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
-  cronTime: '5 * * * * *',
+  cronTime: '*/5 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 4",
   message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
-  cronTime: '5 * * * * *',
+  cronTime: '*/5 * * * * *',
   repeat: true
 },
 { 
   name: "Cron process 5",
   message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
-  cronTime: '5 * * * * *',
+  cronTime: '*/5 * * * * *',
   repeat: true
 }];
 
