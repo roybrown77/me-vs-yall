@@ -22,8 +22,8 @@ const isNaN = require('lodash/isNaN');
 
 const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) => {
   if (isLoadAmericanFootballGamesRunning || isUpdateAmericanFootballScoresRunning) {
-    console.log(`${message} already running.`);
-    return;
+    //console.log(`${message} already running.`);
+    //return;
   }
 
   const root = 'scoreboard football';
