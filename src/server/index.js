@@ -1,7 +1,7 @@
 const { dbUsername, dbPassword, dbName, httpPort, nodeEnv } = require('../../config');
 
 if (!dbUsername || !dbPassword || !dbName) {
-  console.log('Missing an environment variable');
+  console.log('[ENV_VARIABLE] - missing an environment variable');
   process.exit(1);
 }
 
@@ -18,24 +18,24 @@ const options = {
 const mongoose = require('mongoose');
 
 mongoose.connection.on("connected", function(ref) {
-  console.log("Connected to DB!", ref);
+  console.log("[MONGODB] - Connected!");
 });
 
 // If the connection throws an error
 mongoose.connection.on("error", function(err) {
-  console.error('Failed to connect to DB on startup: ', err);
+  console.error('[MONGODB] - failed to connect on startup: ', err);
 });
 
 // When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
-  console.log('Mongoose default connection to DB disconnected.');
+  console.log('[MONGODB] - Disconnected.');
 });
 
 try {
   console.log('[MONGODB] - Connecting...');
   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
 } catch (err) {
-  console.log("Server initialization failed: " , err.message);
+  console.log("[MONGODB] - initialization failed: ", err.message);
 }
 
 const express = require('express');
@@ -48,6 +48,9 @@ const path = require('path');
 
 if (nodeEnv === "production") {
   app.use(express.static(path.resolve(__dirname, '../client/build')));
+  app.get('*', function(request, response) {
+    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
 }
 
 const jwks = require('jwks-rsa');
@@ -81,23 +84,19 @@ app.use('/api/usermanagement', UserReadController);
 const UserWriteController = require('./user/UserWriteController');
 app.use('/api/usermanagement', authCheck, UserWriteController);
 
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
-
 const server = app.listen(app.get("port"), () => {
-    console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+    console.log(`[HTTP] - find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
 });
 
 const gracefulExitSIGINT = () => {
   console.info(`SIGINT signal received.`);
   
   server.close(() => {
-    console.log('Http server closed.');
+    console.log('[HTTP] - server closed.');
   });
 
   mongoose.connection.close(function () {
-    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    console.log('[MONGODB] - disconnected through app termination.');
   });
 };
 
@@ -105,11 +104,11 @@ const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
   
   server.close(() => {
-    console.log('Http server closed.');
+    console.log('[HTTP] - server closed.');
   });
 
   mongoose.connection.close(function () {
-    console.log('Mongoose default connection with DB is disconnected through app termination.');
+    console.log('[MONGODB] - disconnected through app termination.');
   });
 };
 

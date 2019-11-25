@@ -1,7 +1,7 @@
 const { dbUsername, dbPassword, dbName, queueUrl } = require('./config');
 
 if (!queueUrl || !dbUsername || !dbPassword || !dbName) {
-  console.log('Missing an environment variable');
+  console.log('[ENV_VARIABLE] - missing an environment variable');
   process.exit(1);
 }
 
@@ -49,12 +49,12 @@ const options = {
 
 const mongoose = require('mongoose');
 mongoose.connection.on("connected", function(ref) {
-  console.log("[MONGODB] - Connected!", ref);
+  console.log("[MONGODB] - Connected!");
 });
 
 // If the connection throws an error
 mongoose.connection.on("error", function(err) {
-  console.error('Failed to connect to DB on startup: ', err);
+  console.error(`[MONGODB] - failed to connect on startup: ${JSON.stringify(err)}`);
 });
 
 // When the connection is disconnected
@@ -66,7 +66,7 @@ try {
   console.log('[MONGODB] - Connecting...');
   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
 } catch (err) {
-  console.log("Server initialization failed: " , err.message);
+  console.log(`[MONGODB] - initialization failed: ${JSON.stringify(err)}`);
 }
 
 const WORKER_QUEUE = 'worker-queue';
@@ -101,7 +101,7 @@ channelWrapper.waitForConnect()
   console.log('[AMQP] - Listening for messages on queue: ' + WORKER_QUEUE);
 })
 .catch(function(err) {
-  console.error('[AMQP] - Error! ', err);
+  console.error(`[AMQP] - Error: ${JSON.stringify(err)}`);
 }); 
 
 // Process message from AMQP
@@ -110,7 +110,7 @@ function onMessage(data) {
   try {
     message = JSON.parse(data.content.toString());
   } catch(e) {
-    console.error('[AMQP] - Error parsing message... ', data);
+    console.error('[AMQP] - Error parsing message: ', data);
   }
 
   console.log('[AMQP] - Message incoming... ', message);
