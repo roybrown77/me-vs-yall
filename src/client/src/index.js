@@ -7,12 +7,14 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ReactGA from 'react-ga';
 
 import Immutable from 'immutable';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import api from './middleware/api';
 import rootReducer from './reducers';
+import {isProduction,googleAnalyticsId} from './config';
 
 import Home from './pages/Home';
 import Scoreboard from './pages/Scoreboard';
@@ -26,9 +28,12 @@ import AuthenticationCallback from './pages/AuthenticationCallback';
 
 import './index.css';
 
+ReactGA.initialize(googleAnalyticsId);
+ReactGA.pageview(window.location.pathname + window.location.search);
+
 const initialState = Immutable.Map();
 
-const composeAll = process.env.NODE_ENV.toLowerCase() === 'development' ? composeWithDevTools : compose;
+const composeAll = isProduction ? compose : composeWithDevTools;
 
 const store = createStore(
   rootReducer,
@@ -52,21 +57,21 @@ render(
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <div className="App">
-              <main>
-                <div style={{height:'100%'}}>
-                    <Switch>
-                        <Route exact path='/' component={Home}/>
-                        <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
-                        <Route path='/leaders/:leagueName' component={Leader}/>
-                        <Route path='/shop' component={Shop}/>
-                        <Route path='/oftheweek' component={OfTheWeek}/>
-                        <Route path='/tips' component={Tips}/>
-                        <Route path='/about' component={About}/>
-                        <Route path='/play' component={Play}/>
-                        <Route path='/authenticationCallback' component={AuthenticationCallback}/>
-                    </Switch>
-                </div>
-              </main>
+            <main>
+              <div style={{height:'100%'}}>
+                  <Switch>
+                      <Route exact path='/' component={Home}/>
+                      <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
+                      <Route path='/leaders/:leagueName' component={Leader}/>
+                      <Route path='/shop' component={Shop}/>
+                      <Route path='/oftheweek' component={OfTheWeek}/>
+                      <Route path='/tips' component={Tips}/>
+                      <Route path='/about' component={About}/>
+                      <Route path='/play' component={Play}/>
+                      <Route path='/authenticationCallback' component={AuthenticationCallback}/>
+                  </Switch>
+              </div>
+            </main>
         </div>
       </MuiThemeProvider>
     </BrowserRouter>

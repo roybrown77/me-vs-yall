@@ -39,39 +39,36 @@ class Footer extends Component {
         window.location.pathname.includes('oftheweek') ? 'oftheweek' : 'MvY';
 
         return (
-            <BottomNavigation 
-                    style={styles.root}
-                    showLabels
-                    >
-                    {
-                        true &&
-                        <div style={styles.action} 
-                        onClick={() => {this.navigateTo('/')}}>
-                            MvY
-                        </div>
-                    }
-                    {
-                        true &&
-                        <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid rgb(239, 253, 87)' : ''}} 
-                        onClick={() => {this.navigateTo('/scoreboards/' + leagueName)}}>
-                            Scores
-                        </div>
-                    }
-                    {
-                        true &&
-                        <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} 
-                        onClick={() => {this.navigateTo('/leaders/' + leagueName)}}>
-                            Leaders
-                        </div>
-                    }
-                    {
-                        true &&
-                        <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid rgb(239, 253, 87)' : ''}} 
-                        onClick={() => {this.navigateTo('/oftheweek')}}>
-                            OTW
-                        </div>
-                    }
-                </BottomNavigation>
+            <BottomNavigation style={styles.root}>
+            {
+                true &&
+                <div style={styles.action} 
+                onClick={() => {this.navigateTo('/')}}>
+                    MvY
+                </div>
+            }
+            {
+                true &&
+                <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                onClick={() => {this.navigateTo('/scoreboards/' + leagueName)}}>
+                    Scores
+                </div>
+            }
+            {
+                true &&
+                <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                onClick={() => {this.navigateTo('/leaders/' + leagueName)}}>
+                    Leaders
+                </div>
+            }
+            {
+                true &&
+                <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                onClick={() => {this.navigateTo('/oftheweek')}}>
+                    OTW
+                </div>
+            }
+            </BottomNavigation>
         );
     }
 }

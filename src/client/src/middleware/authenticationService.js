@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js';
 import moment from 'moment-timezone';
 import {createBrowserHistory} from 'history';
+import {authenticationClientId} from '../config';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -9,7 +10,6 @@ const ACCESS_TOKEN_KEY = 'access_token';
 const EXPIRATION_KEY = 'expires_in';
 const USER_KEY = 'user';
 
-const CLIENT_ID = 'CMVmcCBsvBpB7Q9vxK7311G9lG7Ikd3d';
 const CLIENT_DOMAIN = 'mevsyall.auth0.com';
 
 const RESPONSE_TYPE = 'token id_token';
@@ -17,7 +17,7 @@ const AUDIENCE = 'https://mevsyallcom/api/';
 const SCOPE = 'openid profile email';
 
 const auth = new auth0.WebAuth({
-  clientID: CLIENT_ID,
+  clientID: authenticationClientId,
   domain: CLIENT_DOMAIN,
   responseType: RESPONSE_TYPE,
   redirectUri: window.location.protocol + "//" + window.location.hostname + (window.location.port !== "" ? ":" + window.location.port : "") + "/authenticationCallback",
