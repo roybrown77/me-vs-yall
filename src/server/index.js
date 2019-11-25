@@ -48,10 +48,11 @@ const path = require('path');
 
 if (nodeEnv === "production") {
   app.use(express.static(path.resolve(__dirname, '../client/build')));
-  app.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
 }
+
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 const jwks = require('jwks-rsa');
 const secret = jwks.expressJwtSecret({
