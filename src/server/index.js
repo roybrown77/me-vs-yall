@@ -46,14 +46,6 @@ app.set("port", httpPort || 3001);
 
 const path = require('path');
 
-if (nodeEnv === "production") {
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
-}
-
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
-
 const jwks = require('jwks-rsa');
 const secret = jwks.expressJwtSecret({
   cache: true,
@@ -84,6 +76,14 @@ app.use('/api/usermanagement', UserReadController);
 
 const UserWriteController = require('./user/UserWriteController');
 app.use('/api/usermanagement', authCheck, UserWriteController);
+
+if (nodeEnv === "production") {
+  app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+  app.get('*', function(request, response) {
+    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+}
 
 const server = app.listen(app.get("port"), () => {
     console.log(`[HTTP] - find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
