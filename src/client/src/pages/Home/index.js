@@ -144,6 +144,7 @@ class Home extends Component {
       const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
       const mlsGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f29');
       const womensCollegeBasketballGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f31');
+      const mensCollegeBasketballGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f33');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
       const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
@@ -155,6 +156,7 @@ class Home extends Component {
       const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
       const areAnyMlsGamesInProgress = getAreAnyGamesInProgress(mlsGames);
       const areAnyWomensCollegeBasketballGamesInProgress = getAreAnyGamesInProgress(womensCollegeBasketballGames);
+      const areAnyMensCollegeBasketballGamesInProgress = getAreAnyGamesInProgress(mensCollegeBasketballGames);
 
       const nflStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f10', nflGames);
       const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', ncaafGames);
@@ -166,6 +168,7 @@ class Home extends Component {
       const mmaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f27', mmaMatches);
       const mlsStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f29', mlsGames);
       const womensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f31', womensCollegeBasketballGames);
+      const mensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f33', mensCollegeBasketballGames);
 
       return (
         <div className="fade-in">
@@ -356,11 +359,11 @@ class Home extends Component {
                       onClick={() => {this.navigateTo('/scoreboards/ncaaw')}}>
                       MENS COLLEGE BASKETBALL
                       {
-                        areAnyWomensCollegeBasketballGamesInProgress &&
+                        areAnyMensCollegeBasketballGamesInProgress &&
                         <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#0048BA'}}></div>
                       }
                   </Button>
-                  {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}
+                  {mensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={mensCollegeBasketballStartDateTime}/>}
                 </Grid>
               }
               {
