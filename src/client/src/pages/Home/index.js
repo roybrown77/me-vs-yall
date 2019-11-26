@@ -356,7 +356,7 @@ class Home extends Component {
                   <Button 
                       variant="outlined" 
                       style={{...styles.button, color: '#0048BA'}} 
-                      onClick={() => {this.navigateTo('/scoreboards/ncaaw')}}>
+                      onClick={() => {this.navigateTo('/scoreboards/ncaam')}}>
                       MENS COLLEGE BASKETBALL
                       {
                         areAnyMensCollegeBasketballGamesInProgress &&
