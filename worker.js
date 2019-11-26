@@ -142,7 +142,7 @@ function onMessage(data) {
       try {
         updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
       } catch(err) {
-        isUpdateNbaScoresRunning = false;
+        isUpdateBasketballScoresRunning = false;
         console.log('updateNbaScores error: ' + err.message);
       }
       break;
@@ -162,6 +162,24 @@ function onMessage(data) {
       } catch(err) {
         isUpdateWorldFootballScoresRunning = false;
         console.log('updateMLSScores error: ' + err.message);
+      }
+      break;
+    case 'updateNCAAWGames': 
+      console.log('updating womens college basketball games');
+      try {
+        updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+      } catch(err) {
+        isUpdateBasketballScoresRunning = false;
+        console.log('updateNCAAWGames error: ' + err.message);
+      }
+      break;
+    case 'updateNCAAMGames': 
+      console.log('updating mens college basketball games');
+      try {
+        updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+      } catch(err) {
+        isUpdateBasketballScoresRunning = false;
+        console.log('updateNCAAMGames error: ' + err.message);
       }
       break;
     default:

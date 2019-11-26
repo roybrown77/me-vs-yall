@@ -278,7 +278,7 @@ const backupData = async () => {
 
 //     try {
 //       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
-//         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
+//         (divider % 3 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
 //         //updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
 //       }
 //     } catch(err) {
@@ -300,7 +300,7 @@ const backupData = async () => {
 
 //     try {
 //       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
-//         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
+//         (divider % 4 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
 //         //updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
 //       }
 //     } catch(err) {

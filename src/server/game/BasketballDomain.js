@@ -65,11 +65,7 @@ const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, ye
 // console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
 // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
-const updateBasketballScores = async () => {
-  const message = 'updateNbaScores';
-  const leagueId = '59723313734d1d6202a85f19';
-  const year = 2019;
-
+const updateBasketballScores = async ({leagueId, year, message, url, teams}) => {
   if (isUpdateBasketballScoresRunning) {
     console.log(`${message} already running.`)
     return;
@@ -82,9 +78,9 @@ const updateBasketballScores = async () => {
     isGameOver: {
       $ne: true
     },
-    startDateTime: {
-      $lte: time,
-    },
+    // startDateTime: {
+    //   $lte: time,
+    // },
     year: year
   };
 
@@ -99,10 +95,12 @@ const updateBasketballScores = async () => {
 
   isUpdateBasketballScoresRunning = true;
 
+  const root = 'scoreboard basketball';
+
   const scores = await getScores({
     message, 
-    root: 'scoreboard basketball',
-    url: 'http://www.espn.com/nba/scoreboard',
+    root,
+    url,
     livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
@@ -119,7 +117,7 @@ const updateBasketballScores = async () => {
     message,
     games,
     scores,
-    teams: nbaTeams
+    teams
   });
 
   isUpdateBasketballScoresRunning = false;

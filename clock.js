@@ -69,6 +69,18 @@ const JOBS = [{  // You could store these jobs in a database
   message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
   cronTime: '*/20 * * * * *',
   repeat: true
+},
+{ 
+  name: "Cron process 6",
+  message:  {taskName: 'updateNCAAWGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f31', year: 2019},  // message in json format
+  cronTime: '*/17 * * * * *',
+  repeat: true
+},
+{ 
+  name: "Cron process 7",
+  message:  {taskName: 'updateNCAAMGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f33', year: 2019},  // message in json format
+  cronTime: '*/12 * * * * *',
+  repeat: true
 }];
 
 //Create a new connection manager from AMQP
@@ -266,6 +278,60 @@ const sendMessage = async (data) => {
 
       if ((games || []).length === 0) {
         console.log(`${message.taskName} all scores have been updated.`);
+        return;
+      }
+    }
+  }
+
+  if (message.leagueId === '59723313734d1d6202a85f31') {
+    if (monthDay > 415 && monthDay < 1015) {
+      console.log('new womens college basketball games will be loaded during season.');
+      return;
+    } else {
+      const time = moment().add(30, 'minutes').toISOString();
+
+      const search = {
+        leagueId: mongoose.Types.ObjectId(message.leagueId),
+        isGameOver: {
+          $ne: true
+        },
+        startDateTime: {
+          $lte: time,
+        },
+        year: message.year
+      };
+
+      const games = await gameRepository.find(search);
+
+      if ((games || []).length === 0) {
+        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
+        return;
+      }
+    }
+  }
+
+  if (message.leagueId === '59723313734d1d6202a85f33') {
+    if (monthDay > 415 && monthDay < 1015) {
+      console.log('new mens college basketball games will be loaded during season.');
+      return;
+    } else {
+      const time = moment().add(30, 'minutes').toISOString();
+
+      const search = {
+        leagueId: mongoose.Types.ObjectId(message.leagueId),
+        isGameOver: {
+          $ne: true
+        },
+        startDateTime: {
+          $lte: time,
+        },
+        year: message.year
+      };
+
+      const games = await gameRepository.find(search);
+
+      if ((games || []).length === 0) {
+        console.log(`${message.taskName} all scores have been updated or games are not 30 minutes away.`);
         return;
       }
     }
