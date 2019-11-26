@@ -1978,6 +1978,38 @@ const ncaaTeams = [
         shortLocation: "SDAK",
         name: "Coyotes",
         color: '#AD0000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a7",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Monmouth",
+        shortLocation: "MONM",
+        name: "Hawks",
+        color: '#041E42'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a8",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Pepperdine",
+        shortLocation: "PEPP",
+        name: "Waves",
+        color: '#EE7624'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90a9",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UAB",
+        shortLocation: "UAB",
+        name: "Blazers",
+        color: '#006341'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90aa",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Winthrop",
+        shortLocation: "WIN",
+        name: "Eagles",
+        color: '#872434'
     }
 ];
 
@@ -2953,7 +2985,6 @@ const getGames = async ({
     isStart = true
 }) => {
   let games = [];
-  
   let browser;
   let page;
   
@@ -2964,6 +2995,7 @@ const getGames = async ({
         width: 1500,
         height: 1000
       },
+      headless: true,
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true
@@ -2982,7 +3014,7 @@ const getGames = async ({
 
     await page.goto(url,{timeout:15000, waitUntil: 'domcontentloaded'});
 
-    await page.waitForSelector('#events', {visible: true});
+    await page.waitForSelector('#events',{visible: true});
 
     const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;

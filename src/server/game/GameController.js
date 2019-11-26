@@ -11,7 +11,7 @@ const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 
 // const {
-//   loadWorldFootballLeagueGames,
+//   loadWorldFootballGames,
 //   updateWorldFootballScores,
 //   isLoadWorldFootballGamesRunning,
 //   isUpdateWorldFootballScoresRunning, 
@@ -171,7 +171,7 @@ const backupData = async () => {
 //       if ([1,2,3,4,5].includes(currentWeekDay) || 
 //         ([6,0].includes(currentWeekDay) && hoursOffset >= 11 && hoursOffset <= 16) ||
 //         (divider % 5 === 0 || divider % 13 === 0 && [6,0].includes(currentWeekDay) && hoursOffset > 16)) {
-//         updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+//         //updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
 //       }
 //     } catch(err) {
 //       isUpdateWorldFootballScoresRunning = false;
@@ -192,7 +192,7 @@ const backupData = async () => {
 
 //     try {
 //       if (divider % 7 === 0 || divider % 11 === 0) {
-//         updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+//         //updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
 //       }
 //     } catch(err) {
 //       isUpdateWorldFootballScoresRunning = false;
@@ -204,7 +204,7 @@ const backupData = async () => {
 //     console.log('new ncaaf games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadAmericanFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/13', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
+//       //loadAmericanFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/14', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
 //     } catch(err) {
 //       isLoadAmericanFootballGamesRunning = false;
 //       console.log('loadNCAAFGames error: ' + err.message);
@@ -213,7 +213,7 @@ const backupData = async () => {
 //     try {
 //       if ((hoursOffset < 16 && [0].includes(currentWeekDay)) || 
 //         (hoursOffset > 15 && [5,6].includes(currentWeekDay))) {
-//         updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+//         //updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
 //       }
 //     } catch(err) {
 //       isUpdateAmericanFootballScoresRunning = false;
@@ -225,7 +225,7 @@ const backupData = async () => {
 //     console.log('new nfl games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadAmericanFootballGames({message: 'loadAmericanFootballGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/12', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+//       //loadAmericanFootballGames({message: 'loadAmericanFootballGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/13', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
 //     } catch(err) {
 //       isLoadAmericanFootballGamesRunning = false;
 //       console.log('loadNflGames error: ' + err.message);
@@ -235,7 +235,7 @@ const backupData = async () => {
 //       if (([1,12].includes(month) && [6].includes(currentWeekDay)) || 
 //         ([0,1,4].includes(currentWeekDay)) || 
 //         (hoursOffset < 16 && [2,5].includes(currentWeekDay))) {
-//         updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+//         //updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
 //       }
 //     } catch(err) {
 //       isUpdateAmericanFootballScoresRunning = false;
@@ -247,8 +247,8 @@ const backupData = async () => {
 //     console.log('new nba games will be loaded during season.');
 //   } else {
 //     try {
-//       //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-//       //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+//       //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+//       //loadBasketballGames({dayCount: 6, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
 //     } catch(err) {
 //       isLoadBasketballGamesRunning = false;
 //       console.log('loadNbaGames error: ' + err.message);
@@ -257,11 +257,55 @@ const backupData = async () => {
 //     try {
 //       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
 //         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
-//         updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+//         //updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
 //       }
 //     } catch(err) {
 //       isUpdateBasketballScoresRunning = false;
 //       console.log('updateNbaGames error: ' + err.message);
+//     }
+//   }
+
+//   if (monthDay > 415 && monthDay < 1015) {
+//     console.log('new ncaa womens basketball games will be loaded during season.');
+//   } else {
+//     try {
+//       //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'loadNCAAWGames', baseUrl: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//       //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'loadNCAAWGames', baseUrl: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//     } catch(err) {
+//       isLoadBasketballGamesRunning = false;
+//       console.log('loadNCAAWGames error: ' + err.message);
+//     }
+
+//     try {
+//       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
+//         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
+//         //updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//       }
+//     } catch(err) {
+//       isUpdateBasketballScoresRunning = false;
+//       console.log('updateNCAAWGames error: ' + err.message);
+//     }
+//   }
+
+//   if (monthDay > 415 && monthDay < 1015) {
+//     console.log('new ncaa mens basketball games will be loaded during season.');
+//   } else {
+//     try {
+//       loadBasketballGames({dayCount: 3, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//       //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//     } catch(err) {
+//       isLoadBasketballGamesRunning = false;
+//       console.log('loadNCAAMGames error: ' + err.message);
+//     }
+
+//     try {
+//       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
+//         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
+//         //updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//       }
+//     } catch(err) {
+//       isUpdateBasketballScoresRunning = false;
+//       console.log('updateNCAAMGames error: ' + err.message);
 //     }
 //   }
 

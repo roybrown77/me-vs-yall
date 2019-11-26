@@ -332,16 +332,32 @@ class Home extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#E52A34'}} 
+                      style={{...styles.button, color: '#5D8AA8'}} 
                       onClick={() => {this.navigateTo('/scoreboards/ncaaw')}}>
                       WOMENS COLLEGE BASKETBALL
                       {
                         areAnyWomensCollegeBasketballGamesInProgress &&
-                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#E52A34'}}></div>
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#5D8AA8'}}></div>
+                      }
+                  </Button>
+                  {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, color: '#0048BA'}} 
+                      onClick={() => {this.navigateTo('/scoreboards/ncaaw')}}>
+                      MENS COLLEGE BASKETBALL
+                      {
+                        areAnyWomensCollegeBasketballGamesInProgress &&
+                        <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#0048BA'}}></div>
                       }
                   </Button>
                   {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}

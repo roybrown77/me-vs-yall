@@ -74,11 +74,11 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
     return;
   }
 
-  console.log(`${message} formatting: ${JSON.stringify(games)}`);
+  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = formatGames({message, games, leagueId, year, teams});
 
-  console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
+  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
