@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 
 import Divider from '@material-ui/core/Divider';
 
@@ -351,6 +352,7 @@ const stats = [
 
 class OfTheWeek extends Component {
   componentDidMount() {
+      ReactGA.ga('send', 'pageview', '/oftheweek');
       window.scrollTo(0, 0);
   }
   

@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {createBrowserHistory} from 'history';
+import ReactGA from 'react-ga';
 
 import get from 'lodash/get';
 
@@ -119,8 +120,9 @@ const instructions = [
 
 class Home extends Component {
     componentDidMount() {
+      ReactGA.ga('send', 'pageview', '/');
       window.scrollTo(0, 0);
-        this.props.loadGamesInProgress();
+      this.props.loadGamesInProgress();
     }
 
     gram = () => {

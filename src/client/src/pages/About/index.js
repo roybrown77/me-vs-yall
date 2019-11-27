@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 
 import PageContainer from '../PageContainer';
 
 class About extends Component {
+    componentDidMount() {
+      ReactGA.ga('send', 'pageview', '/about');
+      window.scrollTo(0, 0);
+    }
+
     render() {
         return (
             <PageContainer>

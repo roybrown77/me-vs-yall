@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ReactGA from 'react-ga';
 
 import get from 'lodash/get';
 import last from 'lodash/last';
@@ -139,6 +140,8 @@ class Scoreboard extends Component {
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
 
+        ReactGA.ga('send', 'pageview', '/scoreboards/' + urlLeague.name);
+        
         this.props.loadScoreboard({
             leagueId: urlLeagueId,
             year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
@@ -194,6 +197,8 @@ class Scoreboard extends Component {
         const leagueFound = this.props.leagues.find(x=>x.id===league.key);
         const years = get(leagueFound,'years',[]);
         const year = last(years);
+
+        ReactGA.ga('send', 'pageview', '/scoreboards/' + leagueFound.name);
 
         this.props.loadScoreboard({
             leagueId: leagueFound.id,

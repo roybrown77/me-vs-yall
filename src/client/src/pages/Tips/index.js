@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -117,6 +118,7 @@ const stats = [
 
 class Tips extends Component {
   componentDidMount() {
+      ReactGA.ga('send', 'pageview', '/tips');
       window.scrollTo(0, 0);
   }
 

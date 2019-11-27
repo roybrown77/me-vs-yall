@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+import ReactGA from 'react-ga';
 
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
@@ -93,6 +94,11 @@ const items = [
 ];
 
 class Shop extends React.Component {
+  componentDidMount() {
+      ReactGA.ga('send', 'pageview', '/shop');
+      window.scrollTo(0, 0);
+  }
+
   render() {
     return (
       <PageContainer>
