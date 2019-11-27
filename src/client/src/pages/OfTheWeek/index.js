@@ -39,6 +39,13 @@ const styles = {
 
 const stats = [
   {
+    title: "STAT OF THE WEEK: WHAT'S WRONG WITH THE ATLANTA HAWKS?",
+    content: `The Atlanta Hawks are on a 7 game losing streak.  They haven't won since November 12th.  That was 2 weeks ago.`,
+    leagueName: 'NBA',
+    date: 'November 27, 2019',
+    author: 'Roy B.'
+  },
+  {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `San Francisco 49ers over Green Bay Packers`,
     leagueName: 'NFL',
