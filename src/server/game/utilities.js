@@ -2995,26 +2995,26 @@ const getGames = async ({
         width: 1500,
         height: 1000
       },
-      headless: true,
-      timeout: 15000,
-      pipe: true,
-      ignoreHTTPSErrors: true
+      // headless: true,
+      // timeout: 15000,
+      // pipe: true,
+      // ignoreHTTPSErrors: true
     });
 
     page = await browser.newPage();
 
-    await page.setRequestInterception(true);
+    // await page.setRequestInterception(true);
 
-    page.on('request', interceptedRequest => {
-      if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-        interceptedRequest.abort();
-      else
-        interceptedRequest.continue();
-    });
+    // page.on('request', interceptedRequest => {
+    //   if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
+    //     interceptedRequest.abort();
+    //   else
+    //     interceptedRequest.continue();
+    // });
 
-    await page.goto(url,{timeout:15000, waitUntil: 'domcontentloaded'});
+    await page.goto(url/*,{timeout:15000, waitUntil: 'domcontentloaded'}*/);
 
-    await page.waitForSelector('#events',{visible: true});
+    await page.waitForSelector('#events'/*,{visible: true}*/);
 
     const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
