@@ -60,8 +60,8 @@ const styles = {
     width:'12px', 
     height: '12px', 
     position: 'absolute',
-    right: '8px',
-    bottom: '8px'
+    right: '4px',
+    bottom: '4px'
   },
   footer: {
     fontWeight: '500',
