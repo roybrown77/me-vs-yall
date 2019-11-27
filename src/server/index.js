@@ -86,18 +86,18 @@ if (nodeEnv === "production") {
 }
 
 const server = app.listen(app.get("port"), () => {
-    console.log(`[HTTP] - find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+    console.log(`[WEB_SERVER] - http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
 });
 
 const gracefulExitSIGINT = () => {
   console.info(`SIGINT signal received.`);
   
   server.close(() => {
-    console.log('[HTTP] - server closed.');
+    console.log('[WEB_SERVER] - closed through app termination SIGINT.');
   });
 
   mongoose.connection.close(function () {
-    console.log('[MONGODB] - disconnected through app termination.');
+    console.log('[MONGODB] - disconnected through app termination SIGINT.');
   });
 };
 
@@ -105,11 +105,11 @@ const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
   
   server.close(() => {
-    console.log('[HTTP] - server closed.');
+    console.log('[WEB_SERVER] - closed through app termination SIGTERM.');
   });
 
   mongoose.connection.close(function () {
-    console.log('[MONGODB] - disconnected through app termination.');
+    console.log('[MONGODB] - disconnected through app termination SIGTERM.');
   });
 };
 
