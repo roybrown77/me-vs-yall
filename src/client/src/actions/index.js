@@ -9,7 +9,8 @@ import last from 'lodash/last';
 import { CALL_API, Schemas } from '../middleware/api';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
 
-const history = createBrowserHistory({forceRefresh: true});
+const history = createBrowserHistory({forceRefresh: false});
+const refreshHistory = createBrowserHistory({forceRefresh: true});
 
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
 export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
@@ -110,7 +111,7 @@ export const loadUser = () => (dispatch, getState) => {
   getUserProfile((err, profile) => {
     localStorage.setItem('user', JSON.stringify(profile));
     dispatch({type: 'LOGIN_SUCCESS', user: profile});
-    history.push('/scoreboards/' + leagueName);
+    refreshHistory.push('/scoreboards/' + leagueName);
   });
 };
 
