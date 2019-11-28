@@ -14,10 +14,12 @@ router.post('/users/', function (req, res) {
         return res.status(401).send();
     }
 
+    const split = get(user, 'email').split('@')[0];
+
     const userToUpsert = {
             authServiceId: get(user, 'sub'),
             email: get(user, 'email'),
-            firstName: get(user, 'given_name'),
+            firstName: get(user, 'given_name') || split.substring(1, split.length/2),
             lastName: get(user, 'family_name'),
             picture: get(user, 'picture'),
         };
