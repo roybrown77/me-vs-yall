@@ -8,5 +8,5 @@ module.exports = {
   	dbPassword: process.env.DB_PASSWORD,
   	dbName: process.env.DB_NAME,
   	queueUrl: process.env.CLOUDAMQP_URL || 'amqp://localhost',
-  	shouldUpdateGames: process.env.SHOULD_UPDATE_GAMES === 'true'
+  	shouldUpdateGames: process.env.SHOULD_UPDATE_GAMES_VIA_WEB_SERVER === 'true'
 };
