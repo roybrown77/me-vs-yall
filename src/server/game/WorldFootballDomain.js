@@ -129,8 +129,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   isUpdateWorldFootballScoresRunning = true;
 
   try {
-    console.log(`${message} 1`);
-
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       //headless: false,
@@ -143,8 +141,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       ignoreHTTPSErrors: true
     });
 
-     console.log(`${message} 2`);
-
     page = await browser.newPage();
 
     await page.setRequestInterception(true);
@@ -156,15 +152,9 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         interceptedRequest.continue();
     });
 
-     console.log(`${message} 3`);
-
     const url = `${baseUrl}${date}`;
 
-     console.log(`${message} 4`);
-
     await page.goto(url, {timeout: 15000, waitUntil: 'domcontentloaded'});
-
-     console.log(`${message} 5`);
 
     await page.waitForSelector('#events', {visible: true});
 

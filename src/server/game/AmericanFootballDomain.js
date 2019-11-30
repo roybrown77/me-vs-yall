@@ -57,8 +57,6 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
     return;
   }
 
-  console.log(`${message} starting.`);
-
   const time = moment().add(30, 'minutes').toISOString();
 
   const search = {
@@ -107,8 +105,6 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
     scores,
     teams
   });
-
-  console.log(`${message} ending.`);
 
   isUpdateAmericanFootballScoresRunning = false;
 };
