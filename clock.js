@@ -370,6 +370,20 @@ const sendMessage = async (data) => {
   //   }
   // }
 
+  const search = {
+    isGameOver: {
+      $ne: true
+    },
+    year: 2019
+  };
+
+  const games = await gameRepository.find(search);
+
+  if ((games || []).length === 0) {
+    console.log(`${message.taskName} all scores have been updated.`);
+    return;
+  }
+
   const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
   const spreadGames = games.filter(x=>hasGameStartedIn30Minutes(x.startDateTime) && spreadLeagues.includes(x.leagueId));
   const nonSpreadGames = games.filter(x=>!spreadLeagues.includes(x.leagueId));
