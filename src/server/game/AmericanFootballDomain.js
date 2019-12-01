@@ -51,11 +51,11 @@ const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) 
   isLoadAmericanFootballGamesRunning = false;
 };
 
-const updateAmericanFootballScores = async ({message, url, leagueId, year, teams}) => {
-  if (isUpdateAmericanFootballScoresRunning) {
-    console.log(`${message} already running.`)
-    return;
-  }
+const updateAmericanFootballScores = async ({page, message, url, leagueId, year, teams}) => {
+  // if (isUpdateAmericanFootballScoresRunning) {
+  //   console.log(`${message} already running.`)
+  //   return;
+  // }
 
   const time = moment().add(30, 'minutes').toISOString();
 
@@ -84,6 +84,7 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
   console.log(`${message} getting scores.`);
 
   const scores = await getScores({
+    page,
     message, 
     root: 'scoreboard football',
     url,

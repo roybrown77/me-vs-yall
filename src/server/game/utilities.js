@@ -3168,6 +3168,7 @@ const createGames = ({message, games}) => {
 };
 
 const getScores = async ({
+    page,
     message,
     url,
     root,
@@ -3190,23 +3191,23 @@ const getScores = async ({
     home='home'
 }) => {
   let scores = [];
-  let browser;
-  let page;
+  // let browser;
+  // let page;
 
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false
-      defaultViewport: {
-        width: 1500,
-        height: 1000
-      },
-      //timeout: 15000,
-      //pipe: true,
-      //ignoreHTTPSErrors: true
-    });
+  //try {
+    // browser = await puppeteer.launch({
+    //   args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    //   //headless: false
+    //   defaultViewport: {
+    //     width: 1500,
+    //     height: 1000
+    //   },
+    //   //timeout: 15000,
+    //   //pipe: true,
+    //   //ignoreHTTPSErrors: true
+    // });
 
-    page = await browser.newPage();
+    // page = await browser.newPage();
 
     // await page.setRequestInterception(true);
 
@@ -3365,13 +3366,13 @@ const getScores = async ({
       });
     }
 
-    await browser.close();
-  } catch(err) {
-    if (!!browser) {
-      await browser.close();
-    }
-    console.log(`${message} browser error: ${err.message}`);
-  }
+  //   await browser.close();
+  // } catch(err) {
+  //   if (!!browser) {
+  //     await browser.close();
+  //   }
+  //   console.log(`${message} browser error: ${err.message}`);
+  // }
 
   return scores;
 };

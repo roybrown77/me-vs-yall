@@ -89,11 +89,13 @@ const charCount = (s, c) => {
   return (s.match(new RegExp('\\d'+c[0], 'g')) || []).length;
 };
 
-const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, teams}) => {
-  if (isUpdateWorldFootballScoresRunning) {
-    console.log(`${message} already running.`)
-    return;
-  }
+const updateWorldFootballScores = async ({page, message, baseUrl, leagueId, year, teams}) => {
+  // if (isUpdateWorldFootballScoresRunning) {
+  //   console.log(`${message} already running.`)
+  //   return;
+  // }
+
+  const time = moment().toISOString();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -101,7 +103,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       $ne: true
     },
     startDateTime: {
-      $lt: moment().toISOString()
+      $lte: time,
     },
     year: year
   };
@@ -123,25 +125,25 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
   const date = moment(earliestStartDateTime).format('YYYYMMDD');
   let scores = [];
-  let browser;
-  let page;
+  // let browser;
+  // let page;
 
   isUpdateWorldFootballScoresRunning = true;
 
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false,
-      defaultViewport: {
-        width: 1500,
-        height: 1000
-      },
-      // timeout: 15000,
-      // pipe: true,
-      // ignoreHTTPSErrors: true
-    });
+  //try {
+    // browser = await puppeteer.launch({
+    //   args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    //   //headless: false,
+    //   defaultViewport: {
+    //     width: 1500,
+    //     height: 1000
+    //   },
+    //   // timeout: 15000,
+    //   // pipe: true,
+    //   // ignoreHTTPSErrors: true
+    // });
 
-    page = await browser.newPage();
+    // page = await browser.newPage();
 
     // await page.setRequestInterception(true);
 
@@ -237,13 +239,13 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       });
     }
 
-    await browser.close();
-  } catch(err) {
-    if (!!browser) {
-      await browser.close();
-    }
-    console.log(`${message} browser error: ${err.message}`);
-  }
+  //   await browser.close();
+  // } catch(err) {
+  //   if (!!browser) {
+  //     await browser.close();
+  //   }
+  //   console.log(`${message} browser error: ${err.message}`);
+  // }
 
   if (get({scores:scores},'scores',[]).length === 0) {
     isUpdateWorldFootballScoresRunning = false;
