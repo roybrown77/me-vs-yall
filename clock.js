@@ -380,7 +380,7 @@ const sendMessage = async (data) => {
   const games = await gameRepository.find(search);
 
   if ((games || []).length === 0) {
-    console.log(`${message.taskName} all scores have been updated.`);
+    console.log('all scores have been updated.');
     return;
   }
 
