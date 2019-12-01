@@ -65,11 +65,11 @@ const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, ye
 // console.log("startOfMarchMadness: " + new Date(startOfMarchMadness));
 // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
-const updateBasketballScores = async ({page, leagueId, year, message, url, teams}) => {
-  // if (isUpdateBasketballScoresRunning) {
-  //   console.log(`${message} already running.`)
-  //   return;
-  // }
+const updateBasketballScores = async ({leagueId, year, message, url, teams}) => {
+  if (isUpdateBasketballScoresRunning) {
+    console.log(`${message} already running.`)
+    return;
+  }
 
   const time = moment().add(30, 'minutes').toISOString();
 
@@ -98,7 +98,6 @@ const updateBasketballScores = async ({page, leagueId, year, message, url, teams
   const root = 'scoreboard basketball';
 
   const scores = await getScores({
-    page,
     message, 
     root,
     url,
