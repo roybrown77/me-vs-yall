@@ -43,16 +43,40 @@ const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 const JOBS = [
   {  // You could store these jobs in a database
     name: "Cron process 1",
-    message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
+    message: {queue: 'worker-queue'},  // message in json format
     cronTime: '1 * * * * *',
     repeat: true
   },
   { 
     name: "Cron process 2",
-    message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
-    cronTime: '1 * * * * *',
+    message: {queue: 'worker-queue'},  // message in json format
+    cronTime: '15 * * * * *',
     repeat: true
   },
+  {  // You could store these jobs in a database
+    name: "Cron process 3",
+    message: {queue: 'worker-queue'},  // message in json format
+    cronTime: '30 * * * * *',
+    repeat: true
+  },
+  { 
+    name: "Cron process 4",
+    message: {queue: 'worker-queue'},  // message in json format
+    cronTime: '45 * * * * *',
+    repeat: true
+  },
+  // {  // You could store these jobs in a database
+  //   name: "Cron process 1",
+  //   message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
+  //   cronTime: '*/5 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 2",
+  //   message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
+  //   cronTime: '*/10 * * * * *',
+  //   repeat: true
+  // },
   // { 
   //   name: "Cron process 3",
   //   message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
@@ -122,6 +146,13 @@ const startCronProcess = (jobs) => {
 
 const moment = require('moment-timezone');
 const gameRepository = require('./src/server/game/GameRepository');
+
+const hasGameStartedIn30Minutes = (dateTime) => {
+    const gameStartDateTime = moment(new Date(dateTime));
+    const currentDateTime = moment(new Date());
+    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    return difference <= 30;
+};
 
 const sendMessage = async (data) => {
   let message;
@@ -338,6 +369,19 @@ const sendMessage = async (data) => {
   //     }
   //   }
   // }
+
+  const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
+  const spreadGames = games.filter(x=>hasGameStartedIn30Minutes(x.startDateTime) && spreadLeagues.includes(x.leagueId));
+  const nonSpreadGames = games.filter(x=>!spreadLeagues.includes(x.leagueId));
+
+  console.log('spreadGames: ' + JSON.stringify(spreadGames.length));
+  console.log('nonSpreadGames: ' + JSON.stringify(nonSpreadGames.length));
+
+  if (spreadGames.length === 0 && nonSpreadGames.length === 0) {
+    console.log('spreadGames: ' + JSON.stringify(spreadGames.length));
+    console.log('nonSpreadGames: ' + JSON.stringify(nonSpreadGames.length));
+    return;
+  }
 
   let queue = message.queue || WORKER_QUEUE;
 
