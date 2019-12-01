@@ -39,6 +39,13 @@ const styles = {
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Denver Broncos over Los Angeles Chargers`,
+    leagueName: 'NFL',
+    date: 'December 1, 2019',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "STAT OF THE WEEK: WHAT'S WRONG WITH THE ATLANTA HAWKS?",
     content: `The Atlanta Hawks are on a 7 game losing streak.  They haven't won since November 12th.  That was 2 weeks ago.`,
     leagueName: 'NBA',
