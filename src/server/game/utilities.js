@@ -3473,7 +3473,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
             console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
-            //gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+            gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
         }
     });
 };
