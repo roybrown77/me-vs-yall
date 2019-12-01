@@ -139,7 +139,7 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
-const updateGames = () => {
+const updateGames = async () => {
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -158,6 +158,11 @@ const updateGames = () => {
   const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
   console.log('divider: ' + divider);
 
+  await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+  await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+  await updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+
   if (monthDay > 515 && monthDay < 801) {
     console.log('new premier games will be loaded during season.');
   } else {
@@ -173,7 +178,7 @@ const updateGames = () => {
       if ([1,2,3,4,5].includes(currentWeekDay) || 
         ([6,0].includes(currentWeekDay) && hoursOffset >= 11 && hoursOffset <= 16) ||
         (divider % 5 === 0 || divider % 13 === 0 && [6,0].includes(currentWeekDay) && hoursOffset > 16)) {
-        updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+        //updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
       }
     } catch(err) {
       isUpdateWorldFootballScoresRunning = false;
@@ -194,7 +199,7 @@ const updateGames = () => {
 
     try {
       if (divider % 7 === 0 || divider % 11 === 0) {
-        updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+        //updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
       }
     } catch(err) {
       isUpdateWorldFootballScoresRunning = false;
@@ -215,7 +220,7 @@ const updateGames = () => {
     try {
       if ((hoursOffset < 16 && [0].includes(currentWeekDay)) || 
         (hoursOffset > 15 && [5,6].includes(currentWeekDay))) {
-        updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+        //updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
       }
     } catch(err) {
       isUpdateAmericanFootballScoresRunning = false;
@@ -237,7 +242,7 @@ const updateGames = () => {
       if (([1,12].includes(month) && [6].includes(currentWeekDay)) || 
         ([0,1,4].includes(currentWeekDay)) || 
         (hoursOffset < 16 && [2,5].includes(currentWeekDay))) {
-        updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+        //updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
       }
     } catch(err) {
       isUpdateAmericanFootballScoresRunning = false;
@@ -259,7 +264,7 @@ const updateGames = () => {
     try {
       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
         (divider % 2 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
-        updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+        //updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
       }
     } catch(err) {
       isUpdateBasketballScoresRunning = false;
@@ -281,7 +286,7 @@ const updateGames = () => {
     try {
       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
         (divider % 3 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
-        updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+        //updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
       }
     } catch(err) {
       isUpdateBasketballScoresRunning = false;
@@ -303,7 +308,7 @@ const updateGames = () => {
     try {
       if (hoursOffset > 16 && [2,3].includes(currentWeekDay) || 
         (divider % 4 === 0 && ([0,1,4,5,6].includes(currentWeekDay)))) {
-        updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+        //updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
       }
     } catch(err) {
       isUpdateBasketballScoresRunning = false;
