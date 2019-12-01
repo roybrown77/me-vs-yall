@@ -40,48 +40,50 @@ try {
 
 const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
 
-const JOBS = [{  // You could store these jobs in a database
-  name: "Cron process 1",
-  message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
-  cronTime: '*/5 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 2",
-  message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
-  cronTime: '*/15 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 3",
-  message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
-  cronTime: '*/10 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 4",
-  message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
-  cronTime: '*/20 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 5",
-  message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
-  cronTime: '*/20 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 6",
-  message:  {taskName: 'updateNCAAWGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f31', year: 2019},  // message in json format
-  cronTime: '*/25 * * * * *',
-  repeat: true
-},
-{ 
-  name: "Cron process 7",
-  message:  {taskName: 'updateNCAAMGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f33', year: 2019},  // message in json format
-  cronTime: '*/15 * * * * *',
-  repeat: true
-}];
+const JOBS = [
+  {  // You could store these jobs in a database
+    name: "Cron process 1",
+    message: {taskName: 'updateNFLGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f10', year: 2019},  // message in json format
+    cronTime: '*/5 * * * * *',
+    repeat: true
+  },
+  // { 
+  //   name: "Cron process 2",
+  //   message:  {taskName: 'updateCollegeFootballGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f15', year: 2019},  // message in json format
+  //   cronTime: '*/15 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 3",
+  //   message:  {taskName: 'updateNBAGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f19', year: 2019},  // message in json format
+  //   cronTime: '*/10 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 4",
+  //   message:  {taskName: 'updatePremierLeagueGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f17', year: 2019},  // message in json format
+  //   cronTime: '*/20 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 5",
+  //   message:  {taskName: 'updateMLSGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f29', year: 2019},  // message in json format
+  //   cronTime: '*/20 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 6",
+  //   message:  {taskName: 'updateNCAAWGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f31', year: 2019},  // message in json format
+  //   cronTime: '*/25 * * * * *',
+  //   repeat: true
+  // },
+  // { 
+  //   name: "Cron process 7",
+  //   message:  {taskName: 'updateNCAAMGames', queue: 'worker-queue', leagueId: '59723313734d1d6202a85f33', year: 2019},  // message in json format
+  //   cronTime: '*/15 * * * * *',
+  //   repeat: true
+  // }
+];
 
 //Create a new connection manager from AMQP
 console.log('[AMQP] - Connecting...');
