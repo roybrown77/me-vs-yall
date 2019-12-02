@@ -43,7 +43,9 @@ const stats = [
     content: `Denver Broncos over Los Angeles Chargers`,
     leagueName: 'NFL',
     date: 'December 1, 2019',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "STAT OF THE WEEK: WHAT'S WRONG WITH THE ATLANTA HAWKS?",
