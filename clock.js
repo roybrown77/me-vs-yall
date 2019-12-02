@@ -147,11 +147,11 @@ const startCronProcess = (jobs) => {
 const moment = require('moment-timezone');
 const gameRepository = require('./src/server/game/GameRepository');
 
-const hasGameStartedIn30Minutes = (dateTime) => {
+const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
     const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 30;
+    return difference <= minutesUntil;
 };
 
 const sendMessage = async (data) => {
@@ -379,7 +379,35 @@ const sendMessage = async (data) => {
 
   const games = await gameRepository.find(search);
 
-  if ((games || []).length === 0) {
+  const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
+  const exemptLeagues = ['59723313734d1d6202a85f25','59723313734d1d6202a85f27'];
+  
+  let numberOfSpreadGames = 0;
+  let numberOfNonSpreadGames = 0;
+
+  console.log('game.length: ' + JSON.stringify(games.length));
+
+  for (let i = 0; i < games.length; i++) {
+    let game = games[i];
+    let leagueId = game.leagueId.toString();
+
+    if (spreadLeagues.includes(leagueId) && 
+      !exemptLeagues.includes(leagueId) &&
+      hasGameStartedInXMinutes(game.startDateTime, 30)) {
+      numberOfSpreadGames += 1;
+    }
+
+    if (!spreadLeagues.includes(leagueId) && 
+      !exemptLeagues.includes(leagueId) &&
+      hasGameStartedInXMinutes(game.startDateTime, 0)) {
+      numberOfNonSpreadGames += 1;
+    }
+  }
+
+  console.log('numberOfSpreadGames: ' + numberOfSpreadGames);
+  console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
+
+  if (numberOfSpreadGames === 0 && numberOfNonSpreadGames === 0) {
     console.log('all scores have been updated.');
     return;
   }

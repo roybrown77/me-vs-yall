@@ -139,11 +139,11 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
-const hasGameStartedIn30Minutes = (dateTime) => {
+const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
     const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 30;
+    return difference <= minutesUntil;
 };
 
 const updateGames = async () => {
@@ -180,13 +180,34 @@ const updateGames = async () => {
   }
 
   const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
-  const spreadGames = games.filter(x=>hasGameStartedIn30Minutes(x.startDateTime) && spreadLeagues.includes(x.leagueId));
-  const nonSpreadGames = games.filter(x=>!spreadLeagues.includes(x.leagueId));
+  const exemptLeagues = ['59723313734d1d6202a85f25','59723313734d1d6202a85f27'];
+  
+  let numberOfSpreadGames = 0;
+  let numberOfNonSpreadGames = 0;
 
-  console.log('spreadGames: ' + JSON.stringify(spreadGames.length));
-  console.log('nonSpreadGames: ' + JSON.stringify(nonSpreadGames.length));
+  console.log('game.length: ' + JSON.stringify(games.length));
 
-  if (spreadGames.length > 0 || nonSpreadGames.length > 0) {
+  for (let i = 0; i < games.length; i++) {
+    let game = games[i];
+    let leagueId = game.leagueId.toString();
+
+    if (spreadLeagues.includes(leagueId) && 
+      !exemptLeagues.includes(leagueId) &&
+      hasGameStartedInXMinutes(game.startDateTime, 30)) {
+      numberOfSpreadGames += 1;
+    }
+
+    if (!spreadLeagues.includes(leagueId) && 
+      !exemptLeagues.includes(leagueId) &&
+      hasGameStartedInXMinutes(game.startDateTime, 0)) {
+      numberOfNonSpreadGames += 1;
+    }
+  }
+
+  console.log('numberOfSpreadGames: ' + numberOfSpreadGames);
+  console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
+
+  if (numberOfSpreadGames > 0 || numberOfNonSpreadGames > 0) {
     await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
     await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
     await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
