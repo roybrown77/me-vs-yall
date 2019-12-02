@@ -192,7 +192,6 @@ const updateGames = async () => {
     let leagueId = game.leagueId.toString();
 
     if (spreadLeagues.includes(leagueId) && 
-      !exemptLeagues.includes(leagueId) &&
       hasGameStartedInXMinutes(game.startDateTime, 30)) {
       numberOfSpreadGames += 1;
     }
