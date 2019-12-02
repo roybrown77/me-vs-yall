@@ -185,7 +185,7 @@ const updateGames = async () => {
   let numberOfSpreadGames = 0;
   let numberOfNonSpreadGames = 0;
 
-  console.log('game.length: ' + JSON.stringify(games.length));
+  console.log('games.length: ' + JSON.stringify(games.length));
 
   for (let i = 0; i < games.length; i++) {
     let game = games[i];
