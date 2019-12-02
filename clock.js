@@ -412,19 +412,6 @@ const sendMessage = async (data) => {
     return;
   }
 
-  const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
-  const spreadGames = games.filter(x=>hasGameStartedIn30Minutes(x.startDateTime) && spreadLeagues.includes(x.leagueId));
-  const nonSpreadGames = games.filter(x=>!spreadLeagues.includes(x.leagueId));
-
-  console.log('spreadGames: ' + JSON.stringify(spreadGames.length));
-  console.log('nonSpreadGames: ' + JSON.stringify(nonSpreadGames.length));
-
-  if (spreadGames.length === 0 && nonSpreadGames.length === 0) {
-    console.log('spreadGames: ' + JSON.stringify(spreadGames.length));
-    console.log('nonSpreadGames: ' + JSON.stringify(nonSpreadGames.length));
-    return;
-  }
-
   let queue = message.queue || WORKER_QUEUE;
 
   let senderChannelWrapper = connection.createChannel({
