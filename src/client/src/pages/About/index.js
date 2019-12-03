@@ -23,10 +23,6 @@ class About extends Component {
                     prepared me for my next job in addition to growing confidence I can build something great we can use.
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Since then we've added free pick games for Premier League, NBA, NCAAF, MMA, Boxing, MLS and in 
-                    the future X Games, World Cup and much more women's leagues.
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
                     This app was built for the love of sports, competition and the fighting spirit.  Enjoy!  :D
                 </div>
                 <div style={{textAlign: 'left', padding: '12px'}}>

@@ -141,7 +141,7 @@ class Home extends Component {
       const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
-      const xGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f23');
+      //const xGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f23');
       const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
       const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
       const mlsGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f29');
@@ -153,7 +153,7 @@ class Home extends Component {
       const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
-      const areAnyXGamesInProgress = getAreAnyGamesInProgress(xGames);
+      //const areAnyXGamesInProgress = getAreAnyGamesInProgress(xGames);
       const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
       const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
       const areAnyMlsGamesInProgress = getAreAnyGamesInProgress(mlsGames);
@@ -165,7 +165,7 @@ class Home extends Component {
       const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
       const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
-      const xStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f23', xGames);
+      //const xStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f23', xGames);
       const boxingStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f25', boxingMatches);
       const mmaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f27', mmaMatches);
       const mlsStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f29', mlsGames);
@@ -398,7 +398,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
