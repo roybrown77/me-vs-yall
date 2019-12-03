@@ -206,6 +206,10 @@ const updateGames = async () => {
   console.log('numberOfSpreadGames: ' + numberOfSpreadGames);
   console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
 
+  //loadAmericanFootballGames({message: 'loadAmericanFootballGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/14', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  
   if (numberOfSpreadGames > 0 || numberOfNonSpreadGames > 0) {
     await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
     await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
