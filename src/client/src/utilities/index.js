@@ -6,8 +6,8 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
-import polamalu from '../styles/images/polamalu.jpg';
-import mack from '../styles/images/mack.jpg';
+import mccaffrey from '../styles/images/mccaffrey.jpg';
+import patriots from '../styles/images/patriots-interception.jpg';
 import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
 import masvidalDiaz from '../styles/images/masvidal-diaz.png';
@@ -24,7 +24,7 @@ const vegasPictures = [
 const getImage = (screen, leagueId) => {
     switch (leagueId) {
         case '59723313734d1d6202a85f10':
-        return screen === 'scores' ? {picture: polamalu, source: 'Getty Images'} : {picture: mack, source: 'ChicagoBears.com'};
+        return screen === 'scores' ? {picture: mccaffrey, source: 'David T. Foster III / dfoster@charlotteobserver.com'} : {picture: patriots, source: ' Matthew J. Lee / BostonGlobe.com'};
         case '59723313734d1d6202a85f15':
           return screen === 'scores' ? {picture: reggie, source: 'Lucy Nicholson / REUTERS'} : {picture: trevor, source: 'Christian Petersen / Getty Images'};
         case '59723313734d1d6202a85f17':
