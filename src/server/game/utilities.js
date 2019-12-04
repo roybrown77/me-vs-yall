@@ -2010,6 +2010,22 @@ const ncaaTeams = [
         shortLocation: "WIN",
         name: "Eagles",
         color: '#872434'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90ab",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Louisiana",
+        shortLocation: "UL",
+        name: "Ragin’ Cajuns",
+        color: '#CE181E'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90ac",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Army",
+        shortLocation: "ARMY",
+        name: "Black Knights",
+        color: '#D4BF91'
     }
 ];
 
