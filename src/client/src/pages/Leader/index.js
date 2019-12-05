@@ -184,6 +184,14 @@ class Leader extends Component {
     }
 
     poll() {
+        const leagueName = window.location.pathname.split('/')[2];
+        const leagueFound = this.props.leagues.find(x=>x.name === leagueName);
+
+        if (!leagueFound) {
+            this.resetPoll();
+            return;
+        }
+        
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
 
         if (!areAnyGamesInProgress) return;
