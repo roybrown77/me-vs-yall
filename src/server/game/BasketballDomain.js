@@ -1,9 +1,11 @@
-let isLoadBasketballGamesRunning = false;
-let isUpdateBasketballScoresRunning = false;
-
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const puppeteer = require('puppeteer');
+
+const get = require('lodash/get');
+const set = require('lodash/set');
+const orderBy = require('lodash/orderBy');
+const isNaN = require('lodash/isNaN');
 
 const gameRepository = require('./GameRepository');
 
@@ -16,10 +18,8 @@ const {
   updateGames
 } = require('./utilities');
 
-const get = require('lodash/get');
-const set = require('lodash/set');
-const orderBy = require('lodash/orderBy');
-const isNaN = require('lodash/isNaN');
+let isLoadBasketballGamesRunning = false;
+let isUpdateBasketballScoresRunning = false;
 
 const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
   if (isLoadBasketballGamesRunning || isUpdateBasketballScoresRunning) {

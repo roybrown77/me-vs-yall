@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
     startDateTime: 'date',
@@ -14,4 +15,5 @@ const GameSchema = new mongoose.Schema({
     gameName: String,
     hashCompetitors: String
 });
+
 module.exports = mongoose.model('Game', GameSchema);

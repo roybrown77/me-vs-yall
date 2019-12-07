@@ -1,3 +1,5 @@
+const puppeteer = require('puppeteer');
+const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const get = require('lodash/get');
@@ -6,8 +8,6 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 const sample = require('lodash/sample');
 
-const puppeteer = require('puppeteer');
-const mongoose = require('mongoose');
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
@@ -3088,6 +3088,11 @@ const getGames = async ({
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, spreadSelector.replace("INDEX", i));
 
+      const gameName = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, gameNameSelector.replace("INDEX", i));
+
       if (!startDateTime) {
         console.log(`${message} getGames no startDateTime`);
       } else {
@@ -3098,6 +3103,7 @@ const getGames = async ({
              amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
              spreadDateTime: moment().toISOString()
             },
+            gameName: gameName,
             awayTeam: (awayTeam || '').trim(),
             awayRecord: awayRecord,
             awayRank: parseInt(awayRank).toString() === 'NaN' ? null : parseInt(awayRank),
@@ -3143,6 +3149,7 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                   leagueId: mongoose.Types.ObjectId(leagueId),
                   year: year,
                   startDateTime: game.startDateTime,
+                  gameName: game.gameName,
                   // spread: {
                   //  teamId: get(spreadTeam,'_id'),
                   //  amount: get(game,'spread.amount', 0),

@@ -1,9 +1,15 @@
-let isLoadWorldFootballGamesRunning = false;
-let isUpdateWorldFootballScoresRunning = false;
-
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const puppeteer = require('puppeteer');
+
+const omit = require('lodash/omit');
+const get = require('lodash/get');
+const set = require('lodash/set');
+const uniq = require('lodash/uniq');
+const transform = require('lodash/transform');
+const groupBy = require('lodash/groupBy');
+const some = require('lodash/some');
+const sortBy = require('lodash/sortBy');
 
 const gameRepository = require('./GameRepository');
 
@@ -16,14 +22,8 @@ const {
   hasGameStarted
 } = require('./utilities');
 
-const omit = require('lodash/omit');
-const get = require('lodash/get');
-const set = require('lodash/set');
-const uniq = require('lodash/uniq');
-const transform = require('lodash/transform');
-const groupBy = require('lodash/groupBy');
-const some = require('lodash/some');
-const sortBy = require('lodash/sortBy');
+let isLoadWorldFootballGamesRunning = false;
+let isUpdateWorldFootballScoresRunning = false;
 
 const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
   if (isLoadWorldFootballGamesRunning || isUpdateWorldFootballScoresRunning) {

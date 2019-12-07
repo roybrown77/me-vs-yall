@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
     year: Number,
@@ -9,4 +10,5 @@ const GameSchema = new mongoose.Schema({
     prizes: Array,
     isRollup: mongoose.Schema.Types.Boolean
 });
+
 module.exports = mongoose.model('Game_Week', GameSchema);
