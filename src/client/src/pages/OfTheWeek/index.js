@@ -43,7 +43,9 @@ const stats = [
     content: `Tampa Bay Buccaneers over Indianapolis Colts`,
     leagueName: 'NFL',
     date: 'December 8, 2019',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
