@@ -2026,6 +2026,54 @@ const ncaaTeams = [
         shortLocation: "ARMY",
         name: "Black Knights",
         color: '#D4BF91'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90ad",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Milwaukee",
+        shortLocation: "MILW",
+        name: "Panthers",
+        color: '#FFBD00'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90ae",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Butler",
+        shortLocation: "BUT",
+        name: "Bulldogs",
+        color: '#13294B'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90af",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Northern Iowa",
+        shortLocation: "UNI",
+        name: "Panthers",
+        color: '#4B116F'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b0",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Omaha",
+        shortLocation: "OMA",
+        name: "Mavericks",
+        color: '#D71920'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b1",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "UNC Wilmington",
+        shortLocation: "UNCW",
+        name: "Seahawks",
+        color: '#7AC142'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b2",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Mercer",
+        shortLocation: "MER",
+        name: "Bears",
+        color: '#F76800'
     }
 ];
 
@@ -3011,22 +3059,22 @@ const getGames = async ({
         width: 1500,
         height: 1000
       },
-      // headless: true,
-      // timeout: 15000,
-      // pipe: true,
-      // ignoreHTTPSErrors: true
+      headless: true,
+      timeout: 15000,
+      pipe: true,
+      ignoreHTTPSErrors: true
     });
 
     page = await browser.newPage();
 
-    // await page.setRequestInterception(true);
+    await page.setRequestInterception(true);
 
-    // page.on('request', interceptedRequest => {
-    //   if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-    //     interceptedRequest.abort();
-    //   else
-    //     interceptedRequest.continue();
-    // });
+    page.on('request', interceptedRequest => {
+      if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
+        interceptedRequest.abort();
+      else
+        interceptedRequest.continue();
+    });
 
     await page.goto(url/*,{timeout:15000, waitUntil: 'domcontentloaded'}*/);
 
