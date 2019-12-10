@@ -206,10 +206,10 @@ const updateGames = async () => {
   console.log('numberOfSpreadGames: ' + numberOfSpreadGames);
   console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
 
-  //loadAmericanFootballGames({message: 'loadAmericanFootballGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/14', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+  //loadAmericanFootballGames({message: 'loadAmericanFootballGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/15', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
   //loadAmericanFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/15', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
-  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
   //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
  
@@ -400,7 +400,7 @@ const updateGames = async () => {
 
 router.get('/games', function (req, res) {
   if (shouldUpdateGames) {
-    updateGames();  
+    updateGames();
   }
   
   const search = {
