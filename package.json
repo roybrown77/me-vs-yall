@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "amqp-connection-manager": "^3.0.0",
+    "amqp-connection-manager": "^3.1.0",
     "amqplib": "^0.5.5",
     "body-parser": "^1.19.0",
     "cron": "^1.7.2",
@@ -13,13 +13,13 @@
     "jwks-rsa": "^1.6.0",
     "lodash": "^4.17.15",
     "moment-timezone": "^0.5.27",
-    "mongoose": "^5.7.13",
+    "mongoose": "^5.8.1",
     "path": "^0.12.7",
     "puppeteer": "^2.0.0"
   },
   "devDependencies": {
-    "concurrently": "^5.0.0",
-    "nodemon": "^2.0.1"
+    "concurrently": "^5.0.1",
+    "nodemon": "^2.0.2"
   },
   "cacheDirectories": [
     "node_modules",
