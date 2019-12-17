@@ -1102,7 +1102,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9033",
         leagueId: "59723313734d1d6202a85f15",
         location: "Arkansas State",
-        shortLocation: "ARKST",
+        shortLocation: "ARST",
         name: "Red Wolves",
         color: '#CC092F'
     },
@@ -1391,7 +1391,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab905d",
         leagueId: "59723313734d1d6202a85f15",
         location: 'Charlotte',
-        shortLocation: "CHAR",
+        shortLocation: "CLT",
         name: "49ers",
         color: '#046A38'
     },
@@ -2074,6 +2074,62 @@ const ncaaTeams = [
         shortLocation: "MER",
         name: "Bears",
         color: '#F76800'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b3",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Buffalo",
+        shortLocation: "BUFF",
+        name: "Bulls",
+        color: '#005BBB'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b4",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Central Michigan",
+        shortLocation: "CMU",
+        name: "Chippewas",
+        color: '#6A0032'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b5",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Liberty",
+        shortLocation: "LIB",
+        name: "Flames",
+        color: '#990000'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b6",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Florida International",
+        shortLocation: "FIU",
+        name: "Panthers",
+        color: '#B6862C'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b7",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Marshall",
+        shortLocation: "MRSH",
+        name: "Thundering Herd",
+        color: '#00B140'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b8",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Louisiana Tech",
+        shortLocation: "LAT",
+        name: "Bulldogs",
+        color: '#E31B23'
+    },
+    {
+        _id: "5b84a2889a4c08bca6ab90b9",
+        leagueId: "59723313734d1d6202a85f15",
+        location: "Ohio",
+        shortLocation: "OHIO",
+        name: "Bobcats",
+        color: '#00694E'
     }
 ];
 
