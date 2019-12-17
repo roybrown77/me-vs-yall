@@ -43,7 +43,9 @@ const stats = [
     content: `Tennessee Titans over Houston Texans`,
     leagueName: 'NFL',
     date: 'December 14, 2019',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
