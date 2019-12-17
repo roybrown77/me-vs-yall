@@ -284,15 +284,15 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/mls') }}>
-                          MLS
+                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+                          NBA
                           {
-                            areAnyMlsGamesInProgress &&
+                            areAnyNbaGamesInProgress &&
                             <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
                           }
                       </Button>
                   )}/>
-                  {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
+                  {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
                 </Grid>
               }
               {
@@ -327,23 +327,6 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {mmaStartDateTime && <Countdown styles={styles.countdown} date={mmaStartDateTime}/>}
-                </Grid>
-              }
-              {
-                true &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
-                          NBA
-                          {
-                            areAnyNbaGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
-                          }
-                      </Button>
-                  )}/>
-                  {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
                 </Grid>
               }
               {
@@ -395,6 +378,23 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {mlbStartDateTime && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/mls') }}>
+                          MLS
+                          {
+                            areAnyMlsGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
                 </Grid>
               }
               {

@@ -147,6 +147,15 @@ const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
 };
 
 const updateGames = async () => {
+  //loadAmericanFootballGames({message: 'loadNflGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/16', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
+  //loadAmericanFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/15', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
+  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 4, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 5, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+ 
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -175,7 +184,7 @@ const updateGames = async () => {
   const games = await gameRepository.find(search);
 
   if ((games || []).length === 0) {
-    console.log(`${message.taskName} all scores have been updated.`);
+    console.log(`all scores have been updated.`);
     return;
   }
 
@@ -206,15 +215,6 @@ const updateGames = async () => {
   console.log('numberOfSpreadGames: ' + numberOfSpreadGames);
   console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
 
-  //loadAmericanFootballGames({message: 'loadAmericanFootballGames', url: 'https://www.espn.com/nfl/scoreboard/_/year/2019/seasontype/2/week/15', leagueId: '59723313734d1d6202a85f10', year: 2019, day: 2, teams: nflTeams});
-  //loadAmericanFootballGames({message: 'loadNCAAFGames', url: 'https://www.espn.com/college-football/scoreboard/_/year/2019/seasontype/2/week/15', leagueId: '59723313734d1d6202a85f15', year: 2019, day: 2, teams: ncaaTeams});
-  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-  //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
-  //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
-  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
-  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
- 
   if (numberOfSpreadGames > 0 || numberOfNonSpreadGames > 0) {
     await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
     await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
