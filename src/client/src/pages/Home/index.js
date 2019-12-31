@@ -296,7 +296,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
@@ -313,7 +313,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
@@ -330,7 +330,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
@@ -347,7 +347,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
@@ -364,7 +364,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
@@ -381,7 +381,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                true &&
+                false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
