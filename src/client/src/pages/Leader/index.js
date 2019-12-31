@@ -386,17 +386,20 @@ class Leader extends Component {
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>
                     }
-                    <div style={{
-                            justifyContent: 'center',
-                            display:'flex', 
-                            fontSize: '17px', 
-                            fontFamily: 'monospace', 
-                            fontWeight: 'bold'}}>
-                        <div style={{margin:'auto 0'}}>boasty when u win</div>
-                        <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
-                            {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
-                        </IconButton>
-                    </div>
+                    {
+                        false &&
+                        <div style={{
+                                justifyContent: 'center',
+                                display:'flex', 
+                                fontSize: '17px', 
+                                fontFamily: 'monospace', 
+                                fontWeight: 'bold'}}>
+                            <div style={{margin:'auto 0'}}>boasty when u win</div>
+                            <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
+                                {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
+                            </IconButton>
+                        </div>
+                    }
                     {
                         leaders.length > 0 && 
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
