@@ -463,7 +463,7 @@ class Home extends Component {
                 <div><Link style={styles.link} to={'/oftheweek'}>#$%@ of the Week</Link></div>
               </div>
             </div>
-            <div>© 2019 Me vs Yall. All rights reserved.</div>
+            <div>© 2020 Me vs Yall. All rights reserved.</div>
           </div>
         </div>
       );
