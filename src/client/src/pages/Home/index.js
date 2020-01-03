@@ -296,7 +296,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
@@ -313,7 +313,7 @@ class Home extends Component {
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
                       <Button 
