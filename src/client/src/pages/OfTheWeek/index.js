@@ -42,7 +42,7 @@ const stats = [
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Seattle Seahawks over Philadelphia Eagles`,
     leagueName: 'NFL',
-    date: 'January 5, 2019',
+    date: 'January 5, 2020',
     author: 'Mack & Beezie'
   },
   {
