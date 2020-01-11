@@ -387,7 +387,7 @@ class Leader extends Component {
                         </div>
                     }
                     {
-                        false &&
+                        true &&
                         <div style={{
                                 justifyContent: 'center',
                                 display:'flex', 
