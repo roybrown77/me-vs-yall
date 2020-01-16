@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+//import { combineReducers } from 'redux';
 
 // const rootReducer = combineReducers({
 // 	homePageDomain,
@@ -12,4 +12,4 @@ import { combineReducers } from 'redux';
 // 	errorMessage
 // });
 
-export default rootReducer;
+//export default rootReducer;
