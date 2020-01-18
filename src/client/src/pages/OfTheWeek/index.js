@@ -40,6 +40,13 @@ const styles = {
 const stats = [
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `San Francisco 49ers over Green Bay Packers`,
+    leagueName: 'NFL',
+    date: 'January 18, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Kansas City Chiefs over Houston Texans`,
     leagueName: 'NFL',
     date: 'January 10, 2020',
