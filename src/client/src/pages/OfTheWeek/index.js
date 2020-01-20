@@ -43,7 +43,9 @@ const stats = [
     content: `San Francisco 49ers over Green Bay Packers`,
     leagueName: 'NFL',
     date: 'January 18, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
