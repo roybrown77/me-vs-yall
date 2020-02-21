@@ -28,6 +28,9 @@ class About extends Component {
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Feel free to contact us or join our mailing list at mevsyallsports@gmail.com.
                 </div>
+                <div style={{textAlign: 'left', padding: '12px'}}>
+                    Code for site can be found <a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+                </div>
             </PageContainer>
         );
     }
