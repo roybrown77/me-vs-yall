@@ -87,7 +87,7 @@ const countries = [
         location: 'Croatia',
         shortLocation: 'CRO',
         name: 'Croatia',
-        country: "CROATIA"
+        country: "ENGLAND"
     }
 ];
 
@@ -231,6 +231,48 @@ const boxingCompetitors = [
         shortLocation: "Eric",
         name: "Drummer Boy Molina",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31015",
+        location: 'Deontay Wilder',
+        shortLocation: "Deontay",
+        name: "The Bronze Bomber Wilder",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31016",
+        location: 'Tyson Fury',
+        shortLocation: "Tyson",
+        name: "Gypsy King Fury",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31017",
+        location: 'Charles Martin',
+        shortLocation: "Charles",
+        name: "Prince Martin",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31018",
+        location: 'Gerald Washington',
+        shortLocation: "Gerald",
+        name: "El Gallo Negro Washington",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31019",
+        location: 'Emanuel Navarrete',
+        shortLocation: "Emanuel",
+        name: "Vaquero Navarrete",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b3101a",
+        location: 'Jeo Santisima',
+        shortLocation: "Jeo",
+        name: "Santino Santisima",
+        country: "PHILLIPINES"
     }
 ];
 
