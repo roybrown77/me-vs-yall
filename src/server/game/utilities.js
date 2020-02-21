@@ -244,7 +244,7 @@ const boxingCompetitors = [
         location: 'Tyson Fury',
         shortLocation: "Tyson",
         name: "Gypsy King Fury",
-        country: "USA"
+        country: "ENGLAND"
     },
     {
         _id: "19823783734d1d04a1b31017",
