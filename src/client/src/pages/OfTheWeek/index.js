@@ -43,7 +43,9 @@ const stats = [
     content: `San Francisco 49ers over Kansas City Chiefs`,
     leagueName: 'NFL',
     date: 'February 2, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
