@@ -447,6 +447,65 @@ const ufcCompetitors = [
     }
 ];
 
+const nba2kCompetitors = [
+    {
+        _id: "19823783734d1d04a1b34001",
+        location: 'Domantas Sabonis',
+        shortLocation: "Sabonis",
+        name: "Domantas Sabonis - Indiana Pacers",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b34002",
+        location: 'Montrezl Harrell',
+        shortLocation: "Harrell",
+        name: "Montrezl Harrell - LA Clippers",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b34003",
+        location: 'Rui Hachimura',
+        shortLocation: "Hachimura",
+        name: "Rui Hachimura - Washington Wizards",
+        country: "JAPAN"
+    },
+    {
+        _id: "19823783734d1d04a1b34004",
+        location: 'Donovan Mitchell',
+        shortLocation: "Mitchell",
+        name: "Donovan Mitchell - Utah Jazz",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b34005",
+        location: 'Michael Porter Jr.',
+        shortLocation: "Porter Jr.",
+        name: "Michael Porter Jr. - Denver Nuggets",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b34006",
+        location: 'Devin Booker',
+        shortLocation: "Booker",
+        name: "Devin Booker - Phoenix Suns",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b34007",
+        location: 'DeMarcus Cousins',
+        shortLocation: "Cousins",
+        name: "DeMarcus Cousins - Mobile, Alabama",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b34008",
+        location: 'Andre Drummond',
+        shortLocation: "Drummond",
+        name: "Andre Drummond - Cleveland Cavaliers",
+        country: "USA"
+    }
+];
+
 const nflTeams = [
     {
         _id: "19823783734d1d04a1b39001",
@@ -3663,5 +3722,6 @@ module.exports = {
     getScores,
     updateGames,
     boxingCompetitors,
-    ufcCompetitors
+    ufcCompetitors,
+    nba2kCompetitors
 };

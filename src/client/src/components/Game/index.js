@@ -28,6 +28,7 @@ import england from '../../styles/images/england.png';
 import suriname from '../../styles/images/suriname.png';
 import croatia from '../../styles/images/croatia.png';
 import netherlands from '../../styles/images/netherlands.png';
+import japan from '../../styles/images/japan.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -269,6 +270,8 @@ const getField = (leagueId, props) => {
       return getFootballField(props);
     case '59723313734d1d6202a85f19':
       return getBasketballCourt(props);
+    case '59723313734d1d6202a85f35':
+      return getBasketballCourt(props);
     default:
       return null;
   };
@@ -333,6 +336,8 @@ class Game extends Component {
           return suriname;
         case 'NETHERLANDS':
           return netherlands;
+        case 'JAPAN':
+          return japan;
         default:
           return america;
       };
@@ -379,7 +384,7 @@ class Game extends Component {
                                             <Grid item>
                                               <div>
                                                 {
-                                                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
+                                                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f35'].includes(get(game,'leagueId')) &&
                                                   <div style={{fontSize:'25px', color: competitor.color}}>
                                                     {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
                                                   </div>

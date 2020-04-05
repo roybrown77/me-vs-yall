@@ -49,7 +49,8 @@ const {
   countries,
   boxingCompetitors,
   ufcCompetitors,
-  mlsTeams
+  mlsTeams,
+  nba2kCompetitors
 } = require('./utilities');
 
 const omit = require('lodash/omit');
@@ -189,7 +190,7 @@ const updateGames = async () => {
   }
 
   const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
-  const exemptLeagues = ['59723313734d1d6202a85f25','59723313734d1d6202a85f27'];
+  const exemptLeagues = ['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f35'];
   
   let numberOfSpreadGames = 0;
   let numberOfNonSpreadGames = 0;
@@ -323,7 +324,8 @@ router.get('/teams', function (req, res) {
     ...ncaaTeams,
     ...boxingCompetitors,
     ...ufcCompetitors,
-    ...mlsTeams
+    ...mlsTeams,
+    ...nba2kCompetitors
   ];
 
   res.status(200).send(teams);

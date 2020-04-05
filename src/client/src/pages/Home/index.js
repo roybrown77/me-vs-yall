@@ -140,6 +140,7 @@ class Home extends Component {
       const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
       const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
+      const nba2kGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f35');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
       const xGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f23');
       const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
@@ -152,6 +153,7 @@ class Home extends Component {
       const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
       const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
+      const areAnyNba2kGamesInProgress = getAreAnyGamesInProgress(nba2kGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
       const areAnyXGamesInProgress = getAreAnyGamesInProgress(xGames);
       const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
@@ -164,6 +166,7 @@ class Home extends Component {
       const ncaafStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f15', ncaafGames);
       const premierStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f17', premierGames);
       const nbaStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f19', nbaGames);
+      const nba2kStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f35', nba2kGames);
       const mlbStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f21', mlbGames);
       const xStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f23', xGames);
       const boxingStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f25', boxingMatches);
@@ -227,6 +230,23 @@ class Home extends Component {
               </Grid>
             }
             <Grid>
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba2k') }}>
+                          NBA 2K
+                          {
+                            areAnyNba2kGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {nba2kStartDateTime && <Countdown styles={styles.countdown} date={nba2kStartDateTime}/>}
+                </Grid>
+              }
               {
                 true &&
                 <Grid item xs={8} style={styles.buttonBorder}>

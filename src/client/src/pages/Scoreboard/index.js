@@ -267,6 +267,10 @@ class Scoreboard extends Component {
             if (!this.state.soundOn) { nbaJams.play(); } else { nbaJams.stop(); };
         }
 
+        if (['59723313734d1d6202a85f35'].includes(this.props.leagueId)) {
+            if (!this.state.soundOn) { nbaJams.play(); } else { nbaJams.stop(); };
+        }
+
         this.setState((state) => ({
             soundOn: !state.soundOn
         }));
@@ -417,8 +421,7 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
-                        false &&
-                        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19'].includes(leagueId) &&
+                        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f35'].includes(leagueId) &&
                         <div style={{
                                 justifyContent: 'center',
                                 display:'flex', 
