@@ -384,7 +384,7 @@ class Game extends Component {
                                             <Grid item>
                                               <div>
                                                 {
-                                                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f35'].includes(get(game,'leagueId')) &&
+                                                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
                                                   <div style={{fontSize:'25px', color: competitor.color}}>
                                                     {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
                                                   </div>
