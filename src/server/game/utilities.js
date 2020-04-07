@@ -451,85 +451,85 @@ const nba2kCompetitors = [
     {
         _id: "19823783734d1d04a1b34001",
         location: 'Domantas Sabonis',
-        shortLocation: "Sabonis",
-        name: "Domantas - IND Pacers",
+        shortLocation: "Domantas",
+        name: "Sabonis - IND Pacers",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34002",
         location: 'Montrezl Harrell',
-        shortLocation: "Harrell",
-        name: "Montrezl- LA Clippers",
+        shortLocation: "Montrezl",
+        name: "Harrell - LA Clippers",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34003",
         location: 'Rui Hachimura',
-        shortLocation: "Hachimura",
-        name: "Rui - WSH Wizards",
+        shortLocation: "Rui",
+        name: "Hachimura - WSH Wizards",
         country: "JAPAN"
     },
     {
         _id: "19823783734d1d04a1b34004",
         location: 'Donovan Mitchell',
-        shortLocation: "Mitchell",
-        name: "Donovan - UTAH Jazz",
+        shortLocation: "Donovan",
+        name: "Mitchell - UTAH Jazz",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34005",
         location: 'Michael Porter Jr.',
-        shortLocation: "Porter Jr.",
-        name: "Michael - DEN Nuggets",
+        shortLocation: "Michael",
+        name: "Porter Jr. - DEN Nuggets",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34006",
         location: 'Devin Booker',
-        shortLocation: "Booker",
-        name: "Devin - PHX Suns",
+        shortLocation: "Devin",
+        name: "Booker - PHX Suns",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34007",
         location: 'DeMarcus Cousins',
-        shortLocation: "Cousins",
-        name: "DeMarcus - Mobile, Alabama",
+        shortLocation: "DeMarcus",
+        name: "Cousins - Mobile, Alabama",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34008",
         location: 'Andre Drummond',
-        shortLocation: "Drummond",
-        name: "Andre - CLE Cavaliers",
+        shortLocation: "Andre",
+        name: "Drummond - CLE Cavaliers",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b34009",
         location: 'Derrick Jones Jr.',
-        shortLocation: "Jones Jr.",
-        name: "Derrick - MIA Heat",
+        shortLocation: "Derrick",
+        name: "Jones Jr. - MIA Heat",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b3400a",
         location: 'Trae Young',
-        shortLocation: "Young",
-        name: "Trae - ATL Hawks",
+        shortLocation: "Trae",
+        name: "Young - ATL Hawks",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b3400b",
         location: 'Deandre Ayton',
-        shortLocation: "Ayton",
-        name: "Deandre - PHX Suns",
+        shortLocation: "Deandre",
+        name: "Ayton - PHX Suns",
         country: "BAHAMAS"
     },
     {
         _id: "19823783734d1d04a1b3400c",
         location: 'Patrick Beverley',
-        shortLocation: "Beverley",
-        name: "Patrick - LA Clippers",
+        shortLocation: "Patrick",
+        name: "Beverley - LA Clippers",
         country: "USA"
     }
 ];
