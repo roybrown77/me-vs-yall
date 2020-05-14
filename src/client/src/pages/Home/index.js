@@ -236,23 +236,6 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba2k') }}>
-                          NBA 2K
-                          {
-                            areAnyNba2kGamesInProgress &&
-                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
-                          }
-                      </Button>
-                  )}/>
-                  {nba2kStartDateTime && <Countdown styles={styles.countdown} date={nba2kStartDateTime}/>}
-                </Grid>
-              }
-              {
-                true &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
                           style={{...styles.button, color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
                           NFL
                           {
@@ -347,6 +330,23 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {mmaStartDateTime && <Countdown styles={styles.countdown} date={mmaStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba2k') }}>
+                          NBA 2K
+                          {
+                            areAnyNba2kGamesInProgress &&
+                            <div className='fast-flash' style={{...styles.inProgress, backgroundColor: '#17408B'}}></div>
+                          }
+                      </Button>
+                  )}/>
+                  {nba2kStartDateTime && <Countdown styles={styles.countdown} date={nba2kStartDateTime}/>}
                 </Grid>
               }
               {
