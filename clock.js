@@ -143,7 +143,7 @@ const sendMessage = async (data) => {
     isGameOver: {
       $ne: true
     },
-    year: 2019
+    year: 2020
   };
 
   const games = await gameRepository.find(search);

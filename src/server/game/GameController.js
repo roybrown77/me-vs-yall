@@ -179,7 +179,7 @@ const updateGames = async () => {
     isGameOver: {
       $ne: true
     },
-    year: 2019
+    year: 2020
   };
 
   const games = await gameRepository.find(search);
@@ -217,7 +217,7 @@ const updateGames = async () => {
   console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
 
   if (numberOfSpreadGames > 0 || numberOfNonSpreadGames > 0) {
-    await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2019, teams: nflTeams});
+    await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2020, teams: nflTeams});
     await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
     await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
     await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});

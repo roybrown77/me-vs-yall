@@ -47,7 +47,7 @@ const leagues = [
         id: '59723313734d1d6202a85f10', 
         name: 'nfl', 
         description: 'nfl',
-        years: [2017, 2018, 2019]
+        years: [2017, 2018, 2019, 2020]
     },
     {
         id: '59723313734d1d6202a85f15', 
