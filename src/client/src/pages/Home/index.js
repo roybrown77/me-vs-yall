@@ -252,7 +252,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
+                          style={{...styles.button, fontSize: '1.5rem', color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
                           COLLEGE FOOTBALL
                           {
                             areAnyNCAAFGamesInProgress &&
@@ -269,7 +269,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
+                          style={{...styles.button, fontSize: '1.25rem', color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
                           PREMIER LEAGUE
                           {
                             areAnyPremierGamesInProgress &&
@@ -286,7 +286,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+                          style={{...styles.button, fontSize: '4rem', color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
                           NBA
                           {
                             areAnyNbaGamesInProgress &&
@@ -294,7 +294,7 @@ class Home extends Component {
                           }
                       </Button>
                   )}/>
-                  {nbaStartDateTime && <Countdown styles={styles.countdown} date={nbaStartDateTime}/>}
+                  {nbaStartDateTime && <Countdown styles={{...styles.countdown, marginTop: '-1.5rem'}} date={nbaStartDateTime}/>}
                 </Grid>
               }
               {
@@ -303,7 +303,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#3B7A57'}} onClick={() => { history.push('/scoreboards/boxing') }}>
+                          style={{...styles.button, fontSize: '2.5rem', color: '#3B7A57'}} onClick={() => { history.push('/scoreboards/boxing') }}>
                           BOXING
                           {
                             areAnyBoxingMatchesInProgress &&
@@ -311,7 +311,7 @@ class Home extends Component {
                           }
                       </Button>
                   )}/>
-                  {boxingStartDateTime && <Countdown styles={styles.countdown} date={boxingStartDateTime}/>}
+                  {boxingStartDateTime && <Countdown styles={{...styles.countdown, marginTop: '-1rem'}} date={boxingStartDateTime}/>}
                 </Grid>
               }
               {
@@ -320,7 +320,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, color: '#FF7E00'}} onClick={() => { history.push('/scoreboards/mma') }}>
+                          style={{...styles.button, fontSize: '2rem', color: '#FF7E00'}} onClick={() => { history.push('/scoreboards/mma') }}>
                           MMA
                           {
                             areAnyMMAMatchesInProgress &&
@@ -328,7 +328,7 @@ class Home extends Component {
                           }
                       </Button>
                   )}/>
-                  {mmaStartDateTime && <Countdown styles={styles.countdown} date={mmaStartDateTime}/>}
+                  {mmaStartDateTime && <Countdown styles={{...styles.countdown, marginTop: '-.5rem'}} date={mmaStartDateTime}/>}
                 </Grid>
               }
               {
