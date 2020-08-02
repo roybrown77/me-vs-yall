@@ -112,14 +112,6 @@ let gameDate;
 class Scoreboard extends Component {
     constructor(props) {
         super(props);
-
-        this.handleFilterLeague = this.handleFilterLeague.bind(this);
-        this.handleFilterYear = this.handleFilterYear.bind(this);
-        this.handleFilterWeek = this.handleFilterWeek.bind(this);
-        this.handleMakePick = this.handleMakePick.bind(this);
-        this.startPolling = this.startPolling.bind(this);
-        this.handleToggleSound = this.handleToggleSound.bind(this);
-
         this.state = {
             soundOn: false
         };
@@ -159,7 +151,7 @@ class Scoreboard extends Component {
       }
     }
 
-    startPolling() {
+    startPolling = () => {
         let self = this;
         self._timer = setInterval(self.poll.bind(self), 15000);
     }
@@ -197,12 +189,12 @@ class Scoreboard extends Component {
         });
     }
 
-    handleFilterLeague(event, league) {
+    handleFilterLeague = (event, league) => {
         if (get(this.props, 'leagues', []).length === 0) {
             return;
         }
 
-        const leagueFound = this.props.leagues.find(x=>x.id===league.key);
+        const leagueFound = this.props.leagues.find(x=>x.id===league.props.value);
         const years = get(leagueFound,'years',[]);
         const year = last(years);
 
@@ -214,12 +206,12 @@ class Scoreboard extends Component {
         });
     }
 
-    handleFilterYear(event, year) {
+    handleFilterYear = (event, year) => {
         if (get(this.props, 'years', []).length === 0) {
             return;
         }
 
-        const yearFound = this.props.years.find(x=>x===parseInt(year.key));
+        const yearFound = this.props.years.find(x=>x===parseInt(year.props.value));
 
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
@@ -227,12 +219,12 @@ class Scoreboard extends Component {
         });
     }
   
-    handleFilterWeek(event, week) {
+    handleFilterWeek = (event, week) => {
         if (get(this.props, 'weeks', []).length === 0) {
             return;
         }
 
-        const weekFound = this.props.weeks[week.key];
+        const weekFound = this.props.weeks[week.props.value];
 
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
@@ -243,7 +235,7 @@ class Scoreboard extends Component {
         });
     }
 
-    handleMakePick(pick) {
+    handleMakePick = (pick) => {
         if (!this.props.isAuthenticated) return;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
@@ -254,7 +246,7 @@ class Scoreboard extends Component {
         }
     }
 
-    handleToggleSound() {
+    handleToggleSound = () => {
         if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
             if (!this.state.soundOn) { madden.play(); } else { madden.stop(); };
         }

@@ -118,13 +118,6 @@ const styles = theme => ({
 class Leader extends Component {
     constructor(props) {
         super(props);
-
-        this.handleFilterLeague = this.handleFilterLeague.bind(this);
-        this.handleFilterYear = this.handleFilterYear.bind(this);
-        this.handleFilterWeek = this.handleFilterWeek.bind(this);
-        this.startPolling = this.startPolling.bind(this);
-        this.handleToggleSound = this.handleToggleSound.bind(this);
-
         this.state = {
             soundOn: false
         };
@@ -167,7 +160,7 @@ class Leader extends Component {
       }
     }
 
-    startPolling() {
+    startPolling = () => {
         let self = this;
         self._timer = setInterval(self.poll.bind(self), 15000);
     }
@@ -206,12 +199,12 @@ class Leader extends Component {
         });
     }
 
-    handleFilterLeague(event, league) {
+    handleFilterLeague = (event, league) => {
         if (get(this.props, 'leagues', []).length === 0) {
             return;
         }
 
-        const leagueFound = this.props.leagues.find(x=>x.id===league.key);
+        const leagueFound = this.props.leagues.find(x=>x.id===league.props.value);
         const years = get(leagueFound,'years',[]);
         const year = last(years);
 
@@ -223,12 +216,12 @@ class Leader extends Component {
         });
     }
 
-    handleFilterYear(event, year) {
+    handleFilterYear = (event, year) => {
         if (get(this.props, 'years', []).length === 0) {
             return;
         }
 
-        const yearFound = this.props.years.find(x=>x===parseInt(year.key));
+        const yearFound = this.props.years.find(x=>x===parseInt(year.props.value));
 
         this.props.loadLeaders({
             leagueId: this.props.leagueId,
@@ -236,12 +229,12 @@ class Leader extends Component {
         });
     }
   
-    handleFilterWeek(event, week) {
+    handleFilterWeek = (event, week) => {
         if (get(this.props, 'weeks', []).length === 0) {
             return;
         }
 
-        const weekFound = this.props.weeks[week.key];
+        const weekFound = this.props.weeks[week.props.value];
 
         this.props.loadLeaders({
             leagueId: this.props.leagueId,
@@ -253,7 +246,7 @@ class Leader extends Component {
         });
     }
 
-    handleToggleSound() {
+    handleToggleSound = () => {
         if (!this.state.soundOn) { boasty.play(); } else { boasty.stop(); };
 
         this.setState((state) => ({

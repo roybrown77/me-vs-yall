@@ -381,16 +381,16 @@ const getResults = (games = [], picks = []) => {
 
 const formatWeeks = (gameWeeks = []) => {
     const formattedGameWeeks = gameWeeks.map((week)=>{
-        const startDateTime = moment(week.displayBeginDateTime).format('ddd M/D');
+        const startDateTime = moment(week.displayBeginDateTime || week.beginDateTime).format('ddd M/D');
         const endDateTime = moment(week.endDateTime).format('ddd M/D');
 
         if (startDateTime !== endDateTime) {
             week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + 
-            moment(new Date(week.displayBeginDateTime)).tz('America/New_York').format('ddd M/D') + ' - ' + 
+            moment(new Date(week.displayBeginDateTime || week.beginDateTime)).tz('America/New_York').format('ddd M/D') + ' - ' + 
             moment(new Date(week.endDateTime)).tz('America/New_York').format('ddd M/D');
         } else {
             week.displayName = (get(week,'description') ? get(week,'description') + ' ' : '') + 
-            moment(new Date(week.displayBeginDateTime)).tz('America/New_York').format('ddd M/D');
+            moment(new Date(week.displayBeginDateTime || week.beginDateTime)).tz('America/New_York').format('ddd M/D');
         }
 
         return week;
