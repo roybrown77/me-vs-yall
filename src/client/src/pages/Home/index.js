@@ -8,6 +8,7 @@ import ReactGA from 'react-ga';
 import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
+import Slide from '@material-ui/core/Slide';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
@@ -188,9 +189,11 @@ class Home extends Component {
         <div className="fade-in">
           {
             true &&
-            <div style={{marginTop: '32px'}}>
-              <img style={{width:'275px'}} src={mvy} alt=""/>
-            </div>
+            <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
+              <div style={{marginTop: '32px'}}>
+                <img style={{width:'275px'}} src={mvy} alt=""/>
+              </div>
+            </Slide>
           }
           <div style={styles.subTitle}>
             pick your favorite sports teams for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
