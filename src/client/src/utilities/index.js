@@ -134,10 +134,6 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1007)) {
-        return moment(`${year}1007`).toISOString();
-    }
-
     if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 301 || monthDay > 1115)) {
         return moment(`${nextYear}0301`).toISOString();
     }
@@ -159,50 +155,6 @@ const getLeagueStartDateTime = (leagueId, games) => {
     }
 
     return getStartDateTime(games);
-}
-
-const getLeagueNextGameStartDateTime = (leagueId, games) => {
-    const monthDay = parseInt(moment().format('MMDD'));
-    const year = moment().format('YYYY');
-    const nextYear = parseInt(year) + 1;
-
-    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
-        return moment(`${year}0801`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f15' && (monthDay > 108 && monthDay < 801)) {
-        return moment(`${year}0801`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 801)) {
-        return moment(`${year}0801`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f19' && (monthDay > 615 && monthDay < 1007)) {
-        return moment(`${year}1007`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 301 || monthDay > 1115)) {
-        return moment(`${nextYear}0301`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f23' && (monthDay > 115)) {
-        return moment(`${year}1231`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f29' && (monthDay < 301 || monthDay > 1115)) {
-        return moment(`${nextYear}0301`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f31' && (monthDay > 615 && monthDay < 1007)) {
-        return moment(`${year}1007`).toISOString();
-    }
-
-    if (leagueId === '59723313734d1d6202a85f33' && (monthDay > 415 && monthDay < 1007)) {
-        return moment(`${year}1007`).toISOString();
-    }
-
-    return getNextGameStartDateTime(games);
 }
 
 const getStartDateTime = (games) => {
@@ -526,6 +478,5 @@ export {
     getStartDateTime,
     getLeaderIndicator,
     getLeagueStartDateTime,
-    getLeagueNextGameStartDateTime,
     getImage
 };
