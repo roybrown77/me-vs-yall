@@ -143,7 +143,8 @@ const backupData = async () => {
 const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    const difference = currentDateTime.diff(gameStartDateTime,'minutes');
+    console.log("hasGameStartedInXMinutes: " + difference);
     return difference <= minutesUntil;
 };
 

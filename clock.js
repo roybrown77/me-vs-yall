@@ -108,7 +108,7 @@ const gameRepository = require('./src/server/game/GameRepository');
 const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    const difference = currentDateTime.diff(gameStartDateTime,'minutes');
     return difference <= minutesUntil;
 };
 
