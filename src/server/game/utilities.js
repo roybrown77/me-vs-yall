@@ -638,7 +638,7 @@ const nflTeams = [
         _id: "19823783734d1d04a1b3900c",
         location: 'Washington',
         shortLocation: "WSH",
-        name: "Redskins",
+        name: "Football Team",
         color: "#7C1415",
         stadiumName: "FedExField",
         stadiumCity: "Landover, MD"
@@ -780,12 +780,10 @@ const nflTeams = [
     },
     {
         _id: "19823783734d1d04a1b3901c",
-        location: 'Oakland',
-        shortLocation: "OAK",
+        location: 'Las Vegas',
+        shortLocation: "LV",
         name: "Raiders",
-        color: "#C4C9CC",
-        stadiumName: "Oakland Alameda Coliseum",
-        stadiumCity: "Oakland, CA"
+        color: "#C4C9CC"
     },
     {
         _id: "19823783734d1d04a1b3901d",
