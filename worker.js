@@ -52,12 +52,10 @@ mongoose.connection.on("connected", function(ref) {
   console.log("[MONGODB] - Connected!");
 });
 
-// If the connection throws an error
 mongoose.connection.on("error", function(err) {
   console.error(`[MONGODB] - failed to connect on startup: ${JSON.stringify(err)}`);
 });
 
-// When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
   console.log('[MONGODB] - Disconnected.');
 });
@@ -71,7 +69,6 @@ try {
 
 const WORKER_QUEUE = 'worker-queue';
 
-// Create a new connection manager from AMQP
 console.log('[AMQP] - Connecting....');
 const amqp = require('amqp-connection-manager');
 const connection = amqp.connect([queueUrl]);
@@ -84,7 +81,6 @@ connection.on('disconnect', function(params) {
   return console.error('[AMQP] - Disconnected.', params.err.stack);
 });
 
-// ---------- To receive the execution task messages
 let channelWrapper = connection.createChannel({
   json: true,
   setup: function(channel) {
@@ -104,7 +100,6 @@ channelWrapper.waitForConnect()
   console.error(`[AMQP] - Error: ${JSON.stringify(err)}`);
 }); 
 
-// Process message from AMQP
 const onMessage = async (data) => {
   let message;
 
@@ -145,7 +140,7 @@ const gracefulExitSIGINT = () => {
 
 const gracefulExitSIGTERM = () => {
   console.info(`SIGTERM signal received.`);
-  
+  Ï
   connection.close(function () {
     console.log('[AMQP] - disconnected through app termination.');
   });
@@ -155,23 +150,14 @@ const gracefulExitSIGTERM = () => {
   });
 };
 
-// If the Node process ends, close the Mongoose connection
 process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
-  // Application specific logging, throwing an error, or other logic here
 });
 
 process.on('uncaughtException', function(err) {
-  //log the error
   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
-  //let's tell our master we need to be disconnected
-  //require('forky').disconnect();
-  //in a worker process, this will signal the master that something is wrong
-  //the master will immediately spawn a new worker
-  //and the master will disconnect our server, allowing all existing traffic to end naturally
-  //but not allowing this process to accept any new traffic
 });
 
 process.on('multipleResolves', (type, promise, reason) => {

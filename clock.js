@@ -21,12 +21,10 @@ mongoose.connection.on("connected", function(ref) {
   console.log("[MONGODB] - Connected!");
 });
 
-// If the connection throws an error
 mongoose.connection.on("error", function(err) {
   console.error(`[MONGODB] - failed to connect on startup: ${JSON.stringify(err)}`);
 });
 
-// When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
   console.log('[MONGODB] - Disconnected.');
 });
@@ -38,36 +36,35 @@ try {
   console.log(`[MONGODB] - initialization failed: ${JSON.stringify(err)}`);
 }
 
-const WORKER_QUEUE = 'worker-queue';  // To consume from worker process
+const WORKER_QUEUE = 'worker-queue';
 
 const JOBS = [
-  {  // You could store these jobs in a database
+  { 
     name: "Cron process 1",
-    message: {queue: 'worker-queue'},  // message in json format
+    message: {queue: 'worker-queue'},
     cronTime: '1 * * * * *',
     repeat: true
   },
   { 
     name: "Cron process 2",
-    message: {queue: 'worker-queue'},  // message in json format
+    message: {queue: 'worker-queue'},
     cronTime: '15 * * * * *',
     repeat: true
   },
-  {  // You could store these jobs in a database
+  {
     name: "Cron process 3",
-    message: {queue: 'worker-queue'},  // message in json format
+    message: {queue: 'worker-queue'},
     cronTime: '30 * * * * *',
     repeat: true
   },
   { 
     name: "Cron process 4",
-    message: {queue: 'worker-queue'},  // message in json format
+    message: {queue: 'worker-queue'},
     cronTime: '45 * * * * *',
     repeat: true
   },
 ];
 
-//Create a new connection manager from AMQP
 console.log('[AMQP] - Connecting...');
 const amqp = require('amqp-connection-manager');
 const connection = amqp.connect([queueUrl]);
@@ -96,7 +93,7 @@ const startCronProcess = (jobs) => {
           console.log('[AMQP] - Job completed! Removing now...')
         },  
         timeZone: 'America/Argentina/Buenos_Aires',
-        start: true  // Start now
+        start: true
       });
     });
   }
@@ -224,23 +221,14 @@ const gracefulExitSIGTERM = () => {
   });
 };
 
-// If the Node process ends, close the Mongoose connection
 process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
-  // Application specific logging, throwing an error, or other logic here
 });
 
 process.on('uncaughtException', function(err) {
-  //log the error
   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
-  //let's tell our master we need to be disconnected
-  //require('forky').disconnect();
-  //in a worker process, this will signal the master that something is wrong
-  //the master will immediately spawn a new worker
-  //and the master will disconnect our server, allowing all existing traffic to end naturally
-  //but not allowing this process to accept any new traffic
 });
 
 process.on('multipleResolves', (type, promise, reason) => {

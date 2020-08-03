@@ -21,12 +21,10 @@ mongoose.connection.on("connected", function(ref) {
   console.log("[MONGODB] - Connected!");
 });
 
-// If the connection throws an error
 mongoose.connection.on("error", function(err) {
   console.error('[MONGODB] - failed to connect on startup: ', err);
 });
 
-// When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
   console.log('[MONGODB] - Disconnected.');
 });
@@ -86,7 +84,7 @@ if (nodeEnv === "production") {
 }
 
 const server = app.listen(app.get("port"), () => {
-    console.log(`[WEB_SERVER] - http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+    console.log(`[WEB_SERVER] - http://localhost:${app.get("port")}/`);
 });
 
 const gracefulExitSIGINT = () => {
@@ -113,23 +111,14 @@ const gracefulExitSIGTERM = () => {
   });
 };
 
-// If the Node process ends, close the Mongoose connection
 process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
-  // Application specific logging, throwing an error, or other logic here
 });
 
 process.on('uncaughtException', function(err) {
-  //log the error
   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
-  //let's tell our master we need to be disconnected
-  //require('forky').disconnect();
-  //in a worker process, this will signal the master that something is wrong
-  //the master will immediately spawn a new worker
-  //and the master will disconnect our server, allowing all existing traffic to end naturally
-  //but not allowing this process to accept any new traffic
 });
 
 process.on('multipleResolves', (type, promise, reason) => {
