@@ -17,6 +17,7 @@ import josef from '../styles/images/josef-martinez.jpg';
 import jwill from '../styles/images/j-will-hair.jpg';
 import kawhi from '../styles/images/kawhi.jpg';
 import tysonFury from '../styles/images/tyson-fury.jpg';
+import mikeTyson from '../styles/images/mike-tyson.jpg';
 
 const vegasPictures = [
 ];
@@ -32,7 +33,7 @@ const getImage = (screen, leagueId) => {
         case '59723313734d1d6202a85f19':
           return screen === 'scores' ? {picture: jwill, source: 'NiceKicks.com'} : {picture: kawhi, source: 'Vaughn Ridley / Getty Images'};
         case '59723313734d1d6202a85f25':
-          return screen === 'scores' ? null : {picture: tysonFury, source: 'Getty Images'};
+          return screen === 'scores' ? {picture: mikeTyson, source: 'Getty Images'} : {picture: tysonFury, source: 'Getty Images'};
         case '59723313734d1d6202a85f27':
           return screen === 'scores' ? {picture: masvidalDiaz, source: 'ESPN MMA'} : {picture: nunes, source: 'Esther Lin / MMA Fighting'};
         case '59723313734d1d6202a85f29':
