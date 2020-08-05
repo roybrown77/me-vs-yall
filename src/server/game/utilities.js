@@ -287,6 +287,20 @@ const boxingCompetitors = [
         shortLocation: "Jones Jr.",
         name: "Roy Superman Jones Jr.",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3101d",
+        location: 'Nate Robinson',
+        shortLocation: "Nate",
+        name: "Krypto Robinson",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3101e",
+        location: 'Logan Paul',
+        shortLocation: "Logan",
+        name: "The Maverick Paul",
+        country: "USA"
     }
 ];
 
