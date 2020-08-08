@@ -449,7 +449,7 @@ class Home extends Component {
             </Grid>
           </div>
           {
-            false &&
+            true &&
             <div style={{backgroundColor: 'lightgray', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
               <img style={{width:'90%', maxWidth: '750px'}} src={lsu} alt=""/>
               <div style={{fontSize: '10px'}}>Image via LSU Sports Information</div>
