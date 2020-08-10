@@ -3197,14 +3197,9 @@ const hasGameStarted = (dateTime) => {
 };
 
 const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
-    //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
-    //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
-    //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
-
-  if ((lastPlay && playHistory.length > 0 && playHistory.find(x=>get(x,'lastPlay')===lastPlay)) || !currentTime) {
-    console.log(`${message} getPlayHistory no play.`);
-    return playHistory;
-  }
+  //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
+  console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
+  console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
 
   const currenTimeSplit = currentTime.split(' ');
 
@@ -3227,7 +3222,14 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter || playHistory.find(x=>x.time===time) || lastPlay.trim() === "") {
+  const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay && get(x,'time'));
+
+  if (get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) {
+    console.log(`${message} getPlayHistory no play.`);
+    return playHistory;
+  }
+
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter || lastPlay.trim() === "") {
     console.log(`${message} getPlayHistory no valid play.`);
     return playHistory;
   }
@@ -3729,7 +3731,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             const updatedGame = {
               competitors: [...get(game,'competitors',[])],
               isGameOver: isGameOver,
-              playHistory: isUnderPastGracePeriod && (awayScore > 50 || homeScore > 50) ? [] : newPlayHistory,
+              playHistory: newPlayHistory,
               currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
               gameName: get(score,'gameName',''),
               down: get(score,'down'),
@@ -3744,9 +3746,9 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
                 });
             }
 
-            set(updatedGame,'competitors.0.score', isUnderPastGracePeriod && (awayScore > 50 || homeScore > 50) ? 0 : awayScore);
+            set(updatedGame,'competitors.0.score', awayScore);
 
-            set(updatedGame,'competitors.1.score', isUnderPastGracePeriod && (awayScore > 50 || homeScore > 50) ? 0 : homeScore);
+            set(updatedGame,'competitors.1.score', homeScore);
             
             if (isGameOver) {
               set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
