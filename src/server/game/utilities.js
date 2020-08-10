@@ -3222,7 +3222,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
-  const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay && get(x,'time'));
+  const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
   if (get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) {
     console.log(`${message} getPlayHistory no play.`);
