@@ -103,6 +103,10 @@ const stats = [
     content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
   },
   {
+    title: 'FACTS',
+    content: `Me vs Yall allows you to practice betting without losing money.  If you can't win here don't waste your money over there.`
+  },
+  {
     title: 'NEW FEATURES',
     content: `Sign in again to get new app features or clear browser cache.`
   },
