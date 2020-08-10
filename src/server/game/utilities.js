@@ -3201,7 +3201,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
   console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
 
-  const currenTimeSplit = currentTime.split(' ');
+  const currenTimeSplit = (currentTime || "").split(' ');
 
   const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
   const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
@@ -3211,7 +3211,7 @@ const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
   const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
   const currenTimeNumber = parseFloat(currentTimeString);
 
-  const lastPlaySplit = lastPlay.split(' ');
+  const lastPlaySplit = (lastPlay || "").split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
   const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of');
@@ -3360,8 +3360,8 @@ const getGames = async ({
         games.push({
             startDateTime: startDateTime,
             spread: {
-             team: spread.replace('Line: ','').split(' ')[0],
-             amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
+             team: (spread || "").replace('Line: ','').split(' ')[0],
+             amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),
              spreadDateTime: moment().toISOString()
             },
             gameName: gameName,
@@ -3623,8 +3623,8 @@ const getScores = async ({
 
       scores.push({
         spread: {
-         team: spread.replace('Line: ','').split(' ')[0],
-         amount: parseFloat(spread.replace('Line: ','').split(' ')[1]),
+         team: (spread || "").replace('Line: ','').split(' ')[0],
+         amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),
          spreadDateTime: moment().toISOString()
         },
         gameOverText: gameOverText,
