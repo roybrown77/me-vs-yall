@@ -248,57 +248,6 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, fontSize: '5rem', color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
-                          NFL
-                          {
-                            areAnyNflGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={football} alt=""/>
-                          }
-                      </Button>
-                  )}/>
-                  {nflStartDateTime && <Countdown styles={{...styles.countdown, marginTop: '-2rem'}} date={nflStartDateTime}/>}
-                </Grid>
-              }
-              {
-                true &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, fontSize: '1.5rem', color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
-                          COLLEGE FOOTBALL
-                          {
-                            areAnyNCAAFGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={football} alt=""/>
-                          }
-                      </Button>
-                  )}/>
-                  {ncaafStartDateTime && <Countdown styles={styles.countdown} date={ncaafStartDateTime}/>}
-                </Grid>
-              }
-              {
-                true &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, fontSize: '1.25rem', color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
-                          PREMIER LEAGUE
-                          {
-                            areAnyPremierGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
-                          }
-                      </Button>
-                  )}/>
-                  {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
-                </Grid>
-              }
-              {
-                true &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
                           style={{...styles.button, fontSize: '4rem', color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
                           NBA
                           {
@@ -359,6 +308,57 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {nba2kStartDateTime && <Countdown styles={styles.countdown} date={nba2kStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, fontSize: '5rem', color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
+                          NFL
+                          {
+                            areAnyNflGamesInProgress &&
+                            <img className='fast-flash' style={styles.ball} src={football} alt=""/>
+                          }
+                      </Button>
+                  )}/>
+                  {nflStartDateTime && <Countdown styles={{...styles.countdown, marginTop: '-2rem'}} date={nflStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, fontSize: '1.5rem', color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
+                          COLLEGE FOOTBALL
+                          {
+                            areAnyNCAAFGamesInProgress &&
+                            <img className='fast-flash' style={styles.ball} src={football} alt=""/>
+                          }
+                      </Button>
+                  )}/>
+                  {ncaafStartDateTime && <Countdown styles={styles.countdown} date={ncaafStartDateTime}/>}
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, fontSize: '1.25rem', color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
+                          PREMIER LEAGUE
+                          {
+                            areAnyPremierGamesInProgress &&
+                            <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
+                          }
+                      </Button>
+                  )}/>
+                  {premierStartDateTime && <Countdown styles={styles.countdown} date={premierStartDateTime}/>}
                 </Grid>
               }
               {
