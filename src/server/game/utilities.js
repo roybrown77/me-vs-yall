@@ -3196,7 +3196,7 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
-const getPlayHistory = ({message, playHistory, lastPlay, currentTime}) => {
+const getPlayHistory = ({message, playHistory = [], lastPlay = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
   console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
   console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
