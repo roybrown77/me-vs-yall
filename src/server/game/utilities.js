@@ -3514,7 +3514,7 @@ const getScores = async ({
     if (listLength === 0) {
       console.log(`${message} no games found`);
       await browser.close();
-      return;
+      return scores;
     }
 
     for (let i = 1; i <= listLength; i++) {
