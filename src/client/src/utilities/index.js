@@ -127,12 +127,12 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f15' && (monthDay > 108 && monthDay < 801)) {
-        return moment(`${year}0801`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f15' && (monthDay > 108 && monthDay < 901)) {
+        return moment(`${year}0901`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 801)) {
-        return moment(`${year}0801`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 901)) {
+        return moment(`${year}0901`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f21' && (monthDay < 301 || monthDay > 1115)) {
