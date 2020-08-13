@@ -264,7 +264,8 @@ class Leader extends Component {
             weeksDataLoading,
             weeks = [],
             weekId,
-            leagueId
+            leagueId,
+            isRollup
         } = this.props;
 
         const {soundOn} = this.state;
@@ -454,6 +455,7 @@ class Leader extends Component {
                                                                 width:"100%", 
                                                                 backgroundColor: '#fff'}}>
                                                             {
+                                                                !isRollup &&
                                                                 get(leader,'games',[]).map((game,gameIndex)=>{
                                                                     
 
@@ -568,7 +570,7 @@ const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
-    const isRollup = get(request,'isRollup') || get(currentWeek,'isRollup');
+    const isRollup = get(leaderDomain, 'isRollup', false);
     
     return {
         isAuthenticated,

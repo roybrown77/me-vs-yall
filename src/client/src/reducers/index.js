@@ -158,16 +158,19 @@ const leaderDomain = (
         const pickList = get(action, 'response[1].response', []);
         const userList = get(action, 'response[2].response', []);
         const teamList = get(action, 'response[3].response', []);
+        const isRollup = get(action, 'response.isRollup', false);
+
         const sortedGames = gameList.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
         const picks = [...pickList, ...getVegasPicks(sortedGames)];
 
-        const leaderList = getLeaders(sortedGames, picks, userList, teamList);
+        const leaderList = getLeaders(sortedGames, picks, userList, teamList, isRollup);
 
         return state.set('gameList', List(sortedGames))
         .set('pickList', List(pickList))
         .set('userList', List(userList))
         .set('leaderList', List(leaderList))
+        .set("isRollup", isRollup)
         .set("dataLoading", false);
       }
       return state;

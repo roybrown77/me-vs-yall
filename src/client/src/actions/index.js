@@ -309,6 +309,8 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
 
     dispatch({type: LEADERS_REQUEST, request});
 
+    const isRollup = get(query, 'isRollup') || get(currentWeek, 'isRollup');
+
     Promise.all([
       dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
       dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
@@ -316,7 +318,7 @@ export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) 
       dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
     ]).then(
     result=>{ 
-      dispatch({type: LEADERS_SUCCESS, response: result});
+      dispatch({type: LEADERS_SUCCESS, response: {...result, isRollup}});
     },
     error=>{
       dispatch({type: LEADERS_FAILURE});

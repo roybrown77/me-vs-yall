@@ -191,26 +191,30 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     return format;
 };
 
-const getLeaders = (games = [], picks = [], users = [], teams = []) => {
-    const grouping = groupBy(picks, 'userId');
-        
-    const leaders = transform(grouping, (result, value, key)=>{
-        result.push({
-            userId: key,
-            picks: value
-        });
-    }, []);
+const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false) => {
+    const picksByUser = groupBy(picks, 'userId');
 
-    let date; 
+    const usersHash = users.reduce((obj, item) => {
+         obj[item.authServiceId] = item
+         return obj
+       }, {});
 
-    const pickResults = leaders.reduce((total, item) => {
-        const user = users.find(x=>x.authServiceId === item.userId);
+    const teamsHash = teams.reduce((obj, item) => {
+         obj[item._id] = item
+         return obj
+       }, {});
+
+    let date;
+
+    const pickResults = transform(picksByUser, (result, value, key) => {
+        const user = usersHash[key];
         if (!!user) {
-            const leaderPicks = item.picks;
+            const leaderPicks = picksByUser[key];
             const pickResult = getResults(games,leaderPicks);
+            const winnings = getWinnings(pickResult);
 
-            total.push({
-                id: item.userId,
+            result.push({
+                id: key,
                 userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
                 picture: get(user,'picture'),
                 wins: pickResult.wins,
@@ -219,112 +223,70 @@ const getLeaders = (games = [], picks = [], users = [], teams = []) => {
                 spreadLosses: pickResult.spreadLosses,
                 winsBeforeGameOver: pickResult.winsBeforeGameOver,
                 lossesBeforeGameOver: pickResult.lossesBeforeGameOver,
-                games
+                percentage: pickResult.wins + pickResult.losses > 0 ? parseInt((pickResult.wins/(pickResult.wins + pickResult.losses)) * 100) + '%' : '',
+                color: (winnings || 0) < 0 ? 'red' : '#009933',
+                vegasWinnings: ((winnings || 0) < 0 ? '-' : '') + formatMoney(winnings),
+                games: isRollup ? [] : games.map(game=>{
+                    const newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                    const isNewDate = (date !== newGameDate);
+                    if (isNewDate) date = newGameDate;
+                    const hasStarted = hasGameStarted(game.startDateTime);
+                    return {
+                        ...game,
+                        isNewDate,
+                        date,
+                        awayTeam: teamsHash[game.competitors[0]._id].name,
+                        awayIndicator: getLeaderIndicator(game,leaderPicks,key,0,1),
+                        awayScore: hasStarted ? (get(game,'competitors.0.score') || 0) : undefined,
+                        homeTeam: teamsHash[game.competitors[1]._id].name,
+                        homeIndicator: getLeaderIndicator(game,leaderPicks,key,1,0),
+                        homeScore: hasStarted ? (get(game,'competitors.1.score') || 0) : undefined
+                    }
+                })
           });
         }
 
-        return total;
+        return result;
     }, []);
 
-    const pickResultsOrdered = orderBy(pickResults, ['winsBeforeGameOver', 'lossesBeforeGameOver', 'userName'], ['desc', 'asc', 'asc']);
-
-    return pickResultsOrdered.map(leader=>{
-        const winnings = getWinnings(leader);
-        return {
-            ...leader,
-            percentage: leader.wins + leader.losses > 0 ? parseInt((leader.wins/(leader.wins + leader.losses)) * 100) + '%' : '',
-            color: (winnings || 0) < 0 ? 'red' : '#009933',
-            vegasWinnings: ((winnings || 0) < 0 ? '-' : '') + formatMoney(winnings),
-            games: leader.games.map(game=>{
-                const newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                const isNewDate = (date !== newGameDate);
-                if (isNewDate) date = newGameDate;
-                const hasStarted = hasGameStarted(game.startDateTime);
-                return {
-                    ...game,
-                    isNewDate,
-                    date,
-                    awayTeam: get(teams.find(team=>team._id === game.competitors[0]._id), 'name'),
-                    awayIndicator: getLeaderIndicator(game,picks,leader,0,1),
-                    awayScore: hasStarted ? (get(game,'competitors.0.score') || 0) : undefined,
-                    homeTeam: get(teams.find(team=>team._id === game.competitors[1]._id), 'name'),
-                    homeIndicator: getLeaderIndicator(game,picks,leader,1,0),
-                    homeScore: hasStarted ? (get(game,'competitors.1.score') || 0) : undefined
-                }
-            })
-        }
-    });
+    return orderBy(pickResults, ['winsBeforeGameOver', 'lossesBeforeGameOver', 'userName'], ['desc', 'asc', 'asc']);
 };
 
 const getResults = (games = [], picks = []) => {
+    const picksHash = picks.reduce((obj, item) => {
+         obj[item.gameId] = item
+         return obj
+       }, {});
+
     const result = games.reduce((total,game)=>{
-        //if (get(game,'isGameOver',false)) {
-            const gamePicked = picks.find(x=>x.gameId === game._id);
+        const gamePicked = picksHash[game._id];
 
-            if (gamePicked) {
-                const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
-                    (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
-                
-                const winnerSelected = gamePicked.pickId === winner;
+        if (gamePicked) {
+            const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
+                (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
+            
+            const winnerSelected = gamePicked.pickId === winner;
 
-                // const pickedSpreadTeam = gamePicked.pickId === get(game,'spread.teamId');
-
-                // const spreadTeamWon = get(game,'spread.teamId') === winner;
-
-                // const spreadDiff = winner === game.competitors[0].id ? 
-                //     game.competitors[0].score - game.competitors[1].score : winner === game.competitors[1].id ? game.competitors[1].score - game.competitors[0].score : 0;
-
-                // const wonBySpread = get(game,'spread.teamId') === winner && spreadDiff >= Math.abs(get(game,'spread.amount'));
-
-                if (winnerSelected) {
-                    // if (spreadTeamWon) {
-                    //     if (pickedSpreadTeam) {
-                    //         if (wonBySpread) {
-                    //             total['spreadWins']++;
-                    //         } else {
-                    //             total['spreadLosses']++;
-                    //         }
-                    //     } else {
-                    //         total['spreadLosses']++;
-                    //     }
-                    // } else {
-                    //     if (pickedSpreadTeam) {
-                    //         total['spreadLosses']++;
-                    //     } else {
-                    //         total['spreadWins']++;
-                    //     }
-                    // }
-
-                    if (get(game,'isGameOver',false)) {
-                        total['wins']++;
-                        total['winsBeforeGameOver']++;
-                    } else {
-                        if (hasGameStarted(game.startDateTime)) {
-                            total['winsBeforeGameOver']++;
-                        }
-                    }
+            if (winnerSelected) {
+                if (get(game,'isGameOver',false)) {
+                    total['wins']++;
+                    total['winsBeforeGameOver']++;
                 } else {
-                    // if (pickedSpreadTeam) {
-                    //     total['spreadLosses']++;
-                    // } else {
-                    //     if (wonBySpread) {
-                    //         total['spreadLosses']++;
-                    //     } else {
-                    //         total['spreadWins']++;
-                    //     }
-                    // }
-
-                    if (get(game,'isGameOver',false)) {
-                        total['losses']++;
+                    if (hasGameStarted(game.startDateTime)) {
+                        total['winsBeforeGameOver']++;
+                    }
+                }
+            } else {
+                if (get(game,'isGameOver',false)) {
+                    total['losses']++;
+                    total['lossesBeforeGameOver']++;
+                } else {
+                    if (hasGameStarted(game.startDateTime)) {
                         total['lossesBeforeGameOver']++;
-                    } else {
-                        if (hasGameStarted(game.startDateTime)) {
-                            total['lossesBeforeGameOver']++;
-                        }
                     }
                 }
             }
-        //}
+        }
 
         return total;
     }, {wins: 0, losses: 0, winsBeforeGameOver: 0, lossesBeforeGameOver: 0, spreadWins: 0, spreadLosses: 0});
@@ -357,10 +319,6 @@ const areAnyGamesOver = (games = []) => {
 };
 
 const getCurrentWeek = (weeks = []) => {
-    // must check if any games in progress then if have not started to return it as current week
-    //const currentDateTime = moment();
-    //const dateFound = weeks.find(x=>currentDateTime.diff(moment(x.startDateTime),'seconds') >= 0 && currentDateTime.diff(moment(x.endDateTime).add(8,'hours'),'seconds') <= 0);
-    //return dateFound || last(weeks);
     return last(weeks);
 };
 
@@ -368,7 +326,7 @@ const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
     const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 0;
+    return difference <= 2;
 };
 
 const getAreAllGamesOver = (games = []) => {
@@ -441,22 +399,22 @@ const getAreAnyGamesInProgress = (games = []) => {
     return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)
 };
 
-const getLeaderIndicator = (game,picks,leader,index1,index2) => {
+const getLeaderIndicator = (game,picks,leaderId,index1,index2) => {
     return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.userId === leader.id && pick.gameId === game._id)) || 
+            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.userId === leaderId && pick.gameId === game._id)) || 
             (game.competitors[index1].score > game.competitors[index2].score && 
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
-                && pick.userId === leader.id && pick.gameId === game._id))) ? '#009933' : 
+                && pick.userId === leaderId && pick.gameId === game._id))) ? '#009933' : 
 
             game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.userId === leader.id && pick.gameId === game._id)) || 
+            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.userId === leaderId && pick.gameId === game._id)) || 
             (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
-                && pick.userId === leader.id && pick.gameId === game._id))) ? 'red' : 
+                && pick.userId === leaderId && pick.gameId === game._id))) ? 'red' : 
 
             moment() > moment(game.startDateTime) && 
             picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000') && 
-                pick.userId === leader.id && pick.gameId === game._id) ? 'lightblue' : '';
+                pick.userId === leaderId && pick.gameId === game._id) ? 'lightblue' : '';
 }
 
 export {

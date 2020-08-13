@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import { getBet, getWinnings, formatMoney, getResults, areAnyGamesOver } from '../../utilities';
 
 const PickResult = ({games, picks}) => {
+	const gamesOver = areAnyGamesOver(games);
 	const results = getResults(games, picks);
+	
 	const winnings = getWinnings(results);
 	const bet = getBet(results);
-	const gamesOver = areAnyGamesOver(games);
 	const winloss = (winnings || 0) < 0 ? 'lost' : 'won';
 
 	return (gamesOver && 
