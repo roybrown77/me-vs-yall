@@ -189,6 +189,8 @@ class Leader extends Component {
 
         if (!areAnyGamesInProgress) return;
 
+        if (this.props.weeks.findIndex(x=>x._id === this.props.weekId)+1 < this.props.weeks.length) return;
+
         this.props.loadLeaders({
             leagueId: this.props.leagueId,
             year: this.props.year,
