@@ -256,7 +256,14 @@ router.get('/games', function (req, res) {
       games.map(game=>{
         const x = game;
         x.hashCompetitors = null;
-        x.playHistory = game.playHistory.slice(0,5);
+        x.playHistory = game.playHistory
+        .slice(0,50)
+        .filter(history=>!history.lastPlay.includes('rebound') && 
+          !history.lastPlay.includes('timeout') && 
+          !history.lastPlay.includes('foul') && 
+          !history.lastPlay.includes('enters the game'))
+        .slice(0,7);
+        
         return x;
       });
       res.status(200).send(games);

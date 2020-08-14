@@ -3214,12 +3214,12 @@ const getPlayHistory = ({message, playHistory = [], lastPlay = "", currentTime =
   const lastPlaySplit = (lastPlay || "").split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const lastPlayEndOfQuarter = lastPlay.toLowerCase().includes('end of');
+  const badPlays = lastPlay.toLowerCase().includes('end of');
   
-  const time = lastPlayEndOfQuarter && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
+  const time = badPlays && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
 
-  const quarter = lastPlayEndOfQuarter && playHistory.length > 0 ? 
+  const quarter = badPlays && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
   const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
@@ -3229,7 +3229,7 @@ const getPlayHistory = ({message, playHistory = [], lastPlay = "", currentTime =
     return playHistory;
   }
 
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || lastPlayEndOfQuarter || lastPlay.trim() === "") {
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || badPlays || lastPlay.trim() === "") {
     console.log(`${message} getPlayHistory no valid play.`);
     return playHistory;
   }
