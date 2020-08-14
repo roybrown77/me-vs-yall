@@ -296,7 +296,7 @@ class Scoreboard extends Component {
 
         gameDate = null;
 
-        const image = getImage('scores',leagueId);
+        const image = getImage(leagueId);
 
         return (
             <div>

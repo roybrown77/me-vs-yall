@@ -276,7 +276,7 @@ class Leader extends Component {
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
-        const image = getImage('leaders',leagueId);
+        const image = getImage(leagueId);
 
         return (
             <div>

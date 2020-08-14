@@ -10,6 +10,7 @@ import mccaffrey from '../styles/images/mccaffrey.jpg';
 import patriots from '../styles/images/patriots-interception.jpg';
 import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
+import lsu from '../styles/images/lsu.jpg';
 import masvidalDiaz from '../styles/images/masvidal-diaz.png';
 import nunes from '../styles/images/nunes.jpg';
 import pogba from '../styles/images/pogba.jpg';
@@ -18,26 +19,56 @@ import jwill from '../styles/images/j-will-hair.jpg';
 import kawhi from '../styles/images/kawhi.jpg';
 import tysonFury from '../styles/images/tyson-fury.jpg';
 import mikeTyson from '../styles/images/mike-tyson.jpg';
+import uncleDrew from '../styles/images/uncle-drew.png';
+import sidneyDean from '../styles/images/sidney-dean.jpg';
+import jesus from '../styles/images/jesus-shuttlesworth.png';
+import herm from '../styles/images/herm.jpg';
 
 const vegasPictures = [
 ];
 
-const getImage = (screen, leagueId) => {
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
+const images = [
+    {id: 'mccaffrey', leagueId: '59723313734d1d6202a85f10', picture: mccaffrey, source: 'David T. Foster III / dfoster@charlotteobserver.com'},
+    {id: 'patriots', leagueId: '59723313734d1d6202a85f10', picture: patriots, source: ' Matthew J. Lee / BostonGlobe.com'},
+    {id: 'reggie', leagueId: '59723313734d1d6202a85f15', picture: reggie, source: 'Lucy Nicholson / REUTERS'},
+    {id: 'trevor', leagueId: '59723313734d1d6202a85f15', picture: trevor, source: 'Christian Petersen / Getty Images'},
+    {id: 'lsu', leagueId: '59723313734d1d6202a85f15', picture: lsu, source: 'LSU Sports Information'},
+    {id: 'herm', leagueId: '59723313734d1d6202a85f15', picture: herm, source: 'theathletic.com'},
+    {id: 'pogba', leagueId: '59723313734d1d6202a85f17', picture: pogba, source: 'Getty Images'},
+    {id: 'jwill', leagueId: '59723313734d1d6202a85f19', picture: jwill, source: 'NiceKicks.com'},
+    {id: 'kawhi', leagueId: '59723313734d1d6202a85f19', picture: kawhi, source: 'Vaughn Ridley / Getty Images'},
+    {id: 'uncleDrew', leagueId: '59723313734d1d6202a85f19', picture: uncleDrew, source: 'Pepsi'},
+    {id: 'sidneyDean', leagueId: '59723313734d1d6202a85f19', picture: sidneyDean, source: 'Ron Shelton / 20th Century Fox'},
+    {id: 'jesus', leagueId: '59723313734d1d6202a85f19', picture: jesus, source: 'Spike Lee / Touchstone Pictures'},
+    {id: 'mikeTyson', leagueId: '59723313734d1d6202a85f25', picture: mikeTyson, source: 'Getty Images'},
+    {id: 'tysonFury', leagueId: '59723313734d1d6202a85f25', picture: tysonFury, source: 'Getty Images'},
+    {id: 'masvidalDiaz', leagueId: '59723313734d1d6202a85f27', picture: masvidalDiaz, source: 'ESPN MMA'},
+    {id: 'nunes', leagueId: '59723313734d1d6202a85f27', picture: nunes, source: 'Esther Lin / MMA Fighting'},
+    {id: 'josef', leagueId: '59723313734d1d6202a85f29', picture: josef, source: 'Dale Zanine / mlssoccer.com'},
+];
+
+const getImage = (leagueId) => {
     switch (leagueId) {
         case '59723313734d1d6202a85f10':
-        return screen === 'scores' ? {picture: mccaffrey, source: 'David T. Foster III / dfoster@charlotteobserver.com'} : {picture: patriots, source: ' Matthew J. Lee / BostonGlobe.com'};
+        return images[getRandomIntInclusive(0,1)];
         case '59723313734d1d6202a85f15':
-          return screen === 'scores' ? {picture: reggie, source: 'Lucy Nicholson / REUTERS'} : {picture: trevor, source: 'Christian Petersen / Getty Images'};
+          return images[getRandomIntInclusive(2,5)];
         case '59723313734d1d6202a85f17':
-          return screen === 'scores' ? null : {picture: pogba, source: 'Getty Images'};
+          return images[getRandomIntInclusive(6,6)];
         case '59723313734d1d6202a85f19':
-          return screen === 'scores' ? {picture: jwill, source: 'NiceKicks.com'} : {picture: kawhi, source: 'Vaughn Ridley / Getty Images'};
+          return images[getRandomIntInclusive(7,11)];
         case '59723313734d1d6202a85f25':
-          return screen === 'scores' ? {picture: mikeTyson, source: 'Getty Images'} : {picture: tysonFury, source: 'Getty Images'};
+          return images[getRandomIntInclusive(12,13)];
         case '59723313734d1d6202a85f27':
-          return screen === 'scores' ? {picture: masvidalDiaz, source: 'ESPN MMA'} : {picture: nunes, source: 'Esther Lin / MMA Fighting'};
+          return images[getRandomIntInclusive(14,15)];
         case '59723313734d1d6202a85f29':
-          return screen === 'scores' ? null : {picture: josef, source: 'Dale Zanine / mlssoccer.com'};
+          return images[getRandomIntInclusive(16,16)];
         default:
           return null;
     };
@@ -438,5 +469,7 @@ export {
     getStartDateTime,
     getLeaderIndicator,
     getLeagueStartDateTime,
-    getImage
+    getImage,
+    getRandomIntInclusive,
+    images
 };
