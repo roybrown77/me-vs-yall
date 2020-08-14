@@ -251,6 +251,8 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
                 spreadLosses: pickResult.spreadLosses,
                 winsBeforeGameOver: pickResult.winsBeforeGameOver,
                 lossesBeforeGameOver: pickResult.lossesBeforeGameOver,
+                winsInARow: pickResult.winsInARow,
+                lossesInARow: pickResult.lossesInARow,
                 percentage: pickResult.wins + pickResult.losses > 0 ? parseInt((pickResult.wins/(pickResult.wins + pickResult.losses)) * 100) + '%' : '',
                 color: (winnings || 0) < 0 ? 'red' : '#009933',
                 vegasWinnings: ((winnings || 0) < 0 ? '-' : '') + formatMoney(winnings),
@@ -281,6 +283,9 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
 };
 
 const getResults = (games = [], picks = []) => {
+    let winsInARow = 0;
+    let lossesInARow = 0;
+
     const picksHash = picks.reduce((obj, item) => {
          obj[item.gameId] = item
          return obj
@@ -299,18 +304,26 @@ const getResults = (games = [], picks = []) => {
                 if (get(game,'isGameOver',false)) {
                     total['wins']++;
                     total['winsBeforeGameOver']++;
+                    lossesInARow = 0;
+                    winsInARow++;
                 } else {
                     if (hasGameStarted(game.startDateTime)) {
                         total['winsBeforeGameOver']++;
+                        lossesInARow = 0;
+                        winsInARow++;
                     }
                 }
             } else {
                 if (get(game,'isGameOver',false)) {
                     total['losses']++;
                     total['lossesBeforeGameOver']++;
+                    winsInARow = 0;
+                    lossesInARow++;
                 } else {
                     if (hasGameStarted(game.startDateTime)) {
                         total['lossesBeforeGameOver']++;
+                        winsInARow = 0;
+                        lossesInARow++;
                     }
                 }
             }
@@ -318,6 +331,9 @@ const getResults = (games = [], picks = []) => {
 
         return total;
     }, {wins: 0, losses: 0, winsBeforeGameOver: 0, lossesBeforeGameOver: 0, spreadWins: 0, spreadLosses: 0});
+
+    result['lossesInARow'] = lossesInARow;
+    result['winsInARow'] = winsInARow;
 
     return result;
 };

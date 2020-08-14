@@ -30,6 +30,9 @@ import gold from '../../styles/images/gold.png';
 import silver from '../../styles/images/silver.png';
 import bronze from '../../styles/images/bronze.png';
 
+import angry from '../../styles/images/angry.png';
+import money from '../../styles/images/smile-sweat.png';
+
 import {Howl, Howler} from 'howler';
 import boastyM4a from './boasty.m4a';
 import boastyWebm from './boasty.webm';
@@ -434,6 +437,13 @@ class Leader extends Component {
                                                                 </div>
                                                             }
                                                             <div className={classes.userName}>{leader.userName}</div>
+                                                            {
+                                                                true &&
+                                                                <div style={{display:'flex', margin: 'auto'}}>
+                                                                    <div><img style={{width:'30px'}} src={leader.winsInARow > leader.lossesInARow ? money : angry} alt=""/></div>
+                                                                    <div style={{fontWeight: '700'}}><span style={{margin: '3px 0'}}>x</span><span>{leader.winsInARow || leader.lossesInARow}</span></div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </ListItemText>
                                                     <div style={{textAlign:'right', margin: 'auto', width: '35%'}}>
