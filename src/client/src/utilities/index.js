@@ -69,6 +69,8 @@ const getImage = (leagueId) => {
           return images[getRandomIntInclusive(14,15)];
         case '59723313734d1d6202a85f29':
           return images[getRandomIntInclusive(16,16)];
+        case '59723313734d1d6202a85f35':
+          return images[getRandomIntInclusive(7,11)];
         default:
           return null;
     };
