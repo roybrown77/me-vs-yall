@@ -33,47 +33,42 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
-const images = [
-    {id: 'mccaffrey', leagueId: '59723313734d1d6202a85f10', picture: mccaffrey, source: 'David T. Foster III / dfoster@charlotteobserver.com'},
-    {id: 'patriots', leagueId: '59723313734d1d6202a85f10', picture: patriots, source: ' Matthew J. Lee / BostonGlobe.com'},
-    {id: 'reggie', leagueId: '59723313734d1d6202a85f15', picture: reggie, source: 'Lucy Nicholson / REUTERS'},
-    {id: 'trevor', leagueId: '59723313734d1d6202a85f15', picture: trevor, source: 'Christian Petersen / Getty Images'},
-    {id: 'lsu', leagueId: '59723313734d1d6202a85f15', picture: lsu, source: 'LSU Sports Information'},
-    {id: 'herm', leagueId: '59723313734d1d6202a85f15', picture: herm, source: 'theathletic.com'},
-    {id: 'pogba', leagueId: '59723313734d1d6202a85f17', picture: pogba, source: 'Getty Images'},
-    {id: 'jwill', leagueId: '59723313734d1d6202a85f19', picture: jwill, source: 'NiceKicks.com'},
-    {id: 'kawhi', leagueId: '59723313734d1d6202a85f19', picture: kawhi, source: 'Vaughn Ridley / Getty Images'},
-    {id: 'uncleDrew', leagueId: '59723313734d1d6202a85f19', picture: uncleDrew, source: 'Pepsi'},
-    {id: 'sidneyDean', leagueId: '59723313734d1d6202a85f19', picture: sidneyDean, source: 'Ron Shelton / 20th Century Fox'},
-    {id: 'jesus', leagueId: '59723313734d1d6202a85f19', picture: jesus, source: 'Spike Lee / Touchstone Pictures'},
-    {id: 'mikeTyson', leagueId: '59723313734d1d6202a85f25', picture: mikeTyson, source: 'Getty Images'},
-    {id: 'tysonFury', leagueId: '59723313734d1d6202a85f25', picture: tysonFury, source: 'Getty Images'},
-    {id: 'masvidalDiaz', leagueId: '59723313734d1d6202a85f27', picture: masvidalDiaz, source: 'ESPN MMA'},
-    {id: 'nunes', leagueId: '59723313734d1d6202a85f27', picture: nunes, source: 'Esther Lin / MMA Fighting'},
-    {id: 'josef', leagueId: '59723313734d1d6202a85f29', picture: josef, source: 'Dale Zanine / mlssoccer.com'},
-];
+const images = {
+    '59723313734d1d6202a85f10': [
+        {id: 'mccaffrey', picture: mccaffrey, source: 'David T. Foster III / dfoster@charlotteobserver.com'},
+        {id: 'patriots', picture: patriots, source: ' Matthew J. Lee / BostonGlobe.com'}
+    ],
+    '59723313734d1d6202a85f15': [
+        {id: 'reggie', picture: reggie, source: 'Lucy Nicholson / REUTERS'},
+        {id: 'trevor', picture: trevor, source: 'Christian Petersen / Getty Images'},
+        {id: 'lsu', picture: lsu, source: 'LSU Sports Information'},
+        {id: 'herm', picture: herm, source: 'theathletic.com'}
+    ],
+    '59723313734d1d6202a85f17': [
+        {id: 'pogba', picture: pogba, source: 'Getty Images'}
+    ],
+    '59723313734d1d6202a85f19': [
+       {id: 'jwill', picture: jwill, source: 'NiceKicks.com'},
+        {id: 'kawhi', picture: kawhi, source: 'Vaughn Ridley / Getty Images'},
+        {id: 'uncleDrew', picture: uncleDrew, source: 'Pepsi'},
+        {id: 'sidneyDean', picture: sidneyDean, source: 'Ron Shelton / 20th Century Fox'},
+        {id: 'jesus', picture: jesus, source: 'Spike Lee / Touchstone Pictures'}
+    ],
+    '59723313734d1d6202a85f25': [
+        {id: 'mikeTyson', picture: mikeTyson, source: 'Getty Images'},
+        {id: 'tysonFury', picture: tysonFury, source: 'Getty Images'}
+    ],
+    '59723313734d1d6202a85f27': [
+        {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'ESPN MMA'},
+        {id: 'nunes', picture: nunes, source: 'Esther Lin / MMA Fighting'},
+    ],
+    '59723313734d1d6202a85f29': [
+        {id: 'josef', picture: josef, source: 'Dale Zanine / mlssoccer.com'}
+    ],
+};
 
 const getImage = (leagueId) => {
-    switch (leagueId) {
-        case '59723313734d1d6202a85f10':
-        return images[getRandomIntInclusive(0,1)];
-        case '59723313734d1d6202a85f15':
-          return images[getRandomIntInclusive(2,5)];
-        case '59723313734d1d6202a85f17':
-          return images[getRandomIntInclusive(6,6)];
-        case '59723313734d1d6202a85f19':
-          return images[getRandomIntInclusive(7,11)];
-        case '59723313734d1d6202a85f25':
-          return images[getRandomIntInclusive(12,13)];
-        case '59723313734d1d6202a85f27':
-          return images[getRandomIntInclusive(14,15)];
-        case '59723313734d1d6202a85f29':
-          return images[getRandomIntInclusive(16,16)];
-        case '59723313734d1d6202a85f35':
-          return images[getRandomIntInclusive(7,11)];
-        default:
-          return null;
-    };
+    return images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)];
 };
 
 const leagues = [ 

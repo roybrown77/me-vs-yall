@@ -183,7 +183,7 @@ class Home extends Component {
       const mlsStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f29', mlsGames);
       const womensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f31', womensCollegeBasketballGames);
       const mensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f33', mensCollegeBasketballGames);
-      const image = images[getRandomIntInclusive(4,5)];
+      const image = images['59723313734d1d6202a85f15'][getRandomIntInclusive(2,3)];
 
       return (
         <div className="fade-in">
