@@ -125,7 +125,7 @@ const buySupreme = async () => {
 const getEmailAddresses = async () => {
   const users = await userRepository.find({});
   const emailList = [...users.map(user=>{return user.email})];
-  const emailString = emailList.join(',');
+  const emailString = emailList.join('\n');
   console.log('emailString: ' + emailString);
 };
 
@@ -261,7 +261,8 @@ router.get('/games', function (req, res) {
         .filter(history=>!history.lastPlay.includes('rebound') && 
           !history.lastPlay.includes('timeout') && 
           !history.lastPlay.includes('foul') && 
-          !history.lastPlay.includes('enters the game'))
+          !history.lastPlay.includes('enters the game') &&
+          !history.lastPlay.includes('turnover'))
         .slice(0,7);
         
         return x;
