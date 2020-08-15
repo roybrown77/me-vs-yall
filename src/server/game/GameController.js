@@ -263,7 +263,7 @@ router.get('/games', function (req, res) {
           !history.lastPlay.includes('foul') && 
           !history.lastPlay.includes('enters the game') &&
           !history.lastPlay.includes('turnover'))
-        .slice(0,7);
+        .slice(0,5);
         
         return x;
       });
