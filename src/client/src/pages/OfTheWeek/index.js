@@ -41,7 +41,7 @@ const stats = [
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Portland Trail Blazers over Los Angeles Lakers in Game 2`,
-    leagueName: 'NFL',
+    leagueName: 'NBA',
     date: 'August 16, 2020',
     author: 'Mack & Beezie',
     lockOfTheWeek: true,
