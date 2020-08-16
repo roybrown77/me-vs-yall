@@ -461,6 +461,16 @@ const getLeaderIndicator = (game,picks,leaderId,index1,index2) => {
                 pick.userId === leaderId && pick.gameId === game._id) ? 'lightblue' : '';
 }
 
+const getPicksNotSelected = (games = [], picks = []) => {
+    let count = 0;
+    games.forEach(game=>{
+        if (!picks.find(x=>x.gameId === game._id)) {
+            count++;
+        }
+    });
+    return count;
+}
+
 export {
     getResults,
     areAnyGamesOver,
@@ -484,5 +494,6 @@ export {
     getLeagueStartDateTime,
     getImage,
     getRandomIntInclusive,
-    images
+    images,
+    getPicksNotSelected
 };

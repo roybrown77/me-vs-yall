@@ -44,7 +44,8 @@ import {
     getGroupedGames,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    getImage
+    getImage,
+    getPicksNotSelected
 } from '../../utilities';
 
 Howler.volume(1);
@@ -293,6 +294,7 @@ class Scoreboard extends Component {
         const groupedGames = getGroupedGames(games, picks, teams);
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
+        const picksNotSelected = getPicksNotSelected(gamesNotStarted, picks);
 
         gameDate = null;
 
@@ -400,11 +402,10 @@ class Scoreboard extends Component {
                     }
                     {
                         isAuthenticated && 
-                        ((picks.length === 0 && gamesNotStarted.length > 0) || (picks.length < gamesNotStarted.length)) &&
-                        !areAllGamesOver &&
+                        picksNotSelected > 0 &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             <div>tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} below</div>
-                            <div className='fast-flash'><b>{gamesNotStarted.length - picks.length}</b> remaining</div>
+                            <div className='fast-flash'><b>{picksNotSelected}</b> remaining</div>
                         </div>
                     }
                     {
