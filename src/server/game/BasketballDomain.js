@@ -111,7 +111,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
   }
 
   //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //0console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
 
   await updateGames({
     message,

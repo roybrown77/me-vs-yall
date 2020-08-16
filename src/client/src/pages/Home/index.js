@@ -19,6 +19,7 @@ import hudsonGrille from '../../styles/images/hudson-grille.jpg';
 import rocket from '../../styles/images/rocket.png';
 import money from '../../styles/images/money.png';
 
+import baseball from '../../styles/images/baseball.png';
 import football from '../../styles/images/football.png';
 import soccer from '../../styles/images/soccer.png';
 import basketball from '../../styles/images/basketball.png';
@@ -362,6 +363,23 @@ class Home extends Component {
                 </Grid>
               }
               {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Route render={({ history }) => (
+                      <Button 
+                          variant="outlined" 
+                          style={{...styles.button, fontSize: '1rem', color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
+                          MLB
+                          {
+                            areAnyMlbGamesInProgress &&
+                            <img className='fast-flash' style={styles.ball} src={baseball} alt=""/>
+                          }
+                      </Button>
+                  )}/>
+                  {mlbStartDateTime && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
+                </Grid>
+              }
+              {
                 false &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Route render={({ history }) => (
@@ -393,23 +411,6 @@ class Home extends Component {
                       </Button>
                   )}/>
                   {mensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={mensCollegeBasketballStartDateTime}/>}
-                </Grid>
-              }
-              {
-                false &&
-                <Grid item xs={8} style={styles.buttonBorder}>
-                  <Route render={({ history }) => (
-                      <Button 
-                          variant="outlined" 
-                          style={{...styles.button, color: '#D50032'}} onClick={() => {}}>
-                          MLB
-                          {
-                            areAnyMlbGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
-                          }
-                      </Button>
-                  )}/>
-                  {mlbStartDateTime && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
                 </Grid>
               }
               {

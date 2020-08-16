@@ -72,7 +72,7 @@ const images = {
 };
 
 const getImage = (leagueId) => {
-    return images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)];
+    return images[leagueId] && images[leagueId].length > 0 ? images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)] : null;
 };
 
 const leagues = [ 
@@ -136,12 +136,12 @@ const leagues = [
     //     description: 'mls',
     //     years: [2019]
     // },
-    // {
-    //     id: '59723313734d1d6202a85f21', 
-    //     name: 'mlb', 
-    //     description: 'mlb', 
-    //     years: [2019]
-    // },
+    {
+        id: '59723313734d1d6202a85f21', 
+        name: 'mlb', 
+        description: 'mlb', 
+        years: [2019,2020]
+    },
     // {
     //     id: '59723313734d1d6202a85f23', 
     //     name: 'xgames', 

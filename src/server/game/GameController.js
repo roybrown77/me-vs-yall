@@ -157,7 +157,9 @@ const updateGames = async () => {
   //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
   //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 4, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
   //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 5, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
- 
+  //loadMlbGames({dayCount: 0, shouldLimit: false, isStart: false, leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'loadMlbGames', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  //loadMlbGames({dayCount: 1, shouldLimit: false, isStart: false, leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'loadMlbGames', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -218,13 +220,14 @@ const updateGames = async () => {
   console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
 
   if (numberOfSpreadGames > 0 || numberOfNonSpreadGames > 0) {
-    await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2020, teams: nflTeams});
-    await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+    //await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2020, teams: nflTeams});
+    //await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
     await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
     //await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
     //await updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
     //await updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
     //await updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+    await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});  
   }
 };
 

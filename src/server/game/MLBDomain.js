@@ -21,40 +21,15 @@ const {
 let isLoadMlbGamesRunning = false;
 let isUpdateMlbScoresRunning = false;
 
-const loadMlbGames = async ({dayCount, shouldLimit, isStart}) => {
-  const message = 'loadMlbGames';
-
+const loadMlbGames = async ({dayCount, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
   if (isLoadMlbGamesRunning || isUpdateMlbScoresRunning) {
     console.log(`${message} already running.`);
     return;
   }
 
-  const leagueId = '59723313734d1d6202a85f21';
-  const year = 2019;
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
-  
-  //console.log(`${message} date: ${date}`);
-
-  const gameExistSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    startDateTime: {
-      $gte: new Date(moment(date).startOf('day')),
-      $lte: new Date(moment(date).endOf('day'))
-    }
-  };
-
-  const gamesExistSearch = await gameRepository.find(gameExistSearch);
-
-  if ((gamesExistSearch || []).length > 0) {
-    console.log(`${message} games already exists: ${JSON.stringify(gameExistSearch)}`);
-    //return;
-  }
-
-  //console.log(`${message} get games`);
-
-  const url = `http://www.espn.com/mlb/scoreboard/_/date/${date}`;
   const root = 'scoreboard baseball';
+  const url = `${baseUrl}${date}`;
   
   const games = await getGames({
     message,
@@ -72,7 +47,7 @@ const loadMlbGames = async ({dayCount, shouldLimit, isStart}) => {
 
   //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({games, leagueId, year, teams: mlbTeams});
+  const mvyGames = formatGames({games, leagueId, year, teams});
 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
@@ -81,38 +56,43 @@ const loadMlbGames = async ({dayCount, shouldLimit, isStart}) => {
   isLoadMlbGamesRunning = false;
 };
 
-const updateMlbScores = async () => {
-  const message = 'updateMlbScores';
-
+const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
   if (isUpdateMlbScoresRunning) {
     console.log(`${message} already running.`)
     return;
   }
 
-  const leagueId = '59723313734d1d6202a85f21';
-  const year = 2019;
+  const time = moment().add(30, 'minutes').toISOString();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
+    startDateTime: {
+      $lte: time,
+    },
     year: year
   };
 
   const games = await gameRepository.find(search);
 
+  console.log(`${message} time: ${time} for games: ${games.length}`);
+
   if ((games || []).length === 0) {
-    console.log(`${message} all scores have been updated.`);
+    console.log(`${message} all scores have been updated or games are not 30 minutes away.`);
     return;
   }
 
   isUpdateMlbScoresRunning = true;
 
+  const root = 'scoreboard baseball';
+
   const scores = await getScores({
     message, 
-    root: 'scoreboard baseball',
-    url: 'http://www.espn.com/mlb/scoreboard',
+    root,
+    url,
+    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
   if (scores.length === 0) {
@@ -126,10 +106,9 @@ const updateMlbScores = async () => {
 
   await updateGames({
     message,
-    leagueId, 
     games,
     scores,
-    teams: mlbTeams
+    teams
   });
 
   isUpdateMlbScoresRunning = false;

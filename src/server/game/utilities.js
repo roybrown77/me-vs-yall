@@ -3485,7 +3485,7 @@ const getScores = async ({
         height: 1000
       },
       //headless: false
-      timeout: 15000,
+      timeout: 45000,
       pipe: true,
       ignoreHTTPSErrors: true
     });
