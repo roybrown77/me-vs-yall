@@ -10,7 +10,7 @@ const gameWeekRepository = require('./GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 
-const {shouldUpdateGames} = require('../../../config');
+const {shouldUpdateGames, playHistoryCount} = require('../../../config');
 
 const {
   loadWorldFootballGames,
@@ -263,7 +263,7 @@ router.get('/games', function (req, res) {
           !history.lastPlay.includes('foul') && 
           !history.lastPlay.includes('enters the game') &&
           !history.lastPlay.includes('turnover'))
-        .slice(0,5);
+        .slice(0,playHistoryCount);
         
         return x;
       });
