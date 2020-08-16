@@ -23,8 +23,10 @@ import uncleDrew from '../styles/images/uncle-drew.png';
 import sidneyDean from '../styles/images/sidney-dean.jpg';
 import jesus from '../styles/images/jesus-shuttlesworth.png';
 import herm from '../styles/images/herm.jpg';
+import zachBaby from '../styles/images/zach-baby.jpg';
 
 const vegasPictures = [
+    zachBaby
 ];
 
 function getRandomIntInclusive(min, max) {
@@ -244,7 +246,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
             result.push({
                 id: key,
                 userName: get(user,'firstName','') + ' ' + get(user,'lastName',''),
-                picture: get(user,'picture'),
+                picture: key === '1' ? getVegasUser().picture : get(user,'picture'),
                 wins: pickResult.wins,
                 losses: pickResult.losses,
                 spreadWins: pickResult.spreadWins,
