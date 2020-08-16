@@ -24,6 +24,7 @@ import sidneyDean from '../styles/images/sidney-dean.jpg';
 import jesus from '../styles/images/jesus-shuttlesworth.png';
 import herm from '../styles/images/herm.jpg';
 import zachBaby from '../styles/images/zach-baby.jpg';
+import afroBFrench from '../styles/images/afro-b-french.jpg';
 
 const vegasPictures = [
     zachBaby
@@ -54,7 +55,8 @@ const images = {
         {id: 'kawhi', picture: kawhi, source: 'Vaughn Ridley / Getty Images'},
         {id: 'uncleDrew', picture: uncleDrew, source: 'Pepsi'},
         {id: 'sidneyDean', picture: sidneyDean, source: 'Ron Shelton / 20th Century Fox'},
-        {id: 'jesus', picture: jesus, source: 'Spike Lee / Touchstone Pictures'}
+        {id: 'jesus', picture: jesus, source: 'Spike Lee / Touchstone Pictures'},
+        {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana'}
     ],
     '59723313734d1d6202a85f25': [
         {id: 'mikeTyson', picture: mikeTyson, source: 'Getty Images'},
