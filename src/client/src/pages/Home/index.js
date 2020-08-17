@@ -368,7 +368,7 @@ class Home extends Component {
                   <Route render={({ history }) => (
                       <Button 
                           variant="outlined" 
-                          style={{...styles.button, fontSize: '1rem', color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
+                          style={{...styles.button, fontSize: '4rem', color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
                           MLB
                           {
                             areAnyMlbGamesInProgress &&
@@ -376,7 +376,7 @@ class Home extends Component {
                           }
                       </Button>
                   )}/>
-                  {mlbStartDateTime && <Countdown styles={styles.countdown} date={mlbStartDateTime}/>}
+                  {mlbStartDateTime && <Countdown styles={{...styles.countdown, marginTop: '-1.5rem'}} date={mlbStartDateTime}/>}
                 </Grid>
               }
               {
