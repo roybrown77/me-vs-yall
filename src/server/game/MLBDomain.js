@@ -92,7 +92,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     message, 
     root,
     url,
-    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
+    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > p'
   });
   
   if (scores.length === 0) {
@@ -106,6 +106,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
 
   await updateGames({
     message,
+    leagueId,
     games,
     scores,
     teams

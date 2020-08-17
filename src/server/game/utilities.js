@@ -3196,10 +3196,34 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
-const getPlayHistory = ({message, playHistory = [], lastPlay = "", currentTime = ""}) => {
+const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
   console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
   console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
+  console.log(`${message} leagueId: ${JSON.stringify(leagueId)}`);
+
+  if (leagueId === '59723313734d1d6202a85f21') {
+    const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
+
+    if (get(checkLastPlay,'quarter') === currentTime) {
+        return playHistory;
+    }
+
+    if (!currentTime || lastPlay.trim() === "") {
+        console.log(`${message} getPlayHistory no valid play.`);
+        return playHistory;
+      }
+
+      const newPlayHistory = [
+        {
+          quarter: currentTime,
+          lastPlay: lastPlay
+        },
+        ...playHistory
+      ];
+      
+      return newPlayHistory;
+  }
 
   const currenTimeSplit = (currentTime || "").split(' ');
 
@@ -3402,8 +3426,8 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                 console.log(`${message} formatGames teams not found: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
             } else {
                 const competitors = [
-                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank')},
-                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank')}
+                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
+                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
                 ];
 
                 formattedGames.push({
@@ -3704,7 +3728,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             
             //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
-            const newPlayHistory = getPlayHistory({message, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+            const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
             const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
             const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
             const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
@@ -3728,11 +3752,14 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
             const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
                 : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
 
+
+            console.log(`${message} currentTimeFormatted: ${currentTimeFormatted}`);
+
             const updatedGame = {
               competitors: [...get(game,'competitors',[])],
               isGameOver: isGameOver,
               playHistory: newPlayHistory,
-              currentTime: shouldSetCurrentTime && currentTimeFormatted ? currentTimeFormatted + " - " + quarter : quarter,
+              currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
               gameName: get(score,'gameName',''),
               down: get(score,'down'),
               possession: get(score,'possession')
