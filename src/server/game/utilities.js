@@ -11,6 +11,12 @@ const sample = require('lodash/sample');
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
 
+const getRandomIntInclusive = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
 const countries = [
     {
         _id: "19823783734d1d04a1b39020",
@@ -3328,15 +3334,7 @@ const getGames = async ({
       return [];
     }
 
-    let startLength = 1;
-    let endLength = listLength; 
-
-    if (shouldLimit) {
-        startLength = listLength < 4 ? 1 : isStart ? 1 : listLength-2;
-        endLength = listLength < 4 ? listLength : isStart ? 3 : listLength;
-    }
-
-    for (let i = startLength; i <= endLength; i++) {
+    for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerHTML : null;
@@ -3406,6 +3404,12 @@ const getGames = async ({
     }
 
     console.log(`${message} getGames browser error: ${err.message}`);
+  }
+  
+  const maxLength = 3;
+  if (shouldLimit && games.length > maxLength) {
+    const randomPosition = getRandomIntInclusive(1,games.length-maxLength);
+    games = games.slice(randomPosition,randomPosition+maxLength);
   }
 
   return games;
@@ -3509,7 +3513,7 @@ const getScores = async ({
         height: 1000
       },
       //headless: false
-      timeout: 45000,
+      timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true
     });
