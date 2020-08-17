@@ -44,7 +44,7 @@ const stats = [
     leagueName: 'NBA',
     date: 'August 16, 2020',
     author: 'Mack & Beezie',
-    lockOfTheWeek: true,
+    lockOfTheWeek: false,
     correct: null
   },
   {
