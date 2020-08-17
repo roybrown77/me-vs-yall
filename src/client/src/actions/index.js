@@ -221,60 +221,51 @@ const fetchAllTeams = (types) => ({
   }
 });
 
-export const loadScoreboard = (query, requiredFields = []) => (dispatch, getState) => {
+export const loadScoreboard = (query, requiredFields = []) => async (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
   const year = get(query, 'year');
 
-  dispatch(fetchGameWeeks({leagueId,year})).then(
-    result=>{
-        const currentState = getState();
-        const authenticationDomain = currentState.get('authenticationDomain').toJS();
-        const userInSession = getUser();
-        const user = get(authenticationDomain,'user',userInSession);
-        const weeks = get(result,'response',[]);
-        const currentWeek = getCurrentWeek(weeks);
+  const gameWeeks = await dispatch(fetchGameWeeks({leagueId,year}));
+  const currentState = getState();
+  const authenticationDomain = currentState.get('authenticationDomain').toJS();
+  const userInSession = getUser();
+  const user = get(authenticationDomain,'user',userInSession);
+  const weeks = get(gameWeeks,'response',[]);
+  const currentWeek = getCurrentWeek(weeks);
 
-        const request = {
-          weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
-          userId: get(user,'sub'),
-          leagueId: get(query, 'leagueId')  || get(currentWeek, 'leagueId'),
-          year: get(query, 'year') || get(currentWeek, 'year'),
-          beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-          endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
-        };
+  const request = {
+    weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
+    userId: get(user,'sub'),
+    leagueId: get(query, 'leagueId')  || get(currentWeek, 'leagueId'),
+    year: get(query, 'year') || get(currentWeek, 'year'),
+    beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+    endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+  };
 
-        const requestStorageJson = localStorage.getItem('request');
-        const requestStorage = JSON.parse(requestStorageJson);
+  const requestStorageJson = localStorage.getItem('request');
+  const requestStorage = JSON.parse(requestStorageJson);
 
-        if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
-          const lookup = currentState.get('lookup').toJS();
-          const leagues = get(lookup, 'leagues', []);
-          const leagueId = get(request, 'leagueId');
-          const league = leagues.find(x=>x.id === leagueId);
-          const leagueName = get(league,'name','nfl');
-          history.push('/scoreboards/' + leagueName);
-        }
+  if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
+    const lookup = currentState.get('lookup').toJS();
+    const leagues = get(lookup, 'leagues', []);
+    const leagueId = get(request, 'leagueId');
+    const league = leagues.find(x=>x.id === leagueId);
+    const leagueName = get(league,'name','nfl');
+    history.push('/scoreboards/' + leagueName);
+  }
 
-        Promise.all([
-          !!get(authenticationDomain,'isAuthenticated') ? dispatch(createUser(user)) : undefined,
-          dispatch({type: SCOREBOARD_REQUEST, request})
-        ]).then(
-            Promise.all([
-              dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-              !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
-              dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
-            ]).then(
-              result=>{ 
-                dispatch({type: SCOREBOARD_SUCCESS, response: result});
-              },
-              error=>{
-                dispatch({type: SCOREBOARD_FAILURE});
-            })
-          );
-    },
-    error=>{
-        dispatch({type: SCOREBOARD_FAILURE});
-    });
+  await Promise.all([
+    !!get(authenticationDomain,'isAuthenticated') ? dispatch(createUser(user)) : undefined,
+    dispatch({type: SCOREBOARD_REQUEST, request})
+  ]);
+
+  await Promise.all([
+    dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
+    !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
+    dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
+  ]).then(result=>{
+    dispatch({type: SCOREBOARD_SUCCESS, response: result});
+  });
 };
 
 export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
