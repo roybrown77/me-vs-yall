@@ -191,7 +191,7 @@ const getLeagueStartDateTime = (leagueId, games) => {
 }
 
 const getStartDateTime = (games) => {
-    return getAreAllGamesOver(games) ? getTimeUntilNextGamesLoad(games) : getNextGameStartDateTime(games);
+    return getAreAllGamesOver(games) ? null : getNextGameStartDateTime(games);
 }
 
 const getNextGameStartDateTime = (games) => {

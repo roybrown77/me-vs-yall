@@ -506,7 +506,7 @@ class Home extends Component {
               <div>
                 <div><Link style={styles.link} to={'/tips'}>Tips</Link></div>
                 <div><Link style={styles.link} to={'/shop'}>Shop</Link></div>
-                {false && <div><Link style={styles.link} to={'/play'}>Play</Link></div>}
+                <div><Link style={styles.link} to={'/play'}>Play</Link></div>
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link style={styles.link} to={'/about'}>About</Link></div>
@@ -523,7 +523,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const homePageDomain = state.homePageDomain;
+    const homePageDomain = state.get('homePageDomain').toJS();
     const games = get(homePageDomain, 'games', []);
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
