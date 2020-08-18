@@ -3244,7 +3244,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   const lastPlaySplit = (lastPlay || "").split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const badPlays = lastPlay.toLowerCase().includes('end of');
+  const badPlays = lastPlay.toLowerCase().includes('end of') || lastPlay.toLowerCase().includes('turnover');
   
   const time = badPlays && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
@@ -3408,7 +3408,7 @@ const getGames = async ({
   
   const maxLength = 3;
   if (shouldLimit && games.length > maxLength) {
-    const randomPosition = getRandomIntInclusive(1,games.length-maxLength);
+    const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
     games = games.slice(randomPosition,randomPosition+maxLength);
   }
 
