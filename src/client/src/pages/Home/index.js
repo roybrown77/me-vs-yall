@@ -29,7 +29,7 @@ import mma from '../../styles/images/mma.png';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
-import { googleLogin } from '../../middleware/authenticationService';
+import { googleLogin } from '../../middleware/authenticationClient';
 import { getAreAnyGamesInProgress, getLeagueStartDateTime, images, getRandomIntInclusive } from '../../utilities';
 
 const history = createBrowserHistory({forceRefresh: true});
@@ -519,7 +519,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const homePageDomain = state.get('homePageDomain').toJS();
+    const homePageDomain = state.homePageDomain;
     const games = get(homePageDomain, 'games', []);
     const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');

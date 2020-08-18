@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Slide from '@material-ui/core/Slide';
 
-import { isLoggedIn, googleLogin } from '../../middleware/authenticationService';
+import { isLoggedIn, googleLogin } from '../../middleware/authenticationClient';
 import mvy from '../../styles/images/mvy.png';
 
 class Play extends Component {

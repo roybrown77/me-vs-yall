@@ -11,7 +11,7 @@ import {
   getVegasPicks
 } from '../utilities';
 
-import { getUser, isLoggedIn } from '../middleware/authenticationService';
+import { getUser, isLoggedIn } from '../middleware/authenticationClient';
 
 const scoreboardDomain = (
   state = Map({ 
@@ -181,6 +181,26 @@ const leaderDomain = (
   }
 };
 
+const homePageDomain = (
+  state = Map({ 
+    games: List()
+  }), 
+  action) => {
+  switch (action.type) {
+    case ActionTypes.GAMESINPROGRESS_SUCCESS:
+      if (action.response) {
+        const gameList = action.response.map(item=>{
+          return Map(item);
+        });
+
+        return state.set('games', List(gameList));
+      }
+      return state;
+    default:
+      return state;
+  }
+};
+
 const ui = (state = Map({
   request: Map({
     leagueId: '59723313734d1d6202a85f10',
@@ -215,26 +235,6 @@ const errorMessage = (state = null, action) => {
   }
 
   return state;
-};
-
-const homePageDomain = (
-  state = Map({ 
-    games: List()
-  }), 
-  action) => {
-  switch (action.type) {
-    case ActionTypes.GAMESINPROGRESS_SUCCESS:
-      if (action.response) {
-        const gameList = action.response.map(item=>{
-          return Map(item);
-        });
-
-        return state.set('games', List(gameList));
-      }
-      return state;
-    default:
-      return state;
-  }
 };
 
 const rootReducer = combineReducers({

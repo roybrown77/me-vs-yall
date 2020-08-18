@@ -35,7 +35,7 @@ import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
 import { loadScoreboard, addPick, updatePick } from '../../actions';
-import { googleLogin } from '../../middleware/authenticationService';
+import { googleLogin } from '../../middleware/authenticationClient';
 import { 
     formatWeeks, 
     getCurrentWeek, 

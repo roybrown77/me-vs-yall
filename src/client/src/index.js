@@ -12,7 +12,7 @@ import ReactGA from 'react-ga';
 import Immutable from 'immutable';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import api from './middleware/api';
+import httpClient from './middleware/httpClient';
 import rootReducer from './reducers';
 import {isProduction,googleAnalyticsId} from './config';
 
@@ -41,7 +41,7 @@ const store = createStore(
   composeAll(
     applyMiddleware(
       thunkMiddleware,
-      api
+      httpClient
       )
   )
 );

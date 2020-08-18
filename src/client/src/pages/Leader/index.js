@@ -37,7 +37,7 @@ import {Howl, Howler} from 'howler';
 import boastyM4a from './boasty.m4a';
 import boastyWebm from './boasty.webm';
 
-import { googleLogin } from '../../middleware/authenticationService';
+import { googleLogin } from '../../middleware/authenticationClient';
 import { loadLeaders } from '../../actions';
 import { 
     formatWeeks, 

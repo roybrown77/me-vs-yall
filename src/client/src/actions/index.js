@@ -1,13 +1,13 @@
 import queryString from 'query-string';
 import URLSearchParams from 'url-search-params';
-import moment from 'moment-timezone';
 import {createBrowserHistory} from 'history';
 
 import get from 'lodash/get';
-import last from 'lodash/last';
 
-import { CALL_API, Schemas } from '../middleware/api';
-import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationService';
+import { CALL_API, Schemas } from '../middleware/httpClient';
+import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationClient';
+
+import { getCurrentWeek } from '../utilities';
 
 const history = createBrowserHistory({forceRefresh: false});
 const refreshHistory = createBrowserHistory({forceRefresh: true});
@@ -66,13 +66,6 @@ export const GAMESINPROGRESS_FAILURE = 'GAMESINPROGRESS_FAILURE';
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
 
-const getCurrentWeek = (weeks = []) => {
-    // must check if any games in progress then if have not started to return it as current week
-    const currentDateTime = moment();
-    const dateFound = weeks.find(x=>currentDateTime.diff(moment(x.startDateTime),'seconds') >= 0 && currentDateTime.diff(moment(x.endDateTime).add(8,'hours'),'seconds') <= 0);
-    return dateFound || last(weeks);
-};
-
 export const resetErrorMessage = () => ({
     type: RESET_ERROR_MESSAGE
 });
@@ -93,35 +86,6 @@ const createUser = profile => ({
   }
 });
 
-export const loadUser = () => (dispatch, getState) => {
-  const state = getState();
-  const ui = state.get('ui').toJS();
-  const request = get(ui,'request');
-  const requestStorageJson = localStorage.getItem('request');
-  const requestStorage = JSON.parse(requestStorageJson);
-  const leagueId = get(requestStorage, 'leagueId') || get(request, 'leagueId');
-  const lookup = state.get('lookup').toJS();
-  const leagues = get(lookup, 'leagues', []);
-  const league = leagues.find(x=>x.id === leagueId);
-  const leagueName = get(league,'name','nfl');
-
-  setAccessToken();
-  setIdToken();
-  setExpiration();
-  getUserProfile((err, profile) => {
-    localStorage.setItem('user', JSON.stringify(profile));
-    dispatch({type: 'LOGIN_SUCCESS', user: profile});
-    refreshHistory.push('/scoreboards/' + leagueName);
-  });
-};
-
-export const selectWeek = (week) => (dispatch, getState) => {
-  dispatch({
-    type: 'GAMESEARCHUPDATE',
-    week
-  });
-};
-
 const createPick = pick => ({
   [CALL_API]: {
     types: [ ADDPICK_REQUEST, ADDPICK_SUCCESS, ADDPICK_FAILURE ],
@@ -131,17 +95,6 @@ const createPick = pick => ({
     schema: Schemas.PICK
   }
 });
-
-export const addPick = (pick) => (dispatch, getState) => {
-  const searchParams = new URLSearchParams();
-  const userInSession = getUser();
-  const userId = get(userInSession,'sub');
-  searchParams.set('userId', userId);
-  searchParams.set('gameId', pick.gameId);
-  searchParams.set('pickId', pick.pickId);
-
-  dispatch(createPick(searchParams));
-};
 
 const editPick = (id, pick) => ({
   id,
@@ -154,17 +107,6 @@ const editPick = (id, pick) => ({
   }
 });
 
-export const updatePick = (id, pick) => (dispatch, getState) => {
-  const userInSession = getUser();
-  const userId = get(userInSession,'sub');
-  const searchParams = new URLSearchParams();
-  searchParams.set('userId', userId);
-  searchParams.set('pickId', pick.pickId);
-  searchParams.set('gameId', pick.gameId);
-
-  dispatch(editPick(id, searchParams));
-};
-
 const fetchGamesInProgress = () => ({
   [CALL_API]: {
     types: [ GAMESINPROGRESS_REQUEST, GAMESINPROGRESS_SUCCESS, GAMESINPROGRESS_FAILURE ],
@@ -173,10 +115,6 @@ const fetchGamesInProgress = () => ({
   }
 });
 
-export const loadGamesInProgress = () => (dispatch, getState) => {
-  dispatch(fetchGamesInProgress());
-};
-
 const fetchGameWeeks = query => ({
   [CALL_API]: {
     types: [ GAMEWEEKS_REQUEST, GAMEWEEKS_SUCCESS, GAMEWEEKS_FAILURE ],
@@ -184,10 +122,6 @@ const fetchGameWeeks = query => ({
     schema: Schemas.GAME_ARRAY
   }
 });
-
-export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState) => {
-  dispatch(fetchGameWeeks(query));
-};
 
 const fetchGames = (query, types) => ({
   [CALL_API]: {
@@ -220,6 +154,65 @@ const fetchAllTeams = (types) => ({
     schema: Schemas.TEAM_ARRAY
   }
 });
+
+export const loadUser = () => (dispatch, getState) => {
+  const state = getState();
+  const ui = state.get('ui').toJS();
+  const request = get(ui,'request');
+  const requestStorageJson = localStorage.getItem('request');
+  const requestStorage = JSON.parse(requestStorageJson);
+  const leagueId = get(requestStorage, 'leagueId') || get(request, 'leagueId');
+  const lookup = state.get('lookup').toJS();
+  const leagues = get(lookup, 'leagues', []);
+  const league = leagues.find(x=>x.id === leagueId);
+  const leagueName = get(league,'name','nfl');
+
+  setAccessToken();
+  setIdToken();
+  setExpiration();
+  getUserProfile((err, profile) => {
+    localStorage.setItem('user', JSON.stringify(profile));
+    dispatch({type: 'LOGIN_SUCCESS', user: profile});
+    refreshHistory.push('/scoreboards/' + leagueName);
+  });
+};
+
+export const selectWeek = (week) => (dispatch, getState) => {
+  dispatch({
+    type: 'GAMESEARCHUPDATE',
+    week
+  });
+};
+
+export const addPick = (pick) => (dispatch, getState) => {
+  const searchParams = new URLSearchParams();
+  const userInSession = getUser();
+  const userId = get(userInSession,'sub');
+  searchParams.set('userId', userId);
+  searchParams.set('gameId', pick.gameId);
+  searchParams.set('pickId', pick.pickId);
+
+  dispatch(createPick(searchParams));
+};
+
+export const updatePick = (id, pick) => (dispatch, getState) => {
+  const userInSession = getUser();
+  const userId = get(userInSession,'sub');
+  const searchParams = new URLSearchParams();
+  searchParams.set('userId', userId);
+  searchParams.set('pickId', pick.pickId);
+  searchParams.set('gameId', pick.gameId);
+
+  dispatch(editPick(id, searchParams));
+};
+
+export const loadGamesInProgress = () => (dispatch, getState) => {
+  dispatch(fetchGamesInProgress());
+};
+
+export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState) => {
+  dispatch(fetchGameWeeks(query));
+};
 
 export const loadScoreboard = (query, requiredFields = []) => async (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
@@ -259,7 +252,7 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
     dispatch({type: SCOREBOARD_REQUEST, request})
   ]);
 
-  await Promise.all([
+  Promise.all([
     dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
     !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
     dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
@@ -268,54 +261,47 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
   });
 };
 
-export const loadLeaders = (query, requiredFields = []) => (dispatch, getState) => {
+export const loadLeaders = (query, requiredFields = []) => async (dispatch, getState) => {
   const leagueId = get(query,'leagueId');
   const year = get(query, 'year');
-  const isRollup = get(query, 'isRollup');
+  let isRollup = get(query, 'isRollup');
 
-  dispatch(fetchGameWeeks({leagueId,year,isRollup})).then(result=>{
-    const weeks = get(result,'response',[]);
-    const currentWeek = getCurrentWeek(weeks);
+  const gameWeeks = await dispatch(fetchGameWeeks({leagueId,year,isRollup}));
+  const weeks = get(gameWeeks,'response',[]);
+  const currentWeek = getCurrentWeek(weeks);
 
-    const request = {
-      weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
-      leagueId: get(query, 'leagueId') || get(currentWeek, 'leagueId'),
-      year: get(query, 'year') || get(currentWeek, 'year'),
-      beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-      endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
-    };
+  const request = {
+    weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
+    leagueId: get(query, 'leagueId') || get(currentWeek, 'leagueId'),
+    year: get(query, 'year') || get(currentWeek, 'year'),
+    beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+    endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+  };
 
-    const requestStorageJson = localStorage.getItem('request');
-    const requestStorage = JSON.parse(requestStorageJson);
+  const requestStorageJson = localStorage.getItem('request');
+  const requestStorage = JSON.parse(requestStorageJson);
 
-    if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
-      const currentState = getState();
-      const lookup = currentState.get('lookup').toJS();
-      const leagues = get(lookup, 'leagues', []);
-      const leagueId = get(request, 'leagueId');
-      const league = leagues.find(x=>x.id === leagueId);
-      const leagueName = get(league,'name','nfl');
-      history.push('/leaders/' + leagueName);
-    }
+  if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
+    const currentState = getState();
+    const lookup = currentState.get('lookup').toJS();
+    const leagues = get(lookup, 'leagues', []);
+    const leagueId = get(request, 'leagueId');
+    const league = leagues.find(x=>x.id === leagueId);
+    const leagueName = get(league,'name','nfl');
+    history.push('/leaders/' + leagueName);
+  }
 
-    dispatch({type: LEADERS_REQUEST, request});
+  dispatch({type: LEADERS_REQUEST, request});
 
-    const isRollup = get(query, 'isRollup') || get(currentWeek, 'isRollup');
+  isRollup = get(query, 'isRollup') || get(currentWeek, 'isRollup');
 
-    Promise.all([
-      dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
-      dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
-      dispatch(fetchAllUsers({isRollup})),
-      dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
-    ]).then(
+  Promise.all([
+    dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
+    dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
+    dispatch(fetchAllUsers({isRollup})),
+    dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
+  ]).then(
     result=>{ 
       dispatch({type: LEADERS_SUCCESS, response: {...result, isRollup}});
-    },
-    error=>{
-      dispatch({type: LEADERS_FAILURE});
-    });
-    },
-    error=>{
-      dispatch({type: LEADERS_FAILURE});
-    });
+  });
 };
