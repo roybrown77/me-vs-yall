@@ -9,7 +9,6 @@ import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } fr
 
 import { getCurrentWeek } from '../utilities';
 
-const history = createBrowserHistory({forceRefresh: false});
 const refreshHistory = createBrowserHistory({forceRefresh: true});
 
 export const LEADERS_REQUEST = 'LEADERS_REQUEST';
@@ -235,18 +234,6 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
     endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
   };
 
-  const requestStorageJson = localStorage.getItem('request');
-  const requestStorage = JSON.parse(requestStorageJson);
-
-  if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
-    const lookup = currentState.get('lookup').toJS();
-    const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId');
-    const league = leagues.find(x=>x.id === leagueId);
-    const leagueName = get(league,'name','nfl');
-    history.push('/scoreboards/' + leagueName);
-  }
-
   await Promise.all([
     !!get(authenticationDomain,'isAuthenticated') ? dispatch(createUser(user)) : undefined,
     dispatch({type: SCOREBOARD_REQUEST, request})
@@ -277,19 +264,6 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
     beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
     endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
   };
-
-  const requestStorageJson = localStorage.getItem('request');
-  const requestStorage = JSON.parse(requestStorageJson);
-
-  if (get(request, 'leagueId') !== get(requestStorage, 'leagueId')) {
-    const currentState = getState();
-    const lookup = currentState.get('lookup').toJS();
-    const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId');
-    const league = leagues.find(x=>x.id === leagueId);
-    const leagueName = get(league,'name','nfl');
-    history.push('/leaders/' + leagueName);
-  }
 
   dispatch({type: LEADERS_REQUEST, request});
 

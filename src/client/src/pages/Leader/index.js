@@ -48,6 +48,9 @@ import {
     getImage
 } from '../../utilities';
 
+import {createBrowserHistory} from 'history';
+const history = createBrowserHistory({forceRefresh: false});
+
 Howler.volume(1);
 
 const boasty = new Howl({
@@ -155,14 +158,6 @@ class Leader extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-      if (this.props.leagueId !== prevProps.leagueId || 
-        this.props.year !== prevProps.year || 
-        this.props.weekId !== prevProps.weekId) {
-        this.resetPoll();
-      }
-    }
-
     startPolling = () => {
         let self = this;
         self._timer = setInterval(self.poll.bind(self), 15000);
@@ -214,6 +209,8 @@ class Leader extends Component {
         const year = last(years);
 
         ReactGA.ga('send', 'pageview', '/leaders/' + leagueFound.name);
+
+        history.push('/scoreboards/' + leagueFound.name);
 
         this.props.loadLeaders({
             leagueId: leagueFound.id,
