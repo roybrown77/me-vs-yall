@@ -210,7 +210,7 @@ class Leader extends Component {
 
         ReactGA.ga('send', 'pageview', '/leaders/' + leagueFound.name);
 
-        history.push('/scoreboards/' + leagueFound.name);
+        history.push('/leaders/' + leagueFound.name);
 
         this.props.loadLeaders({
             leagueId: leagueFound.id,
