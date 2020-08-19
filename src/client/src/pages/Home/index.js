@@ -119,8 +119,7 @@ const styles = {
     padding: '0 32px'
   },
   ball: {
-    width: '40px',
-    marginLeft: '20px'
+    width: '70px'
   }
 };
 
@@ -347,7 +346,7 @@ class Home extends Component {
                           NFL
                           {
                             areAnyNflGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={football} alt=""/>
+                            <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
                           }
                           </div>
                           <div>
@@ -368,7 +367,7 @@ class Home extends Component {
                           COLLEGE FOOTBALL
                           {
                             areAnyNCAAFGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={football} alt=""/>
+                            <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
                           }
                           </div>
                           <div>
@@ -410,7 +409,7 @@ class Home extends Component {
                           MLB
                           {
                             areAnyMlbGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={baseball} alt=""/>
+                            <img className='fast-flash' style={{...styles.ball, width: '40px'}} src={baseball} alt=""/>
                           }
                           </div>
                           <div>
