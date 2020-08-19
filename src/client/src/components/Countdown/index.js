@@ -86,6 +86,7 @@ class Countdown extends Component {
 
     return (
       <div style={this.props.styles || styles.countDown}>
+        <div>
         {
           countDown.days > 0 && 
           <span className="Countdown-col">
@@ -104,6 +105,8 @@ class Countdown extends Component {
             </span>
           </span>
         }
+        </div>
+        <div>
         {
           countDown.min > 0 && 
           <span className="Countdown-col">
@@ -122,6 +125,7 @@ class Countdown extends Component {
             </span>
           </span>
         }
+        </div>
       </div>
     );
   }
