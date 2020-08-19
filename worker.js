@@ -43,8 +43,6 @@ const options = {
   autoIndex: false, // Don't build indexes
   poolSize: 10, // Maintain up to 10 socket connections
   bufferMaxEntries: 0, // If not connected, return errors immediately rather than waiting for reconnect
-  reconnectTries: 100, // Never stop trying to reconnect
-  reconnectInterval: 500, // Reconnect every 500ms
 };
 
 const mongoose = require('mongoose');
