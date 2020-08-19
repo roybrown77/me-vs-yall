@@ -120,10 +120,11 @@ const styles = {
 };
 
 const instructions = [
-  '1. Tap "Press To Play".',
-  '2. Tap teams you think will win this week.',
-  '3. View Leaders to see if you won.',
-  "4. No purchase necessary.  It's free yall."
+  '1. Tap "Press To Play" to sign in.',
+  '2. Tap league below.',
+  '3. Tap teams you think will win this week.',
+  '4. View Leaders to see if you won.',
+  "5. No purchase necessary.  It's free yall."
 ];
 
 class Home extends Component {
