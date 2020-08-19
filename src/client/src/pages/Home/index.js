@@ -23,12 +23,14 @@ import soccer from '../../styles/images/soccer.png';
 import basketball from '../../styles/images/basketball.png';
 import boxing from '../../styles/images/boxing.png';
 import mma from '../../styles/images/mma.png';
+import beastMode from '../../styles/images/beast-mode.gif';
 
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
 import { getAreAnyGamesInProgress, getLeagueStartDateTime, images, getRandomIntInclusive } from '../../utilities';
+import {displayHomePageImages} from '../../config';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -191,6 +193,8 @@ class Home extends Component {
 
       return (
         <div className="fade-in">
+          {false && <div style={{width:'100%', height: '50px', backgroundColor: 'dodgerblue'}}>
+          </div>}
           {
             true &&
             <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
@@ -234,254 +238,256 @@ class Home extends Component {
               </Button>
             }
           </div>
-          <div style={styles.buttonContainer}>
-            {
-               false &&
-               <Grid item xs={8} style={styles.buttonBorder}>
-                <Button 
-                    variant="outlined" 
-                    style={{...styles.button}} 
-                    onClick={() => {this.navigateTo('/play')}}>
-                    PLAY
-                </Button>
-              </Grid>
-            }
-            <div style={styles.buttonLeagueContainer}>
-              <div style={{display:'flex'}}>
-                <div>
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '3rem', color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+          {
+             false &&
+             <Grid item xs={8} style={styles.buttonBorder}>
+              <Button 
+                  variant="outlined" 
+                  style={{...styles.button}} 
+                  onClick={() => {this.navigateTo('/play')}}>
+                  PLAY
+              </Button>
+            </Grid>
+          }
+          {displayHomePageImages && <div>
+            <img style={{width:'100%',marginTop:'50px'}} src={beastMode} alt=""/>
+          </div>}
+          <div style={styles.buttonLeagueContainer}>
+            <div style={{display:'flex'}}>
+              <div>
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, fontSize: '3rem', color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba') }}>
+                      <div>
                         <div>
-                          <div>
-                            NBA
-                            {
-                              areAnyNbaGamesInProgress &&
-                              <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
-                            }
-                          </div>
-                          <div>
-                            {nbaStartDateTime && <Countdown styles={{...styles.countdown}} date={nbaStartDateTime}/>}
-                          </div>
-                        </div>
-                    </Button>
-                  </Grid>
-                }
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '2rem', color: '#3B7A57'}} onClick={() => { history.push('/scoreboards/boxing') }}>
-                        <div>
-                          <div>
-                          BOXING
+                          NBA
                           {
-                            areAnyBoxingMatchesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={boxing} alt=""/>
-                          }
-                          </div>
-                          <div>
-                            {boxingStartDateTime && <Countdown styles={{...styles.countdown}} date={boxingStartDateTime}/>}
-                          </div>
-                        </div>
-                    </Button>
-                  </Grid>
-                }
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '3rem', color: '#FF7E00'}} onClick={() => { history.push('/scoreboards/mma') }}>
-                        <div>
-                          <div>
-                          MMA
-                          {
-                            areAnyMMAMatchesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={mma} alt=""/>
-                          }
-                          </div>
-                          <div>
-                            {mmaStartDateTime && <Countdown styles={{...styles.countdown}} date={mmaStartDateTime}/>}
-                          </div>
-                        </div>
-                    </Button>
-                  </Grid>
-                }
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '2rem', color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba2k') }}>
-                        <div>
-                          <div>
-                          NBA 2K
-                          {
-                            areAnyNba2kGamesInProgress &&
+                            areAnyNbaGamesInProgress &&
                             <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
                           }
-                          </div>
-                          <div>
-                            {nba2kStartDateTime && <Countdown styles={{...styles.countdown}} date={nba2kStartDateTime}/>}
-                          </div>
                         </div>
-                    </Button>
-                  </Grid>
-                }
-                </div>
-                <div style={{marginLeft: '10px'}}>
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '3rem', color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
                         <div>
-                          <div>
-                          NFL
-                          {
-                            areAnyNflGamesInProgress &&
-                            <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
-                          }
-                          </div>
-                          <div>
-                            {nflStartDateTime && <Countdown styles={{...styles.countdown}} date={nflStartDateTime}/>}
-                          </div>
+                          {nbaStartDateTime && <Countdown styles={{...styles.countdown}} date={nbaStartDateTime}/>}
                         </div>
-                    </Button>
-                  </Grid>
-                }
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '1.5rem', color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
+                      </div>
+                  </Button>
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, fontSize: '2rem', color: '#3B7A57'}} onClick={() => { history.push('/scoreboards/boxing') }}>
+                      <div>
                         <div>
-                          <div>
-                          COLLEGE FOOTBALL
-                          {
-                            areAnyNCAAFGamesInProgress &&
-                            <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
-                          }
-                          </div>
-                          <div>
-                            {ncaafStartDateTime && <Countdown styles={{...styles.countdown}} date={ncaafStartDateTime}/>}
-                          </div>
+                        BOXING
+                        {
+                          areAnyBoxingMatchesInProgress &&
+                          <img className='fast-flash' style={styles.ball} src={boxing} alt=""/>
+                        }
                         </div>
-                    </Button>
-                  </Grid>
-                }
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '1.5rem', color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
                         <div>
-                          <div>
-                          PREMIER LEAGUE
-                          {
-                            areAnyPremierGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
-                          }
-                          </div>
-                          <div>
-                            {premierStartDateTime && <Countdown styles={{...styles.countdown}} date={premierStartDateTime}/>}
-                          </div>
+                          {boxingStartDateTime && <Countdown styles={{...styles.countdown}} date={boxingStartDateTime}/>}
                         </div>
-                    </Button>
-                  </Grid>
-                }
-                {
-                  true &&
-                  <Grid item xs={8} style={styles.buttonBorder}>
-                    <Button 
-                        variant="outlined" 
-                        style={{...styles.button, fontSize: '3rem', color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
+                      </div>
+                  </Button>
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, fontSize: '3rem', color: '#FF7E00'}} onClick={() => { history.push('/scoreboards/mma') }}>
+                      <div>
                         <div>
-                          <div>
-                          MLB
-                          {
-                            areAnyMlbGamesInProgress &&
-                            <img className='fast-flash' style={{...styles.ball, width: '40px'}} src={baseball} alt=""/>
-                          }
-                          </div>
-                          <div>
-                            {mlbStartDateTime && <Countdown styles={{...styles.countdown}} date={mlbStartDateTime}/>}
-                          </div>
+                        MMA
+                        {
+                          areAnyMMAMatchesInProgress &&
+                          <img className='fast-flash' style={styles.ball} src={mma} alt=""/>
+                        }
                         </div>
-                    </Button>
-                  </Grid>
-                }
-                </div>
+                        <div>
+                          {mmaStartDateTime && <Countdown styles={{...styles.countdown}} date={mmaStartDateTime}/>}
+                        </div>
+                      </div>
+                  </Button>
+                </Grid>
+              }
+              {
+                true &&
+                <Grid item xs={8} style={styles.buttonBorder}>
+                  <Button 
+                      variant="outlined" 
+                      style={{...styles.button, fontSize: '2rem', color: '#17408B'}} onClick={() => { history.push('/scoreboards/nba2k') }}>
+                      <div>
+                        <div>
+                        NBA 2K
+                        {
+                          areAnyNba2kGamesInProgress &&
+                          <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                        }
+                        </div>
+                        <div>
+                          {nba2kStartDateTime && <Countdown styles={{...styles.countdown}} date={nba2kStartDateTime}/>}
+                        </div>
+                      </div>
+                  </Button>
+                </Grid>
+              }
               </div>
+              <div style={{marginLeft: '10px'}}>
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#5D8AA8'}} onClick={() => { history.push('/scoreboards/ncaaw') }}>
-                      WOMENS COLLEGE BASKETBALL
-                      {
-                        areAnyWomensCollegeBasketballGamesInProgress &&
-                        <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
-                      }
+                      style={{...styles.button, fontSize: '3rem', color: '#D50A0A'}} onClick={() => { history.push('/scoreboards/nfl') }}>
+                      <div>
+                        <div>
+                        NFL
+                        {
+                          areAnyNflGamesInProgress &&
+                          <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
+                        }
+                        </div>
+                        <div>
+                          {nflStartDateTime && <Countdown styles={{...styles.countdown}} date={nflStartDateTime}/>}
+                        </div>
+                      </div>
                   </Button>
-                  {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#0048BA'}} onClick={() => { history.push('/scoreboards/ncaam') }}>
-                      MENS COLLEGE BASKETBALL
-                      {
-                        areAnyMensCollegeBasketballGamesInProgress &&
-                        <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
-                      }
+                      style={{...styles.button, fontSize: '1.5rem', color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
+                      <div>
+                        <div>
+                        COLLEGE FOOTBALL
+                        {
+                          areAnyNCAAFGamesInProgress &&
+                          <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
+                        }
+                        </div>
+                        <div>
+                          {ncaafStartDateTime && <Countdown styles={{...styles.countdown}} date={ncaafStartDateTime}/>}
+                        </div>
+                      </div>
                   </Button>
-                  {mensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={mensCollegeBasketballStartDateTime}/>}
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/mls') }}>
-                      MLS
-                      {
-                        areAnyMlsGamesInProgress &&
-                        <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
-                      }
+                      style={{...styles.button, fontSize: '1.5rem', color: '#3D195B'}} onClick={() => { history.push('/scoreboards/premier') }}>
+                      <div>
+                        <div>
+                        PREMIER LEAGUE
+                        {
+                          areAnyPremierGamesInProgress &&
+                          <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
+                        }
+                        </div>
+                        <div>
+                          {premierStartDateTime && <Countdown styles={{...styles.countdown}} date={premierStartDateTime}/>}
+                        </div>
+                      </div>
                   </Button>
-                  {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
                 </Grid>
               }
               {
-                false &&
+                true &&
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, color: '#E52A34'}} onClick={() => {}}>
-                      X GAMES
-                      {
-                        areAnyXGamesInProgress &&
-                        <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
-                      }
+                      style={{...styles.button, fontSize: '3rem', color: '#D50032'}} onClick={() => { history.push('/scoreboards/mlb') }}>
+                      <div>
+                        <div>
+                        MLB
+                        {
+                          areAnyMlbGamesInProgress &&
+                          <img className='fast-flash' style={{...styles.ball, width: '40px'}} src={baseball} alt=""/>
+                        }
+                        </div>
+                        <div>
+                          {mlbStartDateTime && <Countdown styles={{...styles.countdown}} date={mlbStartDateTime}/>}
+                        </div>
+                      </div>
                   </Button>
-                  {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
                 </Grid>
               }
+              </div>
             </div>
+            {
+              false &&
+              <Grid item xs={8} style={styles.buttonBorder}>
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button, color: '#5D8AA8'}} onClick={() => { history.push('/scoreboards/ncaaw') }}>
+                    WOMENS COLLEGE BASKETBALL
+                    {
+                      areAnyWomensCollegeBasketballGamesInProgress &&
+                      <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                    }
+                </Button>
+                {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}
+              </Grid>
+            }
+            {
+              false &&
+              <Grid item xs={8} style={styles.buttonBorder}>
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button, color: '#0048BA'}} onClick={() => { history.push('/scoreboards/ncaam') }}>
+                    MENS COLLEGE BASKETBALL
+                    {
+                      areAnyMensCollegeBasketballGamesInProgress &&
+                      <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                    }
+                </Button>
+                {mensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={mensCollegeBasketballStartDateTime}/>}
+              </Grid>
+            }
+            {
+              false &&
+              <Grid item xs={8} style={styles.buttonBorder}>
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/mls') }}>
+                    MLS
+                    {
+                      areAnyMlsGamesInProgress &&
+                      <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
+                    }
+                </Button>
+                {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
+              </Grid>
+            }
+            {
+              false &&
+              <Grid item xs={8} style={styles.buttonBorder}>
+                <Button 
+                    variant="outlined" 
+                    style={{...styles.button, color: '#E52A34'}} onClick={() => {}}>
+                    X GAMES
+                    {
+                      areAnyXGamesInProgress &&
+                      <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                    }
+                </Button>
+                {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
+              </Grid>
+            }
+          </div>
           </div>
           {
             false &&
@@ -528,7 +534,6 @@ class Home extends Component {
               </div>
             </div>
             <div>© 2020 Me vs Yall. All rights reserved.</div>
-          </div>
           </div>
         </div>
       );
