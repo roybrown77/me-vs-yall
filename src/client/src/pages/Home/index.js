@@ -368,7 +368,7 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, fontSize: '1.5rem', color: '#D3212D'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
+                      style={{...styles.button, fontSize: '1.5rem', color: 'dodgerblue'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
                       <div>
                         <div>
                         COLLEGE FOOTBALL
