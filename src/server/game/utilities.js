@@ -3422,10 +3422,12 @@ const getGames = async ({
     console.log(`${message} getGames browser error: ${err.message}`);
   }
   
-  const maxLength = 3;
-  if (shouldLimit && games.length > maxLength) {
-    const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
-    games = games.slice(randomPosition,randomPosition+maxLength);
+  if (shouldLimit) {
+    const maxLength = 2;
+    if (games.length > maxLength) {
+        const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
+        games = games.slice(randomPosition,randomPosition+maxLength);
+    }
   }
 
   return games;
