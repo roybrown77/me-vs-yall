@@ -110,7 +110,7 @@ const leagues = [
         id: '59723313734d1d6202a85f15', 
         name: 'ncaaf', 
         description: 'ncaaf', 
-        years: [2019]
+        years: [2019, 2020]
     },
     {
         id: '59723313734d1d6202a85f17', 
@@ -159,8 +159,8 @@ const getLeagueStartDateTime = (leagueId, games) => {
         return moment(`${year}0801`).toISOString();
     }
 
-    if (leagueId === '59723313734d1d6202a85f15' && (monthDay > 108 && monthDay < 901)) {
-        return moment(`${year}0901`).toISOString();
+    if (leagueId === '59723313734d1d6202a85f15' && (monthDay > 108 && monthDay < 820)) {
+        return moment(`${year}0820`).toISOString();
     }
 
     if (leagueId === '59723313734d1d6202a85f17' && (monthDay > 515 && monthDay < 820)) {

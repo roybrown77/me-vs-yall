@@ -3425,7 +3425,7 @@ const getGames = async ({
         console.log(`${message} getGames no startDateTime`);
       } else {
         games.push({
-            startDateTime: startDateTime,
+            startDateTime: startDateTime || "2020-09-10T16:00Z",
             spread: {
              team: (spread || "").replace('Line: ','').split(' ')[0],
              amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),
@@ -3472,11 +3472,12 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
             const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
             const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
             const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
+
             if (!awayTeam || !homeTeam) {
                 console.log(`${message} formatGames teams not found game: ${JSON.stringify(game)}`);
                 console.log(`${message} formatGames teams not found: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
             } else {
-                if (!(["sec","acc"].incudes(awayTeam.conference) && ["sec","acc"].incudes(homeTeam.conference))) {
+                if (leagueId === "59723313734d1d6202a85f15" && !(["sec","acc"].includes(awayTeam.conference) && ["sec","acc"].includes(homeTeam.conference))) {
                     console.log(`${message} formatGames teams are not in acc or sec: ${JSON.stringify(game)}`);
                 } else {
                     const competitors = [
