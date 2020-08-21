@@ -2412,7 +2412,7 @@ const premierLeagueTeams = [
         _id: "5b9060e59a4c08bca6d8050e",
         leagueId: "59723313734d1d6202a85f17",
         location: "Wolverhampton",
-        shortLocation: "WOLV",
+        shortLocation: "WOL",
         name: "Wolves"
     },
     {
@@ -2478,6 +2478,22 @@ const premierLeagueTeams = [
         location: "Aston Villa",
         shortLocation: "AVL",
         name: "Villans"
+    },
+    {
+        color: "#FFCD00",
+        _id: "5b9060e59a4c08bca6d80517",
+        leagueId: "59723313734d1d6202a85f18",
+        location: "Leeds United",
+        shortLocation: "LEE",
+        name: "The Peacocks"
+    },
+    {
+        color: "#122F67",
+        _id: "5b9060e59a4c08bca6d80517",
+        leagueId: "59723313734d1d6202a85f19",
+        location: "West Bromwich Albion",
+        shortLocation: "WBA",
+        name: "The Baggies"
     }
 ];
 
@@ -3303,7 +3319,7 @@ const getGames = async ({
         height: 1000
       },
       //headless: false,
-      timeout: 15000,
+      timeout: 45000,
       pipe: true,
       ignoreHTTPSErrors: true
     });

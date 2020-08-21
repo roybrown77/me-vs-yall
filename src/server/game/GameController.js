@@ -155,8 +155,8 @@ const updateGames = async () => {
   //loadBasketballGames({dayCount: 1, shouldLimit: false, isStart: true, leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'loadNbaGames', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
   //loadBasketballGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'loadNCAAMGames', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
-  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 4, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
-  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 5, leagueId: '59723313734d1d6202a85f17', year: 2019, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 0, leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
+  //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
   //loadMlbGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'loadMlbGames', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadMlbGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'loadMlbGames', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   

@@ -33,24 +33,7 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
 
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
-  //console.log(`${message} date: ${date}`);
-
-  const gameExistSearch = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: year,
-    startDateTime: {
-      $gte: new Date(moment(date).startOf('day')),
-      $lte: new Date(moment(date).endOf('day'))
-    }
-  };
-
-  const gamesExistSearch = await gameRepository.find(gameExistSearch);
-
-  if ((gamesExistSearch || []).length > 0) {
-    console.log(`${message} games already exists: ${date}`);
-    return;
-  }
-
+  console.log(`${message} date: ${date}`);
   //console.log(`${message} get games`);
 
   const url = `${baseUrl}${date}`;
