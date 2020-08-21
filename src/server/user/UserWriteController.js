@@ -24,7 +24,7 @@ router.post('/users/', function (req, res) {
             picture: get(user, 'picture'),
         };
 
-    console.log('userToUpsert: ' + JSON.stringify(userToUpsert));
+    // console.log('userToUpsert: ' + JSON.stringify(userToUpsert));
 
     userRepository.findOneAndUpdate({authServiceId: userToUpsert.authServiceId}, userToUpsert, {upsert: true}, (err, user) => {
         if (err) return res.status(500).send("There was a problem upserting the user to the database.");

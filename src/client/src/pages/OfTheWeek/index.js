@@ -44,8 +44,8 @@ const stats = [
     leagueName: 'NBA',
     date: 'August 16, 2020',
     author: 'Mack & Beezie',
-    lockOfTheWeek: false,
-    correct: null
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",

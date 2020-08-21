@@ -3425,7 +3425,7 @@ const getGames = async ({
         console.log(`${message} getGames no startDateTime`);
       } else {
         games.push({
-            startDateTime: startDateTime || "2020-09-10T16:00Z",
+            startDateTime: startDateTime, // || "2020-09-10T16:00Z",
             spread: {
              team: (spread || "").replace('Line: ','').split(' ')[0],
              amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),

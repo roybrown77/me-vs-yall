@@ -144,7 +144,6 @@ const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
     const difference = currentDateTime.diff(gameStartDateTime,'minutes');
-    console.log("hasGameStartedInXMinutes: " + difference);
     return difference <= minutesUntil;
 };
 
@@ -175,8 +174,8 @@ const updateGames = async () => {
   console.log('timezoneOffset: ' + timezoneOffset);
   console.log('hoursOffset: ' + hoursOffset);
 
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
+  // const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+  // console.log('divider: ' + divider);
 
   const search = {
     isGameOver: {
