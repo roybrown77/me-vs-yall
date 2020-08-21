@@ -881,6 +881,7 @@ const ncaaTeams = [
         shortLocation: "CLEM",
         name: "Tigers",
         color: '#F56600',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9003",
@@ -897,6 +898,7 @@ const ncaaTeams = [
         shortLocation: "AUB",
         name: "Tigers",
         color: '#E87722',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9005",
@@ -936,7 +938,8 @@ const ncaaTeams = [
         location: "Georgia",
         shortLocation: "UGA",
         name: "Bulldogs",
-        color: '#BA0C2F'
+        color: '#BA0C2F',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab900a",
@@ -985,6 +988,7 @@ const ncaaTeams = [
         shortLocation: "MSST",
         name: "Bulldogs",
         color: '#660000',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9010",
@@ -993,6 +997,7 @@ const ncaaTeams = [
         shortLocation: "ND",
         name: "Fighting Irish",
         color: '#AE9142',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9011",
@@ -1009,6 +1014,7 @@ const ncaaTeams = [
         shortLocation: "MIA",
         name: "Hurricanes",
         color: '#F47321',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9013",
@@ -1017,6 +1023,7 @@ const ncaaTeams = [
         shortLocation: "TENN",
         name: "Volunteers",
         color: '#FF8200',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9014",
@@ -1049,6 +1056,7 @@ const ncaaTeams = [
         shortLocation: "FSU",
         name: "Seminoles",
         color: '#782F40',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9018",
@@ -1065,6 +1073,7 @@ const ncaaTeams = [
         shortLocation: "LOU",
         name: "Cardinals",
         color: '#AD0000',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab901a",
@@ -1072,7 +1081,8 @@ const ncaaTeams = [
         location: "Alabama",
         shortLocation: "ALA",
         name: "Crimson Tide",
-        color: "#9E1B32"
+        color: "#9E1B32",
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab901b",
@@ -1081,6 +1091,7 @@ const ncaaTeams = [
         shortLocation: "LSU",
         name: "Tigers",
         color: '#461D7C',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab901c",
@@ -1089,6 +1100,7 @@ const ncaaTeams = [
         shortLocation: "VT",
         name: "Hokies",
         color: '#630031',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab901d",
@@ -1273,7 +1285,8 @@ const ncaaTeams = [
         location: "South Carolina",
         shortLocation: "SC",
         name: "Gamecocks",
-        color: '#73000A'
+        color: '#73000A',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9035",
@@ -1315,6 +1328,7 @@ const ncaaTeams = [
         alternateName: "TA&amp;M",
         name: "Aggies",
         color: '#500000',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9040",
@@ -1323,6 +1337,7 @@ const ncaaTeams = [
         shortLocation: "UK",
         name: "Wildcats",
         color: '#0033A0',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9041",
@@ -1347,6 +1362,7 @@ const ncaaTeams = [
         shortLocation: "PITT",
         name: "Panthers",
         color: '#003594',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9044",
@@ -1354,7 +1370,8 @@ const ncaaTeams = [
         location: "Florida",
         shortLocation: "FLA",
         name: "Gators",
-        color: '#0021A5'
+        color: '#0021A5',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9045",
@@ -1450,7 +1467,8 @@ const ncaaTeams = [
         location: 'Syracuse',
         shortLocation: "SYR",
         name: "Orange",
-        color: '#D44500'
+        color: '#D44500',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9051",
@@ -1474,7 +1492,8 @@ const ncaaTeams = [
         location: 'Virginia',
         shortLocation: "UVA",
         name: "Cavaliers",
-        color: '#F84C1E'
+        color: '#F84C1E',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9054",
@@ -1514,7 +1533,8 @@ const ncaaTeams = [
         location: 'Vanderbilt',
         shortLocation: "VAN",
         name: "Commodores",
-        color: '#866D4B'
+        color: '#866D4B',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9059",
@@ -1530,7 +1550,8 @@ const ncaaTeams = [
         location: 'Ole Miss',
         shortLocation: "MISS",
         name: "Rebels",
-        color: '#CE1126'
+        color: '#CE1126',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab905b",
@@ -1594,7 +1615,8 @@ const ncaaTeams = [
         location: 'North Carolina',
         shortLocation: "UNC",
         name: "Tar Heels",
-        color: '#7BAFD4'
+        color: '#7BAFD4',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9063",
@@ -1618,7 +1640,8 @@ const ncaaTeams = [
         location: "Arkansas",
         shortLocation: "ARK",
         name: "Razorbacks",
-        color: '#9D2235'
+        color: '#9D2235',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9066",
@@ -1690,7 +1713,8 @@ const ncaaTeams = [
         location: "Wake Forest",
         shortLocation: "WAKE",
         name: "Demon Deacons",
-        color: '#9E7E38'
+        color: '#9E7E38',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab906f",
@@ -1706,7 +1730,8 @@ const ncaaTeams = [
         location: "Missouri",
         shortLocation: "MIZ",
         name: "Tigers",
-        color: '#F1B82D'
+        color: '#F1B82D',
+        conference: "sec"
     },
     {
         _id: "5b84a2889a4c08bca6ab9071",
@@ -1714,7 +1739,8 @@ const ncaaTeams = [
         location: "Boston College",
         shortLocation: "BC",
         name: "Eagles",
-        color: '#98002E'
+        color: '#98002E',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9072",
@@ -1762,7 +1788,8 @@ const ncaaTeams = [
         location: "NC State",
         shortLocation: "NCST",
         name: "Wolfpack",
-        color: '#CC0000'
+        color: '#CC0000',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9078",
@@ -1770,7 +1797,8 @@ const ncaaTeams = [
         location: "Duke",
         shortLocation: "DUKE",
         name: "Blue Devils",
-        color: '#003087'
+        color: '#003087',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9079",
@@ -1842,7 +1870,8 @@ const ncaaTeams = [
         location: "Georgia Tech",
         shortLocation: "GT",
         name: "Yellow Jackets",
-        color: '#B3A369'
+        color: '#B3A369',
+        conference: "acc"
     },
     {
         _id: "5b84a2889a4c08bca6ab9082",
@@ -2482,15 +2511,15 @@ const premierLeagueTeams = [
     {
         color: "#FFCD00",
         _id: "5b9060e59a4c08bca6d80517",
-        leagueId: "59723313734d1d6202a85f18",
+        leagueId: "59723313734d1d6202a85f17",
         location: "Leeds United",
         shortLocation: "LEE",
         name: "The Peacocks"
     },
     {
         color: "#122F67",
-        _id: "5b9060e59a4c08bca6d80517",
-        leagueId: "59723313734d1d6202a85f19",
+        _id: "5b9060e59a4c08bca6d80518",
+        leagueId: "59723313734d1d6202a85f17",
         location: "West Bromwich Albion",
         shortLocation: "WBA",
         name: "The Baggies"
@@ -3447,24 +3476,28 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                 console.log(`${message} formatGames teams not found game: ${JSON.stringify(game)}`);
                 console.log(`${message} formatGames teams not found: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
             } else {
-                const competitors = [
-                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
-                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
-                ];
+                if (!(["sec","acc"].incudes(awayTeam.conference) && ["sec","acc"].incudes(homeTeam.conference))) {
+                    console.log(`${message} formatGames teams are not in acc or sec: ${JSON.stringify(game)}`);
+                } else {
+                    const competitors = [
+                        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
+                        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
+                    ];
 
-                formattedGames.push({
-                  leagueId: mongoose.Types.ObjectId(leagueId),
-                  year: year,
-                  startDateTime: game.startDateTime,
-                  gameName: game.gameName,
-                  // spread: {
-                  //  teamId: get(spreadTeam,'_id'),
-                  //  amount: get(game,'spread.amount', 0),
-                  //  spreadDateTime: game.spread.spreadDateTime
-                  // },
-                  competitors: competitors,
-                  hashCompetitors: JSON.stringify(competitors)
-                });
+                    formattedGames.push({
+                      leagueId: mongoose.Types.ObjectId(leagueId),
+                      year: year,
+                      startDateTime: game.startDateTime,
+                      gameName: game.gameName,
+                      // spread: {
+                      //  teamId: get(spreadTeam,'_id'),
+                      //  amount: get(game,'spread.amount', 0),
+                      //  spreadDateTime: game.spread.spreadDateTime
+                      // },
+                      competitors: competitors,
+                      hashCompetitors: JSON.stringify(competitors)
+                    });
+                }
             }
         }
     });
