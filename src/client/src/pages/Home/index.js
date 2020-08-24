@@ -251,7 +251,7 @@ class Home extends Component {
             </Grid>
           }
           {displayHomePageImages && <div>
-            <img style={{width:'100%',marginTop:'50px'}} src={kawhi} alt=""/>
+            <img style={{width:'100%',maxWidth:'500px',marginTop:'30px'}} src={kawhi} alt=""/>
           </div>}
           <div style={styles.buttonLeagueContainer}>
             <div style={{display:'flex'}}>
