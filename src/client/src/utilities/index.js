@@ -46,7 +46,7 @@ const basketBallImages = [
     {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
     {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
     {id: 'jesus', picture: jesus, source: 'Ray Allen / Spike Lee / Touchstone Pictures'},
-    {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana'},
+    {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana / Joanna'},
     {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'},
     {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'}
@@ -65,7 +65,8 @@ const images = {
         {id: 'herm', picture: herm, source: 'Herm Edwards / theathletic.com'}
     ],
     '59723313734d1d6202a85f17': [
-        {id: 'pogba', picture: pogba, source: 'Paul Pogba / Getty Images'}
+        {id: 'pogba', picture: pogba, source: 'Paul Pogba / Getty Images'},
+        {id: 'josef', picture: josef, source: 'Josef Martinez / Dale Zanine / mlssoccer.com'}
     ],
     '59723313734d1d6202a85f19': basketBallImages,
     '59723313734d1d6202a85f35': basketBallImages,
@@ -74,11 +75,11 @@ const images = {
         {id: 'tysonFury', picture: tysonFury, source: 'Tyson Fury / Getty Images'}
     ],
     '59723313734d1d6202a85f27': [
-        {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'ESPN MMA'},
-        {id: 'nunes', picture: nunes, source: 'Esther Lin / MMA Fighting'},
+        {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'Masvidal / Diaz / ESPN MMA'},
+        {id: 'nunes', picture: nunes, source: 'Amanda Nunes / Cris Cyborg / Esther Lin / MMA Fighting'},
     ],
     '59723313734d1d6202a85f29': [
-        {id: 'josef', picture: josef, source: 'Dale Zanine / mlssoccer.com'}
+        {id: 'josef', picture: josef, source: 'Josef Martinez / Dale Zanine / mlssoccer.com'}
     ],
 };
 
