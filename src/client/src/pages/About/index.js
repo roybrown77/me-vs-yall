@@ -3,6 +3,18 @@ import ReactGA from 'react-ga';
 
 import PageContainer from '../PageContainer';
 
+const line1 = `A long time ago (2007) in a galaxy far, far away (Alpharetta, Georgia), a buddy and I would write on paper 
+               who we thought would win the upcoming week's NFL games.  This was just for bragging rights or a meal.  After a 
+               few weeks he said "hey, ur a dev -- make an app."`;
+
+const line2 = `But after 10 years, I still didn't find time to create it.  Only after losing my job in July 2017 did I decide 
+               to have it ready for the NFL season.  This prepared me for my next job in addition to growing confidence I can 
+               build something great we can use.`;
+
+const line3 = `This app was built for the love of sports, competition and the fighting spirit.  Enjoy!  :D`;
+
+const line4 = `Feel free to contact us or join our mailing list at info@mevsyall.com.`;
+
 class About extends Component {
     componentDidMount() {
       ReactGA.ga('send', 'pageview', '/about');
@@ -12,22 +24,10 @@ class About extends Component {
     render() {
         return (
             <PageContainer>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    In 2007, a buddy of mine and I would text each other picks for the 
-                    upcoming week's NFL games.  This was just for bragging rights or a meal.  After a 
-                    few weeks, he said 'hey, ur a dev make an app'.
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    But after 10 years of messaging/emailing, I still didn't find time to create it.  Only 
-                    after getting laid off in July 2017 did I decide to have it ready for the NFL season.  This 
-                    prepared me for my next job in addition to growing confidence I can build something great we can use.
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    This app was built for the love of sports, competition and the fighting spirit.  Enjoy!  :D
-                </div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    Feel free to contact us or join our mailing list at info@mevsyall.com.
-                </div>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line1}</div>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line2}</div>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line4}</div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     Code for site can be found <a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
                 </div>

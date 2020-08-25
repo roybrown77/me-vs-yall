@@ -23,7 +23,6 @@ import soccer from '../../styles/images/soccer.png';
 import basketball from '../../styles/images/basketball.png';
 import boxing from '../../styles/images/boxing.png';
 import mma from '../../styles/images/mma.png';
-//import beastMode from '../../styles/images/beast-mode.gif';
 import kawhi from '../../styles/images/kawhi.gif';
 
 import Countdown from '../../components/Countdown';

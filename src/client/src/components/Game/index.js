@@ -238,6 +238,8 @@ const getBasketballCourt = (props) => (
     <path d="M 1.4,24.2 4.9,21.9 5.3,43.3 11.2,70.9 0.5,71.1   z" fill={props.awayColor} style={{strokeWidth: '0px'}}></path>
     <path d="M 4.8,18 1.4,21.1 6.3,15.4 23.8,18.1 23.8,21.4 23.8,19.5   z" fill="#e6e6e5" style={{strokeWidth: '0px'}}></path>
     <path d="M 1.4,24.2 1.4,21.1 4.8,18 23.8,19.5 23.8,21.4 7,21.9 4.9,21.9   z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path></g>
+    {false && <ellipse cx="400" cy="15" rx="6" ry="3" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 10}} className="shot away make"></ellipse>}
+    {false && <ellipse cx="90" cy="64" rx="6" ry="3" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 10}} className="shot home miss"></ellipse>}
     <g transform="matrix(1,0,0,1,552,-10)" className="hoopRight"><path d="M1.6,0.3l-1,0L0.5,20.5l4.6,14l1,0V13.1L1.6,0.3z" fill="#f7f8f8" style={{strokeWidth: '0px'}}></path>
     <path d="M0.8,2.1l4,11.4l0,19.3L0.8,20.5L0.8,2.1z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path>
     <path d="M 1.7,13 3.4,18.1 3.4,27 1.7,22.1   z" fill="#fbfcfc" style={{strokeWidth: '0px'}}></path>

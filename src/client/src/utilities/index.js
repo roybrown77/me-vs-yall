@@ -25,6 +25,8 @@ import jesus from '../styles/images/jesus-shuttlesworth.png';
 import herm from '../styles/images/herm.jpg';
 import zachBaby from '../styles/images/zach-baby.jpg';
 import afroBFrench from '../styles/images/afro-b-french.jpg';
+import kawhiGif from '../styles/images/kawhi.gif';
+import beastMode from '../styles/images/beast-mode.gif';
 
 const vegasPictures = [
     zachBaby
@@ -36,31 +38,36 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
+const basketBallImages = [
+    {id: 'jwill', picture: jwill, source: 'Jason Williams / NiceKicks.com'},
+    {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
+    {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
+    {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
+    {id: 'jesus', picture: jesus, source: 'Jesus Shuttlesworth / Spike Lee / Touchstone Pictures'},
+    {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana'},
+    {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'}
+];
+
 const images = {
     '59723313734d1d6202a85f10': [
-        {id: 'mccaffrey', picture: mccaffrey, source: 'David T. Foster III / dfoster@charlotteobserver.com'},
-        {id: 'patriots', picture: patriots, source: ' Matthew J. Lee / BostonGlobe.com'}
+        {id: 'mccaffrey', picture: mccaffrey, source: 'Christian MacCaffrey / David T. Foster III / Charlotte Observer'},
+        {id: 'patriots', picture: patriots, source: 'Patriots vs Cowboys / BostonGlobe.com'},
+        {id: 'beastMode', picture: beastMode, source: 'Marshawn Lynch / dribbble.com'}
     ],
     '59723313734d1d6202a85f15': [
-        {id: 'reggie', picture: reggie, source: 'Lucy Nicholson / REUTERS'},
-        {id: 'trevor', picture: trevor, source: 'Christian Petersen / Getty Images'},
+        {id: 'reggie', picture: reggie, source: 'Reggie Bush / Lucy Nicholson / REUTERS'},
+        {id: 'trevor', picture: trevor, source: 'Trevor Lawrence / Christian Petersen / Getty Images'},
         {id: 'lsu', picture: lsu, source: 'LSU Sports Information'},
-        {id: 'herm', picture: herm, source: 'theathletic.com'}
+        {id: 'herm', picture: herm, source: 'Herm Edwards / theathletic.com'}
     ],
     '59723313734d1d6202a85f17': [
-        {id: 'pogba', picture: pogba, source: 'Getty Images'}
+        {id: 'pogba', picture: pogba, source: 'Paul Pogba / Getty Images'}
     ],
-    '59723313734d1d6202a85f19': [
-       {id: 'jwill', picture: jwill, source: 'NiceKicks.com'},
-        {id: 'kawhi', picture: kawhi, source: 'Vaughn Ridley / Getty Images'},
-        {id: 'uncleDrew', picture: uncleDrew, source: 'Pepsi'},
-        {id: 'sidneyDean', picture: sidneyDean, source: 'Ron Shelton / 20th Century Fox'},
-        {id: 'jesus', picture: jesus, source: 'Spike Lee / Touchstone Pictures'},
-        {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana'}
-    ],
+    '59723313734d1d6202a85f19': basketBallImages,
+    '59723313734d1d6202a85f35': basketBallImages,
     '59723313734d1d6202a85f25': [
-        {id: 'mikeTyson', picture: mikeTyson, source: 'Getty Images'},
-        {id: 'tysonFury', picture: tysonFury, source: 'Getty Images'}
+        {id: 'mikeTyson', picture: mikeTyson, source: 'Iron Mike / Getty Images'},
+        {id: 'tysonFury', picture: tysonFury, source: 'Tyson Fury / Getty Images'}
     ],
     '59723313734d1d6202a85f27': [
         {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'ESPN MMA'},
