@@ -26,6 +26,8 @@ import mma from '../../styles/images/mma.png';
 //import beastMode from '../../styles/images/beast-mode.gif';
 import kawhi from '../../styles/images/kawhi.gif';
 
+import america from '../../styles/images/america.png';
+
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
@@ -534,7 +536,7 @@ class Home extends Component {
                 <div><Link style={styles.link} to={''} onClick={()=>this.gram()}>Gram</Link></div>
               </div>
             </div>
-            <div>© 2020 Me vs Yall. All rights reserved.</div>
+            <div>© 2020 Me vs Yall. All rights reserved. <img alt="" style={{width:'30px', marginLeft:'10px'}} title="Atlanta, Georgia, USA" src={america}/></div>
           </div>
         </div>
       );

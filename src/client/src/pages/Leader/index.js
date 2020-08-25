@@ -343,7 +343,7 @@ class Leader extends Component {
                         </div>
                     }
                     {
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid blue', borderRadius: '8px', cursor: 'pointer'}}>
+                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid blue', cursor: 'pointer'}}>
                             <div style={{color: 'blue', fontSize: '17px'}}>watch your name rise and fall as scores change.  builds drama. :D</div>
                         </div>
                     }
@@ -384,7 +384,7 @@ class Leader extends Component {
                     }
                     {
                         true &&
-                        <div style={{color: 'dodgerblue', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid dodgerblue', borderRadius: '8px'}}>
+                        <div style={{color: 'dodgerblue', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid dodgerblue'}}>
                             ** invite your friends.  it's fun beating them.  :D **
                         </div>
                     }
