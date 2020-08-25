@@ -25,6 +25,8 @@ import jesus from '../styles/images/jesus-shuttlesworth.png';
 import herm from '../styles/images/herm.jpg';
 import zachBaby from '../styles/images/zach-baby.jpg';
 import afroBFrench from '../styles/images/afro-b-french.jpg';
+import kobeRucker from '../styles/images/kobe-rucker.jpg';
+import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
 import kawhiGif from '../styles/images/kawhi.gif';
 import beastMode from '../styles/images/beast-mode.gif';
 
@@ -45,7 +47,9 @@ const basketBallImages = [
     {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
     {id: 'jesus', picture: jesus, source: 'Jesus Shuttlesworth / Spike Lee / Touchstone Pictures'},
     {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana'},
-    {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'}
+    {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'},
+    {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
+    {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'}
 ];
 
 const images = {
