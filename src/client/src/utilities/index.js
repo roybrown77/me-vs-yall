@@ -45,7 +45,7 @@ const basketBallImages = [
     {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
     {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
     {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
-    {id: 'jesus', picture: jesus, source: 'Jesus Shuttlesworth / Spike Lee / Touchstone Pictures'},
+    {id: 'jesus', picture: jesus, source: 'Ray Allen / Spike Lee / Touchstone Pictures'},
     {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana'},
     {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'},
     {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},

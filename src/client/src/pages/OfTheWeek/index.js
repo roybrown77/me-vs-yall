@@ -39,6 +39,13 @@ const styles = {
 
 const stats = [
   {
+    title: "STAT OF THE WEEK: THAT TEAM UP NORTH",
+    content: `The Toronto Raptors are on an 8 game win streak and have won 13 of the last 14.  They are led by Fred VanVleet scoring 21.8 points and 7.8 assists.`,
+    leagueName: 'NBA',
+    date: 'August 25, 2020',
+    author: 'Roy B.'
+  },
+  {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Portland Trail Blazers over Los Angeles Lakers in Game 2`,
     leagueName: 'NBA',
