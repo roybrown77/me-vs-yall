@@ -30,6 +30,8 @@ import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
 import kawhiGif from '../styles/images/kawhi.gif';
 import beastMode from '../styles/images/beast-mode.gif';
 import nbaPlayoffs from '../styles/images/nba-playoffs-2019.jpg';
+import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
+import kelseyMitchell from '../styles/images/kelsey-mitchell.jpg';
 
 const vegasPictures = [
     zachBaby
@@ -51,7 +53,9 @@ const basketBallImages = [
     {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'},
     {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
-    {id: 'nbaPlayoffs', picture: nbaPlayoffs, source: 'NBA / Sporting News'}
+    {id: 'nbaPlayoffs', picture: nbaPlayoffs, source: 'NBA / Sporting News'},
+    {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / theathletic.com'},
+    {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'}
 ];
 
 const images = {
