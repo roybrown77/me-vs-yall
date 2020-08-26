@@ -241,11 +241,11 @@ const getBasketballCourt = (props) => (
     
     {true && <ellipse cx="50" cy="0" rx="5" ry="5" id="shot-401236318352" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
     {true && <ellipse cx="90" cy="50" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot home miss"></ellipse>}
-    {true && <ellipse cx="200" cy="100" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>}
+    {true && <ellipse cx="200" cy="90" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>}
     
     {true && <ellipse cx="530" cy="0" rx="5" ry="5" id="shot-401236318352" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
     {true && <ellipse cx="450" cy="25" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot away make"></ellipse>}
-    {true && <ellipse cx="400" cy="95" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
+    {true && <ellipse cx="375" cy="55" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
     
     <g transform="matrix(1,0,0,1,552,-10)" className="hoopRight"><path d="M1.6,0.3l-1,0L0.5,20.5l4.6,14l1,0V13.1L1.6,0.3z" fill="#f7f8f8" style={{strokeWidth: '0px'}}></path>
     <path d="M0.8,2.1l4,11.4l0,19.3L0.8,20.5L0.8,2.1z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path>
