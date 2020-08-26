@@ -13,7 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
-import gram from '../../styles/images/gram.png';
 import rocket from '../../styles/images/rocket.png';
 import money from '../../styles/images/money.png';
 
@@ -504,20 +503,6 @@ class Home extends Component {
               <div>
                 {`We rely on new users joining to keep cash prizes available and games free so we appreciate everyone you can invite to play.  The best way we've seen folks sign up is when you show them how since just telling them doesn't always work.  Thanks!`}
               </div>
-            </div>
-          }
-          {
-            false &&
-            <div style={{backgroundColor: '#fff', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
-              <img style={{width:'90%', maxWidth: '750px'}} src={gram} alt=""/>
-              <div style={{transform: 'scaleX(-1)'}}><svg width="62" height="43" xmlns="http://www.w3.org/2000/svg"><path d="M5.266 38.877c1.452.833 2.918.32 4.32.057 3.251-.615 6.476-1.387 9.728-1.987 1.096-.202 2.252-.155 3.367-.08.612.04 1.158.465 1.187 1.158.036.836-.586 1.398-1.296 1.371-5.507-.205-10.51 2.352-15.828 3.104-3.789.535-5.922-1.198-5.838-4.952.128-5.752 2.184-11.108 4.47-16.369.324-.743.922-1.304 1.878-.977 1.07.366 1.137 1.213.858 2.1-.754 2.389-1.6 4.752-2.35 7.143-.408 1.3-.841 2.617-.706 4.01.861.305 1.095-.384 1.43-.82 5.204-6.806 10.957-13.122 17.665-18.508C33.95 6.26 44.6.39 57.591.488c.606.006 1.228-.073 1.816.027 1.083.184 2.082.601 1.887 1.95-.19 1.322-1.2 1.623-2.346 1.467-13.31-1.817-24 3.952-33.929 12.042-7.941 6.47-14.268 14.264-19.753 22.903" fill="#EF1F6B" fillRule="evenodd"></path></svg></div> 
-              <Grid item xs={8} style={styles.buttonBorder}>
-                <Button 
-                    variant="outlined" 
-                    style={{...styles.button, border: '5px solid black', color: '#FF1493'}} onClick={() => this.gram()}>
-                    GRAM
-                </Button>
-              </Grid>
             </div>
           }
           <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif'}}>

@@ -32,6 +32,7 @@ import beastMode from '../styles/images/beast-mode.gif';
 import nbaPlayoffs from '../styles/images/nba-playoffs-2019.jpg';
 import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
 import kelseyMitchell from '../styles/images/kelsey-mitchell.jpg';
+import rickey from '../styles/images/rickey.gif';
 
 const vegasPictures = [
     zachBaby
@@ -87,6 +88,9 @@ const images = {
     '59723313734d1d6202a85f29': [
         {id: 'josef', picture: josef, source: 'Josef Martinez / Dale Zanine / mlssoccer.com'}
     ],
+    '59723313734d1d6202a85f21': [
+        {id: 'rickey', picture: rickey, source: 'Rickey Henderson / dribbble.com'}
+    ]
 };
 
 const getImage = (leagueId) => {
