@@ -22,7 +22,6 @@ import soccer from '../../styles/images/soccer.png';
 import basketball from '../../styles/images/basketball.png';
 import boxing from '../../styles/images/boxing.png';
 import mma from '../../styles/images/mma.png';
-import kawhi from '../../styles/images/kawhi.gif';
 
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
@@ -249,7 +248,7 @@ class Home extends Component {
             </Grid>
           }
           {displayHomePageImages && <div>
-            <img style={{width:'100%',maxWidth:'500px',marginTop:'30px'}} src={kawhi} alt=""/>
+            <img style={{width:'100%',maxWidth:'500px',marginTop:'30px'}} src={mma} alt=""/>
           </div>}
           <div style={styles.buttonLeagueContainer}>
             <div style={{display:'flex'}}>

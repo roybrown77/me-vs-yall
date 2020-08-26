@@ -27,8 +27,8 @@ import zachBaby from '../styles/images/zach-baby.jpg';
 import afroBFrench from '../styles/images/afro-b-french.jpg';
 import kobeRucker from '../styles/images/kobe-rucker.jpg';
 import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
-import kawhiGif from '../styles/images/kawhi.gif';
-import beastMode from '../styles/images/beast-mode.gif';
+import beastMode from '../styles/images/beast-mode.png';
+import mahomes from '../styles/images/mahomes.gif';
 import nbaPlayoffs from '../styles/images/nba-playoffs-2019.jpg';
 import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
 import kelseyMitchell from '../styles/images/kelsey-mitchell.jpg';
@@ -51,7 +51,6 @@ const basketBallImages = [
     {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
     {id: 'jesus', picture: jesus, source: 'Ray Allen / Spike Lee / Touchstone Pictures'},
     {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana / Joanna'},
-    {id: 'kawhiGif', picture: kawhiGif, source: 'Kawhi Leonard / dribbble.com'},
     {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
     {id: 'nbaPlayoffs', picture: nbaPlayoffs, source: 'NBA / Sporting News'},
@@ -63,7 +62,8 @@ const images = {
     '59723313734d1d6202a85f10': [
         {id: 'mccaffrey', picture: mccaffrey, source: 'Christian MacCaffrey / David T. Foster III / Charlotte Observer'},
         {id: 'patriots', picture: patriots, source: 'Patriots vs Cowboys / BostonGlobe.com'},
-        {id: 'beastMode', picture: beastMode, source: 'Marshawn Lynch / dribbble.com'}
+        {id: 'beastMode', picture: beastMode, source: 'Marshawn Lynch / dribbble.com'},
+        {id: 'mahomes', picture: mahomes, source: 'HOF Patrick Mahomes / dribbble.com'}
     ],
     '59723313734d1d6202a85f15': [
         {id: 'reggie', picture: reggie, source: 'Reggie Bush / Lucy Nicholson / REUTERS'},

@@ -98,6 +98,16 @@ const getFootballField = (props) => (
       <path className="field-bottom" fill="#356732" stroke="#000000" d="M61.762,67.814L61.93,71.857L31.312,71.857L31.102,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-bottom" fill="#cdcccc" stroke="#000000" d="M31.102,67.814L31.312,71.857L29.202,71.857L28.989,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-bottom" fill="#2a443b" stroke="#000000" d="M28.989,67.814L29.202,71.857L0.693,71.857L0.442,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
+      
+      {false & <g>
+        <ellipse stroke="#000" ry="167" rx="261.99998" id="svg_1" cy="280.45313" cx="394.00001" stroke-width="2" fill="#fff"/>
+        <rect stroke="#ffffff" id="svg_2" height="264.99999" width="596" y="207.45314" x="102" fillOpacity="null" strokeWidth="1.5" fill="#fff"/>
+        <ellipse stroke="#000" ry="3" rx="4" id="svg_3" cy="210.45313" cx="156" strokeOpacity="null" stroke-width="2" fill="#000000"/>
+        <ellipse stroke="#000" ry="3" rx="4" id="svg_4" cy="208.45313" cx="628" strokeOpacity="null" stroke-width="2" fill="#000000"/>
+        <line strokeLinecap="null" strokeLinejoin="null" id="svg_5" y2="209.45313" x2="556" y1="209.45313" x1="626" fillOpacity="null" strokeOpacity="null" strokeWidth="2" stroke="#000" fill="none"/>
+        <path stroke="#000" id="svg_10" d="m546.28996,206.36025l3.87917,-2.90939l4.12078,3.09057l4.12078,-3.09057l3.8792,2.90939l-4.12078,3.0906l4.12078,3.0906l-3.8792,2.90942l-4.12078,-3.0906l-4.12078,3.0906l-3.87917,-2.90942l4.12074,-3.0906l-4.12074,-3.0906z" strokeOpacity="null" fill="#000000"/>
+      </g>}
+
       <path className="field-top" fill="#359f47" stroke="#000000" d="M186.468,40.427L186.523,67.814L185.467,67.814L185.523,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-top" fill="#39b54a" stroke="#000000" d="M212.943,40.427L216.127,67.814L186.524,67.814L186.468,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-top" fill="#359f47" stroke="#000000" d="M241.315,40.427L247.854,67.814L216.127,67.814L212.943,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
