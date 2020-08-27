@@ -98,16 +98,6 @@ const getFootballField = (props) => (
       <path className="field-bottom" fill="#356732" stroke="#000000" d="M61.762,67.814L61.93,71.857L31.312,71.857L31.102,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-bottom" fill="#cdcccc" stroke="#000000" d="M31.102,67.814L31.312,71.857L29.202,71.857L28.989,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-bottom" fill="#2a443b" stroke="#000000" d="M28.989,67.814L29.202,71.857L0.693,71.857L0.442,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
-      
-      {false & <g>
-        <ellipse stroke="#000" ry="167" rx="261.99998" id="svg_1" cy="280.45313" cx="394.00001" stroke-width="2" fill="#fff"/>
-        <rect stroke="#ffffff" id="svg_2" height="264.99999" width="596" y="207.45314" x="102" fillOpacity="null" strokeWidth="1.5" fill="#fff"/>
-        <ellipse stroke="#000" ry="3" rx="4" id="svg_3" cy="210.45313" cx="156" strokeOpacity="null" stroke-width="2" fill="#000000"/>
-        <ellipse stroke="#000" ry="3" rx="4" id="svg_4" cy="208.45313" cx="628" strokeOpacity="null" stroke-width="2" fill="#000000"/>
-        <line strokeLinecap="null" strokeLinejoin="null" id="svg_5" y2="209.45313" x2="556" y1="209.45313" x1="626" fillOpacity="null" strokeOpacity="null" strokeWidth="2" stroke="#000" fill="none"/>
-        <path stroke="#000" id="svg_10" d="m546.28996,206.36025l3.87917,-2.90939l4.12078,3.09057l4.12078,-3.09057l3.8792,2.90939l-4.12078,3.0906l4.12078,3.0906l-3.8792,2.90942l-4.12078,-3.0906l-4.12078,3.0906l-3.87917,-2.90942l4.12074,-3.0906l-4.12074,-3.0906z" strokeOpacity="null" fill="#000000"/>
-      </g>}
-
       <path className="field-top" fill="#359f47" stroke="#000000" d="M186.468,40.427L186.523,67.814L185.467,67.814L185.523,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-top" fill="#39b54a" stroke="#000000" d="M212.943,40.427L216.127,67.814L186.524,67.814L186.468,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-top" fill="#359f47" stroke="#000000" d="M241.315,40.427L247.854,67.814L216.127,67.814L212.943,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
@@ -149,6 +139,25 @@ const getFootballField = (props) => (
       <rect className="goal-post-left" x="10.663" y="11.922" width="0.587" height="27.804" rx="0" ry="0" fill="#faed24" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
       <path className="goal-post-left" fill="#f8ed40" stroke="#000000" d="M10.181,39.725C10.181,39.725,10.191999999999998,40.124,10.353,40.421C10.514,40.717999999999996,10.722999999999999,40.671,10.722999999999999,40.671V12.483L10.181,11.702V39.725Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="goal-post-left" fill="#818181" stroke="#000000" d="M363.967,54.432L362.957,53.236L362.957,44.868L363.967,46.064Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
+      
+      {false &&
+        <g> 
+        <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} d="M 319 138 L 319 138 A 106 83, 0,0 0,54 147"></path>
+        <rect className="play" x="250" y="55" width="40" height="2" rx="0" ry="0" fill="#000" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
+        <ellipse cx="290" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
+        <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
+        <path className="field-top" fill="#000" stroke="yellow" d="M325.471,40.427L341.955,67.814L340.899,67.814L324.526,40.427Z" strokeWidth="2" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
+        </g>
+      }
+      {false && <g>
+        <ellipse stroke="#000" ry="167" rx="261.99998" id="svg_1" cy="280.45313" cx="394.00001" stroke-width="2" fill="#fff"/>
+        <rect stroke="#ffffff" id="svg_2" height="264.99999" width="596" y="207.45314" x="102" fillOpacity="null" strokeWidth="1.5" fill="#fff"/>
+        <ellipse stroke="#000" ry="3" rx="4" id="svg_3" cy="210.45313" cx="156" strokeOpacity="null" stroke-width="2" fill="#000000"/>
+        <ellipse stroke="#000" ry="3" rx="4" id="svg_4" cy="208.45313" cx="628" strokeOpacity="null" stroke-width="2" fill="#000000"/>
+        <line strokeLinecap="null" strokeLinejoin="null" id="svg_5" y2="209.45313" x2="556" y1="209.45313" x1="626" fillOpacity="null" strokeOpacity="null" strokeWidth="2" stroke="#000" fill="none"/>
+        <path stroke="#000" id="svg_10" d="m546.28996,206.36025l3.87917,-2.90939l4.12078,3.09057l4.12078,-3.09057l3.8792,2.90939l-4.12078,3.0906l4.12078,3.0906l-3.8792,2.90942l-4.12078,-3.0906l-4.12078,3.0906l-3.87917,-2.90942l4.12074,-3.0906l-4.12074,-3.0906z" strokeOpacity="null" fill="#000000"/>
+      </g>}
+
       <rect className="goal-post-left" x="363.967" y="46.064" width="2.02" height="8.367" rx="0" ry="0" fill="#2a443b" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
       <path className="goal-post-left" fill="#989898" stroke="#000000" d="M364.977,44.869L362.957,44.869L363.967,46.063L365.987,46.063Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="goal-post-left" fill="none" stroke="#faed24" d="M358.536,36.307H360.244C363.055,36.307,364.497,38.137,364.497,43.909000000000006V44.55700000000001" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" strokeMiterlimit="10" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeLinecap: 'square', strokeLinejoin: 'round', strokeMiterlimit: '10', strokeOpacity: 1}}></path>
@@ -249,11 +258,11 @@ const getBasketballCourt = (props) => (
     <path d="M 4.8,18 1.4,21.1 6.3,15.4 23.8,18.1 23.8,21.4 23.8,19.5   z" fill="#e6e6e5" style={{strokeWidth: '0px'}}></path>
     <path d="M 1.4,24.2 1.4,21.1 4.8,18 23.8,19.5 23.8,21.4 7,21.9 4.9,21.9   z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path></g>
     
-    {true && <ellipse cx="50" cy="0" rx="5" ry="5" id="shot-401236318352" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
+    {true && <ellipse cx="50" cy="0" rx="5" ry="5" id="bball-1" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
     {true && <ellipse cx="90" cy="50" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot home miss"></ellipse>}
     {true && <ellipse cx="200" cy="90" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>}
     
-    {true && <ellipse cx="530" cy="0" rx="5" ry="5" id="shot-401236318352" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
+    {true && <ellipse cx="530" cy="0" rx="5" ry="5" id="bball-2" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
     {true && <ellipse cx="450" cy="25" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot away make"></ellipse>}
     {true && <ellipse cx="375" cy="55" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
     

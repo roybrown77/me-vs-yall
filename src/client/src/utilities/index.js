@@ -431,7 +431,7 @@ const getVegasPicks = (games = []) => {
     });
 };
 
-const getGroupedGames = (games = [], picks = [], teams = []) => {
+const getGroupedGames = (games = [], picks = [], teams = [], leagueId = "") => {
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
         return {
@@ -459,8 +459,7 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
     });
 
     return [
-        ...orderBy(formattedGames.filter(x=>hasGameStarted(x.startDateTime) && !x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
-        ...orderBy(formattedGames.filter(x=>!hasGameStarted(x.startDateTime)),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
+        ...orderBy(formattedGames.filter(x=>!x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
         ...orderBy(formattedGames.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
     ];
 };
