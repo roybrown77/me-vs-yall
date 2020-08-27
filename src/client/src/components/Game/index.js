@@ -140,23 +140,31 @@ const getFootballField = (props) => (
       <path className="goal-post-left" fill="#f8ed40" stroke="#000000" d="M10.181,39.725C10.181,39.725,10.191999999999998,40.124,10.353,40.421C10.514,40.717999999999996,10.722999999999999,40.671,10.722999999999999,40.671V12.483L10.181,11.702V39.725Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="goal-post-left" fill="#818181" stroke="#000000" d="M363.967,54.432L362.957,53.236L362.957,44.868L363.967,46.064Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       
-      {false &&
-        <g> 
-        <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} d="M 319 138 L 319 138 A 106 83, 0,0 0,54 147"></path>
-        <rect className="play" x="250" y="55" width="40" height="2" rx="0" ry="0" fill="#000" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
-        <ellipse cx="290" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
-        <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
-        <path className="field-top" fill="#000" stroke="yellow" d="M325.471,40.427L341.955,67.814L340.899,67.814L324.526,40.427Z" strokeWidth="2" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
+      {
+        false && 
+        <g fill="brown" transform="rotate(-15 50 100)">
+          <ellipse cx="55" cy="10" rx="5" ry="2" id="football-1" fill="darkbrown" stroke="darkbrown" style={{fillOpacity: 1, strokeWidth: 1}}></ellipse>
         </g>
       }
-      {false && <g>
-        <ellipse stroke="#000" ry="167" rx="261.99998" id="svg_1" cy="280.45313" cx="394.00001" stroke-width="2" fill="#fff"/>
-        <rect stroke="#ffffff" id="svg_2" height="264.99999" width="596" y="207.45314" x="102" fillOpacity="null" strokeWidth="1.5" fill="#fff"/>
-        <ellipse stroke="#000" ry="3" rx="4" id="svg_3" cy="210.45313" cx="156" strokeOpacity="null" stroke-width="2" fill="#000000"/>
-        <ellipse stroke="#000" ry="3" rx="4" id="svg_4" cy="208.45313" cx="628" strokeOpacity="null" stroke-width="2" fill="#000000"/>
-        <line strokeLinecap="null" strokeLinejoin="null" id="svg_5" y2="209.45313" x2="556" y1="209.45313" x1="626" fillOpacity="null" strokeOpacity="null" strokeWidth="2" stroke="#000" fill="none"/>
-        <path stroke="#000" id="svg_10" d="m546.28996,206.36025l3.87917,-2.90939l4.12078,3.09057l4.12078,-3.09057l3.8792,2.90939l-4.12078,3.0906l4.12078,3.0906l-3.8792,2.90942l-4.12078,-3.0906l-4.12078,3.0906l-3.87917,-2.90942l4.12074,-3.0906l-4.12074,-3.0906z" strokeOpacity="null" fill="#000000"/>
-      </g>}
+    
+      {
+        true &&
+        <g> 
+          <svg viewBox="135 65 100 100">
+            <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} stroke-dasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
+          </svg>
+          <svg viewBox="-97 -32.5 100 100">
+            <line x1="40" x2="30" y1="50" y2="40" stroke="black" strokeWidth="4" strokeOpacity="1" />
+            <line x1="30" x2="40" y1="50" y2="40" stroke="black" strokeWidth="4" strokeOpacity="1" />
+          </svg>
+          <rect className="play" x="247" y="55" width="40" height="2" rx="0" ry="0" fill="#000" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
+          <ellipse cx="285" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
+          <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
+          <svg viewBox="-75 -25 100 100">
+            <line x1="15" x2="20" y1="30" y2="70" stroke="yellow" strokeWidth="4" strokeOpacity="1" />
+          </svg>
+        </g>
+      }
 
       <rect className="goal-post-left" x="363.967" y="46.064" width="2.02" height="8.367" rx="0" ry="0" fill="#2a443b" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
       <path className="goal-post-left" fill="#989898" stroke="#000000" d="M364.977,44.869L362.957,44.869L363.967,46.063L365.987,46.063Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>

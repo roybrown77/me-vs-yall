@@ -3748,100 +3748,101 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     console.log(`${message} updating scores.`);
 
     games.forEach(game=>{
-        if (!(game.gameName || '').toLowerCase().includes('header')) {
-            //console.log(`${message} game: ${JSON.stringify(game)}`);
+        //console.log(`${message} game: ${JSON.stringify(game)}`);
 
-            const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-            const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
-            const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
-            const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
+        const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+        const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
+        const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
+        const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
 
-            let preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        let preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation && x.gameName === game.gameName);
 
-            //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
+        //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-            const inProgressScore = scores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+        const inProgressScore = scores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
-            //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
+        //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-            let finalScore = scores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+        let finalScore = scores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
-            //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
+        //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
-            const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
+        const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
 
-            //console.log(`${message} scoreIndex: ${scoreIndex}`);
+        //console.log(`${message} scoreIndex: ${scoreIndex}`);
 
-            const score = scores[scoreIndex];
+        const score = scores[scoreIndex];
 
-            //console.log(`${message} score: ${JSON.stringify(score)}`);
+        //console.log(`${message} score: ${JSON.stringify(score)}`);
 
-            const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
+        const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
-            //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
+        //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
 
-            const playHistory = get(game,'playHistory',[]);
-            
-            //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
+        const playHistory = get(game,'playHistory',[]);
+        
+        //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
-            const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
-            const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
-            const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
-            const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
-            !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
-            (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
+        const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+        const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
+        const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
+        const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
+        !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
+        (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
 
-            //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
+        //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 
-            const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
-              (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
-            
-            const currentTime = get(score,'currentTime');
-            const currenTimeSplit = (currentTime || '').split(' ');
-            const quarter = currenTimeSplit[currenTimeSplit.length-1];
-            const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
-            const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
+        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
+          (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
+        
+        const currentTime = get(score,'currentTime');
+        const currenTimeSplit = (currentTime || '').split(' ');
+        const quarter = currenTimeSplit[currenTimeSplit.length-1];
+        const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
+        const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
 
-            const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
-                : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
+        const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
+            : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
 
-            const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
-                : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
+        const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
+            : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
 
 
-            console.log(`${message} currentTimeFormatted: ${currentTimeFormatted}`);
+        console.log(`${message} currentTimeFormatted: ${currentTimeFormatted}`);
 
-            const updatedGame = {
-              competitors: [...get(game,'competitors',[])],
-              isGameOver: isGameOver,
-              playHistory: newPlayHistory,
-              currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
-              gameName: get(score,'gameName',''),
-              down: get(score,'down'),
-              possession: get(score,'possession')
-            };
+        const updatedGame = {
+          competitors: [...get(game,'competitors',[])],
+          isGameOver: isGameOver,
+          playHistory: newPlayHistory,
+          currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
+          down: get(score,'down'),
+          possession: get(score,'possession')
+        };
 
-            if (!hasGameStarted(game.startDateTime)) {
-                set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
-                    teamId: get(spreadTeam,'_id'),
-                    amount: get(score,'spread.amount', 0),
-                    spreadDateTime: get(score,'spread.spreadDateTime')
-                });
-            }
-
-            set(updatedGame,'competitors.0.score', awayScore);
-
-            set(updatedGame,'competitors.1.score', homeScore);
-            
-            if (isGameOver) {
-              set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
-              set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
-            }
-
-            console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
-
-            gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+        if (!hasGameStarted(game.startDateTime)) {
+            set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
+                teamId: get(spreadTeam,'_id'),
+                amount: get(score,'spread.amount', 0),
+                spreadDateTime: get(score,'spread.spreadDateTime')
+            });
         }
+
+        set(updatedGame,'competitors.0.score', awayScore);
+
+        set(updatedGame,'competitors.1.score', homeScore);
+
+        if (!(game.gameName || '').toLowerCase().includes('header')) {
+            set(updatedGame,'gameName',get(score,'gameName',''));
+        }
+        
+        if (isGameOver) {
+          set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
+          set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
+        }
+
+        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+
+        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
 };
 
