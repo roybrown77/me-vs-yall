@@ -11,7 +11,7 @@ const line2 = `But after 10 years, I still didn't find time to create it.  Only 
                to have it ready for the NFL season.  This prepared me for my next gig in addition to growing confidence I can 
                build something great we can use.`;
 
-const line3 = `This app will continue to grow and excite for the love of sports, competition and the fighting spirit.  Enjoy!  :D`;
+const line3 = `This app will continue to mature and excite for the love of sports, competition and the fighting spirit.  Enjoy!  :D`;
 
 const line4 = `Feel free to contact us or join our mailing list at info@mevsyall.com.`;
 
