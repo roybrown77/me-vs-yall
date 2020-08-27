@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const styles = {
   countDown: {
+    fontFamily:'monospace',
     fontSize: '17px',
     color: 'deeppink'
   }
@@ -85,7 +86,7 @@ class Countdown extends Component {
     const countDown = this.state;
 
     return (
-      <div style={this.props.styles || styles.countDown}>
+      <div style={{...styles.countDown,...this.props.styles}}>
         <div>
         {
           countDown.days > 0 && 
