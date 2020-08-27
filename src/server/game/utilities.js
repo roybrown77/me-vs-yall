@@ -3755,7 +3755,13 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
         const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
 
-        let preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation && x.gameName === game.gameName);
+        let preGameScore = 0;
+
+        if (leagueId === "59723313734d1d6202a85f21") {
+            preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation && x.gameName === game.gameName);
+        } else {
+            preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        }
 
         //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
