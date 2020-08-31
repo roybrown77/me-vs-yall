@@ -3468,37 +3468,30 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
     //console.log(`${message} formatGames teams: ${JSON.stringify(teams)}`);
 
     games.forEach(game=>{
-        if (!(game.gameName || '').toLowerCase().includes('header')) {
-            const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
-            const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
-            const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
+        const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
+        const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
+        const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
 
-            if (!awayTeam || !homeTeam) {
-                console.log(`${message} formatGames teams not found game: ${JSON.stringify(game)}`);
-                console.log(`${message} formatGames teams not found: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
+        if (!awayTeam || !homeTeam || (game.gameName || '').toLowerCase().includes('header')) {
+            console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
+            console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
+        } else {
+            if (leagueId === "59723313734d1d6202a85f15" && !(["sec","acc"].includes(awayTeam.conference) && ["sec","acc"].includes(homeTeam.conference))) {
+                console.log(`${message} formatGames teams are not in acc or sec: ${JSON.stringify(game)}`);
             } else {
-                if (leagueId === "59723313734d1d6202a85f15" && !(["sec","acc"].includes(awayTeam.conference) && ["sec","acc"].includes(homeTeam.conference))) {
-                    console.log(`${message} formatGames teams are not in acc or sec: ${JSON.stringify(game)}`);
-                } else {
-                    const competitors = [
-                        {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
-                        {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
-                    ];
+                const competitors = [
+                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
+                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
+                ];
 
-                    formattedGames.push({
-                      leagueId: mongoose.Types.ObjectId(leagueId),
-                      year: year,
-                      startDateTime: game.startDateTime,
-                      gameName: game.gameName,
-                      // spread: {
-                      //  teamId: get(spreadTeam,'_id'),
-                      //  amount: get(game,'spread.amount', 0),
-                      //  spreadDateTime: game.spread.spreadDateTime
-                      // },
-                      competitors: competitors,
-                      hashCompetitors: JSON.stringify(competitors)
-                    });
-                }
+                formattedGames.push({
+                  leagueId: mongoose.Types.ObjectId(leagueId),
+                  year: year,
+                  startDateTime: game.startDateTime,
+                  gameName: game.gameName,
+                  competitors: competitors,
+                  hashCompetitors: JSON.stringify(competitors)
+                });
             }
         }
     });
@@ -3511,22 +3504,23 @@ const createGames = ({message, games}) => {
         const gameFind = {
           leagueId: get(game,'leagueId'),
           year: get(game,'year'),
-          hashCompetitors: JSON.stringify(game.competitors),
-          startDateTime: game.startDateTime
+          hashCompetitors: JSON.stringify(game.competitors)
         };
 
+        console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
+
         gameRepository.find(gameFind, function (err, gamesFound) {
-          if ((gamesFound || []).length > 0) {
-            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
-          } else {
-           gameRepository.create(game, function (err, gameCreated) {
-              if (err) {
-                console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
-              } else {
-               console.log(`${message} createGames success creating game: ${gameCreated._id}`);
-              }
-            });
-          }
+            if ((gamesFound || []).length > 0) {
+                console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
+            } else {
+                gameRepository.create(game, function (err, gameCreated) {
+                    if (err) {
+                        console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
+                    } else {
+                        console.log(`${message} createGames success creating game: ${gameCreated._id}`);
+                    }
+                });
+            }
         });
   });
 };
@@ -3757,11 +3751,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         let preGameScore = 0;
 
-        if (leagueId === "59723313734d1d6202a85f21") {
-            preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation && x.gameName === game.gameName);
-        } else {
-            preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
-        }
+        preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
         //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
@@ -3837,9 +3827,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         set(updatedGame,'competitors.1.score', homeScore);
 
-        if (!(game.gameName || '').toLowerCase().includes('header')) {
-            set(updatedGame,'gameName',get(score,'gameName',''));
-        }
+        set(updatedGame,'gameName',get(score,'gameName',''));
         
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
