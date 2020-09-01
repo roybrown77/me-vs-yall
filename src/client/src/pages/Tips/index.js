@@ -42,8 +42,12 @@ const stats = [
     content: `Pick winners.  Every week.  Against others around the world.  For free.`
   },
   {
-    title: 'PRIZE POCKETS',
-    content: `Weekly prize amounts depend on what's in our pockets at the time.  Prizes will be sent promptly.`
+    title: 'FACTS',
+    content: `Me vs Yall allows you to practice making picks without losing money.  If you can't win here don't waste your money over there.`
+  },
+  {
+    title: 'MATH STUDENTS',
+    content: `Pick games are an engaging way to teach students about math, probability and money.`
   },
   {
     title: 'LEADERS',
@@ -54,11 +58,29 @@ const stats = [
     content: `You can view another person's picks by tapping their name on Leaders page after game starts.  You can also change your pick until game starts.`
   },
   {
+    title: 'NFL',
+    content: `Home teams (team on right) win more than away teams.`
+  },
+  {
+    title: 'NBA',
+    content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
+  },
+  {
+    title: 'PREMIER LEAGUE',
+    content: `Games are normally on NBCSN, NBC and Telemundo early mornings Eastern Standard Time since their played in England.`
+  },
+  {
     title: 'IN VEGAS',
     content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
               $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
               (team lost by less than spread) I would have won $200 and lost $110 which would show $90 (each game won also returns original $110).  If I picked 
               the losing team and winning team did not win by the spread I would win.  Me vs Yall assumes you beat the spread so add $100 or subtract $110 when necessary.`
+  },
+  {
+    title: 'SPREAD',
+    content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
+              by so the casino doesn't lose money.  This number can change all week as they adjust due to injuries, too many bets on one team 
+              and other factors.`
   },
   {
     title: 'THE CONNECT',
@@ -69,30 +91,12 @@ const stats = [
     content: `If you don't see 'tap to view prize and rules' then there is no prize for that sport that week.`
   },
   {
+    title: 'PRIZE POCKETS',
+    content: `Weekly prize amounts depend on what's in our pockets at the time.  Prizes will be sent promptly.`
+  },
+  {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when u can't watch it.`
-  },
-  {
-    title: 'SPREAD',
-    content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
-              by so the casino doesn't lose money.  This number can change all week as they adjust due to injuries, too many bets on one team 
-              and other factors.`
-  },
-  {
-    title: 'PREMIER LEAGUE',
-    content: `Games are normally on NBCSN, NBC and Telemundo early mornings Eastern Standard Time since their played in England.`
-  },
-  {
-    title: 'NFL',
-    content: `Home teams (team on right) win more than away teams.`
-  },
-  {
-    title: 'NBA',
-    content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
-  },
-  {
-    title: 'MATH STUDENTS',
-    content: `Pick games are an engaging way to teach students about math, probability and money.`
   },
   {
     title: 'ADD TO HOME SCREEN',
@@ -103,17 +107,9 @@ const stats = [
     content: `Beating friends and family on this app will make you even happier.  Invite them.  :D`
   },
   {
-    title: 'FACTS',
-    content: `Me vs Yall allows you to practice making picks without losing money.  If you can't win here don't waste your money over there.`
-  },
-  {
     title: 'NEW FEATURES',
     content: `Sign in again to get new app features or clear browser cache.`
   },
-  // {
-  //   title: 'CREATOR VIEW',
-  //   content: `You may see a week selection for Creator View.  This includes picks from the creator of the app and Vegas.  It's to prevent interfering with contest week but still allow them to play.`
-  // },
   {
     title: 'TAGS',
     content: `#football #soccer #basketball #boxing #mma #bmx #skate #surf #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #oftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vegas #litty #merch #thatway #art #picks #free`
