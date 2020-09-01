@@ -3240,6 +3240,105 @@ const mlbTeams = [
     }
 ];
 
+const wnbaTeams = [
+    {
+        _id: "5b9060e59a4c08bca6d80900",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Atlanta",
+        shortLocation: "ATL",
+        name: "Dream",
+        color: "#C8102E"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80901",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Chicago",
+        shortLocation: "CHI",
+        name: "Sky",
+        color: "#418FDE"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80902",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Connecticut",
+        shortLocation: "CONN",
+        name: "Sun",
+        color: "#A6192E"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80903",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Indiana",
+        shortLocation: "IND",
+        name: "Fever",
+        color: "#041E42"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80904",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "New York",
+        shortLocation: "NY",
+        name: "Liberty",
+        color: "#FF671F"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80905",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Washington",
+        shortLocation: "WSH",
+        name: "Mystics",
+        color: "#C8102E"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80906",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Dallas",
+        shortLocation: "DAL",
+        name: "Wings",
+        color: "#C4D600"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80907",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Las Vegas",
+        shortLocation: "LV",
+        name: "Aces",
+        color: "#BA0C2F"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80908",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Los Angeles",
+        shortLocation: "LA",
+        name: "Sparks",
+        color: "#702F8A"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d80909",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Minnesota",
+        shortLocation: "MIN",
+        name: "Lynx",
+        color: "#236192"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d8090a",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Phoenix",
+        shortLocation: "PHX",
+        name: "Mercury",
+        color: "#CB6015"
+    },
+    {
+        _id: "5b9060e59a4c08bca6d8090b",
+        leagueId: "59723313734d1d6202a85f37",
+        location: "Seattle",
+        shortLocation: "SEA",
+        name: "Storm",
+        color: "#2C5234"
+    }
+];
+
 const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
@@ -3847,6 +3946,7 @@ module.exports = {
     mlsTeams,
     ncaaTeams,
     mlbTeams,
+    wnbaTeams,
     countries,
     hasGameStarted,
     getPlayHistory,

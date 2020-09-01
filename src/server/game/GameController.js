@@ -50,7 +50,8 @@ const {
   boxingCompetitors,
   ufcCompetitors,
   mlsTeams,
-  nba2kCompetitors
+  nba2kCompetitors,
+  wnbaTeams
 } = require('./utilities');
 
 const omit = require('lodash/omit');
@@ -158,6 +159,7 @@ const updateGames = async () => {
   //loadWorldFootballGames({baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', dayCount: 1, leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'loadEnglishPremierLeagueGames', teams: premierLeagueTeams});
   //loadMlbGames({dayCount: 0, shouldLimit: true, isStart: false, leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'loadMlbGames', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadMlbGames({dayCount: 1, shouldLimit: true, isStart: true, leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'loadMlbGames', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  //loadBasketballGames({dayCount: 0, shouldLimit: false, isStart: false, leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'loadWnbaGames', baseUrl: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
@@ -227,6 +229,7 @@ const updateGames = async () => {
     //await updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
     //await updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
     await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});  
+    await updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   }
 };
 
@@ -340,7 +343,8 @@ router.get('/teams', function (req, res) {
     ...boxingCompetitors,
     ...ufcCompetitors,
     ...mlsTeams,
-    ...nba2kCompetitors
+    ...nba2kCompetitors,
+    ...wnbaTeams
   ];
 
   res.status(200).send(teams);

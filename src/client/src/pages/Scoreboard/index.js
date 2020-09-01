@@ -248,18 +248,14 @@ class Scoreboard extends Component {
 
     handleToggleSound = () => {
         if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { madden.play(); } else { madden.stop(); };
-        }
-
-        if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
             if (!this.state.soundOn) { tecmo.play(); } else { tecmo.stop(); };
         }
 
-        if (['59723313734d1d6202a85f19'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { nbaJams.play(); } else { nbaJams.stop(); };
+        if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
+            if (!this.state.soundOn) { madden.play(); } else { madden.stop(); };
         }
 
-        if (['59723313734d1d6202a85f35'].includes(this.props.leagueId)) {
+        if (['59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(this.props.leagueId)) {
             if (!this.state.soundOn) { nbaJams.play(); } else { nbaJams.stop(); };
         }
 
@@ -419,7 +415,7 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
-                        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f35'].includes(leagueId) &&
+                        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(leagueId) &&
                         <div style={{
                                 justifyContent: 'center',
                                 display:'flex', 

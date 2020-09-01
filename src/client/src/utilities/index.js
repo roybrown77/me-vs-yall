@@ -81,6 +81,11 @@ const images = {
         {id: 'mikeTyson', picture: mikeTyson, source: 'Iron Mike / Getty Images'},
         {id: 'tysonFury', picture: tysonFury, source: 'Tyson Fury / Getty Images'}
     ],
+    '59723313734d1d6202a85f37': [
+        {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / theathletic.com'},
+        {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'},
+        {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'}
+    ],
     '59723313734d1d6202a85f27': [
         {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'Masvidal / Diaz / ESPN MMA'},
         {id: 'nunes', picture: nunes, source: 'Amanda Nunes / Cris Cyborg / Esther Lin / MMA Fighting'},
@@ -115,6 +120,12 @@ const leagues = [
         name: 'mma', 
         description: 'mma', 
         years: [2019]
+    },
+    {
+        id: '59723313734d1d6202a85f37', 
+        name: 'wnba', 
+        description: 'wnba', 
+        years: [2020]
     },
     {
         id: '59723313734d1d6202a85f35', 

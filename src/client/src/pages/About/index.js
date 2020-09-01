@@ -4,8 +4,8 @@ import ReactGA from 'react-ga';
 import PageContainer from '../PageContainer';
 
 const line1 = `A long time ago (2007) in a galaxy far, far away (Alpharetta, Georgia), a buddy and I would scribbble on paper 
-               who we thought would win the upcoming week's NFL games.  This was just for bragging rights or a meal.  After a 
-               few weeks he said "hey, ur a dev -- make an app."`;
+               who we thought would win the upcoming week's NFL games.  Whoever got the most correct would win bragging rights 
+               or a meal.  After a few weeks he said "hey, ur a dev -- make an app."`;
 
 const line2 = `But after 10 years, I still didn't find time to create it.  Only after losing my job in July 2017 did I decide 
                to have it ready for the NFL season.  It prepared me for my next gig in addition to growing confidence I can 
