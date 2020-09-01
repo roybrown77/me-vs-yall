@@ -29,7 +29,7 @@ class About extends Component {
                 <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
                 <div style={{textAlign: 'left', padding: '12px'}}>{line4}</div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Code for site can be found <a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+                    Me vs Yall Engineering and Internship Program has provided code <a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
                 </div>
             </PageContainer>
         );
