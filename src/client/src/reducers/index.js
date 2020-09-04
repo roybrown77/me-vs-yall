@@ -204,6 +204,7 @@ const homePageDomain = (
 const ui = (state = Map({
   request: Map({
     leagueId: '59723313734d1d6202a85f10',
+    showGameDetails: true
   })
 }), action) => {
   switch (action.type) {
@@ -213,6 +214,9 @@ const ui = (state = Map({
     case 'LEADERS_REQUEST':
       localStorage.setItem('request', JSON.stringify(get(action, 'request', {})));
       return state.set('request', get(action, 'request'));
+    case 'GAMESHOWDETAILS':
+      localStorage.setItem('showGameDetails', get(action, 'flag'));
+      return state.set('showGameDetails', get(action, 'flag'));
     default:
       return state;
   }

@@ -16,6 +16,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
 import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
+import ToggleOn from '@material-ui/icons/ToggleOn';
+import ToggleOff from '@material-ui/icons/ToggleOff';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -34,7 +36,7 @@ import tecmoWebm from './tecmo-touchdown.webm';
 import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
-import { loadScoreboard, addPick, updatePick } from '../../actions';
+import { loadScoreboard, addPick, updatePick, showGameDetails } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
 import { 
     formatWeeks, 
@@ -108,6 +110,12 @@ const styles = theme => ({
   },
   soundButton: {
     color: '#000'
+  },
+  toggleButtonOn: {
+    color: 'blue'
+  },
+  toggleButtonOff: {
+    color: 'gray'
   }
 });
 
@@ -264,6 +272,10 @@ class Scoreboard extends Component {
         }));
     }
 
+    handleShowGameDetails = () => {
+        this.props.showGameDetails(!this.props.showDetails);
+    }
+
     render() {
         const { 
             classes, 
@@ -275,7 +287,8 @@ class Scoreboard extends Component {
             weeksDataLoading,
             weeks = [],
             weekId,
-            leagueId
+            leagueId,
+            showDetails
         } = this.props;
 
         const {soundOn} = this.state;
@@ -428,10 +441,20 @@ class Scoreboard extends Component {
                             </IconButton>
                         </div>
                     }
+                    <div style={{
+                            justifyContent: 'center',
+                            display:'flex', 
+                            fontSize: '17px', 
+                            fontFamily: 'monospace'}}>
+                        <div style={{margin:'auto 0'}}>show details</div>
+                        <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetails" onClick={this.handleShowGameDetails}>
+                            {showDetails ? <ToggleOn/> : <ToggleOff/>}
+                        </IconButton>
+                    </div>
                     {
                         <div className={classes.root}>
                             {
-                                groupedGames.map(game => {
+                                groupedGames.notCompleted.map(game => {
                                     let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                     let newDate = (gameDate !== newGameDate);
                                     if (newDate) gameDate = newGameDate;
@@ -449,10 +472,45 @@ class Scoreboard extends Component {
                                                 pick={picks.find(x=>x.gameId === game._id)}
                                                 handleMakePick={this.handleMakePick} 
                                                 isAuthenticated={isAuthenticated}
+                                                showDetails={showDetails}
                                             />
                                         </div>
                                     );
-                            })}
+                                })
+                            }
+                            <div>
+                                {
+                                    groupedGames.completed.length > 0 &&
+                                    <div style={{fontFamily:'monospace', backgroundColor:'deeppink', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                        <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>Completed Matches</div>
+                                    </div>
+                                }
+                                {
+                                    groupedGames.completed.map(game => {
+                                        let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                                        let newDate = (gameDate !== newGameDate);
+                                        if (newDate) gameDate = newGameDate;
+
+                                        return (
+                                            <div key={game._id}>
+                                                {
+                                                    newDate &&
+                                                    <div style={{fontFamily:'monospace', backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                        <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600',color:'deeppink'}}>{gameDate}</div>
+                                                    </div>
+                                                }
+                                                <Game 
+                                                    game={game} 
+                                                    pick={picks.find(x=>x.gameId === game._id)}
+                                                    handleMakePick={this.handleMakePick} 
+                                                    isAuthenticated={isAuthenticated}
+                                                    showDetails={showDetails}
+                                                />
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </div>
                         </div>
                     }
                     {
@@ -483,6 +541,9 @@ const mapStateToProps = (state, ownProps) => {
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
+    const showDetails = get(ui,'showGameDetails',localStorage.getItem('showGameDetails') !== 'false');
+
+    console.log(showDetails);
 
     const leagues = get(lookup, 'leagues', []);
     const league = leagues.find(x=>x.id === leagueId);
@@ -520,7 +581,8 @@ const mapStateToProps = (state, ownProps) => {
         beginDateTime,
         endDateTime,
         teams,
-        isAuthenticated
+        isAuthenticated,
+        showDetails
     }
 };
 
@@ -543,11 +605,14 @@ Scoreboard.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
-    updatePick: PropTypes.func.isRequired
+    updatePick: PropTypes.func.isRequired,
+    showGameDetails: PropTypes.func.isRequired,
+    showDetails: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, {
   loadScoreboard,
   addPick,
-  updatePick
+  updatePick,
+  showGameDetails
 })(withStyles(styles, { withTheme: true })(Scoreboard));

@@ -83,8 +83,7 @@ const images = {
     ],
     '59723313734d1d6202a85f37': [
         {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / theathletic.com'},
-        {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'},
-        {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'}
+        {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'}
     ],
     '59723313734d1d6202a85f27': [
         {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'Masvidal / Diaz / ESPN MMA'},
@@ -469,10 +468,10 @@ const getGroupedGames = (games = [], picks = [], teams = [], leagueId = "") => {
         };
     });
 
-    return [
-        ...orderBy(formattedGames.filter(x=>!x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
-        ...orderBy(formattedGames.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
-    ];
+    return {
+        notCompleted: orderBy(formattedGames.filter(x=>!x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
+        completed: orderBy(formattedGames.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
+    };
 };
 
 const getAreAnyGamesInProgress = (games = []) => {

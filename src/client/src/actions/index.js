@@ -183,6 +183,13 @@ export const selectWeek = (week) => (dispatch, getState) => {
   });
 };
 
+export const showGameDetails = (flag) => (dispatch, getState) => {
+  dispatch({
+    type: 'GAMESHOWDETAILS',
+    flag
+  });
+};
+
 export const addPick = (pick) => (dispatch, getState) => {
   const searchParams = new URLSearchParams();
   const userInSession = getUser();
