@@ -510,14 +510,14 @@ class Game extends Component {
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     {
-                                      ((game.isGameOver && pick.pickId) || get(game,'spread.amount')) &&
+                                      ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) &&
                                       <Grid item className={classNames(classes.gameHeader)}>
                                       <div style={{position:'absolute', padding: '4px',
-                                        display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && pick.pickId === competitor._id) || (game.winner !== '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                        display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || (game.winner !== '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                         <img style={{width:'40px'}} src={angry} alt=""/>
                                       </div>
                                       <div style={{position:'absolute', padding: '4px',
-                                        display: game.isGameOver ? (!competitor.selected ? 'none' : (game.winner === competitor._id && pick.pickId === competitor._id) || (game.winner === '000000000000000000000000' && pick.pickId === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                        display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner === competitor._id && get(pick,'pickId') === competitor._id) || (game.winner === '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
                                         <img style={{width:'40px'}} src={money} alt=""/>
                                       </div>
                                       <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
@@ -550,7 +550,7 @@ class Game extends Component {
                                                 </div>
                                                 { 
                                                   competitor.record &&
-                                                  <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((game.isGameOver && pick.pickId) || get(game,'spread.amount')) ? '4px 0 24px 0' :  '4px 0'}}>
+                                                  <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) ? '4px 0 24px 0' :  '4px 0'}}>
                                                     {competitor.record}
                                                   </div>
                                                 }
@@ -592,11 +592,11 @@ class Game extends Component {
                       {game.startDateTimeDisplay}
                     </span> 
                     {
-                      game.isGameOver && 
+                      get(game,'isGameOver') && 
                       <span style={{marginLeft:'12px'}}>Final</span>
                     }
                     {
-                      !game.isGameOver && 
+                      !get(game,'isGameOver') && 
                       hasGameStarted(game.startDateTime) && 
                       <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
                         {game.currentTime || 'in progress'}
@@ -605,7 +605,7 @@ class Game extends Component {
                 </div>
                 {
                   hasGameStarted(game.startDateTime) &&
-                  !game.isGameOver && 
+                  !get(game,'isGameOver') && 
                   <div className={classes.startDateTime}>
                     {game.possession} {game.down}
                   </div>
