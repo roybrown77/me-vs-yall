@@ -126,12 +126,12 @@ const leagues = [
         description: 'wnba', 
         years: [2020]
     },
-    {
-        id: '59723313734d1d6202a85f35', 
-        name: 'nba2k', 
-        description: 'nba 2k', 
-        years: [2020]
-    },
+    // {
+    //     id: '59723313734d1d6202a85f35', 
+    //     name: 'nba2k', 
+    //     description: 'nba 2k', 
+    //     years: [2020]
+    // },
     {
         id: '59723313734d1d6202a85f10', 
         name: 'nfl', 
