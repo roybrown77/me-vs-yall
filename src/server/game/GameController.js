@@ -280,7 +280,8 @@ router.get('/games', function (req, res) {
             !history.lastPlay.includes('timeout') && 
             !history.lastPlay.includes('foul') && 
             !history.lastPlay.includes('enters the game') &&
-            !history.lastPlay.includes('turnover'))
+            !history.lastPlay.includes('turnover') && 
+            !history.lastPlay.includes(': Pitch '))
           .slice(0,playHistoryCount);
         } else {
           x.playHistory = game.playHistory.slice(0,playHistoryCount);
