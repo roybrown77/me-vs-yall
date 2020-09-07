@@ -39,6 +39,15 @@ const styles = {
 
 const stats = [
   {
+    title: "STAT OF THE WEEK: TODAY WAS A TREY DAY",
+    content: `The Boston Celtics and Toronto Raptors are tied up 2 games a piece in the best of 7 playoff series.  Each 
+              game has been won by the team that had the best 3 point shooting percentage.  Celtics over Raptors games 1 
+              and 2 with 39% and 43% then Raptors over Celtics games 3 and 4 with 32% and 38%.`,
+    leagueName: 'NBA',
+    date: 'September 7, 2020',
+    author: 'Roy B.'
+  },
+  {
     title: "STAT OF THE WEEK: THAT TEAM UP NORTH",
     content: `The Toronto Raptors are on an 8 game win streak and have won 13 of the last 14.  They are led by Fred VanVleet scoring 21.2 points and 7.8 assists in the current playoffs.`,
     leagueName: 'NBA',
