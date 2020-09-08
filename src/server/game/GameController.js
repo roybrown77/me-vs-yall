@@ -196,8 +196,8 @@ const updateGames = async (leagueId) => {
     return;
   }
 
-  const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
-  const exemptLeagues = ['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f35','59723313734d1d6202a85f37'];
+  const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f21','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
+  const nonSpreadLeagues = ['59723313734d1d6202a85f17','59723313734d1d6202a85f29','59723313734d1d6202a85f37'];
   
   let numberOfSpreadGames = 0;
   let numberOfNonSpreadGames = 0;
@@ -213,8 +213,7 @@ const updateGames = async (leagueId) => {
       numberOfSpreadGames += 1;
     }
 
-    if (!spreadLeagues.includes(leagueId) && 
-      !exemptLeagues.includes(leagueId) &&
+    if (nonSpreadLeagues.includes(leagueId) &&
       hasGameStartedInXMinutes(game.startDateTime, 0)) {
       numberOfNonSpreadGames += 1;
     }
