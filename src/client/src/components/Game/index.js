@@ -192,13 +192,15 @@ const getFootballField = (props) => (
         true &&
         <g> 
           <svg viewBox="135 65 100 100">
-            <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} stroke-dasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
+            <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
           </svg>
           <svg viewBox="-97 -32.5 100 100">
-            {true && <line x1="35" x2="45" y1="45" y2="35" stroke="black" strokeWidth="4" strokeOpacity="1" />}
             {false && <line x1="40" x2="30" y1="50" y2="40" stroke="black" strokeWidth="4" strokeOpacity="1" />}
             {false && <line x1="30" x2="40" y1="50" y2="40" stroke="black" strokeWidth="4" strokeOpacity="1" />}
+
+            {true && <line x1="35" x2="45" y1="45" y2="40" stroke="black" strokeWidth="3" strokeOpacity="1" />}
             <line x1="35" x2="90" y1="45" y2="45" stroke="black" strokeWidth="3" strokeOpacity="1" />
+            {true && <line x1="35" x2="45" y1="45" y2="50" stroke="black" strokeWidth="3" strokeOpacity="1" />}
           </svg>
           <ellipse cx="285" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>
           <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>

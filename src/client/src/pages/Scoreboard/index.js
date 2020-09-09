@@ -543,8 +543,6 @@ const mapStateToProps = (state, ownProps) => {
     const request = get(ui,'request');
     const showDetails = get(ui,'showGameDetails',localStorage.getItem('showGameDetails') !== 'false');
 
-    console.log(showDetails);
-
     const leagues = get(lookup, 'leagues', []);
     const league = leagues.find(x=>x.id === leagueId);
 
