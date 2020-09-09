@@ -332,8 +332,6 @@ router.get('/gamesInProgress', function (req, res) {
       $ne: true
     }
   };
-
-  console.log('gamesInProgress search: ' + JSON.stringify(search));
   
   gameRepository.find(search, function (err, games) {
     if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
