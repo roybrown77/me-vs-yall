@@ -39,6 +39,13 @@ const styles = {
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Detroit Lions over Chicago Bears`,
+    leagueName: 'NFL',
+    date: 'September 9, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "STAT OF THE WEEK: TODAY WAS A TREY DAY",
     content: `The Boston Celtics and Toronto Raptors are tied up 2 games a piece in the best of 7 playoff series.  Each 
               game has been won by the team that had the best 3 point shooting percentage.  Celtics over Raptors games 1 
