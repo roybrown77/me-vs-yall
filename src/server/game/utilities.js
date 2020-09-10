@@ -3637,6 +3637,7 @@ const getScores = async ({
     liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
+    livePlaySelector2 = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > div.circleGraphs',
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
@@ -3704,6 +3705,11 @@ const getScores = async ({
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
       }, livePlaySelector.replace("INDEX", i));
+
+      const lastPlay2 = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerHTML : null;
+      }, livePlaySelector2.replace("INDEX", i));
 
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -3814,6 +3820,7 @@ const getScores = async ({
         homeScore: parseInt((homeScore || '').trim()),
         homeRecord: homeRecord,
         lastPlay: (lastPlay || '').trim(),
+        lastPlay2: (lastPlay2 || '').trim(),
         currentTime: currentTime,
         gameName: gameName,
         startDateTime: startDateTime,
@@ -3877,6 +3884,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         const playHistory = get(game,'playHistory',[]);
         
         //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
+
+        console.log("lastPlay2: " + get(score,'lastPlay2'));
 
         const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
         const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
