@@ -53,9 +53,7 @@ const basketBallImages = [
     {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana / Joanna'},
     {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
-    {id: 'nbaPlayoffs', picture: nbaPlayoffs, source: 'NBA / Sporting News'},
-    {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / theathletic.com'},
-    {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'}
+    {id: 'nbaPlayoffs', picture: nbaPlayoffs, source: 'NBA / Sporting News'}
 ];
 
 const images = {
