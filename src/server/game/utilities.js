@@ -307,6 +307,20 @@ const boxingCompetitors = [
         shortLocation: "Logan",
         name: "The Maverick Paul",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3101f",
+        location: "Vasiliy Lomachenko",
+        shortLocation: "Vasiliy",
+        name: "Hi-Tech Lomachenko",
+        country: "UKRAINE"
+    },
+    {
+        _id: "19823783734d1d04a1b31020",
+        location: "Teofimo Lopez Jr.",
+        shortLocation: "Teofimo",
+        name: "El Brooklyn Lopez Jr.",
+        country: "USA"
     }
 ];
 

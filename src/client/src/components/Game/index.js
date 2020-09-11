@@ -30,6 +30,7 @@ import croatia from '../../styles/images/croatia.png';
 import netherlands from '../../styles/images/netherlands.png';
 import japan from '../../styles/images/japan.png';
 import bahamas from '../../styles/images/bahamas.png';
+import ukraine from '../../styles/images/ukraine.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -425,6 +426,8 @@ class Game extends Component {
           return japan;
         case 'BAHAMAS':
           return bahamas;
+        case 'UKRAINE':
+          return ukraine;
         default:
           return america;
       };
