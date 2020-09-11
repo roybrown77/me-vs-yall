@@ -549,7 +549,7 @@ class Game extends Component {
                                                 <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color}}>
                                                   <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
                                                 </span>
-                                                <div style={{fontSize: competitor.country ? '15px' : '20px'}}>
+                                                <div style={{fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) ? '4px 0 24px 0' :  '4px 0'}}>
                                                   {competitor.name}
                                                 </div>
                                                 { 
