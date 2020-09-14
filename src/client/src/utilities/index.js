@@ -33,6 +33,7 @@ import nbaPlayoffs from '../styles/images/nba-playoffs-2019.jpg';
 import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
 import kelseyMitchell from '../styles/images/kelsey-mitchell.jpg';
 import rickey from '../styles/images/rickey.gif';
+import mack from '../styles/images/mack.jpeg';
 
 const vegasPictures = [
     zachBaby
@@ -45,7 +46,7 @@ function getRandomIntInclusive(min, max) {
 }
 
 const basketBallImages = [
-    {id: 'jwill', picture: jwill, source: 'Jason Williams / NiceKicks.com'},
+    {id: 'jwill', picture: jwill, source: 'Jason Williams / Nice Kicks'},
     {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
     {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
     {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
@@ -59,15 +60,16 @@ const basketBallImages = [
 const images = {
     '59723313734d1d6202a85f10': [
         {id: 'mccaffrey', picture: mccaffrey, source: 'Christian MacCaffrey / David T. Foster III / Charlotte Observer'},
-        {id: 'patriots', picture: patriots, source: 'Patriots vs Cowboys / BostonGlobe.com'},
+        {id: 'patriots', picture: patriots, source: 'Patriots vs Cowboys / Boston Globe'},
         {id: 'beastMode', picture: beastMode, source: 'Marshawn Lynch / dribbble.com'},
-        {id: 'mahomes', picture: mahomes, source: 'HOF Patrick Mahomes / dribbble.com'}
+        {id: 'mahomes', picture: mahomes, source: 'HOF Patrick Mahomes / dribbble.com'},
+        {id: 'mack', picture: mack, source: 'Khalil Mack / Chicago Bears'}
     ],
     '59723313734d1d6202a85f15': [
         {id: 'reggie', picture: reggie, source: 'Reggie Bush / Lucy Nicholson / REUTERS'},
         {id: 'trevor', picture: trevor, source: 'Trevor Lawrence / Christian Petersen / Getty Images'},
         {id: 'lsu', picture: lsu, source: 'LSU Sports Information'},
-        {id: 'herm', picture: herm, source: 'Herm Edwards / theathletic.com'}
+        {id: 'herm', picture: herm, source: 'Herm Edwards / The Athletic'}
     ],
     '59723313734d1d6202a85f17': [
         {id: 'pogba', picture: pogba, source: 'Paul Pogba / Getty Images'},
@@ -80,7 +82,7 @@ const images = {
         {id: 'tysonFury', picture: tysonFury, source: 'Tyson Fury / Getty Images'}
     ],
     '59723313734d1d6202a85f37': [
-        {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / theathletic.com'},
+        {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / The Athletic'},
         {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'}
     ],
     '59723313734d1d6202a85f27': [
