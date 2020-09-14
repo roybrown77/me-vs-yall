@@ -3538,7 +3538,7 @@ const getGames = async ({
         console.log(`${message} getGames no startDateTime`);
       } else {
         games.push({
-            startDateTime: startDateTime, // || "2020-09-10T16:00Z",
+            startDateTime: startDateTime, // || "2020-09-14T16:00Z",
             spread: {
              team: (spread || "").replace('Line: ','').split(' ')[0],
              amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),
@@ -3567,8 +3567,9 @@ const getGames = async ({
   if (shouldLimit) {
     const maxLength = 2;
     if (games.length > maxLength) {
-        const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
-        games = games.slice(randomPosition,randomPosition+maxLength);
+        // const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
+        // games = games.slice(randomPosition,randomPosition+maxLength);
+        games = [games[1],games[2]]; //.slice(0,1);
     }
   }
 
