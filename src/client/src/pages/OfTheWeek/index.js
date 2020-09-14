@@ -43,7 +43,9 @@ const stats = [
     content: `Week 1: Detroit Lions over Chicago Bears`,
     leagueName: 'NFL',
     date: 'September 13, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "STAT OF THE WEEK: TODAY WAS A TREY DAY",
