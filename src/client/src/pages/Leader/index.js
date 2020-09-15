@@ -10,9 +10,9 @@ import last from 'lodash/last';
 import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
 import ListItemText from '@material-ui/core/ListItemText';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -410,8 +410,8 @@ class Leader extends Component {
                                 {
                                     leaders.map((leader, index) => (
                                         <div className={classes.container} key={leader.id}>
-                                            <ExpansionPanel style={{borderRadius:'8px', boxShadow:'none'}}>
-                                                <ExpansionPanelSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
+                                            <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>
+                                                <AccordionSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
                                                     {
                                                         [1,2,3].includes(index+1) &&
                                                         <div style={{margin: 'auto 10px auto 0'}}>
@@ -457,8 +457,8 @@ class Leader extends Component {
                                                         <div>{leader.percentage}</div>
                                                         <div>{leader.wins} - {leader.losses}</div>
                                                     </div>
-                                                </ExpansionPanelSummary>
-                                                <ExpansionPanelDetails className={classes.expansionPanelDetails}>
+                                                </AccordionSummary>
+                                                <AccordionDetails className={classes.expansionPanelDetails}>
                                                     <div style={{margin: '12px auto'}}>
                                                         <div style={{
                                                             fontWeight: '700',
@@ -529,8 +529,8 @@ class Leader extends Component {
                                                             </table>
                                                         }
                                                     </div>
-                                                </ExpansionPanelDetails>
-                                            </ExpansionPanel>
+                                                </AccordionDetails>
+                                            </Accordion>
                                         </div>
                                     ))
                                 }
