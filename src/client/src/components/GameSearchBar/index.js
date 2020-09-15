@@ -36,7 +36,7 @@ const styles = theme => ({
 
 class GameSearchBar extends Component {  
   render() {
-    const { classes, weeks, weekId, leagueId } = this.props;
+    const { classes, weeks, weekId, leagueId, year } = this.props;
     const weekIndex = weeks.findIndex(x=>x._id === weekId);
     const weeksToDisplay = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index}>{week.displayName}</MenuItem>
@@ -75,7 +75,7 @@ class GameSearchBar extends Component {
                   </FormControl> 
                   <FormControl className={classes.formControl}>
                     <Select
-                        value={this.props.year}
+                        value={year}
                         onChange={this.props.onFilterYear}
                         displayEmpty
                         name='year'
@@ -88,10 +88,10 @@ class GameSearchBar extends Component {
               <Grid item xs={12} justify="center" sm container>
                 <FormControl className={classes.formControl}>
                   <Select
-                      value={weekIndex !== -1 ? weekIndex : this.props.weeks.length-1}
+                      value={weekIndex}
                       onChange={this.props.onFilterWeek}
                       displayEmpty
-                      name='year'
+                      name='week'
                       style={styles.select}
                       className={classes.select}
                       >
