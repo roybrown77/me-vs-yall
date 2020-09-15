@@ -1025,7 +1025,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9012",
         leagueId: "59723313734d1d6202a85f15",
         location: "Miami",
-        shortLocation: "MIA",
+        shortLocation: "MIAMI",
         name: "Hurricanes",
         color: '#F47321',
         conference: "acc"
