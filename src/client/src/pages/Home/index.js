@@ -416,7 +416,7 @@ class Home extends Component {
                         PREMIER LEAGUE
                         {
                           areAnyPremierGamesInProgress &&
-                          <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
+                          <img className='fast-flash' style={{...styles.ball, width: '65px'}} src={soccer} alt=""/>
                         }
                         </div>
                         <div>
