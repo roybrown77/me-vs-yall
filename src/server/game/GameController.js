@@ -124,7 +124,7 @@ const buySupreme = async () => {
 };
 
 const getEmailAddresses = async () => {
-  const users = await userRepository.find({});
+  const users = await userRepository.find({deleted: {$ne: true}});
   const emailList = [...users.map(user=>{return user.email})];
   const emailString = emailList.join('\n');
   console.log('emailString: ' + emailString);
