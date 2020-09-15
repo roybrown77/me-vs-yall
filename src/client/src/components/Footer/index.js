@@ -81,10 +81,10 @@ const mapStateToProps = (state, ownProps) => {
 
     const lookup = state.get('lookup').toJS();
     const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId') || leagues.find(x=>x.name.toLowerCase() === 'nfl').id;
+    const leagueId = get(request, 'leagueId');
     const league = leagues.find(x=>x.id === leagueId);
 
-    const leagueName = get(league,'name','nfl');
+    const leagueName = get(league,'name');
 
     return {
         leagueName

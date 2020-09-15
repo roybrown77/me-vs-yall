@@ -13,9 +13,13 @@ import {
 
 import { getUser, isLoggedIn } from '../middleware/authenticationClient';
 
+const requestStorageJson = localStorage.getItem('request');
+const requestStorage = JSON.parse(requestStorageJson);
+const leagueId = get(requestStorage, 'leagueId') || '59723313734d1d6202a85f10';
+
 const scoreboardDomain = (
   state = Map({ 
-    leagueId: '59723313734d1d6202a85f10',
+    leagueId,
     games: List(), 
     picks: List(),
     dataLoading: false
@@ -144,7 +148,7 @@ const teamDomain = (
 
 const leaderDomain = (
   state = Map({ 
-    leagueId: '59723313734d1d6202a85f10',
+    leagueId,
     leaders: List(), 
     dataLoading: false
   }), 
@@ -203,7 +207,7 @@ const homePageDomain = (
 
 const ui = (state = Map({
   request: Map({
-    leagueId: '59723313734d1d6202a85f10',
+    leagueId,
     showGameDetails: true
   })
 }), action) => {
