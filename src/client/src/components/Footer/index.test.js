@@ -5,7 +5,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Component from './index';
 
-test('renders learn react link', () => {
+test('renders', () => {
+  render(<Router><Component /></Router>, { initialState: Immutable.Map() });
+});
+
+test('renders Scores link', () => {
   const { getByText } = render(<Router><Component /></Router>, { initialState: Immutable.Map() });
   const linkElement = getByText(/Scores/i);
   expect(linkElement).toBeInTheDocument();

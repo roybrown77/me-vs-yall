@@ -31,7 +31,7 @@ class Footer extends Component {
         const leagueName = this.props.leagueName;
         const selected = window.location.pathname.includes('scoreboards') ? 'scoreboards' : 
         window.location.pathname.includes('leaders') ? 'leaders' : 
-        window.location.pathname.includes('oftheweek') ? 'oftheweek' : 'MvY';
+        window.location.pathname.abc.includes('oftheweek') ? 'oftheweek' : 'MvY';
 
         return (
             <BottomNavigation style={styles.root}>
