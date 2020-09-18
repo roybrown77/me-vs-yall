@@ -295,6 +295,10 @@ router.get('/games', function (req, res) {
           .slice(0,50)
           .filter(history=>!history.lastPlay.includes('rebound') && 
             !history.lastPlay.includes('timeout') && 
+            !history.lastPlay.includes('Timeout') && 
+            !history.lastPlay.includes('incomplete') && 
+            !history.lastPlay.includes('kneels') && 
+            !history.lastPlay.includes('Two-Minute Warning') && 
             !history.lastPlay.includes('foul') && 
             !history.lastPlay.includes('enters the game') &&
             !history.lastPlay.includes('turnover') && 
