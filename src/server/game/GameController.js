@@ -279,16 +279,16 @@ router.get('/games', function (req, res) {
         if (game.isGameOver) {
           x.playHistory = game.playHistory
           .slice(0,50)
-          .filter(history=>!history.lastPlay.includes('rebound') && 
-            !history.lastPlay.includes('timeout') && 
-            !history.lastPlay.includes('Timeout') && 
-            !history.lastPlay.includes('incomplete') && 
-            !history.lastPlay.includes('kneels') && 
-            !history.lastPlay.includes('Two-Minute Warning') && 
-            !history.lastPlay.includes('foul') && 
-            !history.lastPlay.includes('enters the game') &&
-            !history.lastPlay.includes('turnover') && 
-            !history.lastPlay.includes(': Pitch '))
+          .filter(history=>!(history.lastPlay || "").includes('rebound') && 
+            !(history.lastPlay || "").includes('timeout') && 
+            !(history.lastPlay || "").includes('Timeout') && 
+            !(history.lastPlay || "").includes('incomplete') && 
+            !(history.lastPlay || "").includes('kneels') && 
+            !(history.lastPlay || "").includes('Two-Minute Warning') && 
+            !(history.lastPlay || "").includes('foul') && 
+            !(history.lastPlay || "").includes('enters the game') &&
+            !(history.lastPlay || "").includes('turnover') && 
+            !(history.lastPlay || "").includes(': Pitch '))
           .slice(0,playHistoryCount);
         } else {
           x.playHistory = game.playHistory.slice(0,playHistoryCount);
