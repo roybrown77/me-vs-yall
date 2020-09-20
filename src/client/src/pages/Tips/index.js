@@ -96,7 +96,7 @@ const stats = [
   },
   {
     title: 'NO GAME NO PROBLEM',
-    content: `Follow each play on Scores page when u can't watch it.`
+    content: `Follow each play on Scores page when you can't watch it.`
   },
   {
     title: 'ADD TO HOME SCREEN',

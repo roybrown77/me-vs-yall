@@ -3,7 +3,7 @@ import ReactGA from 'react-ga';
 
 import PageContainer from '../PageContainer';
 
-const line1 = `A long time ago (2007) in a galaxy far, far away (Alpharetta, Georgia), a buddy and I would scribbble on paper 
+const line1 = `A long time ago (2007) in a galaxy far, far away (Alpharetta, Georgia), a buddy and I would scribble on paper 
                who we thought would win the upcoming week's NFL games.  Whoever got the most correct would win bragging rights 
                or a meal.  After a few weeks he said "hey, ur a dev -- make an app."`;
 
