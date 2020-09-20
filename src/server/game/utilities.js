@@ -321,6 +321,20 @@ const boxingCompetitors = [
         shortLocation: "Teofimo",
         name: "El Brooklyn Lopez Jr.",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31021",
+        location: "Jermall Charlo",
+        shortLocation: "Jermall",
+        name: "Hitman Charlo",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31022",
+        location: "Sergiy Derevyanchenk",
+        shortLocation: "Sergiy",
+        name: "The Technician Derevyanchenk",
+        country: "UKRAINE"
     }
 ];
 
@@ -492,6 +506,34 @@ const ufcCompetitors = [
         shortLocation: "Jairzinho",
         name: "Bigi Boy Rozenstruik",
         country: "SURINAME"
+    },
+    {
+        _id: "19823783734d1d04a1b32019",
+        location: 'Israel Adesanya',
+        shortLocation: "Israel",
+        name: "The Last Stylebender Adesanya",
+        country: "NIGERIA"
+    },
+    {
+        _id: "19823783734d1d04a1b3201f",
+        location: 'Paulo Costa',
+        shortLocation: "Paulo",
+        name: "Borrachinha Costa",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b32020",
+        location: 'Dominick Reyes',
+        shortLocation: "Dominick",
+        name: "The Devastator Reyes",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32021",
+        location: 'Jan Błachowicz',
+        shortLocation: "Jan",
+        name: "Prince of Cieszyn Błachowicz",
+        country: "POLAND"
     }
 ];
 

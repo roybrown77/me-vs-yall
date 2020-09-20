@@ -118,7 +118,7 @@ const leagues = [
         id: '59723313734d1d6202a85f27', 
         name: 'mma', 
         description: 'mma', 
-        years: [2019]
+        years: [2019,2020]
     },
     {
         id: '59723313734d1d6202a85f37', 
