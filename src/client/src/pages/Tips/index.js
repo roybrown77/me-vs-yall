@@ -43,7 +43,7 @@ const stats = [
   },
   {
     title: 'FACTS',
-    content: `Me vs Yall allows you to practice making picks without losing money.  If you can't win here don't waste your money over there.`
+    content: `Me vs Yall allows you to practice betting without losing money.  If you can't win here don't bet real money over there.`
   },
   {
     title: 'MATH STUDENTS',
