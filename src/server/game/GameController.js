@@ -149,7 +149,7 @@ const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
 };
 
 const updateGames = async (leagueId) => {
-  //loadAmericanFootballGames({year: 2020, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2020/seasontype/2/week/2', teams: nflTeams});
+  //loadAmericanFootballGames({year: 2020, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2020/seasontype/2/week/3', teams: nflTeams});
   //loadAmericanFootballGames({year: 2020, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/group/80/year/2020/seasontype/2/week/4', teams: ncaaTeams});
   
   //loadBasketballGames({dayCount: 0, shouldLimit: false, isStart: true, year: 2019, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
@@ -161,7 +161,7 @@ const updateGames = async (leagueId) => {
   //loadMlbGames({dayCount: 0, shouldLimit: true, isStart: true, year: 2020, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadMlbGames({dayCount: 1, shouldLimit: true, isStart: true, year: 2020, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   
-  //loadBasketballGames({dayCount: 0, shouldLimit: false, isStart: true, year 2020, message: 'loadWnbaGames', leagueId: '59723313734d1d6202a85f37', baseUrl: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
+  //loadBasketballGames({dayCount: 2, shouldLimit: false, isStart: true, year: 2020, message: 'loadWnbaGames', leagueId: '59723313734d1d6202a85f37', baseUrl: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   //loadBasketballGames({dayCount: 1, shouldLimit: false, isStart: true, year: 2020, message: 'loadWnbaGames', leagueId: '59723313734d1d6202a85f37', baseUrl: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   
   //loadBasketballGames({dayCount: 0, shouldLimit: true, isStart: true, year: 2019, message: 'loadNCAAMGames', leagueId: '59723313734d1d6202a85f33', baseUrl: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
@@ -213,7 +213,6 @@ const updateGames = async (leagueId) => {
     await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   }
   
-  
   if (leagueId === '59723313734d1d6202a85f19') {
     await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2019, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   }
@@ -222,8 +221,11 @@ const updateGames = async (leagueId) => {
     await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2020, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
 
+  if (leagueId === '59723313734d1d6202a85f37') {
+    await updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
+  }
+
   // await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f29', year: 2020, message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', teams: mlsTeams});
-  // await updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   // await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2020, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
   // await updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2020, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
   
