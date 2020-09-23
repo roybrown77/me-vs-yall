@@ -62,6 +62,10 @@ const stats = [
     content: `Home teams (team on right) win more than away teams.`
   },
   {
+    title: 'FILM DOES NOT LIE',
+    content: `Watching a team's last game will give you more insight than just stats and highlights.  You can watch 15 minute versions of games on youtube.com.`
+  },
+  {
     title: 'NBA',
     content: `It's easier to make picks daily since teams can be streaky.  It's a challenging league to pick winners so study well.`
   },
@@ -79,8 +83,8 @@ const stats = [
   {
     title: 'SPREAD',
     content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
-              by so the casino doesn't lose money.  This number can change all week as they adjust due to injuries, too many bets on one team 
-              and other factors.`
+              by so the casino doesn't lose money.  This number can change all week as they adjust due to too many bets on one team, injuries, cold weather, 
+              road record, coaching/player experience and other factors.`
   },
   {
     title: 'THE CONNECT',
@@ -99,8 +103,8 @@ const stats = [
     content: `Follow each play on Scores page when you can't watch it.`
   },
   {
-    title: 'ADD TO HOME SCREEN',
-    content: `For quicker access, add this web app to your home screen.  Click browser menu and select Add to Home Screen.`
+    title: 'SHARK TANK',
+    content: `Me vs Yall.  Here to groom your future Vegas sharks.`
   },
   {
     title: 'FRIENDS AND FAMILY',
@@ -112,7 +116,7 @@ const stats = [
   },
   {
     title: 'TAGS',
-    content: `#football #soccer #basketball #boxing #mma #bmx #skate #surf #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #oftheweek #mevsyall #sports #fun #crazy #facts #prizes #fans #love #vegas #litty #merch #thatway #art #picks #free`
+    content: `#football #soccer #basketball #boxing #mma #bmx #skate #surf #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #mackandbeezie #lockoftheweek #statoftheweek #oftheweek #mevsyall #mevsyallengineering #sports #fun #crazy #facts #prizes #fans #love #vegas #showmethemoney #litty #merch #thatway #art #picks #free`
   }
 ];
 
