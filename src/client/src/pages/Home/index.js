@@ -206,10 +206,13 @@ class Home extends Component {
           }
           <div>
           <div style={styles.subTitle}>
-            pick your favorite sports teams for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
+            practice betting without losing money  <span><img style={{width:'20px'}} src={money} alt=""/></span>
           </div>
           <div style={styles.subTitle}>
-            streaming live game plays <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
+            compete worldwide for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
+          </div>
+          <div style={styles.subTitle}>
+            streaming live game plays  <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
           </div>
           <div style={{...styles.subTitle, fontWeight:'bold'}}>
             {"it's free"}
