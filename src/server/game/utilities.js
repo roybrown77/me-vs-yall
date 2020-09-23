@@ -283,15 +283,15 @@ const boxingCompetitors = [
     {
         _id: "19823783734d1d04a1b3101b",
         location: 'Mike Tyson',
-        shortLocation: "Tyson",
+        shortLocation: "Mike",
         name: "Iron Mike Tyson",
         country: "USA"
     },
     {
         _id: "19823783734d1d04a1b3101c",
         location: 'Roy Jones Jr.',
-        shortLocation: "Jones Jr.",
-        name: "Roy Superman Jones Jr.",
+        shortLocation: "Roy",
+        name: "Superman Jones Jr.",
         country: "USA"
     },
     {
