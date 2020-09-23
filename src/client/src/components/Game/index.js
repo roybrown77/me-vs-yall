@@ -33,6 +33,7 @@ import bahamas from '../../styles/images/bahamas.png';
 import ukraine from '../../styles/images/ukraine.png';
 import poland from '../../styles/images/poland.png';
 import nigeria from '../../styles/images/nigeria.png';
+import dominicanRepublic from '../../styles/images/dominican-republic.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -434,6 +435,8 @@ class Game extends Component {
           return nigeria;
         case 'POLAND':
           return poland;
+        case 'DOMINICAN REPUBLIC':
+          return dominicanRepublic;
         default:
           return america;
       };

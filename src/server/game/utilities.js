@@ -335,6 +335,20 @@ const boxingCompetitors = [
         shortLocation: "Sergiy",
         name: "The Technician Derevyanchenk",
         country: "UKRAINE"
+    },
+    {
+        _id: "19823783734d1d04a1b31023",
+        location: "Jermell Charlo",
+        shortLocation: "Jermell",
+        name: "Iron Man Charlo",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31024",
+        location: "Jeison Rosario",
+        shortLocation: "Jeison",
+        name: "Banana Man Rosario",
+        country: "DOMINICAN REPUBLIC"
     }
 ];
 
