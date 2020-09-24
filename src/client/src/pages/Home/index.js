@@ -206,7 +206,7 @@ class Home extends Component {
           }
           <div>
           <div style={styles.subTitle}>
-            practice betting without losing money  <span><img style={{width:'20px'}} src={money} alt=""/></span>
+            practice betting without losing money
           </div>
           <div style={styles.subTitle}>
             compete worldwide for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
@@ -214,7 +214,7 @@ class Home extends Component {
           <div style={styles.subTitle}>
             streaming live game plays  <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
           </div>
-          <div style={{...styles.subTitle, fontWeight:'bold'}}>
+          <div style={{...styles.subTitle, margin: '30px auto', fontWeight:'bold'}}>
             {"it's free"}
           </div>
           <div style={{marginTop:'32px'}}>
