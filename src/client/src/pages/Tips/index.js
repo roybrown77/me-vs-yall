@@ -62,7 +62,7 @@ const stats = [
     content: `Home teams (team on right) win more than away teams.`
   },
   {
-    title: 'FILM DOES NOT LIE',
+    title: `FILM DON'T LIE`,
     content: `Watching a team's last game will give you more insight than just stats and highlights.  You can watch 15 minute versions of games on youtube.com.`
   },
   {
@@ -74,17 +74,24 @@ const stats = [
     content: `Games are normally on NBCSN, NBC and Telemundo early mornings Eastern Standard Time since their played in England.`
   },
   {
+    title: 'SPREAD',
+    content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
+              by so the casino doesn't lose money.  This number can change all week as they adjust due to too many bets on one team, injuries, cold weather, 
+              road record, coaching/player experience and other factors`
+  },
+  {
+    title: 'BET EXAMPLE',
+    content: `Patriots vs Cowboys with -3 next to Cowboys means Cowboys would need to win by 3 points or more for you to win money if you select Cowboys 
+              (the favorite).  If you select Patriots (the underdog), you can win if Cowboys win by less than 3 points, game ties or Patriots win.  Patriots 
+              +3 is the same as Cowboys -3.  This always confuses folks initially including me.  Plus sign means Patriots will give up 3 points and minus 
+              sign means Cowboys will take 3 points.`
+  },
+  {
     title: 'IN VEGAS',
     content: `When you tap your name on Leaders page, you will see 'in Vegas you would have won: $'.  This is the amount you would win if you had bet 
               $110 on each game and there was a $100 payout.  For example, if I picked 2 games right (teams won by spread) and 1 game wrong 
               (team lost by less than spread) I would have won $200 and lost $110 which would show $90 (each game won also returns original $110).  If I picked 
               the losing team and winning team did not win by the spread I would win.  Me vs Yall assumes you beat the spread so add $100 or subtract $110 when necessary.`
-  },
-  {
-    title: 'SPREAD',
-    content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
-              by so the casino doesn't lose money.  This number can change all week as they adjust due to too many bets on one team, injuries, cold weather, 
-              road record, coaching/player experience and other factors.`
   },
   {
     title: 'THE CONNECT',
