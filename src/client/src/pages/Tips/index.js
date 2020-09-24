@@ -77,7 +77,7 @@ const stats = [
     title: 'SPREAD',
     content: `The negative number in upper right corner is the Westgate or Caesars Las Vegas SuperBook spread.  It's what they think that team will win 
               by so the casino doesn't lose money.  This number can change all week as they adjust due to too many bets on one team, injuries, cold weather, 
-              road record, coaching/player experience and other factors`
+              road record, coaching/player experience and other factors.`
   },
   {
     title: 'BET EXAMPLE',
