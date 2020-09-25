@@ -71,7 +71,7 @@ Eagles efficient on offense at start. Washington has fast weapons. Haskins smart
 Dolphins vs Patriots 11 21
 <br />
 <br />
-Miami fast defense. Play option Patriots. Balanced Patriots offense. Stalled Miami offense. Strong Dolphins run game. Good Pats d.
+Miami fast defense. Patriots running triple option well. Balanced Patriots offense. Stalled Miami offense. Strong Dolphins run game. Good Pats d.
 <br />
 <br />
 Steelers vs Giants 26 16
@@ -83,7 +83,7 @@ Fast, smart Steelers d. Bad Giants play calling. Big Ben body coming back.
 Seahawks vs Falcons 38 27
 <br />
 <br />
-Seahawks move chains no matter what. Falcons bad on third and fourth down. Seahawks have fast physical d. Bad falcons d.
+Seahawks move chains no matter what. Falcons bad on third and fourth down. Seahawks have fast physical d. Bad Falcons d.
 <br />
 <br />
 Titans vs Broncos 16 14
