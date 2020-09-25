@@ -41,7 +41,7 @@ const styles = {
 const temp = `<div>Bears vs Lions 27 23
 <br />
 <br />
-Bears were up 23-13 with 4 minutes and got sloppy. Instead of running the ball on those drives while up they tried to throw, got a loss, missed fg and interception. Trubisky took shots, Bears were physical and didn’t give up. Lions may have been gassed too. It flipped like a switch.
+Lions were up 23-13 with 4 minutes and got sloppy. Instead of running the ball on those drives while up they tried to throw, got a loss, missed fg and interception. Trubisky took shots, Bears were physical and didn’t give up. Lions may have been gassed too. It flipped like a switch.
 <br />
 <br />
 Cardinals vs 49ers 24 20
