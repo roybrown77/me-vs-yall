@@ -199,7 +199,7 @@ Panthers
 Packers
 <br />
 Saints ***
-</div>`
+</div>`;
 
 const stats = [
   {
