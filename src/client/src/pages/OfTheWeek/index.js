@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactGA from 'react-ga';
 
 import Divider from '@material-ui/core/Divider';
+import ReactHtmlParser from 'react-html-parser';
 
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/smile-sweat.png';
@@ -37,6 +38,169 @@ const styles = {
   }
 };
 
+const temp = `<div>Bears vs Lions 27 23
+<br />
+<br />
+Bears were up 23-13 with 4 minutes and got sloppy. Instead of running the ball on those drives while up they tried to throw, got a loss, missed fg and interception. Trubisky took shots, Bears were physical and didn’t give up. Lions may have been gassed too. It flipped like a switch.
+<br />
+<br />
+Cardinals vs 49ers 24 20
+<br />
+<br />
+49ers have a good d but Arizona has Deandre Hopkins and other good athletes on offense including qb who runs and throws extremely smart. 49ers play calling is elite but Jimmy G holds on to ball too long and takes bad shots down field. No true loud home field advantage does play some part in home loss. Jimmy G mentality has to improve. I like their backup Mullen mentality more.
+<br />
+<br />
+Chargers vs Bengals 16 13
+<br />
+<br />
+Burrow not scared but makes mistakes. No Bengals run game. Tyrod poised. Chargers run game good. Chargers bad in red zone. Bengals fast, smart d.
+<br />
+<br />
+Browns vs Ravens 6 38
+<br />
+<br />
+Browns made mistakes and bad play calling. Ravens offense explosive. Browns run game elite.
+<br />
+<br />
+Eagles vs Washington 17 27
+<br />
+<br />
+Eagles efficient on offense at start. Washington has fast weapons. Haskins smart. Washington fast d. Eagles bad play calling. Wentz holds on the ball too long.
+<br />
+<br />
+Dolphins vs Patriots 11 21
+<br />
+<br />
+Miami fast defense. Play option Patriots. Balanced Patriots offense. Stalled Miami offense. Strong Dolphins run game. Good Pats d.
+<br />
+<br />
+Steelers vs Giants 26 16
+<br />
+<br />
+Fast, smart Steelers d. Bad Giants play calling. Big Ben body coming back.
+<br />
+<br />
+Seahawks vs Falcons 38 27
+<br />
+<br />
+Seahawks move chains no matter what. Falcons bad on third and fourth down. Seahawks have fast physical d. Bad falcons d.
+<br />
+<br />
+Titans vs Broncos 16 14
+<br />
+<br />
+Fast Broncos d. Titans hold ball too long. Titans control clock with run game. Broncos good offensive weapons.
+<br />
+<br />
+Packers vs Vikings 43 36
+<br />
+<br />
+Packers balanced offense at times. Packers pass bit too much but good feel with receivers. Good Vikings run game. Cousins gets sacked a lot and makes mistakes. Bad Vikings play calling.
+<br />
+<br />
+Cowboys vs Rams 17 20
+<br />
+<br />
+Rams play action for well balanced smart offense. Cowboys offense predictable. Rams d aggressive. Elliot great. Cowboys bad on 3rd down.
+<br />
+<br />
+Jets vs Bills 17 27
+<br />
+<br />
+Bills qb runs a lot and holds ball a lot. Jets can’t move sticks. Both teams look slow.
+<br />
+<br />
+Bucs vs Saints 23 40
+<br />
+<br />
+Bucs offense on same page. Saints d good. Saints offense smart going down field and drawing penalties. Saints balanced offense. Bucs offense not balanced.
+<br />
+<br />
+Raiders vs Panthers 34 30
+<br />
+<br />
+Both good d with run games. Vegas passing game good. Teddy and Carr are smart but not that great til later in game. Defenses had problems with both late. Heavy dependency on MacCaffrey. Vegas well balanced diverse attack.
+<br />
+<br />
+Texans vs Chiefs 20 34
+<br />
+<br />
+Chiefs offense balanced attack. Texans slow start but balanced attack. Watson holds ball too long. Chiefs passing well timed. Good Chiefs run game.
+<br />
+<br />
+Colts vs Jags 20 27
+<br />
+<br />
+Colts and Jags heavy run that’s good. Sets up play action. Jags d stout. Rivers makes mistakes but corrects it. Minshew smart. Colts and jags similar and good. Jags run game special sets up pass.
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1
+<br />
+<br />
+Ravens
+<br />
+Titans
+<br />
+Broncos
+<br />
+Steelers
+<br />
+Patriots
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Chiefs
+<br />
+Rams
+<br />
+Cardinals
+<br />
+Jags
+<br />
+<br />
+Tier 3
+<br />
+<br />
+Bears
+<br />
+Washington
+<br />
+Chargers
+<br />
+Bengals
+<br />
+Saints
+<br />
+49ers
+<br />
+Cowboys
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+*** has top defense
+<br />
+<br />
+Seahawks
+<br />
+Chiefs **
+<br />
+Ravens *
+<br />
+Raiders
+<br />
+Panthers
+<br />
+Packers
+<br />
+Saints ***
+</div>`
+
 const stats = [
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
@@ -46,6 +210,13 @@ const stats = [
     author: 'Mack & Beezie',
     lockOfTheWeek: true,
     correct: true
+  },
+  {
+    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 1",
+    content: ReactHtmlParser(temp),
+    leagueName: 'NFL',
+    date: 'September 19, 2020',
+    author: 'Roy B.'
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
