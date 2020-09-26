@@ -43,6 +43,7 @@ export default function SimplePopover(props) {
         id={id}
         open={open}
         anchorEl={anchorEl}
+        onEnter={props.handleOpen}
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
