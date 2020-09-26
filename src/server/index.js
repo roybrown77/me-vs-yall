@@ -61,6 +61,9 @@ const authCheck = jwt({
 const GameController = require('./game/GameController');
 app.use('/api/gamemanagement', GameController);
 
+const GameWriteController = require('./game/GameWriteController');
+app.use('/api/gamemanagement', authCheck, GameWriteController);
+
 const PickReadController = require('./pick/PickReadController');
 app.use('/api/pickmanagement', PickReadController);
 

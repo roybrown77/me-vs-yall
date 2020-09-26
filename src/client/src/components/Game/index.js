@@ -6,11 +6,15 @@ import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
 import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import green from '@material-ui/core/colors/green';
+
+import Popover from '../Popover';
 
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/smile-sweat.png';
@@ -367,6 +371,17 @@ const getField = (leagueId, props) => {
 };
 
 class Game extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            awayScore: null,
+            homeScore: null,
+            gameName: null,
+            isGameOver: null,
+            currentTime: null
+        };
+    }
+
     handleMakePick(gameId, pickId) {
         if (get(this.props,'pick.pickId') === pickId || 
           get(this.props,'pick.inProgress',false) || 
@@ -395,6 +410,47 @@ class Game extends Component {
         };
 
         this.props.handleMakePick(pick);
+    }
+
+    handleClearInput = () => {
+      this.setState({
+        awayScore: null,
+        homeScore: null,
+        gameName: null,
+        isGameOver: null,
+        currentTime: null
+      });
+    }
+
+    handleInputChange = (event) => {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      const name = target.name;
+
+      this.setState({
+        [name]: value
+      });
+    }
+
+    handleSaveGame = (gameId) => {
+        if (get(this.props,'userId') !== 'google-oauth2|114172296334563495985') {
+            return;
+        }
+
+        const {awayScore,homeScore,gameName,isGameOver,currentTime} = this.state;
+
+        const game = {
+            id: gameId,
+            awayScore: awayScore,
+            homeScore: homeScore,
+            gameName: gameName,
+            isGameOver: isGameOver,
+            currentTime: currentTime
+        };
+
+        console.log(game);
+
+        this.props.handleUpdateGame(game);
     }
 
     getFlag(country) {
@@ -443,7 +499,9 @@ class Game extends Component {
     }
 
     render() {
-        const { classes, game, pick, isAuthenticated, showDetails } = this.props;
+        const { classes, game, pick, isAuthenticated, showDetails, userId } = this.props;
+        const { awayScore, homeScore, gameName, isGameOver, currentTime } = this.state;
+
         const inProgress = get(pick,'inProgress',false);
 
         if (!showDetails) {
@@ -603,10 +661,96 @@ class Game extends Component {
                       <div> 
                         {game.gameName}
                       </div>
-                    } 
-                    <span> 
-                      {game.startDateTimeDisplay}
-                    </span> 
+                    }
+                    {
+                      userId === 'google-oauth2|114172296334563495985' &&
+                      <Popover 
+                        titleStyle={{fontWeight: 'bold'}}
+                        title={game.startDateTimeDisplay}
+                        handleOpen={this.handleClearInput}>
+                        <div style={{padding:'16px'}}>
+                          <div style={{display: 'flex'}}>
+                            <div>
+                              <TextField
+                                name="awayScore"
+                                id="outlined-number"
+                                label={game.competitors[0].shortLocation}
+                                type="number"
+                                defaultValue={awayScore}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                            <div style={{paddingLeft: '16px'}}>
+                              <TextField
+                                name="homeScore"
+                                id="outlined-number"
+                                label={game.competitors[1].shortLocation}
+                                type="number"
+                                defaultValue={homeScore}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                          </div>
+                          <div style={{marginTop: '16px'}}>
+                            <TextField
+                              name="currentTime"
+                              id="outlined-number"
+                              label="CurrentTime"
+                              defaultValue={currentTime}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              onChange={this.handleInputChange}
+                              variant="outlined"
+                            />
+                          </div>
+                          <div style={{marginTop: '16px'}}>
+                            <TextField
+                              name="gameName"
+                              id="outlined-number"
+                              label="Game Name"
+                              defaultValue={gameName}
+                              fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              onChange={this.handleInputChange}
+                              variant="outlined"
+                            />
+                          </div>
+                          <div>
+                            <Checkbox
+                              name="isGameOver"
+                              color="primary"
+                              checked={isGameOver}
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              onChange={this.handleInputChange}
+                            />
+                            is game over
+                          </div>
+                          <div>
+                            <Button 
+                                className={classes.tieButton} onClick={() => this.handleSaveGame(game._id)}>
+                                Save
+                            </Button>
+                          </div>
+                        </div>
+                      </Popover>
+                    }
+                    {
+                      userId !== 'google-oauth2|114172296334563495985' &&
+                      <span> 
+                        {game.startDateTimeDisplay}
+                      </span>
+                    }
                     {
                       get(game,'isGameOver') && 
                       <span style={{marginLeft:'12px'}}>Final</span>
@@ -683,7 +827,8 @@ Game.propTypes = {
   pick: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
   showDetails: PropTypes.bool,
-  handleMakePick: PropTypes.func
+  handleMakePick: PropTypes.func,
+  handleUpdateGame: PropTypes.func
 };
 
 export default withStyles(styles, { withTheme: true })(Game);

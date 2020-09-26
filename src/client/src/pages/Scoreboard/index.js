@@ -36,7 +36,7 @@ import tecmoWebm from './tecmo-touchdown.webm';
 import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
-import { loadScoreboard, addPick, updatePick, showGameDetails } from '../../actions';
+import { loadScoreboard, addPick, updatePick, updateGame, showGameDetails } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
 import { 
     formatWeeks, 
@@ -254,6 +254,12 @@ class Scoreboard extends Component {
         }
     }
 
+    handleUpdateGame = (game) => {
+        if (!this.props.isAuthenticated) return;
+
+        this.props.updateGame(game);
+    }
+
     handleToggleSound = () => {
         if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
             if (!this.state.soundOn) { tecmo.play(); } else { tecmo.stop(); };
@@ -288,7 +294,8 @@ class Scoreboard extends Component {
             weeks = [],
             weekId,
             leagueId,
-            showDetails
+            showDetails,
+            userId
         } = this.props;
 
         const {soundOn} = this.state;
@@ -464,8 +471,10 @@ class Scoreboard extends Component {
                                                 game={game} 
                                                 pick={picks.find(x=>x.gameId === game._id)}
                                                 handleMakePick={this.handleMakePick} 
+                                                handleUpdateGame={this.handleUpdateGame} 
                                                 isAuthenticated={isAuthenticated}
                                                 showDetails={showDetails}
+                                                userId={userId}
                                             />
                                         </div>
                                     );
@@ -496,8 +505,10 @@ class Scoreboard extends Component {
                                                     game={game} 
                                                     pick={picks.find(x=>x.gameId === game._id)}
                                                     handleMakePick={this.handleMakePick} 
+                                                    handleUpdateGame={this.handleUpdateGame} 
                                                     isAuthenticated={isAuthenticated}
                                                     showDetails={showDetails}
+                                                    userId={userId}
                                                 />
                                             </div>
                                         );
@@ -557,6 +568,10 @@ const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
+
+    const userJson = localStorage.getItem('user');
+    const user = JSON.parse(userJson);
+    const userId = get(user, 'sub');
     
     return {
         dataLoading,
@@ -573,7 +588,8 @@ const mapStateToProps = (state, ownProps) => {
         endDateTime,
         teams,
         isAuthenticated,
-        showDetails
+        showDetails,
+        userId
     }
 };
 
@@ -597,13 +613,16 @@ Scoreboard.propTypes = {
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
     updatePick: PropTypes.func.isRequired,
+    updateGame: PropTypes.func.isRequired,
     showGameDetails: PropTypes.func.isRequired,
     showDetails: PropTypes.bool,
+    userId: PropTypes.string
 };
 
 export default connect(mapStateToProps, {
   loadScoreboard,
   addPick,
   updatePick,
+  updateGame,
   showGameDetails
 })(withStyles(styles, { withTheme: true })(Scoreboard));

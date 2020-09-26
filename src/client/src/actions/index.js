@@ -55,6 +55,10 @@ export const UPDATEPICK_REQUEST = 'UPDATEPICK_REQUEST';
 export const UPDATEPICK_SUCCESS = 'UPDATEPICK_SUCCESS';
 export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
 
+export const UPDATEGAME_REQUEST = 'UPDATEGAME_REQUEST';
+export const UPDATEGAME_SUCCESS = 'UPDATEGAME_SUCCESS';
+export const UPDATEGAME_FAILURE = 'UPDATEGAME_FAILURE';
+
 export const GAMEWEEKS_REQUEST = 'GAMEWEEKS_REQUEST';
 export const GAMEWEEKS_SUCCESS = 'GAMEWEEKS_SUCCESS';
 export const GAMEWEEKS_FAILURE = 'GAMEWEEKS_FAILURE';
@@ -103,6 +107,17 @@ const editPick = (id, pick) => ({
     method: 'PUT',
     body: pick,
     schema: Schemas.PICK
+  }
+});
+
+const editGame = (id, game) => ({
+  id,
+  [CALL_API]: {
+    types: [ UPDATEGAME_REQUEST, UPDATEGAME_SUCCESS, UPDATEGAME_FAILURE ],
+    endpoint: '/api/gamemanagement/games/' + encodeURIComponent(id),
+    method: 'PUT',
+    body: game,
+    schema: Schemas.GAME
   }
 });
 
@@ -192,9 +207,6 @@ export const showGameDetails = (flag) => (dispatch, getState) => {
 
 export const addPick = (pick) => (dispatch, getState) => {
   const searchParams = new URLSearchParams();
-  const userInSession = getUser();
-  const userId = get(userInSession,'sub');
-  searchParams.set('userId', userId);
   searchParams.set('gameId', pick.gameId);
   searchParams.set('pickId', pick.pickId);
 
@@ -202,14 +214,23 @@ export const addPick = (pick) => (dispatch, getState) => {
 };
 
 export const updatePick = (id, pick) => (dispatch, getState) => {
-  const userInSession = getUser();
-  const userId = get(userInSession,'sub');
   const searchParams = new URLSearchParams();
-  searchParams.set('userId', userId);
   searchParams.set('pickId', pick.pickId);
   searchParams.set('gameId', pick.gameId);
 
   dispatch(editPick(id, searchParams));
+};
+
+export const updateGame = (game) => (dispatch, getState) => {
+  const searchParams = new URLSearchParams();
+  searchParams.set('id', game.id);
+  searchParams.set('awayScore', game.awayScore);
+  searchParams.set('homeScore', game.homeScore);
+  searchParams.set('gameName', game.gameName);
+  searchParams.set('isGameOver', game.isGameOver);
+  searchParams.set('currentTime', game.currentTime);
+
+  dispatch(editGame(game.id, searchParams));
 };
 
 export const loadGamesInProgress = () => (dispatch, getState) => {
