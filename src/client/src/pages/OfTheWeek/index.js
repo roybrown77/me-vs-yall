@@ -113,7 +113,7 @@ Bills qb runs a lot and holds ball a lot. Jets can’t move sticks. Both teams l
 Bucs vs Saints 23 40
 <br />
 <br />
-Bucs offense on same page. Saints d good. Saints offense smart going down field and drawing penalties. Saints balanced offense. Bucs offense not balanced.
+Bucs offense on same page at start. Saints d good. Saints offense smart going down field and drawing penalties. Saints balanced offense. Bucs offense not balanced.
 <br />
 <br />
 Raiders vs Panthers 34 30
@@ -131,7 +131,7 @@ Chiefs offense balanced attack. Texans slow start but balanced attack. Watson ho
 Colts vs Jags 20 27
 <br />
 <br />
-Colts and Jags heavy run that’s good. Sets up play action. Jags d stout. Rivers makes mistakes but corrects it. Minshew smart. Colts and jags similar and good. Jags run game special sets up pass.
+Colts and Jags heavy run that’s good. Sets up play action. Jags d stout. Rivers makes mistakes but corrects it. Minshew smart. Colts and Jags similar and good. Jags run game special sets up pass.
 <br />
 <br />
 Top defenses (hold to 20 or less well)
