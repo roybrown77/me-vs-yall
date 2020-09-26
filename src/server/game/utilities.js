@@ -3458,7 +3458,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   const lastPlaySplit = (lastPlay || "").split(' ');
   const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
   const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const badPlays = lastPlay.toLowerCase().includes('end of') || lastPlay.toLowerCase().includes('turnover');
+  const badPlays = lastPlay.toLowerCase().includes('end of') || lastPlay.toLowerCase().includes('end game') || lastPlay.toLowerCase().includes('turnover');
   
   const time = badPlays && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
   isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
