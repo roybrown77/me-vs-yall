@@ -18,15 +18,9 @@ const {
   updateGames
 } = require('./utilities');
 
-let isLoadMlbGamesRunning = false;
 let isUpdateMlbScoresRunning = false;
 
 const loadMlbGames = async ({dayCount, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
-  if (isLoadMlbGamesRunning || isUpdateMlbScoresRunning) {
-    console.log(`${message} already running.`);
-    return;
-  }
-
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   const root = 'scoreboard baseball';
   const url = `${baseUrl}${date}`;
@@ -40,7 +34,6 @@ const loadMlbGames = async ({dayCount, shouldLimit, isStart, leagueId, year, mes
   });
 
   if ((games || []).length === 0) {
-    isLoadMlbGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
@@ -52,8 +45,6 @@ const loadMlbGames = async ({dayCount, shouldLimit, isStart, leagueId, year, mes
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
-
-  isLoadMlbGamesRunning = false;
 };
 
 const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
@@ -117,9 +108,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
 
 const domain = { 
   loadMlbGames, 
-  updateMlbScores,
-  isLoadMlbGamesRunning,
-  isUpdateMlbScoresRunning, 
+  updateMlbScores
 };
 
 module.exports = domain;

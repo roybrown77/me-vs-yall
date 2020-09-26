@@ -22,15 +22,9 @@ const {
   hasGameStarted
 } = require('./utilities');
 
-let isLoadWorldFootballGamesRunning = false;
 let isUpdateWorldFootballScoresRunning = false;
 
 const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
-  if (isLoadWorldFootballGamesRunning || isUpdateWorldFootballScoresRunning) {
-    console.log(`${message} already running.`);
-    return;
-  }
-
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
   console.log(`${message} date: ${date}`);
@@ -52,7 +46,6 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
   });
 
   if ((games || []).length === 0) {
-    isLoadWorldFootballGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
@@ -64,8 +57,6 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
-
-  isLoadWorldFootballGamesRunning = false;
 };
 
 const charCount = (s, c) => {
@@ -292,9 +283,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
 const domain = { 
   loadWorldFootballGames, 
-  updateWorldFootballScores,
-  isLoadWorldFootballGamesRunning,
-  isUpdateWorldFootballScoresRunning, 
+  updateWorldFootballScores 
 };
 
 module.exports = domain;

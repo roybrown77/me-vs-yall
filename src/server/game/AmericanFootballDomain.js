@@ -18,15 +18,9 @@ const {
   updateGames
 } = require('./utilities');
 
-let isLoadAmericanFootballGamesRunning = false;
 let isUpdateAmericanFootballScoresRunning = false;
 
 const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) => {
-  if (isLoadAmericanFootballGamesRunning || isUpdateAmericanFootballScoresRunning) {
-    console.log(`${message} already running.`);
-    return;
-  }
-
   const root = 'scoreboard football';
   
   const games = await getGames({
@@ -36,7 +30,6 @@ const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) 
   });
   
   if ((games || []).length === 0) {
-    isLoadAmericanFootballGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
@@ -48,8 +41,6 @@ const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
-
-  isLoadAmericanFootballGamesRunning = false;
 };
 
 const updateAmericanFootballScores = async ({message, url, leagueId, year, teams}) => {
@@ -112,9 +103,7 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
 
 const domain = { 
   loadAmericanFootballGames, 
-  updateAmericanFootballScores,
-  isLoadAmericanFootballGamesRunning,
-  isUpdateAmericanFootballScoresRunning, 
+  updateAmericanFootballScores
 };
 
 module.exports = domain;

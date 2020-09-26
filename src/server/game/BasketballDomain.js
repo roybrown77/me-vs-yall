@@ -18,15 +18,9 @@ const {
   updateGames
 } = require('./utilities');
 
-let isLoadBasketballGamesRunning = false;
-let isUpdateBasketballScoresRunning = false;
+let isUpdateBasketballScoresRunning = [];
 
 const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
-  if (isLoadBasketballGamesRunning || isUpdateBasketballScoresRunning) {
-    console.log(`${message} already running.`);
-    return;
-  }
-
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   const root = 'scoreboard basketball';
   const url = `${baseUrl}${date}`;
@@ -40,7 +34,6 @@ const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, ye
   });
 
   if ((games || []).length === 0) {
-    isLoadBasketballGamesRunning = false;
     console.log(`${message} no games`);
     return;
   }
@@ -52,8 +45,6 @@ const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, ye
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
-
-  isLoadBasketballGamesRunning = false;
 };
 
 // const month = moment().add(2, 'months');
@@ -66,7 +57,7 @@ const loadBasketballGames = async ({dayCount, shouldLimit, isStart, leagueId, ye
 // console.log("endOfMarchMadness: " + new Date(endOfMarchMadness));
 
 const updateBasketballScores = async ({leagueId, year, message, url, teams}) => {
-  if (isUpdateBasketballScoresRunning) {
+  if (isUpdateBasketballScoresRunning[leagueId]) {
     console.log(`${message} already running.`)
     return;
   }
@@ -93,7 +84,9 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
     return;
   }
 
-  isUpdateBasketballScoresRunning = true;
+  if (isUpdateBasketballScoresRunning[leagueId]) {
+    isUpdateBasketballScoresRunning[leagueId] = true;
+  }
 
   const root = 'scoreboard basketball';
 
@@ -105,7 +98,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
   });
   
   if (scores.length === 0) {
-    isUpdateBasketballScoresRunning = false;
+    isUpdateBasketballScoresRunning[leagueId] = false;
     console.log(`${message} no scores.`);
     return;
   }
@@ -120,14 +113,12 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
     teams
   });
 
-  isUpdateBasketballScoresRunning = false;
+  isUpdateBasketballScoresRunning[leagueId] = false;
 };
 
 const domain = { 
   loadBasketballGames, 
-  updateBasketballScores,
-  isLoadBasketballGamesRunning,
-  isUpdateBasketballScoresRunning
+  updateBasketballScores
 };
 
 module.exports = domain;
