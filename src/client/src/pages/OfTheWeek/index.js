@@ -38,7 +38,185 @@ const styles = {
   }
 };
 
-const temp = `<div>Bears vs Lions 27 23
+const week22020 = `<div>49ers vs Jets 31 13
+<br />
+<br />
+Mostert fast.  Jets d fast and mean.  Jets much better run offense but still stalled.  49ers good play calling.  Great 49er rbs.  Darnold a gamer.
+<br />
+<br />
+Bills vs Dolphins 31 28
+<br />
+<br />
+Miami d porous.  Bills throw a lot.  Allen can run.  Fitzy holds ball too long but heats up late.  Good Miami receivers.  Miami bad at goal line.  Bills barely won.
+<br />
+<br />
+Falcons vs Cowboys 39 40
+<br />
+<br />
+Dallas turnovers and explosive Falcons offense caused huge lead.  Cowboys don’t quit.  Well balanced Cowboys offense leads to strong play action and mobile Dak.  Cowboys good d.  Cowboys onside the best most genius common sense style I’ve ever seen with a unpredictable roll.
+<br />
+<br />
+Jags vs Titans 30 33
+<br />
+<br />
+Jags run game missing.  Titans worked on passing game.  Titans d lax.  Titans balanced attack.  Minshew has great touch under pressure.  Clowney on Titans hels d.
+<br />
+<br />
+Patriots vs Seahawks 30 35
+<br />
+<br />
+Seahawks utilize backs in run and short pass.  Triple option Russ very smart not afraid of deep shots.  Good Pats d.  Cam stares down receivers.  Patriots red zone problems.  Seahawks strong d.  Cam triple option effective.
+<br />
+<br />
+Rams vs Eagles 37 19
+<br />
+<br />
+Strong Rams defense.  Rams offense makes it look easy to do anything.  Rams look like magicians with well balanced play calling.  Eagles bad play calling at times.  Wentz kept fighting but made mistakes.
+<br />
+<br />
+Giants vs Bears 13 17
+<br />
+<br />
+Bears rush strong.  Bears play action effective but offense stalls.  Giants not creative to move sticks.  Bears pass a lot.  Mobile Trubisky.
+<br />
+<br />
+Bengals vs Browns 30 35
+<br />
+<br />
+Browns play action devastating.  Mayfield has great deep ball.  Browns great run & pass game with backs.  Burrow poised.  Browns have a lot of weapons.  Bengals don’t run the ball.  Fast Bengals d.
+<br />
+<br />
+Packers vs Lions 42 21
+<br />
+<br />
+Lions first drive strong.  Packers passing extremely effective.  Packers powerful run sets up play action.  Mobile Rodgers.  Stafford holds on to ball too long and play calling bad.  Lions defense aggressive.  Packers d fast.  Stafford doesn’t quit.
+<br />
+<br />
+Panthers vs Bucs 17 31
+<br />
+<br />
+Teddy not seeing field at start.  Balanced Bucs offense.  Bucs defense mean.  Bucs backs good.  Panthers can’t hold on to ball.  Panthers fight.  Bucs offense stalls.  Panthers could have won if not for turnovers.
+<br />
+<br />
+Vikings vs Colts 11 28
+<br />
+<br />
+Vikings well balanced drive to start but couldn’t punch in td.  Colts run game moves the line.  Vikings offense stall.  Cousins holding ball too long.  Colts difficulty scoring tds.
+<br />
+<br />
+Broncos vs Steelers 21 26
+<br />
+<br />
+Broncos like to run the ball.  Steelers d relentless.  Solid Steeler offensive weapons.  Locke hurt.  Driscoll confidence grew.  Broncos d good.
+<br />
+<br />
+Saints vs Raiders 24 34
+<br />
+<br />
+Saints run ball well.  Raiders d good in red zone.  Saints d tenacious. Raiders good play calling.  Kamara and Waller special.  Solid Raider receivers.  Raiders have fun in end zone.  Good Raiders kicker from 50 to close.
+<br />
+<br />
+Washington vs Cardinals 15 30
+<br />
+<br />
+Murray smart.  Cardinals d fast.  Lots of turnovers.  Washington problems moving sticks.  Great Cardinals receivers.
+<br />
+<br />
+Ravens vs Texans 33 16
+<br />
+<br />
+Lamar with accurate darts and mobile.  Ravens pressuring Watson.  Texans red zone issues.  Ravens d talented.  Watt and defense pressure and sack Jackson many times.  Texans don’t run much.  Ravens run game nice.
+<br />
+<br />
+Chiefs vs Chargers 23 20
+<br />
+<br />
+Herbert poised and strong (see hit on corner).  Chargers d pressuring.  Mahomes scrambles and throws well.  Chargers good play calling.  Chiefs offense stalls.  58 yard Chiefs field goal.  Mahomes experience dodged the bullet.  Chiefs kicker icy.
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1
+<br />
+<br />
+49ers
+<br />
+Rams
+<br />
+Giants
+<br />
+Bears
+<br />
+Bucs
+<br />
+Colts
+<br />
+Cardinals
+<br />
+Ravens
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Packers
+<br />
+Steelers
+<br />
+Raiders
+<br />
+Chiefs
+<br />
+Chargers
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+** has top defense
+<br />
+<br />
+Tier 1 (35+)
+<br />
+<br />
+Falcons
+<br />
+Cowboys
+<br />
+Seahawks
+<br />
+Rams *
+<br />
+Browns
+<br />
+Packers **
+<br />
+<br />
+Tier 2
+<br />
+<br />
+49ers *
+<br />
+Bills
+<br />
+Jags
+<br />
+Titans
+<br />
+Patriots
+<br />
+Bengals
+<br />
+Bucs
+<br />
+Raiders **
+<br />
+Cardinals *
+<br />
+Ravens *
+</div>`;
+
+const week12020 = `<div>Bears vs Lions 27 23
 <br />
 <br />
 Lions were up 23-13 with 4 minutes and got sloppy. Instead of running the ball on those drives while up they tried to throw, got a loss, missed fg and interception. Trubisky took shots, Bears were physical and didn’t give up. Lions may have been gassed too. It flipped like a switch.
@@ -162,10 +340,6 @@ Cardinals
 <br />
 Jags
 <br />
-<br />
-Tier 3
-<br />
-<br />
 Bears
 <br />
 Washington
@@ -183,7 +357,7 @@ Cowboys
 <br />
 Top offenses (score 30 or more well)
 <br />
-*** has top defense
+** has top defense
 <br />
 <br />
 Seahawks
@@ -198,10 +372,24 @@ Panthers
 <br />
 Packers
 <br />
-Saints ***
+Saints **
 </div>`;
 
 const stats = [
+  {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 3: Cleveland Browns over Washington Football Team`,
+    leagueName: 'NFL',
+    date: 'September 27, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
+    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 2",
+    content: ReactHtmlParser(week22020),
+    leagueName: 'NFL',
+    date: 'September 26, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 2: Los Angeles Rams over Philadelphia Eagles`,
@@ -213,7 +401,7 @@ const stats = [
   },
   {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 1",
-    content: ReactHtmlParser(temp),
+    content: ReactHtmlParser(week12020),
     leagueName: 'NFL',
     date: 'September 19, 2020',
     author: 'Roy B.'
@@ -529,9 +717,9 @@ const stats = [
     author: 'Roy B.'
   },
   {
-    title: 'STAT OF THE WEEK: VIKINGS AND REDSKINS ARE COUSINS',
-    content: `Kirk Cousins played for the Washington Redskins last year and currently with the Minnesota Vikings.  As with the 
-              Redskins, Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
+    title: 'STAT OF THE WEEK: VIKINGS AND WASHINGTON ARE COUSINS',
+    content: `Kirk Cousins played for the Washington Football Team last year and currently with the Minnesota Vikings.  As with the 
+              Washington, Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
               half the Vikings games.`,
     leagueName: 'NFL',
     date: 'December 12, 2018',
