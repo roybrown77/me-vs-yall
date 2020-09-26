@@ -33,13 +33,25 @@ function upsert(pick, cb) {
 }
 
 function isValid(err, game, pick) {
-	if (err) throw new Error('Finding game id ' + pick.gameId + ' - ' + err.message);
-    if (!get(pick,'gameId')) throw new Error('Game id is required.');
-    if (!get(pick,'pickId')) throw new Error('Pick id is required.');
+	if (err) {
+        console.log('Finding game id ' + pick.gameId + ' - ' + err.message);
+        return false;
+    }
+
+    if (!get(pick,'gameId')) {
+        console.log('Game id is required.');
+        return false;
+    }
+
+    if (!get(pick,'pickId')) {
+        console.log('Pick id is required.');
+        return false;
+    }
 
 	const started = hasGameStarted(game.startDateTime, pick.createDateTime);
 
 	if (started) {
+        console.log(`Game ${get(pick,'gameId')} already started.`);
 		return false;
 	}
 
