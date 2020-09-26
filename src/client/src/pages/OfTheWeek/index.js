@@ -59,7 +59,7 @@ Dallas turnovers and explosive Falcons offense caused huge lead.  Cowboys don’
 Jags vs Titans 30 33
 <br />
 <br />
-Jags run game missing.  Titans worked on passing game.  Titans d lax.  Titans balanced attack.  Minshew has great touch under pressure.  Clowney on Titans hels d.
+Jags run game missing.  Titans worked on passing game.  Titans d lax.  Titans balanced attack.  Minshew has great touch under pressure.  Clowney on Titans helps d.
 <br />
 <br />
 Patriots vs Seahawks 30 35
