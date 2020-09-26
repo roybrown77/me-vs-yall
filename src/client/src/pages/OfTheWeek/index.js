@@ -53,7 +53,7 @@ Miami d porous.  Bills throw a lot.  Allen can run.  Fitzy holds ball too long b
 Falcons vs Cowboys 39 40
 <br />
 <br />
-Dallas turnovers and explosive Falcons offense caused huge lead.  Cowboys don’t quit.  Well balanced Cowboys offense leads to strong play action and mobile Dak.  Cowboys good d.  Cowboys onside the best most genius common sense style I’ve ever seen with a unpredictable roll.
+Dallas turnovers and explosive Falcons offense caused huge lead.  Cowboys don’t quit.  Well balanced Cowboys offense leads to strong play action and mobile Dak.  Cowboys good d.  Cowboys onside the best most genius common sense style I’ve ever seen with a predictable roll.
 <br />
 <br />
 Jags vs Titans 30 33
