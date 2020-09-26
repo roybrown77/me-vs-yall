@@ -78,7 +78,7 @@ const styles = theme => ({
     margin: '8px 0'
   },
   tieButton: {
-    width: '100%',
+    width: '25%',
     color: '#3772FA',
     border: '4px solid #3772FA',
     fontWeight: '600',
@@ -663,6 +663,7 @@ class Game extends Component {
                       </div>
                     }
                     {
+                      isAuthenticated &&
                       userId === 'google-oauth2|114172296334563495985' &&
                       <Popover 
                         titleStyle={{fontWeight: 'bold'}}
