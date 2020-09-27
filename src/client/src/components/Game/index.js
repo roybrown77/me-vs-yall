@@ -748,8 +748,7 @@ class Game extends Component {
                     }
                     {
 
-                      (userId !== 'google-oauth2|114172296334563495985' &&
-   || !isAuthenticated) &&                   
+                      (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
 <span> 
                         {game.startDateTimeDisplay}
                       </span>
