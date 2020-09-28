@@ -214,6 +214,27 @@ Raiders **
 Cardinals *
 <br />
 Ravens *
+<br />
+<br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
+1. NFC West
+<br />
+2. AFC North
+<br />
+3. AFC East
+<br />
+4. NFC South
+<br />
+5. AFC South
+<br />
+6. AFC West
+<br />
+7. NFC North
+<br />
+8. NFC East
+<br />
 </div>`;
 
 const week12020 = `<div>Bears vs Lions 27 23
@@ -360,19 +381,28 @@ Top offenses (score 30 or more well)
 ** has top defense
 <br />
 <br />
+Tier 1 (35+)
+<br />
+<br />
+Saints **
+<br />
 Seahawks
 <br />
-Chiefs **
-<br />
 Ravens *
+<br />
+Packers
+<br />
+Vikings
+<br />
+<br />
+Tier 2
+<br />
 <br />
 Raiders
 <br />
 Panthers
 <br />
-Packers
-<br />
-Saints **
+Chiefs **
 </div>`;
 
 const stats = [
@@ -381,7 +411,9 @@ const stats = [
     content: `Week 3: Cleveland Browns over Washington Football Team`,
     leagueName: 'NFL',
     date: 'September 27, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 2",

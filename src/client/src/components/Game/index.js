@@ -747,9 +747,8 @@ class Game extends Component {
                       </Popover>
                     }
                     {
-
                       (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
-<span> 
+                      <span> 
                         {game.startDateTimeDisplay}
                       </span>
                     }
