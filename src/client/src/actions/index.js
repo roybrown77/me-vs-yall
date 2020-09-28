@@ -3,6 +3,7 @@ import URLSearchParams from 'url-search-params';
 import {createBrowserHistory} from 'history';
 
 import get from 'lodash/get';
+import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/httpClient';
 import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationClient';
@@ -242,11 +243,17 @@ export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState
 };
 
 export const loadScoreboard = (query, requiredFields = []) => async (dispatch, getState) => {
-  const leagueId = get(query,'leagueId');
-  const year = get(query, 'year');
+  const currentState = getState();
+  const leagueName = window.location.pathname.split('/')[2];
+  const lookup = currentState.get('lookup').toJS();
+  const leagues = get(lookup, 'leagues', []);
+  const currentLeague = leagues.find(x=>x.name === leagueName);
+  const leagueId = currentLeague.id;
+  const leagueChanged = get(query, 'leagueId') !== leagueId;
+
+  const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
 
   const gameWeeks = await dispatch(fetchGameWeeks({leagueId,year}));
-  const currentState = getState();
   const authenticationDomain = currentState.get('authenticationDomain').toJS();
   const userInSession = getUser();
   const user = get(authenticationDomain,'user',userInSession);
@@ -254,12 +261,12 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
   const currentWeek = getCurrentWeek(weeks);
 
   const request = {
-    weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
     userId: get(user,'sub'),
-    leagueId: get(query, 'leagueId')  || get(currentWeek, 'leagueId'),
-    year: get(query, 'year') || get(currentWeek, 'year'),
-    beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-    endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+    leagueId: leagueId,
+    weekId: leagueChanged ? get(currentWeek, 'weekId') : (get(query, 'weekId') || get(currentWeek, 'weekId')),
+    year: leagueChanged ? get(currentWeek, 'year') : (get(query, 'year') || get(currentWeek, 'year')),
+    beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
   };
 
   await Promise.all([
@@ -277,25 +284,32 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
 };
 
 export const loadLeaders = (query, requiredFields = []) => async (dispatch, getState) => {
-  const leagueId = get(query,'leagueId');
-  const year = get(query, 'year');
-  let isRollup = get(query, 'isRollup');
+  const currentState = getState();
+  const leagueName = window.location.pathname.split('/')[2];
+  const lookup = currentState.get('lookup').toJS();
+  const leagues = get(lookup, 'leagues', []);
+  const currentLeague = leagues.find(x=>x.name === leagueName);
+  const leagueId = currentLeague.id;
+  const leagueChanged = get(query, 'leagueId') !== leagueId;
+
+  const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
+  let isRollup = leagueChanged ? false : get(query, 'isRollup');
 
   const gameWeeks = await dispatch(fetchGameWeeks({leagueId,year,isRollup}));
   const weeks = get(gameWeeks,'response',[]);
   const currentWeek = getCurrentWeek(weeks);
 
   const request = {
-    weekId: get(query, 'weekId') || get(currentWeek, 'weekId'),
-    leagueId: get(query, 'leagueId') || get(currentWeek, 'leagueId'),
-    year: get(query, 'year') || get(currentWeek, 'year'),
-    beginDateTime: get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-    endDateTime: get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+    leagueId: leagueId,
+    weekId: leagueChanged ? get(currentWeek, 'weekId') : get(query, 'weekId') || get(currentWeek, 'weekId'),
+    year: leagueChanged ? get(currentWeek, 'year') : get(query, 'year') || get(currentWeek, 'year'),
+    beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
+    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
   };
 
   dispatch({type: LEADERS_REQUEST, request});
 
-  isRollup = get(query, 'isRollup') || get(currentWeek, 'isRollup');
+  isRollup = leagueChanged ? get(currentWeek, 'isRollup') : (get(query, 'isRollup') || get(currentWeek, 'isRollup'));
 
   Promise.all([
     dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
