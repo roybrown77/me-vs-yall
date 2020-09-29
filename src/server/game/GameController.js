@@ -141,14 +141,14 @@ const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
 };
 
 const updateGames = async (leagueId) => {
-  //loadAmericanFootballGames({year: 2020, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2020/seasontype/2/week/3', teams: nflTeams});
-  //loadAmericanFootballGames({year: 2020, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/group/80/year/2020/seasontype/2/week/4', teams: ncaaTeams});
+  //loadAmericanFootballGames({year: 2020, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2020/seasontype/2/week/4', teams: nflTeams});
+  //loadAmericanFootballGames({year: 2020, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/group/80/year/2020/seasontype/2/week/5', teams: ncaaTeams});
   
   //loadBasketballGames({dayCount: 0, shouldLimit: false, isStart: true, year: 2019, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadBasketballGames({dayCount: 1, shouldLimit: false, isStart: true, year: 2019, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   
-  //loadWorldFootballGames({dayCount: 0, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
-  //loadWorldFootballGames({dayCount: 1, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
+  //loadWorldFootballGames({dayCount: 4, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
+  //loadWorldFootballGames({dayCount: 5, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   
   //loadMlbGames({dayCount: 0, shouldLimit: true, isStart: true, year: 2020, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadMlbGames({dayCount: 1, shouldLimit: true, isStart: true, year: 2020, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});

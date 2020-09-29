@@ -38,6 +38,8 @@ import ukraine from '../../styles/images/ukraine.png';
 import poland from '../../styles/images/poland.png';
 import nigeria from '../../styles/images/nigeria.png';
 import dominicanRepublic from '../../styles/images/dominican-republic.png';
+import southKorea from '../../styles/images/south-korea.png';
+import australia from '../../styles/images/australia.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -493,6 +495,10 @@ class Game extends Component {
           return poland;
         case 'DOMINICAN REPUBLIC':
           return dominicanRepublic;
+        case 'AUSTRALIA':
+          return australia;
+        case 'SOUTH KOREA':
+          return southKorea;
         default:
           return america;
       };

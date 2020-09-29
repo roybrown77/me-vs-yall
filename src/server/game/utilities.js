@@ -548,6 +548,69 @@ const ufcCompetitors = [
         shortLocation: "Jan",
         name: "Prince of Cieszyn Błachowicz",
         country: "POLAND"
+    },
+    {
+        _id: "19823783734d1d04a1b32022",
+        location: 'Holly Holm',
+        shortLocation: "Holly",
+        name: "The Preacher's Daughter Holm",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32023",
+        location: 'Irene Aldana',
+        shortLocation: "Irene",
+        name: "Aldana",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b32023",
+        location: 'Marlon Moraes',
+        shortLocation: "Marlon",
+        name: "Magic Moraes",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b32024",
+        location: 'Cory Sandhagen',
+        shortLocation: "Cory",
+        name: "The Sandman Sandhagen",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b32025",
+        location: 'Brian Ortega',
+        shortLocation: "Brian",
+        name: "T-City Ortega",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32026",
+        location: 'Chan Sung Jung',
+        shortLocation: "Chan",
+        name: "The Korean Zombie Jung",
+        country: "SOUTH KOREA"
+    },
+    {
+        _id: "19823783734d1d04a1b32027",
+        location: 'Khabib Nurmagomedov',
+        shortLocation: "Khabib",
+        name: "The Eagle Nurmagomedov",
+        country: "RUSSIA"
+    },
+    {
+        _id: "19823783734d1d04a1b32028",
+        location: 'Justin Gaethje',
+        shortLocation: "Justin",
+        name: "The Highlight Gaethje",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32029",
+        location: 'Robert Whittaker',
+        shortLocation: "Robert",
+        name: "Bobby Knuckles Whittaker",
+        country: "AUSTRALIA"
     }
 ];
 
@@ -4006,7 +4069,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
             set(updatedGame,'gameName',get(score,'gameName',''));
         }
-        
+
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
           set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
