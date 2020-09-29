@@ -28,7 +28,8 @@ const styles = {
     color: 'rgba(0, 0, 0, 0.87)'
   },
   contentTitle: {
-    color: '#767676'
+    color: '#767676',
+    fontSize: '0.875rem'
   },
   content: {
     fontWeight: '600',
