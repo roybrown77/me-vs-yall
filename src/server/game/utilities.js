@@ -3994,19 +3994,18 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           possession: get(score,'possession')
         };
 
+        set(updatedGame,'competitors.0.score', awayScore);
+        set(updatedGame,'competitors.1.score', homeScore);
+        
         if (!hasGameStarted(game.startDateTime)) {
             set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
                 teamId: get(spreadTeam,'_id'),
                 amount: get(score,'spread.amount', 0),
                 spreadDateTime: get(score,'spread.spreadDateTime')
             });
+
+            set(updatedGame,'gameName',get(score,'gameName',''));
         }
-
-        set(updatedGame,'competitors.0.score', awayScore);
-
-        set(updatedGame,'competitors.1.score', homeScore);
-
-        set(updatedGame,'gameName',get(score,'gameName',''));
         
         if (isGameOver) {
           set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
