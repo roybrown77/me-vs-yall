@@ -137,7 +137,7 @@ class Tips extends Component {
     return (
       <div>
           <PageContainer>
-            <div style={{textAlign: 'left', lineHeight: '1.5', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.87)'}}>
+            <div style={styles.titleContainer}>
               <Typography component="h3" align={'left'} style={styles.title}>
                 Tips
               </Typography>
