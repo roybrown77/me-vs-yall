@@ -62,7 +62,7 @@ Washington vs Browns 20 34
 Washington offense starts fast. Washington turns ball over. Browns stick to run. Browns d hunting for picks and sacks. Great Browns play calling. Washington doesn’t quit. Browns backs Chubb and Hunt great. Baker sees the field.
 <br />
 <br />
-<i>This will be updated until all games are analyzed.</i>
+<i>This will be updated all week until all games are analyzed.</i>
 </div>`;
 
 const week22020 = `<div>49ers vs Jets 31 13
