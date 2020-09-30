@@ -38,6 +38,33 @@ const styles = {
   }
 };
 
+const week32020 = `<div>Bucs vs Broncos 28 10
+<br />
+<br />
+Aggressive Bucs defense. Brady & Co takes advantage. Driscoll unable to convert 3rd downs. Brady comfortable with receivers. Bucs run game present. Broncos defense good.
+<br />
+<br />
+Jets vs Colts 9 36
+<br />
+<br />
+Darnold threw into traffic for picks. Great Jets running backs. Darnold a gamer. Fantastic Colts play calling. Colts d doesn’t quit.
+<br />
+<br />
+Rams vs Bills 32 35
+<br />
+<br />
+Bills d came strong and fast early. Bills run game nice. Bills converting 4th and goal shows confidence. Rams offense slow and turns ball over. Allen throws and runs well. He’s like Big Ben. Rams don’t quit to erase big lead. Rams defense gets to Allen late. Allen marches down field to win game.
+<br />
+<br />
+Washington vs Browns 20 34
+<br />
+<br />
+Washington offense starts fast. Washington turns ball over. Browns stick to run. Browns d hunting for picks and sacks. Great Browns play calling. Washington doesn’t quit. Browns backs Chubb and Hunt great. Baker sees the field.
+<br />
+<br />
+<i>This will be updated until all games are analyzed.</i>
+</div>`;
+
 const week22020 = `<div>49ers vs Jets 31 13
 <br />
 <br />
@@ -225,16 +252,15 @@ Division rankings (based on top defense & offense)
 <br />
 3. AFC East
 <br />
-4. NFC South
+4. AFC West
 <br />
 5. AFC South
 <br />
-6. AFC West
+6. NFC South
 <br />
 7. NFC North
 <br />
 8. NFC East
-<br />
 </div>`;
 
 const week12020 = `<div>Bears vs Lions 27 23
@@ -373,6 +399,8 @@ Saints
 <br />
 49ers
 <br />
+Raiders
+<br />
 Cowboys
 <br />
 <br />
@@ -398,7 +426,7 @@ Vikings
 Tier 2
 <br />
 <br />
-Raiders
+Raiders **
 <br />
 Panthers
 <br />
@@ -406,6 +434,13 @@ Chiefs **
 </div>`;
 
 const stats = [
+  {
+    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 3",
+    content: ReactHtmlParser(week32020),
+    leagueName: 'NFL',
+    date: 'September 30, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 3: Cleveland Browns over Washington Football Team`,
