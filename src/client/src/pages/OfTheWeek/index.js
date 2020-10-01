@@ -71,7 +71,19 @@ Hungry Lions team against fly high Cardinals team.  Stafford strong in pocket.  
 Panthers vs Chargers 21 16
 <br />
 <br />
-Teddy looks good in pocket.  Panthers getting to Herbert.  Panthers drive well but scores field goals instead tds.  Chargers good run game scores td.  Panthers have a balanced offense.  Chargers offense stalls.  Chargers fought and almost won.
+Teddy looks good in pocket.  Panthers getting to Herbert.  Panthers drive well but score field goals instead of tds.  Chargers good run game scores td.  Panthers have a balanced offense.  Chargers offense stalls.  Chargers fought and almost won.
+<br />
+<br />
+Raiders vs Patriots 20 36
+<br />
+<br />
+Both teams start slow.  Turnovers by both teams.  Both teams run game strong.  Patriots backs very active.  Carr with great touch with receivers but have red zone issues.  Patriots pound the rock.
+<br />
+<br />
+Texans vs Steelers 21 28
+<br />
+<br />
+Great first drive for Texans.  Watson holds ball too long but Steelers d is good.  Steelers balanced attack.  Watson forces pass for interception.  Texans don't run the ball much.  Steelers good play calling late.  Steelers d tenacious.  Steelers run the rock to eat the clock.  Doc.  :D
 <br />
 <br />
 <i>This will be updated all week until all games are analyzed.</i>
