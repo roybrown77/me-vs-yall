@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import rocket from '../../styles/images/rocket.png';
-import money from '../../styles/images/money.png';
 
 import baseball from '../../styles/images/baseball.png';
 import football from '../../styles/images/football.png';
@@ -206,10 +205,7 @@ class Home extends Component {
           }
           <div>
           <div style={styles.subTitle}>
-            practice betting without losing money
-          </div>
-          <div style={styles.subTitle}>
-            compete worldwide for prizes  <span><img style={{width:'20px'}} src={money} alt=""/></span>
+            compete worldwide for rep
           </div>
           <div style={styles.subTitle}>
             streaming live game plays  <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
