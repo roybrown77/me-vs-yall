@@ -62,6 +62,18 @@ Washington vs Browns 20 34
 Washington offense starts fast. Washington turns ball over. Browns stick to run. Browns d hunting for picks and sacks. Great Browns play calling. Washington doesn’t quit. Browns backs Chubb and Hunt great. Baker sees the field.
 <br />
 <br />
+Lions vs Cardinals 26 23
+<br />
+<br />
+Hungry Lions team against fly high Cardinals team.  Stafford strong in pocket.  Murray great deep ball.  Lions score in red zone.  Not much run game from either team.  Murray threw interceptions.  Cardinals bad play calling.  Good Lions d.  Golladay returning helped Lions.  Lions field goal ended it.
+<br />
+<br />
+Panthers vs Chargers 21 16
+<br />
+<br />
+Teddy looks good in pocket.  Panthers getting to Herbert.  Panthers drive well but scores field goals instead tds.  Chargers good run game scores td.  Panthers have a balanced offense.  Chargers offense stalls.  Chargers fought and almost won.
+<br />
+<br />
 <i>This will be updated all week until all games are analyzed.</i>
 </div>`;
 
