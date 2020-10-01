@@ -83,7 +83,7 @@ Both teams start slow.  Turnovers by both teams.  Both teams run game strong.  P
 Texans vs Steelers 21 28
 <br />
 <br />
-Great first drive for Texans.  Watson holds ball too long but Steelers d is good.  Steelers balanced attack.  Watson forces pass for interception.  Texans don't run the ball much.  Steelers good play calling late.  Steelers d tenacious.  Steelers run the rock to eat the clock.  Doc.  :D
+Great first drive for Texans.  Watson holds ball too long but Steelers d is good.  Steelers balanced attack.  Watson forces pass for interception.  Texans don't run the ball much.  Steelers good play calling late.  Steelers d tenacious.  Steelers run the rock to eat the clock.
 <br />
 <br />
 <i>This will be updated all week until all games are analyzed.</i>
