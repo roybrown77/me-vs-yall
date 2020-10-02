@@ -86,6 +86,18 @@ Texans vs Steelers 21 28
 Great first drive for Texans.  Watson holds ball too long but Steelers d is good.  Steelers balanced attack.  Watson forces pass for interception.  Texans don't run the ball much.  Steelers good play calling late.  Steelers d tenacious.  Steelers run the rock to eat the clock.
 <br />
 <br />
+49ers vs Giants 36 9
+<br />
+<br />
+Giants d fast and aggressive.  49ers pressure up middle causes fumble.  Mullen poised.  49ers d coming in hot.  Great 49er play calling.  Exquisite McKinnon td dance.  Lots of field goals.  Jones doesn’t quit.  49ers got a million great running backs.
+<br />
+<br />
+Bears vs Falcons 30 26
+<br />
+<br />
+Bears need better play calling on 3rd down after crossing 50 yard line.  Falcons explosive on first drive.  Bears d aggressive.  Good Falcons run game.  Trubisky scrambles for 50 yards.  Old Saint Nick replaces Trubisky but promptly throws interception in end zone.  Bears fight.  Falcons lose 26-10 lead with 8 minutes left in game.  Falcons poor defense and refusal to run ball to eat clock late while up is reminiscent.  
+<br />
+<br />
 <i>This will be updated all week until all games are analyzed.</i>
 </div>`;
 
