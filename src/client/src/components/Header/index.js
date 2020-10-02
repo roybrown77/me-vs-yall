@@ -5,11 +5,29 @@ import classNames from 'classnames';
 
 import get from 'lodash/get';
 
-import mvy from '../../styles/images/mvy-balls-cut.png';
-
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
+import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@material-ui/core/styles';
+import ExitToApp from '@material-ui/icons/ExitToAppOutlined';
+
+import { logout } from '../../middleware/authenticationClient';
+import mvy from '../../styles/images/mvy-balls-cut.png';
+
+const profileStyles = makeStyles((theme) => ({
+  popover: {
+  },
+  paper: {
+    padding: theme.spacing(1),
+    borderRadius: '4px',
+    margin: '8px',
+    position: 'fixed',
+    left: 'unset !important',
+    right: '0',
+    top: '0 !important'
+  },
+}));
 
 const styles = {
   root: {
@@ -65,6 +83,51 @@ const styles = {
   } 
 };
 
+const Profile = (props) => {
+  const classes = profileStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
+  const open = !!anchorEl ? Boolean(anchorEl) : false;
+  const id = open ? 'simple-popover' : undefined;
+
+  return (
+    <div>
+      <div onClick={handleClick} style={{cursor:'pointer'}}>
+        {props.mainElement}
+      </div>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        className={classes.popover}
+        classes={{
+          paper: classes.paper,
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        {props.children}
+      </Popover>
+    </div>
+  );
+};
+
 
 class Header extends Component {
   render() {
@@ -82,7 +145,16 @@ class Header extends Component {
             </Typography>
             {
               this.props.isAuthenticated && picture &&
-              <img className={classes.userPicture} src={picture} alt=""/>
+              <Profile mainElement={(<img className={classes.userPicture} src={picture} alt=""/>)}>
+                <div style={{display:'flex', padding: '8px', cursor: 'pointer'}} onClick={() => logout()}>
+                  <div>
+                    <ExitToApp/>
+                  </div>
+                  <div style={{padding: '3px 0 0 10px'}}>
+                    Sign out
+                  </div>
+                </div>
+              </Profile>
             }
             {
               this.props.isAuthenticated && !picture &&
