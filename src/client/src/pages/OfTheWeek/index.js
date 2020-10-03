@@ -123,7 +123,7 @@ Cowboys vs Seahawks 31 38
 (472 passing yds, 61 rushing yds, 3 to) vs (315 passing yds, 117 rushing yds, 1 to)
 <br />
 <br />
-Cowboys first drive ok.  Seahawks run game deep ball super.  Cowboys safety due to bad kick off return.  Dak in sync with receivers.  Metcalf lost focus on td.  Seahawks defense strong.  Metcalf strong.  Cowboys great play calling.  Cowboy kicker problems.  Cowboys leading late but defense can’t hold.
+Cowboys first drive ok.  Seahawks deep ball super.  Cowboys safety due to bad kick off return.  Dak in sync with receivers.  Metcalf lost focus on td.  Seahawks defense strong.  Metcalf strong.  Cowboys great play calling.  Cowboy kicker problems.  Cowboys leading late but defense can’t hold.
 <br />
 <br />
 Packers vs Saints 37 30
