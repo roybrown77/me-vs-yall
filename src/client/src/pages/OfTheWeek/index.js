@@ -134,6 +134,14 @@ Packers vs Saints 37 30
 Kamara is psychic with his great running.  Saints d hold Packers to field goals.  Unreal throws by Rodgers sets up tds.  Saints pound the rock.  Saints rely on Kamara without Thomas.  Nice Packers td dance.  Packers d apply great pressure.
 <br />
 <br />
+Titans vs Vikings 31 30
+<br />
+(321 passing yds, 134 rushing yds, 1 to) vs (251 passing yds, 226 rushing yds, 3 to)
+<br />
+<br />
+Vikings sloppy at start but pound the rock to get td on third drive.  Titans drive for fields goals.  Tannehill throws pick in traffic in end zone.  Cousins sees the field at times.  Titans pass a lot.  Cook is great.  Fabulous td dance by Jefferson.  Titans pound rock more to setup play action and big shots down field.  Titans d hold to setup 55 yard field goal to win it after trailing most of game.
+<br />
+<br />
 <i>This will be updated all week until all games are analyzed.</i>
 </div>`;
 
@@ -506,6 +514,13 @@ Chiefs **
 </div>`;
 
 const stats = [
+  {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 4: Arizona Cardinals over Carolina Panthers`,
+    leagueName: 'NFL',
+    date: 'October 4, 2020',
+    author: 'Mack & Beezie'
+  },
   {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 3",
     content: ReactHtmlParser(week32020),
