@@ -417,6 +417,7 @@ class Scoreboard extends Component {
                     {
                         isAuthenticated &&
                         areAllGamesOver &&
+                        !(dataLoading || weeksDataLoading) &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>

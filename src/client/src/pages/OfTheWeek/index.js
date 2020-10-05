@@ -519,7 +519,9 @@ const stats = [
     content: `Week 4: Arizona Cardinals over Carolina Panthers`,
     leagueName: 'NFL',
     date: 'October 4, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 3",
