@@ -349,6 +349,48 @@ const boxingCompetitors = [
         shortLocation: "Jeison",
         name: "Banana Man Rosario",
         country: "DOMINICAN REPUBLIC"
+    },
+    {
+        _id: "19823783734d1d04a1b31025",
+        location: "Roman Gonzalez",
+        shortLocation: "Roman",
+        name: "Chocolatito Gonzalez",
+        country: "NICARAGUA"
+    },
+    {
+        _id: "19823783734d1d04a1b31026",
+        location: "Israel Gonzalez",
+        shortLocation: "Israel",
+        name: "Jiga Gonzalez",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b31027",
+        location: "Gervonta Davis",
+        shortLocation: "Gervonta",
+        name: "Banana Man Davis",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31028",
+        location: "Leo Santa Cruz",
+        shortLocation: "Leo",
+        name: "The Earthquake Santa Cruz",
+        country: "MEXICO"
+    },
+    {
+        _id: "19823783734d1d04a1b31029",
+        location: "Naoya Inoue",
+        shortLocation: "Naoya",
+        name: "The Monster Inoue",
+        country: "JAPAN"
+    },
+    {
+        _id: "19823783734d1d04a1b3102a",
+        location: "Jason Moloney",
+        shortLocation: "Jason",
+        name: " The Smooth One Moloney",
+        country: "AUSTRALIA"
     }
 ];
 

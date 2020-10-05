@@ -40,6 +40,7 @@ import nigeria from '../../styles/images/nigeria.png';
 import dominicanRepublic from '../../styles/images/dominican-republic.png';
 import southKorea from '../../styles/images/south-korea.png';
 import australia from '../../styles/images/australia.png';
+import nicaragua from '../../styles/images/nicaragua.png';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -499,6 +500,8 @@ class Game extends Component {
           return australia;
         case 'SOUTH KOREA':
           return southKorea;
+        case 'NICARAGUA':
+          return nicaragua;
         default:
           return america;
       };
