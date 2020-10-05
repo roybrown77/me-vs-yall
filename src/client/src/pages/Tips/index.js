@@ -43,6 +43,10 @@ const stats = [
     content: `Pick winners.  Every week.  Against others around the world.  For free.`
   },
   {
+    title: 'THRILLER',
+    content: `Feel the thrill of betting without actually risking it.`
+  },
+  {
     title: 'FACTS',
     content: `Me vs Yall allows you to practice betting without losing money.  If you can't win here don't bet real money over there.`
   },
