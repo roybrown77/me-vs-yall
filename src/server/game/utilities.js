@@ -564,49 +564,49 @@ const ufcCompetitors = [
         country: "MEXICO"
     },
     {
-        _id: "19823783734d1d04a1b32023",
+        _id: "19823783734d1d04a1b32024",
         location: 'Marlon Moraes',
         shortLocation: "Marlon",
         name: "Magic Moraes",
         country: "BRAZIL"
     },
     {
-        _id: "19823783734d1d04a1b32024",
+        _id: "19823783734d1d04a1b32025",
         location: 'Cory Sandhagen',
         shortLocation: "Cory",
         name: "The Sandman Sandhagen",
-        country: "MEXICO"
+        country: "USA"
     },
     {
-        _id: "19823783734d1d04a1b32025",
+        _id: "19823783734d1d04a1b32026",
         location: 'Brian Ortega',
         shortLocation: "Brian",
         name: "T-City Ortega",
         country: "USA"
     },
     {
-        _id: "19823783734d1d04a1b32026",
+        _id: "19823783734d1d04a1b32027",
         location: 'Chan Sung Jung',
         shortLocation: "Chan",
         name: "The Korean Zombie Jung",
         country: "SOUTH KOREA"
     },
     {
-        _id: "19823783734d1d04a1b32027",
+        _id: "19823783734d1d04a1b32028",
         location: 'Khabib Nurmagomedov',
         shortLocation: "Khabib",
         name: "The Eagle Nurmagomedov",
         country: "RUSSIA"
     },
     {
-        _id: "19823783734d1d04a1b32028",
+        _id: "19823783734d1d04a1b32029",
         location: 'Justin Gaethje',
         shortLocation: "Justin",
         name: "The Highlight Gaethje",
         country: "USA"
     },
     {
-        _id: "19823783734d1d04a1b32029",
+        _id: "19823783734d1d04a1b32030",
         location: 'Robert Whittaker',
         shortLocation: "Robert",
         name: "Bobby Knuckles Whittaker",
