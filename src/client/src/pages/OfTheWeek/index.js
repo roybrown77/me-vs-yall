@@ -142,7 +142,108 @@ Titans vs Vikings 31 30
 Vikings sloppy at start but pound the rock to get td on third drive.  Titans drive for fields goals.  Tannehill throws pick in traffic in end zone.  Cousins sees the field at times.  Titans pass a lot.  Cook is great.  Fabulous td dance by Jefferson.  Titans pound rock more to setup play action and big shots down field.  Titans d hold to setup 55 yard field goal to win it after trailing most of game.
 <br />
 <br />
-<i>This will be updated all week until all games are analyzed.</i>
+Bengals vs Eagles 23 23
+<br />
+(312 passing yds, 48 rushing yds) vs (225 passing yds, 175 rushing yds, 2 to)
+<br />
+<br />
+Wentz holds ball too long.  Bengals struggle to drive at start.  Bengals d after Wentz.  Nice td throw by patient Burrow.  Great td throw by Wentz before half.  Bengals d fast.  Eagles offense stalls.  Eagles d hold Bengals from game winning td.  Eagles fight to tie.  Risky head first td run by Wentz.  Eagles discipline and both defense hold to tie game.
+<br />
+<br />
+Chiefs vs Ravens 34 20
+<br />
+(385 passing yds, 132 rushing yds, 1 to) vs (97 passing yds, 158 rushing yds, 1 to)
+<br />
+<br />
+Chiefs d hold Lamar at start.  Great Chiefs play calling to start.  Mahomes shovel pass a beauty.  Ravens kick return superb.  Kelce strong.  Mahomes nimble.  Tyreek great td grab.  Ravens offense limited compared to Chiefs.
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1
+<br />
+<br />
+Dolphins ae
+<br />
+49ers nw
+<br />
+Colts as
+<br />
+Panthers ns
+<br />
+Buccaneers ns
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Chiefs aw
+<br />
+Browns an
+<br />
+Patriots ae
+<br />
+Steelers an
+<br />
+Chargers aw
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+** has top defense
+<br />
+<br />
+Tier 1 (35+)
+<br />
+<br />
+Bills ae
+<br />
+Patriots ** ae
+<br />
+Colts as
+<br />
+Seahawks nw
+<br />
+Packers nn
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Chiefs ** aw
+<br />
+Saints ns
+<br />
+Cowboys ne
+<br />
+Vikings nn
+<br />
+Titans as
+<br />
+Browns ** an
+<br />
+Bears nn
+<br />
+<br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
+1. AFC East
+<br />
+2. NFC South
+<br />
+3. NFC North
+<br />
+4. AFC West
+<br />
+5. AFC North
+<br />
+6. NFC West
+<br />
+7. AFC South
+<br />
+8. NFC East
 </div>`;
 
 const week22020 = `<div>49ers vs Jets 31 13
