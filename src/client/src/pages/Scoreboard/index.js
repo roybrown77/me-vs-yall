@@ -345,7 +345,6 @@ class Scoreboard extends Component {
                         <Button
                             variant="contained" 
                             className={classNames(classes.button)}
-                            disabled={dataLoading || weeksDataLoading} 
                             onClick={() => googleLogin()}>
                           Press to Play
                         </Button>
