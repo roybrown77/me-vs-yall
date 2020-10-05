@@ -368,7 +368,7 @@ const boxingCompetitors = [
         _id: "19823783734d1d04a1b31027",
         location: "Gervonta Davis",
         shortLocation: "Gervonta",
-        name: "Banana Man Davis",
+        name: "Tank Davis",
         country: "USA"
     },
     {
