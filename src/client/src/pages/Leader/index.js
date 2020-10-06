@@ -453,11 +453,18 @@ class Leader extends Component {
                                                 </AccordionSummary>
                                                 <AccordionDetails className={classes.expansionPanelDetails}>
                                                     <div style={{margin: '12px auto'}}>
-                                                        <div style={{
-                                                            fontWeight: '700',
-                                                            color: leader.color}}>
-                                                            in Vegas you would have won: {leader.vegasWinnings}
-                                                        </div>
+                                                        <Popover 
+                                                            title={'in Vegas you would have won: ' + leader.vegasWinnings}
+                                                            titleStyle={{color: 'darkgreen', textDecoration:'underline', fontWeight: '700',}}
+                                                        >
+                                                            {
+                                                                <div style={{padding:'16px'}}>
+                                                                    <div>${leader.wins * 100 - leader.losses * 110} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
+                                                                    <div style={{padding:'16px 0'}}>${leader.wins * 110 + leader.wins * 100 - leader.losses * 110} payout = {leader.wins} winning bets x $110 + {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
+                                                                    <div><i>assumes you beat the spread</i></div>
+                                                                </div>
+                                                            }
+                                                        </Popover>
                                                         {
                                                             <table style={{
                                                                 width:"100%", 
