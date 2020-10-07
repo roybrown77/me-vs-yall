@@ -460,8 +460,9 @@ class Leader extends Component {
                                                             {
                                                                 <div style={{padding:'16px'}}>
                                                                     <div>{leader.color === 'red' ? '-$' : '$'}{Math.abs(leader.wins * 100 - leader.losses * 110)} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
-                                                                    <div style={{padding:'16px 0'}}>${leader.wins * 110 + leader.wins * 100 - leader.losses * 110 < 0 ? 0 : leader.wins * 110 + leader.wins * 100 - leader.losses * 110} payout = {leader.wins} winning bets x $110 + {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
-                                                                    <div><i>assumes you beat the spread</i></div>
+                                                                    <div style={{paddingTop:'16px'}}>${leader.wins * 110} winning bets = {leader.wins} winning bets x $110</div>
+                                                                    <div style={{paddingTop:'16px'}}>${leader.wins * 110 + leader.wins * 100 - leader.losses * 110 < 0 ? 0 : leader.wins * 110 + leader.wins * 100 - leader.losses * 110} payout = profit + winning bets</div>
+                                                                    <div style={{paddingTop:'16px'}}><i>assumes you beat the spread</i></div>
                                                                 </div>
                                                             }
                                                         </Popover>
