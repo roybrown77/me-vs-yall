@@ -54,6 +54,22 @@ Jags vs Bengals 25 33
 Minshew throws into traffic for pick.  Burrow poised to drive ball.  Great td throw by Minshew.  Jags td dance notable.  Great Bengal play calling.  Mixon strong.  Jags bad play calling.
 <br />
 <br />
+Browns vs Cowboys 49 38
+<br />
+(202 receiving yds, 307 rushing yds) vs (502 receiving yds, 85 rushing yds, 3 to)
+<br />
+<br />
+Garrett sack sets tone for Browns.  Both offenses look good to start.  Great Browns running backs.  Browns d aggressive.  Mayfield locked in.  Cowboys don’t quit.  Great throws from Dak to lead charge.  Brilliant run & td dance by Beckham.
+<br />
+<br />
+Saints vs Lions 35 29
+<br />
+(246 receiving yds, 164 rushing yds, 1 to) vs (206 receiving yds, 90 rushing yds, 1 to)
+<br />
+<br />
+Amendola runs wild.  Nice throws from Stafford to start fast.  Saints d applying pressure.  Great Saints playing calling to comeback.  Lions don’t run the ball much.  Lions d hold.  Great catch by Hockenson. 
+<br />
+<br />
 <i>This will be updated all week until all games are analyzed.</i>
 </div>`;
 
