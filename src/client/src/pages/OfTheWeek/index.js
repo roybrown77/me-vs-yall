@@ -94,6 +94,22 @@ Patriots vs Chiefs 10 26
 Chiefs creative on first drive but Pats d hold.  Great running by Chiefs.  Hoyer off target on passes.  Pats d very good.  Pats use heavy run game.  Great third quarter drive by Hoyer but sack fumble in red zone.  Chiefs balanced offense leans on Pats d for tds.  Hoyer throws pick 6.  Stidham throws end zone pick.
 <br />
 <br />
+Eagles vs 49ers 25 20
+<br />
+(193 receiving yds, 93 rushing yds, 1 to) vs (338 receiving yds, 116 rushing yds, 3 to)
+<br />
+<br />
+Weird pick thrown by Wentz.   Nice td run by Wentz.  Eagles d playing fast.  Fabulous td run and hurdle by Ayuk.  Mullen throws a pick.  Great back of end zone throw by Mullen.  Mullen fumbles.  Wentz takes deep shot for td.  Mullen throws pick 6.  Mullen benched for Beathard who drives for a td.  Beathard nearly throws game winning td in end zone.
+<br />
+<br />
+Falcons vs Packers 16 30
+<br />
+(285 receiving yds, 78 rushing yds) vs (327 receiving yds, 88 rushing yds)
+<br />
+<br />
+Packers balanced offense slicing up Falcons d.  Falcons d hold 4th and goal line.  Falcons move the ball too slow being behind so much.  Jones run game great.
+<br />
+<br />
 <i>Updated all week until all games are analyzed.</i>
 </div>`;
 
