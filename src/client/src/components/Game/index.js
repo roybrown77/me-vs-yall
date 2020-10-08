@@ -71,8 +71,7 @@ const styles = theme => ({
   startDateTime: {
     fontSize: '14px',
     fontWeight: 'bold',
-    color: 'rgba(0,0,0,.87)',
-    marginTop: '4px'
+    color: 'rgba(0,0,0,.87)'
   },
   lastPlay: {
     fontSize: '12px',
@@ -81,11 +80,32 @@ const styles = theme => ({
     margin: '8px 0'
   },
   tieButton: {
+    fontSize: '1rem',
+    fontWeight: "700",
+    marginTop: '10px',
     width: '25%',
-    color: '#3772FA',
-    border: '4px solid #3772FA',
-    fontWeight: '600',
-    marginTop: '4px'
+    height: '30px',
+    backgroundColor: '#3772FA',
+    color: '#FFFFFF',
+    borderColor: '#3772FA',
+    '&:hover': {
+      backgroundColor: '#3772FA',
+      color: '#FFFFFF',
+      borderColor: '#3772FA',
+    }
+  },
+  button: {
+    fontSize: '1rem',
+    fontWeight: "700",
+    width: '25%',
+    backgroundColor: '#3772FA',
+    color: '#FFFFFF',
+    borderColor: '#3772FA',
+    '&:hover': {
+      backgroundColor: '#3772FA',
+      color: '#FFFFFF',
+      borderColor: '#3772FA',
+    }
   },
   gameHeader: {
     minHeight: '32px'
@@ -649,14 +669,6 @@ class Game extends Component {
                     ))}                            
                 </Grid>
                 {
-                  getField(get(game,'leagueId'), {
-                    away: game.competitors[0].shortLocation, 
-                    awayColor: game.competitors[0].color, 
-                    home: game.competitors[1].shortLocation, 
-                    homeColor: game.competitors[1].color,
-                  })
-                }
-                {
                   isAuthenticated &&
                   !hasGameStarted(game.startDateTime) &&
                   ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
@@ -668,10 +680,18 @@ class Game extends Component {
                     </Button>
                   </div>
                 }
+                {
+                  getField(get(game,'leagueId'), {
+                    away: game.competitors[0].shortLocation, 
+                    awayColor: game.competitors[0].color, 
+                    home: game.competitors[1].shortLocation, 
+                    homeColor: game.competitors[1].color,
+                  })
+                }
                 <div className={classes.startDateTime}>
                     {
                       game.gameName && 
-                      <div> 
+                      <div style={{marginTop: '10px'}}> 
                         {game.gameName}
                       </div>
                     }
@@ -679,7 +699,7 @@ class Game extends Component {
                       isAuthenticated &&
                       userId === 'google-oauth2|114172296334563495985' &&
                       <Popover 
-                        titleStyle={{fontWeight: 'bold'}}
+                        titleStyle={{fontWeight: 'bold', marginTop: '10px'}}
                         title={game.startDateTimeDisplay}
                         handleOpen={this.handleClearInput}>
                         <div style={{padding:'16px'}}>
@@ -752,7 +772,7 @@ class Game extends Component {
                           </div>
                           <div>
                             <Button 
-                                className={classes.tieButton} onClick={() => this.handleSaveGame(game._id)}>
+                                className={classes.button} onClick={() => this.handleSaveGame(game._id)}>
                                 Save
                             </Button>
                           </div>
@@ -761,7 +781,7 @@ class Game extends Component {
                     }
                     {
                       (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
-                      <span> 
+                      <span style={{marginTop: '10px'}}> 
                         {game.startDateTimeDisplay}
                       </span>
                     }
