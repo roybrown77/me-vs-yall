@@ -70,7 +70,7 @@ Saints vs Lions 35 29
 Amendola runs wild.  Nice throws from Stafford to start fast.  Saints d applying pressure.  Great Saints playing calling to comeback.  Lions don’t run the ball much.  Lions d hold.  Great catch by Hockenson. 
 <br />
 <br />
-Chargers Buccaneers 31 38
+Chargers vs Buccaneers 31 38
 <br />
 (290 receiving yds, 46 rushing yds, 1 to) vs (369 receiving yds, 115 rushing yds, 1 to)
 <br />
