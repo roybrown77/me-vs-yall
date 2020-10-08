@@ -84,7 +84,6 @@ const styles = theme => ({
     fontWeight: "700",
     marginTop: '10px',
     width: '25%',
-    height: '30px',
     backgroundColor: '#3772FA',
     color: '#FFFFFF',
     borderColor: '#3772FA',
