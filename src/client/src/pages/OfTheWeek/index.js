@@ -161,6 +161,14 @@ Texans vs Steelers 21 28
 Great first drive for Texans.  Watson holds ball too long but Steelers d is good.  Steelers balanced attack.  Watson forces pass for interception.  Texans don't run the ball much.  Steelers good play calling late.  Steelers d tenacious.  Steelers run the rock to eat the clock.
 <br />
 <br />
+Dolphins vs Jags 31 13
+<br />
+(160 receiving yds, 138 rushing yds) vs (275 receiving yds, 72 rushing yds, to)
+<br />
+<br />
+Good Dolphin play calling with heavy run for 7 minute first drive.  Fitzy poised.  Jags slow on offense.  Short week sluggish?  Miami athletic receivers helping Fitzy.  Bad mistakes by Minshew.
+<br />
+<br />
 49ers vs Giants 36 9
 <br />
 (343 receiving yds, 93 rushing yds) vs (179 receiving yds, 66 rushing yds, 3 to)
