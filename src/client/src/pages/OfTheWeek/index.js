@@ -70,7 +70,31 @@ Saints vs Lions 35 29
 Amendola runs wild.  Nice throws from Stafford to start fast.  Saints d applying pressure.  Great Saints playing calling to comeback.  Lions don’t run the ball much.  Lions d hold.  Great catch by Hockenson. 
 <br />
 <br />
-<i>This will be updated all week until all games are analyzed.</i>
+Chargers Buccaneers 31 38
+<br />
+(290 receiving yds, 46 rushing yds, 1 to) vs (369 receiving yds, 115 rushing yds, 1 to)
+<br />
+<br />
+Herbert airs it out for td.  Chargers getting to Brady.  Bucs offense stalls.  Chargers fumble at end of half sets up Bucs td.  Bucs fight in second half to take lead.  Herbert interception seals win for Bucs.
+<br />
+<br />
+Colts vs Bears 19 11
+<br />
+(190 receiving yds, 103 rushing yds) vs (249 receiving yds, 28 rushing yds, 1 to)
+<br />
+<br />
+Colts great first drive.  Defenses close pocket quickly.  Play calling for both teams could be better.  Lots of field goals.
+<br />
+<br />
+Patriots vs Chiefs 10 26
+<br />
+(190 receiving yds, 185 rushing yds, 4 to) vs (236 receiving yds, 94 rushing yds, 1 to)
+<br />
+<br />
+Chiefs creative on first drive but Pats d hold.  Great running by Chiefs.  Hoyer off target on passes.  Pats d very good.  Pats use heavy run game.  Great third quarter drive by Hoyer but sack fumble in red zone.  Chiefs balanced offense leans on Pats d for tds.  Hoyer throws pick 6.  Stidham throws end zone pick.
+<br />
+<br />
+<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week32020 = `<div>Bucs vs Broncos 28 10
