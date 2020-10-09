@@ -80,7 +80,6 @@ const styles = theme => ({
     margin: '8px 0'
   },
   tieButton: {
-    fontSize: '1rem',
     fontWeight: "700",
     marginTop: '10px',
     width: '25%',
@@ -588,6 +587,7 @@ class Game extends Component {
                   <div>
                     <Button 
                         variant="outlined" 
+                        size="small"
                         className={classes.tieButton} onClick={() => this.handleTie(game._id)}>
                         {['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f17'].includes(get(game,'leagueId')) ? 'Draw' : 'Tie'}
                     </Button>
@@ -674,6 +674,7 @@ class Game extends Component {
                   <div>
                     <Button 
                         variant="outlined" 
+                        size="small"
                         className={classes.tieButton} onClick={() => this.handleTie(game._id)}>
                         {['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f17'].includes(get(game,'leagueId')) ? 'Draw' : 'Tie'}
                     </Button>
