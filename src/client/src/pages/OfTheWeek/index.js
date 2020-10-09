@@ -143,7 +143,7 @@ Broncos aw
 <br />
 Browns an
 <br />
-Cowboys nn
+Cowboys ne
 <br />
 Saints ns
 <br />
