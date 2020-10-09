@@ -110,6 +110,56 @@ Falcons vs Packers 16 30
 Packers balanced offense slicing up Falcons d.  Falcons d hold 4th and goal line.  Falcons move the ball too slow being behind so much.  Jones run game great.
 <br />
 <br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1
+<br />
+<br />
+Colts as
+<br />
+Bears nn
+<br />
+Chiefs aw
+<br />
+Packers nn
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Eagles ne
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+** has top defense
+<br />
+<br />
+Tier 1 (35+)
+<br />
+<br />
+Broncos aw
+<br />
+Browns an
+<br />
+Cowboys nn
+<br />
+Saints ns
+<br />
+Buccaneers ns
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Bengals as
+<br />
+Chargers aw
+<br />
+Packers * nn
+<br />
+<br />
 <i>Updated all week until all games are analyzed.</i>
 </div>`;
 
