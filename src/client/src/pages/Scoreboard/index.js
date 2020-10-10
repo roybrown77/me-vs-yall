@@ -302,6 +302,8 @@ class Scoreboard extends Component {
         this.setState((state) => ({
             openCopyAlert: true
         }));
+
+        window.scrollTo(0, 0);
     }
 
     handleCopyAlertClose = (event, reason) => {
