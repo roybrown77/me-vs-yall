@@ -441,7 +441,7 @@ const getVegasPicks = (games = []) => {
     });
 };
 
-const getGroupedGames = (games = [], picks = [], teams = [], leagueId = "") => {
+const getGroupedGames = (games = [], picks = [], teams = []) => {
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
         return {
@@ -470,6 +470,25 @@ const getGroupedGames = (games = [], picks = [], teams = [], leagueId = "") => {
         notCompleted: orderBy(formattedGames.filter(x=>!x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
         completed: orderBy(formattedGames.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
     };
+};
+
+const getPicks = (games = [], picks = [], teams = []) => {
+    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
+    const formattedPicks = sortedGames.map((game)=>{
+        const teamA = teams.find(x=>x._id === game.competitors[0]._id);
+        const teamB = teams.find(x=>x._id === game.competitors[1]._id);
+
+        const selected = picks.find(x=>x.gameId === game._id && (x.pickId === game.competitors[0]._id || x.pickId === game.competitors[1]._id));
+
+        if (selected) {
+            return selected.pickId === game.competitors[0]._id ? teamA.name + ' over ' + teamB.name : teamB.name + ' over ' + teamA.name;
+        }
+
+        return teamA.name + ' vs ' + teamB.name;
+    });
+
+    return 'https://www.mevsyall.com\n\n' + formattedPicks.join('\n') + '\n\nhttps://www.mevsyall.com\n\n';
 };
 
 const getAreAnyGamesInProgress = (games = []) => {
@@ -528,5 +547,6 @@ export {
     getImage,
     getRandomIntInclusive,
     images,
-    getPicksNotSelected
+    getPicksNotSelected,
+    getPicks
 };

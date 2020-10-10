@@ -18,6 +18,7 @@ import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
 import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 import ToggleOn from '@material-ui/icons/ToggleOn';
 import ToggleOff from '@material-ui/icons/ToggleOff';
+import Share from '@material-ui/icons/BackupOutlined';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -47,7 +48,8 @@ import {
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
     getImage,
-    getPicksNotSelected
+    getPicksNotSelected,
+    getPicks
 } from '../../utilities';
 
 import {createBrowserHistory} from 'history';
@@ -282,6 +284,14 @@ class Scoreboard extends Component {
         this.props.showGameDetails(!this.props.showDetails);
     }
 
+    handleSharePicks = () => {
+        navigator.clipboard.writeText(getPicks(this.props.games,this.props.picks,this.props.teams))//`https://www.mevsyall.com\n\nPatriots over Chiefs\nSeahawks over Packers\n\nhttps://www.mevsyall.com`);
+    }
+
+    // handleCopyUrl = () => {
+    //     navigator.clipboard.writeText(window.location.toString());
+    // }
+
     render() {
         const { 
             classes, 
@@ -428,6 +438,7 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
+                        false &&
                         ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(leagueId) &&
                         <div style={{
                                 justifyContent: 'center',
@@ -445,11 +456,28 @@ class Scoreboard extends Component {
                             justifyContent: 'center',
                             display:'flex', 
                             fontSize: '17px', 
+                            paddingBottom: '20px',
                             fontFamily: 'monospace'}}>
-                        <div style={{margin:'auto 0'}}>show details</div>
-                        <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetails" onClick={this.handleShowGameDetails}>
-                            {showDetails ? <ToggleOn/> : <ToggleOff/>}
-                        </IconButton>
+                        <div>
+                            <div>
+                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetails" onClick={this.handleShowGameDetails}>
+                                    {showDetails ? <ToggleOn/> : <ToggleOff/>}
+                                </IconButton>
+                            </div>
+                            <div style={{marginTop: '-3px'}}>
+                                details
+                            </div>
+                        </div>
+                        <div style={{paddingLeft: '40px'}}>
+                            <div>
+                                <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
+                                    <Share/>
+                                </IconButton>
+                            </div>
+                            <div style={{marginTop: '-3px'}}>
+                                share
+                            </div>
+                        </div>
                     </div>
                     {
                         <div className={classes.root}>
