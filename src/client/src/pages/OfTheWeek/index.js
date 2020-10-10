@@ -178,8 +178,6 @@ Texans as
 <br />
 Panthers ns
 <br />
-Bills ne
-<br />
 <br />
 Top offenses (score 30 or more well)
 <br />
@@ -210,6 +208,8 @@ Chargers aw
 Packers * nn
 <br />
 Panthers ** ns
+<br />
+Bills ne
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
