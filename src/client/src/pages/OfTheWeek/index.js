@@ -134,6 +134,22 @@ Giants vs Rams 9 17
 Clinical Rams offense scores td.  Rams d closing pocket fast.  Bad Giants play calling.  Giants d hold in red zone.  Rams offense stalls.  Better Giants play calling second half.  Good Giants run.  Cupp burns Giants d for td.  Jones turns into Houdini to get away from rush.  Rams d hold with sensational red zone pick.
 <br />
 <br />
+Seahawks vs Dolphins 31 23
+<br />
+(360 receiving yds, 98 rushing yds, 1 to) vs (315 receiving yds, 103 rushing yds, 2 to)
+<br />
+<br />
+Seahawks deflect pass for pick.  Russell to Metcalf sets up td.  Seahawks d close pocket fast.  Breida runs well.  Dolphins offense stalls in red zone.  Russell extremely accurate.  Carson hurdle notable.  Seahawks d swarm in red zone.  Metcalf scrong.  Scrong means extra strong.  Fitzy runs one in.
+<br />
+<br />
+Bills vs Raiders 30 23
+<br />
+(288 receiving yds, 63 rushing yds) vs (311receiving yds, 86 rushing yds, 2 to)
+<br />
+<br />
+Allen efficient for fast tds.  Beasley acrobatic td catch.  Carr beauty deep throw td but penalty brought it back.  Great Raider play calling and receivers.  Bills 4th and 1 at 50 shows confidence.  Great throws by Allen.  Late fumble by Waller.  Allen throws a 60+ yard pass to Diggs.  Super throw and catch by Carr and Renfroe & Agholor.  Carr strip fumble.
+<br />
+<br />
 Top defenses (hold to 20 or less well)
 <br />
 <br />
@@ -151,6 +167,8 @@ Packers nn
 Giants ne
 <br />
 Rams nw
+<br />
+Bills ne
 <br />
 <br />
 Tier 2
