@@ -291,19 +291,18 @@ class Scoreboard extends Component {
         this.props.showGameDetails(!this.props.showDetails);
     }
 
-    handleSharePicks = () => {
+    handleSharePicks = (e) => {
         const copyText = document.getElementById("copyInput");
 
         copyText.select();
         copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
         document.execCommand("copy");
+        e.target.focus();
 
         this.setState((state) => ({
             openCopyAlert: true
         }));
-
-        window.scrollTo(0, 0);
     }
 
     handleCopyAlertClose = (event, reason) => {
