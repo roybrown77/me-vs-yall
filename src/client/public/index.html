@@ -1,31 +1,13 @@
 <!doctype html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <title>Me vs Yall</title>
   </head>
   <body>
     <div id="root"/>
   </body>
-  <script type="text/javascript">
-    document.addEventListener('touchmove', function (event) {
-      if (event.scale !== 1) { event.preventDefault(); }
-    }, { passive: false });
-
-    document.addEventListener('touchstart', function (event) {
-      if (event.scale !== 1) { event.preventDefault(); }
-    }, { passive: false });
-
-    document.addEventListener('touchcancel', function (event) {
-      if (event.scale !== 1) { event.preventDefault(); }
-    }, { passive: false });
-
-    document.addEventListener('touchend', function (event) {
-      if (event.scale !== 1) { event.preventDefault(); }
-    }, { passive: false });
-  </script>
 </html>

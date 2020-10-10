@@ -783,6 +783,13 @@ Chiefs **
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 5: Houston Texans over Jacksonville Jaguars`,
+    leagueName: 'NFL',
+    date: 'October 11, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 4",
     content: ReactHtmlParser(week42020),
     leagueName: 'NFL',
