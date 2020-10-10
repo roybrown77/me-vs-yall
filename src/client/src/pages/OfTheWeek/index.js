@@ -110,6 +110,30 @@ Falcons vs Packers 16 30
 Packers balanced offense slicing up Falcons d.  Falcons d hold 4th and goal line.  Falcons move the ball too slow being behind so much.  Jones run game great.
 <br />
 <br />
+Cardinals vs Panthers 21 31
+<br />
+(133 receiving yds, 129 rushing yds, 1 to) vs (276 receiving yds, 168 rushing yds, 1 to)
+<br />
+<br />
+Panthers d closing pocket fast.  Great playing calling and runs by Panthers.  Cardinals interception sets up td.  Gorgeous hurdle by Panther receiver.  Teddy makes great throws.  Davis runs well.  Panthers d applying pressure.  Murray runs wild for big yardage.
+<br />
+<br />
+Vikings vs Texans 21 23
+<br />
+(260 receiving yds, 162 rushing yds) vs (300 receiving yds, 96 rushing yds, 1 to)
+<br />
+<br />
+Bad Texans play calling.  Vikings have a balanced offense.  Big hit by Vikings to force fumble and sets up field goal.  Texans dropping balls.  Cook is special.  Great td drives by Texans.  Watson takes shot deep down field.  Cousins throws great running away from defenders.  Jefferson is the man.  Texans don’t run much.  Texans fight.  Incredible Texan throw and catch 4th and goal was incomplete.
+<br />
+<br />
+Giants vs Rams 9 17
+<br />
+(190 receiving yds, 136 rushing yds, 1 to) vs (200 receiving yds, 58 rushing yds, 1 to)
+<br />
+<br />
+Clinical Rams offense scores td.  Rams d closing pocket fast.  Bad Giants play calling.  Giants d hold in red zone.  Rams offense stalls.  Better Giants play calling second half.  Good Giants run.  Cupp burns Giants d for td.  Jones turns into Houdini to get away from rush.  Rams d hold with sensational red zone pick.
+<br />
+<br />
 Top defenses (hold to 20 or less well)
 <br />
 <br />
@@ -124,11 +148,19 @@ Chiefs aw
 <br />
 Packers nn
 <br />
+Giants ne
+<br />
+Rams nw
+<br />
 <br />
 Tier 2
 <br />
 <br />
 Eagles ne
+<br />
+Texans as
+<br />
+Panthers ns
 <br />
 <br />
 Top offenses (score 30 or more well)
@@ -158,6 +190,8 @@ Bengals as
 Chargers aw
 <br />
 Packers * nn
+<br />
+Panthers ** ns
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
