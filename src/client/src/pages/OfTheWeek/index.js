@@ -168,8 +168,6 @@ Giants ne
 <br />
 Rams nw
 <br />
-Bills ne
-<br />
 <br />
 Tier 2
 <br />
@@ -179,6 +177,8 @@ Eagles ne
 Texans as
 <br />
 Panthers ns
+<br />
+Bills ne
 <br />
 <br />
 Top offenses (score 30 or more well)
