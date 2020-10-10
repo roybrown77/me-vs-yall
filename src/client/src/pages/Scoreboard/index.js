@@ -9,6 +9,8 @@ import last from 'lodash/last';
 
 import moment from 'moment-timezone';
 
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
@@ -123,11 +125,16 @@ const styles = theme => ({
 
 let gameDate;
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 class Scoreboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            soundOn: false
+            soundOn: false,
+            openCopyAlert: false
         };
     }
 
@@ -285,12 +292,27 @@ class Scoreboard extends Component {
     }
 
     handleSharePicks = () => {
-        navigator.clipboard.writeText(getPicks(this.props.games,this.props.picks,this.props.teams))//`https://www.mevsyall.com\n\nPatriots over Chiefs\nSeahawks over Packers\n\nhttps://www.mevsyall.com`);
+        const copyText = document.getElementById("copyInput");
+
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+        document.execCommand("copy");
+
+        this.setState((state) => ({
+            openCopyAlert: true
+        }));
     }
 
-    // handleCopyUrl = () => {
-    //     navigator.clipboard.writeText(window.location.toString());
-    // }
+    handleCopyAlertClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        this.setState((state) => ({
+            openCopyAlert: false
+        }));
+    };
 
     render() {
         const { 
@@ -308,7 +330,7 @@ class Scoreboard extends Component {
             userId
         } = this.props;
 
-        const {soundOn} = this.state;
+        const {soundOn, openCopyAlert} = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
@@ -322,6 +344,8 @@ class Scoreboard extends Component {
         gameDate = null;
 
         const image = getImage(leagueId);
+
+        const copyData = getPicks(this.props.games,this.props.picks,this.props.teams);
 
         return (
             <div>
@@ -468,16 +492,25 @@ class Scoreboard extends Component {
                                 details
                             </div>
                         </div>
-                        <div style={{paddingLeft: '40px'}}>
-                            <div>
-                                <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
-                                    <Share/>
-                                </IconButton>
+                        {
+                            document.queryCommandSupported('copy') &&
+                            <div style={{paddingLeft: '40px'}}>
+                                <div>
+                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
+                                        <Share/>
+                                    </IconButton>
+                                </div>
+                                <div style={{marginTop: '-3px'}}>
+                                    share
+                                </div>
+                                <textarea style={{position:'fixed',top:'-10em'}} type="text" value={copyData} id="copyInput" />
+                                <Snackbar open={openCopyAlert} autoHideDuration={4000} onClose={this.handleCopyAlertClose}>
+                                    <Alert onClose={this.handleCopyAlertClose} severity="success">
+                                      {isAuthenticated ? 'Picks copied!' : 'Games copied'}
+                                    </Alert>
+                                </Snackbar>
                             </div>
-                            <div style={{marginTop: '-3px'}}>
-                                share
-                            </div>
-                        </div>
+                        }
                     </div>
                     {
                         <div className={classes.root}>
