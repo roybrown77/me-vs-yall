@@ -483,9 +483,9 @@ class Scoreboard extends Component {
                             fontSize: '17px', 
                             paddingBottom: '20px',
                             fontFamily: 'monospace'}}>
-                        <div>
+                        <div onClick={this.handleShowGameDetails}>
                             <div>
-                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetails" onClick={this.handleShowGameDetails}>
+                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetails">
                                     {showDetails ? <ToggleOn/> : <ToggleOff/>}
                                 </IconButton>
                             </div>
@@ -495,9 +495,9 @@ class Scoreboard extends Component {
                         </div>
                         {
                             document.queryCommandSupported('copy') &&
-                            <div style={{paddingLeft: '40px'}}>
+                            <div style={{paddingLeft: '40px'}} onClick={this.handleSharePicks}>
                                 <div>
-                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
+                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks">
                                         <Share/>
                                     </IconButton>
                                 </div>
