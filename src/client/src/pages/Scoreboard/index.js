@@ -495,14 +495,14 @@ class Scoreboard extends Component {
                         </div>
                         {
                             document.queryCommandSupported('copy') &&
-                            <div style={{paddingLeft: '40px'}} onClick={this.handleSharePicks}>
+                            <div style={{paddingLeft: '40px'}}>
                                 <div>
-                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks">
+                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
                                         <Share/>
                                     </IconButton>
                                 </div>
                                 <div style={{marginTop: '-3px'}}>
-                                    share
+                                    share picks
                                 </div>
                                 <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" />
                                 <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
