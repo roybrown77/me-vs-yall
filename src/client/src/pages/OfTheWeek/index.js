@@ -144,10 +144,18 @@ Seahawks deflect pass for pick.  Russell to Metcalf sets up td.  Seahawks d clos
 <br />
 Bills vs Raiders 30 23
 <br />
-(288 receiving yds, 63 rushing yds) vs (311receiving yds, 86 rushing yds, 2 to)
+(288 receiving yds, 63 rushing yds) vs (311 receiving yds, 86 rushing yds, 2 to)
 <br />
 <br />
 Allen efficient for fast tds.  Beasley acrobatic td catch.  Carr beauty deep throw td but penalty brought it back.  Great Raider play calling and receivers.  Bills 4th and 1 at 50 shows confidence.  Great throws by Allen.  Late fumble by Waller.  Allen throws a 60+ yard pass to Diggs.  Super throw and catch by Carr and Renfroe & Agholor.  Carr strip fumble.
+<br />
+<br />
+Ravens vs Washington 31 17
+<br />
+(208 receiving yds, 144 rushing yds, 2 to) vs (314 receiving yds, 69 rushing yds, 1 to)
+<br />
+<br />
+Ravens d closes pocket fast.  Washington fumble near red zone sets up td.  Haskins poised.  Lamar breaks free for 50 yard td run.  Gibson a great football player.  Lamar extends plays until receivers are open and throws darts.  Washington needs better play calling against aggressive Ravens d.  Haskins fights.
 <br />
 <br />
 Top defenses (hold to 20 or less well)
@@ -167,6 +175,8 @@ Packers nn
 Giants ne
 <br />
 Rams nw
+<br />
+Ravens as
 <br />
 <br />
 Tier 2
@@ -209,7 +219,31 @@ Packers * nn
 <br />
 Panthers ** ns
 <br />
-Bills ne
+Bills ae
+<br />
+Ravens * as
+<br />
+Seahawks nw
+<br />
+<br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
+1. AFC South
+<br />
+2. NFC North
+<br />
+3. NFC South
+<br />
+4. AFC West
+<br />
+5. NFC East
+<br />
+6. NFC West
+<br />
+7. AFC East
+<br />
+8. AFC North
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
