@@ -118,7 +118,7 @@ Cardinals vs Panthers 21 31
 Panthers d closing pocket fast.  Great playing calling and runs by Panthers.  Cardinals interception sets up td.  Gorgeous hurdle by Panther receiver.  Teddy makes great throws.  Davis runs well.  Panthers d applying pressure.  Murray runs wild for big yardage.
 <br />
 <br />
-Vikings vs Texans 21 23
+Vikings vs Texans 23 21
 <br />
 (260 receiving yds, 162 rushing yds) vs (300 receiving yds, 96 rushing yds, 1 to)
 <br />
@@ -174,7 +174,7 @@ Tier 2
 <br />
 Eagles ne
 <br />
-Texans as
+Vikings nn
 <br />
 Panthers ns
 <br />
