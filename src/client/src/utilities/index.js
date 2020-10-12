@@ -468,7 +468,7 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
 
     return {
         notCompleted: orderBy(formattedGames.filter(x=>!x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
-        completed: orderBy(formattedGames.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
+        completed: orderBy(formattedGames.filter(x=>x.isGameOver),['_id']).sort((a, b) => new Date(b.startDateTime) - new Date(a.startDateTime))
     };
 };
 
