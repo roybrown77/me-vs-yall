@@ -839,7 +839,9 @@ const stats = [
     content: `Week 5: Houston Texans over Jacksonville Jaguars`,
     leagueName: 'NFL',
     date: 'October 11, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 4",
