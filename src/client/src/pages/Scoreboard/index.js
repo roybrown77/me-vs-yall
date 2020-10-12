@@ -504,7 +504,7 @@ class Scoreboard extends Component {
                                 <div style={{marginTop: '-3px'}}>
                                     share picks
                                 </div>
-                                <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" />
+                                <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readonly />
                                 <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
                                     <Alert onClose={this.handleCopyAlertClose} severity="success">
                                       {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
