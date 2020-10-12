@@ -593,6 +593,14 @@ class Game extends Component {
                     </Button>
                   </div>
                 }
+                <div className={classes.startDateTime}>
+                  {
+                    game.gameName && 
+                    <div style={{marginTop: '10px'}}> 
+                      {game.gameName}
+                    </div>
+                  }
+                </div>
             </div>
           );
         } else {
