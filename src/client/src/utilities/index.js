@@ -476,16 +476,17 @@ const getPicks = (games = [], picks = [], teams = []) => {
     const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
     const formattedPicks = sortedGames.map((game)=>{
+        const displayDateTime = moment(new Date(game.startDateTime));
         const teamA = teams.find(x=>x._id === game.competitors[0]._id);
         const teamB = teams.find(x=>x._id === game.competitors[1]._id);
 
         const selected = picks.find(x=>x.gameId === game._id && (x.pickId === game.competitors[0]._id || x.pickId === game.competitors[1]._id));
 
         if (selected) {
-            return selected.pickId === game.competitors[0]._id ? teamA.name + ' over ' + teamB.name : teamB.name + ' over ' + teamA.name;
+            return selected.pickId === game.competitors[0]._id ? teamA.name + ' over ' + teamB.name : teamB.name + ' over ' + teamA.name + ', ' + displayDateTime.format('dddd MMM D YYYY h:mm a');
         }
 
-        return teamA.name + ' vs ' + teamB.name;
+        return teamA.name + ' vs ' + teamB.name + ', ' + displayDateTime.format('dddd MMM D YYYY h:mm a');
     });
 
     return 'https://www.mevsyall.com\n\n' + formattedPicks.join('\n') + '\n\nhttps://www.mevsyall.com\n\n';
