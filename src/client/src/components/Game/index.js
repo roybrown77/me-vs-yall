@@ -789,9 +789,9 @@ class Game extends Component {
                     }
                     {
                       (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
-                      <span style={{marginTop: '10px'}}> 
+                      <div style={{marginTop: '10px'}}> 
                         {game.startDateTimeDisplay}
-                      </span>
+                      </div>
                     }
                     {
                       get(game,'isGameOver') && 
