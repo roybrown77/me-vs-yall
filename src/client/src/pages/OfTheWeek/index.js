@@ -38,6 +38,56 @@ const styles = {
   }
 };
 
+const week52020 = `<div>Buccaneers vs Bears 19 20
+<br />
+(385 receiving yds, 132 rushing yds, 1 to) vs (97 receiving yds, 158 rushing yds, 1 to)
+<br />
+<br />
+Nice Bucs pick.  Great Brady to Evans td drive.  Long drive by Bucs shows balance.  Foles executes solid drive for td.  Bears offense playing with urgency to end half with another td.  Jones runs well.  Bears defense closing pocket faster second half.  Bucs defense getting to Foles.  Lots of field goals.  Foles touch impressive on final winning field goal drive.  Bears d hold.
+<br />
+<br />
+Jaguars vs Texans 14 30
+<br />
+(385 receiving yds, 132 rushing yds, 1 to) vs (97 receiving yds, 158 rushing yds, 1 to)
+<br />
+<br />
+Watson runs to keep drive alive for field goal.  Great second drive td by Minshew.  Watson carves defense for second drive td.  Good vision by Minshew.  2 missed field goals in a row by Jags kicker.  Wild Jags fumble in red zone 4th and 1.  Texans defense makes key stop.  Texans seal deal with missed tackle td.
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1
+<br />
+<br />
+Bears nn
+<br />
+Texans as
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Buccaneers ns
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+* has top defense
+<br />
+<br />
+Tier 1 (35+)
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Texans * as
+<br />
+<br />
+<i>Updated all week until all games are analyzed.</i>
+</div>`;
+
 const week42020 = `<div>Broncos vs Jets 37 28
 <br />
 (242 receiving yds, 117 rushing yds, 3 to) vs (246 receiving yds, 129 rushing yds)
@@ -191,7 +241,7 @@ Panthers ns
 <br />
 Top offenses (score 30 or more well)
 <br />
-** has top defense
+* has top defense
 <br />
 <br />
 Tier 1 (35+)
@@ -244,9 +294,6 @@ Division rankings (based on top defense & offense)
 7. AFC East
 <br />
 8. AFC North
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week32020 = `<div>Bucs vs Broncos 28 10
@@ -410,7 +457,7 @@ Chargers aw
 <br />
 Top offenses (score 30 or more well)
 <br />
-** has top defense
+* has top defense
 <br />
 <br />
 Tier 1 (35+)
@@ -600,7 +647,7 @@ Chargers
 <br />
 Top offenses (score 30 or more well)
 <br />
-** has top defense
+* has top defense
 <br />
 <br />
 Tier 1 (35+)
@@ -806,7 +853,7 @@ Cowboys
 <br />
 Top offenses (score 30 or more well)
 <br />
-** has top defense
+* has top defense
 <br />
 <br />
 Tier 1 (35+)
@@ -834,6 +881,13 @@ Chiefs **
 </div>`;
 
 const stats = [
+  {
+    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 5",
+    content: ReactHtmlParser(week52020),
+    leagueName: 'NFL',
+    date: 'October 12, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 5: Houston Texans over Jacksonville Jaguars`,

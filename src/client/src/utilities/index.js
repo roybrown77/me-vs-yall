@@ -101,7 +101,31 @@ const getImage = (leagueId) => {
     return images[leagueId] && images[leagueId].length > 0 ? images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)] : null;
 };
 
-const leagues = [ 
+const leagues = [
+    {
+        id: '59723313734d1d6202a85f10', 
+        name: 'nfl', 
+        description: 'nfl',
+        years: [2017, 2018, 2019, 2020]
+    },
+    {
+        id: '59723313734d1d6202a85f15', 
+        name: 'ncaaf', 
+        description: 'ncaaf', 
+        years: [2019, 2020]
+    },
+    {
+        id: '59723313734d1d6202a85f17', 
+        name: 'premier', 
+        description: 'premier',
+        years: [2018, 2019, 2020]
+    },
+    {
+        id: '59723313734d1d6202a85f21', 
+        name: 'mlb', 
+        description: 'mlb', 
+        years: [2019,2020]
+    },
     {
         id: '59723313734d1d6202a85f19', 
         name: 'nba', 
@@ -127,30 +151,6 @@ const leagues = [
         years: [2020]
     },
     // {
-    //     id: '59723313734d1d6202a85f35', 
-    //     name: 'nba2k', 
-    //     description: 'nba 2k', 
-    //     years: [2020]
-    // },
-    {
-        id: '59723313734d1d6202a85f10', 
-        name: 'nfl', 
-        description: 'nfl',
-        years: [2017, 2018, 2019, 2020]
-    },
-    {
-        id: '59723313734d1d6202a85f15', 
-        name: 'ncaaf', 
-        description: 'ncaaf', 
-        years: [2019, 2020]
-    },
-    {
-        id: '59723313734d1d6202a85f17', 
-        name: 'premier', 
-        description: 'premier',
-        years: [2018, 2019, 2020]
-    },
-    // {
     //     id: '59723313734d1d6202a85f31', 
     //     name: 'ncaaw', 
     //     description: 'ncaaw', 
@@ -168,12 +168,12 @@ const leagues = [
     //     description: 'mls',
     //     years: [2019]
     // },
-    {
-        id: '59723313734d1d6202a85f21', 
-        name: 'mlb', 
-        description: 'mlb', 
-        years: [2019,2020]
-    },
+    // {
+    //     id: '59723313734d1d6202a85f35', 
+    //     name: 'nba2k', 
+    //     description: 'nba 2k', 
+    //     years: [2020]
+    // },
     // {
     //     id: '59723313734d1d6202a85f23', 
     //     name: 'xgames', 
