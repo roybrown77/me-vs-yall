@@ -4109,7 +4109,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
                 spreadDateTime: get(score,'spread.spreadDateTime')
             });
 
-            set(updatedGame,'gameName',get(score,'gameName',''));
+            set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
         }
 
         if (isGameOver) {
