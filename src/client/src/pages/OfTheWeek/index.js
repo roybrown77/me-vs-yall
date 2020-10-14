@@ -54,6 +54,14 @@ Jaguars vs Texans 14 30
 Watson runs to keep drive alive for field goal.  Great second drive td by Minshew.  Watson carves defense for second drive td.  Good vision by Minshew.  2 missed field goals in a row by Jags kicker.  Wild Jags fumble in red zone 4th and 1.  Texans defense makes key stop.  Texans seal deal with missed tackle td.
 <br />
 <br />
+Eagles vs Steelers 29 38
+<br />
+(276 receiving yds, 94 rushing yds, 2 to) vs (239 receiving yds, 136 rushing yds, 1 to)
+<br />
+<br />
+Steelers d closing pocket fast.  Eagles d coming hard.  Big Ben as cool as cucumber in pocket.  Great Steeler play calling.  Eagles Sanders monster run.  Conner is a good back.  Eagles play calling could be better.  Ray Ray almost scored on big end around run.  Nice td touches from Wentz.  Fulgham a monster.  Eagles fight back to nearly win but Steelers d hold and field goal missed.  Claypool td dances had potential.
+<br />
+<br />
 Top defenses (hold to 20 or less well)
 <br />
 <br />
@@ -79,10 +87,15 @@ Top offenses (score 30 or more well)
 Tier 1 (35+)
 <br />
 <br />
+Steelers an
+<br />
+<br />
 Tier 2
 <br />
 <br />
 Texans * as
+<br />
+Eagles ne
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
