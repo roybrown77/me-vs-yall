@@ -62,6 +62,30 @@ Eagles vs Steelers 29 38
 Steelers d closing pocket fast.  Eagles d coming hard.  Big Ben as cool as cucumber in pocket.  Great Steeler play calling.  Eagles Sanders monster run.  Conner is a good back.  Eagles play calling could be better.  Ray Ray almost scored on big end around run.  Nice td touches from Wentz.  Fulgham a monster.  Eagles fight back to nearly win but Steelers d hold and field goal missed.  Claypool td dances had potential.
 <br />
 <br />
+Cardinals vs Jets 30 10
+<br />
+(380 receiving yds, 127 rushing yds, 1 to) vs (195 receiving yds, 123 rushing yds)
+<br />
+<br />
+Murray fleet of foot early.  Great td run by Edmonds.  Flacco starts for Jets.  Flacco with a rare run.  Jets offense stalls.  Jets d bat ball for interception.  Murray accurate.  Nice deep ball by Flacco sets up td.  Balanced Cardinals offense.
+<br />
+<br />
+Rams vs Football Team 30 10
+<br />
+(309 receiving yds, 129 rushing yds, 1 to) vs (111 receiving yds, 38 rushing yds)
+<br />
+<br />
+Well oiled Rams offense very creative.  Antonio Gibson good.  Kyle Allen runs one in.  Rams d close the pocket fast.  Now you see me now you don’t fast.  Allen knocked out game.  Alex Smith in but sacked soon.  Washington d bring heat to Goff.  Cupp & Akers are fast.  Washington needs better play calling against aggressive Rams d.
+<br />
+<br />
+Raiders vs Chiefs 40 32
+<br />
+(347 receiving yds, 144 rushing yds, 1 to) vs (340 receiving yds, 80 rushing yds, 1 to)
+<br />
+<br />
+Missle thrown to Hill by Mahomes called back due to penalty.  Raidahs came to play with deep shot execution.  Raiders closing pocket but Mahomes dissects.  Mahomes jump shot end zone dance exquisite.  Raiders run game great.  Fun game to watch with all the scoring.  Raiders d gets to Mahomes with sack and key interception to set up td.  Raiders 4th and 1 conversion at Chiefs 44 shows guts to get first down and end game without giving it back to Mahomes.
+<br />
+<br />
 Top defenses (hold to 20 or less well)
 <br />
 <br />
@@ -71,6 +95,10 @@ Tier 1
 Bears nn
 <br />
 Texans as
+<br />
+Cardinals nw
+<br />
+Rams nw
 <br />
 <br />
 Tier 2
@@ -89,6 +117,10 @@ Tier 1 (35+)
 <br />
 Steelers an
 <br />
+Raiders aw
+<br />
+Chiefs aw
+<br />
 <br />
 Tier 2
 <br />
@@ -96,6 +128,10 @@ Tier 2
 Texans * as
 <br />
 Eagles ne
+<br />
+Cardinals * nw
+<br />
+Rams * nw
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
