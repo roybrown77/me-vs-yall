@@ -59,7 +59,7 @@ Eagles vs Steelers 29 38
 (276 receiving yds, 94 rushing yds, 2 to) vs (239 receiving yds, 136 rushing yds, 1 to)
 <br />
 <br />
-Steelers d closing pocket fast.  Eagles d coming hard.  Big Ben as cool as cucumber in pocket.  Great Steeler play calling.  Eagles Sanders monster run.  Conner is a good back.  Eagles play calling could be better.  Ray Ray almost scored on big end around run.  Nice td touches from Wentz.  Fulgham a monster.  Eagles fight back to nearly win but Steelers d hold and field goal missed.  Claypool td dances had potential.
+Steelers d closing pocket fast.  Eagles d coming hard.  Big Ben as cool as cucumber in pocket.  Great Steeler play calling.  Eagles Sanders monster run.  Conner is a good back.  Eagles play calling could be better.  Ray Ray almost scored on big end around run.  Nice td touches from Wentz.  Fulgham a monster.  Eagles fight back to nearly win but Steelers d hold and field goal missed.  Claypool td dances not great.
 <br />
 <br />
 Cardinals vs Jets 30 10
