@@ -86,6 +86,82 @@ Raiders vs Chiefs 40 32
 Missle thrown to Hill by Mahomes called back due to penalty.  Raidahs came to play with deep shot execution.  Raiders closing pocket but Mahomes dissects.  Mahomes jump shot end zone dance exquisite.  Raiders run game great.  Fun game to watch with all the scoring.  Raiders d gets to Mahomes with sack and key interception to set up td.  Raiders 4th and 1 conversion at Chiefs 44 shows guts to get first down and end game without giving it back to Mahomes.
 <br />
 <br />
+Panthers vs Falcons 23 16
+<br />
+(313 receiving yds, 124 rushing yds) vs (226 receiving yds, 166 rushing yds, 1 to)
+<br />
+<br />
+Great Falcons first drive.  Bridgewater very sharp in pocket with pressure.  Davis moves pile with strong running.  Great Panther play calling.  Gurley runs great.  Ryan off target and throws pick in end zone.
+<br />
+<br />
+Bengals vs Ravens 3 27
+<br />
+(183 receiving yds, 70 rushing yds, 3 to) vs (180 receiving yds, 161 rushing yds, 1 to)
+<br />
+<br />
+Ravens d closing pocket fast.  Great hands by Andrews.  Burrow holding ball too long.  Poor pass rush blocking by Bengals.  Ravens offense stalls.
+<br />
+<br />
+Dolphins vs 49ers 43 17
+<br />
+(350 receiving yds, 94 rushing yds) vs (171 receiving yds, 131 rushing yds, 3 to)
+<br />
+<br />
+Fitzy launching balls deep early.  Dolphins d pressuring Jimmy G.  Balanced Miami offense.  49ers backs running well.  Fitzy very sharp throws.  Miami receivers getting behind 49ers secondary for big plays.  Jimmy making poor throws.  Beathard in for Jimmy.
+<br />
+<br />
+Giants vs Cowboys 34 37
+<br />
+(222 receiving yds, 89 rushing yds, 1 to) vs (288 receiving yds, 126 rushing yds, 2 to)
+<br />
+<br />
+Giants d getting to Dak.  Creative play calling from Giants.  Zeke running well.  Good Cowboys drive.  Cowboys d sack fumble for td.  Fake field goal results in Giants td that’s brought back due to violation.  Dak making great throws.  Dak td with a Philly Special from Zeke.  Dalton in for Dak due to injured foot.  Cowboys d pressure Jones.  Giants fight with good balanced drive to take lead.  Incredible catch by Gallup sets up game winning field goal by Cowboys.  Pray for Dak.
+<br />
+<br />
+Colts vs Browns 23 32
+<br />
+(243 receiving yds, 68 rushing yds, 2 to) vs (265 receiving yds, 124 rushing yds, 2 to)
+<br />
+<br />
+Browns offense spreading ball well for very confident first drive.  Colts super on 4th and goal td on first drive.  Good hands by Browns receivers.  Browns d getting to Rivers.  Browns runway td dance exceptional.  Colts Rogers kick return td.  Browns offense stalls until they start running ball again.
+<br />
+<br />
+Vikings vs Seahawks 26 27
+<br />
+(347 receiving yds, 144 rushing yds, 1 to) vs (340 receiving yds, 80 rushing yds, 1 to)
+<br />
+<br />
+Cook runs well for td.  Vikings d aggressive.  Wilson holding ball too long stalls offense.  Vikings lead 13-0 at half.  Great touch by Wilson for first td.  Great throw by Wilson for second td.  One handed interception by Seattle.  Carson rolls on Vikings d for thunderous td run.  Vikings fight back to take lead.  Seattle stops Vikings 4th and inches in red zone.  Wilson leads drive with less than 2 minutes to end with Metcalf td.
+<br />
+<br />
+Chargers vs Saints 27 30
+<br />
+(264 receiving yds, 111 rushing yds) vs (325 receiving yds, 95 rushing yds, 1 to)
+<br />
+<br />
+Great balanced Charger play calling.  Nice td throw by Herbert and catch by Allen.  Saints d getting to Herbert.  Great play action deep ball by Herbert to setup td.  Saints offense stalls.  Sanders and Kamara do heavy lifting for Saints.  Wide, wide, wide open Mike Williams scores td.  Crazy sweet catch by Kamara sets up qb td run by Hill to tie it.  Mike Williams Moss’s the whole Saints secondary but field goal to win doinks off bottom bar out.  Saints d hold to win game in OT.
+<br />
+<br />
+Bills vs Titans 16 42
+<br />
+(285 receiving yds, 95 rushing yds, 3 to) vs (195 receiving yds, 139 rushing yds)
+<br />
+<br />
+Titans d look 100% Fresh with pressure.  Balanced attack by Titans.  Bills offense stalls.  They may need more running and play action.  Spectacular td run finger roll by Tannehill.  Allen can throw lasers.  Henry is a man pounding the rock.
+<br />
+<br />
+Bye teams
+<br />
+<br />
+Broncos
+<br />
+Lions
+<br />
+Packers
+<br />
+Patriots
+<br />
+<br />
 Top defenses (hold to 20 or less well)
 <br />
 <br />
@@ -99,6 +175,14 @@ Texans as
 Cardinals nw
 <br />
 Rams nw
+<br />
+Panthers ns
+<br />
+Ravens an
+<br />
+Dolphins ae
+<br />
+Titans as
 <br />
 <br />
 Tier 2
@@ -121,6 +205,10 @@ Raiders aw
 <br />
 Chiefs aw
 <br />
+Dolpins ae
+<br />
+Titans as
+<br />
 <br />
 Tier 2
 <br />
@@ -132,6 +220,34 @@ Eagles ne
 Cardinals * nw
 <br />
 Rams * nw
+<br />
+Giants ne
+<br />
+Cowboys ne
+<br />
+Browns as
+<br />
+Saints ns
+<br />
+<br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
+1. NFC West 4
+<br />
+2. NFC South 3
+<br />
+3. AFC South 3
+<br />
+4. NFC East 3
+<br />
+5. AFC West 2
+<br />
+6. AFC North 2
+<br />
+7. AFC East 2
+<br />
+8. NFC North 1
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
