@@ -1047,6 +1047,13 @@ Chiefs **
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 6: Green Bay Packers over Tampa Bay Buccaneers`,
+    leagueName: 'NFL',
+    date: 'October 18, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 5",
     content: ReactHtmlParser(week52020),
     leagueName: 'NFL',
