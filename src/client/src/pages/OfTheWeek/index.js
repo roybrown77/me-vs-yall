@@ -205,9 +205,9 @@ Raiders aw
 <br />
 Chiefs aw
 <br />
-Dolpins ae
+Dolphins * ae
 <br />
-Titans as
+Titans * as
 <br />
 <br />
 Tier 2
