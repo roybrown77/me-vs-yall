@@ -3571,9 +3571,9 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   const quarter = badPlays && playHistory.length > 0 ? 
   get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
 
-  const orderedPlayHistory = orderBy(playHistory, ['quarter', 'time'], ['desc', 'asc']);
+  const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
-  if (playHistory.length > 0 && (orderedPlayHistory[0].lastPlay === lastPlay || (orderedPlayHistory[0].lastPlay.length > 20 ? lastPlay.includes(orderedPlayHistory[0].lastPlay.substr(10,orderedPlayHistory[0].lastPlay.length-5)) : false))) {
+  if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.length > 0 && playHistory[0].lastPlay === checkLastPlay)) {
     console.log(`${message} getPlayHistory no play.`);
     return playHistory;
   }
