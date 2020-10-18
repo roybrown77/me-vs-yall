@@ -266,7 +266,7 @@ class Home extends Component {
                           NBA
                           {
                             areAnyNbaGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                            <img style={styles.ball} src={basketball} alt=""/>
                           }
                         </div>
                         <div>
@@ -287,7 +287,7 @@ class Home extends Component {
                         BOXING
                         {
                           areAnyBoxingMatchesInProgress &&
-                          <img className='fast-flash' style={styles.ball} src={boxing} alt=""/>
+                          <img style={styles.ball} src={boxing} alt=""/>
                         }
                         </div>
                         <div>
@@ -308,7 +308,7 @@ class Home extends Component {
                         MMA
                         {
                           areAnyMMAMatchesInProgress &&
-                          <img className='fast-flash' style={styles.ball} src={mma} alt=""/>
+                          <img style={styles.ball} src={mma} alt=""/>
                         }
                         </div>
                         <div>
@@ -329,7 +329,7 @@ class Home extends Component {
                           WNBA
                           {
                             areAnyWnbaGamesInProgress &&
-                            <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                            <img style={styles.ball} src={basketball} alt=""/>
                           }
                         </div>
                         <div>
@@ -350,7 +350,7 @@ class Home extends Component {
                         NBA 2K
                         {
                           areAnyNba2kGamesInProgress &&
-                          <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                          <img style={styles.ball} src={basketball} alt=""/>
                         }
                         </div>
                         <div>
@@ -373,7 +373,7 @@ class Home extends Component {
                         NFL
                         {
                           areAnyNflGamesInProgress &&
-                          <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
+                          <img style={{...styles.ball, width: '57px'}} src={football} alt=""/>
                         }
                         </div>
                         <div>
@@ -394,7 +394,7 @@ class Home extends Component {
                         COLLEGE FOOTBALL
                         {
                           areAnyNCAAFGamesInProgress &&
-                          <img className='fast-flash' style={{...styles.ball, width: '57px'}} src={football} alt=""/>
+                          <img style={{...styles.ball, width: '57px'}} src={football} alt=""/>
                         }
                         </div>
                         <div>
@@ -415,7 +415,7 @@ class Home extends Component {
                         PREMIER LEAGUE
                         {
                           areAnyPremierGamesInProgress &&
-                          <img className='fast-flash' style={{...styles.ball, width: '65px'}} src={soccer} alt=""/>
+                          <img style={{...styles.ball, width: '65px'}} src={soccer} alt=""/>
                         }
                         </div>
                         <div>
@@ -436,7 +436,7 @@ class Home extends Component {
                         MLB
                         {
                           areAnyMlbGamesInProgress &&
-                          <img className='fast-flash' style={{...styles.ball, width: '40px'}} src={baseball} alt=""/>
+                          <img style={{...styles.ball, width: '40px'}} src={baseball} alt=""/>
                         }
                         </div>
                         <div>
@@ -457,7 +457,7 @@ class Home extends Component {
                     WOMENS COLLEGE BASKETBALL
                     {
                       areAnyWomensCollegeBasketballGamesInProgress &&
-                      <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                      <img style={styles.ball} src={basketball} alt=""/>
                     }
                 </Button>
                 {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}
@@ -472,7 +472,7 @@ class Home extends Component {
                     MENS COLLEGE BASKETBALL
                     {
                       areAnyMensCollegeBasketballGamesInProgress &&
-                      <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                      <img style={styles.ball} src={basketball} alt=""/>
                     }
                 </Button>
                 {mensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={mensCollegeBasketballStartDateTime}/>}
@@ -487,7 +487,7 @@ class Home extends Component {
                     MLS
                     {
                       areAnyMlsGamesInProgress &&
-                      <img className='fast-flash' style={styles.ball} src={soccer} alt=""/>
+                      <img style={styles.ball} src={soccer} alt=""/>
                     }
                 </Button>
                 {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
@@ -502,7 +502,7 @@ class Home extends Component {
                     X GAMES
                     {
                       areAnyXGamesInProgress &&
-                      <img className='fast-flash' style={styles.ball} src={basketball} alt=""/>
+                      <img style={styles.ball} src={basketball} alt=""/>
                     }
                 </Button>
                 {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
