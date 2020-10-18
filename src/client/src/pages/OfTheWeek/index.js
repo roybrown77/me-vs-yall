@@ -153,13 +153,13 @@ Titans d look 100% Fresh with pressure.  Balanced attack by Titans.  Bills offen
 Bye teams
 <br />
 <br />
-Broncos
+Broncos as
 <br />
-Lions
+Lions nn
 <br />
-Packers
+Packers nn
 <br />
-Patriots
+Patriots ae
 <br />
 <br />
 Top defenses (hold to 20 or less well)
