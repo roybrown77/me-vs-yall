@@ -38,7 +38,11 @@ const styles = {
   }
 };
 
-const week52020 = `<div>Buccaneers vs Bears 19 20
+const week52020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Buccaneers vs Bears 19 20
 <br />
 (253 receiving yds, 106 rushing yds, 1 to) vs (243 receiving yds, 35 rushing yds, 1 to)
 <br />
@@ -248,9 +252,6 @@ Division rankings (based on top defense & offense)
 7. AFC East 2
 <br />
 8. NFC North 1
-<br />
-<br />
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
