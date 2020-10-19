@@ -250,7 +250,7 @@ Division rankings (based on top defense & offense)
 8. NFC North 1
 <br />
 <br />
-<i>The NFL bounce back is real.  Teams that lose for a while that furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
