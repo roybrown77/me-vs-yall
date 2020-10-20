@@ -141,6 +141,10 @@ class Home extends Component {
       window.location = "https://www.instagram.com/_mevsyall";
     };
 
+    tube = () => {
+      window.location = "https://www.youtube.com/channel/UC3BFY6ohNlayFkPVnlPKqww";
+    };
+
     navigateTo = (route) => {
       history.push(route);
     };
@@ -190,6 +194,7 @@ class Home extends Component {
       const womensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f31', womensCollegeBasketballGames);
       const mensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f33', mensCollegeBasketballGames);
       const image = images['59723313734d1d6202a85f15'][getRandomIntInclusive(2,3)];
+      const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`
 
       return (
         <div className="fade-in">
@@ -527,12 +532,17 @@ class Home extends Component {
               </div>
             </div>
           }
-          <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif'}}>
+          {true && <div style={{marginTop:'40px'}}>
+            <iframe style={{borderStyle:'none'}} width="420" height="315" title="Los D Baya" src={videoUrl}>
+            </iframe>
+          </div>}
+          <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif', marginTop: '40px'}}>
             <div style={styles.footerLinks}>
               <div>
                 <div><Link style={styles.link} to={'/tips'}>Tips</Link></div>
                 <div><Link style={styles.link} to={'/shop'}>Shop</Link></div>
                 <div><Link style={styles.link} to={'/play'}>Play</Link></div>
+                <div><Link style={styles.link} to={''} onClick={()=>this.tube()}>Tube</Link></div>
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link style={styles.link} to={'/about'}>About</Link></div>
