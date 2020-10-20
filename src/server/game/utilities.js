@@ -1048,6 +1048,7 @@ const ncaaTeams = [
         shortLocation: "TCU",
         name: "Horned Frogs",
         color: '#4D1979',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9002",
@@ -1082,6 +1083,7 @@ const ncaaTeams = [
         shortLocation: "OKLA",
         name: "Sooners",
         color: '#841617',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9006",
@@ -1090,6 +1092,7 @@ const ncaaTeams = [
         shortLocation: "OSU",
         name: "Buckeyes",
         color: '#BB0000',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9007",
@@ -1098,6 +1101,7 @@ const ncaaTeams = [
         shortLocation: "TEX",
         name: "Longhorns",
         color: '#BF5700',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9008",
@@ -1106,6 +1110,7 @@ const ncaaTeams = [
         shortLocation: "MD",
         name: "Terrapins",
         color: '#E03A3E',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9009",
@@ -1130,7 +1135,8 @@ const ncaaTeams = [
         location: "Penn State",
         shortLocation: "PSU",
         name: "Nittany Lions",
-        color: '#041E42'
+        color: '#041E42',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab900c",
@@ -1207,6 +1213,7 @@ const ncaaTeams = [
         shortLocation: "WVU",
         name: "Mountaineers",
         color: '#002855',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9015",
@@ -1240,6 +1247,7 @@ const ncaaTeams = [
         shortLocation: "MICH",
         name: "Wolverines",
         color: '#FFCB05',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9019",
@@ -1340,7 +1348,8 @@ const ncaaTeams = [
         location: "Michigan State",
         shortLocation: "MSU",
         name: 'Spartans',
-        color: '#18453B'
+        color: '#18453B',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9025",
@@ -1373,6 +1382,7 @@ const ncaaTeams = [
         shortLocation: "WIS",
         name: "Badgers",
         color: '#C5050C',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9029",
@@ -1436,7 +1446,8 @@ const ncaaTeams = [
         location: "Kansas State",
         shortLocation: "KSU",
         name: "Wildcats",
-        color: '#512888'
+        color: '#512888',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9032",
@@ -1469,7 +1480,8 @@ const ncaaTeams = [
         location: "Rutgers",
         shortLocation: "RUTG",
         name: "Scarlet Knights",
-        color: '#CC0033'
+        color: '#CC0033',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9036",
@@ -1578,7 +1590,8 @@ const ncaaTeams = [
         location: 'Indiana',
         shortLocation: "IND",
         name: "Hoosiers",
-        color: '#990000'
+        color: '#990000',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9049",
@@ -1602,7 +1615,8 @@ const ncaaTeams = [
         location: 'Iowa',
         shortLocation: "IOWA",
         name: "Hawkeyes",
-        color: '#FFCD00'
+        color: '#FFCD00',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab904c",
@@ -1610,7 +1624,8 @@ const ncaaTeams = [
         location: 'Iowa State',
         shortLocation: "ISU",
         name: "Cyclones",
-        color: '#C8102E'
+        color: '#C8102E',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab904d",
@@ -1651,7 +1666,8 @@ const ncaaTeams = [
         location: 'Northwestern',
         shortLocation: "NW",
         name: "Wildcats",
-        color: '#4E2A84'
+        color: '#4E2A84',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9052",
@@ -1758,7 +1774,8 @@ const ncaaTeams = [
         location: 'Oklahoma State',
         shortLocation: "OKST",
         name: "Cowboys",
-        color: '#FF7300'
+        color: '#FF7300',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab905f",
@@ -1774,7 +1791,8 @@ const ncaaTeams = [
         location: 'Texas Tech',
         shortLocation: "TTU",
         name: "Red Raiders",
-        color: '#CC0000'
+        color: '#CC0000',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9061",
@@ -1807,7 +1825,8 @@ const ncaaTeams = [
         location: 'Nebraska',
         shortLocation: "NEB",
         name: "Cornhuskers",
-        color: '#E41C38'
+        color: '#E41C38',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9065",
@@ -1832,7 +1851,8 @@ const ncaaTeams = [
         location: "Kansas",
         shortLocation: "KU",
         name: "Jayhawks",
-        color: '#0051BA'
+        color: '#0051BA',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab9068",
@@ -1840,7 +1860,8 @@ const ncaaTeams = [
         location: "Purdue",
         shortLocation: "PUR",
         name: "Boilermakers",
-        color: '#CEB888'
+        color: '#CEB888',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9069",
@@ -1864,7 +1885,8 @@ const ncaaTeams = [
         location: "Illinois",
         shortLocation: "ILL",
         name: "Fighting Illini",
-        color: '#E84A27'
+        color: '#E84A27',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab906c",
@@ -1880,7 +1902,8 @@ const ncaaTeams = [
         location: "Baylor",
         shortLocation: "BAY",
         name: "Bears",
-        color: '#003015'
+        color: '#003015',
+        conference: 'big12'
     },
     {
         _id: "5b84a2889a4c08bca6ab906e",
@@ -1923,7 +1946,8 @@ const ncaaTeams = [
         location: "Minnesota",
         shortLocation: "MINN",
         name: "Golden Gophers",
-        color: '#7A0019'
+        color: '#7A0019',
+        conference: 'big10'
     },
     {
         _id: "5b84a2889a4c08bca6ab9073",
@@ -3737,6 +3761,8 @@ const getGames = async ({
   return games;
 };
 
+const allowedConferences = ["sec","acc","big10","big12"];
+
 const formatGames = ({message, games, leagueId, year, teams}) => {
     let formattedGames = [];
 
@@ -3751,8 +3777,8 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
             console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
             console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
         } else {
-            if (leagueId === "59723313734d1d6202a85f15" && !(["sec","acc"].includes(awayTeam.conference) && ["sec","acc"].includes(homeTeam.conference))) {
-                console.log(`${message} formatGames teams are not in acc or sec: ${JSON.stringify(game)}`);
+            if (leagueId === "59723313734d1d6202a85f15" && !(allowedConferences.includes(awayTeam.conference) && allowedConferences.includes(homeTeam.conference))) {
+                console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
             } else {
                 const competitors = [
                     {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
