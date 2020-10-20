@@ -38,6 +38,70 @@ const styles = {
   }
 };
 
+const week62020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Ravens vs Eagles 30 28
+<br />
+(186 receiving yds, 182 rushing yds) vs (213 receiving yds, 194 rushing yds, 1 to)
+<br />
+<br />
+Deep ball from Wentz dropped.  Great balanced drive by Ravens.  Ravens d closing pocket fast.  Jackson is fast.  Poor execution by Eagles.  Great Sanders run.  Jackson throwing darts.  Eagles fight in 4th to score tds.  Eagles nearly tie game but 2 point conversion run stopped.
+<br />
+<br />
+Washington vs Giants 19 20
+<br />
+(280 receiving yds, 86 rushing yds, 2 to) vs (112 receiving yds, 132 rushing yds, 1 to)
+<br />
+<br />
+Alex Smith starts for Washington.  Jones throws a beauty to Slayton.  New end zone celebrations seem to be running into the tunnel a la Bo.  Giants d aggressive.  Houdini fake hand off by Jones for long qb run.  Jones thinks quick to get rid of ball.  Kyle Allen in for Smith.  Sweet throw and catch td from Allen to Thomas.  Bananas interception catch back of end zone by Washington.  Awesome throw and catch from Allen with less than a minute.  Washington lose attempting 2 point conversion for win.
+<br />
+<br />
+Bye teams
+<br />
+<br />
+Raiders aw
+<br />
+Saints ns
+<br />
+Chargers aw
+<br />
+Seahawks nw
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1
+<br />
+<br />
+Giants ne
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Washington ne
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+* has top defense
+<br />
+<br />
+Tier 1 (35+)
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Ravens an
+<br />
+<br />
+<i>Updated all week until all games are analyzed.</i>
+</div>`;
+
 const week52020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -74,7 +138,7 @@ Cardinals vs Jets 30 10
 Murray fleet of foot early.  Great td run by Edmonds.  Flacco starts for Jets.  Flacco with a rare run.  Jets offense stalls.  Jets d bat ball for interception.  Murray accurate.  Nice deep ball by Flacco sets up td.  Balanced Cardinals offense.
 <br />
 <br />
-Rams vs Football Team 30 10
+Rams vs Washington 30 10
 <br />
 (309 receiving yds, 129 rushing yds, 1 to) vs (111 receiving yds, 38 rushing yds)
 <br />
@@ -1051,6 +1115,13 @@ Chiefs **
 
 const stats = [
   {
+    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 6",
+    content: ReactHtmlParser(week62020),
+    leagueName: 'NFL',
+    date: 'October 20, 2020',
+    author: 'Roy B.'
+  },
+  {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 6: Green Bay Packers over Tampa Bay Buccaneers`,
     leagueName: 'NFL',
@@ -1100,7 +1171,7 @@ const stats = [
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
-    content: `Week 3: Cleveland Browns over Washington Football Team`,
+    content: `Week 3: Cleveland Browns over Washington Washington`,
     leagueName: 'NFL',
     date: 'September 27, 2020',
     author: 'Mack & Beezie',
@@ -1442,7 +1513,7 @@ const stats = [
   },
   {
     title: 'STAT OF THE WEEK: VIKINGS AND WASHINGTON ARE COUSINS',
-    content: `Kirk Cousins played for the Washington Football Team last year and currently with the Minnesota Vikings.  As with the 
+    content: `Kirk Cousins played for the Washington Washington last year and currently with the Minnesota Vikings.  As with the 
               Washington, Cousins is on track to throw around 4000 yards, 27 tds, 13 ints and sacked 40 times while losing at least 
               half the Vikings games.`,
     leagueName: 'NFL',
