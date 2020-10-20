@@ -1588,7 +1588,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9048",
         leagueId: "59723313734d1d6202a85f15",
         location: 'Indiana',
-        shortLocation: "IND",
+        shortLocation: "IU",
         name: "Hoosiers",
         color: '#990000',
         conference: 'big10'
