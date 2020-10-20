@@ -1055,7 +1055,9 @@ const stats = [
     content: `Week 6: Green Bay Packers over Tampa Bay Buccaneers`,
     leagueName: 'NFL',
     date: 'October 18, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 5",
