@@ -498,7 +498,7 @@ class Scoreboard extends Component {
                                 details
                             </div>
                         </div>
-                        <div style={{paddingLeft: '40px'}} onClick={this.handleSpreadModeToggle}>
+                        <div style={{paddingLeft: '30px'}} onClick={this.handleSpreadModeToggle}>
                             <div>
                                 <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
                                     {spreadMode ? <ToggleOn/> : <ToggleOff/>}
@@ -510,7 +510,7 @@ class Scoreboard extends Component {
                         </div>
                         {
                             document.queryCommandSupported('copy') &&
-                            <div style={{paddingLeft: '40px'}}>
+                            <div style={{paddingLeft: '30px'}}>
                                 <div>
                                     <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
                                         <Share/>
