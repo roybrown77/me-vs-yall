@@ -596,7 +596,7 @@ class Game extends Component {
                 <div className={classes.startDateTime}>
                   {
                     game.gameName && 
-                    <div style={{marginTop: '10px', fontSize: '17px'}}> 
+                    <div style={{marginTop: '10px', fontSize: '15px'}}> 
                       {game.gameName}
                     </div>
                   }
@@ -699,7 +699,7 @@ class Game extends Component {
                 <div className={classes.startDateTime}>
                     {
                       game.gameName && 
-                      <div style={{marginTop: '10px', fontSize: '17px'}}> 
+                      <div style={{marginTop: '10px', fontSize: '15px'}}> 
                         {game.gameName}
                       </div>
                     }
