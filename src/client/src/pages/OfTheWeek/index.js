@@ -94,6 +94,8 @@ Tier 1
 <br />
 Giants ne
 <br />
+Lions nn
+<br />
 <br />
 Tier 2
 <br />
@@ -118,6 +120,8 @@ Tier 2
 <br />
 <br />
 Ravens an
+<br />
+Lions * nn
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
