@@ -74,6 +74,14 @@ Lions vs Jaguars 34 16
 Lions d closing pocket fast.  Minshew underhand throw creative.  Lions pounding the rock well with Peterson and Swift.  Jags offense stalls.  Stafford throwing dimes, nickels and quarters.  Sweet defense line interception by Jags.  Galloday Moss’s somebody.  Minshew juke for td run respectable.
 <br />
 <br />
+Bears vs Panthers 23 16
+<br />
+(198 receiving yds, 63 rushing yds, 1 to) vs (216 receiving yds, 112 rushing yds, 3 to)
+<br />
+<br />
+Mean Bears d sack for near safety on Bridgewater.  D line celebration exquisite.  Pick on next throw sets up nice td throw by Foles.  Both offenses show balance.  Panthers d getting to Foles.  Bridgewater drops it in a bucket for Moore.  Strong Bears d hold.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -95,6 +103,8 @@ Tier 1
 Giants ne
 <br />
 Lions nn
+<br />
+Bears nn
 <br />
 <br />
 Tier 2
