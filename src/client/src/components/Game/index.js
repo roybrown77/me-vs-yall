@@ -778,6 +778,7 @@ class Game extends Component {
                               label="Game Name"
                               defaultValue={gameName}
                               fullWidth
+                              multiline={true}
                               InputLabelProps={{
                                 shrink: true,
                               }}
