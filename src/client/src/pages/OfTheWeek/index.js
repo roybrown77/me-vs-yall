@@ -58,6 +58,14 @@ Washington vs Giants 19 20
 Alex Smith starts for Washington.  Jones throws a beauty to Slayton.  New end zone celebrations seem to be running into the tunnel a la Bo.  Giants d aggressive.  Houdini fake hand off by Jones for long qb run.  Jones thinks quick to get rid of ball.  Kyle Allen in for Smith.  Sweet throw and catch td from Allen to Thomas.  Bananas interception catch back of end zone by Washington.  Awesome throw and catch from Allen with less than a minute.  Washington lose attempting 2 point conversion for win.
 <br />
 <br />
+Texans vs Titans 36 42
+<br />
+(335 receiving yds, 92 rushing yds) vs (364 receiving yds, 263 rushing yds, 2 to)
+<br />
+<br />
+Slow start for Texans.  Texans convert 4th and goal.  Tannehill dealing dimes for smart scoring drives.  Watson and Texans d play with urgency to take lead.  Watson to Cobb td a beauty.  Titans retake lead on long run by Henry.  Texans take lead with deep shot by Watson.  Titans payday td drive with less than 2 minutes sends it to OT.  Strong Titans running seals win.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -91,6 +99,11 @@ Top offenses (score 30 or more well)
 <br />
 <br />
 Tier 1 (35+)
+<br />
+<br />
+Texans as
+<br />
+Titans as
 <br />
 <br />
 Tier 2
