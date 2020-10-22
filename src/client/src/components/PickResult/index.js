@@ -1,34 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getBet, getWinnings, formatMoney, getResults, areAnyGamesOver } from '../../utilities';
+import { getResults, areAnyGamesOver } from '../../utilities';
 
-const PickResult = ({games, picks}) => {
+const PickResult = ({games, picks, spreadMode = false}) => {
 	const gamesOver = areAnyGamesOver(games);
-	const results = getResults(games, picks);
-	
-	const winnings = getWinnings(results);
-	const bet = getBet(results);
-	const winloss = (winnings || 0) < 0 ? 'lost' : 'won';
+	const results = getResults(games, picks, spreadMode);
 
 	return (gamesOver && 
 		<div>
 			<div style={{fontSize: '40px', color: 'rgba(0, 0, 0, 0.87)'}}>
 				{results['wins'] +  " - " + results['losses']}
 			</div>
-			{
-				false &&
-				<div style={{fontSize: '20px', color: '#FFC107'}}>
-					ya {winloss} {formatMoney(winnings)} {"bet'n"} {formatMoney(bet)}
-				</div>
-			}
 		</div>
 	);
 };
 
 PickResult.propTypes = {
 	games: PropTypes.array,
-	picks: PropTypes.array
+	picks: PropTypes.array,
+	spreadMode: PropTypes.bool
 };
 
 export default PickResult;

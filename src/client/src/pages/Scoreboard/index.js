@@ -39,7 +39,7 @@ import tecmoWebm from './tecmo-touchdown.webm';
 import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
-import { loadScoreboard, addPick, updatePick, updateGame, showGameDetails } from '../../actions';
+import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle, spreadModeToggle } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
 import { 
     formatWeeks, 
@@ -51,7 +51,7 @@ import {
     getLeagueStartDateTime,
     getImage,
     getPicksNotSelected,
-    getPicks
+    copy
 } from '../../utilities';
 
 import {createBrowserHistory} from 'history';
@@ -287,8 +287,12 @@ class Scoreboard extends Component {
         }));
     }
 
-    handleShowGameDetails = () => {
-        this.props.showGameDetails(!this.props.showDetails);
+    handleShowGameDetailsToggle = () => {
+        this.props.showGameDetailsToggle(!this.props.showDetails);
+    }
+
+    handleSpreadModeToggle = () => {
+        this.props.spreadModeToggle(!this.props.spreadMode);
     }
 
     handleSharePicks = (e) => {
@@ -328,7 +332,8 @@ class Scoreboard extends Component {
             weekId,
             leagueId,
             showDetails,
-            userId
+            userId,
+            spreadMode
         } = this.props;
 
         const {soundOn, openCopyAlert} = this.state;
@@ -337,7 +342,7 @@ class Scoreboard extends Component {
         const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
-        const groupedGames = getGroupedGames(games, picks, teams);
+        const groupedGames = getGroupedGames(games, picks, teams, spreadMode);
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
         const picksNotSelected = getPicksNotSelected(gamesNotStarted, picks);
@@ -346,7 +351,7 @@ class Scoreboard extends Component {
 
         const image = getImage(leagueId);
 
-        const copyData = getPicks(this.props.games,this.props.picks,this.props.teams);
+        const copyData = copy(this.props.games,this.props.picks,this.props.teams);
 
         return (
             <div>
@@ -389,7 +394,7 @@ class Scoreboard extends Component {
                         picks.length > 0 &&
                         areAnyGamesOver && 
                         <div className={classNames(classes.pickResultContainer)}>
-                            <PickResult games={games} picks={picks}/>
+                            <PickResult spreadMode={spreadMode} games={games} picks={picks}/>
                         </div>
                     }
                     {
@@ -483,14 +488,24 @@ class Scoreboard extends Component {
                             fontSize: '17px', 
                             paddingBottom: '20px',
                             fontFamily: 'monospace'}}>
-                        <div onClick={this.handleShowGameDetails}>
+                        <div onClick={this.handleShowGameDetailsToggle}>
                             <div>
-                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetails">
+                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetailsToggle">
                                     {showDetails ? <ToggleOn/> : <ToggleOff/>}
                                 </IconButton>
                             </div>
                             <div style={{marginTop: '-3px'}}>
                                 details
+                            </div>
+                        </div>
+                        <div style={{paddingLeft: '40px'}} onClick={this.handleSpreadModeToggle}>
+                            <div>
+                                <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                                    {spreadMode ? <ToggleOn/> : <ToggleOff/>}
+                                </IconButton>
+                            </div>
+                            <div style={{marginTop: '-3px'}}>
+                                vs spread
                             </div>
                         </div>
                         {
@@ -502,9 +517,9 @@ class Scoreboard extends Component {
                                     </IconButton>
                                 </div>
                                 <div style={{marginTop: '-3px'}}>
-                                    share picks
+                                    share
                                 </div>
-                                <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readonly />
+                                <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
                                 <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
                                     <Alert onClose={this.handleCopyAlertClose} severity="success">
                                       {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
@@ -537,6 +552,7 @@ class Scoreboard extends Component {
                                                 isAuthenticated={isAuthenticated}
                                                 showDetails={showDetails}
                                                 userId={userId}
+                                                spreadMode={spreadMode}
                                             />
                                         </div>
                                     );
@@ -607,7 +623,8 @@ const mapStateToProps = (state, ownProps) => {
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
-    const showDetails = get(ui,'showGameDetails',localStorage.getItem('showGameDetails') !== 'false');
+    const showDetails = get(ui,'showGameDetailsToggle',localStorage.getItem('showGameDetailsToggle') !== 'false');
+    const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') === 'true');
 
     const leagues = get(lookup, 'leagues', []);
     const league = leagues.find(x=>x.id === leagueId);
@@ -651,6 +668,7 @@ const mapStateToProps = (state, ownProps) => {
         teams,
         isAuthenticated,
         showDetails,
+        spreadMode,
         userId
     }
 };
@@ -676,8 +694,10 @@ Scoreboard.propTypes = {
     addPick: PropTypes.func.isRequired,
     updatePick: PropTypes.func.isRequired,
     updateGame: PropTypes.func.isRequired,
-    showGameDetails: PropTypes.func.isRequired,
+    showGameDetailsToggle: PropTypes.func.isRequired,
     showDetails: PropTypes.bool,
+    spreadModeToggle: PropTypes.func.isRequired,
+    spreadMode: PropTypes.bool,
     userId: PropTypes.string
 };
 
@@ -686,5 +706,6 @@ export default connect(mapStateToProps, {
   addPick,
   updatePick,
   updateGame,
-  showGameDetails
+  showGameDetailsToggle,
+  spreadModeToggle
 })(withStyles(styles, { withTheme: true })(Scoreboard));

@@ -20,6 +20,8 @@ import IconButton from '@material-ui/core/IconButton';
 import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
 import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ToggleOn from '@material-ui/icons/ToggleOn';
+import ToggleOff from '@material-ui/icons/ToggleOff';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -38,14 +40,15 @@ import boastyM4a from './boasty.m4a';
 import boastyWebm from './boasty.webm';
 
 import { googleLogin } from '../../middleware/authenticationClient';
-import { loadLeaders } from '../../actions';
+import { loadLeaders, spreadModeToggle } from '../../actions';
 import { 
     formatWeeks, 
     getCurrentWeek, 
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    getImage
+    getImage,
+    getLeaders
 } from '../../utilities';
 
 import {createBrowserHistory} from 'history';
@@ -118,6 +121,9 @@ const styles = theme => ({
   },
   soundButton: {
     color: '#000'
+  },
+  toggleButtonOn: {
+    color: 'blue'
   }
 });                                            
 
@@ -256,6 +262,10 @@ class Leader extends Component {
         }));
     }
 
+    handleSpreadModeToggle = () => {
+        this.props.spreadModeToggle(!this.props.spreadMode);
+    }
+
     render() {
         const { 
             classes, 
@@ -267,7 +277,8 @@ class Leader extends Component {
             weeks = [],
             weekId,
             leagueId,
-            isRollup
+            isRollup,
+            spreadMode
         } = this.props;
 
         const {soundOn} = this.state;
@@ -395,6 +406,23 @@ class Leader extends Component {
                             </IconButton>
                         </div>
                     }
+                    <div style={{
+                            justifyContent: 'center',
+                            display:'flex', 
+                            fontSize: '17px', 
+                            paddingBottom: '20px',
+                            fontFamily: 'monospace'}}>
+                        <div onClick={this.handleSpreadModeToggle}>
+                            <div>
+                                <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                                    {spreadMode ? <ToggleOn/> : <ToggleOff/>}
+                                </IconButton>
+                            </div>
+                            <div style={{marginTop: '-3px'}}>
+                                vs spread
+                            </div>
+                        </div>
+                    </div>
                     {
                         leaders.length > 0 && 
                         <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
@@ -455,14 +483,14 @@ class Leader extends Component {
                                                     <div style={{margin: '12px auto'}}>
                                                         <Popover 
                                                             title={'in Vegas you would have won: ' + leader.vegasWinnings}
-                                                            titleStyle={{color: leader.color, textDecoration:'underline', fontWeight: '700'}}
+                                                            titleStyle={{color: leader.positiveWinnings ? '#009933' : 'red', textDecoration:'underline', fontWeight: '700'}}
                                                         >
                                                             {
                                                                 <div style={{padding:'16px'}}>
-                                                                    <div>{leader.color === 'red' ? '-$' : '$'}{Math.abs(leader.wins * 100 - leader.losses * 110)} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
+                                                                    <div>{leader.positiveWinnings ? '$' : '-$'}{Math.abs(leader.wins * 100 - leader.losses * 110)} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
                                                                     <div style={{paddingTop:'16px'}}>${(leader.wins + leader.losses) * 110} initial bets = {leader.wins + leader.losses} bets x $110</div>
                                                                     <div style={{paddingTop:'16px'}}>${leader.wins * 100 + leader.wins * 110} payout = profit + initial bets</div>
-                                                                    <div style={{paddingTop:'16px'}}><i>assumes you beat the spread</i></div>
+                                                                    {!spreadMode && <div style={{paddingTop:'16px'}}><i>assumes you beat the spread</i></div>}
                                                                 </div>
                                                             }
                                                         </Popover>
@@ -560,12 +588,22 @@ const mapStateToProps = (state, ownProps) => {
     const lookup = state.get('lookup').toJS();
 
     const leaderDomain = state.get('leaderDomain').toJS();
+    const ui = state.get('ui').toJS();
+    const weeksDomain = state.get('weeksDomain').toJS();
+    const authenticationDomain = state.get('authenticationDomain').toJS();
+
     const dataLoading = get(leaderDomain, 'dataLoading');
     const games = get(leaderDomain, 'gameList', []);
-    const leaders = get(leaderDomain, 'leaderList', []);
+    const pickList = get(leaderDomain, 'pickList', []);
+    const userList = get(leaderDomain, 'userList', []);
+    const teamList = get(leaderDomain, 'teamList', []);
+    const isRollup = get(leaderDomain, 'isRollup', false);
     const leagueId = get(leaderDomain, 'leagueId');
 
-    const ui = state.get('ui').toJS();
+    const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') !== 'false');
+    
+    const leaders = getLeaders(games, pickList, userList, teamList, isRollup, spreadMode);
+    
     const request = get(ui,'request');
 
     const leagues = get(lookup, 'leagues', []);
@@ -574,7 +612,7 @@ const mapStateToProps = (state, ownProps) => {
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
 
-    const weeksDomain = state.get('weeksDomain').toJS();
+    
     const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
     const weeks = formatWeeks(rawWeeks);
@@ -582,11 +620,9 @@ const mapStateToProps = (state, ownProps) => {
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
     
-    const authenticationDomain = state.get('authenticationDomain').toJS();
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
-    const isRollup = get(leaderDomain, 'isRollup', false);
     
     return {
         isAuthenticated,
@@ -602,7 +638,8 @@ const mapStateToProps = (state, ownProps) => {
         beginDateTime,
         endDateTime,
         games,
-        isRollup
+        isRollup,
+        spreadMode
     }
 };
 
@@ -625,8 +662,11 @@ Leader.propTypes = {
     loadLeaders: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     isRollup: PropTypes.bool,
+    spreadModeToggle: PropTypes.func.isRequired,
+    spreadMode: PropTypes.bool
 };
 
 export default connect(mapStateToProps, {
-  loadLeaders
+  loadLeaders,
+  spreadModeToggle
 })(withStyles(styles, { withTheme: true })(Leader));

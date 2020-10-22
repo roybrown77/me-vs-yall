@@ -199,9 +199,16 @@ export const selectWeek = (week) => (dispatch, getState) => {
   });
 };
 
-export const showGameDetails = (flag) => (dispatch, getState) => {
+export const showGameDetailsToggle = (flag) => (dispatch, getState) => {
   dispatch({
-    type: 'GAMESHOWDETAILS',
+    type: 'SHOWGAMEDETAILSTOGGLE',
+    flag
+  });
+};
+
+export const spreadModeToggle = (flag) => (dispatch, getState) => {
+  dispatch({
+    type: 'SPREADMODETOGGLE',
     flag
   });
 };

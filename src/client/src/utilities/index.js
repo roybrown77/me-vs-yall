@@ -255,7 +255,7 @@ const formatMoney = (number, places, symbol, thousand, decimal) => {
     return format;
 };
 
-const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false) => {
+const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
     const picksByUser = groupBy(picks, 'userId');
 
     const usersHash = users.reduce((obj, item) => {
@@ -274,7 +274,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
         const user = usersHash[key];
         if (!!user) {
             const leaderPicks = picksByUser[key];
-            const pickResult = getResults(games,leaderPicks);
+            const pickResult = getResults(games,leaderPicks, spreadMode);
             const winnings = getWinnings(pickResult);
 
             result.push({
@@ -290,7 +290,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
                 winsInARow: pickResult.winsInARow,
                 lossesInARow: pickResult.lossesInARow,
                 percentage: pickResult.wins + pickResult.losses > 0 ? parseInt((pickResult.wins/(pickResult.wins + pickResult.losses)) * 100) + '%' : '',
-                color: (winnings || 0) < 0 ? 'red' : '#009933',
+                positiveWinnings: (winnings || 0) < 0 ? false : true,
                 vegasWinnings: ((winnings || 0) < 0 ? '-' : '') + formatMoney(winnings),
                 games: isRollup ? [] : games.map(game=>{
                     const newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
@@ -301,11 +301,11 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
                         ...game,
                         isNewDate,
                         date,
-                        awayTeam: teamsHash[game.competitors[0]._id].name,
-                        awayIndicator: getLeaderIndicator(game,leaderPicks,key,0,1),
+                        awayTeam: (spreadMode && game.competitors[0]._id === get(game,'spread.teamId') ? '(' + get(game,'spread.amount') + ') ': '') + teamsHash[game.competitors[0]._id].name,
+                        awayIndicator: spreadMode ? getSpreadLeaderIndicator(game,leaderPicks,0,1,get(game,'spread.teamId')) : getLeaderIndicator(game,leaderPicks,0,1),
                         awayScore: hasStarted ? (get(game,'competitors.0.score') || 0) : undefined,
-                        homeTeam: teamsHash[game.competitors[1]._id].name,
-                        homeIndicator: getLeaderIndicator(game,leaderPicks,key,1,0),
+                        homeTeam: (spreadMode && game.competitors[1]._id === get(game,'spread.teamId') ? '(' + get(game,'spread.amount') + ') ': '') + teamsHash[game.competitors[1]._id].name,
+                        homeIndicator: spreadMode ? getSpreadLeaderIndicator(game,leaderPicks,1,0,get(game,'spread.teamId')) : getLeaderIndicator(game,leaderPicks,1,0),
                         homeScore: hasStarted ? (get(game,'competitors.1.score') || 0) : undefined
                     }
                 })
@@ -318,7 +318,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
     return orderBy(pickResults, ['winsBeforeGameOver', 'lossesBeforeGameOver', 'userName'], ['desc', 'asc', 'asc']);
 };
 
-const getResults = (games = [], picks = []) => {
+const getResults = (games = [], picks = [], spreadMode = false) => {
     let winsInARow = 0;
     let lossesInARow = 0;
 
@@ -331,10 +331,23 @@ const getResults = (games = [], picks = []) => {
         const gamePicked = picksHash[game._id];
 
         if (gamePicked) {
-            const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
+            
+            let winnerSelected = false;
+
+            if (spreadMode && get(game,'spread.teamId')) {
+                winnerSelected = 
+                (game.competitors[0].score > game.competitors[1].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[0]._id && game.competitors[0].score - game.competitors[1].score >= Math.abs(game.spread.amount)) || 
+                (game.competitors[1].score > game.competitors[0].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[1]._id && game.competitors[1].score - game.competitors[0].score >= Math.abs(game.spread.amount)) || 
+                (game.competitors[0].score > game.competitors[1].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[0]._id && game.competitors[0].score - game.competitors[1].score < Math.abs(game.spread.amount)) || 
+                (game.competitors[1].score > game.competitors[0].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[1]._id && game.competitors[1].score - game.competitors[0].score < Math.abs(game.spread.amount)) || 
+                (game.competitors[0].score >= game.competitors[1].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[1]._id) || 
+                (game.competitors[1].score >= game.competitors[0].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[0]._id);
+            } else {
+                const winner = game.competitors[0].score === game.competitors[1].score ? '000000000000000000000000' : 
                 (game.competitors[0].score > game.competitors[1].score ? game.competitors[0]._id : game.competitors[1]._id)
             
-            const winnerSelected = gamePicked.pickId === winner;
+                winnerSelected = gamePicked.pickId === winner;
+            }
 
             if (winnerSelected) {
                 if (get(game,'isGameOver',false)) {
@@ -441,9 +454,35 @@ const getVegasPicks = (games = []) => {
     });
 };
 
-const getGroupedGames = (games = [], picks = [], teams = []) => {
+const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false) => {
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
+        if (spreadMode) {
+            return {
+            ...game,
+            startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
+            competitors: game.competitors.map((competitor, index)=> {
+                    const team = teams.find(x=>x._id === competitor._id);
+                    const index1 = index;
+                    const index2 = index === 0 ? 1 : 0;
+                    const teamAPick = picks.find(pick=>(pick.pickId === competitor._id) && pick.gameId === game._id);
+                    const selectedWinner = get(game,'spread.teamId') && ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= Math.abs(game.spread.amount)) ||
+                        (game.competitors[index1].score >= game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index2]._id) ||
+                        (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < Math.abs(game.spread.amount)));
+                    return {
+                        ...competitor,
+                        shortLocation: team.shortLocation,
+                        name: team.name || team.location,
+                        color: team.color,
+                        record: competitor.finalRecord || competitor.record,
+                        country: team.country,
+                        selectedWinner,
+                        selected: !!teamAPick
+                    };
+                })
+            };
+        }
+
         return {
             ...game,
             startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
@@ -472,7 +511,7 @@ const getGroupedGames = (games = [], picks = [], teams = []) => {
     };
 };
 
-const getPicks = (games = [], picks = [], teams = []) => {
+const copy = (games = [], picks = [], teams = []) => {
     const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
     let list = "";
@@ -504,22 +543,38 @@ const getAreAnyGamesInProgress = (games = []) => {
     return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)
 };
 
-const getLeaderIndicator = (game,picks,leaderId,index1,index2) => {
+const getLeaderIndicator = (game,picks,index1,index2) => {
     return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.userId === leaderId && pick.gameId === game._id)) || 
+            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.gameId === game._id)) || 
             (game.competitors[index1].score > game.competitors[index2].score && 
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
-                && pick.userId === leaderId && pick.gameId === game._id))) ? '#009933' : 
+                && pick.gameId === game._id))) ? '#009933' : 
 
             game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.userId === leaderId && pick.gameId === game._id)) || 
+            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.gameId === game._id)) || 
             (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
-                && pick.userId === leaderId && pick.gameId === game._id))) ? 'red' : 
+                && pick.gameId === game._id))) ? 'red' : 
 
             moment() > moment(game.startDateTime) && 
-            picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000') && 
-                pick.userId === leaderId && pick.gameId === game._id) ? 'lightblue' : '';
+            picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000')  
+                && pick.gameId === game._id) ? 'lightblue' : '';
+}
+
+const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
+    if (!spread) return;
+
+    const teamAPick = picks.find(pick=>(pick.pickId === game.competitors[index1]._id) && pick.gameId === game._id);
+    
+    return game.isGameOver && get(game,'spread.teamId') &&
+            ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= Math.abs(game.spread.amount)) ||
+            (game.competitors[index1].score >= game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index2]._id) ||
+            (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < Math.abs(game.spread.amount))) 
+            ? '#009933' : 
+
+            game.isGameOver && get(game,'spread.teamId') && ((game.competitors[index1].score === game.competitors[index2].score) || teamAPick) ? 'red' : 
+
+            moment() > moment(game.startDateTime) && teamAPick ? 'lightblue' : '';
 }
 
 const getPicksNotSelected = (games = [], picks = []) => {
@@ -530,6 +585,12 @@ const getPicksNotSelected = (games = [], picks = []) => {
         }
     });
     return count;
+}
+
+const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
+    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+    const picksWithVegas = [...picks, ...getVegasPicks(sortedGames)];
+    return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
 }
 
 export {
@@ -557,5 +618,5 @@ export {
     getRandomIntInclusive,
     images,
     getPicksNotSelected,
-    getPicks
+    copy
 };

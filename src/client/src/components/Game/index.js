@@ -92,8 +92,7 @@ const styles = theme => ({
       borderColor: '#3772FA',
     }
   },
-  button: {
-    fontSize: '1rem',
+  saveButton: {
     fontWeight: "700",
     width: '25%',
     backgroundColor: '#3772FA',
@@ -531,6 +530,8 @@ class Game extends Component {
 
         const inProgress = get(pick,'inProgress',false);
 
+        const spreadMode = localStorage.getItem('spreadModeToggle') === 'true';
+
         if (!showDetails) {
           return (
             <div key={game._id} className={classes.container}>
@@ -586,7 +587,6 @@ class Game extends Component {
                   ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                   <div>
                     <Button 
-                        variant="outlined" 
                         size="small"
                         className={classes.tieButton} onClick={() => this.handleTie(game._id)}>
                         {['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f17'].includes(get(game,'leagueId')) ? 'Draw' : 'Tie'}
@@ -624,14 +624,32 @@ class Game extends Component {
                                     {
                                       ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) &&
                                       <Grid item className={classNames(classes.gameHeader)}>
-                                      <div style={{position:'absolute', padding: '4px',
-                                        display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || (game.winner !== '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                        <img style={{width:'40px'}} src={angry} alt=""/>
+                                    {
+                                      spreadMode &&
+                                      <div>
+                                        <div style={{position:'absolute', padding: '4px',
+                                          display: get(game,'isGameOver') && competitor.selected && !competitor.selectedWinner ? 'block' : 'none'}}>
+                                          <img style={{width:'40px'}} src={angry} alt=""/>
+                                        </div>
+                                        <div style={{position:'absolute', padding: '4px',
+                                          display: get(game,'isGameOver') && competitor.selected && competitor.selectedWinner ? 'block' : 'none'}}>
+                                          <img style={{width:'40px'}} src={money} alt=""/>
+                                        </div>
                                       </div>
-                                      <div style={{position:'absolute', padding: '4px',
-                                        display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner === competitor._id && get(pick,'pickId') === competitor._id) || (game.winner === '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                        <img style={{width:'40px'}} src={money} alt=""/>
+                                    }
+                                    {
+                                      !spreadMode &&
+                                      <div>
+                                        <div style={{position:'absolute', padding: '4px',
+                                          display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || (game.winner !== '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                          <img style={{width:'40px'}} src={angry} alt=""/>
+                                        </div>
+                                        <div style={{position:'absolute', padding: '4px',
+                                          display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner === competitor._id && get(pick,'pickId') === competitor._id) || (game.winner === '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+                                          <img style={{width:'40px'}} src={money} alt=""/>
+                                        </div>
                                       </div>
+                                    }
                                       <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
                                           display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
                                           textAlign: 'right'}}>
@@ -681,7 +699,6 @@ class Game extends Component {
                   ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                   <div>
                     <Button 
-                        variant="outlined" 
                         size="small"
                         className={classes.tieButton} onClick={() => this.handleTie(game._id)}>
                         {['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f17'].includes(get(game,'leagueId')) ? 'Draw' : 'Tie'}
@@ -780,7 +797,8 @@ class Game extends Component {
                           </div>
                           <div>
                             <Button 
-                                className={classes.button} onClick={() => this.handleSaveGame(game._id)}>
+                                size="small"
+                                className={classes.saveButton} onClick={() => this.handleSaveGame(game._id)}>
                                 Save
                             </Button>
                           </div>
@@ -870,7 +888,8 @@ Game.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   showDetails: PropTypes.bool,
   handleMakePick: PropTypes.func,
-  handleUpdateGame: PropTypes.func
+  handleUpdateGame: PropTypes.func,
+  spreadMode: PropTypes.bool
 };
 
 export default withStyles(styles, { withTheme: true })(Game);
