@@ -66,6 +66,14 @@ Texans vs Titans 36 42
 Slow start for Texans.  Texans convert 4th and goal.  Tannehill dealing dimes for smart scoring drives.  Watson and Texans d play with urgency to take lead.  Watson to Cobb td a beauty.  Titans retake lead on long run by Henry.  Texans take lead with deep shot by Watson.  Titans payday td drive with less than 2 minutes sends it to OT.  Strong Titans running seals win.
 <br />
 <br />
+Lions vs Jaguars 34 16
+<br />
+(223 receiving yds, 180 rushing yds, 1 to) vs (243 receiving yds, 44 rushing yds, 2 to)
+<br />
+<br />
+Lions d closing pocket fast.  Minshew underhand throw creative.  Lions pounding the rock well with Peterson and Swift.  Jags offense stalls.  Stafford throwing dimes, nickels and quarters.  Sweet defense line interception by Jags.  Galloday Moss’s somebody.  Minshew juke for td run respectable.
+<br />
+<br />
 Bye teams
 <br />
 <br />
