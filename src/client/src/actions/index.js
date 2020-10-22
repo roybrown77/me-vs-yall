@@ -44,6 +44,10 @@ export const TEAMS_REQUEST = 'TEAMS_REQUEST';
 export const TEAMS_SUCCESS = 'TEAMS_SUCCESS';
 export const TEAMS_FAILURE = 'TEAMS_FAILURE';
 
+export const ARTICLES_REQUEST = 'ARTICLES_REQUEST';
+export const ARTICLES_SUCCESS = 'ARTICLES_SUCCESS';
+export const ARTICLES_FAILURE = 'ARTICLES_FAILURE';
+
 export const CREATEUSER_REQUEST = 'CREATEUSER_REQUEST';
 export const CREATEUSER_SUCCESS = 'CREATEUSER_SUCCESS';
 export const CREATEUSER_FAILURE = 'CREATEUSER_FAILURE';
@@ -170,6 +174,14 @@ const fetchAllTeams = (types) => ({
   }
 });
 
+const fetchArticles = query => ({
+  [CALL_API]: {
+    types: [ ARTICLES_REQUEST, ARTICLES_SUCCESS, ARTICLES_FAILURE ],
+    endpoint: `/api/articlemanagement/gameweeks`,
+    schema: Schemas.ARTICLE_ARRAY
+  }
+});
+
 export const loadUser = () => (dispatch, getState) => {
   const state = getState();
   const ui = state.get('ui').toJS();
@@ -240,6 +252,10 @@ export const loadGamesInProgress = () => (dispatch, getState) => {
 
 export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState) => {
   dispatch(fetchGameWeeks(query));
+};
+
+export const loadArticles = (query, requiredFields = []) => (dispatch, getState) => {
+  dispatch(fetchArticles());
 };
 
 export const loadScoreboard = (query, requiredFields = []) => async (dispatch, getState) => {

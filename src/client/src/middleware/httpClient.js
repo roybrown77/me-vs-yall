@@ -37,6 +37,10 @@ const teamSchema = new schema.Entity('teams', {}, {
   idAttribute: team => team._id
 });
 
+const articleSchema = new schema.Entity('articles', {}, {
+  idAttribute: article => article._id
+});
+
 export const Schemas = {
   GAME: gameSchema,
   GAME_ARRAY: [gameSchema],
@@ -47,7 +51,9 @@ export const Schemas = {
   USER: userSchema,
   USER_ARRAY: [userSchema],
   TEAM: teamSchema,
-  TEAM_ARRAY: [teamSchema]
+  TEAM_ARRAY: [teamSchema],
+  ARTICLE: articleSchema,
+  ARTICLE_ARRAY: [articleSchema]
 };
 
 export const CALL_API = 'Call API';

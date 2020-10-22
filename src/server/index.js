@@ -76,6 +76,9 @@ app.use('/api/usermanagement', UserReadController);
 const UserWriteController = require('./user/UserWriteController');
 app.use('/api/usermanagement', authCheck, UserWriteController);
 
+const ArticleReadController = require('./user/ArticleReadController');
+app.use('/api/articlemanagement', ArticleReadController);
+
 if (nodeEnv === "production") {
   app.use(express.static(path.resolve(__dirname, '../client/build')));
 
