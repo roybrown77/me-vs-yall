@@ -277,6 +277,7 @@ const rootReducer = combineReducers({
   leaderDomain,
   weeksDomain,
   teamDomain,
+  articleDomain,
   ui,
   lookup,
 	errorMessage

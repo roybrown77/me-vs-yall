@@ -76,7 +76,7 @@ app.use('/api/usermanagement', UserReadController);
 const UserWriteController = require('./user/UserWriteController');
 app.use('/api/usermanagement', authCheck, UserWriteController);
 
-const ArticleReadController = require('./user/ArticleReadController');
+const ArticleReadController = require('./article/ArticleReadController');
 app.use('/api/articlemanagement', ArticleReadController);
 
 if (nodeEnv === "production") {

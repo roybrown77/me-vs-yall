@@ -177,7 +177,7 @@ const fetchAllTeams = (types) => ({
 const fetchArticles = query => ({
   [CALL_API]: {
     types: [ ARTICLES_REQUEST, ARTICLES_SUCCESS, ARTICLES_FAILURE ],
-    endpoint: `/api/articlemanagement/gameweeks`,
+    endpoint: `/api/articlemanagement/articles`,
     schema: Schemas.ARTICLE_ARRAY
   }
 });
