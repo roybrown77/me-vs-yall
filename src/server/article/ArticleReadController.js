@@ -1555,7 +1555,7 @@ const stats = [
               Chiefs, Packers, Panthers and Rams are undefeated at home.  The Giants 
               only 2 wins are on the road while they have not won any home games.`,
     leagueName: 'NFL',
-    date: 'November 13, 2018',
+    date: '2018-11-13T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
@@ -1565,7 +1565,7 @@ const stats = [
               Indianapolis Colts from the AFC South with 9.  Impressive since Watson (Texans), Mariota (Titans) and Luck (Colts) were  
               all battling injuries last year.`,
     leagueName: 'NFL',
-    date: 'November 7, 2018',
+    date: '2018-11-07T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
@@ -1573,7 +1573,7 @@ const stats = [
     content: `Cincinnati Bengals defense have allowed the most total points (237) while Baltimore Ravens have  
               allowed the 5th fewest (137).  Bengals have a better record at 5-3 while Ravens are 4-4.`,
     leagueName: 'NFL',
-    date: 'October 30, 2018',
+    date: '2018-10-30T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
@@ -1583,7 +1583,7 @@ const stats = [
               The current top 3 in the NFC with winning records are Saints (Brees), Rams (Goff) and Eagles (Wentz).  Bucs (Fitzpatrick) and 
               Falcons (Ryan) are in top 3 if you exclude winning records.  You could blame their defense.`,
     leagueName: 'NFL',
-    date: 'October 23, 2018',
+    date: '2018-10-23T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
@@ -1593,7 +1593,7 @@ const stats = [
               Keep in mind this also means the coaching staff/players on these teams are prepared enough to march down 
               the field and consistently score in the red zone.`,
     leagueName: 'NFL',
-    date: 'October 16, 2018',
+    date: '2018-10-16T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
@@ -1602,21 +1602,21 @@ const stats = [
               J.J. Watt (Texans) and T.J. Watt (Steelers) with 6.  All have a 
               chance to break the record of 22.5 set by Michael Strahan (Giants).`,
     leagueName: 'NFL',
-    date: 'October 10, 2018',
+    date: '2018-10-10T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
     title: 'STAT OF THE WEEK: GIVE THE KID SOME CRED',
     content: 'Patrick Mahomes and the Kansas City Chiefs are undefeated at 4-0 which includes 3 road wins.',
     leagueName: 'NFL',
-    date: 'October 3, 2018',
+    date: '2018-10-03T05:00:00.000Z',
     author: 'Roy B.'
   },
   {
     title: 'STAT OF THE WEEK: HOME FIELD ADVANTAGE IS REAL',
     content: '16 out of 32 teams have not won on the road after 3 weeks.',
     leagueName: 'NFL',
-    date: 'September 25, 2018',
+    date: '2018-09-25T05:00:00.000Z',
     author: 'Roy B.'
   }
 ];
