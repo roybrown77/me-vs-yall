@@ -106,6 +106,22 @@ Browns vs Steelers 7 38
 Steelers d pick 6.  Steelers d closing pocket fast.  Claypool on a roll with good hands.  Balanced Steeler offensive attack.  Mayfield holding ball too long.  Big Ben in form with throws.  It was over by the half.  Browns play calling could have been more balanced to offset rush.
 <br />
 <br />
+Bengals vs Colts 27 31
+<br />
+(313 receiving yds, 98 rushing yds, 1 to) vs (371 receiving yds, 59 rushing yds, 2 to)
+<br />
+<br />
+Burrow smart in pocket.  Bengals secondary locking down.  Bengals run game strong.  Sweet deep throw by Rivers sets up td.  Colts play calling improves.  Pascal jump td catch athletically delightful.  Burrow delivers dime from end zone.  Doyle td catch impressive to take lead.  Bates interception electric.  Blackmon interception seals win for Colts.
+<br />
+<br />
+Jets vs Dolphins 0 24
+<br />
+(186 receiving yds, 115 rushing yds, 1 to) vs (200 receiving yds, 110 rushing yds, 2 to)
+<br />
+<br />
+Fitzy blocking for back is what men do.  Dolphins play smart and hard.  Williams td dance fun.  Both defenses closing pocket fast.  Dirty hit on Fitzy.  Left hand shovel pass from Fitz is for gamers.  Jets run game solid.  Bad Jets play calling.  May interception took concentration.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -135,6 +151,8 @@ Broncos aw
 Patriots ae
 <br />
 Steelers an
+<br />
+Dolphins an
 <br />
 <br />
 Tier 2
@@ -166,6 +184,8 @@ Tier 2
 Ravens an
 <br />
 Lions * nn
+<br />
+Colts as
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
