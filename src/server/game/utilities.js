@@ -1379,7 +1379,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9028",
         leagueId: "59723313734d1d6202a85f15",
         location: "Wisconsin",
-        shortLocation: "WIS",
+        shortLocation: "WISC",
         name: "Badgers",
         color: '#C5050C',
         conference: 'big10'
