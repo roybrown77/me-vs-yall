@@ -82,6 +82,30 @@ Bears vs Panthers 23 16
 Mean Bears d sack for near safety on Bridgewater.  D line celebration exquisite.  Pick on next throw sets up nice td throw by Foles.  Both offenses show balance.  Panthers d getting to Foles.  Bridgewater drops it in a bucket for Moore.  Strong Bears d hold.
 <br />
 <br />
+Falcons vs Vikings 40 23
+<br />
+(371 receiving yds, 99 rushing yds, 1 to) vs (343 receiving yds, 32 rushing yds, 3 to)
+<br />
+<br />
+Falcons d hyped to get pick off first pass to setup td.  Wild Falcons fumble after big run.  Falcons d stout to stop 4th and goal line.  Mattison hurdle super.  Solid Falcon play calling.  Cousins throwing picks like Halloween candy.  Jefferson td dance unique.  Matt Ryan making good decisions.  Vikings onside kicks are horrible.
+<br />
+<br />
+Broncos vs Patriots 18 12
+<br />
+(189 receiving yds, 135 rushing yds, 2 to) vs (195 receiving yds, 117 rushing yds, 3 to)
+<br />
+<br />
+Superman sack on Cam blindside.  Both defenses playing well.  Lots of field goals.  Poor blocking by Patriots.  Broncos run game solid.  Patriots d getting to Lock.  Lots of turnovers.  Cam holding ball too long.
+<br />
+<br />
+Browns vs Steelers 7 38
+<br />
+(165 receiving yds, 75 rushing yds, 2 to) vs (168 receiving yds, 129 rushing yds)
+<br />
+<br />
+Steelers d pick 6.  Steelers d closing pocket fast.  Claypool on a roll with good hands.  Balanced Steeler offensive attack.  Mayfield holding ball too long.  Big Ben in form with throws.  It was over by the half.  Browns play calling could have been more balanced to offset rush.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -106,6 +130,12 @@ Lions nn
 <br />
 Bears nn
 <br />
+Broncos aw
+<br />
+Patriots ae
+<br />
+Steelers an
+<br />
 <br />
 Tier 2
 <br />
@@ -124,6 +154,10 @@ Tier 1 (35+)
 Texans as
 <br />
 Titans as
+<br />
+Falcons ns
+<br />
+Steelers * an
 <br />
 <br />
 Tier 2
