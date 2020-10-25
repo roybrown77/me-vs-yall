@@ -51,6 +51,46 @@ Bears vs Panthers 23 16
 Mean Bears d sack for near safety on Bridgewater.  D line celebration exquisite.  Pick on next throw sets up nice td throw by Foles.  Both offenses show balance.  Panthers d getting to Foles.  Bridgewater drops it in a bucket for Moore.  Strong Bears d hold.
 <br />
 <br />
+Falcons vs Vikings 40 23
+<br />
+(371 receiving yds, 99 rushing yds, 1 to) vs (343 receiving yds, 32 rushing yds, 3 to)
+<br />
+<br />
+Falcons d hyped to get pick off first pass to setup td.  Wild Falcons fumble after big run.  Falcons d stout to stop 4th and goal line.  Mattison hurdle super.  Solid Falcon play calling.  Cousins throwing picks like Halloween candy.  Jefferson td dance unique.  Matt Ryan making good decisions.  Vikings onside kicks are horrible.
+<br />
+<br />
+Broncos vs Patriots 18 12
+<br />
+(189 receiving yds, 135 rushing yds, 2 to) vs (195 receiving yds, 117 rushing yds, 3 to)
+<br />
+<br />
+Superman sack on Cam blindside.  Both defenses playing well.  Lots of field goals.  Poor blocking by Patriots.  Broncos run game solid.  Patriots d getting to Lock.  Lots of turnovers.  Cam holding ball too long.
+<br />
+<br />
+Browns vs Steelers 7 38
+<br />
+(165 receiving yds, 75 rushing yds, 2 to) vs (168 receiving yds, 129 rushing yds)
+<br />
+<br />
+Steelers d pick 6.  Steelers d closing pocket fast.  Claypool on a roll with good hands.  Balanced Steeler offensive attack.  Mayfield holding ball too long.  Big Ben in form with throws.  It was over by the half.  Browns play calling could have been more balanced to offset rush.
+<br />
+<br />
+Bengals vs Colts 27 31
+<br />
+(313 receiving yds, 98 rushing yds, 1 to) vs (371 receiving yds, 59 rushing yds, 2 to)
+<br />
+<br />
+Burrow smart in pocket.  Bengals secondary locking down.  Bengals run game strong.  Sweet deep throw by Rivers sets up td.  Colts play calling improves.  Pascal jump td catch athletically delightful.  Burrow delivers dime from end zone.  Doyle td catch impressive to take lead.  Bates interception electric.  Blackmon interception seals win for Colts.
+<br />
+<br />
+Jets vs Dolphins 0 24
+<br />
+(186 receiving yds, 115 rushing yds, 1 to) vs (200 receiving yds, 110 rushing yds, 2 to)
+<br />
+<br />
+Fitzy blocking for back is what men do.  Dolphins play smart and hard.  Williams td dance fun.  Both defenses closing pocket fast.  Dirty hit on Fitzy.  Left hand shovel pass from Fitz is for gamers.  Jets run game solid.  Bad Jets play calling.  May interception took concentration.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -75,6 +115,14 @@ Lions nn
 <br />
 Bears nn
 <br />
+Broncos aw
+<br />
+Patriots ae
+<br />
+Steelers an
+<br />
+Dolphins ae
+<br />
 <br />
 Tier 2
 <br />
@@ -94,6 +142,10 @@ Texans as
 <br />
 Titans as
 <br />
+Falcons ns
+<br />
+Steelers * an
+<br />
 <br />
 Tier 2
 <br />
@@ -101,6 +153,8 @@ Tier 2
 Ravens an
 <br />
 Lions * nn
+<br />
+Colts as
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
