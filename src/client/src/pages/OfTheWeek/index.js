@@ -1265,6 +1265,13 @@ Chiefs **
 
 const stats = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 7: Cleveland Browns over Cincinnati Bengals`,
+    leagueName: 'NFL',
+    date: 'October 25, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 6",
     content: ReactHtmlParser(week62020),
     leagueName: 'NFL',
