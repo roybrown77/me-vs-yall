@@ -122,6 +122,38 @@ Jets vs Dolphins 0 24
 Fitzy blocking for back is what men do.  Dolphins play smart and hard.  Williams td dance fun.  Both defenses closing pocket fast.  Dirty hit on Fitzy.  Left hand shovel pass from Fitz is for gamers.  Jets run game solid.  Bad Jets play calling.  May interception took concentration.
 <br />
 <br />
+Packers vs Buccaneers 10 38
+<br />
+(160 receiving yds, 94 rushing yds, 2 to) vs (166 receiving yds, 158 rushing yds)
+<br />
+<br />
+Packers offense starts well balanced and well oiled.  Bucs pick 6 td.  Another Bucs pick sets up td.  Bucs offense sharpening.  Gronk td spike alert.  Bucs d getting to Rodgers.  Sequenced Bucs d line celebration sack on Rodgers creative.
+<br />
+<br />
+Rams vs 49ers 16 24
+<br />
+(198 receiving yds, 113 rushing yds, 1 to) vs (268 receiving yds, 122 rushing yds)
+<br />
+<br />
+49ers offense starts solid with td drives.  Big holes for Rams runners.  Great td catch by Woods.  Jimmy G making good decisions.  Rams offense stalls.  Goff throws end zone interception.  Fabulous td catch by Reynolds.  Samuel runs hard for first down to seal win for 49ers.
+<br />
+<br />
+Chiefs vs Bills 26 17
+<br />
+(225 receiving yds, 245 rushing yds, 1 to) vs (122 receiving yds, 84 rushing yds, 1 to)
+<br />
+<br />
+Great td throws from Mahomes to Kelce.  Allen runs too keep drive alive for td.  Well balanced Chiefs offense.  Diggs wide open catch at end of half could have been taken to house.  Both defenses keeping game close.  Chiefs Williams td run celebration super.  Edwards-Helaire running well.  Bills Beasley fight for td.  One handed pick by Chiefs Sorenson seals win.
+<br />
+<br />
+Cardinals vs Cowboys 38 10
+<br />
+(188 receiving yds, 261 rushing yds, 1 to) vs (266 receiving yds, 97 rushing yds, 4 to)
+<br />
+<br />
+Murray running is a problem for Cowboys d.  Arizona d aggressive.  Zeke fumbles.  Big sack on Dalton.  Murray throws to wide open Kirk 80 yard td.  Cardinals Lamb interception celebration intelligent.  Cowboys turnovers hurt them.  Drake runs 69 yard td.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -154,6 +186,14 @@ Steelers an
 <br />
 Dolphins ae
 <br />
+Buccaneers ns
+<br />
+49ers nw
+<br />
+Chiefs aw
+<br />
+Cardinals nw
+<br />
 <br />
 Tier 2
 <br />
@@ -177,6 +217,10 @@ Falcons ns
 <br />
 Steelers * an
 <br />
+Buccaneers * ns
+<br />
+Cardinals * nw
+<br />
 <br />
 Tier 2
 <br />
@@ -186,6 +230,26 @@ Ravens an
 Lions * nn
 <br />
 Colts as
+<br />
+<br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
+1. NFC West 4
+<br />
+2. NFC South 4
+<br />
+3. AFC West 4
+<br />
+4. NFC North 3
+<br />
+5. AFC South 3
+<br />
+6. AFC North 3
+<br />
+7. AFC East 2
+<br />
+8. NFC East 2
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
@@ -405,9 +469,6 @@ Division rankings (based on top defense & offense)
 7. AFC East 2
 <br />
 8. NFC North 1
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week42020 = `<div>Broncos vs Jets 37 28
