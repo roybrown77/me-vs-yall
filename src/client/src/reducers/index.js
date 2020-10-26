@@ -7,6 +7,7 @@ import {
   leaderDomain,
   weeksDomain,
   teamDomain,
+  articleDomain,
   ui,
   lookup,
   errorMessage
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   leaderDomain,
   weeksDomain,
   teamDomain,
+  articleDomain,
   ui,
   lookup,
   errorMessage

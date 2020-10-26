@@ -176,6 +176,31 @@ export const leaderDomain = (
   }
 };
 
+export const articleDomain = (
+  state = Map({ 
+    articles: List(), 
+    dataLoading: false 
+  }), 
+  action) => {
+  switch (action.type) {
+    case ActionTypes.ARTICLES_REQUEST:
+      return state.set('dataLoading', true);
+    case ActionTypes.ARTICLES_SUCCESS:
+      if (action.response) {
+        const articleList = action.response.map(item=>{
+          return Map(item);
+        });
+
+        return state.set('articles', List(articleList)).set("dataLoading", false);
+      }
+      return state;
+    case ActionTypes.ARTICLES_FAILURE:
+      return state.set('dataLoading', false);
+    default:
+      return state;
+  }
+};
+
 export const homePageDomain = (
   state = Map({ 
     games: List()
