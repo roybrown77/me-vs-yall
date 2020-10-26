@@ -18,17 +18,12 @@ import kawhi from '../styles/images/kawhi.jpg';
 import tysonFury from '../styles/images/tyson-fury.jpg';
 import mikeTyson from '../styles/images/mike-tyson.jpg';
 import uncleDrew from '../styles/images/uncle-drew.png';
-import sidneyDean from '../styles/images/sidney-dean.jpg';
-import jesus from '../styles/images/jesus-shuttlesworth.png';
 import herm from '../styles/images/herm.jpg';
 import zachBaby from '../styles/images/zach-baby.jpg';
-import afroBFrench from '../styles/images/afro-b-french.jpg';
-import kobeRucker from '../styles/images/kobe-rucker.jpg';
 import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
 import beastMode from '../styles/images/beast-mode.png';
 import mahomes from '../styles/images/mahomes.gif';
 import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
-import kelseyMitchell from '../styles/images/kelsey-mitchell.jpg';
 import rickey from '../styles/images/rickey.gif';
 import mack from '../styles/images/mack.jpeg';
 
@@ -45,10 +40,6 @@ function getRandomIntInclusive(min, max) {
 const basketBallImages = [
     {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
     {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
-    {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
-    {id: 'jesus', picture: jesus, source: 'Ray Allen / Spike Lee / Touchstone Pictures'},
-    {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana / Joanna'},
-    {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
 ];
 
@@ -78,7 +69,6 @@ const images = {
     ],
     '59723313734d1d6202a85f37': [
         {id: 'diannaTaurasi', picture: diannaTaurasi, source: 'Dianna Taurasi / The Athletic'},
-        {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'}
     ],
     '59723313734d1d6202a85f27': [
         {id: 'nunes', picture: nunes, source: 'Amanda Nunes / Cris Cyborg / Esther Lin / MMA Fighting'},
