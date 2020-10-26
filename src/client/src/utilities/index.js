@@ -7,7 +7,6 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import mccaffrey from '../styles/images/mccaffrey.jpg';
-import patriots from '../styles/images/patriots-interception.jpg';
 import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
 import lsu from '../styles/images/lsu.jpg';
@@ -18,7 +17,6 @@ import kawhi from '../styles/images/kawhi.jpg';
 import tysonFury from '../styles/images/tyson-fury.jpg';
 import mikeTyson from '../styles/images/mike-tyson.jpg';
 import uncleDrew from '../styles/images/uncle-drew.png';
-import herm from '../styles/images/herm.jpg';
 import zachBaby from '../styles/images/zach-baby.jpg';
 import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
 import beastMode from '../styles/images/beast-mode.png';
@@ -46,7 +44,6 @@ const basketBallImages = [
 const images = {
     '59723313734d1d6202a85f10': [
         {id: 'mccaffrey', picture: mccaffrey, source: 'Christian MacCaffrey / David T. Foster III / Charlotte Observer'},
-        {id: 'patriots', picture: patriots, source: 'Patriots vs Cowboys / Boston Globe'},
         {id: 'beastMode', picture: beastMode, source: 'Marshawn Lynch / dribbble.com'},
         {id: 'mahomes', picture: mahomes, source: 'HOF Patrick Mahomes / dribbble.com'},
         {id: 'mack', picture: mack, source: 'Khalil Mack / Chicago Bears'}
@@ -54,8 +51,7 @@ const images = {
     '59723313734d1d6202a85f15': [
         {id: 'reggie', picture: reggie, source: 'Reggie Bush / Lucy Nicholson / REUTERS'},
         {id: 'trevor', picture: trevor, source: 'Trevor Lawrence / Christian Petersen / Getty Images'},
-        {id: 'lsu', picture: lsu, source: 'LSU Sports Information'},
-        {id: 'herm', picture: herm, source: 'Herm Edwards / The Athletic'}
+        {id: 'lsu', picture: lsu, source: 'LSU Sports Information'}
     ],
     '59723313734d1d6202a85f17': [
         {id: 'pogba', picture: pogba, source: 'Paul Pogba / Getty Images'},
