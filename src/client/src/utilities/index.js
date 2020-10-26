@@ -11,11 +11,9 @@ import patriots from '../styles/images/patriots-interception.jpg';
 import reggie from '../styles/images/reggie.jpg';
 import trevor from '../styles/images/trevor.jpg';
 import lsu from '../styles/images/lsu.jpg';
-import masvidalDiaz from '../styles/images/masvidal-diaz.png';
 import nunes from '../styles/images/nunes.jpg';
 import pogba from '../styles/images/pogba.jpg';
 import josef from '../styles/images/josef-martinez.jpg';
-import jwill from '../styles/images/j-will-hair.jpg';
 import kawhi from '../styles/images/kawhi.jpg';
 import tysonFury from '../styles/images/tyson-fury.jpg';
 import mikeTyson from '../styles/images/mike-tyson.jpg';
@@ -29,7 +27,6 @@ import kobeRucker from '../styles/images/kobe-rucker.jpg';
 import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
 import beastMode from '../styles/images/beast-mode.png';
 import mahomes from '../styles/images/mahomes.gif';
-import nbaPlayoffs from '../styles/images/nba-playoffs-2019.jpg';
 import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
 import kelseyMitchell from '../styles/images/kelsey-mitchell.jpg';
 import rickey from '../styles/images/rickey.gif';
@@ -46,7 +43,6 @@ function getRandomIntInclusive(min, max) {
 }
 
 const basketBallImages = [
-    {id: 'jwill', picture: jwill, source: 'Jason Williams / Nice Kicks'},
     {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
     {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
     {id: 'sidneyDean', picture: sidneyDean, source: 'Wesley Snipes / Ron Shelton / 20th Century Fox'},
@@ -54,7 +50,6 @@ const basketBallImages = [
     {id: 'afroBFrench', picture: afroBFrench, source: 'Afro B / French Montana / Joanna'},
     {id: 'kobeRucker', picture: kobeRucker, source: 'Kobe / Rucker Park'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
-    {id: 'nbaPlayoffs', picture: nbaPlayoffs, source: 'NBA / Sporting News'}
 ];
 
 const images = {
@@ -86,7 +81,6 @@ const images = {
         {id: 'kelseyMitchell', picture: kelseyMitchell, source: 'Kelsey Mitchell / Ron Hoskins / Getty Images'}
     ],
     '59723313734d1d6202a85f27': [
-        {id: 'masvidalDiaz', picture: masvidalDiaz, source: 'Masvidal / Diaz / ESPN MMA'},
         {id: 'nunes', picture: nunes, source: 'Amanda Nunes / Cris Cyborg / Esther Lin / MMA Fighting'},
     ],
     '59723313734d1d6202a85f29': [
