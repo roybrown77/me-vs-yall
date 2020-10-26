@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import PageContainer from '../PageContainer';
 
 import hoodiesBw from '../../styles/images/mvy-hoodie-white-bw.jpg';
-import hoodies from '../../styles/images/mvy-hoodie-white-jossie.jpg';
 import shirtsBw from '../../styles/images/mvy-tee-black-bw.jpg';
 import shirts from '../../styles/images/mvy-tee-white-romey.jpg';
 import shirtGray from '../../styles/images/mvy-tee-gray.jpg';
@@ -60,33 +59,26 @@ const items = [
   },
   {
     id: 2,
-    image: hoodies,
-    name: 'White Hoodie',
-    price: '$40',
-    source: 'courtesy @ _jayfilms'
-  },
-  {
-    id: 3,
     image: shirtsBw,
     name: 'Black Tee',
     price: '$20',
     contact: '@ _jayfilms'
   },
   {
-    id: 4,
+    id: 3,
     image: shirts,
     name: 'White Tee',
     price: '$20',
     contact: '@ _romeyofficial'
   },
   {
-    id: 5,
+    id: 4,
     image: shirtGray,
     name: 'Gray Tee',
     price: '$20'
   },
   {
-    id: 6,
+    id: 5,
     image: stickers,
     name: 'Stickers',
     price: '$1'
