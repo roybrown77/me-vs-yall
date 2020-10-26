@@ -8,6 +8,6 @@
     }
   ],
   "scripts": {
-  	"postdeploy": "heroku repo:purge_cache -a sportspick"
+  	"postdeploy": "heroku repo:purge_cache -a mevsyall"
   }
 }
