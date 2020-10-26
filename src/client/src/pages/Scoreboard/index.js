@@ -299,10 +299,12 @@ class Scoreboard extends Component {
         const copyText = document.getElementById("copyInput");
 
         copyText.select();
-        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+        
+        //For mobile devices
+        copyText.setSelectionRange(0, 99999);
 
         document.execCommand("copy");
-        e.target.focus();
+        //e.target.focus();
 
         this.setState((state) => ({
             openCopyAlert: true
