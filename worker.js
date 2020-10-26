@@ -35,7 +35,7 @@ const {
   boxingCompetitors,
   ufcCompetitors,
   mlsTeams
-} = require('./src/server/game/utilities');
+} = require('./src/server/game/teams');
 
 const options = {
   useUnifiedTopology: true,

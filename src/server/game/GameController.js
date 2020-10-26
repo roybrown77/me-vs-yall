@@ -44,7 +44,7 @@ const {
   mlsTeams,
   nba2kCompetitors,
   wnbaTeams
-} = require('./utilities');
+} = require('./teams');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');
