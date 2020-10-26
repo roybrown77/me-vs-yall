@@ -488,7 +488,26 @@ class Scoreboard extends Component {
                             fontSize: '17px', 
                             paddingBottom: '20px',
                             fontFamily: 'monospace'}}>
-                        <div onClick={this.handleShowGameDetailsToggle}>
+                        {
+                            document.queryCommandSupported('copy') &&
+                            <div>
+                                <div>
+                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
+                                        <Share/>
+                                    </IconButton>
+                                </div>
+                                <div style={{marginTop: '-3px'}}>
+                                    share
+                                </div>
+                                <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
+                                <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
+                                    <Alert onClose={this.handleCopyAlertClose} severity="success">
+                                      {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
+                                    </Alert>
+                                </Snackbar>
+                            </div>
+                        }
+                        <div onClick={this.handleShowGameDetailsToggle} style={{paddingLeft: document.queryCommandSupported('copy') ? '30px' : '0px'}}>
                             <div>
                                 <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetailsToggle">
                                     {showDetails ? <ToggleOn/> : <ToggleOff/>}
@@ -508,25 +527,6 @@ class Scoreboard extends Component {
                                 vs spread
                             </div>
                         </div>
-                        {
-                            document.queryCommandSupported('copy') &&
-                            <div style={{paddingLeft: '30px'}}>
-                                <div>
-                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
-                                        <Share/>
-                                    </IconButton>
-                                </div>
-                                <div style={{marginTop: '-3px'}}>
-                                    share
-                                </div>
-                                <textarea style={{position:'fixed',top:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
-                                <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
-                                    <Alert onClose={this.handleCopyAlertClose} severity="success">
-                                      {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
-                                    </Alert>
-                                </Snackbar>
-                            </div>
-                        }
                     </div>
                     {
                         <div className={classes.root}>
