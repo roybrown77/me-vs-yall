@@ -1,3 +1,50 @@
+const week72020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Panthers vs Saints 24 27
+<br />
+(254 receiving yds, 37 rushing yds) vs (287 receiving yds, 138 rushing yds, 1 to)
+<br />
+<br />
+Great td catch by Jared Coop on clinical Saints first drive.  Saints pounding the rock.  DJ Moore wide wide wide open for td.  Great td run by DJ Moore.  Kamara balling.  Samuel td celebration ok.  Saints d hold to setup long fg missed by Panthers.
+<br />
+<br />
+Bye teams
+<br />
+<br />
+Colts as
+<br />
+Dolphins ae
+<br />
+Vikings nn
+<br />
+Ravens an
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1 (15 or less)
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+* has top defense
+<br />
+<br />
+Tier 1 (35 or more)
+<br />
+<br />
+Tier 2
+<br />
+<br />
+<i>Updated all week until all games are analyzed.</i>
+</div>`;
+
 const week62020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -210,9 +257,6 @@ Division rankings (based on top defense & offense)
 7. AFC East 2
 <br />
 8. NFC East 2
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week52020 = `<div>
@@ -1228,6 +1272,13 @@ Chiefs **
 
 const articles = [
   {
+    title: "NOTES OF THE WEEK: NFL WEEK 7",
+    content: week72020,
+    leagueName: 'NFL',
+    date: 'October 27, 2020',
+    author: 'Roy B.'
+  },
+  {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 7: Cleveland Browns over Cincinnati Bengals`,
     leagueName: 'NFL',
@@ -1237,7 +1288,7 @@ const articles = [
     correct: true
   },
   {
-    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 6",
+    title: "NOTES OF THE WEEK: NFL WEEK 6",
     content: week62020,
     leagueName: 'NFL',
     date: 'October 20, 2020',
@@ -1253,7 +1304,7 @@ const articles = [
     correct: false
   },
   {
-    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 5",
+    title: "NOTES OF THE WEEK: NFL WEEK 5",
     content: week52020,
     leagueName: 'NFL',
     date: 'October 12, 2020',
@@ -1269,7 +1320,7 @@ const articles = [
     correct: true
   },
   {
-    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 4",
+    title: "NOTES OF THE WEEK: NFL WEEK 4",
     content: week42020,
     leagueName: 'NFL',
     date: 'October 7, 2020',
@@ -1285,7 +1336,7 @@ const articles = [
     correct: false
   },
   {
-    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 3",
+    title: "NOTES OF THE WEEK: NFL WEEK 3",
     content: week32020,
     leagueName: 'NFL',
     date: 'September 30, 2020',
@@ -1301,7 +1352,7 @@ const articles = [
     correct: true
   },
   {
-    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 2",
+    title: "NOTES OF THE WEEK: NFL WEEK 2",
     content: week22020,
     leagueName: 'NFL',
     date: 'September 26, 2020',
@@ -1317,7 +1368,7 @@ const articles = [
     correct: true
   },
   {
-    title: "FAST ANALYSIS OF THE WEEK: NFL WEEK 1",
+    title: "NOTES OF THE WEEK: NFL WEEK 1",
     content: week12020,
     leagueName: 'NFL',
     date: 'September 19, 2020',
