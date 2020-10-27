@@ -7,7 +7,7 @@ Panthers vs Saints 24 27
 (254 receiving yds, 37 rushing yds) vs (287 receiving yds, 138 rushing yds, 1 to)
 <br />
 <br />
-Great td catch by Jared Coop on clinical Saints first drive.  Saints pounding the rock.  DJ Moore wide wide wide open for td.  Great td run by DJ Moore.  Kamara balling.  Samuel td celebration ok.  Saints d hold to setup long fg missed by Panthers.
+Great td catch by Jared Coop on clinical Saints first drive.  Saints pounding the rock.  DJ Moore wide wide wide open for td.  Great td run by DJ Moore.  Kamara balling.  Samuel td celebration ok.  Saints d hold to setup long Panthers field goal miss.
 <br />
 <br />
 Bye teams
