@@ -600,7 +600,7 @@ const mapStateToProps = (state, ownProps) => {
     const isRollup = get(leaderDomain, 'isRollup', false);
     const leagueId = get(leaderDomain, 'leagueId');
 
-    const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') !== 'false');
+    const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') === 'true');
     
     const leaders = getLeaders(games, pickList, userList, teamList, isRollup, spreadMode);
     
