@@ -10,6 +10,22 @@ Panthers vs Saints 24 27
 Great td catch by Jared Coop on clinical Saints first drive.  Saints pounding the rock.  DJ Moore wide wide wide open for td.  Great td run by DJ Moore.  Kamara balling.  Samuel td celebration ok.  Saints d hold to setup long Panthers field goal miss.
 <br />
 <br />
+Lions vs Falcons 23 22
+<br />
+(340 receiving yds, 64 rushing yds) vs (338 receiving yds, 66 rushing yds, 1 to)
+<br />
+<br />
+Stafford makes good decisions.  Falcons Hurst hurdle exceptional.  Ridley catches everything.  Both defenses pressuring.  Galloday incredible catches.  Lions d cause strip sack late.  Gurley scores too soon.  Cardiac Lions 1 minute td drive a beauty to end it.
+<br />
+<br />
+Giants vs Eagles 21 22
+<br />
+(187 receiving yds, 160 rushing yds, 3 to) vs (359 receiving yds, 96 rushing yds, 1 to)
+<br />
+<br />
+Eagles first drive super.  Tate Moss’d somebody for td.  Scott spin moves great.  Giants d getting to Wentz.  Wentz throws pick in end zone.  Eagles blitz heavy.  Jones nearly runs 80 yard td.  Eagles fight to overcome being down 21-10 with 5 minutes left.  Big mistakes by Giants offense let them back in.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -29,6 +45,9 @@ Tier 1 (15 or less)
 <br />
 <br />
 Tier 2
+<br />
+<br />
+Ealges nn
 <br />
 <br />
 Top offenses (score 30 or more well)
