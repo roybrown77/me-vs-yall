@@ -47,7 +47,7 @@ Tier 1 (15 or less)
 Tier 2
 <br />
 <br />
-Ealges nn
+Eagles nn
 <br />
 <br />
 Top offenses (score 30 or more well)
