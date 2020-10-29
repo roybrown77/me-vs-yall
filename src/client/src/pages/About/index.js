@@ -15,6 +15,7 @@ const line3 = `This app is for the love of sports, competition and the fighting 
 
 const line4 = `Feel free to contact us or join our mailing list at info@mevsyall.com.`;
 
+const line5 = `Me vs Yall Engineering and Internship Program has provided our design & elegant engineering first approach (that's sorely missing in the sports industry) code `;
 class About extends Component {
     componentDidMount() {
       ReactGA.ga('send', 'pageview', '/about');
@@ -29,7 +30,7 @@ class About extends Component {
                 <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
                 <div style={{textAlign: 'left', padding: '12px'}}>{line4}</div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
-                    Me vs Yall Engineering and Internship Program has provided code <a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+                    {line5}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
                 </div>
             </PageContainer>
         );
