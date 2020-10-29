@@ -26,6 +26,22 @@ Giants vs Eagles 21 22
 Eagles first drive super.  Tate Moss’d somebody for td.  Scott spin moves great.  Giants d getting to Wentz.  Wentz throws pick in end zone.  Eagles blitz heavy.  Jones nearly runs 80 yard td.  Eagles fight to overcome being down 21-10 with 5 minutes left.  Big mistakes by Giants offense let them back in.
 <br />
 <br />
+Cowboys vs Washington 3 25
+<br />
+(114 receiving yds, 83 rushing yds, 1 to) vs (194 receiving yds, 208 rushing yds)
+<br />
+<br />
+Cowboys d stops 4 and goal inches.  Dalton strip fumble for safety.  Cowboys offense stalls.  Cowboys secondary getting burnt.  Washington d getting to Dalton.  Thomas Moss’d somebody.
+<br />
+<br />
+Bills vs Jets 18 10
+<br />
+(307 receiving yds, 126 rushing yds, 1 to) vs (120 receiving yds, 100 rushing yds, 2 to)
+<br />
+<br />
+Jets driving down field but not scoring much.  Allen very mobile against Jets pressure.  Singletary running well.  Bills d closes pocket fast.  Bills finding holes in Jets d.  Bills come back to win without scoring any touchdowns in the game.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -44,10 +60,17 @@ Top defenses (hold to 20 or less well)
 Tier 1 (15 or less)
 <br />
 <br />
+Washington nn
+<br />
+Bills ae
+<br />
+<br />
 Tier 2
 <br />
 <br />
 Eagles nn
+<br />
+Jets ae
 <br />
 <br />
 Top offenses (score 30 or more well)
