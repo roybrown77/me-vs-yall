@@ -52,7 +52,7 @@ Burrow tip pick in end zone.  Mayfield deep pick.  Hunt running well.  Garrett s
 <br />
 Steelers vs Titans 27 24
 <br />
-(268 receiving yds, 94 rushing yds, 3 to) vs (220 receiving yds, 82 rushing yds, 2 to)
+(268 receiving yds, 94 rushing yds, 3 to) vs (220 receiving yds, 82 rushing yds)
 <br />
 <br />
 Undefeated teams meet in Nashville.  Big Ben converts longest shovel pass of all time to setup td.  Steelers pounding the rock.  Titans fight through aggressive Steelers d.  Diontae Johnson spin move td so smooth.  Ben throws pick in end zone.  Steelers d flex to setup missed field goal for win.
