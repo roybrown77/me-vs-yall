@@ -42,6 +42,30 @@ Bills vs Jets 18 10
 Jets driving down field but not scoring much.  Allen very mobile against Jets pressure.  Singletary running well.  Bills d closes pocket fast.  Bills finding holes in Jets d.  Bills come back to win without scoring any touchdowns in the game.
 <br />
 <br />
+Browns vs Bengals 37 34
+<br />
+(316 receiving yds, 82 rushing yds, 1 to) vs (422 receiving yds, 81 rushing yds, 2 to)
+<br />
+<br />
+Burrow tip pick in end zone.  Mayfield deep pick.  Hunt running well.  Garrett strip sack fumble.  Browns blitzing.  Landry & Bryant eating.  Bengals got good receivers.  Njoku td ball throw celebration filthy.  Burrow scores in 1 minute to take lead.  Browns Higgins Moss’d somebody.  Donovan Peoples-Jones twinkle toes wins it.
+<br />
+<br />
+Steelers vs Titans 27 24
+<br />
+(268 receiving yds, 94 rushing yds, 3 to) vs (220 receiving yds, 82 rushing yds, 2 to)
+<br />
+<br />
+Undefeated teams meet in Nashville.  Big Ben converts longest shovel pass of all time to setup td.  Steelers pounding the rock.  Titans fight through aggressive Steelers d.  Diontae Johnson spin move td so smooth.  Ben throws pick in end zone.  Steelers d flex to setup missed field goal for win.
+<br />
+<br />
+Packers vs Texans 35 20
+<br />
+(283 receiving yds, 96 rushing yds) vs (309 receiving yds, 79 rushing yds, 1 to)
+<br />
+<br />
+Texans d don’t play tight enough leaving big holes.  Great catch by Adams.  Bad Texan play calling.  Donuts served at half.  Watson throws good pass back end zone.  More creativity from Texan offense but struggle in red zone.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -72,6 +96,8 @@ Eagles nn
 <br />
 Jets ae
 <br />
+Packers nn
+<br />
 <br />
 Top offenses (score 30 or more well)
 <br />
@@ -79,6 +105,13 @@ Top offenses (score 30 or more well)
 <br />
 <br />
 Tier 1 (35 or more)
+<br />
+<br />
+Packers nn
+<br />
+Browns an
+<br />
+Bengals an
 <br />
 <br />
 Tier 2
