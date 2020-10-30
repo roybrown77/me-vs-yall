@@ -329,30 +329,32 @@ const getResults = (games = [], picks = [], spreadMode = false) => {
                 winnerSelected = gamePicked.pickId === winner;
             }
 
-            if (winnerSelected) {
-                if (get(game,'isGameOver',false)) {
-                    total['wins']++;
-                    total['winsBeforeGameOver']++;
-                    lossesInARow = 0;
-                    winsInARow++;
-                } else {
-                    if (hasGameStarted(game.startDateTime)) {
+            if (!spreadMode || (spreadMode && get(game,'spread.teamId'))) {
+                if (winnerSelected) {
+                    if (get(game,'isGameOver',false)) {
+                        total['wins']++;
                         total['winsBeforeGameOver']++;
                         lossesInARow = 0;
                         winsInARow++;
+                    } else {
+                        if (hasGameStarted(game.startDateTime)) {
+                            total['winsBeforeGameOver']++;
+                            lossesInARow = 0;
+                            winsInARow++;
+                        }
                     }
-                }
-            } else {
-                if (get(game,'isGameOver',false)) {
-                    total['losses']++;
-                    total['lossesBeforeGameOver']++;
-                    winsInARow = 0;
-                    lossesInARow++;
                 } else {
-                    if (hasGameStarted(game.startDateTime)) {
+                    if (get(game,'isGameOver',false)) {
+                        total['losses']++;
                         total['lossesBeforeGameOver']++;
                         winsInARow = 0;
                         lossesInARow++;
+                    } else {
+                        if (hasGameStarted(game.startDateTime)) {
+                            total['lossesBeforeGameOver']++;
+                            winsInARow = 0;
+                            lossesInARow++;
+                        }
                     }
                 }
             }
