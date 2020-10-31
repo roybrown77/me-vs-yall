@@ -194,8 +194,7 @@ class Home extends Component {
       const womensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f31', womensCollegeBasketballGames);
       const mensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f33', mensCollegeBasketballGames);
       const image = images['59723313734d1d6202a85f15'][getRandomIntInclusive(2,3)];
-      const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`;
-      const vegasSharks = `home of world's future Vegas sharks`;
+      const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`
 
       return (
         <div className="fade-in">
@@ -210,9 +209,6 @@ class Home extends Component {
             </Slide>
           }
           <div>
-          <div style={styles.subTitle}>
-            {vegasSharks}
-          </div>
           <div style={styles.subTitle}>
             compete worldwide for rep
           </div>
