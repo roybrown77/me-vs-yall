@@ -145,7 +145,7 @@ Top offenses (score 30 or more well)
 Tier 1 (35 or more)
 <br />
 <br />
-Packers nn
+Packers ** nn
 <br />
 Browns an
 <br />
@@ -157,10 +157,11 @@ Chargers aw
 <br />
 Chiefs * aw
 <br />
-49ers * nw
-<br />
 <br />
 Tier 2
+<br />
+<br />
+49ers * nw
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
