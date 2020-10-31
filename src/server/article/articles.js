@@ -82,6 +82,22 @@ Jaguars vs Chargers 29 39
 Herbert ghost handoff for qb run magical.  Jags offense heat up second quarter.  Robinson rolling folks.  Jags block punt td celebration joyful.  Green td puts Jags ahead.  Chargers take lead.  Jags take lead.  Chargers cause fumble to set up to take lead.
 <br />
 <br />
+Chiefs vs Broncos 43 16
+<br />
+(213 receiving yds, 101 rushing yds, 1 to) vs (254 receiving yds, 177 rushing yds, 4 to)
+<br />
+<br />
+Snow game!  Edwards-Helaire runs in td flurry.  Drew Lock with the icy td celebration.  Broncos d pressure Mahomes like a blizzard.  Chiefs pick 6 td cold.  Pringle kick return td toasty.  Broncos offense stalled like bad snowmobile motors.  Cheetah skis in for td.
+<br />
+<br />
+49ers vs Patriots 33 6
+<br />
+(277 receiving yds, 197 rushing yds, 2 to) vs (162 receiving yds, 94 rushing yds, 4 to)
+<br />
+<br />
+49ers pounding the rock.  Cam making mistakes along with poor play calling.  Pats defense got tired of being out so long.  Pats running well but not passing deep well.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -103,6 +119,10 @@ Tier 1 (15 or less)
 Washington nn
 <br />
 Bills ae
+<br />
+Chiefs aw
+<br />
+49ers nw
 <br />
 <br />
 Tier 2
@@ -134,6 +154,10 @@ Bengals an
 Buccaneers ** ns
 <br />
 Chargers aw
+<br />
+Chiefs * aw
+<br />
+49ers * nw
 <br />
 <br />
 Tier 2
