@@ -634,6 +634,20 @@ const ufcCompetitors = [
         shortLocation: "Robert",
         name: "Bobby Knuckles Whittaker",
         country: "AUSTRALIA"
+    },
+    {
+        _id: "19823783734d1d04a1b3202a",
+        location: 'Uriah Hall',
+        shortLocation: "Uriah",
+        name: "Prime Time Hall",
+        country: "JAMAICA"
+    },
+    {
+        _id: "19823783734d1d04a1b3202b",
+        location: 'Anderson Silva',
+        shortLocation: "Anderson",
+        name: "The Spider Silva",
+        country: "BRAZIL"
     }
 ];
 
