@@ -66,6 +66,22 @@ Packers vs Texans 35 20
 Texans d don’t play tight enough leaving big holes.  Great catch by Adams.  Bad Texan play calling.  Donuts served at half.  Watson throws good pass back end zone.  More creativity from Texan offense but struggle in red zone.
 <br />
 <br />
+Buccaneers vs Raiders 45 20
+<br />
+(369 receiving yds, 85 rushing yds) vs (284 receiving yds, 76 rushing yds, 1 to)
+<br />
+<br />
+Agholor Moss’d somebody for td grab.  Brady still qb sneaking for tds.  Suh makes scrimmage pick and big man runs nearly 50 yards for td.  Brady to Miller deep td a beauty.  Raiders fight with deep shots.  Bucs offense well oiled.
+<br />
+<br />
+Jaguars vs Chargers 29 39
+<br />
+(173 receiving yds, 140 rushing yds, 1 to) vs (351 receiving yds, 135 rushing yds)
+<br />
+<br />
+Herbert ghost handoff for qb run magical.  Jags offense heat up second quarter.  Robinson rolling folks.  Jags block punt td celebration joyful.  Green td puts Jags ahead.  Chargers take lead.  Jags take lead.  Chargers cause fumble to set up to take lead.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -98,6 +114,8 @@ Jets ae
 <br />
 Packers nn
 <br />
+Buccaneers ns
+<br />
 <br />
 Top offenses (score 30 or more well)
 <br />
@@ -112,6 +130,10 @@ Packers nn
 Browns an
 <br />
 Bengals an
+<br />
+Buccaneers ns
+<br />
+Chargers aw
 <br />
 <br />
 Tier 2
