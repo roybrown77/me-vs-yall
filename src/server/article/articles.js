@@ -186,6 +186,9 @@ Tier 2
 Seahawks nw
 <br />
 <br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
 1. NFC West 5
 <br />
 2. AFC West 3
