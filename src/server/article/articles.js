@@ -98,6 +98,22 @@ Snow game!  Edwards-Helaire runs in td flurry.  Drew Lock with the icy td celebr
 49ers pounding the rock.  Cam making mistakes along with poor play calling.  Pats defense got tired of being out so long.  Pats running well but not passing deep well.
 <br />
 <br />
+Seahawks vs Cardinals 34 37
+<br />
+(288 receiving yds, 200 rushing yds, 3 to) vs (360 receiving yds, 159 rushing yds, 2 to)
+<br />
+<br />
+Wilson deep shot to Lockett setup td to Lockett.  D Hop with a gorgeous td catch. Great grit by Murray to lead td drive. Another Lockett td results in superb dance.  Cardinals comeback to tie down 34-24 with 3 minutes left in 4th.  Cardinals intercept in OT to setup winning field goal after many changes in possession. 
+<br />
+<br />
+Bears vs Rams 10 24
+<br />
+(261 receiving yds, 49 rushing yds, 2 to) vs (220 receiving yds, 160 rushing yds, 1 to)
+<br />
+<br />
+Goff getting ball out fast to beat Bears rush.  Kmet Moss’d somebody.  Rams closing pocket fast.  Bears offense not creative to move the sticks.  Great Rams secondary end zone pick.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -116,7 +132,7 @@ Top defenses (hold to 20 or less well)
 Tier 1 (15 or less)
 <br />
 <br />
-Washington nn
+Washington ne
 <br />
 Bills ae
 <br />
@@ -124,11 +140,13 @@ Chiefs aw
 <br />
 49ers nw
 <br />
+Rams nw
+<br />
 <br />
 Tier 2
 <br />
 <br />
-Eagles nn
+Eagles ne
 <br />
 Jets ae
 <br />
@@ -157,11 +175,15 @@ Chargers aw
 <br />
 Chiefs * aw
 <br />
+Cardinals nw
+<br />
 <br />
 Tier 2
 <br />
 <br />
 49ers * nw
+<br />
+Seahawks nw
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
