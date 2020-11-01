@@ -186,6 +186,23 @@ Tier 2
 Seahawks nw
 <br />
 <br />
+1. NFC West 5
+<br />
+2. AFC West 3
+<br />
+3. NFC North 3
+<br />
+4. AFC North 3
+<br />
+5. AFC East 3
+<br />
+6. NFC South 2
+<br />
+7. NFC East 2
+<br />
+8. AFC South 1
+<br />
+<br />
 <i>Updated all week until all games are analyzed.</i>
 </div>`;
 
