@@ -1433,6 +1433,13 @@ Chiefs **
 
 const articles = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 8: Indianapolis Colts over Detroit Lions`,
+    leagueName: 'NFL',
+    date: 'November 1, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "NOTES OF THE WEEK: NFL WEEK 7",
     content: week72020,
     leagueName: 'NFL',
