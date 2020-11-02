@@ -1123,6 +1123,7 @@ const ncaaTeams = [
         shortLocation: "WASH",
         name: "Huskies",
         color: '#4B2E83',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab900b",
@@ -1147,7 +1148,8 @@ const ncaaTeams = [
         location: "USC",
         shortLocation: "USC",
         name: "Trojans",
-        color: '#990000'
+        color: '#990000',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab900e",
@@ -1225,6 +1227,7 @@ const ncaaTeams = [
         shortLocation: "ORE",
         name: "Ducks",
         color: '#154733',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9017",
@@ -1335,7 +1338,8 @@ const ncaaTeams = [
         location: "Utah",
         shortLocation: "UTAH",
         name: "Utes",
-        color: '#CC0000'
+        color: '#CC0000',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9024",
@@ -1353,6 +1357,7 @@ const ncaaTeams = [
         shortLocation: "STAN",
         name: "Cardinal",
         color: '#8C1515',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9026",
@@ -1386,6 +1391,7 @@ const ncaaTeams = [
         shortLocation: "ORST",
         name: "Beavers",
         color: '#DC4405',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab902a",
@@ -1451,6 +1457,7 @@ const ncaaTeams = [
         shortLocation: "UCLA",
         name: "Bruins",
         color: '#2D68C4',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9033",
@@ -1561,7 +1568,8 @@ const ncaaTeams = [
         location: "Arizona State",
         shortLocation: "ASU",
         name: "Sun Devils",
-        color: '#8C1D40'
+        color: '#8C1D40',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9046",
@@ -1569,7 +1577,8 @@ const ncaaTeams = [
         location: 'Washington State',
         shortLocation: "WSU",
         name: "Cougars",
-        color: "#981E32"
+        color: "#981E32",
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9047",
@@ -1728,7 +1737,8 @@ const ncaaTeams = [
         location: 'California',
         shortLocation: "CAL",
         name: "Golden Bears",
-        color: '#003262'
+        color: '#003262',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab905a",
@@ -1778,7 +1788,8 @@ const ncaaTeams = [
         location: 'Colorado',
         shortLocation: "COLO",
         name: "Buffaloes",
-        color: '#CFB87C'
+        color: '#CFB87C',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab9060",
@@ -2008,7 +2019,8 @@ const ncaaTeams = [
         location: "Arizona",
         shortLocation: "ARIZ",
         name: "Wildcats",
-        color: '#CC0033'
+        color: '#CC0033',
+        conference: "pac12"
     },
     {
         _id: "5b84a2889a4c08bca6ab907b",

@@ -253,7 +253,7 @@ const getGames = async ({
   return games;
 };
 
-const allowedConferences = ["sec","acc","big10","big12"];
+const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
 const formatGames = ({message, games, leagueId, year, teams}) => {
     let formattedGames = [];
