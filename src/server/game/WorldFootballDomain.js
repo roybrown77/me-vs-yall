@@ -106,6 +106,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       //headless: false,
+      browserWSEndpoint: 'wss://chrome.browserless.io?--user-data-dir=/tmp/session-123',
       defaultViewport: {
         width: 1500,
         height: 1000
@@ -128,7 +129,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
     const url = `${baseUrl}${date}`;
 
-    await page.goto(url/*, {timeout: 15000, waitUntil: 'domcontentloaded'}*/);
+    await page.goto(url, { waitUntil: 'networkidle2' });
 
     await page.waitForSelector('#events'/*, {visible: true}*/);
 
