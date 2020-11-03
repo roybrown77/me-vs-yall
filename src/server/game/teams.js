@@ -370,8 +370,36 @@ const boxingCompetitors = [
         _id: "19823783734d1d04a1b3102a",
         location: "Jason Moloney",
         shortLocation: "Jason",
-        name: " The Smooth One Moloney",
+        name: "The Smooth One Moloney",
         country: "AUSTRALIA"
+    },
+    {
+        _id: "19823783734d1d04a1b3102b",
+        location: "Terence Crawford",
+        shortLocation: "Terence",
+        name: "Bud Crawford",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3102c",
+        location: "Kell Brook",
+        shortLocation: "Kell",
+        name: "Special K Brook",
+        country: "ENGLAND"
+    },
+    {
+        _id: "19823783734d1d04a1b3102d",
+        location: "Chris Colbert",
+        shortLocation: "Chris",
+        name: "Prime Time Colbert",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b3102e",
+        location: "Jaime Arboleda",
+        shortLocation: "Jaime",
+        name: "The Smooth One Arboleda",
+        country: "PANAMA"
     }
 ];
 
@@ -629,13 +657,6 @@ const ufcCompetitors = [
         country: "USA"
     },
     {
-        _id: "19823783734d1d04a1b32030",
-        location: 'Robert Whittaker',
-        shortLocation: "Robert",
-        name: "Bobby Knuckles Whittaker",
-        country: "AUSTRALIA"
-    },
-    {
         _id: "19823783734d1d04a1b3202a",
         location: 'Uriah Hall',
         shortLocation: "Uriah",
@@ -648,6 +669,62 @@ const ufcCompetitors = [
         shortLocation: "Anderson",
         name: "The Spider Silva",
         country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b3202c",
+        location: 'Thiago Santos',
+        shortLocation: "Thiago",
+        name: "Marreta Santos",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b3202d",
+        location: 'Glover Teixeira',
+        shortLocation: "Glover",
+        name: "Teixeira",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b3202e",
+        location: 'Islam Makhachev',
+        shortLocation: "Islam",
+        name: "Makhachev",
+        country: "RUSSIA"
+    },
+    {
+        _id: "19823783734d1d04a1b3202f",
+        location: 'Rafael dos Anjos',
+        shortLocation: "Rafael",
+        name: "Anjos",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b32030",
+        location: 'Robert Whittaker',
+        shortLocation: "Robert",
+        name: "Bobby Knuckles Whittaker",
+        country: "AUSTRALIA"
+    },
+    {
+        _id: "19823783734d1d04a1b32031",
+        location: 'Deiveson Figueiredo',
+        shortLocation: "Deiveson",
+        name: "Deus da Guerra Figueiredo",
+        country: "BRAZIL"
+    },
+    {
+        _id: "19823783734d1d04a1b32032",
+        location: 'Alex Perez',
+        shortLocation: "Alex",
+        name: "Perez",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32033",
+        location: 'Valentina Shevchenko',
+        shortLocation: "Valentina",
+        name: "Shevchenko",
+        country: "RUSSIA"
     }
 ];
 
