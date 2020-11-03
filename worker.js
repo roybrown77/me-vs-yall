@@ -42,7 +42,11 @@ const options = {
   useNewUrlParser: true, // use new connection string parser
   autoIndex: false, // Don't build indexes
   poolSize: 10, // Maintain up to 10 socket connections
-  bufferMaxEntries: 0, // If not connected, return errors immediately rather than waiting for reconnect
+  //bufferMaxEntries: 0, // If not connected, return errors immediately rather than waiting for reconnect
+  socketTimeoutMS: 0,
+  connectTimeoutMS: 0,
+  reconnectTries: 30,
+  useFindAndModify: false
 };
 
 const mongoose = require('mongoose');
