@@ -5,10 +5,18 @@ const {
 	week42020,
 	week52020,
 	week62020,
-	week72020
+	week72020,
+  week82020
 } = require("./notes");
 
 const articles = [
+  {
+    title: "NOTES OF THE WEEK: NFL WEEK 8",
+    content: week82020,
+    leagueName: 'NFL',
+    date: 'November 3, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 8: Indianapolis Colts over Detroit Lions`,

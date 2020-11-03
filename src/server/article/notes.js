@@ -1,3 +1,61 @@
+const week82020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Vikings vs Packers 28 22
+<br />
+(169 receiving yds, 173 rushing yds) vs (291 receiving yds, 109 rushing yds, 1 to)
+<br />
+<br />
+Vikings running the ball like Forest Gump.  Packers offense starts balanced but stalled in second half.  Vikings controlled clock with heavy run game.  Gorgeous back end zone catch by Adams.  Monster sack on Rodgers ends comeback.
+<br />
+<br />
+49ers vs Seahawks 27 37
+<br />
+(322 receiving yds, 52 rushing yds, 2 to) vs (261 receiving yds, 101 rushing yds)
+<br />
+<br />
+Metcalf runs wild across middle for td.  Russell throws a phenomenal deep ball.  Seahawks d closing pocket fast.  Wilson escapes all pressure.  Poised Mullen in for injured Jimmy G.  Seahawks defense hits hard.
+<br />
+<br />
+Bye teams
+<br />
+<br />
+Cardinals nw
+<br />
+Washington ne
+<br />
+Jaguars as
+<br />
+Texans as
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1 (15 or less)
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+* has top defense
+<br />
+<br />
+Tier 1 (35 or more)
+<br />
+<br />
+Seahawks nw
+<br />
+<br />
+Tier 2
+<br />
+<br />
+<i>Updated all week until all games are analyzed.</i>
+</div>`;
+
 const week72020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -204,9 +262,6 @@ Division rankings (based on top defense & offense)
 7. NFC East 2
 <br />
 8. AFC South 1
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week62020 = `<div>
@@ -1441,5 +1496,6 @@ module.exports = {
 	week42020,
 	week52020,
 	week62020,
-	week72020
+	week72020,
+	week82020
 };
