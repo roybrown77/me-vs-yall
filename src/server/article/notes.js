@@ -2,6 +2,18 @@ const week82020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Teams coming off Bye
+<br />
+<br />
+Colts as
+<br />
+Dolphins ae
+<br />
+Vikings nn
+<br />
+Ravens an
+<br />
+<br />
 Vikings vs Packers 28 22
 <br />
 (169 receiving yds, 173 rushing yds) vs (291 receiving yds, 109 rushing yds, 1 to)
