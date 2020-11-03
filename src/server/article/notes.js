@@ -7,7 +7,7 @@ Vikings vs Packers 28 22
 (169 receiving yds, 173 rushing yds) vs (291 receiving yds, 109 rushing yds, 1 to)
 <br />
 <br />
-Vikings running the ball like Forest Gump.  Packers offense starts balanced but stalled in second half.  Vikings controlled clock with heavy run game.  Gorgeous back end zone catch by Adams.  Monster sack on Rodgers ends comeback.
+Vikings running the ball like Forrest Gump.  Packers offense starts balanced but stalled in second half.  Vikings controlled clock with heavy run game.  Gorgeous back end zone catch by Adams.  Monster sack on Rodgers ends comeback.
 <br />
 <br />
 49ers vs Seahawks 27 37
