@@ -30,6 +30,22 @@ Vikings running the ball like Forrest Gump.  Packers offense starts balanced but
 Metcalf runs wild across middle for td.  Russell throws a phenomenal deep ball.  Seahawks d closing pocket fast.  Wilson escapes all pressure.  Poised Mullen in for injured Jimmy G.  Seahawks defense hits hard.
 <br />
 <br />
+Cowboys vs Eagles 9 23
+<br />
+(180 receiving yds, 133 rushing yds, 2 to) vs (132 receiving yds, 119 rushing yds, 4 to)
+<br />
+<br />
+Dinucci holding ball too long and off target at times.  Good Eagles td drive.  Cowboys d getting to Wentz.  Wentz throws end zone pick then another deep pick.  Wentz throws a td beauty to Fulgham.  Great Cowboy run plays in 4th but turnovers hurt comeback.
+<br />
+<br />
+Buccaneers vs Giants 25 23
+<br />
+(278 receiving yds, 81 rushing yds, 1 to) vs (274 receiving yds, 101 rushing yds, 2 to)
+<br />
+<br />
+Giants spreading ball around.  Giants d playing well until second half.  Happy Giants offensive lineman spikes the ball.  Improved Bucs play calling second half.  Jones interceptions hurt Bucs.  Giants fight to get marvelous Jones to Tate td.  Pass interference should have been called on game tying 2 point conversion.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -46,6 +62,9 @@ Top defenses (hold to 20 or less well)
 <br />
 <br />
 Tier 1 (15 or less)
+<br />
+<br />
+Eagles ne
 <br />
 <br />
 Tier 2
