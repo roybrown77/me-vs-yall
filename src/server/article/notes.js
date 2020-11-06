@@ -27,7 +27,7 @@ Vikings running the ball like Forrest Gump.  Packers offense starts balanced but
 (322 receiving yds, 52 rushing yds, 2 to) vs (261 receiving yds, 101 rushing yds)
 <br />
 <br />
-Metcalf runs wild across middle for td.  Russell throws a phenomenal deep ball.  Seahawks d closing pocket fast.  Wilson escapes all pressure.  Poised Mullen in for injured Jimmy G.  Seahawks defense hits hard.
+Metcalf runs wild across middle for td.  Russell throws a phenomenal deep ball.  Seahawks d closing pocket fast.  49ers play hard no matter who they have available.  Wilson escapes all pressure.  Poised Mullen in for injured Jimmy G.  Seahawks defense hits hard.
 <br />
 <br />
 Cowboys vs Eagles 9 23
