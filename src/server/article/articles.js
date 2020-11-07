@@ -11,6 +11,13 @@ const {
 
 const articles = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 9: Washington Football Team over New York Giants`,
+    leagueName: 'NFL',
+    date: 'November 8, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "NOTES OF THE WEEK: NFL WEEK 8",
     content: week82020,
     leagueName: 'NFL',
