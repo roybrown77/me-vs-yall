@@ -46,6 +46,54 @@ Buccaneers vs Giants 25 23
 Giants spreading ball around.  Giants d playing well until second half.  Happy Giants offensive lineman spikes the ball.  Improved Bucs play calling second half.  Jones interceptions hurt Bucs.  Giants fight to get marvelous Jones to Tate td.  Pass interference should have been called on game tying 2 point conversion.
 <br />
 <br />
+Titans vs Bengals 20 31
+<br />
+(233 receiving yds, 218 rushing yds, 1 to) vs (249 receiving yds, 118 rushing yds)
+<br />
+<br />
+Tannehill throws an end zone pick to Bates.  Burrow gets ball out quick.  Henry rumbling down after down.  Henry fun td dance.  Burrow fights out of big sack.  Titans offense stalls but heats up in 4th.
+<br />
+<br />
+Patriots vs Bills 21 24
+<br />
+(174 receiving yds, 188 rushing yds, 1 to) vs (154 receiving yds, 190 rushing yds, 1 to)
+<br />
+<br />
+Josh Allen and Moss run the ball well.  Cam holding the ball too long.  Great pick by Pats d.  Fantastic hard nosed play calling by Bills.  Pats d keeping them in game.  Harris busts one out for strong Pats td run.  Newton scores to tie game.  Newton fumbles on game winning drive.
+<br />
+<br />
+Rams vs Dolphins 17 28
+<br />
+(355 receiving yds, 131 rushing yds, 4 to) vs (93 receiving yds, 55 rushing yds, 2 to)
+<br />
+<br />
+Tua meets Aaron Donald on huge sack.  Dolphins d getting to Goff.  Dolphins fumble inside 10 but big sack on Goff is ran back for 80+ yard td.  Grant takes it to the house for 88 yard return.  Aggressive Dolphins d containing Rams.
+<br />
+<br />
+Jets vs Chiefs 9 35
+<br />
+(133 receiving yds, 93 rushing yds, 1 to) vs (446 receiving yds, 50 rushing yds)
+<br />
+<br />
+Great Chiefs play calling sets up fabulous fun in by Hardman.  Fake Chiefs punt sets up big Tyreek Hill td.  Darnold to Mims throw sweet.  Jets can barely get past Chiefs 40 yard line.  Mahomes mincing up Jets d.  Hill gets piggyback ride after scoring td.
+<br />
+<br />
+Chargers vs Broncos 30 31
+<br />
+(278 receiving yds, 210 rushing yds, 2 to) vs (272 receiving yds, 96 rushing yds, 1 to)
+<br />
+<br />
+Grudge match with both defenses keeping  very few points on board.  Herbert throws 2 td strikes on good drives with less than 4 minutes before half.  Chargers settle for field goals keeping Broncos in game.  Broncos fight in 4th to win game on gutsy Drew Lock performance.  Drew Lock dance moves always lit.
+<br />
+<br />
+Saints vs Bears 26 23
+<br />
+(280 receiving yds, 122 rushing yds) vs (274 receiving yds, 101 rushing yds, 2 to)
+<br />
+<br />
+Kamara has Mandalorian vision when running.  Both defenses playing strong.  Foles to Robinson on deep td strike.  Cook a big target for Brees.  Easy pick for Saints d dropped.  Brees to Taysom Hill coming across middle like a tight end for td.  Bears fight to go to overtime.  Saints very creative to finally win it.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -66,8 +114,17 @@ Tier 1 (15 or less)
 <br />
 Eagles ne
 <br />
+Chiefs aw
+<br />
 <br />
 Tier 2
+<br />
+<br />
+Titans as
+<br />
+Bills ae
+<br />
+Dolphins ae
 <br />
 <br />
 Top offenses (score 30 or more well)
@@ -80,8 +137,17 @@ Tier 1 (35 or more)
 <br />
 Seahawks nw
 <br />
+Chiefs * aw
+<br />
 <br />
 Tier 2
+<br />
+<br />
+Titans ** as
+<br />
+Chargers aw
+<br />
+Broncos aw
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
