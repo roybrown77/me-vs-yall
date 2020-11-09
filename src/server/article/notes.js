@@ -94,6 +94,22 @@ Saints vs Bears 26 23
 Kamara has Mandalorian vision when running.  Both defenses playing strong.  Foles to Robinson on deep td strike.  Cook a big target for Brees.  Easy pick for Saints d dropped.  Brees to Taysom Hill coming across middle like a tight end for td.  Bears fight to go to overtime.  Saints very creative to finally win it.
 <br />
 <br />
+Falcons vs Panthers 25 17
+<br />
+(281 receiving yds, 131 rushing yds, 1 to) vs (179 receiving yds, 147 rushing yds, 1 to)
+<br />
+<br />
+Samuel td celebration legit.  Hurst tying his shoes for a catch.  Both defenses not giving up any big plays.  Balanced Falcons offense in fourth pound rock in for lead.  Not enough creativity from Panthers to tie game.
+<br />
+<br />
+Raiders vs Browns 16 6
+<br />
+(111 receiving yds, 209 rushing yds) vs (122 receiving yds, 101 rushing yds, 1 to)
+<br />
+<br />
+Raiders d flex to contain Browns.  Rainy weather in Cleveland may be slowing down game.  Landry dives for td.  Browns d fast.  Raiders pound rock with Jacobs well.  One hand grab by Jarvis a beauty.  Landry popped to break up td.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -116,6 +132,10 @@ Eagles ne
 <br />
 Chiefs aw
 <br />
+Raiders aw
+<br />
+Browns an
+<br />
 <br />
 Tier 2
 <br />
@@ -125,6 +145,8 @@ Titans as
 Bills ae
 <br />
 Dolphins ae
+<br />
+Falcons ns
 <br />
 <br />
 Top offenses (score 30 or more well)
