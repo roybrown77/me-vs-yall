@@ -110,6 +110,22 @@ Raiders vs Browns 16 6
 Raiders d flex to contain Browns.  Rainy weather in Cleveland may be slowing down game.  Landry dives for td.  Browns d fast.  Raiders pound rock with Jacobs well.  One hand grab by Jarvis a beauty.  Landry popped to break up td.
 <br />
 <br />
+Colts vs Lions 41 21
+<br />
+(216 receiving yds, 118 rushing yds) vs (336 receiving yds, 29 rushing yds, 2 to)
+<br />
+<br />
+Hines goes gymnast on td celebrations.  Colts d closing pocket fast.  Stafford loves his tight ends.  Colts d get strip sack fumble.  Solid td drives by Colts.  Moore td celebration noted.  Colts d too soft to stay in game.
+<br />
+<br />
+Steelers vs Ravens 28 24
+<br />
+(182 receiving yds, 48 rushing yds, 1 to) vs (208 receiving yds, 265 rushing yds, 4 to)
+<br />
+<br />
+Jackson not easy to get down and very accurate.  Jackson careless at times with ball.  Steelers d always plays hard.  Steelers offense heats up in 3rd.  Ebron td celebration not good.  One paw won't get Big Ben down.  Ravens d can't contain Steelers offense but Steelers d can contain Ravens offense.
+<br />
+<br />
 Bye teams
 <br />
 <br />
@@ -148,6 +164,8 @@ Dolphins ae
 <br />
 Falcons ns
 <br />
+Colts as
+<br />
 <br />
 Top offenses (score 30 or more well)
 <br />
@@ -161,6 +179,8 @@ Seahawks nw
 <br />
 Chiefs * aw
 <br />
+Colts ** as
+<br />
 <br />
 Tier 2
 <br />
@@ -170,6 +190,26 @@ Titans ** as
 Chargers aw
 <br />
 Broncos aw
+<br />
+<br />
+Division rankings (based on top defense & offense)
+<br />
+<br />
+1. AFC South 6
+<br />
+2. AFC West 5
+<br />
+3. NFC West 2
+<br />
+4. AFC East 2
+<br />
+5. NFC East 2
+<br />
+6. AFC North 1
+<br />
+7. NFC South 1
+<br />
+8. NFC North 0
 <br />
 <br />
 <i>Updated all week until all games are analyzed.</i>
