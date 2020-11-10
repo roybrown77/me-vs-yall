@@ -42,6 +42,7 @@ Top offenses (score 30 or more well)
 <br />
 Tier 1 (35 or more)
 <br />
+<br />
 Tier 2
 <br />
 <br />
