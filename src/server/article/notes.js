@@ -1,3 +1,53 @@
+const week92020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Teams coming off Bye week 8
+<br />
+<br />
+Cardinals nw
+<br />
+Washington ne
+<br />
+Jaguars as
+<br />
+Texans as
+<br />
+<br />
+Teams going into Bye week 9
+<br />
+<br />
+Bengals as
+<br />
+Browns an
+<br />
+Rams nw
+<br />
+Eagles ne
+<br />
+<br />
+Top defenses (hold to 20 or less well)
+<br />
+<br />
+Tier 1 (15 or less)
+<br />
+<br />
+Tier 2
+<br />
+<br />
+Top offenses (score 30 or more well)
+<br />
+* has top defense
+<br />
+<br />
+Tier 1 (35 or more)
+<br />
+Tier 2
+<br />
+<br />
+<i>Updated all week until all games are analyzed.</i>
+</div>`;
+
 const week82020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -210,9 +260,6 @@ Division rankings (based on top defense & offense)
 7. NFC South 1
 <br />
 8. NFC North 0
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week72020 = `<div>
@@ -1656,5 +1703,6 @@ module.exports = {
 	week52020,
 	week62020,
 	week72020,
-	week82020
+	week82020,
+	week92020
 };
