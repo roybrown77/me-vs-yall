@@ -188,7 +188,7 @@ Colts vs Lions 41 21
 (216 receiving yds, 118 rushing yds) vs (336 receiving yds, 29 rushing yds, 2 to)
 <br />
 <br />
-Hines goes gymnast on td celebrations.  Colts d closing pocket fast.  Stafford loves his tight ends.  Colts d get strip sack fumble.  Solid td drives by Colts.  Moore td celebration noted.  Colts d too soft to stay in game.
+Hines goes gymnast on td celebrations.  Colts d closing pocket fast.  Stafford loves his tight ends.  Colts d get strip sack fumble.  Solid td drives by Colts.  Moore td celebration noted.  Lions d too soft to stay in game.
 <br />
 <br />
 Steelers vs Ravens 28 24
