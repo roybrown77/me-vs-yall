@@ -14,6 +14,22 @@ Jaguars as
 Texans as
 <br />
 <br />
+Bears vs Titans 17 24
+<br />
+(335 receiving yds, 56 rushing yds, 2 to) vs (158 receiving yds, 92 rushing yds)
+<br />
+<br />
+AJ Brown is a tough man with great hands.  Fabulous goal post hug.  Bears offense stuck in mud til late 4th.  Titans d getting to Foles.  Big man King rumbles back a fumble for td.  Robinson Moss’d somebody.
+<br />
+<br />
+Ravens vs Colts 24 10
+<br />
+(170 receiving yds, 110 rushing yds, 1 to) vs (227 receiving yds, 113 rushing yds, 2 to)
+<br />
+<br />
+Tight end hurdle attempt commendable.  Harris spin move elite.  Fumble pick up then hurdle over Rivers dope.  Both defenses fast.  Ravens fumble in red zone.  Ravens intercept immediately.  Jackson fake handoff td run brilliant.  Ravens d lean on Colts for win.
+<br />
+<br />
 Teams going into Bye week 9
 <br />
 <br />
@@ -32,7 +48,13 @@ Top defenses (hold to 20 or less well)
 Tier 1 (15 or less)
 <br />
 <br />
+Ravens an
+<br />
+<br />
 Tier 2
+<br />
+<br />
+Titans as
 <br />
 <br />
 Top offenses (score 30 or more well)
