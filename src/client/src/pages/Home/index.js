@@ -542,7 +542,7 @@ class Home extends Component {
                 <div><Link style={styles.link} to={'/tips'}>Tips</Link></div>
                 <div><Link style={styles.link} to={'/shop'}>Shop</Link></div>
                 <div><Link style={styles.link} to={'/play'}>Play</Link></div>
-                <div><Link style={styles.link} to={''} onClick={()=>this.tube()}>Tube</Link></div>
+                {false && <div><Link style={styles.link} to={''} onClick={()=>this.tube()}>Tube</Link></div>}
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link style={styles.link} to={'/about'}>About</Link></div>
