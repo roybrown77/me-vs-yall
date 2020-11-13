@@ -9,7 +9,7 @@ const get = require('lodash/get');
 function upsert(pick, cb) {
     gameRepository.findById(pick.gameId, function (err, game) {
         if (!isValid(err, game, pick)) {
-            return cb(new Error('It is too late to make a pick.  Picks must be made before game starts.'));
+            return cb(new Error('Invalid pick.'));
         }
 
         const finalPick = { 
