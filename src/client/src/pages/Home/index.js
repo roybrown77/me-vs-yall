@@ -532,7 +532,7 @@ class Home extends Component {
               </div>
             </div>
           }
-          {true && <div style={{marginTop:'40px'}}>
+          {false && <div style={{marginTop:'40px'}}>
             <iframe style={{borderStyle:'none'}} width="320" height="215" title="Los D Baya" src={videoUrl}>
             </iframe>
           </div>}
