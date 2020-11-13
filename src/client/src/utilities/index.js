@@ -562,7 +562,7 @@ const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
 const getPicksNotSelected = (games = [], picks = []) => {
     let count = 0;
     games.forEach(game=>{
-        if (!picks.find(x=>x.gameId === game._id)) {
+        if (!picks.find(x=>x.gameId === game._id) && !game.isGameOver) {
             count++;
         }
     });
