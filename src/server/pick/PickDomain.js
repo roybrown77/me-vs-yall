@@ -48,6 +48,11 @@ function isValid(err, game, pick) {
         return false;
     }
 
+    if (game.isGameOver) {
+        console.log(`Game ${get(pick,'gameId')} is over.`);
+        return false;
+    }
+
 	const started = hasGameStarted(game.startDateTime, pick.createDateTime);
 
 	if (started) {

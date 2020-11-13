@@ -253,7 +253,9 @@ class Scoreboard extends Component {
     }
 
     handleMakePick = (pick) => {
-        if (!this.props.isAuthenticated) return;
+        const gameFound = this.props.games.find(x=>x._id === pick.gameId);
+
+        if (!this.props.isAuthenticated || gameFound.isGameOver) return;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
         if (!!pickFound) {
