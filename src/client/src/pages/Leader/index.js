@@ -9,7 +9,6 @@ import last from 'lodash/last';
 
 import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
-import ListItemText from '@material-ui/core/ListItemText';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -83,7 +82,8 @@ const styles = theme => ({
   },
   userName: {
     padding: '10px',
-    textAlign: 'left'
+    textAlign: 'left',
+    overflowWrap: 'anywhere'
   },
   expansionSummary: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
@@ -433,44 +433,42 @@ class Leader extends Component {
                                         <div className={classes.container} key={leader.id}>
                                             <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>
                                                 <AccordionSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                                                    {
-                                                        [1,2,3].includes(index+1) &&
-                                                        <div style={{margin: 'auto 10px auto 0'}}>
-                                                            <img style={{width:'40px'}}src={index+1 === 1 ? gold : index+1 === 2 ? silver : bronze} alt=""/>
-                                                        </div>
-                                                    }
-                                                    {
-                                                        ![1,2,3].includes(index+1) &&
-                                                        <div style={{
-                                                            margin: 'auto 10px auto 0',
-                                                            color: index === 0 ? '#FFC107' : '#000', 
-                                                            fontWeight: index === 0 ? '700' : '400'}}>
-                                                            {index+1}
-                                                        </div>
-                                                    }
-                                                    <ListItemText style={{width: '100%', margin:'auto 0'}}>
-                                                        <div style={{display: 'flex'}}>
-                                                            {
-                                                                leader.picture &&
-                                                                <img className={classes.userPicture} src={leader.picture} alt=""/>
-                                                            }
-                                                            {
-                                                                !leader.picture &&
-                                                                <div className={classes.userDefaultPicture}>
-                                                                    <div style={{margin: '7px 0'}}>{leader.userName[0]}</div>
-                                                                </div>
-                                                            }
-                                                            <div className={classes.userName}>{leader.userName}</div>
-                                                            {
-                                                                true &&
-                                                                <div style={{display:'flex', margin: 'auto'}}>
-                                                                    <div><img style={{width:'30px'}} src={leader.winsInARow > leader.lossesInARow ? money : ice} alt=""/></div>
-                                                                    <div style={{fontWeight: '700'}}><span style={{margin: '3px 0'}}>x</span><span>{leader.winsInARow || leader.lossesInARow}</span></div>
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                    </ListItemText>
-                                                    <div style={{textAlign:'right', margin: 'auto', width: '35%'}}>
+                                                    <div style={{display: 'flex'}}>
+                                                        {
+                                                            [1,2,3].includes(index+1) &&
+                                                            <div style={{margin: 'auto 10px auto 0'}}>
+                                                                <img style={{width:'40px'}}src={index+1 === 1 ? gold : index+1 === 2 ? silver : bronze} alt=""/>
+                                                            </div>
+                                                        }
+                                                        {
+                                                            ![1,2,3].includes(index+1) &&
+                                                            <div style={{
+                                                                margin: 'auto 10px auto 0',
+                                                                color: index === 0 ? '#FFC107' : '#000', 
+                                                                fontWeight: index === 0 ? '700' : '400'}}>
+                                                                {index+1}
+                                                            </div>
+                                                        }
+                                                        {
+                                                            leader.picture &&
+                                                            <img className={classes.userPicture} src={leader.picture} alt=""/>
+                                                        }
+                                                        {
+                                                            !leader.picture &&
+                                                            <div className={classes.userDefaultPicture}>
+                                                                <div style={{margin: '7px 0'}}>{leader.userName[0]}</div>
+                                                            </div>
+                                                        }
+                                                        <div className={classes.userName}>{leader.userName}</div>
+                                                        {
+                                                            true &&
+                                                            <div style={{display:'flex', margin: 'auto'}}>
+                                                                <div><img style={{width:'30px'}} src={leader.winsInARow > leader.lossesInARow ? money : ice} alt=""/></div>
+                                                                <div style={{fontWeight: '700'}}><span style={{margin: '3px 0'}}>x</span><span>{leader.winsInARow || leader.lossesInARow}</span></div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
                                                         {
                                                             areAnyGamesInProgress &&
                                                             <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
