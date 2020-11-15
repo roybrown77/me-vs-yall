@@ -83,7 +83,8 @@ const styles = theme => ({
   userName: {
     padding: '10px',
     textAlign: 'left',
-    overflowWrap: 'anywhere'
+    overflowWrap: 'anywhere',
+    width: '100%'
   },
   expansionSummary: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
@@ -433,7 +434,7 @@ class Leader extends Component {
                                         <div className={classes.container} key={leader.id}>
                                             <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>
                                                 <AccordionSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                                                    <div style={{display: 'flex'}}>
+                                                    <div style={{display: 'flex', width: '100%'}}>
                                                         {
                                                             [1,2,3].includes(index+1) &&
                                                             <div style={{margin: 'auto 10px auto 0'}}>
@@ -468,7 +469,7 @@ class Leader extends Component {
                                                             </div>
                                                         }
                                                     </div>
-                                                    <div style={{textAlign:'right', margin: 'auto', width: '25%'}}>
+                                                    <div style={{textAlign:'right', margin: 'auto 0 auto auto', width: '25%'}}>
                                                         {
                                                             areAnyGamesInProgress &&
                                                             <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
