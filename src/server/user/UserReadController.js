@@ -8,8 +8,8 @@ const userRepository = require('./UserRepository');
 const get = require('lodash/get');
 
 const censoredIds = ['google-oauth2|105396867324708249567'];
-const excludedIds = ['google-oauth2|114172296334563495985','google-oauth2|118235893610557038598'];
-const vegas = {firstName: 'Vegas - excluded',authServiceId: '1'};
+const excludedIds = [];
+const vegas = {firstName: 'Vegas',authServiceId: '1'};
 
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
