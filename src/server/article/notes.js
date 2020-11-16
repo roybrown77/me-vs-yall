@@ -28,47 +28,6 @@ Ravens vs Colts 24 10
 <br />
 <br />
 Tight end hurdle attempt commendable.  Harris spin move elite.  Fumble pick up then hurdle over Rivers dope.  Both defenses fast.  Ravens fumble in red zone.  Ravens intercept immediately.  Jackson fake handoff td run brilliant.  Ravens d lean on Colts for win.
-<br />
-<br />
-Teams going into Bye week 9
-<br />
-<br />
-Bengals as
-<br />
-Browns an
-<br />
-Rams nw
-<br />
-Eagles ne
-<br />
-<br />
-Top defenses (hold to 20 or less well)
-<br />
-<br />
-Tier 1 (15 or less)
-<br />
-<br />
-Ravens an
-<br />
-<br />
-Tier 2
-<br />
-<br />
-Titans as
-<br />
-<br />
-Top offenses (score 30 or more well)
-<br />
-* has top defense
-<br />
-<br />
-Tier 1 (35 or more)
-<br />
-<br />
-Tier 2
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week82020 = `<div>
