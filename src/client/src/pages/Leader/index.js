@@ -83,7 +83,7 @@ const styles = theme => ({
   userName: {
     padding: '10px',
     textAlign: 'left',
-    overflowWrap: 'anywhere',
+    wordBreak: 'break-all',
     width: '100%'
   },
   expansionSummary: {
