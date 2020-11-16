@@ -11,6 +11,15 @@ const {
 } = require("./notes");
 
 const articles = [
+    {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 10: Detroit Lions over Washington Football Team`,
+    leagueName: 'NFL',
+    date: 'November 15, 2020',
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
+  },
   {
     title: "NOTES OF THE WEEK: NFL WEEK 9",
     content: week92020,
