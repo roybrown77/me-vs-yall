@@ -97,14 +97,17 @@ const styles = theme => ({
     height: '50px',
     width: '50px',
     borderRadius: '8px',
+    objectFit: 'cover'
   },
-  userDefaultPicture: {
+  userDefaultPictureContainer: {
     width: '50px',
     height: '50px',
     borderRadius: '8px',
     backgroundColor: '#3772FA',
     color: '#fff',
-    fontSize: '1.5rem'
+    fontSize: '1.5rem',
+    objectFit: 'cover',
+    margin: 'auto'
   },
   button: {
     fontSize: '1rem',
@@ -452,11 +455,13 @@ class Leader extends Component {
                                                         }
                                                         {
                                                             leader.picture &&
-                                                            <img className={classes.userPicture} src={leader.picture} alt=""/>
+                                                            <div style={{margin:'auto'}}>
+                                                                <img className={classes.userPicture} src={leader.picture} alt=""/>
+                                                            </div>
                                                         }
                                                         {
                                                             !leader.picture &&
-                                                            <div className={classes.userDefaultPicture}>
+                                                            <div className={classes.userDefaultPictureContainer}>
                                                                 <div style={{margin: '7px 0'}}>{leader.userName[0]}</div>
                                                             </div>
                                                         }
