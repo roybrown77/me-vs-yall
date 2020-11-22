@@ -1,3 +1,43 @@
+const week102020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Teams coming off Bye week 8
+<br />
+<br />
+Falcons ns
+<br />
+Cowboys ne
+<br />
+Chiefs aw
+<br />
+Jets an
+<br />
+<br />
+Jaguars vs Packers 20 24
+<br />
+(169 receiving yds, 5109 rushing yds, 1 to) vs (325 receiving yds, 80 rushing yds, 2 to)
+<br />
+<br />
+Deep shot td by Rodgers to Scantling. Cole shakes and baked punter for return. Jags defense playing well. Not much offense from Jags. Cole snags a needle out air for td. Pack go to more run and short plays. Pack defense getting to Luton to end it.
+<br />
+<br />
+Broncos vs Raiders 12 37
+<br />
+(257 receiving yds, 66 rushing yds, 5 to) vs (154 receiving yds, 203 rushing yds)
+<br />
+<br />
+Solid well balanced first drive from Raiders. Raiders d getting to Drew. Broncos d keeping them in game. Interceptions hurt Broncos. Carr with a fly jump pass to setup td. Raiders recover fumble to setup td. Raiders running tds in like they’re delivering pizza.
+<br />
+<br />
+Seahawks vs Rams 16 23
+<br />
+(248 receiving yds, 113 rushing yds, 3 to) vs (302 receiving yds, 106 rushing yds, 1 to)
+<br />
+<br />
+Seahawks run in strong td for solid first drive. Goff dealing dimes. Rams have great running backs. They trade turnovers. Rams d keep chef Russ from cooking.
+</div>`;
+
 const week92020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -1686,5 +1726,6 @@ module.exports = {
 	week62020,
 	week72020,
 	week82020,
-	week92020
+	week92020,
+	week102020
 };

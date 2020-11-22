@@ -7,11 +7,26 @@ const {
 	week62020,
 	week72020,
   week82020,
-  week92020
+  week92020,
+  week102020
 } = require("./notes");
 
 const articles = [
-    {
+  {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 11: Atlanta Falcons over New Orleans Saints`,
+    leagueName: 'NFL',
+    date: 'November 22, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
+    title: "NOTES OF THE WEEK: NFL WEEK 10",
+    content: week102020,
+    leagueName: 'NFL',
+    date: 'November 22, 2020',
+    author: 'Roy B.'
+  },
+  {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 10: Detroit Lions over Washington Football Team`,
     leagueName: 'NFL',
