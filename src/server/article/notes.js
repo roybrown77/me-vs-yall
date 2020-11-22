@@ -16,7 +16,7 @@ Jets an
 <br />
 Jaguars vs Packers 20 24
 <br />
-(169 receiving yds, 5109 rushing yds, 1 to) vs (325 receiving yds, 80 rushing yds, 2 to)
+(169 receiving yds, 109 rushing yds, 1 to) vs (325 receiving yds, 80 rushing yds, 2 to)
 <br />
 <br />
 Deep shot td by Rodgers to Scantling. Cole shakes and baked punter for return. Jags defense playing well. Not much offense from Jags. Cole snags a needle out air for td. Pack go to more run and short plays. Pack defense getting to Luton to end it.
