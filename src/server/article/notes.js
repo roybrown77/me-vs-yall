@@ -2,16 +2,16 @@ const week102020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
-Teams coming off Bye week 8
+Teams coming off Bye week 9
 <br />
 <br />
-Falcons ns
+Bengals as
 <br />
-Cowboys ne
+Browns as
 <br />
-Chiefs aw
+Rams nw
 <br />
-Jets an
+Eagles ne
 <br />
 <br />
 Jaguars vs Packers 20 24
