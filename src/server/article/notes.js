@@ -2,7 +2,7 @@ const week102020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
-Teams coming off Bye week 9
+Teams coming off Bye
 <br />
 <br />
 Bengals as
