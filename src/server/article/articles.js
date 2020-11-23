@@ -17,7 +17,9 @@ const articles = [
     content: `Week 11: Atlanta Falcons over New Orleans Saints`,
     leagueName: 'NFL',
     date: 'November 22, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "NOTES OF THE WEEK: NFL WEEK 10",
