@@ -279,6 +279,7 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                 ];
 
                 formattedGames.push({
+                  spread: game.spread,
                   leagueId: mongoose.Types.ObjectId(leagueId),
                   year: year,
                   startDateTime: game.startDateTime,

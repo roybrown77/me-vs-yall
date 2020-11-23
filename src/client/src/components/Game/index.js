@@ -374,11 +374,14 @@ class Game extends Component {
                                         </div>
                                       </div>
                                     }
+                                    {
+                                      spreadMode &&
                                       <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
                                           display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
                                           textAlign: 'right'}}>
                                           {get(game,'spread.amount')}
                                       </div>
+                                    }
                                     </Grid>}
                                     <Grid item xs={12} sm container>
                                         <Grid item xs>
