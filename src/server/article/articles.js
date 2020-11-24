@@ -8,10 +8,18 @@ const {
 	week72020,
   week82020,
   week92020,
-  week102020
+  week102020,
+  week112020
 } = require("./notes");
 
 const articles = [
+  {
+    title: "NOTES OF THE WEEK: NFL WEEK 11",
+    content: week112020,
+    leagueName: 'NFL',
+    date: 'November 24, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 11: Atlanta Falcons over New Orleans Saints`,

@@ -1,17 +1,24 @@
-const week102020 = `<div>
+const week112020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
-Teams coming off Bye
+Teams going into Bye
 <br />
 <br />
-Bengals as
+Bills ae
 <br />
-Browns as
+Bears nn
 <br />
-Rams nw
+Giants ne 
 <br />
-Eagles ne
+49ers nw
+<br />
+<br />
+<i>Updated all week.</i>
+</div>`;
+
+const week102020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Jaguars vs Packers 20 24
@@ -36,22 +43,22 @@ Seahawks vs Rams 16 23
 <br />
 <br />
 Seahawks run in strong td for solid first drive. Goff dealing dimes. Rams have great running backs. They trade turnovers. Rams d keep chef Russ from cooking.
+<br />
+<br />
+Teams going into Bye
+<br />
+<br />
+Falcons ns
+<br />
+Cowboys ne
+<br />
+Chiefs aw 
+<br />
+Jets ae
 </div>`;
 
 const week92020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
-<br />
-<br />
-Teams coming off Bye week 8
-<br />
-<br />
-Cardinals nw
-<br />
-Washington ne
-<br />
-Jaguars as
-<br />
-Texans as
 <br />
 <br />
 Bears vs Titans 17 24
@@ -68,22 +75,22 @@ Ravens vs Colts 24 10
 <br />
 <br />
 Tight end hurdle attempt commendable.  Harris spin move elite.  Fumble pick up then hurdle over Rivers dope.  Both defenses fast.  Ravens fumble in red zone.  Ravens intercept immediately.  Jackson fake handoff td run brilliant.  Ravens d lean on Colts for win.
+<br />
+<br />
+Teams going into Bye
+<br />
+<br />
+Bengals as
+<br />
+Browns as
+<br />
+Rams nw
+<br />
+Eagles ne
 </div>`;
 
 const week82020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
-<br />
-<br />
-Teams coming off Bye
-<br />
-<br />
-Colts as
-<br />
-Dolphins ae
-<br />
-Vikings nn
-<br />
-Ravens an
 <br />
 <br />
 Vikings vs Packers 28 22
@@ -198,7 +205,7 @@ Steelers vs Ravens 28 24
 Jackson not easy to get down and very accurate.  Jackson careless at times with ball.  Steelers d always plays hard.  Steelers offense heats up in 3rd.  Ebron td celebration not good.  One paw won't get Big Ben down.  Ravens d can't contain Steelers offense but Steelers d can contain Ravens offense.
 <br />
 <br />
-Bye teams
+Teams going into Bye
 <br />
 <br />
 Cardinals nw
@@ -400,7 +407,7 @@ Bears vs Rams 10 24
 Goff getting ball out fast to beat Bears rush.  Kmet Moss’d somebody.  Rams closing pocket fast.  Bears offense not creative to move the sticks.  Great Rams secondary end zone pick.
 <br />
 <br />
-Bye teams
+Teams going into Bye
 <br />
 <br />
 Colts as
@@ -608,7 +615,7 @@ Cardinals vs Cowboys 38 10
 Murray running is a problem for Cowboys d.  Arizona d aggressive.  Zeke fumbles.  Big sack on Dalton.  Murray throws to wide open Kirk 80 yard td.  Cardinals Lamb interception celebration intelligent.  Cowboys turnovers hurt them.  Drake runs 69 yard td.
 <br />
 <br />
-Bye teams
+Teams going into Bye
 <br />
 <br />
 Raiders aw
@@ -822,7 +829,7 @@ Bills vs Titans 16 42
 Titans d look 100% Fresh with pressure.  Balanced attack by Titans.  Bills offense stalls.  They may need more running and play action.  Spectacular td run finger roll by Tannehill.  Allen can throw lasers.  Henry is a man pounding the rock.
 <br />
 <br />
-Bye teams
+Teams going into Bye
 <br />
 <br />
 Broncos aw
@@ -920,9 +927,6 @@ Division rankings (based on top defense & offense)
 7. AFC East 2
 <br />
 8. NFC North 1
-<br />
-<br />
-<i>Updated all week until all games are analyzed.</i>
 </div>`;
 
 const week42020 = `<div>Broncos vs Jets 37 28
@@ -1043,6 +1047,12 @@ Ravens vs Washington 31 17
 <br />
 <br />
 Ravens d closes pocket fast.  Washington fumble near red zone sets up td.  Haskins poised.  Lamar breaks free for 50 yard td run.  Gibson a great football player.  Lamar extends plays until receivers are open and throws darts.  Washington needs better play calling against aggressive Ravens d.  Haskins fights.
+Teams going into Bye
+<br />
+<br />
+Titans as
+<br />
+Steelers an
 <br />
 <br />
 Top defenses (hold to 20 or less well)
@@ -1727,5 +1737,6 @@ module.exports = {
 	week72020,
 	week82020,
 	week92020,
-	week102020
+	week102020,
+	week112020
 };
