@@ -2,6 +2,14 @@ const week112020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Patriots vs Texans 20 27
+<br />
+(365 receiving yds, 86 rushing yds) vs (344 receiving yds, 55 rushing yds)
+<br />
+<br />
+Fabulous first drive td by Patriots.  Patriots d not pressuring Watson.  Cooks & Akens burning & rolling Patriots secondary.  Patriots offense stalls.  Coutee td dance notable.  Byrd catches deep litty td pass from Cam.  Texans d get to Cam to hold on for win.
+<br />
+<br />
 Teams going into Bye
 <br />
 <br />
