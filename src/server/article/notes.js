@@ -1047,6 +1047,8 @@ Ravens vs Washington 31 17
 <br />
 <br />
 Ravens d closes pocket fast.  Washington fumble near red zone sets up td.  Haskins poised.  Lamar breaks free for 50 yard td run.  Gibson a great football player.  Lamar extends plays until receivers are open and throws darts.  Washington needs better play calling against aggressive Ravens d.  Haskins fights.
+<br />
+<br />
 Teams going into Bye
 <br />
 <br />
