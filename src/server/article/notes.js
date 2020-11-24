@@ -14,7 +14,7 @@ Giants ne
 49ers nw
 <br />
 <br />
-<i>Updated all week.</i>
+<i>Check back as this is updated all week.</i>
 </div>`;
 
 const week102020 = `<div>
