@@ -544,8 +544,8 @@ class Scoreboard extends Component {
                                         <div key={game._id}>
                                             {
                                                 newDate &&
-                                                <div style={{fontFamily:'monospace', backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                                    <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600',color:'deeppink'}}>{gameDate}</div>
+                                                <div style={{fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                    <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
                                                 </div>
                                             }
                                             <Game 
@@ -566,7 +566,7 @@ class Scoreboard extends Component {
                                 {
                                     groupedGames.completed.length > 0 &&
                                     <div style={{fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                        <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>Completed Matches</div>
+                                        <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Completed Matches ***</div>
                                     </div>
                                 }
                                 {
@@ -579,8 +579,8 @@ class Scoreboard extends Component {
                                             <div key={game._id}>
                                                 {
                                                     newDate &&
-                                                    <div style={{fontFamily:'monospace', backgroundColor:'#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                                        <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600',color:'deeppink'}}>{gameDate}</div>
+                                                    <div style={{fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                        <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
                                                     </div>
                                                 }
                                                 <Game 
