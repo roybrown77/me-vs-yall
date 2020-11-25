@@ -4,7 +4,7 @@ const week112020 = `<div>
 <br />
 Patriots vs Texans 20 27
 <br />
-(365 receiving yds, 86 rushing yds) vs (344 receiving yds, 55 rushing yds)
+(365 receiving yds, 86 rushing yds, 0 to) vs (344 receiving yds, 55 rushing yds, 0 to)
 <br />
 <br />
 Fabulous first drive td by Patriots.  Patriots d not pressuring Watson.  Cooks & Akens burning & rolling Patriots secondary.  Patriots offense stalls.  Coutee td dance notable.  Byrd catches deep litty td pass from Cam.  Texans d get to Cam to hold on for win.
@@ -39,7 +39,7 @@ Deep shot td by Rodgers to Scantling. Cole shakes and baked punter for return. J
 <br />
 Broncos vs Raiders 12 37
 <br />
-(257 receiving yds, 66 rushing yds, 5 to) vs (154 receiving yds, 203 rushing yds)
+(257 receiving yds, 66 rushing yds, 5 to) vs (154 receiving yds, 203 rushing yds, 0 to)
 <br />
 <br />
 Solid well balanced first drive from Raiders. Raiders d getting to Drew. Broncos d keeping them in game. Interceptions hurt Broncos. Carr with a fly jump pass to setup td. Raiders recover fumble to setup td. Raiders running tds in like they’re delivering pizza.
@@ -71,7 +71,7 @@ const week92020 = `<div>
 <br />
 Bears vs Titans 17 24
 <br />
-(335 receiving yds, 56 rushing yds, 2 to) vs (158 receiving yds, 92 rushing yds)
+(335 receiving yds, 56 rushing yds, 2 to) vs (158 receiving yds, 92 rushing yds, 0 to)
 <br />
 <br />
 AJ Brown is a tough man with great hands.  Fabulous goal post hug.  Bears offense stuck in mud til late 4th.  Titans d getting to Foles.  Big man King rumbles back a fumble for td.  Robinson Moss’d somebody.
@@ -103,7 +103,7 @@ const week82020 = `<div>
 <br />
 Vikings vs Packers 28 22
 <br />
-(169 receiving yds, 173 rushing yds) vs (291 receiving yds, 109 rushing yds, 1 to)
+(169 receiving yds, 173 rushing yds, 0 to) vs (291 receiving yds, 109 rushing yds, 1 to)
 <br />
 <br />
 Vikings running the ball like Forrest Gump.  Packers offense starts balanced but stalled in second half.  Vikings controlled clock with heavy run game.  Gorgeous back end zone catch by Adams.  Monster sack on Rodgers ends comeback.
@@ -111,7 +111,7 @@ Vikings running the ball like Forrest Gump.  Packers offense starts balanced but
 <br />
 49ers vs Seahawks 27 37
 <br />
-(322 receiving yds, 52 rushing yds, 2 to) vs (261 receiving yds, 101 rushing yds)
+(322 receiving yds, 52 rushing yds, 2 to) vs (261 receiving yds, 101 rushing yds, 0 to)
 <br />
 <br />
 Metcalf runs wild across middle for td.  Russell throws a phenomenal deep ball.  Seahawks d closing pocket fast.  49ers play hard no matter who they have available.  Wilson escapes all pressure.  Poised Mullen in for injured Jimmy G.  Seahawks defense hits hard.
@@ -135,7 +135,7 @@ Giants spreading ball around.  Giants d playing well until second half.  Happy G
 <br />
 Titans vs Bengals 20 31
 <br />
-(233 receiving yds, 218 rushing yds, 1 to) vs (249 receiving yds, 118 rushing yds)
+(233 receiving yds, 218 rushing yds, 1 to) vs (249 receiving yds, 118 rushing yds, 0 to)
 <br />
 <br />
 Tannehill throws an end zone pick to Bates.  Burrow gets ball out quick.  Henry rumbling down after down.  Henry fun td dance.  Burrow fights out of big sack.  Titans offense stalls but heats up in 4th.
@@ -159,7 +159,7 @@ Tua meets Aaron Donald on huge sack.  Dolphins d getting to Goff.  Dolphins fumb
 <br />
 Jets vs Chiefs 9 35
 <br />
-(133 receiving yds, 93 rushing yds, 1 to) vs (446 receiving yds, 50 rushing yds)
+(133 receiving yds, 93 rushing yds, 1 to) vs (446 receiving yds, 50 rushing yds, 0 to)
 <br />
 <br />
 Great Chiefs play calling sets up fabulous fun in by Hardman.  Fake Chiefs punt sets up big Tyreek Hill td.  Darnold to Mims throw sweet.  Jets can barely get past Chiefs 40 yard line.  Mahomes mincing up Jets d.  Hill gets piggyback ride after scoring td.
@@ -175,7 +175,7 @@ Grudge match with both defenses keeping  very few points on board.  Herbert thro
 <br />
 Saints vs Bears 26 23
 <br />
-(280 receiving yds, 122 rushing yds) vs (274 receiving yds, 101 rushing yds, 2 to)
+(280 receiving yds, 122 rushing yds, 0 to) vs (274 receiving yds, 101 rushing yds, 2 to)
 <br />
 <br />
 Kamara has Mandalorian vision when running.  Both defenses playing strong.  Foles to Robinson on deep td strike.  Cook a big target for Brees.  Easy pick for Saints d dropped.  Brees to Taysom Hill coming across middle like a tight end for td.  Bears fight to go to overtime.  Saints very creative to finally win it.
@@ -191,7 +191,7 @@ Samuel td celebration legit.  Hurst tying his shoes for a catch.  Both defenses 
 <br />
 Raiders vs Browns 16 6
 <br />
-(111 receiving yds, 209 rushing yds) vs (122 receiving yds, 101 rushing yds, 1 to)
+(111 receiving yds, 209 rushing yds, 0 to) vs (122 receiving yds, 101 rushing yds, 1 to)
 <br />
 <br />
 Raiders d flex to contain Browns.  Rainy weather in Cleveland may be slowing down game.  Landry dives for td.  Browns d fast.  Raiders pound rock with Jacobs well.  One hand grab by Jarvis a beauty.  Landry popped to break up td.
@@ -199,7 +199,7 @@ Raiders d flex to contain Browns.  Rainy weather in Cleveland may be slowing dow
 <br />
 Colts vs Lions 41 21
 <br />
-(216 receiving yds, 118 rushing yds) vs (336 receiving yds, 29 rushing yds, 2 to)
+(216 receiving yds, 118 rushing yds, 0 to) vs (336 receiving yds, 29 rushing yds, 2 to)
 <br />
 <br />
 Hines goes gymnast on td celebrations.  Colts d closing pocket fast.  Stafford loves his tight ends.  Colts d get strip sack fumble.  Solid td drives by Colts.  Moore td celebration noted.  Lions d too soft to stay in game.
@@ -305,7 +305,7 @@ const week72020 = `<div>
 <br />
 Panthers vs Saints 24 27
 <br />
-(254 receiving yds, 37 rushing yds) vs (287 receiving yds, 138 rushing yds, 1 to)
+(254 receiving yds, 37 rushing yds, 0 to) vs (287 receiving yds, 138 rushing yds, 1 to)
 <br />
 <br />
 Great td catch by Jared Coop on clinical Saints first drive.  Saints pounding the rock.  DJ Moore wide wide wide open for td.  Great td run by DJ Moore.  Kamara balling.  Samuel td celebration ok.  Saints d hold to setup long Panthers field goal miss.
@@ -313,7 +313,7 @@ Great td catch by Jared Coop on clinical Saints first drive.  Saints pounding th
 <br />
 Lions vs Falcons 23 22
 <br />
-(340 receiving yds, 64 rushing yds) vs (338 receiving yds, 66 rushing yds, 1 to)
+(340 receiving yds, 64 rushing yds, 0 to) vs (338 receiving yds, 66 rushing yds, 1 to)
 <br />
 <br />
 Stafford makes good decisions.  Falcons Hurst hurdle exceptional.  Ridley catches everything.  Both defenses pressuring.  Galloday incredible catches.  Lions d cause strip sack late.  Gurley scores too soon.  Cardiac Lions 1 minute td drive a beauty to end it.
@@ -329,7 +329,7 @@ Eagles first drive super.  Tate Moss’d somebody for td.  Scott spin moves grea
 <br />
 Cowboys vs Washington 3 25
 <br />
-(114 receiving yds, 83 rushing yds, 1 to) vs (194 receiving yds, 208 rushing yds)
+(114 receiving yds, 83 rushing yds, 1 to) vs (194 receiving yds, 208 rushing yds, 0 to)
 <br />
 <br />
 Cowboys d stops 4 and goal inches.  Dalton strip fumble for safety.  Cowboys offense stalls.  Cowboys secondary getting burnt.  Washington d getting to Dalton.  Thomas Moss’d somebody.
@@ -353,7 +353,7 @@ Burrow tip pick in end zone.  Mayfield deep pick.  Hunt running well.  Garrett s
 <br />
 Steelers vs Titans 27 24
 <br />
-(268 receiving yds, 94 rushing yds, 3 to) vs (220 receiving yds, 82 rushing yds)
+(268 receiving yds, 94 rushing yds, 3 to) vs (220 receiving yds, 82 rushing yds, 0 to)
 <br />
 <br />
 Undefeated teams meet in Nashville.  Big Ben converts longest shovel pass of all time to setup td.  Steelers pounding the rock.  Titans fight through aggressive Steelers d.  Diontae Johnson spin move td so smooth.  Ben throws pick in end zone.  Steelers d flex to setup missed field goal for win.
@@ -361,7 +361,7 @@ Undefeated teams meet in Nashville.  Big Ben converts longest shovel pass of all
 <br />
 Packers vs Texans 35 20
 <br />
-(283 receiving yds, 96 rushing yds) vs (309 receiving yds, 79 rushing yds, 1 to)
+(283 receiving yds, 96 rushing yds, 0 to) vs (309 receiving yds, 79 rushing yds, 1 to)
 <br />
 <br />
 Texans d don’t play tight enough leaving big holes.  Great catch by Adams.  Bad Texan play calling.  Donuts served at half.  Watson throws good pass back end zone.  More creativity from Texan offense but struggle in red zone.
@@ -369,7 +369,7 @@ Texans d don’t play tight enough leaving big holes.  Great catch by Adams.  Ba
 <br />
 Buccaneers vs Raiders 45 20
 <br />
-(369 receiving yds, 85 rushing yds) vs (284 receiving yds, 76 rushing yds, 1 to)
+(369 receiving yds, 85 rushing yds, 0 to) vs (284 receiving yds, 76 rushing yds, 1 to)
 <br />
 <br />
 Agholor Moss’d somebody for td grab.  Brady still qb sneaking for tds.  Suh makes scrimmage pick and big man runs nearly 50 yards for td.  Brady to Miller deep td a beauty.  Raiders fight with deep shots.  Bucs offense well oiled.
@@ -377,7 +377,7 @@ Agholor Moss’d somebody for td grab.  Brady still qb sneaking for tds.  Suh ma
 <br />
 Jaguars vs Chargers 29 39
 <br />
-(173 receiving yds, 140 rushing yds, 1 to) vs (351 receiving yds, 135 rushing yds)
+(173 receiving yds, 140 rushing yds, 1 to) vs (351 receiving yds, 135 rushing yds, 0 to)
 <br />
 <br />
 Herbert ghost handoff for qb run magical.  Jags offense heat up second quarter.  Robinson rolling folks.  Jags block punt td celebration joyful.  Green td puts Jags ahead.  Chargers take lead.  Jags take lead.  Chargers cause fumble to set up to take lead.
@@ -513,7 +513,7 @@ const week62020 = `<div>
 <br />
 Ravens vs Eagles 30 28
 <br />
-(186 receiving yds, 182 rushing yds) vs (213 receiving yds, 194 rushing yds, 1 to)
+(186 receiving yds, 182 rushing yds, 0 to) vs (213 receiving yds, 194 rushing yds, 1 to)
 <br />
 <br />
 Deep ball from Wentz dropped.  Great balanced drive by Ravens.  Ravens d closing pocket fast.  Jackson is fast.  Poor execution by Eagles.  Great Sanders run.  Jackson throwing darts.  Eagles fight in 4th to score tds.  Eagles nearly tie game but 2 point conversion run stopped.
@@ -529,7 +529,7 @@ Alex Smith starts for Washington.  Jones throws a beauty to Slayton.  New end zo
 <br />
 Texans vs Titans 36 42
 <br />
-(335 receiving yds, 92 rushing yds) vs (364 receiving yds, 263 rushing yds, 2 to)
+(335 receiving yds, 92 rushing yds, 0 to) vs (364 receiving yds, 263 rushing yds, 2 to)
 <br />
 <br />
 Slow start for Texans.  Texans convert 4th and goal.  Tannehill dealing dimes for smart scoring drives.  Watson and Texans d play with urgency to take lead.  Watson to Cobb td a beauty.  Titans retake lead on long run by Henry.  Texans take lead with deep shot by Watson.  Titans payday td drive with less than 2 minutes sends it to OT.  Strong Titans running seals win.
@@ -569,7 +569,7 @@ Superman sack on Cam blindside.  Both defenses playing well.  Lots of field goal
 <br />
 Browns vs Steelers 7 38
 <br />
-(165 receiving yds, 75 rushing yds, 2 to) vs (168 receiving yds, 129 rushing yds)
+(165 receiving yds, 75 rushing yds, 2 to) vs (168 receiving yds, 129 rushing yds, 0 to)
 <br />
 <br />
 Steelers d pick 6.  Steelers d closing pocket fast.  Claypool on a roll with good hands.  Balanced Steeler offensive attack.  Mayfield holding ball too long.  Big Ben in form with throws.  It was over by the half.  Browns play calling could have been more balanced to offset rush.
@@ -593,7 +593,7 @@ Fitzy blocking for back is what men do.  Dolphins play smart and hard.  Williams
 <br />
 Packers vs Buccaneers 10 38
 <br />
-(160 receiving yds, 94 rushing yds, 2 to) vs (166 receiving yds, 158 rushing yds)
+(160 receiving yds, 94 rushing yds, 2 to) vs (166 receiving yds, 158 rushing yds, 0 to)
 <br />
 <br />
 Packers offense starts well balanced and well oiled.  Bucs pick 6 td.  Another Bucs pick sets up td.  Bucs offense sharpening.  Gronk td spike alert.  Bucs d getting to Rodgers.  Sequenced Bucs d line celebration sack on Rodgers creative.
@@ -601,7 +601,7 @@ Packers offense starts well balanced and well oiled.  Bucs pick 6 td.  Another B
 <br />
 Rams vs 49ers 16 24
 <br />
-(198 receiving yds, 113 rushing yds, 1 to) vs (268 receiving yds, 122 rushing yds)
+(198 receiving yds, 113 rushing yds, 1 to) vs (268 receiving yds, 122 rushing yds, 0 to)
 <br />
 <br />
 49ers offense starts solid with td drives.  Big holes for Rams runners.  Great td catch by Woods.  Jimmy G making good decisions.  Rams offense stalls.  Goff throws end zone interception.  Fabulous td catch by Reynolds.  Samuel runs hard for first down to seal win for 49ers.
@@ -751,7 +751,7 @@ Steelers d closing pocket fast.  Eagles d coming hard.  Big Ben as cool as cucum
 <br />
 Cardinals vs Jets 30 10
 <br />
-(380 receiving yds, 127 rushing yds, 1 to) vs (195 receiving yds, 123 rushing yds)
+(380 receiving yds, 127 rushing yds, 1 to) vs (195 receiving yds, 123 rushing yds, 0 to)
 <br />
 <br />
 Murray fleet of foot early.  Great td run by Edmonds.  Flacco starts for Jets.  Flacco with a rare run.  Jets offense stalls.  Jets d bat ball for interception.  Murray accurate.  Nice deep ball by Flacco sets up td.  Balanced Cardinals offense.
@@ -759,7 +759,7 @@ Murray fleet of foot early.  Great td run by Edmonds.  Flacco starts for Jets.  
 <br />
 Rams vs Washington 30 10
 <br />
-(309 receiving yds, 129 rushing yds, 1 to) vs (111 receiving yds, 38 rushing yds)
+(309 receiving yds, 129 rushing yds, 1 to) vs (111 receiving yds, 38 rushing yds, 0 to)
 <br />
 <br />
 Well oiled Rams offense very creative.  Antonio Gibson good.  Kyle Allen runs one in.  Rams d close the pocket fast.  Now you see me now you don’t fast.  Allen knocked out game.  Alex Smith in but sacked soon.  Washington d bring heat to Goff.  Cupp & Akers are fast.  Washington needs better play calling against aggressive Rams d.
@@ -775,7 +775,7 @@ Missle thrown to Hill by Mahomes called back due to penalty.  Raidahs came to pl
 <br />
 Panthers vs Falcons 23 16
 <br />
-(313 receiving yds, 124 rushing yds) vs (226 receiving yds, 166 rushing yds, 1 to)
+(313 receiving yds, 124 rushing yds, 0 to) vs (226 receiving yds, 166 rushing yds, 1 to)
 <br />
 <br />
 Great Falcons first drive.  Bridgewater very sharp in pocket with pressure.  Davis moves pile with strong running.  Great Panther play calling.  Gurley runs great.  Ryan off target and throws pick in end zone.
@@ -791,7 +791,7 @@ Ravens d closing pocket fast.  Great hands by Andrews.  Burrow holding ball too 
 <br />
 Dolphins vs 49ers 43 17
 <br />
-(350 receiving yds, 94 rushing yds) vs (171 receiving yds, 131 rushing yds, 3 to)
+(350 receiving yds, 94 rushing yds, 0 to) vs (171 receiving yds, 131 rushing yds, 3 to)
 <br />
 <br />
 Fitzy launching balls deep early.  Dolphins d pressuring Jimmy G.  Balanced Miami offense.  49ers backs running well.  Fitzy very sharp throws.  Miami receivers getting behind 49ers secondary for big plays.  Jimmy making poor throws.  Beathard in for Jimmy.
@@ -823,7 +823,7 @@ Cook runs well for td.  Vikings d aggressive.  Wilson holding ball too long stal
 <br />
 Chargers vs Saints 27 30
 <br />
-(264 receiving yds, 111 rushing yds) vs (325 receiving yds, 95 rushing yds, 1 to)
+(264 receiving yds, 111 rushing yds, 0 to) vs (325 receiving yds, 95 rushing yds, 1 to)
 <br />
 <br />
 Great balanced Charger play calling.  Nice td throw by Herbert and catch by Allen.  Saints d getting to Herbert.  Great play action deep ball by Herbert to setup td.  Saints offense stalls.  Sanders and Kamara do heavy lifting for Saints.  Wide, wide, wide open Mike Williams scores td.  Crazy sweet catch by Kamara sets up qb td run by Hill to tie it.  Mike Williams Moss’s the whole Saints secondary but field goal to win doinks off bottom bar out.  Saints d hold to win game in OT.
@@ -831,7 +831,7 @@ Great balanced Charger play calling.  Nice td throw by Herbert and catch by Alle
 <br />
 Bills vs Titans 16 42
 <br />
-(285 receiving yds, 95 rushing yds, 3 to) vs (195 receiving yds, 139 rushing yds)
+(285 receiving yds, 95 rushing yds, 3 to) vs (195 receiving yds, 139 rushing yds, 0 to)
 <br />
 <br />
 Titans d look 100% Fresh with pressure.  Balanced attack by Titans.  Bills offense stalls.  They may need more running and play action.  Spectacular td run finger roll by Tannehill.  Allen can throw lasers.  Henry is a man pounding the rock.
@@ -939,7 +939,7 @@ Division rankings (based on top defense & offense)
 
 const week42020 = `<div>Broncos vs Jets 37 28
 <br />
-(242 receiving yds, 117 rushing yds, 3 to) vs (246 receiving yds, 129 rushing yds)
+(242 receiving yds, 117 rushing yds, 3 to) vs (246 receiving yds, 129 rushing yds, 0 to)
 <br />
 <br />
 Darnold keeps play alive for td run.  Jets offense not balanced.  Rypien fearless throws.  Darnold moves sticks to fight.  Broncos run strong.  Rypien throws a beauty td back of end zone.  Jets punter saves a td.  Jets pick 6 then another pick for field goal.  Rypien doesn’t move pocket.  Darnold holds ball too long at end. 
@@ -955,7 +955,7 @@ Minshew throws into traffic for pick.  Burrow poised to drive ball.  Great td th
 <br />
 Browns vs Cowboys 49 38
 <br />
-(202 receiving yds, 307 rushing yds) vs (502 receiving yds, 85 rushing yds, 3 to)
+(202 receiving yds, 307 rushing yds, 0 to) vs (502 receiving yds, 85 rushing yds, 3 to)
 <br />
 <br />
 Garrett sack sets tone for Browns.  Both offenses look good to start.  Great Browns running backs.  Browns d aggressive.  Mayfield locked in.  Cowboys don’t quit.  Great throws from Dak to lead charge.  Brilliant run & td dance by Beckham.
@@ -979,7 +979,7 @@ Herbert airs it out for td.  Chargers getting to Brady.  Bucs offense stalls.  C
 <br />
 Colts vs Bears 19 11
 <br />
-(190 receiving yds, 103 rushing yds) vs (249 receiving yds, 28 rushing yds, 1 to)
+(190 receiving yds, 103 rushing yds, 0 to) vs (249 receiving yds, 28 rushing yds, 1 to)
 <br />
 <br />
 Colts great first drive.  Defenses close pocket quickly.  Play calling for both teams could be better.  Lots of field goals.
@@ -1003,7 +1003,7 @@ Weird pick thrown by Wentz.   Nice td run by Wentz.  Eagles d playing fast.  Fab
 <br />
 Falcons vs Packers 16 30
 <br />
-(285 receiving yds, 78 rushing yds) vs (327 receiving yds, 88 rushing yds)
+(285 receiving yds, 78 rushing yds, 0 to) vs (327 receiving yds, 88 rushing yds, 0 to)
 <br />
 <br />
 Packers balanced offense slicing up Falcons d.  Falcons d hold 4th and goal line.  Falcons move the ball too slow being behind so much.  Jones run game great.
@@ -1019,7 +1019,7 @@ Panthers d closing pocket fast.  Great playing calling and runs by Panthers.  Ca
 <br />
 Vikings vs Texans 23 21
 <br />
-(260 receiving yds, 162 rushing yds) vs (300 receiving yds, 96 rushing yds, 1 to)
+(260 receiving yds, 162 rushing yds, 0 to) vs (300 receiving yds, 96 rushing yds, 1 to)
 <br />
 <br />
 Bad Texans play calling.  Vikings have a balanced offense.  Big hit by Vikings to force fumble and sets up field goal.  Texans dropping balls.  Cook is special.  Great td drives by Texans.  Watson takes shot deep down field.  Cousins throws great running away from defenders.  Jefferson is the man.  Texans don’t run much.  Texans fight.  Incredible Texan throw and catch 4th and goal was incomplete.
@@ -1043,7 +1043,7 @@ Seahawks deflect pass for pick.  Russell to Metcalf sets up td.  Seahawks d clos
 <br />
 Bills vs Raiders 30 23
 <br />
-(288 receiving yds, 63 rushing yds) vs (311 receiving yds, 86 rushing yds, 2 to)
+(288 receiving yds, 63 rushing yds, 0 to) vs (311 receiving yds, 86 rushing yds, 2 to)
 <br />
 <br />
 Allen efficient for fast tds.  Beasley acrobatic td catch.  Carr beauty deep throw td but penalty brought it back.  Great Raider play calling and receivers.  Bills 4th and 1 at 50 shows confidence.  Great throws by Allen.  Late fumble by Waller.  Allen throws a 60+ yard pass to Diggs.  Super throw and catch by Carr and Renfroe & Agholor.  Carr strip fumble.
@@ -1155,7 +1155,7 @@ Division rankings (based on top defense & offense)
 
 const week32020 = `<div>Bucs vs Broncos 28 10
 <br />
-(297 receiving yds, 68 rushing yds) vs (229 receiving yds, 42 rushing yds, 1 to)
+(297 receiving yds, 68 rushing yds, 0 to) vs (229 receiving yds, 42 rushing yds, 1 to)
 <br />
 <br />
 Aggressive Bucs defense. Brady & Co takes advantage. Driscoll unable to convert 3rd downs. Brady comfortable with receivers. Bucs run game present. Broncos defense good.
@@ -1163,7 +1163,7 @@ Aggressive Bucs defense. Brady & Co takes advantage. Driscoll unable to convert 
 <br />
 Jets vs Colts 9 36
 <br />
-(168 receiving yds, 109 rushing yds, 3 to) vs (234 receiving yds, 119 rushing yds)
+(168 receiving yds, 109 rushing yds, 3 to) vs (234 receiving yds, 119 rushing yds, 0 to)
 <br />
 <br />
 Darnold threw into traffic for picks. Great Jets running backs. Darnold a gamer. Fantastic Colts play calling. Colts d doesn’t quit.
@@ -1179,7 +1179,7 @@ Bills d came strong and fast early. Bills run game nice. Bills converting 4th an
 <br />
 Washington vs Browns 20 34
 <br />
-(224 receiving yds, 103 rushing yds, 5 to) vs (158 receiving yds, 158 rushing yds)
+(224 receiving yds, 103 rushing yds, 5 to) vs (158 receiving yds, 158 rushing yds, 0 to)
 <br />
 <br />
 Washington offense starts fast. Washington turns ball over. Browns stick to run. Browns d hunting for picks and sacks. Great Browns play calling. Washington doesn’t quit. Browns backs Chubb and Hunt great. Baker sees the field.
@@ -1187,7 +1187,7 @@ Washington offense starts fast. Washington turns ball over. Browns stick to run.
 <br />
 Lions vs Cardinals 26 23
 <br />
-(270 receiving yds, 90 rushing yds) vs (270 receiving yds, 109 rushing yds, 3 to)
+(270 receiving yds, 90 rushing yds, 0 to) vs (270 receiving yds, 109 rushing yds, 3 to)
 <br />
 <br />
 Hungry Lions team against fly high Cardinals team.  Stafford strong in pocket.  Murray great deep ball.  Lions score in red zone.  Not much run game from either team.  Murray threw interceptions.  Cardinals bad play calling.  Good Lions d.  Golladay returning helped Lions.  Lions field goal ended it.
@@ -1195,7 +1195,7 @@ Hungry Lions team against fly high Cardinals team.  Stafford strong in pocket.  
 <br />
 Panthers vs Chargers 21 16
 <br />
-(235 receiving yds, 81 rushing yds) vs (330 receiving yds, 117 rushing yds, 4 to)
+(235 receiving yds, 81 rushing yds, 0 to) vs (330 receiving yds, 117 rushing yds, 4 to)
 <br />
 <br />
 Teddy looks good in pocket.  Panthers getting to Herbert.  Panthers drive well but score field goals instead of tds.  Chargers good run game scores td.  Panthers have a balanced offense.  Chargers offense stalls.  Chargers fought and almost won.
@@ -1211,7 +1211,7 @@ Both teams start slow.  Turnovers by both teams.  Both teams run game strong.  P
 <br />
 Texans vs Steelers 21 28
 <br />
-(164 receiving yds, 29 rushing yds, 1 to) vs (237 receiving yds, 169 rushing yds)
+(164 receiving yds, 29 rushing yds, 1 to) vs (237 receiving yds, 169 rushing yds, 0 to)
 <br />
 <br />
 Great first drive for Texans.  Watson holds ball too long but Steelers d is good.  Steelers balanced attack.  Watson forces pass for interception.  Texans don't run the ball much.  Steelers good play calling late.  Steelers d tenacious.  Steelers run the rock to eat the clock.
@@ -1219,7 +1219,7 @@ Great first drive for Texans.  Watson holds ball too long but Steelers d is good
 <br />
 Dolphins vs Jags 31 13
 <br />
-(160 receiving yds, 138 rushing yds) vs (275 receiving yds, 72 rushing yds, to)
+(160 receiving yds, 138 rushing yds, 0 to) vs (275 receiving yds, 72 rushing yds, to)
 <br />
 <br />
 Good Dolphin play calling with heavy run for 7 minute first drive.  Fitzy poised.  Jags slow on offense.  Short week sluggish?  Miami athletic receivers helping Fitzy.  Bad mistakes by Minshew.
@@ -1227,7 +1227,7 @@ Good Dolphin play calling with heavy run for 7 minute first drive.  Fitzy poised
 <br />
 49ers vs Giants 36 9
 <br />
-(343 receiving yds, 93 rushing yds) vs (179 receiving yds, 66 rushing yds, 3 to)
+(343 receiving yds, 93 rushing yds, 0 to) vs (179 receiving yds, 66 rushing yds, 3 to)
 <br />
 <br />
 Giants d fast and aggressive.  49ers pressure up middle causes fumble.  Mullen poised.  49ers d coming in hot.  Great 49er play calling.  Exquisite McKinnon td dance.  Lots of field goals.  Jones doesn’t quit.  49ers got a million great running backs.
@@ -1251,7 +1251,7 @@ Cowboys first drive ok.  Seahawks deep ball super.  Cowboys safety due to bad ki
 <br />
 Packers vs Saints 37 30
 <br />
-(283 receiving yds, 98 rushing yds) vs (288 receiving yds, 122 rushing yds, 1 to)
+(283 receiving yds, 98 rushing yds, 0 to) vs (288 receiving yds, 122 rushing yds, 1 to)
 <br />
 <br />
 Kamara is psychic with his great running.  Saints d hold Packers to field goals.  Unreal throws by Rodgers sets up tds.  Saints pound the rock.  Saints rely on Kamara without Thomas.  Nice Packers td dance.  Packers d apply great pressure.
@@ -1267,7 +1267,7 @@ Vikings sloppy at start but pound the rock to get td on third drive.  Titans dri
 <br />
 Bengals vs Eagles 23 23
 <br />
-(312 receiving yds, 48 rushing yds) vs (225 receiving yds, 175 rushing yds, 2 to)
+(312 receiving yds, 48 rushing yds, 0 to) vs (225 receiving yds, 175 rushing yds, 2 to)
 <br />
 <br />
 Wentz holds ball too long.  Bengals struggle to drive at start.  Bengals d after Wentz.  Nice td throw by patient Burrow.  Great td throw by Wentz before half.  Bengals d fast.  Eagles offense stalls.  Eagles d hold Bengals from game winning td.  Eagles fight to tie.  Risky head first td run by Wentz.  Eagles discipline and both defense hold to tie game.
