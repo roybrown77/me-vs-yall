@@ -22,6 +22,14 @@ Giants ne
 49ers nw
 <br />
 <br />
+Titans vs Ravens 30 24
+<br />
+(266 receiving yds, 173 rushing yds, 1 to) vs (186 receiving yds, 129 rushing yds, 1 to)
+<br />
+<br />
+Ravens offense score td with balanced attack.  Not much offense from Titans but convert fake punt.  Jackson to Andrews td a beauty.  Ravens d aggressive.  Henry runs strong.  Ravens offense stalls.  AJ Brown man muscles his way in for td after breaking a 1000 tackles.  Henry power run wins it in OT.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
