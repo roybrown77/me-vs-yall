@@ -18,6 +18,14 @@ Titans vs Ravens 30 24
 Ravens offense score td with balanced attack.  Not much offense from Titans but convert fake punt.  Jackson to Andrews td a beauty.  Ravens d aggressive.  Henry runs strong.  Ravens offense stalls.  AJ Brown man muscles his way in for td after breaking a 1000 tackles.  Henry power run wins it in OT.
 <br />
 <br />
+Chiefs vs Raiders
+<br />
+(352 receiving yds, 108 rushing yds, 1 to) vs (275 receiving yds, 89 rushing yds, 1 to)
+<br />
+<br />
+Raiders opening td drive ends with Jacobs power run.  Chiefs opening td drive extremely creative.  Waller is a baller.  Heads up Raiders pick on Mahomes on near td drive.  Mahomes can throw from any angle.  Jacobs plays like Jim Brown at times.  Old man Witten with a sensational twinkle toe td catch.  Ice cold Mahomes delivers game winning td throw to Kelce with less than 2 minutes.
+<br />
+<br />
 Teams going into Bye
 <br />
 <br />
