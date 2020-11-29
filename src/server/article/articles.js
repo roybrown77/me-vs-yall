@@ -13,7 +13,6 @@ const {
 } = require("./notes");
 
 const articles = [
-
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 12: Kansas City Chiefs over Tampa Bay Buccaneers`,
