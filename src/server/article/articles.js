@@ -18,7 +18,9 @@ const articles = [
     content: `Week 12: Kansas City Chiefs over Tampa Bay Buccaneers`,
     leagueName: 'NFL',
     date: 'November 29, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: true
   },
   {
     title: "NOTES OF THE WEEK: NFL WEEK 11",
