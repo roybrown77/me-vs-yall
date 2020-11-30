@@ -97,8 +97,8 @@ const stats = [
               $110 on each game and there was a $100 payout.`
   },
   {
-    title: 'VS SPREAD',
-    content: `When you tap vs spread it shows results against the Vegas spread.`
+    title: 'SPREAD MODE',
+    content: `When you tap spread mode it shows results against the Vegas spread.`
   },
   {
     title: 'THE CONNECT',

@@ -528,7 +528,7 @@ class Scoreboard extends Component {
                                 </IconButton>
                             </div>
                             <div style={{marginTop: '-3px'}}>
-                                vs spread
+                                spread mode
                             </div>
                         </div>
                     </div>
