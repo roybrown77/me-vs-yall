@@ -13,7 +13,6 @@ const options = {
   //bufferMaxEntries: 0, // If not connected, return errors immediately rather than waiting for reconnect
   socketTimeoutMS: 0,
   connectTimeoutMS: 0,
-  reconnectTries: 30,
   useFindAndModify: false
 };
 
