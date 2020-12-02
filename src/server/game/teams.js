@@ -284,9 +284,9 @@ const boxingCompetitors = [
     },
     {
         _id: "19823783734d1d04a1b3101e",
-        location: 'Logan Paul',
-        shortLocation: "Logan",
-        name: "The Maverick Paul",
+        location: 'Jake Paul',
+        shortLocation: "Jake",
+        name: "The Problem Child Paul",
         country: "USA"
     },
     {
