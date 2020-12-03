@@ -9,10 +9,18 @@ const {
   week82020,
   week92020,
   week102020,
-  week112020
+  week112020,
+  week122020
 } = require("./notes");
 
 const articles = [
+  {
+    title: "NOTES OF THE WEEK: NFL WEEK 12",
+    content: week122020,
+    leagueName: 'NFL',
+    date: 'December 3, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 12: Kansas City Chiefs over Tampa Bay Buccaneers`,
