@@ -23,6 +23,7 @@ import Shop from './pages/Shop';
 import OfTheWeek from './pages/OfTheWeek';
 import Tips from './pages/Tips';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
@@ -68,6 +69,7 @@ render(
                       <Route path='/tips' component={Tips}/>
                       <Route path='/about' component={About}/>
                       <Route path='/play' component={Play}/>
+                      <Route path='/contact' component={Contact}/>
                       <Route path='/authenticationCallback' component={AuthenticationCallback}/>
                   </Switch>
               </div>
