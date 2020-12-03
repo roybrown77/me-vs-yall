@@ -281,7 +281,7 @@ class Game extends Component {
                                                 {
                                                   !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
                                                   <div style={{fontSize:'25px', color: competitor.color}}>
-                                                    {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
+                                                    {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
                                                   </div>
                                                 }
                                                 {
@@ -391,7 +391,7 @@ class Game extends Component {
                                                 {
                                                   !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
                                                   <div style={{fontSize:'25px', color: competitor.color}}>
-                                                    {hasGameStarted(game.startDateTime) ? get(competitor,'score') || 0 : undefined}
+                                                    {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
                                                   </div>
                                                 }
                                                 {
