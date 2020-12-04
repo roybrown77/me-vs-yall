@@ -2,6 +2,14 @@ const week122020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Chargers vs Bills 17 27
+<br />
+(316 receiving yds, 76 rushing yds, 1 to) vs (177 receiving yds, 172 rushing yds, 3 to)
+<br />
+<br />
+Allen & Herbert solid on first drive tds.  Great play calling with Singletary capped with Beasley flea flicker td.  Bills d getting to Herbert.  Allen can run.  Kelley over the top td run super.  Davis moss’d somebody.  They trade turnovers.  Bills d seal win.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
