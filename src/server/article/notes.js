@@ -15,7 +15,7 @@ Cardinals vs Patriots 17 20
 (170 receiving yds, 138 rushing yds, 1 to) vs (110 receiving yds, 84 rushing yds, 2 to)
 <br />
 <br />
-Cardinals d getting to Newton.  Moncrief kick return sets up White td run.  Patriots d fast.  Olsenzki punt return should have been a td.  No blind side hit there.  Harris & White running well.  Cardinals fight to tie.  Cam interception, Gonzalez missed fg, late hit on Cam and Folk fg wins game for Pats.
+Cardinals d getting to Newton.  Moncrief kick return sets up White td run.  Patriots d fast.  Olszewski punt return should have been a td.  No blind side hit there.  Harris & White running well.  Cardinals fight to tie.  Cam interception, Gonzalez missed fg, late hit on Cam and Folk fg wins game for Pats.
 <br />
 <br />
 <i>Check back as this is updated all week.</i>
