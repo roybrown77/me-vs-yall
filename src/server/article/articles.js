@@ -15,6 +15,13 @@ const {
 
 const articles = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 13: Tennessee Titans over Cleveland Browns`,
+    leagueName: 'NFL',
+    date: 'December 6, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "NOTES OF THE WEEK: NFL WEEK 12",
     content: week122020,
     leagueName: 'NFL',
