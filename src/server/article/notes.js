@@ -18,14 +18,6 @@ Cardinals vs Patriots 17 20
 Cardinals d getting to Newton.  Moncrief kick return sets up White td run.  Patriots d fast.  Olsenzki punt return should have been a td.  No blind side hit there.  Harris & White running well.  Cardinals fight to tie.  Cam interception, Gonzalez missed fg, late hit on Cam and Folk fg wins game for Pats.
 <br />
 <br />
-Teams going into Bye
-<br />
-<br />
-Buccaneers ns
-<br />
-Panthers ns
-<br />
-<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
