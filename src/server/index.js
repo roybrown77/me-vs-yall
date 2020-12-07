@@ -32,7 +32,9 @@ mongoose.connection.on('disconnected', function () {
 
 try {
   console.log('[MONGODB] - Connecting...');
-  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
+  //const connectionString = `mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`;
+  const connectionString = `mongodb+srv://${dbUsername}:${dbPassword}@${dbName}.1t4ao.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+  mongoose.connect(connectionString,options);
 } catch (err) {
   console.log("[MONGODB] - initialization failed: ", err.message);
 }
