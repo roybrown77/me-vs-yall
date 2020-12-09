@@ -10,16 +10,26 @@ const {
   week92020,
   week102020,
   week112020,
-  week122020
+  week122020,
+  week132020
 } = require("./notes");
 
 const articles = [
+  {
+    title: "NOTES OF THE WEEK: NFL WEEK 13",
+    content: week132020,
+    leagueName: 'NFL',
+    date: 'December 9, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 13: Tennessee Titans over Cleveland Browns`,
     leagueName: 'NFL',
     date: 'December 6, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "NOTES OF THE WEEK: NFL WEEK 12",

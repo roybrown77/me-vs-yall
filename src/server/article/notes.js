@@ -1,3 +1,18 @@
+const week132020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Bye Teams
+<br />
+<br />
+Buccaneers ns
+<br />
+Panthers ns
+<br />
+<br />
+<i>Check back as this is updated all week.</i>
+</div>`;
+
 const week122020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -16,9 +31,6 @@ Cardinals vs Patriots 17 20
 <br />
 <br />
 Cardinals d getting to Newton.  Moncrief kick return sets up White td run.  Patriots d fast.  Olszewski punt return should have been a td.  No blind side hit there.  Harris & White running well.  Cardinals fight to tie.  Cam interception, Gonzalez missed fg, late hit on Cam and Folk fg wins game for Pats.
-<br />
-<br />
-<i>Check back as this is updated all week.</i>
 </div>`;
 
 const week112020 = `<div>
@@ -49,7 +61,7 @@ Chiefs vs Raiders 35 31
 Raiders opening td drive ends with Jacobs power run.  Chiefs opening td drive extremely creative.  Waller is a baller.  Heads up Raiders pick on Mahomes on near td drive.  Mahomes can throw from any angle.  Jacobs plays like Jim Brown at times.  Old man Witten with a sensational twinkle toe td catch.  Ice cold Mahomes delivers game winning td throw to Kelce with less than 2 minutes.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Bills ae
@@ -89,7 +101,7 @@ Seahawks vs Rams 16 23
 Seahawks run in strong td for solid first drive. Goff dealing dimes. Rams have great running backs. They trade turnovers. Rams d keep chef Russ from cooking.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Falcons ns
@@ -121,7 +133,7 @@ Ravens vs Colts 24 10
 Tight end hurdle attempt commendable.  Harris spin move elite.  Fumble pick up then hurdle over Rivers dope.  Both defenses fast.  Ravens fumble in red zone.  Ravens intercept immediately.  Jackson fake handoff td run brilliant.  Ravens d lean on Colts for win.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Bengals as
@@ -249,7 +261,7 @@ Steelers vs Ravens 28 24
 Jackson not easy to get down and very accurate.  Jackson careless at times with ball.  Steelers d always plays hard.  Steelers offense heats up in 3rd.  Ebron td celebration not good.  One paw won't get Big Ben down.  Ravens d can't contain Steelers offense but Steelers d can contain Ravens offense.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Cardinals nw
@@ -451,7 +463,7 @@ Bears vs Rams 10 24
 Goff getting ball out fast to beat Bears rush.  Kmet Moss’d somebody.  Rams closing pocket fast.  Bears offense not creative to move the sticks.  Great Rams secondary end zone pick.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Colts as
@@ -659,7 +671,7 @@ Cardinals vs Cowboys 38 10
 Murray running is a problem for Cowboys d.  Arizona d aggressive.  Zeke fumbles.  Big sack on Dalton.  Murray throws to wide open Kirk 80 yard td.  Cardinals Lamb interception celebration intelligent.  Cowboys turnovers hurt them.  Drake runs 69 yard td.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Raiders aw
@@ -873,7 +885,7 @@ Bills vs Titans 16 42
 Titans d look 100% Fresh with pressure.  Balanced attack by Titans.  Bills offense stalls.  They may need more running and play action.  Spectacular td run finger roll by Tannehill.  Allen can throw lasers.  Henry is a man pounding the rock.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Broncos aw
@@ -1093,7 +1105,7 @@ Ravens vs Washington 31 17
 Ravens d closes pocket fast.  Washington fumble near red zone sets up td.  Haskins poised.  Lamar breaks free for 50 yard td run.  Gibson a great football player.  Lamar extends plays until receivers are open and throws darts.  Washington needs better play calling against aggressive Ravens d.  Haskins fights.
 <br />
 <br />
-Teams going into Bye
+Bye Teams
 <br />
 <br />
 Titans as
@@ -1785,5 +1797,6 @@ module.exports = {
 	week92020,
 	week102020,
 	week112020,
-	week122020
+	week122020,
+	week132020
 };
