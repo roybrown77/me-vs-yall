@@ -492,6 +492,26 @@ class Scoreboard extends Component {
                             fontSize: '17px', 
                             paddingBottom: '20px',
                             fontFamily: 'monospace'}}>
+                        <div onClick={this.handleShowGameDetailsToggle}>
+                            <div>
+                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetailsToggle">
+                                    {showDetails ? <ToggleOn/> : <ToggleOff/>}
+                                </IconButton>
+                            </div>
+                            <div style={{marginTop: '-3px'}}>
+                                details
+                            </div>
+                        </div>
+                        <div style={{margin: '0 30px'}} onClick={this.handleSpreadModeToggle}>
+                            <div>
+                                <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                                    {spreadMode ? <ToggleOn/> : <ToggleOff/>}
+                                </IconButton>
+                            </div>
+                            <div style={{marginTop: '-3px'}}>
+                                spread mode
+                            </div>
+                        </div>
                         {
                             document.queryCommandSupported('copy') &&
                             <div>
@@ -511,26 +531,6 @@ class Scoreboard extends Component {
                                 </Snackbar>
                             </div>
                         }
-                        <div onClick={this.handleShowGameDetailsToggle} style={{paddingLeft: document.queryCommandSupported('copy') ? '30px' : '0px'}}>
-                            <div>
-                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetailsToggle">
-                                    {showDetails ? <ToggleOn/> : <ToggleOff/>}
-                                </IconButton>
-                            </div>
-                            <div style={{marginTop: '-3px'}}>
-                                details
-                            </div>
-                        </div>
-                        <div style={{paddingLeft: '30px'}} onClick={this.handleSpreadModeToggle}>
-                            <div>
-                                <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
-                                    {spreadMode ? <ToggleOn/> : <ToggleOff/>}
-                                </IconButton>
-                            </div>
-                            <div style={{marginTop: '-3px'}}>
-                                spread mode
-                            </div>
-                        </div>
                     </div>
                     {
                         <div className={classes.root}>
