@@ -2,6 +2,14 @@ const week132020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Browns vs Titans 41 35
+<br />
+(340 receiving yds, 118 rushing yds, 0 to) vs (389 receiving yds, 62 rushing yds, 3 to)
+<br />
+<br />
+Titans hold Browns to field goal first drive.  Chubb gashing Titans d.  Mayfield dealing around the field.  Davis has great hands.  Titans defense getting smoked.  Higgins td celebration creative.  38-7 Browns lead at half.  Titans continue to fight admirably.  Mayfield sells the play action well.  Turnovers killed Titans.
+<br />
+<br />
 Bye Teams
 <br />
 <br />
