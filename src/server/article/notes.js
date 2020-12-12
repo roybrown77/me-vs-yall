@@ -10,6 +10,14 @@ Browns vs Titans 41 35
 Titans hold Browns to field goal first drive.  Chubb gashing Titans d.  Mayfield dealing around the field.  Davis has great hands.  Titans defense getting smoked.  Higgins td celebration creative.  38-7 Browns lead at half.  Titans continue to fight admirably.  Mayfield sells the play action well.  Turnovers killed Titans.
 <br />
 <br />
+Jaguars vs Vikings 24 27 OT
+<br />
+(280 receiving yds, 124 rushing yds, 4 to) vs (305 receiving yds, 145 rushing yds, 2 to)
+<br />
+<br />
+Everybody surprised by first td tip catch.  Johnson Moss’d somebody.  Thielen does Jefferson infamous td dance better than him.  Cook ends drive with strong td run.  Vikings defense getting to Glennon.  Johnson can’t do Jefferson’s dance.  Vikings interception and drive win it.
+<br />
+<br />
 Bye Teams
 <br />
 <br />
