@@ -16,6 +16,13 @@ const {
 
 const articles = [
   {
+    title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
+    content: `Week 14: New York Giants over Arizona Cardinals`,
+    leagueName: 'NFL',
+    date: 'December 13, 2020',
+    author: 'Mack & Beezie'
+  },
+  {
     title: "NOTES OF THE WEEK: NFL WEEK 13",
     content: week132020,
     leagueName: 'NFL',
