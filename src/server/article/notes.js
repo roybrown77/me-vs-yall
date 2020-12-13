@@ -15,7 +15,15 @@ Jaguars vs Vikings 24 27 OT
 (280 receiving yds, 124 rushing yds, 4 to) vs (305 receiving yds, 145 rushing yds, 2 to)
 <br />
 <br />
-Everybody surprised by first td tip catch.  Johnson Moss’d somebody.  Thielen does Jefferson infamous td dance better than him.  Cook ends drive with strong td run.  Vikings defense getting to Glennon.  Johnson can’t do Jefferson’s dance.  Vikings interception and drive win it.
+Everyone surprised by first td tip catch.  Johnson Moss’d somebody.  Thielen does Jefferson infamous td dance better than him.  Cook ends drive with strong td run.  Vikings defense getting to Glennon.  Johnson can’t do Jefferson’s dance.  Vikings interception and drive win it.
+<br />
+<br />
+Bills vs 49ers 34 24
+<br />
+(375 receiving yds, 81 rushing yds, 1 to) vs (316 receiving yds, 86 rushing yds, 2 to)
+<br />
+<br />
+Bills fumble at 1 yard line to setup 49ers td.  Allen makes strong accurate throws.  Scrambles well too.  Knox leaps into end zone for td.  Mullens holds ball too long at times.  Allen finds Davis wide wide wide open for td.  Horrible td dance tho.  White reverse Moss’d somebody for end zone pick.
 <br />
 <br />
 Bye Teams
