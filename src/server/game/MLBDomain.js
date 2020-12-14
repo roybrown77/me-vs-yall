@@ -53,7 +53,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     return;
   }
 
-  const time = moment().add(30, 'minutes').toISOString();
+  const time = moment().add(7, 'days').toISOString();
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -71,7 +71,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
   console.log(`${message} time: ${time} for games: ${games.length}`);
 
   if ((games || []).length === 0) {
-    console.log(`${message} all scores have been updated or games are not 30 minutes away.`);
+    console.log(`${message} all scores have been updated or games are not 7 days away.`);
     return;
   }
 
