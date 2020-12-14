@@ -20,7 +20,9 @@ const articles = [
     content: `Week 14: New York Giants over Arizona Cardinals`,
     leagueName: 'NFL',
     date: 'December 13, 2020',
-    author: 'Mack & Beezie'
+    author: 'Mack & Beezie',
+    lockOfTheWeek: true,
+    correct: false
   },
   {
     title: "NOTES OF THE WEEK: NFL WEEK 13",
