@@ -347,7 +347,7 @@ class Game extends Component {
                             <Grow in={true} timeout={500}>
                                 <Paper className={classNames(classes.paper)}>
                                     {
-                                      ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) &&
+                                      ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) &&
                                       <Grid item className={classNames(classes.gameHeader)}>
                                     {
                                       spreadMode &&
@@ -378,7 +378,7 @@ class Game extends Component {
                                     {
                                       spreadMode &&
                                       <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
-                                          display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
+                                          display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
                                           textAlign: 'right'}}>
                                           {get(game,'spread.amount')}
                                       </div>
@@ -403,12 +403,12 @@ class Game extends Component {
                                                 <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color}}>
                                                   <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
                                                 </span>
-                                                <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) ? '4px 0 24px 0' :  '4px 0'}}>
+                                                <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
                                                   {competitor.name}
                                                 </div>
                                                 { 
                                                   competitor.record &&
-                                                  <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || get(game,'spread.amount')) ? '4px 0 24px 0' :  '4px 0'}}>
+                                                  <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
                                                     {competitor.record}
                                                   </div>
                                                 }
