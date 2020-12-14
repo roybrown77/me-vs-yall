@@ -247,7 +247,7 @@ const getGames = async ({
     if (games.length > maxLength) {
         // const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
         // games = games.slice(randomPosition,randomPosition+maxLength);
-        games = [games[1],games[2]]; //.slice(0,1);
+        games = [games[2],games[3],games[4]]; //.slice(0,1);
     }
   }
 
