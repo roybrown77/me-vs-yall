@@ -147,7 +147,7 @@ const updateGames = async (leagueId) => {
   //loadBasketballGames({dayCount: 9, shouldLimit: true, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadBasketballGames({dayCount: 1, shouldLimit: false, isStart: true, year: 2019, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   
-  //loadWorldFootballGames({dayCount: 0, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
+  //loadWorldFootballGames({dayCount: 5, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   //loadWorldFootballGames({dayCount: 1, year: 2020, message: 'loadEnglishPremierLeagueGames', leagueId: '59723313734d1d6202a85f17', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   
   //loadMlbGames({dayCount: 0, shouldLimit: true, isStart: true, year: 2020, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});

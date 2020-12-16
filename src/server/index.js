@@ -126,9 +126,9 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
 });
 
-// process.on('uncaughtException', function(err) {
-//   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
-// });
+process.on('uncaughtException', function(err) {
+  console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
+});
 
 process.on('multipleResolves', (type, promise, reason) => {
   console.error(`Process multipleResolves type: ${type}, promise: ${promise}, reason: ${reason}`);

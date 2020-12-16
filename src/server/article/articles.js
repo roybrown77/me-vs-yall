@@ -11,10 +11,18 @@ const {
   week102020,
   week112020,
   week122020,
-  week132020
+  week132020,
+  week142020
 } = require("./notes");
 
 const articles = [
+  {
+    title: "NOTES OF THE WEEK: NFL WEEK 14",
+    content: week142020,
+    leagueName: 'NFL',
+    date: 'December 17, 2020',
+    author: 'Roy B.'
+  },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
     content: `Week 14: New York Giants over Arizona Cardinals`,

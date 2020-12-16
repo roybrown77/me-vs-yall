@@ -1,3 +1,10 @@
+const week142020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+<i>Check back as this is updated all week.</i>
+</div>`;
+
 const week132020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -32,9 +39,6 @@ Bye Teams
 Buccaneers ns
 <br />
 Panthers ns
-<br />
-<br />
-<i>Check back as this is updated all week.</i>
 </div>`;
 
 const week122020 = `<div>
@@ -1822,5 +1826,6 @@ module.exports = {
 	week102020,
 	week112020,
 	week122020,
-	week132020
+	week132020,
+	week142020
 };
