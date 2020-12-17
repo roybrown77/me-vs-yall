@@ -268,8 +268,7 @@ class Game extends Component {
                             className={inProgress ? 'fast-flash' : ''} 
                             style={{
                               cursor: 'pointer',
-                              border: competitor.selected ? '8px solid #3772FA' : '',
-                              borderRadius: '14px'
+                              border: competitor.selected ? '10px solid #3772FA' : ''
                             }}
                         >
                             <Grow in={true} timeout={500}>
@@ -340,8 +339,7 @@ class Game extends Component {
                             className={inProgress ? 'fast-flash' : ''} 
                             style={{
                               cursor: 'pointer',
-                              border: competitor.selected ? '8px solid #3772FA' : '',
-                              borderRadius: '14px'
+                              border: competitor.selected ? '10px solid #3772FA' : ''
                             }}
                         >
                             <Grow in={true} timeout={500}>
