@@ -18,6 +18,14 @@ Texans vs Bears 7 36
 Montgomery runs 80 yard td banger.  Mack putting hands on folks causing turnover.  Trubisky back at qb sharp spreading ball.  Duke Johnson with an awesome run to setup td.  Bears d closing pocket fast.  Gritty td catch & run in for Mooney.  Trubisky throwing side arm dimes.  Texans offense stalled & defense softer than Hawaiian rolls.
 <br />
 <br />
+Saints vs Eagles 21 24
+<br />
+(291 receiving yds, 96 rushing yds, 2 to) vs (167 receiving yds, 246 rushing yds, 2 to)
+<br />
+<br />
+Hurts leads solid td drive.  Saints offense stalls.  Hill throws tip pick.  Sanders runs 82 yard td.  Eagles d getting to Hill.  Hurts poised in pocket.  Saints with better play calling in second half.  Hill to Sanders td a beauty.  Big sack on Hill causes turnover.  Eagles play calling very creative.  Cook Moss’d somebody for td.  Saints nearly comeback with onside kick.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
