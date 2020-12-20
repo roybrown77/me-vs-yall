@@ -2,6 +2,14 @@ const week142020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Ravens vs Browns 47 42
+<br />
+(176 receiving yds, 231 rushing yds, 0 to) vs (355 receiving yds, 138 rushing yds, 1 to)
+<br />
+<br />
+Browns weapons on full display for first drive td.  Jackson breaks down defense with scramble.  Everybody lit.  Ravens run game strong.  Mayfield accurate and determined.  Chubb running well.  Great hands by Browns receivers.  Ravens pick 6.  Browns fight back.  Peoples-Jones with heads up 2 point catch.  Lamar finds Brown for td.  Hunt goes in for strong td run to tie.  Tucker nails field goal to win it.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
