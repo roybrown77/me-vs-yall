@@ -10,6 +10,14 @@ Ravens vs Browns 47 42
 Browns weapons on full display for first drive td.  Jackson breaks down defense with scramble.  Everybody lit.  Ravens run game strong.  Mayfield accurate and determined.  Chubb running well.  Great hands by Browns receivers.  Ravens pick 6.  Browns fight back.  Peoples-Jones with heads up 2 point catch.  Lamar finds Brown for td.  Hunt goes in for strong td run to tie.  Tucker nails field goal to win it.
 <br />
 <br />
+Texans vs Bears 7 36
+<br />
+(219 receiving yds, 108 rushing yds, 3 to) vs (267 receiving yds, 169 rushing yds, 0 to)
+<br />
+<br />
+Montgomery runs 80 yard td banger.  Mack putting hands on folks causing turnover.  Trubisky back at qb sharp spreading ball.  Duke Johnson with an awesome run to setup td.  Bears d closing pocket fast.  Gritty td catch & run in for Mooney.  Trubisky throwing side arm dimes.  Texans offense stalled & defense softer than Hawaiian rolls.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
