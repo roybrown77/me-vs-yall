@@ -28,6 +28,9 @@ import { loadGamesInProgress } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
 import { getAreAnyGamesInProgress, getLeagueStartDateTime, images, getRandomIntInclusive } from '../../utilities';
 import {displayHomePageImages} from '../../config';
+import hoodiesBw from '../../styles/images/mvy-hoodie-white-bw.jpg';
+import shirts from '../../styles/images/mvy-tee-white-romey.jpg';
+import shirtGray from '../../styles/images/mvy-tee-gray.jpg';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -48,14 +51,14 @@ const styles = {
   buttonLeagueContainer: {
     maxWidth: '320px',
     fontSize: '24px',
-    fontFamily: 'monospace',
     margin: '30px auto',
     fontWeight: 'bold'
   },
   buttonBorder: {
     maxWidth: '155px',
     margin: '10px auto',
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    border: "1px solid lightgray"
   },
   button: {
     width: '100%',
@@ -113,7 +116,6 @@ const styles = {
   },
   subTitle: {
     fontSize: '24px',
-    fontFamily: 'monospace',
     margin: '16px auto',
     padding: '0 32px'
   },
@@ -123,8 +125,8 @@ const styles = {
 };
 
 const instructions = [
-  '1. Tap "Press To Play" to sign in.',
-  '2. Tap league below.',
+  '1. Tap league below.',
+  '2. Tap "Press To Play" to sign in.',
   '3. Tap teams you think will win this week.',
   '4. View Leaders to see if you won.',
   "5. No purchase necessary.  It's free yall."
@@ -197,31 +199,14 @@ class Home extends Component {
       const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`
 
       return (
-        <div className="fade-in">
-          {false && <div style={{width:'100%', height: '50px', backgroundColor: 'dodgerblue'}}>
-          </div>}
-          {
-            true &&
-            <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
-              <div style={{marginTop: '32px'}}>
-                <img style={{width:'70%'}} src={mvy} alt=""/>
-              </div>
-            </Slide>
-          }
+        <div style={{backgroundColor: 'rgb(255, 255, 255)', paddingBottom: '10px', fontFamily: 'monospace'}} className="fade-in">
+          <img style={{width:'100%'}} src={hoodiesBw} alt=""/>
+          <div style={styles.subTitle}>
+            Feel the thrill of betting without risking a thing. {"🤩"}
+          </div>
           <div>
-          <div style={styles.subTitle}>
-            compete worldwide for rep
-          </div>
-          <div style={styles.subTitle}>
-            streaming live game plays  <span><img style={{width:'20px'}} src={rocket} alt=""/></span>
-          </div>
-          <div style={{...styles.subTitle, margin: '30px auto', fontWeight:'bold'}}>
-            {"it's free"}
-          </div>
-          <div style={{marginTop:'32px'}}>
             <Popover 
-              borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#fff', cursor: 'pointer'}}
-              titleStyle={{fontWeight: 'bold'}}
+              borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px'}}
               title={'How To Play'}>
               <div style={{padding:'16px'}}>
                 {
@@ -233,30 +218,7 @@ class Home extends Component {
                 }
               </div>
             </Popover>
-            {
-              !isAuthenticated && 
-              <Button
-                  variant="contained" 
-                  style={styles.loginButton}
-                  onClick={() => googleLogin()}>
-                Press to Play
-              </Button>
-            }
           </div>
-          {
-             false &&
-             <Grid item xs={8} style={styles.buttonBorder}>
-              <Button 
-                  variant="outlined" 
-                  style={{...styles.button}} 
-                  onClick={() => {this.navigateTo('/play')}}>
-                  PLAY
-              </Button>
-            </Grid>
-          }
-          {displayHomePageImages && <div>
-            <img style={{width:'100%',maxWidth:'500px',marginTop:'30px'}} src={mma} alt=""/>
-          </div>}
           <div style={styles.buttonLeagueContainer}>
             <div style={{display:'flex'}}>
               <div>
@@ -286,7 +248,7 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, fontSize: '2rem', color: '#3B7A57'}} onClick={() => { history.push('/scoreboards/boxing') }}>
+                      style={{...styles.button, fontSize: '1.75rem', color: '#3B7A57'}} onClick={() => { history.push('/scoreboards/boxing') }}>
                       <div>
                         <div>
                         BOXING
@@ -328,7 +290,7 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, fontSize: '1.75em', color: '#c83f49'}} onClick={() => { history.push('/scoreboards/wnba') }}>
+                      style={{...styles.button, fontSize: '1.5em', color: '#c83f49'}} onClick={() => { history.push('/scoreboards/wnba') }}>
                       <div>
                         <div>
                           WNBA
@@ -393,7 +355,7 @@ class Home extends Component {
                 <Grid item xs={8} style={styles.buttonBorder}>
                   <Button 
                       variant="outlined" 
-                      style={{...styles.button, fontSize: '1.5rem', color: 'dodgerblue'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
+                      style={{...styles.button, fontSize: '1.25rem', color: 'dodgerblue'}} onClick={() => { history.push('/scoreboards/ncaaf') }}>
                       <div>
                         <div>
                         COLLEGE FOOTBALL
@@ -453,90 +415,23 @@ class Home extends Component {
               }
               </div>
             </div>
-            {
-              false &&
-              <Grid item xs={8} style={styles.buttonBorder}>
-                <Button 
-                    variant="outlined" 
-                    style={{...styles.button, fontSize: '1.75rem', color: '#5D8AA8'}} onClick={() => { history.push('/scoreboards/ncaaw') }}>
-                    WOMENS COLLEGE BASKETBALL
-                    {
-                      areAnyWomensCollegeBasketballGamesInProgress &&
-                      <img style={styles.ball} src={basketball} alt=""/>
-                    }
-                </Button>
-                {womensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={womensCollegeBasketballStartDateTime}/>}
-              </Grid>
-            }
-            {
-              false &&
-              <Grid item xs={8} style={styles.buttonBorder}>
-                <Button 
-                    variant="outlined" 
-                    style={{...styles.button, color: '#0048BA'}} onClick={() => { history.push('/scoreboards/ncaam') }}>
-                    MENS COLLEGE BASKETBALL
-                    {
-                      areAnyMensCollegeBasketballGamesInProgress &&
-                      <img style={styles.ball} src={basketball} alt=""/>
-                    }
-                </Button>
-                {mensCollegeBasketballStartDateTime && <Countdown styles={styles.countdown} date={mensCollegeBasketballStartDateTime}/>}
-              </Grid>
-            }
-            {
-              false &&
-              <Grid item xs={8} style={styles.buttonBorder}>
-                <Button 
-                    variant="outlined" 
-                    style={{...styles.button, color: '#17408B'}} onClick={() => { history.push('/scoreboards/mls') }}>
-                    MLS
-                    {
-                      areAnyMlsGamesInProgress &&
-                      <img style={styles.ball} src={soccer} alt=""/>
-                    }
-                </Button>
-                {mlsStartDateTime && <Countdown styles={styles.countdown} date={mlsStartDateTime}/>}
-              </Grid>
-            }
-            {
-              false &&
-              <Grid item xs={8} style={styles.buttonBorder}>
-                <Button 
-                    variant="outlined" 
-                    style={{...styles.button, color: '#E52A34'}} onClick={() => {}}>
-                    X GAMES
-                    {
-                      areAnyXGamesInProgress &&
-                      <img style={styles.ball} src={basketball} alt=""/>
-                    }
-                </Button>
-                {xStartDateTime && <Countdown styles={styles.countdown} date={xStartDateTime}/>}
-              </Grid>
-            }
           </div>
-          </div>
-          {
-            false &&
-            <div style={{backgroundColor: 'lightgray', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
-              <img style={{width:'90%', maxWidth: '750px'}} src={image.picture} alt=""/>
-              <div style={{fontSize: '10px'}}>Image via {image.source}</div>
-              <div><svg width="62" height="43" xmlns="http://www.w3.org/2000/svg"><path d="M5.266 38.877c1.452.833 2.918.32 4.32.057 3.251-.615 6.476-1.387 9.728-1.987 1.096-.202 2.252-.155 3.367-.08.612.04 1.158.465 1.187 1.158.036.836-.586 1.398-1.296 1.371-5.507-.205-10.51 2.352-15.828 3.104-3.789.535-5.922-1.198-5.838-4.952.128-5.752 2.184-11.108 4.47-16.369.324-.743.922-1.304 1.878-.977 1.07.366 1.137 1.213.858 2.1-.754 2.389-1.6 4.752-2.35 7.143-.408 1.3-.841 2.617-.706 4.01.861.305 1.095-.384 1.43-.82 5.204-6.806 10.957-13.122 17.665-18.508C33.95 6.26 44.6.39 57.591.488c.606.006 1.228-.073 1.816.027 1.083.184 2.082.601 1.887 1.95-.19 1.322-1.2 1.623-2.346 1.467-13.31-1.817-24 3.952-33.929 12.042-7.941 6.47-14.268 14.264-19.753 22.903" fill="#EF1F6B" fillRule="evenodd"></path></svg></div>
-              <div>let's go!</div>
-            </div>
-          }
-          {
-            false &&
-            <div style={{backgroundColor: 'lightgray', padding: '20px', fontFamily: 'Poppins, sans serif'}}>
-              <div>
-                {`We rely on new users joining to keep cash prizes available and games free so we appreciate everyone you can invite to play.  The best way we've seen folks sign up is when you show them how since just telling them doesn't always work.  Thanks!`}
-              </div>
-            </div>
-          }
-          {false && <div style={{marginTop:'40px'}}>
-            <iframe style={{borderStyle:'none'}} width="320" height="215" title="Los D Baya" src={videoUrl}>
-            </iframe>
+          {false && <div>
+            <img style={{width:'100%'}} src={shirtGray} alt=""/>
           </div>}
-          <div style={{backgroundColor: '#3772FA', color: '#fff', padding: '16px', fontSize: '14px', fontfontFamily: 'Poppins, sans serif', marginTop: '40px'}}>
+          {false && <div style={styles.subTitle}>
+            Interested in following along?  Subscribe below for updates.
+          </div>}
+          <div>
+            <img style={{width:'100%'}} src={shirts} alt=""/>
+          </div>
+          <div style={styles.subTitle}>
+            About Us
+          </div>
+          <div style={styles.subTitle}>
+            {"We built this web app to avoid keeping track of our weekly NFL picks in a spreadsheet or paper.  It grew into something fun we can play with other sports fanatics worldwide.  Enjoy.  :D"}
+          </div>
+          <div style={{backgroundColor: '#000', color: '#fff', padding: '16px', fontSize: '14px', marginTop: '40px'}}>
             <div style={styles.footerLinks}>
               <div>
                 <div><Link style={styles.link} to={'/tips'}>Tips</Link></div>
@@ -551,7 +446,7 @@ class Home extends Component {
                 <div><Link style={styles.link} to={''} onClick={()=>this.gram()}>Gram</Link></div>
               </div>
             </div>
-            <div>© 2020 Me vs Yall. All rights reserved.</div>
+            <div>© 2020 Me vs Yall</div>
           </div>
         </div>
       );
