@@ -26,6 +26,14 @@ Saints vs Eagles 21 24
 Hurts leads solid td drive.  Saints offense stalls.  Hill throws tip pick.  Sanders runs 82 yard td.  Eagles d getting to Hill.  Hurts poised in pocket.  Saints with better play calling in second half.  Hill to Sanders td a beauty.  Big sack on Hill causes turnover.  Eagles play calling very creative.  Cook Moss’d somebody for td.  Saints nearly comeback with onside kick.
 <br />
 <br />
+Steelers vs Bills 15 26
+<br />
+(187 receiving yds, 47 rushing yds, 2 to) vs (238 receiving yds, 104 rushing yds, 2 to)
+<br />
+<br />
+Ben getting ball out quick but receivers are dropping at times.  Steelers d containing well.  Conner spin move gelid.  Ben threads needle for td to Washington.  Great Bills play calling burn defense.  Steelers fight back in 4th.  Wallace reverse Moss’d somebody for pick to seal win.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
