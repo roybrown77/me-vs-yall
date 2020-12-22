@@ -429,7 +429,7 @@ class Home extends Component {
             About Us
           </div>
           <div style={styles.subTitle}>
-            {"We built this web app to avoid keeping track of our weekly NFL picks in a spreadsheet or paper.  It grew into something fun we can play with other sports fanatics worldwide.  Enjoy!  :D"}
+            {"We built this web app to avoid keeping track of our weekly NFL picks in messages, spreadsheets or paper.  It grew into something fun we can play with other sports fanatics worldwide.  Enjoy!  :D"}
           </div>
           <div style={{backgroundColor: '#000', color: '#fff', padding: '16px', fontSize: '14px', position: 'relative', bottom: '-10px'}}>
             <div style={styles.footerLinks}>
