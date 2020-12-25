@@ -353,7 +353,7 @@ const getScores = async ({
         width: 1500,
         height: 1000
       },
-      //headless: false
+      //headless: false,
       browserWSEndpoint: 'wss://chrome.browserless.io?--user-data-dir=/tmp/session-123',
       timeout: 15000,
       pipe: true,
@@ -371,7 +371,7 @@ const getScores = async ({
         interceptedRequest.continue();
     });
 
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    await page.goto(url /*, { waitUntil: 'networkidle2' }*/);
 
     await page.waitForSelector('#events');
 
