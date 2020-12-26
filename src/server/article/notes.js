@@ -1,3 +1,10 @@
+const week152020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+<i>Check back as this is updated all week.</i>
+</div>`;
+
 const week142020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -32,9 +39,6 @@ Steelers vs Bills 15 26
 <br />
 <br />
 Ben getting ball out quick but receivers are dropping at times.  Steelers d containing well.  Conner spin move gelid.  Ben threads needle for td to Washington.  Great Bills play calling burn defense.  Steelers fight back in 4th.  Wallace reverse Moss’d somebody for pick to seal win.
-<br />
-<br />
-<i>Check back as this is updated all week.</i>
 </div>`;
 
 const week132020 = `<div>
@@ -1859,5 +1863,6 @@ module.exports = {
 	week112020,
 	week122020,
 	week132020,
-	week142020
+	week142020,
+	week152020
 };
