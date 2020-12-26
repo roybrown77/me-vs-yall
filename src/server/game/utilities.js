@@ -137,7 +137,6 @@ const getGames = async ({
         width: 1500,
         height: 1000
       },
-      browserWSEndpoint: 'wss://chrome.browserless.io?--user-data-dir=/tmp/session-123',
       //headless: false,
       timeout: 45000,
       pipe: true,
@@ -354,7 +353,6 @@ const getScores = async ({
         height: 1000
       },
       //headless: false,
-      browserWSEndpoint: 'wss://chrome.browserless.io?--user-data-dir=/tmp/session-123',
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true
