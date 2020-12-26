@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
 import {createBrowserHistory} from 'history';
 import ReactGA from 'react-ga';
@@ -197,6 +198,7 @@ class Home extends Component {
       const mensCollegeBasketballStartDateTime = getLeagueStartDateTime('59723313734d1d6202a85f33', mensCollegeBasketballGames);
       const image = images['59723313734d1d6202a85f15'][getRandomIntInclusive(2,3)];
       const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`
+      const year = moment().format('YYYY');
 
       return (
         <div style={{backgroundColor: 'rgb(255, 255, 255)', paddingBottom: '10px', fontFamily: 'monospace'}} className="fade-in">
@@ -446,7 +448,7 @@ class Home extends Component {
                 <div><Link style={styles.link} to={''} onClick={()=>this.gram()}>Gram</Link></div>
               </div>
             </div>
-            <div>© 2020 Me vs Yall</div>
+            <div>© {year} Me vs Yall</div>
           </div>
         </div>
       );
