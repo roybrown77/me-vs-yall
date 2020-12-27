@@ -2,6 +2,14 @@ const week152020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Seahawks vs Washington 20 15
+<br />
+(121 receiving yds, 181 rushing yds, 1 to) vs (295 receiving yds, 84 rushing yds, 2 to)
+<br />
+<br />
+Seattle defense playing well to start.  Both offenses start slow.  Haskins has good drive but then tip pick.  Wilson runs for big gain to get going.  Wilson fires in td to Hollister.  Carson rolls somebody.  Hyde runs 50 yard td.  McLaurin Moss’d somebody.  Washington fights back with great play calling.  Turnovers hurt Washington chances to win.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
