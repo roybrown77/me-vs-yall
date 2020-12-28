@@ -249,7 +249,7 @@ class Game extends Component {
     }
 
     render() {
-        const { classes, game, pick, isAuthenticated, showDetails, userId } = this.props;
+        const { classes, game, pick, isAuthenticated, showDetails, userId, disableTie } = this.props;
         const { awayScore, homeScore, gameName, isGameOver, currentTime } = this.state;
 
         const inProgress = get(pick,'inProgress',false);
@@ -309,6 +309,7 @@ class Game extends Component {
                   !hasGameStarted(game.startDateTime) &&
                   ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                   !spreadMode &&
+                  !disableTie &&
                   <div>
                     <Button 
                         size="small"
@@ -424,6 +425,7 @@ class Game extends Component {
                   !hasGameStarted(game.startDateTime) &&
                   ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                   !spreadMode &&
+                  !disableTie &&
                   <div>
                     <Button 
                         size="small"
@@ -615,9 +617,10 @@ Game.propTypes = {
   pick: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
   showDetails: PropTypes.bool,
+  spreadMode: PropTypes.bool,
+  disableTie: PropTypes.bool,
   handleMakePick: PropTypes.func,
   handleUpdateGame: PropTypes.func,
-  spreadMode: PropTypes.bool
 };
 
 export default withStyles(styles, { withTheme: true })(Game);

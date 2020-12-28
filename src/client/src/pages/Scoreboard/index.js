@@ -328,23 +328,28 @@ class Scoreboard extends Component {
             classes, 
             games, 
             picks, 
-            teams, 
+            teams,
+            leagues,
+            years,
+            weeks = [],
             isAuthenticated, 
             dataLoading, 
             weeksDataLoading,
-            weeks = [],
+            showDetails,
+            spreadMode,
+            userId,
             weekId,
             leagueId,
-            showDetails,
-            userId,
-            spreadMode
+            year,
+            beginDateTime,
+            endDateTime
         } = this.props;
 
         const {soundOn, openCopyAlert} = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesOver = games.some(x=>x.isGameOver);
-        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
+        const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const groupedGames = getGroupedGames(games, picks, teams, spreadMode);
         const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
@@ -355,7 +360,9 @@ class Scoreboard extends Component {
 
         const image = getImage(leagueId);
 
-        const copyData = copy(this.props.games,this.props.picks,this.props.teams);
+        const copyData = copy(games,picks,teams);
+
+        const disableTie = get(currentWeek,'disableTie') || false;
 
         return (
             <div>
@@ -363,13 +370,13 @@ class Scoreboard extends Component {
                     {
                         <GameSearchBar 
                             leagueId={leagueId}
-                            leagues={this.props.leagues}
-                            year={this.props.year}
-                            years={this.props.years}
-                            weekId={this.props.weekId}
-                            weeks={this.props.weeks}
-                            beginDateTime={this.props.beginDateTime}
-                            endDateTime={this.props.endDateTime}
+                            leagues={leagues}
+                            year={year}
+                            years={years}
+                            weekId={weekId}
+                            weeks={weeks}
+                            beginDateTime={beginDateTime}
+                            endDateTime={endDateTime}
                             onFilterLeague={this.handleFilterLeague}
                             onFilterYear={this.handleFilterYear}
                             onFilterWeek={this.handleFilterWeek}
@@ -557,6 +564,7 @@ class Scoreboard extends Component {
                                                 showDetails={showDetails}
                                                 userId={userId}
                                                 spreadMode={spreadMode}
+                                                disableTie={disableTie}
                                             />
                                         </div>
                                     );
@@ -591,6 +599,7 @@ class Scoreboard extends Component {
                                                     isAuthenticated={isAuthenticated}
                                                     showDetails={showDetails}
                                                     userId={userId}
+                                                    disableTie={disableTie}
                                                 />
                                             </div>
                                         );
@@ -670,10 +679,10 @@ const mapStateToProps = (state, ownProps) => {
         beginDateTime,
         endDateTime,
         teams,
+        userId,
         isAuthenticated,
         showDetails,
-        spreadMode,
-        userId
+        spreadMode
     }
 };
 
@@ -693,6 +702,7 @@ Scoreboard.propTypes = {
     weekId: PropTypes.string,
     beginDateTime: PropTypes.string,
     endDateTime: PropTypes.string,
+    userId: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
@@ -701,8 +711,7 @@ Scoreboard.propTypes = {
     showGameDetailsToggle: PropTypes.func.isRequired,
     showDetails: PropTypes.bool,
     spreadModeToggle: PropTypes.func.isRequired,
-    spreadMode: PropTypes.bool,
-    userId: PropTypes.string
+    spreadMode: PropTypes.bool
 };
 
 export default connect(mapStateToProps, {
