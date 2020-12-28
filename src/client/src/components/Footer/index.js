@@ -12,7 +12,7 @@ const styles = {
     zIndex: 1,
     position: "fixed", 
     bottom: "0", 
-    backgroundColor: "#f0f8ff", 
+    backgroundColor: "#f5fffa", 
     boxShadow: "none",
     width: "100%",
     color: "black"

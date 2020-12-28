@@ -34,7 +34,7 @@ const styles = {
     margin: '56px 0'
   },
   appBar: {
-    backgroundColor: '#f0f8ff',
+    backgroundColor: '#f5fffa',
     color: 'rgba(0, 0, 0, 0.87)',
     height: '55px',
     padding: '5px',
