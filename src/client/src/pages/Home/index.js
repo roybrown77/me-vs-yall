@@ -213,7 +213,7 @@ class Home extends Component {
               </div>
             </div>
             <div>© {year} Me vs Yall</div>
-            <div>{moment().format('MM/DD/YYYY hh:mm a')}{" ATL"}</div>
+            <div>{moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}</div>
           </div>
         </div>
       );
