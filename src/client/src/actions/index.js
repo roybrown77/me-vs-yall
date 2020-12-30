@@ -246,9 +246,16 @@ export const updateGame = (game) => (dispatch, getState) => {
   searchParams.set('id', game.id);
   searchParams.set('awayScore', game.awayScore);
   searchParams.set('homeScore', game.homeScore);
+  searchParams.set('awayRank', game.awayRank);
+  searchParams.set('homeRank', game.homeRank);
+  searchParams.set('awayRecord', game.awayRecord);
+  searchParams.set('homeRecord', game.homeRecord);
+  searchParams.set('awaySpread', game.awaySpread);
+  searchParams.set('homeSpread', game.homeSpread);
   searchParams.set('gameName', game.gameName);
   searchParams.set('isGameOver', game.isGameOver);
   searchParams.set('currentTime', game.currentTime);
+  searchParams.set('gameTime', game.gameTime);
 
   dispatch(editGame(game.id, searchParams));
 };

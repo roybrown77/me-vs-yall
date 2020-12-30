@@ -17,9 +17,16 @@ router.put('/games/:id', function (req, res) {
         userId: req.user.sub,
         awayScore: req.body.awayScore,
         homeScore: req.body.homeScore,
+        awayRecord: req.body.awayRecord,
+        homeRecord: req.body.homeRecord,
+        awayRank: req.body.awayRank,
+        homeRank: req.body.homeRank,
+        awaySpread: req.body.awaySpread,
+        homeSpread: req.body.homeSpread,
         gameName: req.body.gameName,
         isGameOver: req.body.isGameOver,
-        currentTime: req.body.currentTime
+        currentTime: req.body.currentTime,
+        gameTime: req.body.gameTime
     };
 
     gameDomain.update(game, (err, gameCreated) => {

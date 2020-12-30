@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment-timezone';
 
 import get from 'lodash/get';
 
@@ -118,9 +119,17 @@ class Game extends Component {
         this.state = {
             awayScore: null,
             homeScore: null,
+            awayRank: null,
+            homeRank: null,
+            awayRecord: null,
+            homeRecord: null,
+            awaySpread: null,
+            homeSpread: null,
             gameName: null,
             isGameOver: null,
-            currentTime: null
+            currentTime: null,
+            gameTime: null,
+            gameDate: null
         };
     }
 
@@ -158,9 +167,17 @@ class Game extends Component {
       this.setState({
         awayScore: null,
         homeScore: null,
+        awayRank: null,
+        homeRank: null,
+        awayRecord: null,
+        homeRecord: null,
+        awaySpread: null,
+        homeSpread: null,
         gameName: null,
         isGameOver: null,
-        currentTime: null
+        currentTime: null,
+        gameTime: null,
+        gameDate: null
       });
     }
 
@@ -179,15 +196,24 @@ class Game extends Component {
             return;
         }
 
-        const {awayScore,homeScore,gameName,isGameOver,currentTime} = this.state;
+        const {awayScore,homeScore,awayRank,homeRank,awayRecord,homeRecord,awaySpread,homeSpread,gameName,isGameOver,currentTime,gameDate,gameTime} = this.state;
+
+        const gameTimeFormatted = gameTime ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime : null;
 
         const game = {
             id: gameId,
-            awayScore: awayScore,
-            homeScore: homeScore,
-            gameName: gameName,
-            isGameOver: isGameOver,
-            currentTime: currentTime
+            awayScore,
+            homeScore,
+            awayRank,
+            homeRank,
+            awayRecord,
+            homeRecord,
+            awaySpread,
+            homeSpread,
+            gameName,
+            isGameOver,
+            currentTime,
+            gameTime: gameTimeFormatted
         };
 
         console.log(game);
@@ -250,7 +276,7 @@ class Game extends Component {
 
     render() {
         const { classes, game, pick, isAuthenticated, showDetails, userId, disableTie } = this.props;
-        const { awayScore, homeScore, gameName, isGameOver, currentTime } = this.state;
+        const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime } = this.state;
 
         const inProgress = get(pick,'inProgress',false);
 
@@ -462,7 +488,7 @@ class Game extends Component {
                               <TextField
                                 name="awayScore"
                                 id="outlined-number"
-                                label={game.competitors[0].shortLocation}
+                                label={game.competitors[0].shortLocation + " score"}
                                 type="number"
                                 defaultValue={awayScore}
                                 InputLabelProps={{
@@ -476,9 +502,99 @@ class Game extends Component {
                               <TextField
                                 name="homeScore"
                                 id="outlined-number"
-                                label={game.competitors[1].shortLocation}
+                                label={game.competitors[1].shortLocation + " score"}
                                 type="number"
                                 defaultValue={homeScore}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                          </div>
+                          <div style={{display: 'flex', marginTop: '16px'}}>
+                            <div>
+                              <TextField
+                                name="awayRank"
+                                id="outlined-number"
+                                label={game.competitors[0].shortLocation + " rank"}
+                                type="number"
+                                defaultValue={awayRank}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                            <div style={{paddingLeft: '16px'}}>
+                              <TextField
+                                name="homeRank"
+                                id="outlined-number"
+                                label={game.competitors[1].shortLocation + " rank"}
+                                type="number"
+                                defaultValue={homeRank}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                          </div>
+                          <div style={{display: 'flex', marginTop: '16px'}}>
+                            <div>
+                              <TextField
+                                name="awayRecord"
+                                id="outlined-number"
+                                label={game.competitors[0].shortLocation + " record"}
+                                type="string"
+                                defaultValue={awayRecord}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                            <div style={{paddingLeft: '16px'}}>
+                              <TextField
+                                name="homeRecord"
+                                id="outlined-number"
+                                label={game.competitors[1].shortLocation + " record"}
+                                type="string"
+                                defaultValue={homeRecord}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                          </div>
+                          <div style={{display: 'flex', marginTop: '16px'}}>
+                            <div>
+                              <TextField
+                                name="awaySpread"
+                                id="outlined-number"
+                                label={game.competitors[0].shortLocation + " spread"}
+                                type="number"
+                                defaultValue={awaySpread}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                            <div style={{paddingLeft: '16px'}}>
+                              <TextField
+                                name="homeSpread"
+                                id="outlined-number"
+                                label={game.competitors[1].shortLocation + " spread"}
+                                type="number"
+                                defaultValue={homeSpread}
                                 InputLabelProps={{
                                   shrink: true,
                                 }}
@@ -491,7 +607,7 @@ class Game extends Component {
                             <TextField
                               name="currentTime"
                               id="outlined-number"
-                              label="CurrentTime"
+                              label="Game Clock"
                               defaultValue={currentTime}
                               InputLabelProps={{
                                 shrink: true,
@@ -499,6 +615,36 @@ class Game extends Component {
                               onChange={this.handleInputChange}
                               variant="outlined"
                             />
+                          </div>
+                          <div style={{display: 'flex', marginTop: '16px'}}>
+                            <div>
+                              <TextField
+                                name="gameDate"
+                                id="outlined-number"
+                                label="Game Date"
+                                type="date"
+                                defaultValue={gameDate}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
+                            <div style={{paddingLeft: '16px'}}>
+                              <TextField
+                                name="gameTime"
+                                id="outlined-number"
+                                label="Game Time"
+                                type="time"
+                                defaultValue={gameTime}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={this.handleInputChange}
+                                variant="outlined"
+                              />
+                            </div>
                           </div>
                           <div style={{marginTop: '16px'}}>
                             <TextField

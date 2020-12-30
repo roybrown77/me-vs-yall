@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
 
 const gameRepository = require('../game/GameRepository');
 
@@ -24,8 +25,42 @@ function update(game, cb) {
             set(updatedGame,'competitors.0.score',parseInt(game.awayScore));
         }
 
+        if (get(game,'awayRank','null').trim() !== "null") {
+            set(updatedGame,'competitors.0.rank',game.awayRank);
+        }
+
+        if (get(game,'awayRecord','null').trim() !== "null") {
+            set(updatedGame,'competitors.0.record',game.awayRecord);
+        }
+
+        if (get(game,'awaySpread','null').trim() !== "null") {
+            const spread = {
+              teamId: get(gameFound,'competitors.0._id'),
+              amount: gameFound.competitors,
+              spreadDateTime: moment().toISOString()
+            };
+            set(updatedGame,'spread',spread);
+        }
+
         if (get(game,'homeScore','null').trim() !== "null" ) {
             set(updatedGame,'competitors.1.score',parseInt(game.homeScore));
+        }
+
+        if (get(game,'homeRank','null').trim() !== "null" ) {
+            set(updatedGame,'competitors.1.rank',game.homeRank);
+        }
+
+        if (get(game,'homeRecord','null').trim() !== "null") {
+            set(updatedGame,'competitors.1.record',game.homeRecord);
+        }
+
+        if (get(game,'homeSpread','null').trim() !== "null" ) {
+            const spread = {
+              teamId: get(gameFound,'competitors.1._id'),
+              amount: get(game,'homeSpread'),
+              spreadDateTime: moment().toISOString()
+            };
+            set(updatedGame,'spread',spread);
         }
 
         if (get(game,'gameName','null').trim() !== "null") {
@@ -38,6 +73,11 @@ function update(game, cb) {
 
         if (get(game,'currentTime','null') !== "null") {
             set(updatedGame,'currentTime',game.currentTime);
+        }
+
+        if (get(game,'gameTime','null') !== "null") {
+            const newYork = moment.tz(game.gameTime, "America/New_York");
+            set(updatedGame,'startDateTime', newYork.format());
         }
 
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
