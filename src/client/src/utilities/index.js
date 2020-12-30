@@ -452,13 +452,20 @@ const getVegasPicks = (games = []) => {
     });
 };
 
+const getTimeZoneAbbreviation = () => {
+    const timeZone = moment.tz.guess();
+    const time = new Date();
+    const timeZoneOffset = time.getTimezoneOffset();
+    return moment.tz.zone(timeZone).abbr(timeZoneOffset);
+}
+
 const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false) => {
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
         if (spreadMode) {
             return {
             ...game,
-            startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
+            startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a') + " " + getTimeZoneAbbreviation(),
             competitors: game.competitors.map((competitor, index)=> {
                     const team = teams.find(x=>x._id === competitor._id);
                     const index1 = index;
@@ -483,7 +490,7 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
 
         return {
             ...game,
-            startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
+            startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a') + " " + getTimeZoneAbbreviation(),
             winner: game.competitors[0].score === game.competitors[1].score ? 
                 '000000000000000000000000' : (game.competitors[0].score > game.competitors[1].score ? 
                 game.competitors[0]._id : game.competitors[1]._id),
@@ -517,7 +524,7 @@ const copy = (games = [], picks = [], teams = []) => {
 
     sortedGames.forEach((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
-        const formattedDateTime = displayDateTime.format('dddd MMM D YYYY h:mm a');
+        const formattedDateTime = displayDateTime.format('dddd MMM D YYYY h:mm a') + " " + getTimeZoneAbbreviation();
         const teamA = teams.find(x=>x._id === game.competitors[0]._id);
         const teamB = teams.find(x=>x._id === game.competitors[1]._id);
 
