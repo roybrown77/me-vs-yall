@@ -25,6 +25,11 @@ import diannaTaurasi from '../styles/images/dianna-taurasi.jpg';
 import rickey from '../styles/images/rickey.gif';
 import mack from '../styles/images/mack.jpeg';
 
+import hoodiesBw from '../styles/images/mvy-hoodie-white-bw.jpg';
+import shirts from '../styles/images/mvy-tee-white-romey.jpg';
+import shirtGray from '../styles/images/mvy-tee-gray.jpg';
+import shirtsBw from '../styles/images/mvy-tee-black-bw.jpg';
+
 const vegasPictures = [
     zachBaby
 ];
@@ -39,6 +44,13 @@ const basketBallImages = [
     {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
     {id: 'uncleDrew', picture: uncleDrew, source: 'Uncle Drew / Pepsi'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
+];
+
+const homePageImages = [
+    hoodiesBw,
+    shirts,
+    shirtGray,
+    shirtsBw
 ];
 
 const images = {
@@ -79,6 +91,10 @@ const images = {
 
 const getImage = (leagueId) => {
     return images[leagueId] && images[leagueId].length > 0 ? images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)] : null;
+};
+
+const getHomePageImage = () => {
+    return homePageImages[getRandomIntInclusive(0,homePageImages.length-1)];
 };
 
 const leagues = [
@@ -600,5 +616,6 @@ export {
     getRandomIntInclusive,
     images,
     getPicksNotSelected,
-    copy
+    copy,
+    getHomePageImage
 };
