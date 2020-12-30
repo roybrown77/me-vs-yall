@@ -1,22 +1,3 @@
-module.exports = {
-	week12020,
-	week22020,
-	week32020,
-	week42020,
-	week52020,
-	week62020,
-	week72020,
-	week82020,
-	week92020,
-	week102020,
-	week112020,
-	week122020,
-	week132020,
-	week142020,
-	week152020,
-	week162020
-};
-
 const week162020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -1879,3 +1860,22 @@ Panthers
 <br />
 Chiefs **
 </div>`;
+
+module.exports = {
+	week12020,
+	week22020,
+	week32020,
+	week42020,
+	week52020,
+	week62020,
+	week72020,
+	week82020,
+	week92020,
+	week102020,
+	week112020,
+	week122020,
+	week132020,
+	week142020,
+	week152020,
+	week162020
+};
