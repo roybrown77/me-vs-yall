@@ -106,12 +106,11 @@ const styles = {
 };
 
 const instructions = [
-  'To feel the thrill of betting without risking a thing:',
   '1. Tap league.',
   '2. Tap "Press To Play" to sign in.',
   '3. Tap teams you think will win this week.',
   '4. View Leaders to see if you won.',
-  "5. No purchase necessary.  It's free yall."
+  "5. No purchase necessary.  It's free yall.  :D"
 ];
 
 class Home extends Component {
@@ -150,6 +149,7 @@ class Home extends Component {
               borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px'}}
               title={'How To Play'}>
               <div style={{padding:'16px'}}>
+                <div style={{marginBottom:'16px'}}>To feel the thrill of betting without risking a thing:</div>
                 {
                   instructions.map((instruction,instructionIndex)=>{
                     return (
