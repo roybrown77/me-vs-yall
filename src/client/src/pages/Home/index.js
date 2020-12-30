@@ -144,7 +144,7 @@ class Home extends Component {
             top: "5%",
             right: "10px", 
             position: "fixed",
-            zIndex:"2"
+            zIndex:"777"
           }}>
             <Popover 
               borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px'}}
