@@ -2,6 +2,14 @@ const week162020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
+Browns vs Jets 16 23
+<br />
+(285 receiving yds, 45 rushing yds, 2 to) vs (218 receiving yds, 131 rushing yds, 0to)
+<br />
+<br />
+Jets defense very fast keeping Browns  close.  Trick play gets Jets in end zone.  Batted ball pick 6 by lineman very nice.  Darnold strikes for another td.  Browns offense stalls.  Darnold Jim Brown’d somebody on strong run.  Darnold throws a dime td to Crowder.  Browns get in end zone when working Chubb and Hunt in.  Jets cause fumble on Browns red zone drive to seal win.
+<br />
+<br />
 <i>Check back as this is updated all week.</i>
 </div>`;
 
