@@ -132,7 +132,6 @@ class Home extends Component {
     };
 
     render() {
-      const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`;
       const year = moment().format('YYYY');
 
       return (

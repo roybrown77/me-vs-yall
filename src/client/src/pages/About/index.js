@@ -15,6 +15,8 @@ const line3 = `This app is for the love of sports, competition and the fighting 
 
 const line4 = `Me vs Yall Engineering and Internship Program has provided code `;
 
+const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`;
+
 class About extends Component {
     componentDidMount() {
       ReactGA.ga('send', 'pageview', '/about');
@@ -29,6 +31,10 @@ class About extends Component {
                 <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
                 <div style={{textAlign: 'left', padding: '12px'}}>
                     {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+                </div>
+                <div style={{marginTop:'24px'}}>
+                  <iframe style={{borderStyle:'none'}} width="320" height="215" title="Los D Baya" src={videoUrl}>
+                  </iframe>
                 </div>
             </PageContainer>
         );
