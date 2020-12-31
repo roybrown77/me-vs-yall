@@ -140,13 +140,13 @@ class Home extends Component {
           <div style={{backgroundColor:"black", position: "absolute", width:"100%", height:"100%", opacity: ".9", zIndex:"1"}}>
           </div>
           <div style={{
-            top: "5%",
+            top: "10px",
             right: "10px", 
             position: "fixed",
             zIndex:"777"
           }}>
             <Popover 
-              borderStyle={{margin: '8px auto', maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px'}}
+              borderStyle={{maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px'}}
               title={'How To Play'}>
               <div style={{padding:'16px'}}>
                 <div style={{marginBottom:'16px'}}>To feel the thrill of betting without risking a thing:</div>
