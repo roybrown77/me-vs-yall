@@ -212,7 +212,14 @@ class Home extends Component {
               </div>
             </div>
             <div>© {year} Me vs Yall</div>
-            <div><span style={{position:'absolute',left:0,bottom:'10px',fontSize:'25px'}}>{"🎸 "}</span>{moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}</div>
+            <div>
+            {
+              false && 
+              <span style={{position:'absolute',left:0,bottom:'10px',fontSize:'25px'}}>
+              {"🎸"}
+              </span>
+            }
+            {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}</div>
           </div>
         </div>
       );

@@ -90,10 +90,12 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
 
   const root = 'scoreboard basketball';
 
+  const date = moment(new Date()).format('YYYYMMDD');
+
   const scores = await getScores({
     message, 
     root,
-    url,
+    url: `${url}${date}`,
     livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
@@ -108,6 +110,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
 
   await updateGames({
     message,
+    leagueId,
     games,
     scores,
     teams
