@@ -31,7 +31,8 @@ const styles = {
   },
   link: {
     color: 'white',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    fontFamily: 'monospace !important'
   }
 };
 
@@ -95,7 +96,7 @@ class Home extends Component {
             zIndex:"777"
           }}>
             <Popover 
-              borderStyle={{maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px'}}
+              borderStyle={{maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px', fontFamily: 'monospace !important'}}
               title={'How To Play'}>
               <div style={{padding:'16px'}}>
                 <div style={{marginBottom:'16px'}}>To feel the thrill of betting without risking a thing:</div>
