@@ -11,65 +11,17 @@ import get from 'lodash/get';
 import { withStyles } from '@material-ui/core/styles';
 
 import Popover from '../../components/Popover';
-import { getHomePageImage } from '../../utilities';
+import { getHomePageImage, getAreAnyGamesInProgress } from '../../utilities';
 
 const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
-  plainTitle: {
-    color: 'transparent', 
-    backgroundColor: '#000000',
-    fontSize: '2rem', 
-    fontStyle: 'italic',
-    fontWeight: '700',
-    margin: '16px auto',
-    padding: '8px',
-    width: '50%'
-  },
-  buttonContainer: {
-    margin: '0 0 32px 0'
-  },
-  buttonLeagueContainer: {
-    maxWidth: '320px',
-    fontSize: '24px',
-    margin: '30px auto',
-    fontWeight: 'bold'
-  },
-  buttonBorder: {
-    maxWidth: '155px',
-    margin: '10px auto',
-    backgroundColor: "#fff",
-    border: "1px solid lightgray"
-  },
-  button: {
-    width: '100%',
-    color: 'black',
-    fontSize: '1rem', 
-    fontWeight: '700',
-    border: 'none',
-    padding: '10px'
-  },
   inProgress: {
-    width:'12px', 
-    height: '100%', 
+    height: '10px',
+    width: '10px',
+    backgroundColor: 'red',
     position: 'absolute',
-    right: '4px',
-    bottom: '4px'
-  },
-  footer: {
-    fontWeight: '500',
-    width: '100%',
-    marginTop: '7em',
-    fontSize: '11px'
-  },
-  spacer: {
-    margin: '0 7px',
-    border: '2px solid black'
-  },
-  countdown: {
-    fontSize: '14px',
-    color: 'white',
-    marginTop: '4px'
+    margin: '20px 0 0 10px'
   },
   footerLinks: {
     padding:'20px',
@@ -80,28 +32,6 @@ const styles = {
   link: {
     color: 'white',
     textDecoration: 'none'
-  },
-  loginButton: {
-    fontSize: '1rem',
-    fontWeight: "700",
-    width: '95%',
-    backgroundColor: '#3772FA',
-    color: '#FFFFFF',
-    maxWidth: '325px',
-    borderColor: '#3772FA',
-    '&:hover': {
-      backgroundColor: '#3772FA',
-      color: '#FFFFFF',
-      borderColor: '#3772FA',
-    }
-  },
-  subTitle: {
-    fontSize: '24px',
-    margin: '16px auto',
-    padding: '0 32px'
-  },
-  ball: {
-    width: '70px'
   }
 };
 
@@ -132,7 +62,27 @@ class Home extends Component {
     };
 
     render() {
+      const {games} = this.props;
+
       const year = moment().format('YYYY');
+
+      const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
+      const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
+      const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
+      const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
+      const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
+      const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
+      const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
+      const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
+
+      const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
+      const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
+      const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
+      const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
+      const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
+      const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
+      const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
+      const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
 
       return (
         <div style={{backgroundColor: 'rgb(255, 255, 255)', fontFamily: 'monospace'}} className="fade-in">
@@ -177,14 +127,50 @@ class Home extends Component {
                   <Link className="links" style={styles.link} to={'/scoreboards/nfl'}>
                     NFL
                   </Link>
+                  {areAnyNflGamesInProgress && <span style={styles.inProgress} />}
                 </div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/nba'}>NBA</Link></div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/premier'}>PREMIER LEAGUE</Link></div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/mlb'}>MLB</Link></div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/wnba'}>WNBA</Link></div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/boxing'}>BOXING</Link></div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/mma'}>MMA</Link></div>
-                <div><Link className="links" style={styles.link} to={'/scoreboards/ncaaf'}>COLLEGE FOOTBALL</Link></div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/nba'}>
+                    NBA
+                  </Link>
+                  {areAnyNbaGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/premier'}>
+                    PREMIER LEAGUE
+                  </Link>
+                  {areAnyPremierGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/mlb'}>
+                    MLB
+                  </Link>
+                  {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/wnba'}>
+                    WNBA
+                  </Link>
+                  {areAnyWnbaGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/boxing'}>
+                    BOXING
+                  </Link>
+                  {areAnyBoxingMatchesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/mma'}>
+                    MMA
+                  </Link>
+                  {areAnyMMAMatchesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={styles.link} to={'/scoreboards/ncaaf'}>
+                    COLLEGE FOOTBALL
+                  </Link>
+                  {areAnyNCAAFGamesInProgress && <span style={styles.inProgress} />}
+                </div>
               </div>
             </div>
           </div>

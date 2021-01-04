@@ -42,7 +42,7 @@
     "build": "npm run lint && react-scripts test --watchAll=false && react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "lint": "eslint --max-warnings 10 --ext .jsx --ext .js src/"
+    "lint": "eslint --max-warnings 5 --ext .jsx --ext .js src/"
   },
   "eslintConfig": {
     "extends": "react-app"
