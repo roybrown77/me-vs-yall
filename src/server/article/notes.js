@@ -1,3 +1,10 @@
+const week172020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+<i>Check back as this is updated all week.</i>
+</div>`;
+
 const week162020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -8,9 +15,6 @@ Browns vs Jets 16 23
 <br />
 <br />
 Jets defense very fast keeping Browns  close.  Trick play gets Jets in end zone.  Batted ball pick 6 by Jets lineman very nice.  Darnold strikes for another td.  Browns offense stalls.  Darnold Jim Brown’d somebody on strong run.  Darnold throws a dime td to Crowder.  Browns get in end zone when working Chubb and Hunt in.  Jets cause fumble on Browns red zone drive to seal win.
-<br />
-<br />
-<i>Check back as this is updated all week.</i>
 </div>`;
 
 const week152020 = `<div>
@@ -1885,5 +1889,6 @@ module.exports = {
 	week132020,
 	week142020,
 	week152020,
-	week162020
+	week162020,
+	week172020
 };
