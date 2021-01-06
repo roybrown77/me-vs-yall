@@ -95,7 +95,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
   const scores = await getScores({
     message, 
     root,
-    url: `${url}${date}`,
+    url: `${url}`,
     livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
