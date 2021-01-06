@@ -51,7 +51,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
     }
 
     if (!currentTime || lastPlay.trim() === "") {
-        console.log(`${message} getPlayHistory no valid play.`);
+        console.log(`${message} getPlayHistory: no valid play.`);
         return playHistory;
       }
 
@@ -90,12 +90,12 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
   if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.slice(0,9).find(x=>get(x,'lastPlay')===lastPlay))) {
-    console.log(`${message} getPlayHistory no play.`);
+    console.log(`${message} getPlayHistory: no play.`);
     return playHistory;
   }
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || badPlays || lastPlay.trim() === "") {
-    console.log(`${message} getPlayHistory no valid play.`);
+    console.log(`${message} getPlayHistory: no valid play.`);
     return playHistory;
   }
 
@@ -569,7 +569,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         const score = scores[scoreIndex];
 
-        //console.log(`${message} score: ${JSON.stringify(score)}`);
+        console.log(`${message} score: ${JSON.stringify(score)}`);
 
         const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
@@ -635,7 +635,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
         }
 
-        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+        //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
