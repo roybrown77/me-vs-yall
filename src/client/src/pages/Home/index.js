@@ -116,9 +116,9 @@ class Home extends Component {
           <div style={{
             color: "white",
             padding: "16px",
-            fontSize: "30px",
-            top: "5%",
-            position: "fixed",
+            fontSize: "25px",
+            top: "3em",
+            position: "relative",
             left: "0", 
             zIndex:"2"
           }}>
@@ -178,7 +178,7 @@ class Home extends Component {
           <div style={{
             color: "white",
             padding: "10px",
-            fontSize: "12px",
+            fontSize: "10px",
             bottom: "0",
             position: "fixed",
             right: "0", 
