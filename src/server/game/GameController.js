@@ -55,66 +55,6 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const buySupreme = async () => {
-  let browser;
-  let page;
-
-  try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: false
-    });
-    page = await browser.newPage();
-
-    //await page.setViewport({width:1000,height:700});
-    //await page.setRequestInterception(true);
-    // page.on('request', (req) => {
-    //     if(req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image'){
-    //         req.abort();
-    //     }
-    //     else {
-    //         req.continue();
-    //     }
-    // });
-
-    await page.goto('https://www.supremenewyork.com/shop/new');
-    await page.waitForSelector('div.turbolink_scroller');
-    await page.click('#container > article:nth-child(10) > div > a');
-    await page.waitForSelector('#details > h1');
-
-    const name = await page.evaluate((sel) => {
-      return document.querySelector(sel).innerText;
-    }, '#details > h1');
-
-    console.log('name: ' + name);
-
-    if ((name || '').toLowerCase().includes('thermal')) {
-      await page.click('#add-remove-buttons > input');
-      await page.waitForSelector('#cart');
-      await page.click('#cart > a.button.checkout');
-      await page.waitForSelector('#order_billing_name');
-      await page.type("#order_billing_name", 'Roy Brown');
-      // await page.type("#order_email", 'roybrown77@gmail.com');
-      // await page.type("#order_tel", '4045397786');
-      // await page.type("#bo", '720 Village Crest Drive');
-      // await page.type("#order_billing_zip", '30024');
-      // await page.type("#order_billing_city", 'Suwanee');
-      // await pgae.click("#order_billing_state > option:nth-child(13)");
-      // await page.type("#nnaerb", '515');
-      // await pgae.click("#credit_card_month > option:nth-child(4)");
-      // await pgae.click("#credit_card_year > option:nth-child(4)");
-      // await page.type("#orcer", '515');
-      await page.waitForNavigation();
-    }
-
-    await browser.close();
-  } catch (err) {
-    if (!!browser) {
-      await browser.close();
-    }
-  }
-};
-
 const getEmailAddresses = async () => {
   const users = await userRepository.find({deleted: {$ne: true}});
   const emailList = [...users.map(user=>{return user.email})];
@@ -131,13 +71,6 @@ const backupData = async () => {
   console.log('picks: ' + JSON.stringify(picks));
   const users = await userRepository.find({});
   console.log('users: ' + JSON.stringify(users));
-};
-
-const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
-    const gameStartDateTime = moment(new Date(dateTime));
-    const currentDateTime = moment(new Date());
-    const difference = currentDateTime.diff(gameStartDateTime,'minutes');
-    return difference <= minutesUntil;
 };
 
 const updateGames = async (leagueId) => {
