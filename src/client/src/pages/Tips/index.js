@@ -39,12 +39,16 @@ const styles = {
 
 const stats = [
   {
+    title: 'SHARK TANK',
+    content: `Me vs Yall.  Home of your future Vegas sharks.`
+  },
+  {
     title: 'EVERY WEEK WORLD WIDE',
     content: `Pick winners.  Every week.  Against others around the world.  For free.`
   },
   {
     title: 'THRILLER',
-    content: `Feel the thrill of betting without actually risking it.`
+    content: `Feel the thrill of betting without risking a thing.`
   },
   {
     title: 'FACTS',
@@ -115,10 +119,6 @@ const stats = [
   {
     title: 'NO GAME NO PROBLEM',
     content: `Follow each play on Scores page when you can't watch it.`
-  },
-  {
-    title: 'SHARK TANK',
-    content: `Me vs Yall.  Here to groom your future Vegas sharks.`
   },
   {
     title: 'FRIENDS AND FAMILY',
