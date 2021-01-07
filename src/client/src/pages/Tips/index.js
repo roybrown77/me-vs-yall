@@ -48,7 +48,7 @@ const stats = [
   },
   {
     title: 'THRILLER',
-    content: `Feel the thrill of betting without risking a thing.`
+    content: `Social platform to feel the thrill of betting without risking a thing.`
   },
   {
     title: 'FACTS',
