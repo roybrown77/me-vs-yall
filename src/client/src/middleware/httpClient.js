@@ -58,7 +58,7 @@ export const Schemas = {
 
 export const CALL_API = 'Call API';
 
-export default store => next => action => {
+const NEXT_ACTION = store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') {
     return next(action);
@@ -104,3 +104,5 @@ export default store => next => action => {
     }))
   );
 };
+
+export default NEXT_ACTION;
