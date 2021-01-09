@@ -483,6 +483,16 @@ class Game extends Component {
                         title={game.startDateTimeDisplay}
                         handleOpen={this.handleClearInput}>
                         <div style={{padding:'16px'}}>
+                          <div>
+                            <Checkbox
+                              name="isGameOver"
+                              color="primary"
+                              checked={isGameOver}
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              onChange={this.handleInputChange}
+                            />
+                            is game over
+                          </div>
                           <div style={{display: 'flex'}}>
                             <div>
                               <TextField
@@ -660,16 +670,6 @@ class Game extends Component {
                               onChange={this.handleInputChange}
                               variant="outlined"
                             />
-                          </div>
-                          <div>
-                            <Checkbox
-                              name="isGameOver"
-                              color="primary"
-                              checked={isGameOver}
-                              inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              onChange={this.handleInputChange}
-                            />
-                            is game over
                           </div>
                           <div>
                             <Button 
