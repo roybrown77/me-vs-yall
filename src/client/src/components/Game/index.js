@@ -671,7 +671,7 @@ class Game extends Component {
                               variant="outlined"
                             />
                           </div>
-                          <div>
+                          <div style={{marginTop: '10px'}}>
                             <Button 
                                 size="small"
                                 className={classes.saveButton} onClick={() => this.handleSaveGame(game._id)}>
