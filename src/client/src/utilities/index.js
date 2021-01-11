@@ -561,7 +561,6 @@ const getLeaderIndicator = (game,picks,index1,index2) => {
             picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
                 && pick.gameId === game._id))) ? 'red' : 
 
-            moment() > moment(game.startDateTime) && 
             picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000')  
                 && pick.gameId === game._id) ? 'lightblue' : '';
 }
@@ -579,7 +578,7 @@ const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
 
             game.isGameOver && get(game,'spread.teamId') && ((game.competitors[index1].score === game.competitors[index2].score) || teamAPick) ? 'red' : 
 
-            moment() > moment(game.startDateTime) && teamAPick ? 'lightblue' : '';
+            teamAPick ? 'lightblue' : '';
 }
 
 const getPicksNotSelected = (games = [], picks = []) => {
