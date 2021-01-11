@@ -1,10 +1,3 @@
-const week172020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
-<br />
-<br />
-<i>Check back as this is updated all week.</i>
-</div>`;
-
 const week162020 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
@@ -1889,6 +1882,5 @@ module.exports = {
 	week132020,
 	week142020,
 	week152020,
-	week162020,
-	week172020
+	week162020
 };

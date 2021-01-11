@@ -14,18 +14,10 @@ const {
   week132020,
   week142020,
   week152020,
-  week162020,
-  week172020
+  week162020
 } = require("./notes");
 
 const articles = [
-  {
-    title: "NOTES OF THE WEEK: NFL WEEK 17",
-    content: week172020,
-    leagueName: 'NFL',
-    date: 'January 5, 2021',
-    author: 'Roy B.'
-  },
   {
     title: "NOTES OF THE WEEK: NFL WEEK 16",
     content: week162020,
