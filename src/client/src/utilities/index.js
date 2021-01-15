@@ -597,6 +597,12 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
     return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
 }
 
+const getHomePageEmoji = () => {
+    const emojis = ["🏎","💃","🎒","🍄","🌶","🍿","🥊","🚣","🥁","🚗","⛽️","🏖","☎️","🧰","💌","🅰️"];
+    return emojis[getRandomIntInclusive(0,emojis.length-1)];
+}
+
+
 export {
     getResults,
     areAnyGamesOver,
@@ -623,5 +629,6 @@ export {
     images,
     getPicksNotSelected,
     copy,
-    getHomePageImage
+    getHomePageImage,
+    getHomePageEmoji
 };

@@ -11,7 +11,8 @@ import get from 'lodash/get';
 import { withStyles } from '@material-ui/core/styles';
 
 import Popover from '../../components/Popover';
-import { getHomePageImage, getAreAnyGamesInProgress } from '../../utilities';
+import { loadGamesInProgress } from '../../actions';
+import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji } from '../../utilities';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -21,7 +22,7 @@ const styles = {
     width: '10px',
     backgroundColor: 'red',
     position: 'absolute',
-    margin: '20px 0 0 10px'
+    margin: '15px 0 0 10px'
   },
   footerLinks: {
     padding:'20px',
@@ -48,6 +49,7 @@ class Home extends Component {
     componentDidMount() {
       ReactGA.ga('send', 'pageview', '/');
       window.scrollTo(0, 0);
+      this.props.loadGamesInProgress();
     }
 
     gram = () => {
@@ -84,6 +86,7 @@ class Home extends Component {
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
       const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
       const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
+      const emoji = getHomePageEmoji();
 
       return (
         <div style={{backgroundColor: 'rgb(255, 255, 255)', fontFamily: 'monospace'}} className="fade-in">
@@ -200,13 +203,14 @@ class Home extends Component {
             </div>
             <div>© {year} Me vs Yall</div>
             <div>
+            {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
             {
-              false && 
-              <span style={{position:'absolute',left:0,bottom:'10px',fontSize:'25px'}}>
-              {"🎸"}
+              true && 
+              <span style={{margin: '-5px 0 0 10px', position: 'absolute', fontSize: '15px'}}>
+              {emoji}
               </span>
             }
-            {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}</div>
+            </div>
           </div>
         </div>
       );
@@ -229,6 +233,7 @@ Home.propTypes = {
     classes: PropTypes.object.isRequired,
     games: PropTypes.array,
     isAuthenticated: PropTypes.bool.isRequired,
+    loadGamesInProgress: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, {})(withStyles(styles, { withTheme: true })(Home));
+export default connect(mapStateToProps, {loadGamesInProgress})(withStyles(styles, { withTheme: true })(Home));
