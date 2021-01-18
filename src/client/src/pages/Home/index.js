@@ -205,7 +205,7 @@ class Home extends Component {
             <div>
             {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
             {
-              true && 
+              false && 
               <span style={{margin: '-5px 0 0 10px', position: 'absolute', fontSize: '15px'}}>
               {emoji}
               </span>
