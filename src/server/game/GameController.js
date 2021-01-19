@@ -269,7 +269,6 @@ router.get('/gamesInProgress', function (req, res) {
 router.get('/teams', function (req, res) {
   //backupData();
   //getEmailAddresses();
-  //buySupreme();
 
   const teams = [
     ...nflTeams,
