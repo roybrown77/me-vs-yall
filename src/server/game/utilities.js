@@ -246,7 +246,7 @@ const getGames = async ({
     if (games.length > maxLength) {
         // const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
         // games = games.slice(randomPosition,randomPosition+maxLength);
-        games = [games[6],games[7]]; //.slice(0,1);
+        games = [games[5],games[7]]; //.slice(0,1);
     }
   }
 
@@ -258,13 +258,10 @@ const allowedConferences = ["sec","acc","big10","big12","pac12"];
 const formatGames = ({message, games, leagueId, year, teams}) => {
     let formattedGames = [];
 
-    //console.log(`${message} formatGames teams: ${JSON.stringify(teams)}`);
-
     games.forEach(game=>{
         const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
         const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
-        const spreadTeam = teams.find(x=>get(x,'shortLocation','a').toLowerCase() === get(game,'spread.team','b').toLowerCase());
-
+        
         if (!awayTeam || !homeTeam || (game.gameName || '').toLowerCase().includes('header')) {
             console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
             console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
@@ -277,13 +274,23 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                     {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
                 ];
 
+                const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'))
+
+                console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
+                console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
+
                 formattedGames.push({
                   leagueId: mongoose.Types.ObjectId(leagueId),
                   year: year,
                   startDateTime: game.startDateTime,
                   gameName: game.gameName,
                   competitors: competitors,
-                  hashCompetitors: JSON.stringify(competitors)
+                  hashCompetitors: JSON.stringify(competitors),
+                  spread: spreadTeam ? {
+                    teamId: get(spreadTeam,'_id'),
+                    amount: get(game,'spread.amount', 0),
+                    spreadDateTime: get(game,'spread.spreadDateTime')
+                  } : null
                 });
             }
         }
@@ -635,7 +642,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
           set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
         }
 
-        //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+        console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
