@@ -41,6 +41,6 @@
     "prod-worker": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 worker.js",
     "client": "nodemon start-client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
-    "heroku-postbuild": "cd src/client/ && npm cache verify --force && npm install && npm run build"
+    "heroku-postbuild": "cd src/client/ && npm clean && npm install && npm run build"
   }
 }
