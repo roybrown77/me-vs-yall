@@ -36,7 +36,7 @@ function update(game, cb) {
         if (get(game,'awaySpread','null').trim() !== "null") {
             const spread = {
               teamId: get(gameFound,'competitors.0._id'),
-              amount: gameFound.competitors,
+              amount: get(game,'awaySpread'),
               spreadDateTime: moment().toISOString()
             };
             set(updatedGame,'spread',spread);
