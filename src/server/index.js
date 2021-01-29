@@ -6,14 +6,15 @@ if (!dbUsername || !dbPassword || !dbName) {
 }
 
 const options = {
+  useNewUrlParser: true,
   useUnifiedTopology: true,
-  useNewUrlParser: true, // use new connection string parser
+  useCreateIndex: true,
+  useFindAndModify: false,
   autoIndex: false, // Don't build indexes
   poolSize: 10, // Maintain up to 10 socket connections
-  //bufferMaxEntries: 0, // If not connected, return errors immediately rather than waiting for reconnect
-  socketTimeoutMS: 0,
-  connectTimeoutMS: 0,
-  useFindAndModify: false
+  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  family: 4 // Use IPv4, skip trying IPv6
 };
 
 const mongoose = require('mongoose');
