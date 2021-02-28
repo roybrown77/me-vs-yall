@@ -124,7 +124,8 @@ const getGames = async ({
     away = 'away',
     home = 'home',
     shouldLimit = false,
-    isStart = true
+    game1 = 0,
+    game2 = 1
 }) => {
   let games = [];
   let browser;
@@ -246,7 +247,7 @@ const getGames = async ({
     if (games.length > maxLength) {
         // const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
         // games = games.slice(randomPosition,randomPosition+maxLength);
-        games = [games[5],games[7]]; //.slice(0,1);
+        games = [games[game1],games[game2]]; //.slice(0,1);
     }
   }
 
