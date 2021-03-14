@@ -142,8 +142,6 @@ class Leader extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
 
-        this.startPolling();
-
         const { leagueName } = this.props.match.params;
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
@@ -159,32 +157,26 @@ class Leader extends Component {
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
             isRollup: urlLeagueId !== this.props.leagueId ? undefined : this.props.isRollup
         });
+
+        this.startPolling();
     }
 
     componentWillUnmount() {
-        if (this._timer) {
-          clearInterval(this._timer);
-          this._timer = null;
-        }
+        clearInterval(this.timerID);
+        console.log('stop timerID: ' + this.timerID);
     }
 
     startPolling = () => {
-        let self = this;
-        self._timer = setInterval(self.poll.bind(self), 15000);
+        this.timerID = setInterval(
+            () => this.poll(),
+            15000
+        );
+        console.log('start timerID: ' + this.timerID);
     }
 
-    resetPoll() {
-        let self = this;
-        
-        if (this._timer) {
-          clearInterval(this._timer);
-          this._timer = null;
-        }
+    poll = () => {
+        console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
 
-        self._timer = setInterval(self.poll.bind(self), 15000);
-    }
-
-    poll() {
         const leagueName = window.location.pathname.split('/')[2];
         const leagueFound = this.props.leagues.find(x=>x.name === leagueName);
 

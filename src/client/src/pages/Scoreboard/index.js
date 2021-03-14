@@ -139,14 +139,7 @@ class Scoreboard extends Component {
     }
 
     componentDidMount() {
-        if (this._timer) {
-          clearInterval(this._timer);
-          this._timer = null;
-        }
-
         window.scrollTo(0, 0);
-
-        this.startPolling();
 
         const { leagueName } = this.props.match.params;
 
@@ -162,35 +155,28 @@ class Scoreboard extends Component {
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
         });
+
+        this.startPolling();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+        console.log('stop timerID: ' + this.timerID);
     }
 
     startPolling = () => {
-        let self = this;
-        self._timer = setInterval(self.poll.bind(self), 15000);
+        this.timerID = setInterval(
+            () => this.poll(),
+            15000
+        );
+        console.log('start timerID: ' + this.timerID);
     }
 
-    resetPoll() {
-        let self = this;
-        
-        if (this._timer) {
-          clearInterval(this._timer);
-          this._timer = null;
-        }
-
-        self._timer = setInterval(self.poll.bind(self), 15000);
-    }
-
-    poll() {
-        const leagueName = window.location.pathname.split('/')[2];
-        const leagueFound = this.props.leagues.find(x=>x.name === leagueName);
-
-        if (!leagueFound) {
-            this.resetPoll();
-            return;
-        }
+    poll = () => {
+        console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
 
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
-
+        
         if (!areAnyGamesInProgress) return;
 
         if (this.props.weeks.findIndex(x=>x._id === this.props.weekId)+1 < this.props.weeks.length) return;
@@ -297,7 +283,7 @@ class Scoreboard extends Component {
         this.props.spreadModeToggle(!this.props.spreadMode);
     }
 
-    handleSharePicks = (e) => {
+    handleSharePicks = () => {
         const copyText = document.getElementById("copyInput");
 
         copyText.select();
