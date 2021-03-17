@@ -4,21 +4,21 @@
   "private": true,
   "dependencies": {
     "amqp-connection-manager": "3.2.2",
-    "amqplib": "0.6.0",
+    "amqplib": "0.7.1",
     "body-parser": "1.19.0",
     "cron": "1.8.2",
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "express-jwt": "6.0.0",
-    "jwks-rsa": "1.12.2",
-    "lodash": "4.17.20",
+    "jwks-rsa": "2.0.1",
+    "lodash": "4.17.21",
     "moment-timezone": "0.5.33",
-    "mongoose": "5.11.16",
+    "mongoose": "5.12.0",
     "path": "0.12.7",
-    "puppeteer": "7.1.0"
+    "puppeteer": "8.0.0"
   },
   "devDependencies": {
-    "concurrently": "5.3.0",
+    "concurrently": "6.0.0",
     "nodemon": "2.0.7"
   },
   "cacheDirectories": [
