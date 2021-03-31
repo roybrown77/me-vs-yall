@@ -464,7 +464,6 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
-                        false &&
                         ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(leagueId) &&
                         <div style={{
                                 justifyContent: 'center',
