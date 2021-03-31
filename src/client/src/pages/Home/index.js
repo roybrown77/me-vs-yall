@@ -9,10 +9,15 @@ import ReactGA from 'react-ga';
 import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
+import Slide from '@material-ui/core/Slide';
+import IconButton from '@material-ui/core/IconButton';
+import LightOn from '@material-ui/icons/EmojiObjectsOutlined';
+import LightOff from '@material-ui/icons/EmojiObjects';
 
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
 import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji } from '../../utilities';
+import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -34,6 +39,14 @@ const styles = {
     color: 'white',
     textDecoration: 'none',
     fontFamily: 'monospace !important'
+  },
+  toggleOn: {
+    color: 'white',
+    fontSize: '5em'
+  },
+  toggleOff: {
+    color: 'black',
+    fontSize: '5em'
   }
 };
 
@@ -46,6 +59,13 @@ const instructions = [
 ];
 
 class Home extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        darkModeOn: false
+      };
+    }
+
     componentDidMount() {
       ReactGA.ga('send', 'pageview', '/');
       window.scrollTo(0, 0);
@@ -64,8 +84,15 @@ class Home extends Component {
       history.push(route);
     };
 
+    handleToggleDarkMode = () => {
+        this.setState((state) => ({
+            darkModeOn: !state.darkModeOn
+        }));
+    }
+
     render() {
       const {games} = this.props;
+      const {darkModeOn} = this.state;
 
       const year = moment().format('YYYY');
 
@@ -89,8 +116,28 @@ class Home extends Component {
       const emoji = getHomePageEmoji();
 
       return (
-        <div style={{backgroundColor: 'rgb(255, 255, 255)', fontFamily: 'monospace'}} className="fade-in">
-          <div style={{backgroundColor:"black", position: "absolute", width:"100%", height:"100%", opacity: ".9", zIndex:"1"}}>
+        <div style={{backgroundColor: 'transparent', fontFamily: 'monospace'}} className="fade-in">
+          {darkModeOn && <div style={{backgroundColor:"black", position: "absolute", width:"100%", height:"100%", opacity: ".9", zIndex:"1"}}>
+          </div>}
+          {!darkModeOn && <div style={{backgroundColor:"transparent", position: "absolute", width:"100%", height:"100%", zIndex:"1"}}>
+            {
+              !darkModeOn &&
+              <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
+                <div style={{marginTop: '5em'}}>
+                  <img style={{width:'275px'}} src={mvy} alt=""/>
+                </div>
+              </Slide>
+            }
+          </div>}
+          <div style={{
+            top: "0",
+            left: "0", 
+            position: "fixed",
+            zIndex:"777"
+          }}>
+            <IconButton style={{fontSize: '10px'}} aria-label="dark mode" onClick={this.handleToggleDarkMode}>
+                {darkModeOn ? <LightOn style={styles.toggleOn}/> : <LightOff style={styles.toggleOff}/>}
+            </IconButton>
           </div>
           <div style={{
             top: "10px",
@@ -113,9 +160,9 @@ class Home extends Component {
               </div>
             </Popover>
           </div>
-          <div style={{position: "absolute", width:"100%", height:"100%"}}>
+          {darkModeOn && <div style={{position: "absolute", width:"100%", height:"100%"}}>
             <img style={{width:'100%', height: "100%"}} src={getHomePageImage()} alt=""/>
-          </div>
+          </div>}
           <div style={{
             color: "white",
             padding: "16px",
@@ -123,54 +170,55 @@ class Home extends Component {
             top: "3em",
             position: "relative",
             left: "0", 
-            zIndex:"2"
+            zIndex:"2",
+            paddingTop:"5em"
           }}>
-            <div style={styles.footerLinks}>
+            <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/nfl'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/nfl'}>
                     NFL
                   </Link>
                   {areAnyNflGamesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/nba'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/nba'}>
                     NBA
                   </Link>
                   {areAnyNbaGamesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/premier'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/premier'}>
                     PREMIER LEAGUE
                   </Link>
                   {areAnyPremierGamesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/mlb'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mlb'}>
                     MLB
                   </Link>
                   {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/wnba'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/wnba'}>
                     WNBA
                   </Link>
                   {areAnyWnbaGamesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/boxing'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/boxing'}>
                     BOXING
                   </Link>
                   {areAnyBoxingMatchesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/mma'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mma'}>
                     MMA
                   </Link>
                   {areAnyMMAMatchesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={styles.link} to={'/scoreboards/ncaaf'}>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/ncaaf'}>
                     COLLEGE FOOTBALL
                   </Link>
                   {areAnyNCAAFGamesInProgress && <span style={styles.inProgress} />}
@@ -187,29 +235,31 @@ class Home extends Component {
             right: "0", 
             zIndex:"2"
           }}>
-            <div style={styles.footerLinks}>
+            <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div>
-                <div><Link className="links" style={styles.link} to={'/tips'}>Tips</Link></div>
-                <div><Link className="links" style={styles.link} to={'/shop'}>Shop</Link></div>
-                <div><Link className="links" style={styles.link} to={'/play'}>Play</Link></div>
-                {true && <div><Link style={styles.link} to={''} onClick={()=>this.tube()}>Tube</Link></div>}
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/tips'}>Tips</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/shop'}>Shop</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/play'}>Play</Link></div>
+                {true && <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={()=>this.tube()}>Tube</Link></div>}
               </div>
               <div style={{paddingLeft:'50px'}}>
-                <div><Link className="links" style={styles.link} to={'/about'}>About</Link></div>
-                <div><Link className="links" style={styles.link} to={'/contact'}>Contact</Link></div>
-                <div><Link className="links" style={styles.link} to={'/oftheweek'}>#$%@ of the Week</Link></div>
-                <div><Link className="links" style={styles.link} to={''} onClick={()=>this.gram()}>Gram</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/about'}>About</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/contact'}>Contact</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={()=>this.gram()}>Gram</Link></div>
               </div>
             </div>
-            <div>© {year} Me vs Yall</div>
-            <div>
-            {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
-            {
-              false && 
-              <span style={{margin: '-5px 0 0 10px', position: 'absolute', fontSize: '15px'}}>
-              {emoji}
-              </span>
-            }
+            <div style={{color: darkModeOn ? 'white' : 'black'}}>
+              <div>© {year} Me vs Yall</div>
+              <div>
+                {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
+                {
+                  false && 
+                  <span style={{margin: '-5px 0 0 10px', position: 'absolute', fontSize: '15px'}}>
+                  {emoji}
+                  </span>
+                }
+              </div>
             </div>
           </div>
         </div>
