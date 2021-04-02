@@ -174,7 +174,7 @@ class Home extends Component {
             position: "relative",
             left: "0", 
             zIndex:"2",
-            paddingTop: "5em"
+            paddingTop: darkModeOn ? "2em" : "5em"
           }}>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
