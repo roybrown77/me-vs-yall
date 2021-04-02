@@ -123,14 +123,14 @@ class Home extends Component {
             {
               !darkModeOn &&
               <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
-                <div style={{marginTop: '5em'}}>
+                <div style={{marginTop: '2em'}}>
                   <img style={{width:'275px'}} src={mvy} alt=""/>
                 </div>
               </Slide>
             }
           </div>}
           <div style={{
-            top: "0",
+            bottom: "0",
             left: "0", 
             position: "fixed",
             zIndex:"777"
@@ -140,11 +140,13 @@ class Home extends Component {
             </IconButton>
           </div>
           <div style={{
-            top: "10px",
-            right: "10px", 
+            bottom: "9em",
+            left: "10px", 
             position: "fixed",
             zIndex:"777"
           }}>
+          {
+            false && 
             <Popover 
               borderStyle={{maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px', fontFamily: 'monospace !important'}}
               title={'How To Play'}>
@@ -159,6 +161,7 @@ class Home extends Component {
                 }
               </div>
             </Popover>
+          }
           </div>
           {darkModeOn && <div style={{position: "absolute", width:"100%", height:"100%"}}>
             <img style={{width:'100%', height: "100%"}} src={getHomePageImage()} alt=""/>
@@ -171,7 +174,7 @@ class Home extends Component {
             position: "relative",
             left: "0", 
             zIndex:"2",
-            paddingTop: darkModeOn ? "2em" : "5em"
+            paddingTop: "5em"
           }}>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
