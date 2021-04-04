@@ -253,7 +253,7 @@ class Home extends Component {
               </div>
             </div>
             <div style={{color: darkModeOn ? 'white' : 'black'}}>
-              <div>© {year} Me vs Yall</div>
+              <div>© 2017-{year} Me vs Yall</div>
               <div>
                 {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
                 {
