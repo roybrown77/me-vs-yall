@@ -1,7 +1,7 @@
-const { dbUsername, dbPassword, dbName, httpPort, nodeEnv } = require('../../config');
+const { dbConnectionString, httpPort, nodeEnv } = require('../../config');
 
-if (!dbUsername || !dbPassword || !dbName) {
-  console.log('[ENV_VARIABLE] - missing an environment variable');
+if (!dbConnectionString) {
+  console.log('[ENV_VARIABLE] - missing db connection string');
   process.exit(1);
 }
 
@@ -33,9 +33,7 @@ mongoose.connection.on('disconnected', function () {
 
 try {
   console.log('[MONGODB] - Connecting...');
-  //const connectionString = `mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`;
-  const connectionString = `mongodb+srv://${dbUsername}:${dbPassword}@${dbName}.1t4ao.mongodb.net/${dbName}?retryWrites=true&w=majority`;
-  mongoose.connect(connectionString,options);
+  mongoose.connect(dbConnectionString,options);
 } catch (err) {
   console.log("[MONGODB] - initialization failed: ", err.message);
 }
