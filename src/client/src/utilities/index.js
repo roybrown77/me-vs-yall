@@ -105,47 +105,47 @@ const leagues = [
         years: [2017, 2018, 2019, 2020]
     },
     {
-        id: '59723313734d1d6202a85f15', 
-        name: 'ncaaf', 
-        description: 'ncaaf', 
-        years: [2019, 2020]
-    },
-    {
-        id: '59723313734d1d6202a85f17', 
-        name: 'premier', 
-        description: 'premier',
-        years: [2018, 2019, 2020]
-    },
-    {
-        id: '59723313734d1d6202a85f21', 
-        name: 'mlb', 
-        description: 'mlb', 
-        years: [2019,2020]
-    },
-    {
         id: '59723313734d1d6202a85f19', 
         name: 'nba', 
         description: 'nba', 
         years: [2018, 2019, 2020]
     },
-    {
-        id: '59723313734d1d6202a85f25', 
-        name: 'boxing', 
-        description: 'boxing', 
-        years: [2019,2020]
-    },
-    {
-        id: '59723313734d1d6202a85f27', 
-        name: 'mma', 
-        description: 'mma', 
-        years: [2019,2020]
-    },
-    {
-        id: '59723313734d1d6202a85f37', 
-        name: 'wnba', 
-        description: 'wnba', 
-        years: [2020]
-    },
+    // {
+    //     id: '59723313734d1d6202a85f17', 
+    //     name: 'premier', 
+    //     description: 'premier',
+    //     years: [2018, 2019, 2020]
+    // },
+    // {
+    //     id: '59723313734d1d6202a85f21', 
+    //     name: 'mlb', 
+    //     description: 'mlb', 
+    //     years: [2019,2020]
+    // },
+    // {
+    //     id: '59723313734d1d6202a85f37', 
+    //     name: 'wnba', 
+    //     description: 'wnba', 
+    //     years: [2020]
+    // },
+    // {
+    //     id: '59723313734d1d6202a85f27', 
+    //     name: 'mma', 
+    //     description: 'mma', 
+    //     years: [2019,2020]
+    // },
+    // {
+    //     id: '59723313734d1d6202a85f25', 
+    //     name: 'boxing', 
+    //     description: 'boxing', 
+    //     years: [2019,2020]
+    // },
+    // {
+    //     id: '59723313734d1d6202a85f15', 
+    //     name: 'ncaaf', 
+    //     description: 'ncaaf', 
+    //     years: [2019, 2020]
+    // },
     // {
     //     id: '59723313734d1d6202a85f31', 
     //     name: 'ncaaw', 

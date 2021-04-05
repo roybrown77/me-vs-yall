@@ -97,22 +97,23 @@ class Home extends Component {
       const year = moment().format('YYYY');
 
       const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
-      const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
-      const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
-      const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
-      const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
-      const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
-      const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
+      // const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
+      // const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
+      // const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
+      // const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
+      // const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
+      // const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
-      const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
-      const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
-      const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
-      const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
-      const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
-      const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
+      // const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
+      // const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
+      // const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
+      // const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
+      // const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
+      // const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
+
       const emoji = getHomePageEmoji();
 
       return (
@@ -176,6 +177,9 @@ class Home extends Component {
             zIndex:"2",
             paddingTop: darkModeOn ? "2em" : "5em"
           }}>
+            <div style={{color: darkModeOn ? 'white' : 'black', fontSize: '15px'}}>
+              Feel the thrill of betting without risking a thing!  If you can't win here don't bet real money there.
+            </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
                 <div>
@@ -189,42 +193,6 @@ class Home extends Component {
                     NBA
                   </Link>
                   {areAnyNbaGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/premier'}>
-                    PREMIER LEAGUE
-                  </Link>
-                  {areAnyPremierGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mlb'}>
-                    MLB
-                  </Link>
-                  {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/wnba'}>
-                    WNBA
-                  </Link>
-                  {areAnyWnbaGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/boxing'}>
-                    BOXING
-                  </Link>
-                  {areAnyBoxingMatchesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mma'}>
-                    MMA
-                  </Link>
-                  {areAnyMMAMatchesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/ncaaf'}>
-                    COLLEGE FOOTBALL
-                  </Link>
-                  {areAnyNCAAFGamesInProgress && <span style={styles.inProgress} />}
                 </div>
               </div>
             </div>
