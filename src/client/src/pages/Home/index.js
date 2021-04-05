@@ -101,7 +101,7 @@ class Home extends Component {
       // const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
       // const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       // const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
-      // const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
+      const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
       // const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
       // const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
 
@@ -110,7 +110,7 @@ class Home extends Component {
       // const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
       // const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       // const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
-      // const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
+      const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
       // const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
       // const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
 
@@ -193,6 +193,12 @@ class Home extends Component {
                     NBA
                   </Link>
                   {areAnyNbaGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mlb'}>
+                    MLB
+                  </Link>
+                  {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
                 </div>
               </div>
             </div>
