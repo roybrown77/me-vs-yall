@@ -20,7 +20,7 @@ const {
 
 let isUpdateMlbScoresRunning = false;
 
-const loadMlbGames = async ({dayCount, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
+const loadMlbGames = async ({dayCount, game1, game2, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   const root = 'scoreboard baseball';
   const url = `${baseUrl}${date}`;
@@ -30,7 +30,9 @@ const loadMlbGames = async ({dayCount, shouldLimit, isStart, leagueId, year, mes
     url,
     root,
     shouldLimit,
-    isStart
+    isStart,
+    game1,
+    game2
   });
 
   if ((games || []).length === 0) {
