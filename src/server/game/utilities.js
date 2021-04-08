@@ -279,7 +279,8 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
 
                 console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
                 console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
-
+                const amount = get(game,'spread.amount', 0) < -70 ? -1 : get(game,'spread.amount', 0);
+                
                 formattedGames.push({
                   leagueId: mongoose.Types.ObjectId(leagueId),
                   year: year,
@@ -289,7 +290,7 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                   hashCompetitors: JSON.stringify(competitors),
                   spread: spreadTeam ? {
                     teamId: get(spreadTeam,'_id'),
-                    amount: get(game,'spread.amount', 0),
+                    amount: amount,
                     spreadDateTime: get(game,'spread.spreadDateTime')
                   } : null
                 });
@@ -629,13 +630,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         set(updatedGame,'competitors.1.score', homeScore);
         
         if (!hasGameStarted(game.startDateTime)) {
-            set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
-                teamId: get(spreadTeam,'_id'),
-                amount: get(score,'spread.amount', 0),
-                spreadDateTime: get(score,'spread.spreadDateTime')
-            });
+          const amount = get(score,'spread.amount', 0) < -70 ? -1 : get(score,'spread.amount', 0);
 
-            set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
+          set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
+              teamId: get(spreadTeam,'_id'),
+              amount: amount,
+              spreadDateTime: get(score,'spread.spreadDateTime')
+          });
+
+          set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
         }
 
         if (isGameOver) {
