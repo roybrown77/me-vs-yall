@@ -120,7 +120,7 @@ const leagues = [
         id: '59723313734d1d6202a85f21', 
         name: 'mlb', 
         description: 'mlb', 
-        years: [2019,2020,2021]
+        years: [2020,2021]
     },
     // {
     //     id: '59723313734d1d6202a85f37', 
