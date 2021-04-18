@@ -549,6 +549,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
     //console.log(`${message} scores: ${JSON.stringify(scores)}`);
     console.log(`${message} updating scores.`);
+    const sortedScores = scores.reverse();
 
     games.forEach(game=>{
         //console.log(`${message} game: ${JSON.stringify(game)}`);
@@ -560,15 +561,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         let preGameScore = 0;
 
-        preGameScore = scores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
         //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-        const inProgressScore = scores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+        const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
         //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-        let finalScore = scores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+        let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
         //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
@@ -576,7 +577,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         //console.log(`${message} scoreIndex: ${scoreIndex}`);
 
-        const score = scores[scoreIndex];
+        const score = sortedScores[scoreIndex];
 
         console.log(`${message} score: ${JSON.stringify(score)}`);
 
