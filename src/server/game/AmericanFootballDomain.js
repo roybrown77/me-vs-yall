@@ -49,16 +49,11 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
     return;
   }
 
-  //const time = moment().add(30, 'minutes').toISOString();
-
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
-    // startDateTime: {
-    //   $lte: time,
-    // },
     year: year
   };
 
