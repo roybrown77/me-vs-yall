@@ -547,7 +547,7 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
 
-    //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+    //console.log(`${message} games: ${JSON.stringify(games)}`);
     console.log(`${message} updating scores.`);
     const sortedScores = scores.reverse();
 
@@ -561,15 +561,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         let preGameScore = 0;
 
-        preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation && moment(x.startDateTime).diff(moment(game.startDateTime),'minutes') === 0);
+        preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
         //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-        const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation && moment(x.startDateTime).diff(moment(game.startDateTime),'minutes') === 0);
+        const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
         //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-        let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation && moment(x.startDateTime).diff(moment(game.startDateTime),'minutes') === 0);
+        let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
         //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
