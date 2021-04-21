@@ -561,15 +561,15 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         let preGameScore = 0;
 
-        preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+        preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation && moment(x.startDateTime).diff(moment(game.startDateTime),'minutes') === 0);
 
         //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-        const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+        const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation && moment(x.startDateTime).diff(moment(game.startDateTime),'minutes') === 0);
 
         //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-        let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+        let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation && moment(x.startDateTime).diff(moment(game.startDateTime),'minutes') === 0);
 
         //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 

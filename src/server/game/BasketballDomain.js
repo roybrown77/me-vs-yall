@@ -69,9 +69,6 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
     isGameOver: {
       $ne: true
     },
-    startDateTime: {
-      $lte: new Date(moment().add(12, 'hours'))
-    },
     year: year
   };
 
