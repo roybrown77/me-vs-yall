@@ -55,8 +55,6 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     return;
   }
 
-  //const time = moment().add(30, 'minutes').toISOString();
-
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
     isGameOver: {
