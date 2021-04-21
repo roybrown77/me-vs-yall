@@ -74,9 +74,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     isGameOver: {
       $ne: true
     },
-    startDateTime: {
-      $lt: moment().toISOString()
-    },
     year: year
   };
 
