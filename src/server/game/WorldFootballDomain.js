@@ -75,7 +75,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       $ne: true
     },
     startDateTime: {
-      $lte: new Date(moment().add(4, 'hours'))
+      $lte: new Date(moment().add(30, 'minutes'))
     },
     year: year
   };
