@@ -70,7 +70,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
       $ne: true
     },
     startDateTime: {
-      $lte: new Date(moment().add(12, 'hours'))
+      $lte: new Date(moment().add(4, 'hours'))
     },
     year: year
   };
