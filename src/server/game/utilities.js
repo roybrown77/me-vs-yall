@@ -649,6 +649,8 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
 
         //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
 
+        //console.log(`${message} score highlights: ${JSON.stringify(updatedGame.playHistory.filter(x=>x.lastPlay.includes('homered') || x.lastPlay.includes('score')) )}`);
+
         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });
 };
