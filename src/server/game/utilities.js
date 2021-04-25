@@ -543,7 +543,7 @@ const getScores = async ({
   return scores;
 };
 
-const updateGames = ({message, leagueId, games, scores, teams}) => {
+const updateGames = ({message, leagueId, games = [], scores = [], teams = []}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
 
@@ -648,8 +648,6 @@ const updateGames = ({message, leagueId, games, scores, teams}) => {
         }
 
         //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
-
-        //console.log(`${message} score highlights: ${JSON.stringify(updatedGame.playHistory.filter(x=>x.lastPlay.includes('homered') || x.lastPlay.includes('score')) )}`);
 
         gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     });

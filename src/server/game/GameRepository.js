@@ -11,6 +11,7 @@ const GameSchema = new mongoose.Schema({
     possession: String,
     down: String,
     playHistory: Array,
+    highlights: Array,
     currentTime: String,
     gameName: String,
     hashCompetitors: String

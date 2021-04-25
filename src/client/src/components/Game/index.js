@@ -750,6 +750,38 @@ class Game extends Component {
                         </div>
                       ))
                     }
+                    {
+                      hasGameStarted(game.startDateTime) &&
+                      (game.highlights || []).length > 0 && 
+                      !['59723313734d1d6202a85f17','59723313734d1d6202a85f29','59723313734d1d6202a85f19'].includes(get(game,'leagueId')) && 
+                      <div>
+                        <div style={{margin:'4px 0',display:'flex'}}>
+                          <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+                            MvY Highlights
+                          </div>
+                        </div>
+                        {
+                          (game.highlights || []).map((play,playIndex)=> (
+                            <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
+                              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+                                <div>
+                                  {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+                                </div>
+                                {
+                                  !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                                  <div>
+                                    {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                                  </div>
+                                }
+                              </div>
+                              <div style={{textAlign:'left'}}>
+                                {play.lastPlay}
+                              </div>
+                            </div>
+                          ))
+                        }
+                      </div>
+                    }
                   </div>
                 }
             </div>

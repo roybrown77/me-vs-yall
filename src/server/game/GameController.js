@@ -135,7 +135,7 @@ const updateGames = async (leagueId) => {
   }
 
   if (leagueId === '59723313734d1d6202a85f21') {
-    await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+    updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
 
   // await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f29', year: 2020, message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', teams: mlsTeams});
@@ -183,22 +183,49 @@ router.get('/games', function (req, res) {
       games.map(game=>{
         const x = game;
         x.hashCompetitors = null;
+
+        console.log("game.leagueId: " + game.leagueId);
+
+        if (game.leagueId.toString() !== '59723313734d1d6202a85f19') {
+          x.highlights = game.playHistory.filter(x=>
+            (x.lastPlay || "").toLowerCase().includes('homered') || 
+            (x.lastPlay || "").toLowerCase().includes('score') || 
+            (x.lastPlay || "").toLowerCase().includes('steal') || 
+            (x.lastPlay || "").toLowerCase().includes('stole') || 
+            (x.lastPlay || "").toLowerCase().includes('bunted') ||
+            (x.lastPlay || "").toLowerCase().includes('wild') || 
+            (x.lastPlay || "").toLowerCase().includes('walked') || 
+            (x.lastPlay || "").toLowerCase().includes('hit by pitch') || 
+            (x.lastPlay || "").toLowerCase().includes('touchdown') || 
+            (x.lastPlay || "").toLowerCase().includes('sacked') || 
+            (x.lastPlay || "").toLowerCase().includes('intercept') || 
+            (x.lastPlay || "").toLowerCase().includes('safety') || 
+            (x.lastPlay || "").toLowerCase().includes('injure') || 
+            (x.lastPlay || "").toLowerCase().includes('reverse') || 
+            (x.lastPlay || "").toLowerCase().includes('fumble'));
+        }
+
         if (game.isGameOver) {
-          x.playHistory = game.playHistory
+          const plays = game.playHistory
           .slice(0,50)
-          .filter(history=>!(history.lastPlay || "").includes('rebound') && 
-            !(history.lastPlay || "").includes('timeout') && 
-            !(history.lastPlay || "").includes('Timeout') && 
-            !(history.lastPlay || "").includes('incomplete') && 
-            !(history.lastPlay || "").includes('kneels') && 
-            !(history.lastPlay || "").includes('Two-Minute Warning') && 
-            !(history.lastPlay || "").includes('foul') && 
+          .filter(history=>
+            !(history.lastPlay || "").toLowerCase().includes('rebound') && 
+            !(history.lastPlay || "").toLowerCase().includes('timeout') && 
+            !(history.lastPlay || "").toLowerCase().includes('Timeout') && 
+            !(history.lastPlay || "").toLowerCase().includes('incomplete') && 
+            !(history.lastPlay || "").toLowerCase().includes('kneels') && 
+            !(history.lastPlay || "").toLowerCase().includes('Two-Minute Warning') && 
+            !(history.lastPlay || "").toLowerCase().includes('foul') && 
             !(history.lastPlay || "").includes('enters the game') &&
-            !(history.lastPlay || "").includes('turnover') && 
-            !(history.lastPlay || "").includes(': Pitch '))
+            !(history.lastPlay || "").toLowerCase().includes('turnover') && 
+            !(history.lastPlay || "").toLowerCase().includes(': Pitch '))
           .slice(0,playHistoryCount);
+
+          x.playHistory = plays;
         } else {
-          x.playHistory = game.playHistory.slice(0,playHistoryCount);
+          const plays = game.playHistory.slice(0,playHistoryCount);
+
+          x.playHistory = plays;
         }
         
         return x;
