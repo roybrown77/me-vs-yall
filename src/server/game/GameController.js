@@ -184,9 +184,7 @@ router.get('/games', function (req, res) {
         const x = game;
         x.hashCompetitors = null;
 
-        console.log("game.leagueId: " + game.leagueId);
-
-        if (game.leagueId.toString() !== '59723313734d1d6202a85f19') {
+        if (game.leagueId.toString().toLowerCase() !== '59723313734d1d6202a85f19') {
           x.highlights = game.playHistory.filter(x=>
             (x.lastPlay || "").toLowerCase().includes('homered') || 
             (x.lastPlay || "").toLowerCase().includes('score') || 

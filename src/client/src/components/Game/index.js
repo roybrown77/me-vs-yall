@@ -753,7 +753,7 @@ class Game extends Component {
                     {
                       hasGameStarted(game.startDateTime) &&
                       (game.highlights || []).length > 0 && 
-                      !['59723313734d1d6202a85f17','59723313734d1d6202a85f29','59723313734d1d6202a85f19'].includes(get(game,'leagueId')) && 
+                      !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
                       <div>
                         <div style={{margin:'4px 0',display:'flex'}}>
                           <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
