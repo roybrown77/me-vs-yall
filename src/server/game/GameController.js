@@ -194,6 +194,8 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('wild') || 
             (x.lastPlay || "").toLowerCase().includes('walked') || 
             (x.lastPlay || "").toLowerCase().includes('hit by pitch') || 
+            (x.lastPlay || "").toLowerCase().includes('struck out') || 
+            (x.lastPlay || "").toLowerCase().includes('strikes out') || 
             (x.lastPlay || "").toLowerCase().includes('touchdown') || 
             (x.lastPlay || "").toLowerCase().includes('sacked') || 
             (x.lastPlay || "").toLowerCase().includes('intercept') || 
