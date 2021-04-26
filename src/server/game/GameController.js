@@ -217,7 +217,7 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('steal') || 
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
-            (x.lastPlay || "").toLowerCase().includes('eject')) && x.quarter > 3 && x.time < 500);
+            (x.lastPlay || "").toLowerCase().includes('eject')) && x.quarter > 3 && x.time < 700);
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
