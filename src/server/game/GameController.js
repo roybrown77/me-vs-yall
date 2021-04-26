@@ -180,28 +180,58 @@ router.get('/games', function (req, res) {
   
   gameRepository.find(finalSearch, function (err, games) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+
       games.map(game=>{
         const x = game;
         x.hashCompetitors = null;
 
-        if (game.leagueId.toString().toLowerCase() !== '59723313734d1d6202a85f19') {
+        // const cleanPlays = [];
+        // const quarter = null;
+        // const time = null;
+
+        // for (let i = 0; i < game.playHistory.length; i++) {
+        //   const play = game.playHistory[i];
+          
+        //   if (quarter !== play.quarter && time !== play.time) {
+        //     quarter = play.quarter;
+        //     time = play.time;
+        //     cleanPlays.push(play);
+        //   }
+        // }
+
+        if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10') {
+          x.highlights = game.playHistory.filter(x=> 
+            (x.lastPlay || "").toLowerCase().includes('touchdown') || 
+            (x.lastPlay || "").toLowerCase().includes('sacked') || 
+            (x.lastPlay || "").toLowerCase().includes('intercept') || 
+            (x.lastPlay || "").toLowerCase().includes('safety') || 
+            (x.lastPlay || "").toLowerCase().includes('injur') || 
+            (x.lastPlay || "").toLowerCase().includes('reverse') || 
+            (x.lastPlay || "").toLowerCase().includes('fumble'));
+        }
+
+        if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
+          x.highlights = game.playHistory.filter(x=>
+            ((x.lastPlay || "").toLowerCase().includes('makes') || 
+            (x.lastPlay || "").toLowerCase().includes('block') || 
+            (x.lastPlay || "").toLowerCase().includes('steal') || 
+            (x.lastPlay || "").toLowerCase().includes('injur') || 
+            (x.lastPlay || "").toLowerCase().includes('reverse') || 
+            (x.lastPlay || "").toLowerCase().includes('eject')) && x.quarter > 3 && x.time < 500);
+        }
+
+        if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
           x.highlights = game.playHistory.filter(x=>
             (x.lastPlay || "").toLowerCase().includes('homered') || 
             (x.lastPlay || "").toLowerCase().includes('score') || 
-            (x.lastPlay || "").toLowerCase().includes('steal') || 
             (x.lastPlay || "").toLowerCase().includes('stole') || 
             (x.lastPlay || "").toLowerCase().includes('bunted') ||
             (x.lastPlay || "").toLowerCase().includes('wild') || 
             (x.lastPlay || "").toLowerCase().includes('walked') || 
             (x.lastPlay || "").toLowerCase().includes('hit by pitch') || 
-            (x.lastPlay || "").toLowerCase().includes('struck out') || 
-            (x.lastPlay || "").toLowerCase().includes('touchdown') || 
-            (x.lastPlay || "").toLowerCase().includes('sacked') || 
-            (x.lastPlay || "").toLowerCase().includes('intercept') || 
-            (x.lastPlay || "").toLowerCase().includes('safety') || 
-            (x.lastPlay || "").toLowerCase().includes('injure') || 
+            (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
-            (x.lastPlay || "").toLowerCase().includes('fumble'));
+            (x.lastPlay || "").toLowerCase().includes('struck out'));
         }
 
         if (game.isGameOver) {
