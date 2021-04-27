@@ -238,6 +238,13 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('flip') || 
             (x.lastPlay || "").toLowerCase().includes('thrown') || 
             (x.lastPlay || "").toLowerCase().includes('picked') || 
+            (x.lastPlay || "").toLowerCase().includes('double') || 
+            (x.lastPlay || "").toLowerCase().includes('triple') || 
+            (x.lastPlay || "").toLowerCase().includes('inside the park') || 
+            (x.lastPlay || "").toLowerCase().includes('perfect') || 
+            (x.lastPlay || "").toLowerCase().includes('complete') || 
+            (x.lastPlay || "").toLowerCase().includes('shutout') || 
+            (x.lastPlay || "").toLowerCase().includes('notable') || 
             (x.lastPlay || "").toLowerCase().includes('struck out'));
         }
 
