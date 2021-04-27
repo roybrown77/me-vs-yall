@@ -207,6 +207,7 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('safety') || 
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
+            (x.lastPlay || "").toLowerCase().includes('fight') || 
             (x.lastPlay || "").toLowerCase().includes('fumble'));
         }
 
@@ -217,20 +218,26 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('steal') || 
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
+            (x.lastPlay || "").toLowerCase().includes('fight') || 
             (x.lastPlay || "").toLowerCase().includes('eject')) && x.quarter > 3 && x.time < 700);
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
           x.highlights = game.playHistory.filter(x=>
             (x.lastPlay || "").toLowerCase().includes('homered') || 
-            (x.lastPlay || "").toLowerCase().includes('score') || 
+            (x.lastPlay || "").toLowerCase().includes('scored') || 
             (x.lastPlay || "").toLowerCase().includes('stole') || 
-            (x.lastPlay || "").toLowerCase().includes('bunted') ||
+            (x.lastPlay || "").toLowerCase().includes('bunt') ||
             (x.lastPlay || "").toLowerCase().includes('wild') || 
             (x.lastPlay || "").toLowerCase().includes('walked') || 
             (x.lastPlay || "").toLowerCase().includes('hit by pitch') || 
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
+            (x.lastPlay || "").toLowerCase().includes('fight') || 
+            (x.lastPlay || "").toLowerCase().includes('charge') ||
+            (x.lastPlay || "").toLowerCase().includes('flip') || 
+            (x.lastPlay || "").toLowerCase().includes('thrown') || 
+            (x.lastPlay || "").toLowerCase().includes('picked') || 
             (x.lastPlay || "").toLowerCase().includes('struck out'));
         }
 
