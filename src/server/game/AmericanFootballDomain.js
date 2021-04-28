@@ -1,4 +1,3 @@
-const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -54,20 +53,18 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
     isGameOver: {
       $ne: true
     },
+    startDateTime: {
+      $lte: new Date(moment().add(30, 'minutes'))
+    },
     year: year
   };
 
   const games = await gameRepository.find(search);
 
-  // console.log(`${message} time: ${time} for games: ${games.length}`);
-
-  // const hours = parseInt(moment().format('HH'));
-  // console.log('hours: ' + hours);
-
-  // if ((games || []).length === 0 || hours !== 11) {
-  //   console.log(`${message} all scores have been updated or games are not 30 minutes away.`);
-  //   return;
-  // }
+  if ((games || []).length === 0) {
+    console.log(`${message} all scores have been updated or games are not close to starting.`);
+    return;
+  }
 
   isUpdateAmericanFootballScoresRunning = true;
 
