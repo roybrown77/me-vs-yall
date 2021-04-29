@@ -70,26 +70,26 @@ const updateAmericanFootballScores = async ({message, url, leagueId, year, teams
 
   console.log(`${message} getting scores.`);
 
-  const scores = await getScores({
+  const scoreSet = await getScores({
     message, 
     root: 'scoreboard football',
     url,
   });
   
-  if (scores.length === 0) {
+  if (scoreSet.length === 0) {
     isUpdateAmericanFootballScoresRunning = false;
-    console.log(`${message} no scores.`);
+    console.log(`${message} no scoreSet.`);
     return;
   }
 
   //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
 
   await updateGames({
     message,
     leagueId, 
     games,
-    scores,
+    scoreSet,
     teams
   });
 

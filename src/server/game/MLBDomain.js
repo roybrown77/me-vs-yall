@@ -66,6 +66,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
   };
 
   const games = await gameRepository.find(search);
+  
   if ((games || []).length === 0) {
     console.log(`${message} all scores have been updated or games are not close to starting.`);
     return;
@@ -75,27 +76,27 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
 
   const root = 'scoreboard baseball';
 
-  const scores = await getScores({
+  const scoreSet = await getScores({
     message, 
     root,
     url,
     livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > p'
   });
   
-  if (scores.length === 0) {
+  if (scoreSet.length === 0) {
     isUpdateMlbScoresRunning = false;
-    console.log(`${message} no scores.`);
+    console.log(`${message} no scoreSet.`);
     return;
   }
 
   //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
 
   await updateGames({
     message,
     leagueId,
     games,
-    scores,
+    scoreSet,
     teams
   });
 

@@ -39,9 +39,9 @@ const hasGameStarted = (dateTime) => {
 
 const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
-  console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
-  console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
-  console.log(`${message} leagueId: ${JSON.stringify(leagueId)}`);
+  //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
+  //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
+  //console.log(`${message} leagueId: ${JSON.stringify(leagueId)}`);
 
   if (leagueId === '59723313734d1d6202a85f21') {
     const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
@@ -51,7 +51,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
     }
 
     if (!currentTime || lastPlay.trim() === "") {
-        console.log(`${message} getPlayHistory: no valid play.`);
+        //console.log(`${message} getPlayHistory: no valid play.`);
         return playHistory;
       }
 
@@ -90,12 +90,12 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
   if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.slice(0,9).find(x=>get(x,'lastPlay')===lastPlay))) {
-    console.log(`${message} getPlayHistory: no play.`);
+    //console.log(`${message} getPlayHistory: no play.`);
     return playHistory;
   }
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || badPlays || lastPlay.trim() === "") {
-    console.log(`${message} getPlayHistory: no valid play.`);
+    //console.log(`${message} getPlayHistory: no valid play.`);
     return playHistory;
   }
 
@@ -327,6 +327,230 @@ const createGames = ({message, games}) => {
   });
 };
 
+const getScoreSetItem = async ({
+    message,
+    root,
+    gameNameSelector,
+    spreadSelector,
+    startDateTimeSelector,
+    namePregameSelector,
+    liveRecordSelector,
+    liveQuarterSelector,
+    liveTotalSelector,
+    liveNameSelector,
+    livePlaySelector,
+    livePlaySelector2,
+    livePlaySelector3,
+    liveCurrentTimeSelector,
+    finalNameSelector,
+    finalGameOverSelector,
+    finalScoreSelector,
+    liveDownSelector,
+    livePossession,
+    away,
+    home,
+    page,
+    listLength
+  }) => {
+  let scores = [];
+
+  for (let i = 1; i <= listLength; i++) {
+    const currentTimePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, liveCurrentTimeSelector.replace("INDEX", i));
+
+    const startDateTimePromise = page.evaluate((sel) => {
+      return document.querySelector(sel).getAttribute('data-date');
+    }, startDateTimeSelector.replace("INDEX", i));
+
+    const lastPlayPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerText : null;
+    }, livePlaySelector.replace("INDEX", i));
+
+    const lastPlay2Promise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePlaySelector2.replace("INDEX", i));
+
+    const lastPlay3Promise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePlaySelector3.replace("INDEX", i));
+
+    const gameOverTextPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, finalGameOverSelector.replace("INDEX", i));
+
+    const downPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerText : null;
+    }, liveDownSelector.replace("INDEX", i));
+
+    const possessionHomePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePossession.replace("INDEX", i).replace("HOMEAWAY",home));
+
+    const possessionAwayPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePossession.replace("INDEX", i).replace("HOMEAWAY",away));
+
+    const awayTeamPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
+
+    const awayTeamPregamePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
+
+    const awayInProgressScorePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",away));
+
+    const awayInProgressNamePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
+
+    const awayScorePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",away));
+
+    const awayRecordPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerText : null;
+    }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
+
+    const homeTeamPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
+
+    const homeTeamPregamePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
+
+    const homeInProgressScorePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",home));
+
+    const homeInProgressNamePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
+
+    const homeScorePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",home));
+
+    const homeRecordPromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerText : null;
+    }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
+
+    const spreadPromise = page.evaluate((sel) => {
+      return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
+    }, spreadSelector.replace("INDEX", i));
+
+    const gameNamePromise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, gameNameSelector.replace("INDEX", i));
+
+    const [
+      currentTime, 
+      startDateTime,
+      lastPlay,
+      lastPlay2,
+      lastPlay3,
+      gameOverText,
+      down,
+      possessionHome,
+      possessionAway,
+      awayTeam,
+      awayTeamPregame,
+      awayInProgressScore,
+      awayInProgressName,
+      awayScore,
+      awayRecord,
+      homeTeam,
+      homeTeamPregame,
+      homeInProgressScore,
+      homeInProgressName,
+      homeScore,
+      homeRecord,
+      spread,
+      gameName
+    ] = await Promise.all([
+      currentTimePromise, 
+      startDateTimePromise,
+      lastPlayPromise,
+      lastPlay2Promise,
+      lastPlay3Promise,
+      gameOverTextPromise,
+      downPromise,
+      possessionHomePromise,
+      possessionAwayPromise,
+      awayTeamPromise,
+      awayTeamPregamePromise,
+      awayInProgressScorePromise,
+      awayInProgressNamePromise,
+      awayScorePromise,
+      awayRecordPromise,
+      homeTeamPromise,
+      homeTeamPregamePromise,
+      homeInProgressScorePromise,
+      homeInProgressNamePromise,
+      homeScorePromise,
+      homeRecordPromise,
+      spreadPromise,
+      gameNamePromise
+    ]);
+
+    scores.push({
+      spread: {
+       team: (spread || "").replace('Line: ','').split(' ')[0],
+       amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),
+       spreadDateTime: moment().toISOString()
+      },
+      gameOverText: gameOverText,
+      awayTeam: (awayTeam || '').trim().replace(/,\s*$/, ''),
+      awayTeamPregame: (awayTeamPregame || '').trim().replace(/,\s*$/, ''),
+      awayTeamInProgress: (awayInProgressName || '').trim().replace(/,\s*$/, ''),
+      awayInProgressScore: parseInt((awayInProgressScore || '').trim()),
+      awayScore: parseInt((awayScore || '').trim()),
+      awayRecord: awayRecord,
+      homeTeam: (homeTeam || '').trim().replace(/,\s*$/, ''),
+      homeTeamPregame: (homeTeamPregame || '').trim().replace(/,\s*$/, ''),
+      homeTeamInProgress: (homeInProgressName || '').trim().replace(/,\s*$/, ''),
+      homeInProgressScore: parseInt((homeInProgressScore || '').trim()),
+      homeScore: parseInt((homeScore || '').trim()),
+      homeRecord: homeRecord,
+      lastPlay: (lastPlay || '').trim(),
+      lastPlay2: (lastPlay2 || '').trim(),
+      lastPlay3: (lastPlay3 || '').trim(),
+      currentTime: currentTime,
+      gameName: gameName,
+      startDateTime: startDateTime,
+      down: (down || '').trim(),
+      possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined)
+    });
+  }
+
+  return scores;
+};
+
 const getScores = async ({
     message,
     url,
@@ -341,16 +565,20 @@ const getScores = async ({
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
     livePlaySelector2 = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > div.circleGraphs',
+    livePlaySelector3 = 'div#events > article:nth-of-type(INDEX) > div > div > div > div > section.sb-xdetail',
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
     finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
     liveDownSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down',
     livePossession = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2.icon-possession-football-after',
-    away='away',
-    home='home'
+    away ='away',
+    home ='home'
 }) => {
+  let scoreSet = [];
   let scores = [];
+  let listLength = 0;
+
   let browser;
   let page;
 
@@ -378,11 +606,15 @@ const getScores = async ({
     //     interceptedRequest.continue();
     // });
 
-    await page.goto(url /*, { waitUntil: 'networkidle2' }*/);
+    /* 
+      Make first call to get scores
+    */
 
-    await page.waitForSelector('#events');
+    //await page.goto(url , { waitUntil: ["networkidle2"] });
+    await page.goto(url , { waitUntil: 'networkidle2' });
+    //await page.waitForSelector('#events');
 
-    const listLength = await page.evaluate((sel) => {
+    listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, root);
     
@@ -394,262 +626,205 @@ const getScores = async ({
       return scores;
     }
 
-    for (let i = 1; i <= listLength; i++) {
-      const currentTime = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, liveCurrentTimeSelector.replace("INDEX", i));
+    scores = await getScoreSetItem({
+      message,
+      root,
+      gameNameSelector,
+      spreadSelector,
+      startDateTimeSelector,
+      namePregameSelector,
+      liveRecordSelector,
+      liveQuarterSelector,
+      liveTotalSelector,
+      liveNameSelector,
+      livePlaySelector,
+      livePlaySelector2,
+      livePlaySelector3,
+      liveCurrentTimeSelector,
+      finalNameSelector,
+      finalGameOverSelector,
+      finalScoreSelector,
+      liveDownSelector,
+      livePossession,
+      away,
+      home,
+      page,
+      listLength
+    });
+    scoreSet.push(scores);
 
-      const startDateTime = await page.evaluate((sel) => {
-        return document.querySelector(sel).getAttribute('data-date');
-      }, startDateTimeSelector.replace("INDEX", i));
+    /* 
+      Make second call to get scores that have changed in last 7 seconds
+    */
 
-      const lastPlay = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, livePlaySelector.replace("INDEX", i));
+    // //await page.reload({ waitUntil: ["networkidle2"] });
+    // await page.reload(url , { waitUntil: 'networkidle2' });
+    // //await page.waitForSelector('#events');
 
-      const lastPlay2 = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, livePlaySelector2.replace("INDEX", i));
+    // listLength = await page.evaluate((sel) => {
+    //   return document.getElementsByClassName(sel).length;
+    // }, root);
+    
+    //console.log(`${message} listLength: ${listLength}`);
 
-      const gameOverText = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, finalGameOverSelector.replace("INDEX", i));
+    // if (listLength === 0) {
+    //   console.log(`${message} no games found`);
+    //   await browser.close();
+    //   return scores;
+    // }
 
-      const down = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, liveDownSelector.replace("INDEX", i));
-
-      const possessionHome = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, livePossession.replace("INDEX", i).replace("HOMEAWAY",home));
-
-      const possessionAway = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, livePossession.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const awayTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const awayTeamPregame = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const awayInProgressScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const awayInProgressName = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const awayScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",away));
-
-      const awayRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
-
-      const homeTeam = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
-
-      const homeTeamPregame = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
-
-      const homeInProgressScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",home));
-
-      const homeInProgressName = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
-
-      const homeScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",home));
-
-      const homeRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
-
-      const spread = await page.evaluate((sel) => {
-        return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
-      }, spreadSelector.replace("INDEX", i));
-
-      const gameName = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerHTML : null;
-      }, gameNameSelector.replace("INDEX", i));
-
-      scores.push({
-        spread: {
-         team: (spread || "").replace('Line: ','').split(' ')[0],
-         amount: parseFloat((spread || "").replace('Line: ','').split(' ')[1]),
-         spreadDateTime: moment().toISOString()
-        },
-        gameOverText: gameOverText,
-        awayTeam: (awayTeam || '').trim().replace(/,\s*$/, ''),
-        awayTeamPregame: (awayTeamPregame || '').trim().replace(/,\s*$/, ''),
-        awayTeamInProgress: (awayInProgressName || '').trim().replace(/,\s*$/, ''),
-        awayInProgressScore: parseInt((awayInProgressScore || '').trim()),
-        awayScore: parseInt((awayScore || '').trim()),
-        awayRecord: awayRecord,
-        homeTeam: (homeTeam || '').trim().replace(/,\s*$/, ''),
-        homeTeamPregame: (homeTeamPregame || '').trim().replace(/,\s*$/, ''),
-        homeTeamInProgress: (homeInProgressName || '').trim().replace(/,\s*$/, ''),
-        homeInProgressScore: parseInt((homeInProgressScore || '').trim()),
-        homeScore: parseInt((homeScore || '').trim()),
-        homeRecord: homeRecord,
-        lastPlay: (lastPlay || '').trim(),
-        lastPlay2: (lastPlay2 || '').trim(),
-        currentTime: currentTime,
-        gameName: gameName,
-        startDateTime: startDateTime,
-        down: (down || '').trim(),
-        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined)
-      });
-    }
+    // scores = await getScoreSetItem({
+    //   message,
+    //   root,
+    //   gameNameSelector,
+    //   spreadSelector,
+    //   startDateTimeSelector,
+    //   namePregameSelector,
+    //   liveRecordSelector,
+    //   liveQuarterSelector,
+    //   liveTotalSelector,
+    //   liveNameSelector,
+    //   livePlaySelector,
+    //   livePlaySelector2,
+    //   livePlaySelector3,
+    //   liveCurrentTimeSelector,
+    //   finalNameSelector,
+    //   finalGameOverSelector,
+    //   finalScoreSelector,
+    //   liveDownSelector,
+    //   livePossession,
+    //   away,
+    //   home,
+    //   page,
+    //   listLength
+    // });
+    // scoreSet.push(scores);
 
     await browser.close();
   } catch(err) {
     if (!!browser) {
       await browser.close();
     }
-    console.log(`${message} browser error: ${err.message}`);
+    //console.log(`${message} browser error: ${err.message}`);
   }
 
-  return scores;
+  scoreSet.forEach(x => {
+    console.log(`${message} scores: ${JSON.stringify(x)}`);
+  })
+
+  return scoreSet;
 };
 
-const updateGames = ({message, leagueId, games = [], scores = [], teams = []}) => {
+const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
+    
+    scoreSet.forEach(scores=>{
+      //console.log(`${message} games: ${JSON.stringify(games)}`);
+      //console.log(`${message} updating scores.`);
+      const sortedScores = scores.reverse();
 
-    //console.log(`${message} games: ${JSON.stringify(games)}`);
-    console.log(`${message} updating scores.`);
-    const sortedScores = scores.reverse();
+      games.forEach(game=>{
+          //console.log(`${message} game: ${JSON.stringify(game)}`);
 
-    games.forEach(game=>{
-        //console.log(`${message} game: ${JSON.stringify(game)}`);
+          const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
+          const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
+          const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
+          const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
 
-        const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
-        const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
-        const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
-        const homeShortLocation = get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
+          let preGameScore = 0;
 
-        let preGameScore = 0;
+          preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
-        preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+          //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
 
-        //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
+          const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
-        const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+          //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
 
-        //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
+          let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
-        let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+          //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
-        //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
+          const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
 
-        const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
+          //console.log(`${message} scoreIndex: ${scoreIndex}`);
 
-        //console.log(`${message} scoreIndex: ${scoreIndex}`);
+          const score = sortedScores[scoreIndex];
 
-        const score = sortedScores[scoreIndex];
+          console.log(`${message} score: ${JSON.stringify(score)}`);
 
-        console.log(`${message} score: ${JSON.stringify(score)}`);
+          const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
 
-        const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
+          //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
 
-        //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
+          const playHistory = get(game,'playHistory',[]);
+          
+          //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
 
-        const playHistory = get(game,'playHistory',[]);
-        
-        //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
+          console.log("lastPlay2: " + get(score,'lastPlay2'));
+          console.log("lastPlay3: " + get(score,'lastPlay3'));
 
-        console.log("lastPlay2: " + get(score,'lastPlay2'));
+          const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+          const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
+          const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
+          const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
+          !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
+          (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
 
-        const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
-        const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
-        const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
-        const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
-        !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
-        (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
+          //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 
-        //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
+          const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
+            (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
+          
+          const currentTime = get(score,'currentTime');
+          const currenTimeSplit = (currentTime || '').split(' ');
+          const quarter = currenTimeSplit[currenTimeSplit.length-1];
+          const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
+          const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
 
-        const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
-          (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
-        
-        const currentTime = get(score,'currentTime');
-        const currenTimeSplit = (currentTime || '').split(' ');
-        const quarter = currenTimeSplit[currenTimeSplit.length-1];
-        const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
-        const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
+          const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
+              : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
 
-        const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
-            : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
-
-        const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
-            : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
+          const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
+              : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
 
 
-        console.log(`${message} currentTimeFormatted: ${currentTimeFormatted}`);
+          //console.log(`${message} currentTimeFormatted: ${currentTimeFormatted}`);
 
-        const updatedGame = {
-          competitors: [...get(game,'competitors',[])],
-          isGameOver: isGameOver,
-          playHistory: newPlayHistory,
-          currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
-          down: get(score,'down'),
-          possession: get(score,'possession')
-        };
+          const updatedGame = {
+            competitors: [...get(game,'competitors',[])],
+            isGameOver: isGameOver,
+            playHistory: newPlayHistory,
+            currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
+            down: get(score,'down'),
+            possession: get(score,'possession')
+          };
 
-        set(updatedGame,'competitors.0.score', awayScore);
-        set(updatedGame,'competitors.1.score', homeScore);
-        
-        if (!hasGameStarted(game.startDateTime)) {
-          const amount = get(score,'spread.amount', 0) < -70 ? -1 : get(score,'spread.amount', 0);
+          set(updatedGame,'competitors.0.score', awayScore);
+          set(updatedGame,'competitors.1.score', homeScore);
+          
+          if (!hasGameStarted(game.startDateTime)) {
+            const amount = get(score,'spread.amount', 0) < -70 ? -1 : get(score,'spread.amount', 0);
 
-          set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
-              teamId: get(spreadTeam,'_id'),
-              amount: amount,
-              spreadDateTime: get(score,'spread.spreadDateTime')
-          });
+            set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
+                teamId: get(spreadTeam,'_id'),
+                amount: amount,
+                spreadDateTime: get(score,'spread.spreadDateTime')
+            });
 
-          set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
-        }
+            set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
+          }
 
-        if (isGameOver) {
-          set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
-          set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
-        }
+          if (isGameOver) {
+            set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
+            set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
+          }
 
-        //console.log(`${message} score updated: ${JSON.stringify(updatedGame)}`);
+          console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
 
-        gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+          gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      });
     });
 };
 
