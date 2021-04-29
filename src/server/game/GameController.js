@@ -135,7 +135,7 @@ const updateGames = async (leagueId) => {
   }
 
   if (leagueId === '59723313734d1d6202a85f21') {
-    updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+    await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
 
   // await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f29', year: 2020, message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', teams: mlsTeams});
@@ -208,6 +208,7 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
             (x.lastPlay || "").toLowerCase().includes('fight') || 
+            (x.lastPlay || "").toLowerCase().includes('caught') || 
             (x.lastPlay || "").toLowerCase().includes('fumble'));
         }
 
@@ -219,6 +220,7 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
             (x.lastPlay || "").toLowerCase().includes('fight') || 
+            (x.lastPlay || "").toLowerCase().includes('caught') || 
             (x.lastPlay || "").toLowerCase().includes('eject')) && x.quarter > 3 && x.time < 700);
         }
 
@@ -230,6 +232,7 @@ router.get('/games', function (req, res) {
             (x.lastPlay || "").toLowerCase().includes('bunt') ||
             (x.lastPlay || "").toLowerCase().includes('wild') || 
             (x.lastPlay || "").toLowerCase().includes('walked') || 
+            (x.lastPlay || "").toLowerCase().includes('caught') || 
             (x.lastPlay || "").toLowerCase().includes('hit by pitch') || 
             (x.lastPlay || "").toLowerCase().includes('injur') || 
             (x.lastPlay || "").toLowerCase().includes('reverse') || 
