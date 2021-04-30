@@ -89,27 +89,27 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
 
   const date = moment(new Date()).format('YYYYMMDD');
 
-  const scores = await getScores({
+  const scoreSet = await getScores({
     message, 
     root,
     url: `${url}`,
     livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.sb-meta > p'
   });
   
-  if (scores.length === 0) {
+  if (scoreSet.length === 0) {
     isUpdateBasketballScoresRunning[leagueId] = false;
-    console.log(`${message} no scores.`);
+    console.log(`${message} no scoreSet.`);
     return;
   }
 
   //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //console.log(`${message} scores: ${JSON.stringify(scores)}`);
+  //console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
 
   await updateGames({
     message,
     leagueId,
     games,
-    scores,
+    scoreSet,
     teams
   });
 
