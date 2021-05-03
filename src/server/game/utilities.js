@@ -37,7 +37,7 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
-const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
+const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", lastPlay2 = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
   //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
   //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
@@ -58,7 +58,8 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
       const newPlayHistory = [
         {
           quarter: currentTime,
-          lastPlay: lastPlay
+          lastPlay: lastPlay,
+          lastPlay2: lastPlay2
         },
         ...playHistory
       ];
@@ -673,6 +674,8 @@ const getScores = async ({
     //   return scores;
     // }
 
+    // await page.reload();
+
     // scores = await getScoreSetItem({
     //   message,
     //   root,
@@ -765,7 +768,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           console.log("lastPlay2: " + get(score,'lastPlay2'));
           console.log("lastPlay3: " + get(score,'lastPlay3'));
 
-          const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
+          const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), lastPlay2: get(score,'lastPlay2'), currentTime: get(score,'currentTime')});
           const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
           const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
           const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
