@@ -1,183 +1,183 @@
-const { dbUsername, dbPassword, dbName, queueUrl } = require('./config');
+// const { dbUsername, dbPassword, dbName, queueUrl } = require('./config');
 
-if (!queueUrl || !dbUsername || !dbPassword || !dbName) {
-  console.log('[ENV_VARIABLE] - missing an environment variable');
-  process.exit(1);
-}
+// if (!queueUrl || !dbUsername || !dbPassword || !dbName) {
+//   console.log('[ENV_VARIABLE] - missing an environment variable');
+//   process.exit(1);
+// }
 
-const {
-  updateWorldFootballScores,
-  isUpdateWorldFootballScoresRunning, 
-} = require('./src/server/game/WorldFootballDomain');
+// const {
+//   updateWorldFootballScores,
+//   isUpdateWorldFootballScoresRunning, 
+// } = require('./src/server/game/WorldFootballDomain');
 
-const {
-  updateAmericanFootballScores,
-  isUpdateAmericanFootballScoresRunning, 
-} = require('./src/server/game/AmericanFootballDomain');
+// const {
+//   updateAmericanFootballScores,
+//   isUpdateAmericanFootballScoresRunning, 
+// } = require('./src/server/game/AmericanFootballDomain');
 
-const {
-  updateBasketballScores,
-  isUpdateBasketballScoresRunning
-} = require('./src/server/game/BasketballDomain');
+// const {
+//   updateBasketballScores,
+//   isUpdateBasketballScoresRunning
+// } = require('./src/server/game/BasketballDomain');
 
-const {
-  updateMlbScores,
-  isUpdateMlbScoresRunning
-} = require('./src/server/game/MLBDomain');
+// const {
+//   updateMlbScores,
+//   isUpdateMlbScoresRunning
+// } = require('./src/server/game/MLBDomain');
 
-const {
-  nbaTeams,
-  nflTeams,
-  premierLeagueTeams, 
-  ncaaTeams, 
-  mlbTeams,
-  countries,
-  boxingCompetitors,
-  ufcCompetitors,
-  mlsTeams
-} = require('./src/server/game/teams');
+// const {
+//   nbaTeams,
+//   nflTeams,
+//   premierLeagueTeams, 
+//   ncaaTeams, 
+//   mlbTeams,
+//   countries,
+//   boxingCompetitors,
+//   ufcCompetitors,
+//   mlsTeams
+// } = require('./src/server/game/teams');
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  autoIndex: false, // Don't build indexes
-  poolSize: 10, // Maintain up to 10 socket connections
-  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  family: 4 // Use IPv4, skip trying IPv6
-};
+// const options = {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false,
+//   autoIndex: false, // Don't build indexes
+//   poolSize: 10, // Maintain up to 10 socket connections
+//   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+//   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+//   family: 4 // Use IPv4, skip trying IPv6
+// };
 
-const mongoose = require('mongoose');
-mongoose.connection.on("connected", function(ref) {
-  console.log("[MONGODB] - Connected!");
-});
-
-mongoose.connection.on("error", function(err) {
-  console.error(`[MONGODB] - failed to connect on startup: ${JSON.stringify(err)}`);
-});
-
-mongoose.connection.on('disconnected', function () {
-  console.log('[MONGODB] - Disconnected.');
-});
-
-try {
-  console.log('[MONGODB] - Connecting...');
-  mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
-} catch (err) {
-  console.log(`[MONGODB] - initialization failed: ${JSON.stringify(err)}`);
-}
-
-const WORKER_QUEUE = 'worker-queue';
-
-console.log('[AMQP] - Connecting....');
-const amqp = require('amqp-connection-manager');
-const connection = amqp.connect([queueUrl]);
-
-connection.on('connect', function() {
-  return console.log('[AMQP] - Connected!');
-});
-
-connection.on('disconnect', function(params) {
-  return console.error('[AMQP] - Disconnected.', params.err.stack);
-});
-
-let channelWrapper = connection.createChannel({
-  json: true,
-  setup: function(channel) {
-    return Promise.all([
-      channel.assertQueue(WORKER_QUEUE, { autoDelete: false, durable: true }),
-      channel.prefetch(1),
-      channel.consume(WORKER_QUEUE, onMessage)
-    ]);
-  }
-});
-
-channelWrapper.waitForConnect()
-.then(function() {
-  console.log('[AMQP] - Listening for messages on queue: ' + WORKER_QUEUE);
-})
-.catch(function(err) {
-  console.error(`[AMQP] - Error: ${JSON.stringify(err)}`);
-}); 
-
-const onMessage = async (data) => {
-  let message;
-
-  try {
-    message = JSON.parse(data.content.toString());
-  } catch(e) {
-    console.error('[AMQP] - Error parsing message: ', data);
-  }
-
-  console.log('[AMQP] - Message incoming... ', message);
-  
-  channelWrapper.ack(data);
-  
-  if (!message) {
-    return;
-  }
-
-  await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2020, teams: nflTeams});
-  await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
-  await updateBasketballScores({message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', leagueId: '59723313734d1d6202a85f19', year:  2019, teams: nbaTeams});
-  //await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
-  //await updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
-  //await updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
-  //await updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
-};
-
-const gracefulExitSIGINT = () => {
-  console.info(`SIGINT signal received.`);
-  
-  connection.close(function () {
-    console.log('[AMQP] - disconnected through app termination.');
-  });
-
-  mongoose.connection.close(function () {
-    console.log('[MONGODB] - disconnected through app termination.');
-  });
-};
-
-const gracefulExitSIGTERM = () => {
-  console.info(`SIGTERM signal received.`);
-  Ï
-  connection.close(function () {
-    console.log('[AMQP] - disconnected through app termination.');
-  });
-
-  mongoose.connection.close(function () {
-    console.log('[MONGODB] - disconnected through app termination.');
-  });
-};
-
-process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
-});
-
-// process.on('uncaughtException', function(err) {
-//   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
+// const mongoose = require('mongoose');
+// mongoose.connection.on("connected", function(ref) {
+//   console.log("[MONGODB] - Connected!");
 // });
 
-process.on('multipleResolves', (type, promise, reason) => {
-  console.error(`Process multipleResolves type: ${type}, promise: ${promise}, reason: ${reason}`);
-});
+// mongoose.connection.on("error", function(err) {
+//   console.error(`[MONGODB] - failed to connect on startup: ${JSON.stringify(err)}`);
+// });
 
-process.on('beforeExit', (code) => {
-  console.log(`Process beforeExit code: ${code}`);
-});
+// mongoose.connection.on('disconnected', function () {
+//   console.log('[MONGODB] - Disconnected.');
+// });
 
-process.on('exit', (code) => {
-  console.log(`Process exit code: ${code}`);
-});
+// try {
+//   console.log('[MONGODB] - Connecting...');
+//   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
+// } catch (err) {
+//   console.log(`[MONGODB] - initialization failed: ${JSON.stringify(err)}`);
+// }
 
-process.on('disconnect', (code) => {
-  console.log(`Process disconnect code: ${code}`);
-});
+// const WORKER_QUEUE = 'worker-queue';
 
-process.on('warning', (warning) => {
-  console.warn(`Process warning: ${JSON.stringify(warning)}`);
-});
+// console.log('[AMQP] - Connecting....');
+// const amqp = require('amqp-connection-manager');
+// const connection = amqp.connect([queueUrl]);
+
+// connection.on('connect', function() {
+//   return console.log('[AMQP] - Connected!');
+// });
+
+// connection.on('disconnect', function(params) {
+//   return console.error('[AMQP] - Disconnected.', params.err.stack);
+// });
+
+// let channelWrapper = connection.createChannel({
+//   json: true,
+//   setup: function(channel) {
+//     return Promise.all([
+//       channel.assertQueue(WORKER_QUEUE, { autoDelete: false, durable: true }),
+//       channel.prefetch(1),
+//       channel.consume(WORKER_QUEUE, onMessage)
+//     ]);
+//   }
+// });
+
+// channelWrapper.waitForConnect()
+// .then(function() {
+//   console.log('[AMQP] - Listening for messages on queue: ' + WORKER_QUEUE);
+// })
+// .catch(function(err) {
+//   console.error(`[AMQP] - Error: ${JSON.stringify(err)}`);
+// }); 
+
+// const onMessage = async (data) => {
+//   let message;
+
+//   try {
+//     message = JSON.parse(data.content.toString());
+//   } catch(e) {
+//     console.error('[AMQP] - Error parsing message: ', data);
+//   }
+
+//   console.log('[AMQP] - Message incoming... ', message);
+  
+//   channelWrapper.ack(data);
+  
+//   if (!message) {
+//     return;
+//   }
+
+//   await updateAmericanFootballScores({message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', leagueId: '59723313734d1d6202a85f10', year: 2020, teams: nflTeams});
+//   await updateAmericanFootballScores({message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', leagueId: '59723313734d1d6202a85f15', year: 2019, teams: ncaaTeams});
+//   await updateBasketballScores({message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', leagueId: '59723313734d1d6202a85f19', year:  2019, teams: nbaTeams});
+//   //await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2019, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//   //await updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2019, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
+//   //await updateWorldFootballScores({message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', leagueId: '59723313734d1d6202a85f17', year: 2019, teams: premierLeagueTeams});
+//   //await updateWorldFootballScores({message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', leagueId: '59723313734d1d6202a85f29', year: 2019, teams: mlsTeams});
+// };
+
+// const gracefulExitSIGINT = () => {
+//   console.info(`SIGINT signal received.`);
+  
+//   connection.close(function () {
+//     console.log('[AMQP] - disconnected through app termination.');
+//   });
+
+//   mongoose.connection.close(function () {
+//     console.log('[MONGODB] - disconnected through app termination.');
+//   });
+// };
+
+// const gracefulExitSIGTERM = () => {
+//   console.info(`SIGTERM signal received.`);
+//   Ï
+//   connection.close(function () {
+//     console.log('[AMQP] - disconnected through app termination.');
+//   });
+
+//   mongoose.connection.close(function () {
+//     console.log('[MONGODB] - disconnected through app termination.');
+//   });
+// };
+
+// process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
+
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
+// });
+
+// // process.on('uncaughtException', function(err) {
+// //   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
+// // });
+
+// process.on('multipleResolves', (type, promise, reason) => {
+//   console.error(`Process multipleResolves type: ${type}, promise: ${promise}, reason: ${reason}`);
+// });
+
+// process.on('beforeExit', (code) => {
+//   console.log(`Process beforeExit code: ${code}`);
+// });
+
+// process.on('exit', (code) => {
+//   console.log(`Process exit code: ${code}`);
+// });
+
+// process.on('disconnect', (code) => {
+//   console.log(`Process disconnect code: ${code}`);
+// });
+
+// process.on('warning', (warning) => {
+//   console.warn(`Process warning: ${JSON.stringify(warning)}`);
+// });
