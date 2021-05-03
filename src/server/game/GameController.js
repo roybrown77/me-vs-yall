@@ -74,26 +74,11 @@ const backupData = async () => {
 };
 
 const updateGames = async (leagueId) => {
-  //loadBasketballGames({dayCount: 5, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 0, game1: 6, game2: 7, shouldLimit: true, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadBasketballGames({dayCount: 1, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   
-  //loadMlbGames({dayCount: 5, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  //loadMlbGames({dayCount: 0, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadMlbGames({dayCount: 1, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
-  
-  const month = parseInt(moment().format('MM'));
-  const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  const hours = parseInt(moment().format('HH'));
-  const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
-  const hoursOffset = hours+(-1*timezoneOffset);
-
-  console.log('monthDay: ' + monthDay);
-  console.log('currentWeekDay: ' + currentWeekDay);
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('timezoneOffset: ' + timezoneOffset);
-  console.log('hoursOffset: ' + hoursOffset);
 
   const search = {
     isGameOver: {
@@ -110,9 +95,6 @@ const updateGames = async (leagueId) => {
   }
 
   console.log('games.length: ' + JSON.stringify(games.length));
-
-  const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  console.log('divider: ' + divider);
 
   if (leagueId === '59723313734d1d6202a85f10') {
     await updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
@@ -137,18 +119,29 @@ const updateGames = async (leagueId) => {
   if (leagueId === '59723313734d1d6202a85f21') {
     await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
-
-  // await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f29', year: 2020, message: 'updateMLSScores', baseUrl: 'https://www.espn.com/soccer/scoreboard/_/league/usa.1/date/', teams: mlsTeams});
-  // await updateBasketballScores({leagueId: '59723313734d1d6202a85f31', year:  2020, message: 'updateNCAAWGames', url: 'http://www.espn.com/womens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
-  // await updateBasketballScores({leagueId: '59723313734d1d6202a85f33', year:  2020, message: 'updateNCAAMGames', url: 'http://www.espn.com/mens-college-basketball/scoreboard/_/date/', teams: ncaaTeams});
   
+  // const month = parseInt(moment().format('MM'));
+  // const monthDay = parseInt(moment().format('MMDD'));
+  // const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+  // const hours = parseInt(moment().format('HH'));
+  // const minutes = parseInt(moment().format('mm'));
+  // const timezoneOffset = moment().utcOffset()/60;
+  // const hoursOffset = hours+(-1*timezoneOffset);
+
+  // console.log('monthDay: ' + monthDay);
+  // console.log('currentWeekDay: ' + currentWeekDay);
+  // console.log('hours: ' + hours);
+  // console.log('minutes: ' + minutes);
+  // console.log('timezoneOffset: ' + timezoneOffset);
+  // console.log('hoursOffset: ' + hoursOffset);
+
+  // const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+  // console.log('divider: ' + divider);
+
   // if ([3,6,9,12,15].includes(divider)) {
-  //   await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2020, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   // } else {
   //  if ([7,14].includes(divider)) {
-  //   await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   //   } else {
-  //     await updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   //   }
   // }
 };
@@ -181,9 +174,8 @@ router.get('/games', function (req, res) {
   gameRepository.find(finalSearch, function (err, games) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
 
-      games.map(game=>{
-        const x = game;
-        x.hashCompetitors = null;
+      games.forEach(game=>{
+        game.hashCompetitors = null;
 
         // const cleanPlays = [];
         // const quarter = null;
@@ -200,55 +192,72 @@ router.get('/games', function (req, res) {
         // }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10') {
-          x.highlights = game.playHistory.filter(x=> 
-            (x.lastPlay || "").toLowerCase().includes('touchdown') || 
-            (x.lastPlay || "").toLowerCase().includes('sacked') || 
-            (x.lastPlay || "").toLowerCase().includes('intercept') || 
-            (x.lastPlay || "").toLowerCase().includes('safety') || 
-            (x.lastPlay || "").toLowerCase().includes('injur') || 
-            (x.lastPlay || "").toLowerCase().includes('reverse') || 
-            (x.lastPlay || "").toLowerCase().includes('fight') || 
-            (x.lastPlay || "").toLowerCase().includes('caught') || 
-            (x.lastPlay || "").toLowerCase().includes('fumble'));
+          game.highlights = game.playHistory.filter(history=> 
+            (history.lastPlay || "").toLowerCase().includes('touchdown') || 
+            (history.lastPlay || "").toLowerCase().includes('sacked') || 
+            (history.lastPlay || "").toLowerCase().includes('intercept') || 
+            (history.lastPlay || "").toLowerCase().includes('safety') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('fumble'));
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
-          x.highlights = game.playHistory.filter(x=>
-            ((x.lastPlay || "").toLowerCase().includes('makes') || 
-            (x.lastPlay || "").toLowerCase().includes('block') || 
-            (x.lastPlay || "").toLowerCase().includes('steal') || 
-            (x.lastPlay || "").toLowerCase().includes('injur') || 
-            (x.lastPlay || "").toLowerCase().includes('reverse') || 
-            (x.lastPlay || "").toLowerCase().includes('fight') || 
-            (x.lastPlay || "").toLowerCase().includes('caught') || 
-            (x.lastPlay || "").toLowerCase().includes('eject')) && x.quarter > 3 && x.time < 700);
+          game.highlights = game.playHistory.filter(history=>
+            ((history.lastPlay || "").toLowerCase().includes('makes') || 
+            (history.lastPlay || "").toLowerCase().includes('block') || 
+            (history.lastPlay || "").toLowerCase().includes('steal') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('eject')) && history.quarter > 3 && history.time < 700);
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
-          x.highlights = game.playHistory.filter(x=>
-            (x.lastPlay || "").toLowerCase().includes('homered') || 
-            (x.lastPlay || "").toLowerCase().includes('scored') || 
-            (x.lastPlay || "").toLowerCase().includes('stole') || 
-            (x.lastPlay || "").toLowerCase().includes('bunt') ||
-            (x.lastPlay || "").toLowerCase().includes('wild') || 
-            (x.lastPlay || "").toLowerCase().includes('walked') || 
-            (x.lastPlay || "").toLowerCase().includes('caught') || 
-            (x.lastPlay || "").toLowerCase().includes('hit by pitch') || 
-            (x.lastPlay || "").toLowerCase().includes('injur') || 
-            (x.lastPlay || "").toLowerCase().includes('reverse') || 
-            (x.lastPlay || "").toLowerCase().includes('fight') || 
-            (x.lastPlay || "").toLowerCase().includes('charge') ||
-            (x.lastPlay || "").toLowerCase().includes('flip') || 
-            (x.lastPlay || "").toLowerCase().includes('thrown') || 
-            (x.lastPlay || "").toLowerCase().includes('picked') || 
-            (x.lastPlay || "").toLowerCase().includes('double') || 
-            (x.lastPlay || "").toLowerCase().includes('triple') || 
-            (x.lastPlay || "").toLowerCase().includes('inside the park') || 
-            (x.lastPlay || "").toLowerCase().includes('perfect') || 
-            (x.lastPlay || "").toLowerCase().includes('complete') || 
-            (x.lastPlay || "").toLowerCase().includes('shutout') || 
-            (x.lastPlay || "").toLowerCase().includes('notable') || 
-            (x.lastPlay || "").toLowerCase().includes('struck out'));
+          game.highlights = game.playHistory.filter(history=>
+            (history.lastPlay || "").toLowerCase().includes('homered') || 
+            (history.lastPlay || "").toLowerCase().includes('scored') || 
+            (history.lastPlay || "").toLowerCase().includes('stole') || 
+            (history.lastPlay || "").toLowerCase().includes('bunt') ||
+            (history.lastPlay || "").toLowerCase().includes('wild') || 
+            (history.lastPlay || "").toLowerCase().includes('walked') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('hit by pitch') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('charge') ||
+            (history.lastPlay || "").toLowerCase().includes('flip') || 
+            (history.lastPlay || "").toLowerCase().includes('thrown') || 
+            (history.lastPlay || "").toLowerCase().includes('picked') || 
+            (history.lastPlay || "").toLowerCase().includes('double') || 
+            (history.lastPlay || "").toLowerCase().includes('triple') || 
+            (history.lastPlay || "").toLowerCase().includes('inside the park') || 
+            (history.lastPlay || "").toLowerCase().includes('perfect') || 
+            (history.lastPlay || "").toLowerCase().includes('complete') || 
+            (history.lastPlay || "").toLowerCase().includes('shutout') || 
+            (history.lastPlay || "").toLowerCase().includes('notable') || 
+            (history.lastPlay || "").toLowerCase().includes('balk') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('choice') || 
+            (history.lastPlay || "").toLowerCase().includes('mound') || 
+            (history.lastPlay || "").toLowerCase().includes('glove') || 
+            (history.lastPlay || "").toLowerCase().includes('catcher') || 
+            (history.lastPlay || "").toLowerCase().includes('walk off') || 
+            (history.lastPlay || "").toLowerCase().includes('struck out'));
+
+          const atBat = game.playHistory.find(history=>(history.lastPlay || "").toLowerCase().includes('pitches to'));
+          const pitchCount = game.playHistory.find(history=>(history.lastPlay2 || "").length > 0);
+          const balls = pitchCount ? (pitchCount.search(" Balls") ? ", " + pitchCount.substring(pitchCount.search(" Balls")-1,pitchCount.search(" Balls")+6) : "") : "";
+          const strikes = pitchCount ? (pitchCount.search(" Strikes") ? ", " + pitchCount.substring(pitchCount.search(" Strikes")-1,pitchCount.search(" Strikes")+8) : "") : "";
+          const outs = pitchCount ? (pitchCount.search(" Outs") ? ", " + pitchCount.substring(pitchCount.search(" Outs")-1,pitchCount.search(" Outs")+6) : "") : "";
+
+          game.currentTime = game.currentTime + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
 
         if (game.isGameOver) {
@@ -257,24 +266,20 @@ router.get('/games', function (req, res) {
           .filter(history=>
             !(history.lastPlay || "").toLowerCase().includes('rebound') && 
             !(history.lastPlay || "").toLowerCase().includes('timeout') && 
-            !(history.lastPlay || "").toLowerCase().includes('Timeout') && 
             !(history.lastPlay || "").toLowerCase().includes('incomplete') && 
             !(history.lastPlay || "").toLowerCase().includes('kneels') && 
-            !(history.lastPlay || "").toLowerCase().includes('Two-Minute Warning') && 
+            !(history.lastPlay || "").toLowerCase().includes('two-minute warning') && 
             !(history.lastPlay || "").toLowerCase().includes('foul') && 
-            !(history.lastPlay || "").includes('enters the game') &&
+            !(history.lastPlay || "").toLowerCase().includes('enters the game') &&
             !(history.lastPlay || "").toLowerCase().includes('turnover') && 
-            !(history.lastPlay || "").toLowerCase().includes(': Pitch '))
-          .slice(0,playHistoryCount);
+            !(history.lastPlay || "").toLowerCase().includes(': pitch ') && 
+            !(history.lastPlay || "").toLowerCase().includes('free throw'));
 
-          x.playHistory = plays;
+          game.playHistory = plays.slice(0,playHistoryCount);
         } else {
           const plays = game.playHistory.slice(0,playHistoryCount);
-
-          x.playHistory = plays;
+          game.playHistory = plays;
         }
-        
-        return x;
       });
       res.status(200).send(games);
   });
