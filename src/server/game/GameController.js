@@ -257,7 +257,7 @@ router.get('/games', function (req, res) {
           const strikes = pitchCount ? (pitchCount.search(" Strikes") ? ", " + pitchCount.substring(pitchCount.search(" Strikes")-1,pitchCount.search(" Strikes")+8) : "") : "";
           const outs = pitchCount ? (pitchCount.search(" Outs") ? ", " + pitchCount.substring(pitchCount.search(" Outs")-1,pitchCount.search(" Outs")+6) : "") : "";
 
-          game.currentTime = game.currentTime + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
+          game.currentTime = game.currentTime; // + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
 
         if (game.isGameOver) {
