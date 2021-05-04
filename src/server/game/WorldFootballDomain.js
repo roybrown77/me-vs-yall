@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
+const chromium = require('chrome-aws-lambda');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -103,17 +104,22 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   isUpdateWorldFootballScoresRunning = true;
 
   try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      //headless: false,
-      browserWSEndpoint: 'wss://chrome.browserless.io?--user-data-dir=/tmp/session-123',
-      defaultViewport: {
-        width: 1500,
-        height: 1000
-      },
+    const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download('869685');
+    
+    browser = await chromium.puppeteer.launch({
+      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      // defaultViewport: {
+      //   width: 1500,
+      //   height: 1000
+      // },
       // timeout: 15000,
       // pipe: true,
-      // ignoreHTTPSErrors: true
+      // ignoreHTTPSErrors: true,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: revisionInfo.executablePath,
+      //headless: chromium.headless
     });
 
     page = await browser.newPage();

@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
+const chromium = require('chrome-aws-lambda');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -133,16 +134,22 @@ const getGames = async ({
   let page;
   
   try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      defaultViewport: {
-        width: 1500,
-        height: 1000
-      },
-      //headless: false,
-      timeout: 45000,
-      pipe: true,
-      ignoreHTTPSErrors: true
+    const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download('869685');
+
+    browser = await chromium.puppeteer.launch({
+      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      // defaultViewport: {
+      //   width: 1500,
+      //   height: 1000
+      // },
+      // timeout: 15000,
+      // pipe: true,
+      // ignoreHTTPSErrors: true,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: revisionInfo.executablePath,
+      //headless: chromium.headless
     });
 
     page = await browser.newPage();
@@ -584,16 +591,22 @@ const getScores = async ({
   let page;
 
   try {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      defaultViewport: {
-        width: 1500,
-        height: 1000
-      },
-      //headless: false,
-      timeout: 15000,
-      pipe: true,
-      ignoreHTTPSErrors: true
+    const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download('869685');
+
+    browser = await chromium.puppeteer.launch({
+      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      // defaultViewport: {
+      //   width: 1500,
+      //   height: 1000
+      // },
+      // timeout: 15000,
+      // pipe: true,
+      // ignoreHTTPSErrors: true,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: revisionInfo.executablePath,
+      //headless: chromium.headless
     });
 
     page = await browser.newPage();
