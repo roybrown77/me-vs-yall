@@ -113,9 +113,9 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       //   width: 1500,
       //   height: 1000
       // },
-      // timeout: 15000,
-      // pipe: true,
-      // ignoreHTTPSErrors: true,
+      timeout: 15000,
+      pipe: true,
+      ignoreHTTPSErrors: true,
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: revisionInfo.executablePath,
