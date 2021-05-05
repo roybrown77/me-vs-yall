@@ -175,7 +175,7 @@ router.get('/games', function (req, res) {
       if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
 
       games.forEach(game=>{
-        game.hashCompetitors = null;
+         game.hashCompetitors = null;
 
         // const cleanPlays = [];
         // const quarter = null;
@@ -251,11 +251,11 @@ router.get('/games', function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('walk off') || 
             (history.lastPlay || "").toLowerCase().includes('struck out'));
 
-          const atBat = game.playHistory.find(history=>(history.lastPlay || "").toLowerCase().includes('pitches to'));
-          const pitchCount = game.playHistory.find(history=>(history.lastPlay2 || "").length > 0);
-          const balls = pitchCount ? (pitchCount.search(" Balls") ? ", " + pitchCount.substring(pitchCount.search(" Balls")-1,pitchCount.search(" Balls")+6) : "") : "";
-          const strikes = pitchCount ? (pitchCount.search(" Strikes") ? ", " + pitchCount.substring(pitchCount.search(" Strikes")-1,pitchCount.search(" Strikes")+8) : "") : "";
-          const outs = pitchCount ? (pitchCount.search(" Outs") ? ", " + pitchCount.substring(pitchCount.search(" Outs")-1,pitchCount.search(" Outs")+6) : "") : "";
+          // const atBat = game.playHistory.find(history=>(history.lastPlay || "").toLowerCase().includes('pitches to'));
+          // const pitchCount = game.playHistory.find(history=>(history.lastPlay2 || "").length > 0);
+          // const balls = pitchCount ? (pitchCount.search(" Balls") ? ", " + pitchCount.substring(pitchCount.search(" Balls")-1,pitchCount.search(" Balls")+6) : "") : "";
+          // const strikes = pitchCount ? (pitchCount.search(" Strikes") ? ", " + pitchCount.substring(pitchCount.search(" Strikes")-1,pitchCount.search(" Strikes")+8) : "") : "";
+          // const outs = pitchCount ? (pitchCount.search(" Outs") ? ", " + pitchCount.substring(pitchCount.search(" Outs")-1,pitchCount.search(" Outs")+6) : "") : "";
 
           game.currentTime = game.currentTime; // + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
@@ -281,6 +281,7 @@ router.get('/games', function (req, res) {
           game.playHistory = plays;
         }
       });
+
       res.status(200).send(games);
   });
 });
