@@ -246,8 +246,7 @@ router.get('/games', function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('error') || 
             (history.lastPlay || "").toLowerCase().includes('choice') || 
             (history.lastPlay || "").toLowerCase().includes('mound') || 
-            (history.lastPlay || "").toLowerCase().includes('glove') || 
-            (history.lastPlay || "").toLowerCase().includes('catcher') || 
+            (history.lastPlay || "").toLowerCase().includes('glove') ||  
             (history.lastPlay || "").toLowerCase().includes('walk off') || 
             (history.lastPlay || "").toLowerCase().includes('struck out'));
 
