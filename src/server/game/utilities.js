@@ -341,8 +341,8 @@ const getScoreSetItem = async ({
     gameNameSelector,
     spreadSelector,
     startDateTimeSelector,
-    namePregameSelector,
-    liveRecordSelector,
+    pregameNameSelector,
+    recordSelector,
     liveQuarterSelector,
     liveTotalSelector,
     liveNameSelector,
@@ -415,7 +415,7 @@ const getScoreSetItem = async ({
     const awayTeamPregamePromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
+    }, pregameNameSelector.replace("INDEX", i).replace("HOMEAWAY",away));
 
     const awayInProgressScorePromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
@@ -435,7 +435,7 @@ const getScoreSetItem = async ({
     const awayRecordPromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerText : null;
-    }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
+    }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
 
     const homeTeamPromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
@@ -445,7 +445,7 @@ const getScoreSetItem = async ({
     const homeTeamPregamePromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, namePregameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
+    }, pregameNameSelector.replace("INDEX", i).replace("HOMEAWAY",home));
 
     const homeInProgressScorePromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
@@ -465,7 +465,7 @@ const getScoreSetItem = async ({
     const homeRecordPromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerText : null;
-    }, liveRecordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
+    }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
 
     const spreadPromise = page.evaluate((sel) => {
       return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
@@ -566,8 +566,8 @@ const getScores = async ({
     gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
     startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
-    namePregameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    liveRecordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
+    pregameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
+    recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
     liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
     liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
@@ -646,8 +646,8 @@ const getScores = async ({
       gameNameSelector,
       spreadSelector,
       startDateTimeSelector,
-      namePregameSelector,
-      liveRecordSelector,
+      pregameNameSelector,
+      recordSelector,
       liveQuarterSelector,
       liveTotalSelector,
       liveNameSelector,
@@ -695,8 +695,8 @@ const getScores = async ({
     //   gameNameSelector,
     //   spreadSelector,
     //   startDateTimeSelector,
-    //   namePregameSelector,
-    //   liveRecordSelector,
+    //   pregameNameSelector,
+    //   recordSelector,
     //   liveQuarterSelector,
     //   liveTotalSelector,
     //   liveNameSelector,
@@ -830,11 +830,9 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             });
 
             set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
-          }
-
-          if (isGameOver) {
-            set(updatedGame,'competitors.0.finalRecord',get(updatedGame,'competitors.0.record'));
-            set(updatedGame,'competitors.1.finalRecord',get(updatedGame,'competitors.1.record'));
+            
+            set(updatedGame,'competitors.0.record', get(score,'awayRecord'));
+            set(updatedGame,'competitors.1.record', get(score,'homeRecord'));
           }
 
           console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
