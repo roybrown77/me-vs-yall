@@ -255,6 +255,9 @@ const getGames = async ({
     if (games.length > maxLength) {
         // const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
         // games = games.slice(randomPosition,randomPosition+maxLength);
+
+        game1 = game2 > games.length-1 ? games.length-2 : game1;
+        game2 = game2 > games.length-1 ? games.length-1 : game2;
         games = [games[game1],games[game2]]; //.slice(0,1);
     }
   }
@@ -830,9 +833,6 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             });
 
             set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
-            
-            set(updatedGame,'competitors.0.record', get(score,'awayRecord'));
-            set(updatedGame,'competitors.1.record', get(score,'homeRecord'));
           }
 
           console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
