@@ -223,7 +223,6 @@ router.get('/games', function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('homered') || 
             (history.lastPlay || "").toLowerCase().includes('scored') || 
             (history.lastPlay || "").toLowerCase().includes('stole') || 
-            (history.lastPlay || "").toLowerCase().includes('bunt') ||
             (history.lastPlay || "").toLowerCase().includes('wild') || 
             (history.lastPlay || "").toLowerCase().includes('walked') || 
             (history.lastPlay || "").toLowerCase().includes('caught') || 
@@ -244,10 +243,10 @@ router.get('/games', function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('notable') || 
             (history.lastPlay || "").toLowerCase().includes('balk') || 
             (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('choice') || 
             (history.lastPlay || "").toLowerCase().includes('mound') || 
             (history.lastPlay || "").toLowerCase().includes('glove') || 
-            (history.lastPlay || "").toLowerCase().includes('infield') || 
+            (history.lastPlay || "").toLowerCase().includes('at home') || 
+            (history.lastPlay || "").toLowerCase().includes('safe at') || 
             (history.lastPlay || "").toLowerCase().includes('walk off') || 
             (history.lastPlay || "").toLowerCase().includes('struck out'));
 
