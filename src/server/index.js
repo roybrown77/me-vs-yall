@@ -47,6 +47,26 @@ try {
 }
 
 /*
+  Setup auth server
+*/
+
+const jwks = require('jwks-rsa');
+const secret = jwks.expressJwtSecret({
+  cache: true,
+  rateLimit: true,
+  jwksRequestsPerMinute: 5,
+  jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
+});
+
+const jwt = require('express-jwt');
+const authCheck = jwt({
+    secret: secret,
+    audience: 'https://mevsyallcom/api/',
+    issuer: "https://mevsyall.auth0.com/",
+    algorithms: ['RS256']
+});
+
+/*
   Setup web server
 */
 
@@ -65,6 +85,31 @@ if (nodeEnv === "production") {
     response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
   });
 }
+
+/*
+  Setup api end points
+*/
+
+const GameController = require('./game/GameController');
+app.use('/api/gamemanagement', GameController);
+
+const GameWriteController = require('./game/GameWriteController');
+app.use('/api/gamemanagement', authCheck, GameWriteController);
+
+const PickReadController = require('./pick/PickReadController');
+app.use('/api/pickmanagement', PickReadController);
+
+const PickWriteController = require('./pick/PickWriteController');
+app.use('/api/pickmanagement', authCheck, PickWriteController);
+
+const UserReadController = require('./user/UserReadController');
+app.use('/api/usermanagement', UserReadController);
+
+const UserWriteController = require('./user/UserWriteController');
+app.use('/api/usermanagement', authCheck, UserWriteController);
+
+const ArticleReadController = require('./article/ArticleReadController');
+app.use('/api/articlemanagement', ArticleReadController);
 
 const server = app.listen(app.get("port"), () => {
     console.log(`[WEB_SERVER] - http://localhost:${app.get("port")}/`);
@@ -127,48 +172,3 @@ process.on('disconnect', (code) => {
 process.on('warning', (warning) => {
   console.warn(`Process warning: ${JSON.stringify(warning)}`);
 });
-
-/*
-  Setup auth server
-*/
-
-const jwks = require('jwks-rsa');
-const secret = jwks.expressJwtSecret({
-  cache: true,
-  rateLimit: true,
-  jwksRequestsPerMinute: 5,
-  jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
-});
-
-const jwt = require('express-jwt');
-const authCheck = jwt({
-    secret: secret,
-    audience: 'https://mevsyallcom/api/',
-    issuer: "https://mevsyall.auth0.com/",
-    algorithms: ['RS256']
-});
-
-/*
-  Setup api end points
-*/
-
-const GameController = require('./game/GameController');
-app.use('/api/gamemanagement', GameController);
-
-const GameWriteController = require('./game/GameWriteController');
-app.use('/api/gamemanagement', authCheck, GameWriteController);
-
-const PickReadController = require('./pick/PickReadController');
-app.use('/api/pickmanagement', PickReadController);
-
-const PickWriteController = require('./pick/PickWriteController');
-app.use('/api/pickmanagement', authCheck, PickWriteController);
-
-const UserReadController = require('./user/UserReadController');
-app.use('/api/usermanagement', UserReadController);
-
-const UserWriteController = require('./user/UserWriteController');
-app.use('/api/usermanagement', authCheck, UserWriteController);
-
-const ArticleReadController = require('./article/ArticleReadController');
-app.use('/api/articlemanagement', ArticleReadController);
