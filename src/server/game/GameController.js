@@ -83,8 +83,7 @@ const updateGames = async (leagueId) => {
   const search = {
     isGameOver: {
       $ne: true
-    },
-    year: 2020
+    }
   };
 
   const games = await gameRepository.find(search);
