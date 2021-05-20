@@ -80,21 +80,6 @@ const updateGames = async (leagueId) => {
   //loadMlbGames({dayCount: 0, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadMlbGames({dayCount: 1, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
 
-  const search = {
-    isGameOver: {
-      $ne: true
-    }
-  };
-
-  const games = await gameRepository.find(search);
-
-  if ((games || []).length === 0) {
-    console.log(`all scores have been updated.`);
-    return;
-  }
-
-  console.log('games.length: ' + JSON.stringify(games.length));
-
   if (leagueId === '59723313734d1d6202a85f10') {
     await updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   }
@@ -214,7 +199,7 @@ router.get('/games', function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('fight') || 
             (history.lastPlay || "").toLowerCase().includes('caught') || 
             (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('eject')) && history.quarter > 3 && history.time < 700);
+            (history.lastPlay || "").toLowerCase().includes('eject')) && history.quarter > 3);
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
