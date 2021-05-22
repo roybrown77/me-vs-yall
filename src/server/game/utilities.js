@@ -576,7 +576,7 @@ const getScores = async ({
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
     livePlaySelector2 = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > div.circleGraphs',
-    livePlaySelector3 = 'div#events > article:nth-of-type(INDEX) > div > div > div > div:nth-child(2) > section.sb-xdetail',
+    livePlaySelector3 = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section',
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
@@ -835,7 +835,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
           }
 
-          console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
+          //console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
 
           gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
       });
