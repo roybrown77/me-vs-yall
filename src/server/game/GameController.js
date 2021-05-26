@@ -279,26 +279,26 @@ router.get('/games', function (req, res) {
           game.currentTime = game.currentTime; // + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
 
-        if (game.isGameOver) {
-          const plays = game.playHistory
-          .slice(0,50)
-          .filter(history=>
-            !(history.lastPlay || "").toLowerCase().includes('rebound') && 
-            !(history.lastPlay || "").toLowerCase().includes('timeout') && 
-            !(history.lastPlay || "").toLowerCase().includes('incomplete') && 
-            !(history.lastPlay || "").toLowerCase().includes('kneels') && 
-            !(history.lastPlay || "").toLowerCase().includes('two-minute warning') && 
-            !(history.lastPlay || "").toLowerCase().includes('foul') && 
-            !(history.lastPlay || "").toLowerCase().includes('enters the game') &&
-            !(history.lastPlay || "").toLowerCase().includes('turnover') && 
-            !(history.lastPlay || "").toLowerCase().includes(': pitch ') && 
-            !(history.lastPlay || "").toLowerCase().includes('free throw'));
+        // if (game.isGameOver) {
+        //   const plays = game.playHistory
+        //   .slice(0,50)
+        //   .filter(history=>
+        //     !(history.lastPlay || "").toLowerCase().includes('rebound') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('timeout') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('incomplete') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('kneels') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('two-minute warning') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('foul') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('enters the game') &&
+        //     !(history.lastPlay || "").toLowerCase().includes('turnover') && 
+        //     !(history.lastPlay || "").toLowerCase().includes(': pitch ') && 
+        //     !(history.lastPlay || "").toLowerCase().includes('free throw'));
 
-          game.playHistory = plays.slice(0,playHistoryCount);
-        } else {
+        //   game.playHistory = plays.slice(0,playHistoryCount);
+        // } else {
           const plays = game.playHistory.slice(0,playHistoryCount);
           game.playHistory = plays;
-        }
+        //}
       });
 
       res.status(200).send(games);
