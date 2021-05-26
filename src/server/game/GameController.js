@@ -190,16 +190,52 @@ router.get('/games', function (req, res) {
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
-          game.highlights = game.playHistory.filter(history=>
-            ((history.lastPlay || "").toLowerCase().includes('makes') || 
-            (history.lastPlay || "").toLowerCase().includes('block') || 
-            (history.lastPlay || "").toLowerCase().includes('steal') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
-            (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('eject')) && history.quarter > 3);
+          game.highlights = [
+              ...game.playHistory.filter(history=>
+              ((history.lastPlay || "").toLowerCase().includes('makes') || 
+              (history.lastPlay || "").toLowerCase().includes('block') || 
+              (history.lastPlay || "").toLowerCase().includes('steal') || 
+              (history.lastPlay || "").toLowerCase().includes('injur') || 
+              (history.lastPlay || "").toLowerCase().includes('reverse') || 
+              (history.lastPlay || "").toLowerCase().includes('fight') || 
+              (history.lastPlay || "").toLowerCase().includes('caught') || 
+              (history.lastPlay || "").toLowerCase().includes('error') || 
+              (history.lastPlay || "").toLowerCase().includes('eject')) 
+              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter > 3),
+              ...game.playHistory.filter(history=>
+              ((history.lastPlay || "").toLowerCase().includes('makes') || 
+              (history.lastPlay || "").toLowerCase().includes('block') || 
+              (history.lastPlay || "").toLowerCase().includes('steal') || 
+              (history.lastPlay || "").toLowerCase().includes('injur') || 
+              (history.lastPlay || "").toLowerCase().includes('reverse') || 
+              (history.lastPlay || "").toLowerCase().includes('fight') || 
+              (history.lastPlay || "").toLowerCase().includes('caught') || 
+              (history.lastPlay || "").toLowerCase().includes('error') || 
+              (history.lastPlay || "").toLowerCase().includes('eject')) 
+              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,4),
+              ...game.playHistory.filter(history=>
+              ((history.lastPlay || "").toLowerCase().includes('makes') || 
+              (history.lastPlay || "").toLowerCase().includes('block') || 
+              (history.lastPlay || "").toLowerCase().includes('steal') || 
+              (history.lastPlay || "").toLowerCase().includes('injur') || 
+              (history.lastPlay || "").toLowerCase().includes('reverse') || 
+              (history.lastPlay || "").toLowerCase().includes('fight') || 
+              (history.lastPlay || "").toLowerCase().includes('caught') || 
+              (history.lastPlay || "").toLowerCase().includes('error') || 
+              (history.lastPlay || "").toLowerCase().includes('eject')) 
+              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,4),
+              ...game.playHistory.filter(history=>
+              ((history.lastPlay || "").toLowerCase().includes('makes') || 
+              (history.lastPlay || "").toLowerCase().includes('block') || 
+              (history.lastPlay || "").toLowerCase().includes('steal') || 
+              (history.lastPlay || "").toLowerCase().includes('injur') || 
+              (history.lastPlay || "").toLowerCase().includes('reverse') || 
+              (history.lastPlay || "").toLowerCase().includes('fight') || 
+              (history.lastPlay || "").toLowerCase().includes('caught') || 
+              (history.lastPlay || "").toLowerCase().includes('error') || 
+              (history.lastPlay || "").toLowerCase().includes('eject')) 
+              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,4)
+            ];
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
