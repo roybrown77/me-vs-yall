@@ -176,8 +176,12 @@ class Scoreboard extends Component {
         console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
 
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
+
+        const minutes = parseInt(moment().format('mm'));
+        const minuteInterval = (minutes > 15 ? 15 - (minutes % 15) : minutes);
+        console.log('minuteInterval: ' + minuteInterval);
         
-        if (!areAnyGamesInProgress) return;
+        if (!areAnyGamesInProgress && minuteInterval !== 10) return;
 
         if (this.props.weeks.findIndex(x=>x._id === this.props.weekId)+1 < this.props.weeks.length) return;
 
