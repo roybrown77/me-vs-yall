@@ -66,7 +66,7 @@ function isValid(err, game, pick) {
 function hasGameStarted(gameDateTime, pickDateTime) {
     const gameStartDateTime = moment(new Date(gameDateTime));
     const currentDateTime = moment(pickDateTime);
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
+    const difference = gameStartDateTime.diff(currentDateTime,'seconds');
     return difference < 0;
 }
 

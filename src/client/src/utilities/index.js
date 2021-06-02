@@ -398,8 +398,8 @@ const getCurrentWeek = (weeks = []) => {
 const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 2;
+    const difference = gameStartDateTime.diff(currentDateTime,'seconds');
+    return difference < 5;
 };
 
 const getAreAllGamesOver = (games = []) => {
