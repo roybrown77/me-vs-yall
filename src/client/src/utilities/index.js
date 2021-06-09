@@ -314,10 +314,10 @@ const getResults = (games = [], picks = [], spreadMode = false) => {
 
             if (spreadMode && get(game,'spread.teamId')) {
                 winnerSelected = 
-                (game.competitors[0].score > game.competitors[1].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[0]._id && game.competitors[0].score - game.competitors[1].score >= Math.abs(game.spread.amount)) || 
-                (game.competitors[1].score > game.competitors[0].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[1]._id && game.competitors[1].score - game.competitors[0].score >= Math.abs(game.spread.amount)) || 
-                (game.competitors[0].score > game.competitors[1].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[0]._id && game.competitors[0].score - game.competitors[1].score < Math.abs(game.spread.amount)) || 
-                (game.competitors[1].score > game.competitors[0].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[1]._id && game.competitors[1].score - game.competitors[0].score < Math.abs(game.spread.amount)) || 
+                (game.competitors[0].score > game.competitors[1].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[0]._id && game.competitors[0].score - game.competitors[1].score >= getSpreadAmount(game.spread.amount)) || 
+                (game.competitors[1].score > game.competitors[0].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[1]._id && game.competitors[1].score - game.competitors[0].score >= getSpreadAmount(game.spread.amount)) || 
+                (game.competitors[0].score > game.competitors[1].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[0]._id && game.competitors[0].score - game.competitors[1].score < getSpreadAmount(game.spread.amount)) || 
+                (game.competitors[1].score > game.competitors[0].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[1]._id && game.competitors[1].score - game.competitors[0].score < getSpreadAmount(game.spread.amount)) || 
                 (game.competitors[0].score >= game.competitors[1].score && gamePicked.pickId === game.competitors[0]._id && game.spread.teamId === game.competitors[1]._id) || 
                 (game.competitors[1].score >= game.competitors[0].score && gamePicked.pickId === game.competitors[1]._id && game.spread.teamId === game.competitors[0]._id);
             } else {
@@ -446,9 +446,9 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
                     const index1 = index;
                     const index2 = index === 0 ? 1 : 0;
                     const teamAPick = picks.find(pick=>(pick.pickId === competitor._id) && pick.gameId === game._id);
-                    const selectedWinner = get(game,'spread.teamId') && ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= Math.abs(game.spread.amount)) ||
+                    const selectedWinner = get(game,'spread.teamId') && ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= getSpreadAmount(game.spread.amount)) ||
                         (game.competitors[index1].score >= game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index2]._id) ||
-                        (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < Math.abs(game.spread.amount)));
+                        (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < getSpreadAmount(game.spread.amount)));
                     return {
                         ...competitor,
                         shortLocation: team.shortLocation,
@@ -546,9 +546,9 @@ const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
     const teamAPick = picks.find(pick=>(pick.pickId === game.competitors[index1]._id) && pick.gameId === game._id);
     
     return game.isGameOver && get(game,'spread.teamId') &&
-            ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= Math.abs(game.spread.amount)) ||
+            ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= getSpreadAmount(game.spread.amount)) ||
             (game.competitors[index1].score >= game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index2]._id) ||
-            (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < Math.abs(game.spread.amount))) 
+            (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < getSpreadAmount(game.spread.amount))) 
             ? '#009933' : 
 
             game.isGameOver && get(game,'spread.teamId') && ((game.competitors[index1].score === game.competitors[index2].score) || teamAPick) ? 'red' : 
@@ -577,6 +577,10 @@ const getHomePageEmoji = () => {
     return emojis[getRandomIntInclusive(0,emojis.length-1)];
 }
 
+const getSpreadAmount = () => {
+    const amount = Math.abs(game.spread.amount);
+    return (amount < -70 ? -1 : amount);
+}
 
 export {
     getResults,

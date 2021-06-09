@@ -290,7 +290,7 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
 
                 console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
                 console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
-                const amount = get(game,'spread.amount', 0) < -70 ? -1 : get(game,'spread.amount', 0);
+                const amount = get(game,'spread.amount', 0);
                 
                 formattedGames.push({
                   leagueId: mongoose.Types.ObjectId(leagueId),
@@ -824,7 +824,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           set(updatedGame,'competitors.1.score', homeScore);
           
           if (!hasGameStarted(game.startDateTime)) {
-            const amount = get(score,'spread.amount', 0) < -70 ? -1 : get(score,'spread.amount', 0);
+            const amount = get(score,'spread.amount', 0);
 
             set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
                 teamId: get(spreadTeam,'_id'),
