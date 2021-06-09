@@ -577,8 +577,8 @@ const getHomePageEmoji = () => {
     return emojis[getRandomIntInclusive(0,emojis.length-1)];
 }
 
-const getSpreadAmount = () => {
-    const amount = Math.abs(game.spread.amount);
+const getSpreadAmount = (spreadAmount) => {
+    const amount = Math.abs(spreadAmount);
     return (amount < -70 ? -1 : amount);
 }
 
