@@ -74,7 +74,7 @@ const backupData = async () => {
 };
 
 const updateGames = async (leagueId) => {
-  loadBasketballGames({dayCount: 2, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadBasketballGames({dayCount: 2, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadBasketballGames({dayCount: 1, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   
   //loadMlbGames({dayCount: 0, game1: 1, game2: 2, shouldLimit: true, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
