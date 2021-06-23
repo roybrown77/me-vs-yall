@@ -8,6 +8,7 @@ const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 const sample = require('lodash/sample');
+const pick = require('lodash/pick');
 
 const gameRepository = require('./GameRepository');
 const gameWeekRepository = require('./GameWeekRepository');
@@ -298,7 +299,7 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
                   startDateTime: game.startDateTime,
                   gameName: game.gameName,
                   competitors: competitors,
-                  hashCompetitors: JSON.stringify(competitors),
+                  hashCompetitors: getCompetitorHash(competitors),
                   spread: spreadTeam ? {
                     teamId: get(spreadTeam,'_id'),
                     amount: amount,
@@ -312,12 +313,21 @@ const formatGames = ({message, games, leagueId, year, teams}) => {
   return formattedGames;
 };
 
+const getCompetitorHash = (competitors) => {
+  const filteredCompetitors = [
+    pick(competitors[0],['_id','name','startDateTime']),
+    pick(competitors[1],['_id','name','startDateTime'])
+  ];
+
+  return JSON.stringify(filteredCompetitors);
+};
+
 const createGames = ({message, games}) => {
     games.forEach(game=>{
         const gameFind = {
           leagueId: get(game,'leagueId'),
           year: get(game,'year'),
-          hashCompetitors: JSON.stringify(game.competitors)
+          hashCompetitors: getCompetitorHash(game.competitors)
         };
 
         console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
