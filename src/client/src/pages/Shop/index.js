@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import compose from 'recompose/compose';
 import ReactGA from 'react-ga';
 
 import { withStyles } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
 import Grid from '@material-ui/core/Grid';
 
 import PageContainer from '../PageContainer';
@@ -120,19 +118,6 @@ class Shop extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-    }
-};
+const mapStateToProps = (state) => {return {}};
 
-Shop.propTypes = {
-};
-
-Shop.defaultProps = {
-};
-
-export default compose(
-    withStyles(styles),
-    withWidth(),
-    connect(mapStateToProps,{})
-)(Shop);
+export default connect(mapStateToProps, {})(withStyles(styles, { withTheme: true })(Shop));
