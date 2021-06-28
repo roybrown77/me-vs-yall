@@ -122,12 +122,12 @@ const leagues = [
     //     description: 'boxing', 
     //     years: [2019,2020]
     // },
-    // {
-    //     id: '59723313734d1d6202a85f15', 
-    //     name: 'ncaaf', 
-    //     description: 'ncaaf', 
-    //     years: [2019, 2020]
-    // },
+    {
+        id: '59723313734d1d6202a85f15', 
+        name: 'ncaaf', 
+        description: 'ncaaf', 
+        years: [2019, 2020]
+    },
     // {
     //     id: '59723313734d1d6202a85f31', 
     //     name: 'ncaaw', 

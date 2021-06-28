@@ -98,7 +98,7 @@ class Home extends Component {
 
       const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
       const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
-      // const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
+      const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
       // const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       // const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
@@ -107,7 +107,7 @@ class Home extends Component {
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
-      // const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
+      const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
       // const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       // const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
@@ -199,6 +199,12 @@ class Home extends Component {
                     MLB
                   </Link>
                   {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/ncaaf'}>
+                    NCAAF
+                  </Link>
+                  {areAnyNCAAFGamesInProgress && <span style={styles.inProgress} />}
                 </div>
               </div>
             </div>

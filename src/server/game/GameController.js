@@ -175,7 +175,7 @@ router.get('/games', function (req, res) {
         //   }
         // }
 
-        if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10') {
+        if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
           game.highlights = game.playHistory.filter(history=> 
             (history.lastPlay || "").toLowerCase().includes('touchdown') || 
             (history.lastPlay || "").toLowerCase().includes('sacked') || 
