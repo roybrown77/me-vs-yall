@@ -49,11 +49,12 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
     const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
     if (get(checkLastPlay,'quarter') === currentTime) {
+        console.log(`${message} getPlayHistory: duplicate found 1`);
         return playHistory;
     }
 
     if (!currentTime || lastPlay.trim() === "") {
-        //console.log(`${message} getPlayHistory: no valid play.`);
+        console.log(`${message} getPlayHistory: duplicate found 2`);
         return playHistory;
       }
 
@@ -110,6 +111,13 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
       lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
+
+  if (newPlayHistory.length >= 2) {
+    if (newPlayHistory[0].lastPlay.toLowerCase() === newPlayHistory[1].lastPlay.toLowerCase()) {
+      console.log(`${message} getPlayHistory: duplicate found 3`);
+      return playHistory;
+    }
+  }
   
   return newPlayHistory;
 };
