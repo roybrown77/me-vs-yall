@@ -621,16 +621,18 @@ const getScores = async ({
       //   width: 1500,
       //   height: 1000
       // },
-      timeout: 15000,
+      // timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: revisionInfo.executablePath,
-      //headless: chromium.headless
+      // headless: chromium.headless
     });
 
     page = await browser.newPage();
+
+    await page.setDefaultNavigationTimeout(20000);
 
     // await page.setRequestInterception(true);
 
