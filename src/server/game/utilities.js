@@ -632,7 +632,7 @@ const getScores = async ({
 
     page = await browser.newPage();
 
-    await page.setDefaultNavigationTimeout(20000);
+    //await page.setDefaultNavigationTimeout(20000);
 
     // await page.setRequestInterception(true);
 
