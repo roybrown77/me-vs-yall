@@ -133,11 +133,14 @@ const updateGames = (leagueId) => {
 };
 
 router.get('/games', async function (req, res) {
-  const leagueId = get(req, 'query.leagueId');
+  console.log("time1: ", moment().format());
 
+  const leagueId = get(req, 'query.leagueId');
   if (shouldUpdateGames) {
     updateGames(leagueId);
   }
+  
+  console.log("time2: ", moment().format());
 
   try {
     const search = {
@@ -222,6 +225,8 @@ router.get('/games', async function (req, res) {
       gameRepository.find(finalSearch, {}, {skip: 290, limit: 10})
     ]);
 
+    console.log("time3: ", moment().format());
+
     const games = [
       ...games1, 
       ...games2, 
@@ -254,6 +259,8 @@ router.get('/games', async function (req, res) {
       ...games29, 
       ...games30
     ];
+
+    console.log("time4: ", moment().format());
 
     games.forEach(game=>{
       game.hashCompetitors = null;
@@ -364,6 +371,8 @@ router.get('/games', async function (req, res) {
         const plays = game.playHistory.slice(0,playHistoryCount);
         game.playHistory = plays;
       });
+
+      console.log("time5: ", moment().format());
 
       res.status(200).send(games);
   } catch (error) {
