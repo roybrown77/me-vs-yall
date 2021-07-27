@@ -73,7 +73,7 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
-const updateGames = async (leagueId) => {
+const updateGames = (leagueId) => {
   //loadBasketballGames({dayCount: 3, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadBasketballGames({dayCount: 1, game1: 0, game2: 1, shouldLimit: true, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   
@@ -83,27 +83,27 @@ const updateGames = async (leagueId) => {
   //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/1/week/1', teams: nflTeams});
 
   if (leagueId === '59723313734d1d6202a85f10') {
-    await updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
+    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f15') {
-    await updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2020, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard/_/group/80', teams: ncaaTeams});
+    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2020, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard/_/group/80', teams: ncaaTeams});
   }
   
   if (leagueId === '59723313734d1d6202a85f17') {
-    await updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
+    updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f19') {
-    await updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2020, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+    updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2020, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f37') {
-    await updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
+    updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f21') {
-    await updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+    updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
   
   // const month = parseInt(moment().format('MM'));
@@ -132,51 +132,131 @@ const updateGames = async (leagueId) => {
   // }
 };
 
-router.get('/games', function (req, res) {
+router.get('/games', async function (req, res) {
   const leagueId = get(req, 'query.leagueId');
 
   if (shouldUpdateGames) {
     updateGames(leagueId);
   }
 
-  const search = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    year: get(req, 'query.year'),
-    startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
-      $gte: new Date(moment(get(req, 'query.beginDateTime'))),
-      $lte: new Date(moment(get(req, 'query.endDateTime')))
-    } : undefined
-  };
+  try {
+    const search = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: get(req, 'query.year'),
+      startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+        $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+        $lt: new Date(moment(get(req, 'query.endDateTime')))
+      } : undefined
+    };
 
-  const finalSearch = omit(search, 
-    [
-      get(req,'query.year','year'),
-      !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
-    ]
-  );
+    const finalSearch = omit(search, 
+      [
+        get(req,'query.year','year'),
+        !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
+      ]
+    );
 
-  console.log('games search criteria: ' + JSON.stringify(finalSearch));
-  
-  gameRepository.find(finalSearch, function (err, games) {
-      if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+    console.log('games search criteria: ' + JSON.stringify(finalSearch));
+    
+    const [
+      games1, 
+      games2, 
+      games3, 
+      games4, 
+      games5, 
+      games6, 
+      games7, 
+      games8, 
+      games9, 
+      games10,
+      games11, 
+      games12, 
+      games13, 
+      games14, 
+      games15, 
+      games16, 
+      games17, 
+      games18, 
+      games19, 
+      games20,
+      games21, 
+      games22, 
+      games23, 
+      games24, 
+      games25, 
+      games26, 
+      games27, 
+      games28, 
+      games29,
+      games30
+    ] = await Promise.all([
+      gameRepository.find(finalSearch, {}, {limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 10, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 20, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 30, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 40, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 50, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 60, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 70, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 80, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 90, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 100, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 110, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 120, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 130, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 140, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 150, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 160, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 170, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 180, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 190, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 200, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 210, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 220, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 230, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 240, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 250, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 260, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 270, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 280, limit: 10}),
+      gameRepository.find(finalSearch, {}, {skip: 290, limit: 10})
+    ]);
 
-      games.forEach(game=>{
-        game.hashCompetitors = null;
+    const games = [
+      ...games1, 
+      ...games2, 
+      ...games3, 
+      ...games4, 
+      ...games5, 
+      ...games6, 
+      ...games7, 
+      ...games8, 
+      ...games9, 
+      ...games10,
+      ...games11, 
+      ...games12, 
+      ...games13, 
+      ...games14, 
+      ...games15, 
+      ...games16, 
+      ...games17, 
+      ...games18, 
+      ...games19, 
+      ...games20,
+      ...games21, 
+      ...games22, 
+      ...games23, 
+      ...games24, 
+      ...games25, 
+      ...games26, 
+      ...games27, 
+      ...games28, 
+      ...games29, 
+      ...games30
+    ];
 
-        // const cleanPlays = [];
-        // const quarter = null;
-        // const time = null;
-
-        // for (let i = 0; i < game.playHistory.length; i++) {
-        //   const play = game.playHistory[i];
-          
-        //   if (quarter !== play.quarter && time !== play.time) {
-        //     quarter = play.quarter;
-        //     time = play.time;
-        //     cleanPlays.push(play);
-        //   }
-        // }
-
+    games.forEach(game=>{
+      game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
           game.highlights = game.playHistory.filter(history=> 
             (history.lastPlay || "").toLowerCase().includes('touchdown') || 
@@ -193,51 +273,51 @@ router.get('/games', function (req, res) {
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
           game.highlights = [
-              ...game.playHistory.filter(history=>
-              ((history.lastPlay || "").toLowerCase().includes('makes') || 
-              (history.lastPlay || "").toLowerCase().includes('block') || 
-              (history.lastPlay || "").toLowerCase().includes('steal') || 
-              (history.lastPlay || "").toLowerCase().includes('injur') || 
-              (history.lastPlay || "").toLowerCase().includes('reverse') || 
-              (history.lastPlay || "").toLowerCase().includes('fight') || 
-              (history.lastPlay || "").toLowerCase().includes('caught') || 
-              (history.lastPlay || "").toLowerCase().includes('error') || 
-              (history.lastPlay || "").toLowerCase().includes('eject')) 
-              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter > 3),
-              ...game.playHistory.filter(history=>
-              ((history.lastPlay || "").toLowerCase().includes('makes') || 
-              (history.lastPlay || "").toLowerCase().includes('block') || 
-              (history.lastPlay || "").toLowerCase().includes('steal') || 
-              (history.lastPlay || "").toLowerCase().includes('injur') || 
-              (history.lastPlay || "").toLowerCase().includes('reverse') || 
-              (history.lastPlay || "").toLowerCase().includes('fight') || 
-              (history.lastPlay || "").toLowerCase().includes('caught') || 
-              (history.lastPlay || "").toLowerCase().includes('error') || 
-              (history.lastPlay || "").toLowerCase().includes('eject')) 
-              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,4),
-              ...game.playHistory.filter(history=>
-              ((history.lastPlay || "").toLowerCase().includes('makes') || 
-              (history.lastPlay || "").toLowerCase().includes('block') || 
-              (history.lastPlay || "").toLowerCase().includes('steal') || 
-              (history.lastPlay || "").toLowerCase().includes('injur') || 
-              (history.lastPlay || "").toLowerCase().includes('reverse') || 
-              (history.lastPlay || "").toLowerCase().includes('fight') || 
-              (history.lastPlay || "").toLowerCase().includes('caught') || 
-              (history.lastPlay || "").toLowerCase().includes('error') || 
-              (history.lastPlay || "").toLowerCase().includes('eject')) 
-              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,4),
-              ...game.playHistory.filter(history=>
-              ((history.lastPlay || "").toLowerCase().includes('makes') || 
-              (history.lastPlay || "").toLowerCase().includes('block') || 
-              (history.lastPlay || "").toLowerCase().includes('steal') || 
-              (history.lastPlay || "").toLowerCase().includes('injur') || 
-              (history.lastPlay || "").toLowerCase().includes('reverse') || 
-              (history.lastPlay || "").toLowerCase().includes('fight') || 
-              (history.lastPlay || "").toLowerCase().includes('caught') || 
-              (history.lastPlay || "").toLowerCase().includes('error') || 
-              (history.lastPlay || "").toLowerCase().includes('eject')) 
-              && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,4)
-            ];
+            ...game.playHistory.filter(history=>
+            ((history.lastPlay || "").toLowerCase().includes('makes') || 
+            (history.lastPlay || "").toLowerCase().includes('block') || 
+            (history.lastPlay || "").toLowerCase().includes('steal') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('eject')) 
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter > 3),
+            ...game.playHistory.filter(history=>
+            ((history.lastPlay || "").toLowerCase().includes('makes') || 
+            (history.lastPlay || "").toLowerCase().includes('block') || 
+            (history.lastPlay || "").toLowerCase().includes('steal') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('eject')) 
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,4),
+            ...game.playHistory.filter(history=>
+            ((history.lastPlay || "").toLowerCase().includes('makes') || 
+            (history.lastPlay || "").toLowerCase().includes('block') || 
+            (history.lastPlay || "").toLowerCase().includes('steal') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('eject')) 
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,4),
+            ...game.playHistory.filter(history=>
+            ((history.lastPlay || "").toLowerCase().includes('makes') || 
+            (history.lastPlay || "").toLowerCase().includes('block') || 
+            (history.lastPlay || "").toLowerCase().includes('steal') || 
+            (history.lastPlay || "").toLowerCase().includes('injur') || 
+            (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('caught') || 
+            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('eject')) 
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,4)
+          ];
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
@@ -281,30 +361,14 @@ router.get('/games', function (req, res) {
           game.currentTime = game.currentTime; // + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
 
-        // if (game.isGameOver) {
-        //   const plays = game.playHistory
-        //   .slice(0,50)
-        //   .filter(history=>
-        //     !(history.lastPlay || "").toLowerCase().includes('rebound') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('timeout') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('incomplete') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('kneels') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('two-minute warning') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('foul') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('enters the game') &&
-        //     !(history.lastPlay || "").toLowerCase().includes('turnover') && 
-        //     !(history.lastPlay || "").toLowerCase().includes(': pitch ') && 
-        //     !(history.lastPlay || "").toLowerCase().includes('free throw'));
-
-        //   game.playHistory = plays.slice(0,playHistoryCount);
-        // } else {
-          const plays = game.playHistory.slice(0,playHistoryCount);
-          game.playHistory = plays;
-        //}
+        const plays = game.playHistory.slice(0,playHistoryCount);
+        game.playHistory = plays;
       });
 
       res.status(200).send(games);
-  });
+  } catch (error) {
+    return res.status(500).send("There was a problem finding the games: " + err.message);
+  }
 });
 
 router.get('/gameweeks', function (req, res) {
