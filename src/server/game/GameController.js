@@ -83,7 +83,7 @@ const updateGames = (leagueId) => {
   //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/1/week/1', teams: nflTeams});
 
   if (leagueId === '59723313734d1d6202a85f10') {
-    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
+    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f15') {
