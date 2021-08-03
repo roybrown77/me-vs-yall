@@ -1,254 +1,202 @@
-// const { dbUsername, dbPassword, dbName, queueUrl } = require('./config');
+/*
+  Get environment variables
+*/
 
-// if (!queueUrl || !dbUsername || !dbPassword || !dbName) {
-//   console.log('[ENV_VARIABLE] - missing an environment variable');
-//   process.exit(1);
-// }
+const { dbConnectionString, httpPort, nodeEnv } = require('./config');
 
-// const options = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useCreateIndex: true,
-//   useFindAndModify: false,
-//   autoIndex: false, // Don't build indexes
-//   poolSize: 10, // Maintain up to 10 socket connections
-//   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-//   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-//   family: 4 // Use IPv4, skip trying IPv6
-// };
+if (!dbConnectionString) {
+  console.log('[ENV_VARIABLE] - missing db connection string');
+  process.exit(1);
+}
 
-// const mongoose = require('mongoose');
+/*
+  Setup database
+*/
 
-// mongoose.connection.on("connected", function(ref) {
-//   console.log("[MONGODB] - Connected!");
-// });
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  autoIndex: false, // Don't build indexes
+  poolSize: 10, // Maintain up to 10 socket connections
+  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  family: 4 // Use IPv4, skip trying IPv6
+};
 
-// mongoose.connection.on("error", function(err) {
-//   console.error(`[MONGODB] - failed to connect on startup: ${JSON.stringify(err)}`);
-// });
+const mongoose = require('mongoose');
 
-// mongoose.connection.on('disconnected', function () {
-//   console.log('[MONGODB] - Disconnected.');
-// });
+mongoose.connection.on("connected", function(ref) {
+  console.log("[MONGODB] - Connected!");
+  console.log('startCronProcess fire!');
+  startCronProcess(JOBS);
+});
 
-// try {
-//   console.log('[MONGODB] - Connecting...');
-//   mongoose.connect(`mongodb://${dbUsername}:${dbPassword}@ds129183.mlab.com:29183/${dbName}`,options);
-// } catch (err) {
-//   console.log(`[MONGODB] - initialization failed: ${JSON.stringify(err)}`);
-// }
+mongoose.connection.on("error", function(err) {
+  console.error('[MONGODB] - failed to connect on startup: ', err);
+});
 
-// const WORKER_QUEUE = 'worker-queue';
+mongoose.connection.on('disconnected', function () {
+  console.log('[MONGODB] - Disconnected.');
+});
 
-// const JOBS = [
-//   { 
-//     name: "Cron process 1",
-//     message: {queue: 'worker-queue'},
-//     cronTime: '1 * * * * *',
-//     repeat: true
-//   },
-//   { 
-//     name: "Cron process 2",
-//     message: {queue: 'worker-queue'},
-//     cronTime: '15 * * * * *',
-//     repeat: true
-//   },
-//   {
-//     name: "Cron process 3",
-//     message: {queue: 'worker-queue'},
-//     cronTime: '30 * * * * *',
-//     repeat: true
-//   },
-//   { 
-//     name: "Cron process 4",
-//     message: {queue: 'worker-queue'},
-//     cronTime: '45 * * * * *',
-//     repeat: true
-//   },
-// ];
+try {
+  console.log('[MONGODB] - Connecting...');
+  mongoose.connect(dbConnectionString,options);
+} catch (err) {
+  console.log("[MONGODB] - initialization failed: ", err.message);
+}
 
-// console.log('[AMQP] - Connecting...');
-// const amqp = require('amqp-connection-manager');
-// const connection = amqp.connect([queueUrl]);
+const JOBS = [
+  { 
+    name: "Cron process",
+    message: {queue: 'worker-queue'},
+    cronTime: '15 * * * * *',
+    repeat: true
+  }
+];
 
-// connection.on('connect', function() {
-//   console.log('[AMQP] - Connected!');
-//   return startCronProcess(JOBS);
-// });
+const CronJob = require('cron').CronJob;
 
-// connection.on('disconnect', function(params) {
-//   return console.error(`[AMQP] - Disconnected: ${JSON.stringify(params.err.stack)}`);
-// });
+const startCronProcess = (jobs) => {
+  console.log('startCronProcess');
 
-// const CronJob = require('cron').CronJob;
+  if (jobs && jobs.length) {
+    jobs.forEach(job => {
+      let j = new CronJob({
+        cronTime: job.cronTime ? job.cronTime : new Date(job.dateTime),
+        onTick: () => {
+          console.log('startCronProcess - onTick');
+          sendMessage(JSON.stringify(job.message));
+          if (!job.repeat) j.stop();
+        },
+        onComplete: () => {
+          console.log('startCronProcess - onComplete');
+        },  
+        timeZone: 'America/Argentina/Buenos_Aires',
+        start: true
+      });
+    });
+  }
+};
 
-// const startCronProcess = (jobs) => {
-//   if (jobs && jobs.length) {
-//     jobs.forEach(job => {
-//       let j = new CronJob({
-//         cronTime: job.cronTime ? job.cronTime : new Date(job.dateTime),
-//         onTick: () => {
-//           sendMessage(JSON.stringify(job.message));
-//           if (!job.repeat) j.stop();
-//         },
-//         onComplete: () => {
-//           console.log('[AMQP] - Job completed! Removing now...')
-//         },  
-//         timeZone: 'America/Argentina/Buenos_Aires',
-//         start: true
-//       });
-//     });
-//   }
-// };
+const moment = require('moment-timezone');
+const gameRepository = require('./src/server/game/GameRepository');
+const {
+  nbaTeams,
+  nflTeams,
+  premierLeagueTeams, 
+  ncaaTeams, 
+  mlbTeams,
+  countries,
+  boxingCompetitors,
+  ufcCompetitors,
+  mlsTeams,
+  nba2kCompetitors,
+  wnbaTeams
+} = require('./src/server/game/teams');
 
-// const moment = require('moment-timezone');
-// const gameRepository = require('./src/server/game/GameRepository');
+const {
+  updateWorldFootballScores
+} = require('./src/server/game/WorldFootballDomain');
 
-// const hasGameStartedInXMinutes = (dateTime, minutesUntil) => {
-//     const gameStartDateTime = moment(new Date(dateTime));
-//     const currentDateTime = moment(new Date());
-//     const difference = currentDateTime.diff(gameStartDateTime,'minutes');
-//     return difference <= minutesUntil;
-// };
+const { 
+  updateAmericanFootballScores 
+} = require('./src/server/game/AmericanFootballDomain');
 
-// const sendMessage = async (data) => {
-//   let message;
-//   try {
-//     message = JSON.parse(data);
-//   } catch(e) {
-//     console.error(`[AMQP] - send message error: ${JSON.stringify(e)}`);
-//   }
+const {
+  updateBasketballScores
+} = require('./src/server/game/BasketballDomain');
 
-//   if (!message) { return; }
+const { 
+  updateMlbScores
+} = require('./src/server/game/MLBDomain');
 
-//   const month = parseInt(moment().format('MM'));
-//   const monthDay = parseInt(moment().format('MMDD'));
-//   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-//   const hours = parseInt(moment().format('HH'));
-//   const minutes = parseInt(moment().format('mm'));
-//   const timezoneOffset = moment().utcOffset()/60;
-//   const hoursOffset = hours+(-1*timezoneOffset);
+const sendMessage = async (data) => {
+  console.log('sendMessage');
 
-//   console.log('monthDay: ' + monthDay);
-//   console.log('currentWeekDay: ' + currentWeekDay);
-//   console.log('hours: ' + hours);
-//   console.log('minutes: ' + minutes);
-//   console.log('timezoneOffset: ' + timezoneOffset);
-//   console.log('hoursOffset: ' + hoursOffset);
-//   const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-//   console.log('divider: ' + divider);
+  let message;
+  try {
+    message = JSON.parse(data);
+  } catch(e) {
+    console.error(`send message error: ${JSON.stringify(e)}`);
+  }
 
-//   const search = {
-//     isGameOver: {
-//       $ne: true
-//     },
-//     year: 2020
-//   };
+  if (!message) { return; }
 
-//   const games = await gameRepository.find(search);
+  const search = {
+    startDateTime: {
+      $lte: new Date(moment().add(3, 'hours'))
+    },
+    isGameOver: {
+      $ne: true
+    }
+  };
 
-//   const spreadLeagues = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19','59723313734d1d6202a85f31','59723313734d1d6202a85f33'];
-//   const exemptLeagues = ['59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f35','59723313734d1d6202a85f37'];
+  const games = await gameRepository.find(search);
   
-//   let numberOfSpreadGames = 0;
-//   let numberOfNonSpreadGames = 0;
+  if (games.length === 0) {
+    console.log('all scores have been updated or games are not close to starting.');
+    return;
+  }
 
-//   console.log('games.length: ' + JSON.stringify(games.length));
+  console.log('games.length: ' + JSON.stringify(games.length));
 
-//   for (let i = 0; i < games.length; i++) {
-//     let game = games[i];
-//     let leagueId = game.leagueId.toString();
+  updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2020, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
+  updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2020, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard/_/group/80', teams: ncaaTeams});
+  updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2020, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
+  updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2020, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
+  updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+};
 
-//     if (spreadLeagues.includes(leagueId) && 
-//       hasGameStartedInXMinutes(game.startDateTime, 30)) {
-//       numberOfSpreadGames += 1;
-//     }
+/*
+  Handle events gracefully
+*/
 
-//     if (!spreadLeagues.includes(leagueId) && 
-//       !exemptLeagues.includes(leagueId) &&
-//       hasGameStartedInXMinutes(game.startDateTime, 0)) {
-//       numberOfNonSpreadGames += 1;
-//     }
-//   }
+const gracefulExitSIGINT = () => {
+  console.info(`SIGINT signal received.`);
 
-//   console.log('numberOfSpreadGames: ' + numberOfSpreadGames);
-//   console.log('numberOfNonSpreadGames: ' + numberOfNonSpreadGames);
+  mongoose.connection.close(function () {
+    console.log('[MONGODB] - disconnected through app termination SIGINT.');
+  });
+};
 
-//   if (numberOfSpreadGames === 0 && numberOfNonSpreadGames === 0) {
-//     console.log('all scores have been updated.');
-//     return;
-//   }
+const gracefulExitSIGTERM = () => {
+  console.info(`SIGTERM signal received.`);
 
-//   let queue = message.queue || WORKER_QUEUE;
+  mongoose.connection.close(function () {
+    console.log('[MONGODB] - disconnected through app termination SIGTERM.');
+  });
+};
 
-//   let senderChannelWrapper = connection.createChannel({
-//     json: true,
-//     setup: function(channel) {
-//       return channel.assertQueue(queue, {durable: true});
-//     }
-//   });
+process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
 
-//   senderChannelWrapper.sendToQueue(queue, message, { contentType: 'application/json', persistent: true })
-//     .then(function() {
-//       console.log('[AMQP] - Message sent to queue: ', queue);
-//       senderChannelWrapper.close();
-//     })
-//     .catch(err => {
-//       console.error(`[AMQP] - Message to queue ${queue} was rejected: ${JSON.stringify(err)}`);
-//       senderChannelWrapper.close();
-//     })
-// };
+process.on('unhandledRejection', (reason, promise) => {
+  console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
+});
 
-// const gracefulExitSIGINT = () => {
-//   console.info(`SIGINT signal received.`);
-  
-//   connection.close(function () {
-//     console.log('[AMQP] - disconnected through app termination.');
-//   });
+process.on('uncaughtException', function(err) {
+  console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
+});
 
-//   mongoose.connection.close(function () {
-//     console.log('[MONGODB] - disconnected through app termination.');
-//   });
-// };
+process.on('multipleResolves', (type, promise, reason) => {
+  console.error(`Process multipleResolves type: ${type}, promise: ${promise}, reason: ${reason}`);
+});
 
-// const gracefulExitSIGTERM = () => {
-//   console.info(`SIGTERM signal received.`);
-  
-//   connection.close(function () {
-//     console.log('[AMQP] - disconnected through app termination.');
-//   });
+process.on('beforeExit', (code) => {
+  console.log(`Process beforeExit code: ${code}`);
+});
 
-//   mongoose.connection.close(function () {
-//     console.log('[MONGODB] - disconnected through app termination.');
-//   });
-// };
+process.on('exit', (code) => {
+  console.log(`Process exit code: ${code}`);
+});
 
-// process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
+process.on('disconnect', (code) => {
+  console.log(`Process disconnect code: ${code}`);
+});
 
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
-// });
-
-// // process.on('uncaughtException', function(err) {
-// //   console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
-// // });
-
-// process.on('multipleResolves', (type, promise, reason) => {
-//   console.error(`Process multipleResolves type: ${type}, promise: ${promise}, reason: ${reason}`);
-// });
-
-// process.on('beforeExit', (code) => {
-//   console.log(`Process beforeExit code: ${code}`);
-// });
-
-// process.on('exit', (code) => {
-//   console.log(`Process exit code: ${code}`);
-// });
-
-// process.on('disconnect', (code) => {
-//   console.log(`Process disconnect code: ${code}`);
-// });
-
-// process.on('warning', (warning) => {
-//   console.warn(`Process warning: ${JSON.stringify(warning)}`);
-// });
+process.on('warning', (warning) => {
+  console.warn(`Process warning: ${JSON.stringify(warning)}`);
+});
