@@ -52,7 +52,7 @@ const JOBS = [
   { 
     name: "Cron process",
     message: {queue: 'worker-queue'},
-    cronTime: '15 * * * * *',
+    cronTime: '*/15 * * * * *',
     repeat: true
   }
 ];
@@ -114,7 +114,7 @@ const {
 } = require('./src/server/game/MLBDomain');
 
 const sendMessage = async (data) => {
-  console.log('sendMessage');
+  console.log('sendMessage: ' + moment().format());
 
   let message;
   try {
