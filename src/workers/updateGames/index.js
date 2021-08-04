@@ -2,7 +2,7 @@
   Get environment variables
 */
 
-const { dbConnectionString } = require('./config');
+const { dbConnectionString } = require('../../../config');
 
 if (!dbConnectionString) {
   console.log('[ENV_VARIABLE] - missing db connection string');
@@ -28,7 +28,6 @@ const options = {
 const cronJobs = [
   { 
     name: "Cron process",
-    message: {queue: 'worker-queue'},
     cronTime: '*/15 * * * * *',
     repeat: true
   }
@@ -68,7 +67,7 @@ const startCronProcess = (jobs) => {
         cronTime: job.cronTime ? job.cronTime : new Date(job.dateTime),
         onTick: () => {
           console.log('startCronProcess - onTick');
-          updateGames(JSON.stringify(job.message));
+          updateGames();
           if (!job.repeat) j.stop();
         },
         onComplete: () => {
@@ -82,7 +81,7 @@ const startCronProcess = (jobs) => {
 };
 
 const moment = require('moment-timezone');
-const gameRepository = require('./src/server/game/GameRepository');
+const gameRepository = require('../../server/game/GameRepository');
 const {
   nbaTeams,
   nflTeams,
@@ -95,35 +94,26 @@ const {
   mlsTeams,
   nba2kCompetitors,
   wnbaTeams
-} = require('./src/server/game/teams');
+} = require('../../server/game/teams');
 
 const {
   updateWorldFootballScores
-} = require('./src/server/game/WorldFootballDomain');
+} = require('../../server/game/WorldFootballDomain');
 
 const { 
   updateAmericanFootballScores 
-} = require('./src/server/game/AmericanFootballDomain');
+} = require('../../server/game/AmericanFootballDomain');
 
 const {
   updateBasketballScores
-} = require('./src/server/game/BasketballDomain');
+} = require('../../server/game/BasketballDomain');
 
 const { 
   updateMlbScores
-} = require('./src/server/game/MLBDomain');
+} = require('../../server/game/MLBDomain');
 
-const updateGames = async (data) => {
+const updateGames = async () => {
   console.log('updateGames: ' + moment().format());
-
-  let message;
-  try {
-    message = JSON.parse(data);
-  } catch(e) {
-    console.error(`updateGames error: ${JSON.stringify(e)}`);
-  }
-
-  if (!message) { return; }
 
   const search = {
     startDateTime: {

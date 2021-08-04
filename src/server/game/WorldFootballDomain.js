@@ -84,7 +84,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   const games = await gameRepository.find(search);
 
   if ((games || []).length === 0) {
-    console.log(`${message} all scores have been updated.`);
+    console.log(`${message} all scores have been updated or games are not close to starting.`);
     return;
   }
 
