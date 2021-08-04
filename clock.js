@@ -120,7 +120,7 @@ const updateGames = async (data) => {
   try {
     message = JSON.parse(data);
   } catch(e) {
-    console.error(`send message error: ${JSON.stringify(e)}`);
+    console.error(`updateGames error: ${JSON.stringify(e)}`);
   }
 
   if (!message) { return; }
