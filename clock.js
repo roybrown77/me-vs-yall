@@ -25,12 +25,21 @@ const options = {
   family: 4 // Use IPv4, skip trying IPv6
 };
 
+const cronJobs = [
+  { 
+    name: "Cron process",
+    message: {queue: 'worker-queue'},
+    cronTime: '*/15 * * * * *',
+    repeat: true
+  }
+];
+
 const mongoose = require('mongoose');
 
 mongoose.connection.on("connected", function(ref) {
   console.log("[MONGODB] - Connected!");
   console.log('startCronProcess fire!');
-  startCronProcess(JOBS);
+  startCronProcess(cronJobs);
 });
 
 mongoose.connection.on("error", function(err) {
@@ -48,15 +57,6 @@ try {
   console.log("[MONGODB] - initialization failed: ", err.message);
 }
 
-const JOBS = [
-  { 
-    name: "Cron process",
-    message: {queue: 'worker-queue'},
-    cronTime: '*/15 * * * * *',
-    repeat: true
-  }
-];
-
 const CronJob = require('cron').CronJob;
 
 const startCronProcess = (jobs) => {
@@ -68,13 +68,13 @@ const startCronProcess = (jobs) => {
         cronTime: job.cronTime ? job.cronTime : new Date(job.dateTime),
         onTick: () => {
           console.log('startCronProcess - onTick');
-          sendMessage(JSON.stringify(job.message));
+          updateGames(JSON.stringify(job.message));
           if (!job.repeat) j.stop();
         },
         onComplete: () => {
           console.log('startCronProcess - onComplete');
         },  
-        timeZone: 'America/Argentina/Buenos_Aires',
+        timeZone: 'US/Eastern',
         start: true
       });
     });
@@ -113,8 +113,8 @@ const {
   updateMlbScores
 } = require('./src/server/game/MLBDomain');
 
-const sendMessage = async (data) => {
-  console.log('sendMessage: ' + moment().format());
+const updateGames = async (data) => {
+  console.log('updateGames: ' + moment().format());
 
   let message;
   try {
