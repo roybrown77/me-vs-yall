@@ -2,7 +2,7 @@
   Get environment variables
 */
 
-const { dbConnectionString, httpPort, nodeEnv } = require('./config');
+const { dbConnectionString } = require('./config');
 
 if (!dbConnectionString) {
   console.log('[ENV_VARIABLE] - missing db connection string');
