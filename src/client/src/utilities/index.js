@@ -579,7 +579,7 @@ const getHomePageEmoji = () => {
 
 const getSpreadAmount = (spreadAmount) => {
     const amount = Math.abs(spreadAmount);
-    return (amount > 70 ? 1 : amount);
+    return (amount > 70 ? 1.5 : amount);
 }
 
 export {
