@@ -28,7 +28,7 @@ const options = {
 const cronJobs = [
   { 
     name: "Cron process",
-    cronTime: '*/15 * * * * *',
+    cronTime: '*/10 * * * * *',
     repeat: true
   }
 ];
