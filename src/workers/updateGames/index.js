@@ -117,7 +117,7 @@ const updateGames = async () => {
 
   const search = {
     startDateTime: {
-      $lte: new Date(moment().add(3, 'hours'))
+      $lte: new Date(moment().add(30, 'minutes'))
     },
     isGameOver: {
       $ne: true
