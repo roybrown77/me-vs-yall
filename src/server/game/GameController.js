@@ -208,7 +208,8 @@ router.get('/games', async function (req, res) {
       games27, 
       games28, 
       games29,
-      games30
+      games30,
+      games31
     ] = await Promise.all([
       gameRepository.find(finalSearch, fields, {limit: 10}),
       gameRepository.find(finalSearch, fields, {skip: 10, limit: 10}),
@@ -239,7 +240,8 @@ router.get('/games', async function (req, res) {
       gameRepository.find(finalSearch, fields, {skip: 260, limit: 10}),
       gameRepository.find(finalSearch, fields, {skip: 270, limit: 10}),
       gameRepository.find(finalSearch, fields, {skip: 280, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 290, limit: 10})
+      gameRepository.find(finalSearch, fields, {skip: 290, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 300})
     ]);
 
     console.log("time3: ", moment().format());
@@ -274,7 +276,8 @@ router.get('/games', async function (req, res) {
       ...games27, 
       ...games28, 
       ...games29, 
-      ...games30
+      ...games30,
+      ...games31
     ];
 
     console.log("time4: ", moment().format());
