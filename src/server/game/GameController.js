@@ -174,7 +174,7 @@ router.get('/games', async function (req, res) {
         hashCompetitors: 1, 
         highlights: 1, 
         currentTime: 1, 
-        playHistory.lastPlay:{$slice: 25}
+        playHistory:{$slice: 25}
       };
     }
 
