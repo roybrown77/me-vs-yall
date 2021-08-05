@@ -161,6 +161,23 @@ router.get('/games', async function (req, res) {
 
     console.log('games search criteria: ' + JSON.stringify(finalSearch));
     
+    let fields = {};
+    
+    if (leagueId === '59723313734d1d6202a85f21') {
+      fields = { 
+        leagueId: 1, 
+        isGameOver: 1, 
+        competitors: 1, 
+        year: 1, 
+        spread: 1, 
+        startDateTime: 1, 
+        hashCompetitors: 1, 
+        highlights: 1, 
+        currentTime: 1, 
+        playHistory:{$slice: 50}
+      };
+    }
+
     const [
       games1, 
       games2, 
@@ -193,36 +210,36 @@ router.get('/games', async function (req, res) {
       games29,
       games30
     ] = await Promise.all([
-      gameRepository.find(finalSearch, {}, {limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 10, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 20, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 30, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 40, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 50, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 60, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 70, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 80, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 90, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 100, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 110, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 120, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 130, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 140, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 150, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 160, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 170, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 180, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 190, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 200, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 210, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 220, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 230, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 240, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 250, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 260, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 270, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 280, limit: 10}),
-      gameRepository.find(finalSearch, {}, {skip: 290, limit: 10})
+      gameRepository.find(finalSearch, fields, {limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 10, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 20, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 30, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 40, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 50, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 60, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 70, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 80, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 90, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 100, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 110, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 120, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 130, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 140, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 150, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 160, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 170, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 180, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 190, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 200, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 210, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 220, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 230, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 240, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 250, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 260, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 270, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 280, limit: 10}),
+      gameRepository.find(finalSearch, fields, {skip: 290, limit: 10})
     ]);
 
     console.log("time3: ", moment().format());
