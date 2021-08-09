@@ -103,6 +103,15 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
     return playHistory;
   }
 
+  // const lastPlayHalf = lastPlay.slice(0,(lastPlay.length%2 ? lastPlay.length-1/2 : lastPlay.length/2));
+
+  // const checkLastPlayHalf = playHistory.find(x=>get(x,'lastPlay',"").includes(lastPlayHalf));
+
+  // if (get(checkLastPlayHalf,'quarter') === currentTime) {
+  //     console.log(`${message} getPlayHistory: duplicate found 3`);
+  //     return playHistory;
+  // }
+
   const newPlayHistory = orderBy([
     ...playHistory,
     {
@@ -112,12 +121,12 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
 
-  if (newPlayHistory.length >= 2) {
-    if (newPlayHistory[0].lastPlay.toLowerCase() === newPlayHistory[1].lastPlay.toLowerCase()) {
-      console.log(`${message} getPlayHistory: duplicate found 3`);
-      return playHistory;
-    }
-  }
+  // if (newPlayHistory.length >= 2) {
+  //   if (newPlayHistory[0].lastPlay.toLowerCase() === newPlayHistory[1].lastPlay.toLowerCase()) {
+  //     console.log(`${message} getPlayHistory: duplicate found 4`);
+  //     return playHistory;
+  //   }
+  // }
   
   return newPlayHistory;
 };
@@ -806,10 +815,10 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), lastPlay2: get(score,'lastPlay2'), currentTime: get(score,'currentTime')});
           const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
-          const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 1;
+          const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 2;
           const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
           !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
-          (get(score,'gameName') || '').toLowerCase().includes('makeup') || moment().diff(moment(game.startDateTime),'hours') > 12;
+          moment().diff(moment(game.startDateTime),'hours') > 12;
 
           //console.log(`${message} newPlayHistory: ${JSON.stringify(newPlayHistory)}`);
 

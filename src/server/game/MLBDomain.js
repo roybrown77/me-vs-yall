@@ -80,7 +80,9 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     message, 
     root,
     url,
-    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > p'
+    livePlaySelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > p',
+    //liveDownSelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > div.circleGraphs > div.circleGraph > span.description'
+    //liveDownSelector: 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.atBat'
   });
   
   if (scoreSet.length === 0) {
