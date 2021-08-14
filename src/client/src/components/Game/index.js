@@ -405,7 +405,7 @@ class Game extends Component {
                                       <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
                                           display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
                                           textAlign: 'right'}}>
-                                          {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount')  + " / -1.5" : get(game,'spread.amount')}
+                                          {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : get(game,'spread.amount')}
                                       </div>
                                     }
                                     </Grid>}
