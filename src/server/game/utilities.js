@@ -153,7 +153,7 @@ const getGames = async ({
   
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('901419');
+    const revisionInfo = await browserFetcher.download('869685');
 
     browser = await chromium.puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -622,7 +622,7 @@ const getScores = async ({
 
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('901419');
+    const revisionInfo = await browserFetcher.download('869685');
 
     browser = await chromium.puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
