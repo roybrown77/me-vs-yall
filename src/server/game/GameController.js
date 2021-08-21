@@ -294,7 +294,14 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('reverse') || 
             (history.lastPlay || "").toLowerCase().includes('fight') || 
             (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('fumble'));
+            (history.lastPlay || "").toLowerCase().includes('fumble')).reduce(function (previousValue, currentValue) {
+let previousTime = previousValue.slice(0,previousValue.indexOf(")")+1);
+let currentTime = currentValue.slice(0,currentValue.indexOf(")")+1);
+if (previousTime === currentTime) {
+    previousValue.push(currentValue);
+  }
+  return previousValue;
+}, []);
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
