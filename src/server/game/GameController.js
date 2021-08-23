@@ -294,14 +294,30 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('reverse') || 
             (history.lastPlay || "").toLowerCase().includes('fight') || 
             (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('fumble')).reduce(function (previousValue, currentValue) {
-let previousTime = previousValue.slice(0,previousValue.indexOf(")")+1);
-let currentTime = currentValue.slice(0,currentValue.indexOf(")")+1);
-if (previousTime === currentTime) {
-    previousValue.push(currentValue);
-  }
-  return previousValue;
-}, []);
+            (history.lastPlay || "").toLowerCase().includes('fumble'));
+
+
+          // let temp = [];
+          // let previousValue = "";
+          // let currentValue = "";
+
+          // for (let i = 0; i < highlights.length; i++) {
+          //   if (i === 0) {
+          //     previousValue = highlights[i];
+          //   } else {
+          //     previousValue = highlights[i-1];
+          //     currentValue = highlights[i];
+          //   }
+
+          //   let previousTime = previousValue.slice(0,previousValue.indexOf(")")+1);
+          //   let currentTime = currentValue.slice(0,currentValue.indexOf(")")+1);
+
+          //   if (previousTime === currentTime) {
+          //       temp.push(previousValue);
+          //   }
+          // }
+
+          // game.highlights = temp;
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
@@ -384,14 +400,6 @@ if (previousTime === currentTime) {
             (history.lastPlay || "").toLowerCase().includes('safe at') || 
             (history.lastPlay || "").toLowerCase().includes('walk off') || 
             (history.lastPlay || "").toLowerCase().includes('struck out'));
-
-          // const atBat = game.playHistory.find(history=>(history.lastPlay || "").toLowerCase().includes('pitches to'));
-          // const pitchCount = game.playHistory.find(history=>(history.lastPlay2 || "").length > 0);
-          // const balls = pitchCount ? (pitchCount.search(" Balls") ? ", " + pitchCount.substring(pitchCount.search(" Balls")-1,pitchCount.search(" Balls")+6) : "") : "";
-          // const strikes = pitchCount ? (pitchCount.search(" Strikes") ? ", " + pitchCount.substring(pitchCount.search(" Strikes")-1,pitchCount.search(" Strikes")+8) : "") : "";
-          // const outs = pitchCount ? (pitchCount.search(" Outs") ? ", " + pitchCount.substring(pitchCount.search(" Outs")-1,pitchCount.search(" Outs")+6) : "") : "";
-
-          game.currentTime = game.currentTime; // + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
 
         const plays = game.playHistory.slice(0,playHistoryCount);
