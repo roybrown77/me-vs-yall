@@ -294,6 +294,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('reverse') || 
             (history.lastPlay || "").toLowerCase().includes('fight') || 
             (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('field goal') || 
             (history.lastPlay || "").toLowerCase().includes('fumble'));
         }
 
