@@ -144,12 +144,12 @@ router.get('/games', async function (req, res) {
 
   try {
     const search = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      year: get(req, 'query.year'),
-      startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
-        $gt: new Date(moment(get(req, 'query.beginDateTime'))),
-        $lt: new Date(moment(get(req, 'query.endDateTime')))
-      } : undefined
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        year: get(req, 'query.year'),
+        startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+          $lt: new Date(moment(get(req, 'query.endDateTime')))
+        } : undefined
     };
 
     const finalSearch = omit(search, 
@@ -160,127 +160,10 @@ router.get('/games', async function (req, res) {
     );
 
     console.log('games search criteria: ' + JSON.stringify(finalSearch));
-    
-    let fields = {};
-    
-    if (leagueId === '59723313734d1d6202a85f21') {
-      fields = { 
-        leagueId: 1, 
-        isGameOver: 1, 
-        competitors: 1, 
-        year: 1, 
-        spread: 1, 
-        startDateTime: 1, 
-        hashCompetitors: 1, 
-        highlights: 1, 
-        currentTime: 1, 
-        playHistory:{$slice: 25}
-      };
-    }
 
-    const [
-      games1, 
-      games2, 
-      games3, 
-      games4, 
-      games5, 
-      games6, 
-      games7, 
-      games8, 
-      games9, 
-      games10,
-      games11, 
-      games12, 
-      games13, 
-      games14, 
-      games15, 
-      games16, 
-      games17, 
-      games18, 
-      games19, 
-      games20,
-      games21, 
-      games22, 
-      games23, 
-      games24, 
-      games25, 
-      games26, 
-      games27, 
-      games28, 
-      games29,
-      games30,
-      games31
-    ] = await Promise.all([
-      gameRepository.find(finalSearch, fields, {limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 10, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 20, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 30, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 40, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 50, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 60, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 70, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 80, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 90, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 100, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 110, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 120, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 130, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 140, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 150, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 160, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 170, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 180, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 190, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 200, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 210, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 220, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 230, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 240, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 250, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 260, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 270, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 280, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 290, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 300})
-    ]);
+    const games = await gameRepository.find(finalSearch, {}, {});
 
     console.log("time3: ", moment().format());
-
-    const games = [
-      ...games1, 
-      ...games2, 
-      ...games3, 
-      ...games4, 
-      ...games5, 
-      ...games6, 
-      ...games7, 
-      ...games8, 
-      ...games9, 
-      ...games10,
-      ...games11, 
-      ...games12, 
-      ...games13, 
-      ...games14, 
-      ...games15, 
-      ...games16, 
-      ...games17, 
-      ...games18, 
-      ...games19, 
-      ...games20,
-      ...games21, 
-      ...games22, 
-      ...games23, 
-      ...games24, 
-      ...games25, 
-      ...games26, 
-      ...games27, 
-      ...games28, 
-      ...games29, 
-      ...games30,
-      ...games31
-    ];
-
-    console.log("time4: ", moment().format());
 
     games.forEach(game=>{
       game.hashCompetitors = null;
@@ -378,21 +261,13 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('safe at') || 
             (history.lastPlay || "").toLowerCase().includes('walk off') || 
             (history.lastPlay || "").toLowerCase().includes('struck out'));
-
-          // const atBat = game.playHistory.find(history=>(history.lastPlay || "").toLowerCase().includes('pitches to'));
-          // const pitchCount = game.playHistory.find(history=>(history.lastPlay2 || "").length > 0);
-          // const balls = pitchCount ? (pitchCount.search(" Balls") ? ", " + pitchCount.substring(pitchCount.search(" Balls")-1,pitchCount.search(" Balls")+6) : "") : "";
-          // const strikes = pitchCount ? (pitchCount.search(" Strikes") ? ", " + pitchCount.substring(pitchCount.search(" Strikes")-1,pitchCount.search(" Strikes")+8) : "") : "";
-          // const outs = pitchCount ? (pitchCount.search(" Outs") ? ", " + pitchCount.substring(pitchCount.search(" Outs")-1,pitchCount.search(" Outs")+6) : "") : "";
-
-          game.currentTime = game.currentTime; // + " inning" +  get(atBat,"lastPlay","").replace("LAST PLAY: ", ", ") + balls + strikes + outs;
         }
 
         const plays = game.playHistory.slice(0,playHistoryCount);
         game.playHistory = plays;
       });
 
-      console.log("time5: ", moment().format());
+      console.log("time4: ", moment().format());
 
       res.status(200).send(games);
   } catch (error) {
