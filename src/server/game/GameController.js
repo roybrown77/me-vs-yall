@@ -106,20 +106,20 @@ const updateGames = (leagueId) => {
     updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
   
-  // const month = parseInt(moment().format('MM'));
-  // const monthDay = parseInt(moment().format('MMDD'));
-  // const currentWeekDay = moment(moment().startOf('day').format()).weekday();
-  // const hours = parseInt(moment().format('HH'));
-  // const minutes = parseInt(moment().format('mm'));
-  // const timezoneOffset = moment().utcOffset()/60;
-  // const hoursOffset = hours+(-1*timezoneOffset);
+  const month = parseInt(moment().format('MM'));
+  const monthDay = parseInt(moment().format('MMDD'));
+  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+  const hours = parseInt(moment().format('HH'));
+  const minutes = parseInt(moment().format('mm'));
+  const timezoneOffset = moment().utcOffset()/60;
+  const hoursOffset = hours+(-1*timezoneOffset);
 
-  // console.log('monthDay: ' + monthDay);
-  // console.log('currentWeekDay: ' + currentWeekDay);
-  // console.log('hours: ' + hours);
-  // console.log('minutes: ' + minutes);
-  // console.log('timezoneOffset: ' + timezoneOffset);
-  // console.log('hoursOffset: ' + hoursOffset);
+  console.log('monthDay: ' + monthDay);
+  console.log('currentWeekDay: ' + currentWeekDay);
+  console.log('hours: ' + hours);
+  console.log('minutes: ' + minutes);
+  console.log('timezoneOffset: ' + timezoneOffset);
+  console.log('hoursOffset: ' + hoursOffset);
 
   // const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
   // console.log('divider: ' + divider);
@@ -161,7 +161,24 @@ router.get('/games', async function (req, res) {
 
     console.log('games search criteria: ' + JSON.stringify(finalSearch));
 
-    const games = await gameRepository.find(finalSearch, {}, {});
+    let fields = {};
+
+    if (leagueId === '59723313734d1d6202a85f21') {
+      fields = { 
+        leagueId: 1, 
+        isGameOver: 1, 
+        competitors: 1, 
+        year: 1, 
+        spread: 1, 
+        startDateTime: 1, 
+        hashCompetitors: 1, 
+        highlights: 1, 
+        currentTime: 1, 
+        playHistory:{$slice: 50}
+      };
+    }
+
+    const games = await gameRepository.find(finalSearch, fields, {});
 
     console.log("time3: ", moment().format());
 
