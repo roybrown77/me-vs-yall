@@ -174,11 +174,20 @@ router.get('/games', async function (req, res) {
         hashCompetitors: 1, 
         highlights: 1, 
         currentTime: 1, 
-        playHistory:{$slice: 50}
+        playHistory: {$slice: 25}
       };
     }
 
     const games = await gameRepository.find(finalSearch, fields, {});
+
+    // console.log("games: ", JSON.stringify(games));
+
+    // const [game1] = await Promise.all[
+    //   gameRepository.find({...finalSearch, _id: mongoose.Types.ObjectId(games[0]._id)})
+    // ];
+
+    // console.log("game1: ", JSON.stringify(game1));
+    // //console.log("game2: ", JSON.stringify(game2));
 
     console.log("time3: ", moment().format());
 

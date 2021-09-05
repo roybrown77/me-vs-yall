@@ -17,6 +17,6 @@ const GameSchema = new mongoose.Schema({
     hashCompetitors: String
 });
 
-GameSchema.index({"$**": "text"});
+GameSchema.index({"playHistory.$**": "text"});
 
 module.exports = mongoose.model('Game', GameSchema);
