@@ -125,7 +125,7 @@ const updateGames = async () => {
   const minutes = parseInt(moment().format('mm'));
   const timezoneOffset = moment().utcOffset()/60;
   const hoursOffset = hours+(-1*timezoneOffset);
-  const eastCoastHour = hours - (-4 - timezoneOffset);
+  const eastCoastHour = hours + (-4 - timezoneOffset);
 
   console.log('monthDay: ' + monthDay);
   console.log('currentWeekDay: ' + currentWeekDay);
