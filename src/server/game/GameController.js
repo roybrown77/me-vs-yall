@@ -194,22 +194,38 @@ router.get('/games', async function (req, res) {
     games.forEach(game=>{
       game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
-          game.highlights = game.playHistory.filter(history=> 
-            (history.lastPlay || "").toLowerCase().includes('touchdown') || 
-            (history.lastPlay || "").toLowerCase().includes('sacked') || 
-            (history.lastPlay || "").toLowerCase().includes('intercept') || 
-            (history.lastPlay || "").toLowerCase().includes('safety') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('field goal') || 
-            (history.lastPlay || "").toLowerCase().includes('deflect') || 
-            (history.lastPlay || "").toLowerCase().includes('missed') || 
-            (history.lastPlay || "").toLowerCase().includes('punt') || 
-            (history.lastPlay || "").toLowerCase().includes('scramble') || 
-            (history.lastPlay || "").toLowerCase().includes('tipped') || 
-            (history.lastPlay || "").toLowerCase().includes('fumble'));
+          let highlights = [];
+          let lastPlay;
+          let lastTime;
+
+          for (let i = 0; i < game.playHistory.length; i++) {
+            lastPlay = game.playHistory[i].lastPlay;
+            lastTime;
+
+            if ((lastPlay || "").toLowerCase().includes('touchdown') || 
+              (lastPlay || "").toLowerCase().includes('sacked') || 
+              (lastPlay || "").toLowerCase().includes('intercept') || 
+              (lastPlay || "").toLowerCase().includes('safety') || 
+              (lastPlay || "").toLowerCase().includes('injur') || 
+              (lastPlay || "").toLowerCase().includes('reverse') || 
+              (lastPlay || "").toLowerCase().includes('fight') || 
+              (lastPlay || "").toLowerCase().includes('error') || 
+              (lastPlay || "").toLowerCase().includes('field goal') || 
+              (lastPlay || "").toLowerCase().includes('deflect') || 
+              (lastPlay || "").toLowerCase().includes('missed') || 
+              (lastPlay || "").toLowerCase().includes('punt') || 
+              (lastPlay || "").toLowerCase().includes('scramble') || 
+              (lastPlay || "").toLowerCase().includes('tipped') || 
+              (lastPlay || "").toLowerCase().includes('fumble')) {
+
+              if (lastTime !== lastPlay.slice(0,7)) {
+                lastTime = lastPlay.slice(0,7);
+                highlights.push(game.playHistory[i]);
+              }
+            }
+          }
+
+          game.highlights = highlights;
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
