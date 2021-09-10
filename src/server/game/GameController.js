@@ -204,6 +204,11 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('fight') || 
             (history.lastPlay || "").toLowerCase().includes('error') || 
             (history.lastPlay || "").toLowerCase().includes('field goal') || 
+            (history.lastPlay || "").toLowerCase().includes('deflect') || 
+            (history.lastPlay || "").toLowerCase().includes('missed') || 
+            (history.lastPlay || "").toLowerCase().includes('punt') || 
+            (history.lastPlay || "").toLowerCase().includes('scramble') || 
+            (history.lastPlay || "").toLowerCase().includes('tipped') || 
             (history.lastPlay || "").toLowerCase().includes('fumble'));
         }
 
