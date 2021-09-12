@@ -194,14 +194,17 @@ router.get('/games', async function (req, res) {
     games.forEach(game=>{
       game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
-          let highlights = [];
           let lastPlay;
+          
+          let highlights = [];
+          let lastHighlightTime;
+
+          let playHistory = [];
           let lastTime;
 
           for (let i = 0; i < game.playHistory.length; i++) {
             lastPlay = game.playHistory[i].lastPlay;
-            lastTime;
-
+            
             if ((lastPlay || "").toLowerCase().includes('touchdown') || 
               (lastPlay || "").toLowerCase().includes('sacked') || 
               (lastPlay || "").toLowerCase().includes('intercept') || 
@@ -218,13 +221,19 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('tipped') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
+              if (lastHighlightTime !== lastPlay.slice(0,7)) {
+                lastHighlightTime = lastPlay.slice(0,7);
+                highlights.push(game.playHistory[i]);
+              }
+            } else {
               if (lastTime !== lastPlay.slice(0,7)) {
                 lastTime = lastPlay.slice(0,7);
-                highlights.push(game.playHistory[i]);
+                playHistory.push(game.playHistory[i]);
               }
             }
           }
 
+          game.playHistory = playHistory;
           game.highlights = highlights;
         }
 
