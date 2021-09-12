@@ -120,16 +120,6 @@ const updateGames = (leagueId) => {
   console.log('minutes: ' + minutes);
   console.log('timezoneOffset: ' + timezoneOffset);
   console.log('hoursOffset: ' + hoursOffset);
-
-  // const divider = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-  // console.log('divider: ' + divider);
-
-  // if ([3,6,9,12,15].includes(divider)) {
-  // } else {
-  //  if ([7,14].includes(divider)) {
-  //   } else {
-  //   }
-  // }
 };
 
 router.get('/games', async function (req, res) {
@@ -180,15 +170,6 @@ router.get('/games', async function (req, res) {
 
     const games = await gameRepository.find(finalSearch, fields, {});
 
-    // console.log("games: ", JSON.stringify(games));
-
-    // const [game1] = await Promise.all[
-    //   gameRepository.find({...finalSearch, _id: mongoose.Types.ObjectId(games[0]._id)})
-    // ];
-
-    // console.log("game1: ", JSON.stringify(game1));
-    // //console.log("game2: ", JSON.stringify(game2));
-
     console.log("time3: ", moment().format());
 
     games.forEach(game=>{
@@ -225,11 +206,11 @@ router.get('/games', async function (req, res) {
                 lastHighlightTime = lastPlay.slice(0,7);
                 highlights.push(game.playHistory[i]);
               }
-            } else {
-              if (lastTime !== lastPlay.slice(0,7)) {
-                lastTime = lastPlay.slice(0,7);
-                playHistory.push(game.playHistory[i]);
-              }
+            }
+
+            if (lastTime !== lastPlay.slice(0,7)) {
+              lastTime = lastPlay.slice(0,7);
+              playHistory.push(game.playHistory[i]);
             }
           }
 
