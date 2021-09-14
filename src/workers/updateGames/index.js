@@ -143,11 +143,11 @@ const updateGames = async () => {
     loadMlbGames({dayCount: 4, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
 
-  const weekNumber = moment().diff(moment("2021-09-09"),'weeks');
+  const weekNumber = moment().diff(moment("2021-09-07"),'weeks'); // Tuesday prior to start of season
   console.log('weekNumber: ' + weekNumber);
 
-  if (currentWeekDay === 2 && eastCoastHour === 7 && weekNumber+1 > 1 && minutes > 0 && minutes < 5) {
-    loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/' + weekNumber+1, teams: nflTeams});
+  if (weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 5) {
+    loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/' + (weekNumber+1), teams: nflTeams});
   }
 
   const search = {
