@@ -135,7 +135,8 @@ router.get('/games', async function (req, res) {
         startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
           $gt: new Date(moment(get(req, 'query.beginDateTime'))),
           $lt: new Date(moment(get(req, 'query.endDateTime')))
-        } : undefined
+        } : undefined,
+        isGameOver: true
     };
 
     const finalSearch = omit(search, 
@@ -160,15 +161,30 @@ router.get('/games', async function (req, res) {
         hashCompetitors: 1, 
         highlights: 1, 
         currentTime: 1, 
-        playHistory: {$slice: 25}
+        playHistory: {$slice: 7}
       };
     }
 
-    const games = await gameRepository.find(finalSearch, fields, {});
+    const notCompleteSearch = {
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        year: get(req, 'query.year'),
+        startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+          $lt: new Date(moment(get(req, 'query.endDateTime')))
+        } : undefined,
+        isGameOver: {$ne: true}
+    };
+
+    const [gamesCompleted, gamesNotComplete] = await Promise.all([
+      gameRepository.find(finalSearch, fields, {}), 
+      gameRepository.find(notCompleteSearch, {}, {}), 
+    ]);
+
+    const allGames = [...gamesCompleted, ...gamesNotComplete];
 
     console.log("time3: ", moment().format());
 
-    games.forEach(game=>{
+    (leagueId === '59723313734d1d6202a85f21' ? gamesNotComplete : allGames).forEach(game=>{
       game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
           let lastPlay;
@@ -302,7 +318,7 @@ router.get('/games', async function (req, res) {
 
       console.log("time4: ", moment().format());
 
-      res.status(200).send(games);
+      res.status(200).send(allGames);
   } catch (error) {
     return res.status(500).send("There was a problem finding the games: " + err.message);
   }
