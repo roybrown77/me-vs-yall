@@ -135,7 +135,8 @@ router.get('/games', async function (req, res) {
         startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
           $gt: new Date(moment(get(req, 'query.beginDateTime'))),
           $lt: new Date(moment(get(req, 'query.endDateTime')))
-        } : undefined
+        } : undefined,
+        isGameOver: true
     };
 
     const finalSearch = omit(search, 
@@ -149,109 +150,41 @@ router.get('/games', async function (req, res) {
 
     let fields = {};
 
-    const [
-      games1, 
-      games2, 
-      games3, 
-      games4, 
-      games5, 
-      games6, 
-      games7, 
-      games8, 
-      games9, 
-      games10,
-      games11, 
-      games12, 
-      games13, 
-      games14, 
-      games15, 
-      games16, 
-      games17, 
-      games18, 
-      games19, 
-      games20,
-      games21, 
-      games22, 
-      games23, 
-      games24, 
-      games25, 
-      games26, 
-      games27, 
-      games28, 
-      games29,
-      games30,
-      games31
-    ] = await Promise.all([
-      gameRepository.find(finalSearch, fields, {limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 10, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 20, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 30, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 40, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 50, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 60, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 70, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 80, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 90, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 100, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 110, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 120, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 130, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 140, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 150, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 160, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 170, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 180, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 190, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 200, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 210, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 220, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 230, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 240, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 250, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 260, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 270, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 280, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 290, limit: 10}),
-      gameRepository.find(finalSearch, fields, {skip: 300})
+    if (leagueId === '59723313734d1d6202a85f21') {
+      fields = { 
+        leagueId: 1, 
+        isGameOver: 1, 
+        competitors: 1, 
+        year: 1, 
+        spread: 1, 
+        startDateTime: 1, 
+        hashCompetitors: 1, 
+        highlights: 1, 
+        currentTime: 1, 
+        playHistory: {$slice: 7}
+      };
+    }
+
+    const notCompleteSearch = {
+        leagueId: mongoose.Types.ObjectId(leagueId),
+        year: get(req, 'query.year'),
+        startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+          $lt: new Date(moment(get(req, 'query.endDateTime')))
+        } : undefined,
+        isGameOver: {$ne: true}
+    };
+
+    const [gamesCompleted, gamesNotComplete] = await Promise.all([
+      gameRepository.find(finalSearch, fields, {}), 
+      gameRepository.find(notCompleteSearch, {}, {}), 
     ]);
 
-    const games = [
-      ...games1, 
-      ...games2, 
-      ...games3, 
-      ...games4, 
-      ...games5, 
-      ...games6, 
-      ...games7, 
-      ...games8, 
-      ...games9, 
-      ...games10,
-      ...games11, 
-      ...games12, 
-      ...games13, 
-      ...games14, 
-      ...games15, 
-      ...games16, 
-      ...games17, 
-      ...games18, 
-      ...games19, 
-      ...games20,
-      ...games21, 
-      ...games22, 
-      ...games23, 
-      ...games24, 
-      ...games25, 
-      ...games26, 
-      ...games27, 
-      ...games28, 
-      ...games29, 
-      ...games30,
-      ...games31
-    ];
+    const allGames = [...gamesCompleted, ...gamesNotComplete];
 
     console.log("time3: ", moment().format());
 
-    games.forEach(game=>{
+    (leagueId === '59723313734d1d6202a85f21' ? gamesNotComplete : allGames).forEach(game=>{
       game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
           let lastPlay;
@@ -385,7 +318,7 @@ router.get('/games', async function (req, res) {
 
       console.log("time4: ", moment().format());
 
-      res.status(200).send(games);
+      res.status(200).send(allGames);
   } catch (error) {
     return res.status(500).send("There was a problem finding the games: " + err.message);
   }
