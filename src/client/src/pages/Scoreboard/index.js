@@ -155,6 +155,8 @@ class Scoreboard extends Component {
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
         });
+
+        this.startPolling();
     }
 
     componentWillUnmount() {
@@ -162,13 +164,13 @@ class Scoreboard extends Component {
         console.log('stop timerID: ' + this.timerID);
     }
 
-    // startPolling = () => {
-    //     this.timerID = setInterval(
-    //         () => this.poll(),
-    //         15000
-    //     );
-    //     console.log('start timerID: ' + this.timerID);
-    // }
+    startPolling = () => {
+        this.timerID = setInterval(
+            () => this.poll(),
+            15000
+        );
+        console.log('start timerID: ' + this.timerID);
+    }
 
     poll = () => {
         console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());

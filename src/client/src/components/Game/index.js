@@ -608,21 +608,6 @@ const DetailGame = (props) => {
             {game.possession} {game.down}
           </div>
         }
-        <div>
-          <div style={{
-            height: "1.75%",
-            position: "absolute",
-            backgroundColor: "white",
-            width: "100%",
-            color: "black",
-          }}></div>
-          <iframe 
-            scrolling="no"
-            style={{width:"90%", height: "600px", border: "20px solid white"}}
-            title="we got it" 
-            src="https://www.streameast.live/nfl/new-york-giants-washington-football-team/" 
-          />
-        </div>
         {
           hasGameStarted(game.startDateTime) &&
           (game.playHistory || []).length > 0 && 
