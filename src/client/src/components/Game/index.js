@@ -166,6 +166,238 @@ const getFlag = (country) => {
   };
 }
 
+const SimpleCompetitor = (props) => {
+  const {  game, competitor } = props;
+
+  return (
+    <Grid item xs={12} sm container>
+        <Grid item xs>
+            <Grid item>
+              <div>
+                {
+                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
+                  <div style={{fontSize:'25px', color: competitor.color}}>
+                    {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
+                  </div>
+                }
+                {
+                  competitor.country &&
+                  <div style={{paddingBottom: '4px'}}>
+                    <img alt="" style={{width:'50px', paddingTop: '3px'}} src={getFlag(competitor.country)}/>
+                  </div>
+                }
+                <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color }}>
+                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
+                </span>
+                <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
+                   {competitor.name}
+                </div>
+              </div>
+            </Grid>
+        </Grid>
+    </Grid>
+  );
+};
+
+const DetailCompetitor = (props) => {
+  const { game, spreadMode, pick, competitor } = props;
+
+  return (
+    <Grid item xs={12} sm container>
+        <Grid item xs>
+            <Grid item>
+              <div>
+                {
+                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
+                  <div style={{fontSize:'25px', color: competitor.color}}>
+                    {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
+                  </div>
+                }
+                {
+                  competitor.country &&
+                  <div style={{paddingBottom: '4px'}}>
+                    <img alt="" style={{width:'50px', paddingTop: '3px'}} src={getFlag(competitor.country)}/>
+                  </div>
+                }
+                <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color}}>
+                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
+                </span>
+                <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
+                  {competitor.name}
+                </div>
+                { 
+                  competitor.record &&
+                  <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
+                    {competitor.record}
+                  </div>
+                }
+              </div>
+            </Grid>
+        </Grid>
+    </Grid>
+  );
+};
+
+const WorldFootballGamePlayHistory = (props) => {
+  const { classes, game } = props;
+
+  return (
+    <div className={classes.lastPlay}>
+      {
+        (game.playHistory || []).map((play,playIndex)=> (
+          <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
+            <div style={{minWidth:'40px',padding:'4px',backgroundColor:play.color,marginRight:'4px',color:'#fff'}}>
+              {play.shortLocation}
+            </div>
+            <div style={{textAlign:'left'}}>
+              {play.lastPlay}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  );
+};
+
+const GameFooter = (props) => {
+  const { classes, game, isAuthenticated, userId, } = props;
+
+  return (
+    <div className={classes.startDateTime}>
+        {
+          game.gameName && 
+          <div style={{marginTop: '10px', fontSize: '15px'}}> 
+            {game.gameName}
+          </div>
+        }
+        {
+          isAuthenticated &&
+          userId === 'google-oauth2|114172296334563495985' &&
+          <GameEditor {...props} />
+        }
+        {
+          (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
+          <div style={{marginTop: '10px'}}> 
+            {game.startDateTimeDisplay}
+          </div>
+        }
+        {
+          get(game,'isGameOver') && 
+          <span style={{marginLeft:'12px'}}>Final</span>
+        }
+        {
+          !get(game,'isGameOver') && 
+          hasGameStarted(game.startDateTime) && 
+          <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
+            {game.currentTime || 'in progress'}
+          </span>
+        }
+    </div>
+  );
+};
+
+const CompetitorHeader = (props) => {
+  const { classes, game, spreadMode, pick, competitor } = props;
+
+  return (
+    <Grid item className={classNames(classes.gameHeader)}>
+      {
+        spreadMode &&
+        <div>
+          <div style={{position:'absolute', padding: '4px',
+            display: get(game,'isGameOver') && competitor.selected && !competitor.selectedWinner ? 'block' : 'none'}}>
+            <img style={{width:'40px'}} src={angry} alt=""/>
+          </div>
+          <div style={{position:'absolute', padding: '4px',
+            display: get(game,'isGameOver') && competitor.selected && competitor.selectedWinner ? 'block' : 'none'}}>
+            <img style={{width:'40px'}} src={money} alt=""/>
+          </div>
+        </div>
+      }
+      {
+        !spreadMode &&
+        <div>
+          <div style={{position:'absolute', padding: '4px',
+            display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || (game.winner !== '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+            <img style={{width:'40px'}} src={angry} alt=""/>
+          </div>
+          <div style={{position:'absolute', padding: '4px',
+            display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner === competitor._id && get(pick,'pickId') === competitor._id) || (game.winner === '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
+            <img style={{width:'40px'}} src={money} alt=""/>
+          </div>
+        </div>
+      }
+      {
+        spreadMode &&
+        <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
+            display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
+            textAlign: 'right'}}>
+            {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+        </div>
+      }
+    </Grid>
+  );
+};
+
+const GamePlayHistory = (props) => {
+  const { game } = props;
+  return (
+    <div>
+      {(game.playHistory || []).map((play,playIndex)=> (
+        <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
+          <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
+            <div>
+              {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+            </div>
+            {
+              !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+              <div>
+                {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+              </div>
+            }
+          </div>
+          <div style={{textAlign:'left'}}>
+            {play.lastPlay}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const GameHighlights = (props) => {
+  const { game } = props;
+  return (
+    <div>
+      <div style={{margin:'4px 0',display:'flex'}}>
+        <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+          MvY Highlights
+        </div>
+      </div>
+      {
+        (game.highlights || []).map((play,playIndex)=> (
+          <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
+            <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+              <div>
+                {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+              </div>
+              {
+                !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                <div>
+                  {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                </div>
+              }
+            </div>
+            <div style={{textAlign:'left'}}>
+              {play.lastPlay}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  );
+};
+
 const TieButton = (props) => {
   const { classes, game, handleTie } = props;
   return (
@@ -181,8 +413,7 @@ const TieButton = (props) => {
 
 const GameEditor = (props) => {
   const { classes, game, awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, handleClearInput, 
-  handleInputChange, handleSaveGame } = props;
+  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, handleClearInput, handleInputChange, handleSaveGame } = props;
 
   return (
     <Popover 
@@ -391,13 +622,13 @@ const GameEditor = (props) => {
 };
 
 const SimpleGame = (props) => {
-  const { classes, game, isAuthenticated, disableTie,
-  inProgress, spreadMode, handleMakePick } = props;
+  const { classes, game, isAuthenticated, disableTie, inProgress, spreadMode, handleMakePick } = props;
 
   return (
     <div key={game._id} className={classes.container}>
         <Grid key={game._id + "-gridlist"} container className={classes.root}>
-            {game.competitors.map((competitor) => (
+            {
+              game.competitors.map((competitor) => (
                 <Grid
                     key={game._id + "." + competitor._id}
                     item xs={6}
@@ -410,32 +641,7 @@ const SimpleGame = (props) => {
                 >
                     <Grow in={true} timeout={500}>
                         <Paper className={classNames(classes.paper)}>
-                            <Grid item xs={12} sm container>
-                                <Grid item xs>
-                                    <Grid item>
-                                      <div>
-                                        {
-                                          !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
-                                          <div style={{fontSize:'25px', color: competitor.color}}>
-                                            {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
-                                          </div>
-                                        }
-                                        {
-                                          competitor.country &&
-                                          <div style={{paddingBottom: '4px'}}>
-                                            <img alt="" style={{width:'50px', paddingTop: '3px'}} src={getFlag(competitor.country)}/>
-                                          </div>
-                                        }
-                                        <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color }}>
-                                          <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
-                                        </span>
-                                        <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
-                                           {competitor.name}
-                                        </div>
-                                      </div>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                            <SimpleCompetitor {...{...props, competitor}} />
                         </Paper>
                     </Grow>
                 </Grid>
@@ -462,12 +668,13 @@ const SimpleGame = (props) => {
 }
 
 const DetailGame = (props) => {
-  const { classes, game, pick, isAuthenticated, userId, disableTie, inProgress, spreadMode, handleMakePick } = props;
+  const { classes, game, pick, isAuthenticated, disableTie, inProgress, spreadMode, handleMakePick } = props;
 
   return (
     <div key={game._id} className={classes.container}>
         <Grid key={game._id + "-gridlist"} container className={classes.root}>
-            {game.competitors.map((competitor) => (
+            {
+              game.competitors.map((competitor) => (
                 <Grid
                     key={game._id + "." + competitor._id}
                     item xs={6}
@@ -482,74 +689,9 @@ const DetailGame = (props) => {
                         <Paper className={classNames(classes.paper)}>
                             {
                               ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) &&
-                              <Grid item className={classNames(classes.gameHeader)}>
-                            {
-                              spreadMode &&
-                              <div>
-                                <div style={{position:'absolute', padding: '4px',
-                                  display: get(game,'isGameOver') && competitor.selected && !competitor.selectedWinner ? 'block' : 'none'}}>
-                                  <img style={{width:'40px'}} src={angry} alt=""/>
-                                </div>
-                                <div style={{position:'absolute', padding: '4px',
-                                  display: get(game,'isGameOver') && competitor.selected && competitor.selectedWinner ? 'block' : 'none'}}>
-                                  <img style={{width:'40px'}} src={money} alt=""/>
-                                </div>
-                              </div>
+                              <CompetitorHeader {...{...props, competitor}} />
                             }
-                            {
-                              !spreadMode &&
-                              <div>
-                                <div style={{position:'absolute', padding: '4px',
-                                  display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || (game.winner !== '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                  <img style={{width:'40px'}} src={angry} alt=""/>
-                                </div>
-                                <div style={{position:'absolute', padding: '4px',
-                                  display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner === competitor._id && get(pick,'pickId') === competitor._id) || (game.winner === '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-                                  <img style={{width:'40px'}} src={money} alt=""/>
-                                </div>
-                              </div>
-                            }
-                            {
-                              spreadMode &&
-                              <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
-                                  display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
-                                  textAlign: 'right'}}>
-                                  {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
-                              </div>
-                            }
-                            </Grid>}
-                            <Grid item xs={12} sm container>
-                                <Grid item xs>
-                                    <Grid item>
-                                      <div>
-                                        {
-                                          !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
-                                          <div style={{fontSize:'25px', color: competitor.color}}>
-                                            {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
-                                          </div>
-                                        }
-                                        {
-                                          competitor.country &&
-                                          <div style={{paddingBottom: '4px'}}>
-                                            <img alt="" style={{width:'50px', paddingTop: '3px'}} src={getFlag(competitor.country)}/>
-                                          </div>
-                                        }
-                                        <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color}}>
-                                          <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
-                                        </span>
-                                        <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
-                                          {competitor.name}
-                                        </div>
-                                        { 
-                                          competitor.record &&
-                                          <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
-                                            {competitor.record}
-                                          </div>
-                                        }
-                                      </div>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                            <DetailCompetitor {...{...props, competitor}} />
                         </Paper>
                     </Grow>
                 </Grid>
@@ -571,36 +713,7 @@ const DetailGame = (props) => {
             homeColor: game.competitors[1].color,
           })
         }
-        <div className={classes.startDateTime}>
-            {
-              game.gameName && 
-              <div style={{marginTop: '10px', fontSize: '15px'}}> 
-                {game.gameName}
-              </div>
-            }
-            {
-              isAuthenticated &&
-              userId === 'google-oauth2|114172296334563495985' &&
-              <GameEditor {...props} />
-            }
-            {
-              (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
-              <div style={{marginTop: '10px'}}> 
-                {game.startDateTimeDisplay}
-              </div>
-            }
-            {
-              get(game,'isGameOver') && 
-              <span style={{marginLeft:'12px'}}>Final</span>
-            }
-            {
-              !get(game,'isGameOver') && 
-              hasGameStarted(game.startDateTime) && 
-              <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
-                {game.currentTime || 'in progress'}
-              </span>
-            }
-        </div>
+        <GameFooter {...props} />
         {
           hasGameStarted(game.startDateTime) &&
           !get(game,'isGameOver') && 
@@ -612,20 +725,7 @@ const DetailGame = (props) => {
           hasGameStarted(game.startDateTime) &&
           (game.playHistory || []).length > 0 && 
           ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-          <div className={classes.lastPlay}>
-            {
-              (game.playHistory || []).map((play,playIndex)=> (
-                <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
-                  <div style={{minWidth:'40px',padding:'4px',backgroundColor:play.color,marginRight:'4px',color:'#fff'}}>
-                    {play.shortLocation}
-                  </div>
-                  <div style={{textAlign:'left'}}>
-                    {play.lastPlay}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
+          <WorldFootballGamePlayHistory {...props} />
         }
         {
           hasGameStarted(game.startDateTime) &&
@@ -633,56 +733,13 @@ const DetailGame = (props) => {
           !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
           <div className={classes.lastPlay}>
             {
-              (game.playHistory || []).map((play,playIndex)=> (
-                <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
-                  <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
-                    <div>
-                      {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
-                    </div>
-                    {
-                      !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
-                      <div>
-                        {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
-                      </div>
-                    }
-                  </div>
-                  <div style={{textAlign:'left'}}>
-                    {play.lastPlay}
-                  </div>
-                </div>
-              ))
+              <GamePlayHistory {...props} />
             }
             {
               hasGameStarted(game.startDateTime) &&
               (game.highlights || []).length > 0 && 
               !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-              <div>
-                <div style={{margin:'4px 0',display:'flex'}}>
-                  <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
-                    MvY Highlights
-                  </div>
-                </div>
-                {
-                  (game.highlights || []).map((play,playIndex)=> (
-                    <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
-                      <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
-                        <div>
-                          {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
-                        </div>
-                        {
-                          !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
-                          <div>
-                            {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
-                          </div>
-                        }
-                      </div>
-                      <div style={{textAlign:'left'}}>
-                        {play.lastPlay}
-                      </div>
-                    </div>
-                  ))
-                }
-              </div>
+              <GameHighlights {...props} />
             }
           </div>
         }
