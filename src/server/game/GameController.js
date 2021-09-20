@@ -216,6 +216,8 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('tipped') ||
               (lastPlay || "").toLowerCase().includes('td') || 
               (lastPlay || "").toLowerCase().includes('fg') || 
+              (lastPlay || "").toLowerCase().includes('onside') ||
+              (lastPlay || "").toLowerCase().includes('dance') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
               if (lastHighlightTime !== lastPlay.slice(0,7)) {
