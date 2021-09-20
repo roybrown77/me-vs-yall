@@ -13,6 +13,11 @@ import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
 import green from '@material-ui/core/colors/green';
 
 import Popover from '../Popover';
@@ -53,7 +58,7 @@ const styles = theme => ({
     flexGrow: 1,
     height: 'fit-content'
   },
-  container: {
+  game: {
     backgroundColor: '#ffffff',
     padding: '8px',
     marginBottom: '8px'
@@ -80,8 +85,7 @@ const styles = theme => ({
   lastPlay: {
     fontSize: '12px',
     fontWeight: 'bold',
-    color: 'rgba(0,0,0,.87)',
-    margin: '8px 0'
+    color: 'rgba(0,0,0,.87)'
   },
   tieButton: {
     fontWeight: "700",
@@ -108,7 +112,7 @@ const styles = theme => ({
       borderColor: '#3772FA',
     }
   },
-  gameHeader: {
+  competitorHeader: {
     minHeight: '32px'
   }
 });
@@ -166,11 +170,181 @@ const getFlag = (country) => {
   };
 }
 
+const getVideoStreamUrl = (game) => {
+  if (!hasGameStarted(game.startDateTime) || 
+    game.isGameOver ||
+    !['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId)) {
+      return null;
+  }
+
+  const competitors = game.competitors;
+  let leagueName = "";
+
+  if (game.leagueId === "59723313734d1d6202a85f10") {
+    leagueName = "nfl";
+  }
+
+  if (game.leagueId === "59723313734d1d6202a85f15") {
+    leagueName = "cfb";
+  }
+
+  let gameName = game.leagueId === "59723313734d1d6202a85f15" ?
+    competitors[0].location.split(" ").join("-") + "-" + competitors[1].location.split(" ").join("-") : 
+    (competitors[0].location.split(" ").join("-") + "-" + competitors[0].name.split(" ").join("-") + "-" +
+    competitors[1].location.split(" ").join("-") + "-" + competitors[1].name.split(" ").join("-"));
+
+  const url = (leagueName + "/" + gameName + "/").toLowerCase();
+
+  console.log(url);
+
+  return "https://www.streameast.live/" + url;
+};
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3, padding: 0 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function GamePlayTabs(props) {
+  const { game, classes, handleUpdateGamePlayTab } = props;
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    handleUpdateGamePlayTab(newValue);
+  };
+
+  return (
+    <Box sx={{
+      position: "relative",
+      zIndex: "2",
+      backgroundColor: "white"
+    }}>
+      <Box sx={{ 
+        borderBottom: 1, 
+        borderColor: 'divider', 
+        position: "relative",
+        zIndex: "3",
+        backgroundColor: "white"
+      }}>
+        <Tabs value={value} onChange={handleChange} aria-label="game play tabs" style={{
+          paddingBottom: "20px",
+          width: 'fit-content', 
+          margin: 'auto',
+        }}>
+          <Tab label="Play History" {...a11yProps(0)} />
+          {
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            <Tab label="Watch Live Game" {...a11yProps(1)} />
+          }
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+        {
+          hasGameStarted(game.startDateTime) &&
+          (game.playHistory || []).length > 0 && 
+          ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+          <WorldFootballGamePlayHistory {...props} />
+        }
+        {
+          hasGameStarted(game.startDateTime) &&
+          (game.playHistory || []).length > 0 && 
+          !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+          <div className={classes.lastPlay}>
+            {
+              <GamePlayHistory {...props} />
+            }
+            {
+              hasGameStarted(game.startDateTime) &&
+              (game.highlights || []).length > 0 && 
+              !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+              <GameHighlights {...props} />
+            }
+          </div>
+        }
+        {
+          !hasGameStarted(game.startDateTime) &&
+          <div>
+            Please wait for game to start to see play history.
+          </div>
+        }
+      </TabPanel>
+      {
+        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+        <TabPanel value={value} index={1}>
+          {
+            hasGameStarted(game.startDateTime) &&
+            !game.isGameOver &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            <div className="video-stream" style={{
+              zIndex: 2, 
+              position: 'relative', 
+              top: '-350px', 
+              marginBottom: '-350px'
+            }}>
+              <iframe 
+                scrolling="no"
+                style={{width:"90%", height: "800px", border: "none"}}
+                title="enjoy!" 
+                src={getVideoStreamUrl(game)} 
+              />
+            </div>
+          }
+          {
+            !hasGameStarted(game.startDateTime) &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            <div>
+              Please wait for game to start to watch live game.
+            </div>
+          }
+          {
+            hasGameStarted(game.startDateTime) && 
+            game.isGameOver &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            <div>
+              Please come back next time before game ends.
+            </div>
+          }
+        </TabPanel>
+      }
+    </Box>
+  );
+}
+
 const SimpleCompetitor = (props) => {
   const {  game, competitor } = props;
 
   return (
-    <Grid item xs={12} sm container>
+    <Grid className= "simple-competitor" item xs={12} sm container>
         <Grid item xs>
             <Grid item>
               <div>
@@ -203,7 +377,7 @@ const DetailCompetitor = (props) => {
   const { game, spreadMode, pick, competitor } = props;
 
   return (
-    <Grid item xs={12} sm container>
+    <Grid className="detail-competitor" item xs={12} sm container>
         <Grid item xs>
             <Grid item>
               <div>
@@ -242,7 +416,7 @@ const WorldFootballGamePlayHistory = (props) => {
   const { classes, game } = props;
 
   return (
-    <div className={classes.lastPlay}>
+    <div className={"play-history " + classes.lastPlay}>
       {
         (game.playHistory || []).map((play,playIndex)=> (
           <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
@@ -260,10 +434,10 @@ const WorldFootballGamePlayHistory = (props) => {
 };
 
 const GameFooter = (props) => {
-  const { classes, game, isAuthenticated, userId, } = props;
+  const { classes, game, isAuthenticated, userId } = props;
 
   return (
-    <div className={classes.startDateTime}>
+    <div className={"game-footer " + classes.startDateTime}>
         {
           game.gameName && 
           <div style={{marginTop: '10px', fontSize: '15px'}}> 
@@ -292,6 +466,13 @@ const GameFooter = (props) => {
             {game.currentTime || 'in progress'}
           </span>
         }
+        {
+          hasGameStarted(game.startDateTime) &&
+          !get(game,'isGameOver') && 
+          <div className={classes.startDateTime}>
+            {game.possession} {game.down}
+          </div>
+        }
     </div>
   );
 };
@@ -300,7 +481,7 @@ const CompetitorHeader = (props) => {
   const { classes, game, spreadMode, pick, competitor } = props;
 
   return (
-    <Grid item className={classNames(classes.gameHeader)}>
+    <Grid item className={classNames(classes.competitorHeader)}>
       {
         spreadMode &&
         <div>
@@ -342,7 +523,7 @@ const CompetitorHeader = (props) => {
 const GamePlayHistory = (props) => {
   const { game } = props;
   return (
-    <div>
+    <div className="play-history">
       {(game.playHistory || []).map((play,playIndex)=> (
         <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
           <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
@@ -368,7 +549,7 @@ const GamePlayHistory = (props) => {
 const GameHighlights = (props) => {
   const { game } = props;
   return (
-    <div>
+    <div className="game-highlight">
       <div style={{margin:'4px 0',display:'flex'}}>
         <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
           MvY Highlights
@@ -625,7 +806,7 @@ const SimpleGame = (props) => {
   const { classes, game, isAuthenticated, disableTie, inProgress, spreadMode, handleMakePick } = props;
 
   return (
-    <div key={game._id} className={classes.container}>
+    <div key={game._id} className={classes.game}>
         <Grid key={game._id + "-gridlist"} container className={classes.root}>
             {
               game.competitors.map((competitor) => (
@@ -668,80 +849,57 @@ const SimpleGame = (props) => {
 }
 
 const DetailGame = (props) => {
-  const { classes, game, pick, isAuthenticated, disableTie, inProgress, spreadMode, handleMakePick } = props;
+  const { classes, game, pick, isAuthenticated, disableTie, 
+    inProgress, spreadMode, handleMakePick } = props;
 
   return (
-    <div key={game._id} className={classes.container}>
-        <Grid key={game._id + "-gridlist"} container className={classes.root}>
-            {
-              game.competitors.map((competitor) => (
-                <Grid
-                    key={game._id + "." + competitor._id}
-                    item xs={6}
-                    onClick={() => handleMakePick(game._id, competitor._id)}
-                    className={inProgress ? 'fast-flash' : ''} 
-                    style={{
-                      cursor: 'pointer',
-                      border: competitor.selected ? '10px solid #3772FA' : ''
-                    }}
-                >
-                    <Grow in={true} timeout={500}>
-                        <Paper className={classNames(classes.paper)}>
-                            {
-                              ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) &&
-                              <CompetitorHeader {...{...props, competitor}} />
-                            }
-                            <DetailCompetitor {...{...props, competitor}} />
-                        </Paper>
-                    </Grow>
-                </Grid>
-            ))}                            
-        </Grid>
+    <div key={game._id} className={classes.game}>
+        <div style={{zIndex: 3, position: 'relative', backgroundColor: 'white', paddingBottom: '20px'}}>
+          <Grid key={game._id + "-gridlist"} container className={classes.root}>
+              {
+                game.competitors.map((competitor) => (
+                  <Grid
+                      key={game._id + "." + competitor._id}
+                      item xs={6}
+                      onClick={() => handleMakePick(game._id, competitor._id)}
+                      className={inProgress ? 'fast-flash' : ''} 
+                      style={{
+                        cursor: 'pointer',
+                        border: competitor.selected ? '10px solid #3772FA' : ''
+                      }}
+                  >
+                      <Grow in={true} timeout={500}>
+                          <Paper className={classNames(classes.paper)}>
+                              {
+                                ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) &&
+                                <CompetitorHeader {...{...props, competitor}} />
+                              }
+                              <DetailCompetitor {...{...props, competitor}} />
+                          </Paper>
+                      </Grow>
+                  </Grid>
+              ))}                            
+          </Grid>
+          {
+            isAuthenticated &&
+            !hasGameStarted(game.startDateTime) &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+            !spreadMode &&
+            !disableTie &&
+            <TieButton {...props} />
+          }
+          {
+            getField(get(game,'leagueId'), {
+              away: game.competitors[0].shortLocation, 
+              awayColor: game.competitors[0].color, 
+              home: game.competitors[1].shortLocation, 
+              homeColor: game.competitors[1].color,
+            })
+          }
+          <GameFooter {...props} />
+        </div>
         {
-          isAuthenticated &&
-          !hasGameStarted(game.startDateTime) &&
-          ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-          !spreadMode &&
-          !disableTie &&
-          <TieButton {...props} />
-        }
-        {
-          getField(get(game,'leagueId'), {
-            away: game.competitors[0].shortLocation, 
-            awayColor: game.competitors[0].color, 
-            home: game.competitors[1].shortLocation, 
-            homeColor: game.competitors[1].color,
-          })
-        }
-        <GameFooter {...props} />
-        {
-          hasGameStarted(game.startDateTime) &&
-          !get(game,'isGameOver') && 
-          <div className={classes.startDateTime}>
-            {game.possession} {game.down}
-          </div>
-        }
-        {
-          hasGameStarted(game.startDateTime) &&
-          (game.playHistory || []).length > 0 && 
-          ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-          <WorldFootballGamePlayHistory {...props} />
-        }
-        {
-          hasGameStarted(game.startDateTime) &&
-          (game.playHistory || []).length > 0 && 
-          !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-          <div className={classes.lastPlay}>
-            {
-              <GamePlayHistory {...props} />
-            }
-            {
-              hasGameStarted(game.startDateTime) &&
-              (game.highlights || []).length > 0 && 
-              !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-              <GameHighlights {...props} />
-            }
-          </div>
+          <GamePlayTabs {...props} />
         }
     </div>
   );
@@ -854,8 +1012,14 @@ class Game extends Component {
         this.props.handleUpdateGame(game);
     }
 
+    handleUpdateGamePlayTab = (newValue) => {
+        this.props.handleUpdateGamePlayTab(newValue);
+    }
+
     render() {
-        const { classes, game, pick, isAuthenticated, showDetails, userId, disableTie } = this.props;
+        const { classes, game, pick, isAuthenticated, 
+          showDetails, userId, disableTie } = this.props;
+
         const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
           homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime } = this.state;
 
@@ -866,8 +1030,10 @@ class Game extends Component {
         const props = { classes, game, pick, isAuthenticated, showDetails, userId, disableTie,
         awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
         homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, inProgress, spreadMode,
-        handleMakePick: this.handleMakePick, handleTie: this.handleTie, handleClearInput: this.handleClearInput, 
-        handleInputChange: this.handleInputChange, handleSaveGame: this.handleSaveGame };
+        handleMakePick: this.handleMakePick, 
+        handleTie: this.handleTie, handleClearInput: this.handleClearInput, 
+        handleInputChange: this.handleInputChange, 
+        handleSaveGame: this.handleSaveGame, handleUpdateGamePlayTab: this.handleUpdateGamePlayTab };
 
         return (showDetails ? <DetailGame {...props} /> : <SimpleGame {...props} />);
     }
@@ -882,6 +1048,7 @@ Game.propTypes = {
   disableTie: PropTypes.bool,
   handleMakePick: PropTypes.func,
   handleUpdateGame: PropTypes.func,
+  handleUpdateGamePlayTab: PropTypes.func
 };
 
 export default withStyles(styles, { withTheme: true })(Game);

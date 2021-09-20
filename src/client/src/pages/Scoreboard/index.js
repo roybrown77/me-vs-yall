@@ -134,7 +134,8 @@ class Scoreboard extends Component {
         super(props);
         this.state = {
             soundOn: false,
-            openCopyAlert: false
+            openCopyAlert: false,
+            gamePlayTabValue: 0
         };
     }
 
@@ -310,6 +311,15 @@ class Scoreboard extends Component {
         this.setState((state) => ({
             openCopyAlert: false
         }));
+    };
+
+    handleUpdateGamePlayTab = (gamePlayTabValue) => {
+        if (gamePlayTabValue === 1) {
+            clearInterval(this.timerID);
+            console.log('stop timerID: ' + this.timerID);
+        } else {
+            this.startPolling();
+        }
     };
 
     render() {
@@ -548,6 +558,7 @@ class Scoreboard extends Component {
                                                 pick={picks.find(x=>x.gameId === game._id)}
                                                 handleMakePick={this.handleMakePick} 
                                                 handleUpdateGame={this.handleUpdateGame} 
+                                                handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
                                                 isAuthenticated={isAuthenticated}
                                                 showDetails={showDetails}
                                                 userId={userId}
@@ -584,6 +595,7 @@ class Scoreboard extends Component {
                                                     pick={picks.find(x=>x.gameId === game._id)}
                                                     handleMakePick={this.handleMakePick} 
                                                     handleUpdateGame={this.handleUpdateGame} 
+                                                    handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
                                                     isAuthenticated={isAuthenticated}
                                                     showDetails={showDetails}
                                                     userId={userId}

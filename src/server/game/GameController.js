@@ -77,13 +77,15 @@ const updateGames = (leagueId) => {
   //loadBasketballGames({dayCount: 3, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadMlbGames({dayCount: 3, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/2', teams: nflTeams});
+  //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
+  // https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/3
 
   if (leagueId === '59723313734d1d6202a85f10') {
     updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f15') {
-    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2020, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard/_/group/80', teams: ncaaTeams});
+    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
   }
   
   if (leagueId === '59723313734d1d6202a85f17') {
@@ -211,7 +213,9 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('missed') || 
               (lastPlay || "").toLowerCase().includes('punt') || 
               (lastPlay || "").toLowerCase().includes('scramble') || 
-              (lastPlay || "").toLowerCase().includes('tipped') || 
+              (lastPlay || "").toLowerCase().includes('tipped') ||
+              (lastPlay || "").toLowerCase().includes('td') || 
+              (lastPlay || "").toLowerCase().includes('fg') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
               if (lastHighlightTime !== lastPlay.slice(0,7)) {

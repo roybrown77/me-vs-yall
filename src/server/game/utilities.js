@@ -45,16 +45,18 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
   //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
   //console.log(`${message} leagueId: ${JSON.stringify(leagueId)}`);
 
+  console.log("lastPlay 1: " + lastPlay);
+
   if (leagueId === '59723313734d1d6202a85f21') {
     const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
     if (get(checkLastPlay,'quarter') === currentTime) {
-        console.log(`${message} getPlayHistory: duplicate found 1`);
+        console.log(`${message} getPlayHistory: no valid play 1`);
         return playHistory;
     }
 
     if (!currentTime || lastPlay.trim() === "") {
-        console.log(`${message} getPlayHistory: duplicate found 2`);
+        console.log(`${message} getPlayHistory: no valid play 2`);
         return playHistory;
       }
 
@@ -94,12 +96,12 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
   const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
   if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.slice(0,9).find(x=>get(x,'lastPlay')===lastPlay))) {
-    //console.log(`${message} getPlayHistory: no play.`);
+    console.log(`${message} getPlayHistory: no play 3.`);
     return playHistory;
   }
 
   if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || badPlays || lastPlay.trim() === "") {
-    //console.log(`${message} getPlayHistory: no valid play.`);
+    console.log(`${message} getPlayHistory: no valid play 4.`);
     return playHistory;
   }
 
@@ -111,6 +113,10 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
   //     console.log(`${message} getPlayHistory: duplicate found 3`);
   //     return playHistory;
   // }
+
+  console.log("quarter: " + quarter);
+  console.log("time: " + time);
+  console.log("lastPlay 2: " + lastPlay);
 
   const newPlayHistory = orderBy([
     ...playHistory,
@@ -757,7 +763,7 @@ const getScores = async ({
   }
 
   scoreSet.forEach(x => {
-    console.log(`${message} scores: ${JSON.stringify(x)}`);
+    //console.log(`${message} scores: ${JSON.stringify(x)}`);
   })
 
   return scoreSet;
@@ -864,7 +870,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
           }
 
-          //console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
+          console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
 
           gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
       });

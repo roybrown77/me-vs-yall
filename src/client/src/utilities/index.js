@@ -126,7 +126,7 @@ const leagues = [
         id: '59723313734d1d6202a85f15', 
         name: 'ncaaf', 
         description: 'ncaaf', 
-        years: [2019, 2020]
+        years: [2019, 2020, 2021]
     },
     // {
     //     id: '59723313734d1d6202a85f31', 
@@ -452,6 +452,7 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
                     return {
                         ...competitor,
                         shortLocation: team.shortLocation,
+                        location: team.location,
                         name: team.name || team.location,
                         color: team.color,
                         record: competitor.finalRecord || competitor.record,
@@ -475,6 +476,7 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
                         ...competitor,
                         shortLocation: team.shortLocation,
                         name: team.name || team.location,
+                        location: team.location,
                         color: team.color,
                         record: competitor.finalRecord || competitor.record,
                         country: team.country,

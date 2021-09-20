@@ -144,10 +144,17 @@ const updateGames = async () => {
   }
 
   const weekNumber = moment().diff(moment("2021-09-07"),'weeks'); // Tuesday prior to start of season
-  console.log('weekNumber: ' + weekNumber);
+  console.log('nfl weekNumber: ' + weekNumber);
 
   if (weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 5) {
     loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/' + (weekNumber+1), teams: nflTeams});
+  }
+
+  const collegeWeekNumber = moment().diff(moment("2021-08-30"),'weeks'); // Monday prior to start of season
+  console.log('college weekNumber: ' + collegeWeekNumber);
+
+  if (collegeWeekNumber+1 > 1 && currentWeekDay === 1 && eastCoastHour === 7 && minutes > 0 && minutes < 5) {
+    loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'scoreboard/_/year/2021/seasontype/2/week/' + (collegeWeekNumber+1), teams: ncaaTeams});
   }
 
   const search = {
@@ -169,7 +176,7 @@ const updateGames = async () => {
   console.log('games.length: ' + JSON.stringify(games.length));
 
   updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
-  //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard/_/group/80', teams: ncaaTeams});
+  updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
   //updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2021, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
   updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2021, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
