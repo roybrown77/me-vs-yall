@@ -61,7 +61,7 @@ class GameSearchBar extends Component {
                   <img style={{width:'40px'}} src={ball} alt=""/>
                 </div>
               }
-              <Grid item xs={12} justify="center" sm container>
+              <Grid item xs={12} justifyContent="center" sm container>
                   <FormControl className={classes.formControl}>
                     <Select
                         value={leagueId}
@@ -85,7 +85,7 @@ class GameSearchBar extends Component {
                     </Select>
                   </FormControl>  
               </Grid>
-              <Grid item xs={12} justify="center" sm container>
+              <Grid item xs={12} justifyContent="center" sm container>
                 <FormControl className={classes.formControl}>
                   <Select
                       value={weekIndex}

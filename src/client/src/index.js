@@ -10,7 +10,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
 import Immutable from 'immutable';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 
 import httpClient from './middleware/httpClient';
 import rootReducer from './reducers';
@@ -47,7 +47,7 @@ const store = createStore(
   )
 );
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
       useNextVariants: true
     }
