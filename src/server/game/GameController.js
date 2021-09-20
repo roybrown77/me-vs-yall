@@ -77,8 +77,7 @@ const updateGames = (leagueId) => {
   //loadBasketballGames({dayCount: 3, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadMlbGames({dayCount: 3, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/2', teams: nflTeams});
-  //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
-  // https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/3
+  //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/4', teams: ncaaTeams});
 
   if (leagueId === '59723313734d1d6202a85f10') {
     updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
@@ -163,7 +162,7 @@ router.get('/games', async function (req, res) {
         hashCompetitors: 1, 
         highlights: 1, 
         currentTime: 1, 
-        playHistory: {$slice: 7}
+        playHistory: {$slice: 10}
       };
     }
 
@@ -177,16 +176,17 @@ router.get('/games', async function (req, res) {
         isGameOver: {$ne: true}
     };
 
-    const [gamesCompleted, gamesNotComplete] = await Promise.all([
-      gameRepository.find(finalSearch, fields, {}), 
+    const [gamesCompleted1, gamesCompleted2, gamesNotComplete] = await Promise.all([
+      gameRepository.find(finalSearch, {}, {sort: {startDateTime: -1}, limit: 16}), 
+      gameRepository.find(finalSearch, fields, {sort: {startDateTime: -1}, skip: 16}), 
       gameRepository.find(notCompleteSearch, {}, {}), 
     ]);
 
-    const allGames = [...gamesCompleted, ...gamesNotComplete];
+    const allGames = [...gamesCompleted1, ...gamesCompleted2, ...gamesNotComplete];
 
     console.log("time3: ", moment().format());
 
-    (leagueId === '59723313734d1d6202a85f21' ? gamesNotComplete : allGames).forEach(game=>{
+    (leagueId === '59723313734d1d6202a85f21' ? [...gamesNotComplete, ...gamesCompleted1] : allGames).forEach(game=>{
       game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
           let lastPlay;
