@@ -9,7 +9,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 
 const styles = {
   root: {
-    zIndex: 1,
+    zIndex: 99,
     position: "fixed", 
     bottom: "0", 
     backgroundColor: "#f5fffa", 
