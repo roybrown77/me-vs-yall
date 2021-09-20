@@ -154,7 +154,7 @@ const updateGames = async () => {
   console.log('college weekNumber: ' + collegeWeekNumber);
 
   if (collegeWeekNumber+1 > 1 && currentWeekDay === 1 && eastCoastHour === 7 && minutes > 0 && minutes < 5) {
-    loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'scoreboard/_/year/2021/seasontype/2/week/' + (collegeWeekNumber+1), teams: ncaaTeams});
+    loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/' + (collegeWeekNumber+1), teams: ncaaTeams});
   }
 
   const search = {
