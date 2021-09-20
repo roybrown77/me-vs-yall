@@ -314,7 +314,7 @@ class Scoreboard extends Component {
     };
 
     handleUpdateGamePlayTab = (gamePlayTabValue) => {
-        if (gamePlayTabValue === 1) {
+        if (gamePlayTabValue === 2) {
             clearInterval(this.timerID);
             console.log('stop timerID: ' + this.timerID);
         } else {

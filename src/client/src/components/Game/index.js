@@ -15,7 +15,6 @@ import Paper from '@material-ui/core/Paper';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import green from '@material-ui/core/colors/green';
@@ -213,7 +212,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3, padding: 0 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -261,10 +260,11 @@ function GamePlayTabs(props) {
           width: 'fit-content', 
           margin: 'auto',
         }}>
-          <Tab label="Play History" {...a11yProps(0)} />
+          <Tab label="Plays" {...a11yProps(0)} />
+          <Tab label="Highlights" {...a11yProps(1)} />
           {
             ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
-            <Tab label="Watch Live Game" {...a11yProps(1)} />
+            <Tab label="Watch Live" {...a11yProps(2)} />
           }
         </Tabs>
       </Box>
@@ -283,6 +283,28 @@ function GamePlayTabs(props) {
             {
               <GamePlayHistory {...props} />
             }
+          </div>
+        }
+        {
+          !hasGameStarted(game.startDateTime) &&
+          <div>
+            Please wait for game to start to see play history.
+          </div>
+        }
+        {
+          hasGameStarted(game.startDateTime) &&
+          game.playHistory.length === 0 &&
+          <div>
+            No play history available.
+          </div>
+        }
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        {
+          hasGameStarted(game.startDateTime) &&
+          (game.highlights || []).length > 0 && 
+          !['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+          <div className={classes.lastPlay}>
             {
               hasGameStarted(game.startDateTime) &&
               (game.highlights || []).length > 0 && 
@@ -294,17 +316,25 @@ function GamePlayTabs(props) {
         {
           !hasGameStarted(game.startDateTime) &&
           <div>
-            Please wait for game to start to see play history.
+            Please wait for game to start to see highlights.
+          </div>
+        }
+        {
+          hasGameStarted(game.startDateTime) &&
+          game.highlights.length === 0 &&
+          <div>
+            No highlights available.
           </div>
         }
       </TabPanel>
       {
         ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={2}>
           {
             hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
             ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            get(game,'currentTime','').toLowerCase !== 'halftime' &&
             <div className="video-stream" style={{
               zIndex: 2, 
               position: 'relative', 
@@ -332,6 +362,15 @@ function GamePlayTabs(props) {
             ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
             <div>
               Please come back next time before game ends.
+            </div>
+          }
+          {
+            hasGameStarted(game.startDateTime) &&
+            !game.isGameOver &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            get(game,'currentTime','').toLowerCase === 'halftime' &&
+            <div>
+              Please come back after halftime.
             </div>
           }
         </TabPanel>
@@ -521,32 +560,107 @@ const CompetitorHeader = (props) => {
 };
 
 const GamePlayHistory = (props) => {
+  const [show, setShow] = React.useState(false);
+  
+  const handleChange = (event) => {
+    setShow(!show);
+  };
+
   const { game } = props;
   return (
     <div className="play-history">
-      {(game.playHistory || []).map((play,playIndex)=> (
-        <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
-          <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
-            <div>
-              {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
-            </div>
-            {
-              !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
-              <div>
-                {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+      {(game.playHistory || []).slice(0,2).map((play,playIndex)=> {
+          return (
+            <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
+              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
+                <div>
+                  {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+                </div>
+                {
+                  !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                  <div>
+                    {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                  </div>
+                }
               </div>
-            }
-          </div>
-          <div style={{textAlign:'left'}}>
-            {play.lastPlay}
-          </div>
+              <div style={{textAlign:'left'}}>
+                {play.lastPlay}
+              </div>
+            </div>
+          );
+      })}
+      {
+        show &&
+        (game.playHistory || []).slice(2).length > 2 &&
+        <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17% 12px 17%', 
+        padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
+          onClick={handleChange}>{"show less -"}
         </div>
-      ))}
+      }
+      {
+        !show &&
+        (game.playHistory || []).slice(2).length > 2 &&
+        (game.playHistory || []).slice(2,3).map((play,playIndex)=> {
+          return (
+            <div key={playIndex}>
+              <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
+              padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px', zIndex: 1, top: '25px', position: 'relative'}}
+                onClick={handleChange}>{"show more +"}
+              </div>
+              <div style={{margin:'4px 0',display: 'flex', position: 'relative', zIndex: 0, top: '-30px', opacity: '.1'}}>
+                <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
+                  <div>
+                    {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+                  </div>
+                  {
+                    !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                    <div>
+                      {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                    </div>
+                  }
+                </div>
+                <div style={{textAlign:'left'}}>
+                  {play.lastPlay}
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+      {
+        show &&
+        (game.playHistory || []).slice(2).map((play,playIndex)=> {
+          return (
+            <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
+              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
+                <div>
+                  {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+                </div>
+                {
+                  !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                  <div>
+                    {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                  </div>
+                }
+              </div>
+              <div style={{textAlign:'left'}}>
+                {play.lastPlay}
+              </div>
+            </div>
+          );
+        })
+      }
     </div>
   );
 };
 
 const GameHighlights = (props) => {
+  const [show, setShow] = React.useState(false);
+  
+  const handleChange = (event) => {
+    setShow(!show);
+  };
+
   const { game } = props;
   return (
     <div className="game-highlight">
@@ -556,24 +670,87 @@ const GameHighlights = (props) => {
         </div>
       </div>
       {
-        (game.highlights || []).map((play,playIndex)=> (
-          <div key={playIndex} style={{margin:'4px 0',display:'flex'}}>
-            <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
-              <div>
-                {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
-              </div>
-              {
-                !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+        (game.highlights || []).slice(0,2).map((play,playIndex)=> {
+          return (
+            <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
+              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
                 <div>
-                  {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                  {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
                 </div>
-              }
+                {
+                  !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                  <div>
+                    {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                  </div>
+                }
+              </div>
+              <div style={{textAlign:'left'}}>
+                {play.lastPlay}
+              </div>
             </div>
-            <div style={{textAlign:'left'}}>
-              {play.lastPlay}
+          );
+        })
+      }
+      {
+        show &&
+        (game.highlights || []).slice(2).length > 2 &&
+        <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17% 12px 17%', 
+        padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
+          onClick={handleChange}>{"show less -"}
+        </div>
+      }
+      {
+        !show &&
+        (game.highlights || []).slice(2).length > 2 &&
+        (game.highlights || []).slice(2,3).map((play,playIndex)=> {
+          return (
+            <div key={playIndex}>
+              <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
+              padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px', zIndex: 1, top: '25px', position: 'relative'}}
+                onClick={handleChange}>{"show more +"}
+              </div>
+              <div style={{margin:'4px 0',display: 'flex', position: 'relative', zIndex: 0, top: '-30px', opacity: '.1'}}>
+                <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+                  <div>
+                    {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+                  </div>
+                  {
+                    !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                    <div>
+                      {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                    </div>
+                  }
+                </div>
+                <div style={{textAlign:'left'}}>
+                  {play.lastPlay}
+                </div>
+              </div>
             </div>
-          </div>
-        ))
+          );
+        })
+      }
+      {
+        show &&
+        (game.highlights || []).slice(2).map((play,playIndex)=> {
+          return (
+            <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
+              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+                <div>
+                  {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
+                </div>
+                {
+                  !['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) &&
+                  <div>
+                    {(play.time/100).toFixed(3).toString().slice(-1) === '0' ? (play.time/100).toFixed(2).toString().replace('.',':') : (play.time/100).toFixed(2).toString().replace('.',':') + '.' + (play.time/100).toFixed(3).toString().slice(-1)}
+                  </div>
+                }
+              </div>
+              <div style={{textAlign:'left'}}>
+                {play.lastPlay}
+              </div>
+            </div>
+          );
+        })
       }
     </div>
   );
