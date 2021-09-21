@@ -341,7 +341,9 @@ function GamePlayTabs(props) {
               top: '-350px', 
               marginBottom: '-350px'
             }}>
-              <iframe 
+              <iframe
+                sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
+                allowfullscreen
                 scrolling="no"
                 style={{width:"90%", height: "800px", border: "none"}}
                 title="enjoy!" 
