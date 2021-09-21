@@ -338,12 +338,12 @@ function GamePlayTabs(props) {
             <div className="video-stream" style={{
               zIndex: 2, 
               position: 'relative', 
-              top: '-550px', 
-              marginBottom: '-550px'
+              top: '-350px', 
+              marginBottom: '-350px'
             }}>
               <iframe 
                 scrolling="no"
-                style={{width:"90%", height: "500px", border: "none"}}
+                style={{width:"90%", height: "700px", border: "none"}}
                 title="enjoy!" 
                 src={getVideoStreamUrl(game)} 
               />
