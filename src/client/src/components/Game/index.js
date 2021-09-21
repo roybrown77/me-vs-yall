@@ -235,7 +235,7 @@ function a11yProps(index) {
 function GamePlayTabs(props) {
   const { game, classes, handleUpdateGamePlayTab } = props;
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
