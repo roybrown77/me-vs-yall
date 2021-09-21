@@ -338,12 +338,12 @@ function GamePlayTabs(props) {
             <div className="video-stream" style={{
               zIndex: 2, 
               position: 'relative', 
-              top: '-350px', 
-              marginBottom: '-350px'
+              top: '-550px', 
+              marginBottom: '-550px'
             }}>
               <iframe 
                 scrolling="no"
-                style={{width:"90%", height: "800px", border: "none"}}
+                style={{width:"90%", height: "500px", border: "none"}}
                 title="enjoy!" 
                 src={getVideoStreamUrl(game)} 
               />
@@ -569,7 +569,7 @@ const GamePlayHistory = (props) => {
   const { game } = props;
   return (
     <div className="play-history">
-      {(game.playHistory || []).slice(0,2).map((play,playIndex)=> {
+      {(game.playHistory || []).slice(0,5).map((play,playIndex)=> {
           return (
             <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
               <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
@@ -588,19 +588,11 @@ const GamePlayHistory = (props) => {
               </div>
             </div>
           );
-      })}
-      {
-        show &&
-        (game.playHistory || []).slice(2).length > 2 &&
-        <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17% 12px 17%', 
-        padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
-          onClick={handleChange}>{"show less -"}
-        </div>
-      }
+      })} 
       {
         !show &&
-        (game.playHistory || []).slice(2).length > 2 &&
-        (game.playHistory || []).slice(2,3).map((play,playIndex)=> {
+        (game.playHistory || []).slice(5).length > 2 &&
+        (game.playHistory || []).slice(5,6).map((play,playIndex)=> {
           return (
             <div key={playIndex}>
               <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
@@ -629,7 +621,7 @@ const GamePlayHistory = (props) => {
       }
       {
         show &&
-        (game.playHistory || []).slice(2).map((play,playIndex)=> {
+        (game.playHistory || []).slice(5).map((play,playIndex)=> {
           return (
             <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
               <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
@@ -649,6 +641,14 @@ const GamePlayHistory = (props) => {
             </div>
           );
         })
+      }
+      {
+        show &&
+        (game.playHistory || []).slice(5).length > 2 &&
+        <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
+        padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
+          onClick={handleChange}>{"show less -"}
+        </div>
       }
     </div>
   );
@@ -670,7 +670,7 @@ const GameHighlights = (props) => {
         </div>
       </div>
       {
-        (game.highlights || []).slice(0,2).map((play,playIndex)=> {
+        (game.highlights || []).slice(0,5).map((play,playIndex)=> {
           return (
             <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
               <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
@@ -690,19 +690,11 @@ const GameHighlights = (props) => {
             </div>
           );
         })
-      }
-      {
-        show &&
-        (game.highlights || []).slice(2).length > 2 &&
-        <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17% 12px 17%', 
-        padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
-          onClick={handleChange}>{"show less -"}
-        </div>
-      }
+      }   
       {
         !show &&
-        (game.highlights || []).slice(2).length > 2 &&
-        (game.highlights || []).slice(2,3).map((play,playIndex)=> {
+        (game.highlights || []).slice(5).length > 2 &&
+        (game.highlights || []).slice(5,6).map((play,playIndex)=> {
           return (
             <div key={playIndex}>
               <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
@@ -731,7 +723,7 @@ const GameHighlights = (props) => {
       }
       {
         show &&
-        (game.highlights || []).slice(2).map((play,playIndex)=> {
+        (game.highlights || []).slice(5).map((play,playIndex)=> {
           return (
             <div key={playIndex} style={{margin:'4px 0',display: 'flex'}}>
               <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
@@ -751,6 +743,14 @@ const GameHighlights = (props) => {
             </div>
           );
         })
+      }
+      {
+        show &&
+        (game.highlights || []).slice(5).length > 2 &&
+        <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
+        padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
+          onClick={handleChange}>{"show less -"}
+        </div>
       }
     </div>
   );
