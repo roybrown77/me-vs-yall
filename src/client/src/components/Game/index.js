@@ -341,8 +341,8 @@ function GamePlayTabs(props) {
             <div className="video-stream" style={{
               zIndex: 2, 
               position: 'relative', 
-              top: '-350px', 
-              marginBottom: '-350px'
+              top: '-250px', 
+              marginBottom: '-250px'
             }}>
               <iframe
                 sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
