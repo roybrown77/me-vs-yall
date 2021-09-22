@@ -178,7 +178,10 @@ class Home extends Component {
             paddingTop: darkModeOn ? "2em" : "5em"
           }}>
             <div style={{color: darkModeOn ? 'white' : 'black', fontSize: '15px'}}>
-              Feel the thrill of betting without risking a thing!  If you can't win here don't bet real money there.
+              sports x fun x friends x vegas
+            </div>
+            <div style={{marginTop: '10px', color: darkModeOn ? 'white' : 'black', fontSize: '15px'}}>
+              the ultimate sports mashup site
             </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
