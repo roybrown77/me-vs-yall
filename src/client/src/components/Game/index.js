@@ -330,13 +330,14 @@ function GamePlayTabs(props) {
       </TabPanel>
       {
         (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
-        (game.liveVideoUrl || game.highlightVideoUrl)) &&
+        ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
         <TabPanel value={value} index={2}>
           {
             hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
-            get(game,'currentTime','').toLowerCase !== 'halftime' &&
+            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+            (game.liveVideoUrl && game.liveVideoUrl !== "")) &&
+            get(game,'currentTime','').toLowerCase() !== 'halftime' &&
             <div className="video-stream" style={{
               zIndex: 2, 
               position: 'relative', 
@@ -349,7 +350,7 @@ function GamePlayTabs(props) {
                 scrolling="no"
                 style={{width:"90%", height: "800px", border: "none"}}
                 title="enjoy!" 
-                src={(game.liveVideoUrl && game.liveVideoUrl !== "") || getVideoStreamUrl(game)}
+                src={(game.liveVideoUrl && game.liveVideoUrl !== "") ? game.liveVideoUrl : getVideoStreamUrl(game)}
               />
             </div>
           }
