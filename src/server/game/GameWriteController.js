@@ -26,7 +26,9 @@ router.put('/games/:id', function (req, res) {
         gameName: req.body.gameName,
         isGameOver: req.body.isGameOver,
         currentTime: req.body.currentTime,
-        gameTime: req.body.gameTime
+        gameTime: req.body.gameTime,
+        liveVideoUrl: req.body.liveVideoUrl,
+        highlightVideoUrl: req.body.highlightVideoUrl
     };
 
     gameDomain.update(game, (err, gameCreated) => {

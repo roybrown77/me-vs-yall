@@ -263,7 +263,8 @@ function GamePlayTabs(props) {
           <Tab label="Plays" {...a11yProps(0)} />
           <Tab label="Highlights" {...a11yProps(1)} />
           {
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+            (game.liveVideoUrl || game.highlightVideoUrl)) &&
             <Tab label="Watch Live" {...a11yProps(2)} />
           }
         </Tabs>
@@ -328,7 +329,8 @@ function GamePlayTabs(props) {
         }
       </TabPanel>
       {
-        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+        (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+        (game.liveVideoUrl || game.highlightVideoUrl)) &&
         <TabPanel value={value} index={2}>
           {
             hasGameStarted(game.startDateTime) &&
@@ -347,15 +349,23 @@ function GamePlayTabs(props) {
                 scrolling="no"
                 style={{width:"90%", height: "800px", border: "none"}}
                 title="enjoy!" 
-                src={getVideoStreamUrl(game)} 
+                src={(game.liveVideoUrl && game.liveVideoUrl !== "") || getVideoStreamUrl(game)}
               />
+            </div>
+          }
+          {
+            game.highlightVideoUrl &&
+            game.highlightVideoUrl !== "" &&
+            (game.isGameOver || !hasGameStarted(game.startDateTime)) &&
+            <div>
+              <iframe style={{borderStyle:'none'}} width="90%" height="215" title="highlight" src={game.highlightVideoUrl} />
             </div>
           }
           {
             !hasGameStarted(game.startDateTime) &&
             ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
             <div>
-              Please wait for game to start to watch live game.
+              Please wait for game to start to watch live.
             </div>
           }
           {
@@ -711,7 +721,8 @@ const TieButton = (props) => {
 
 const GameEditor = (props) => {
   const { classes, game, awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, handleClearInput, handleInputChange, handleSaveGame } = props;
+  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
+  handleClearInput, handleInputChange, handleSaveGame } = props;
 
   return (
     <Popover 
@@ -907,6 +918,36 @@ const GameEditor = (props) => {
             variant="outlined"
           />
         </div>
+        <div style={{marginTop: '16px'}}>
+          <TextField
+            name="liveVideoUrl"
+            id="outlined-number"
+            label="Live Video Url"
+            defaultValue={liveVideoUrl}
+            fullWidth
+            multiline={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{marginTop: '16px'}}>
+          <TextField
+            name="highlightVideoUrl"
+            id="outlined-number"
+            label="Highlight Video Url"
+            defaultValue={highlightVideoUrl}
+            fullWidth
+            multiline={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
         <div style={{marginTop: '10px'}}>
           <Button 
               size="small"
@@ -1038,7 +1079,9 @@ class Game extends Component {
             isGameOver: null,
             currentTime: null,
             gameTime: null,
-            gameDate: null
+            gameDate: null,
+            liveVideoUrl: null,
+            highlightVideoUrl: null
         };
     }
 
@@ -1086,7 +1129,9 @@ class Game extends Component {
         isGameOver: null,
         currentTime: null,
         gameTime: null,
-        gameDate: null
+        gameDate: null,
+        liveVideoUrl: null,
+        highlightVideoUrl: null
       });
     }
 
@@ -1105,8 +1150,8 @@ class Game extends Component {
             return;
         }
 
-        const {awayScore,homeScore,awayRank,homeRank,awayRecord,homeRecord,awaySpread,
-          homeSpread,gameName,isGameOver,currentTime,gameDate,gameTime} = this.state;
+        const {awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread,
+          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl} = this.state;
 
         const gameTimeFormatted = gameTime ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime : null;
 
@@ -1123,7 +1168,9 @@ class Game extends Component {
             gameName,
             isGameOver,
             currentTime,
-            gameTime: gameTimeFormatted
+            gameTime: gameTimeFormatted,
+            liveVideoUrl,
+            highlightVideoUrl
         };
 
         this.props.handleUpdateGame(game);
@@ -1138,7 +1185,7 @@ class Game extends Component {
           showDetails, userId, disableTie } = this.props;
 
         const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime } = this.state;
+          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl } = this.state;
 
         const inProgress = get(pick,'inProgress',false);
 
@@ -1146,7 +1193,8 @@ class Game extends Component {
 
         const props = { classes, game, pick, isAuthenticated, showDetails, userId, disableTie,
         awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-        homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, inProgress, spreadMode,
+        homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, 
+        inProgress, spreadMode, liveVideoUrl, highlightVideoUrl,
         handleMakePick: this.handleMakePick, 
         handleTie: this.handleTie, handleClearInput: this.handleClearInput, 
         handleInputChange: this.handleInputChange, 
