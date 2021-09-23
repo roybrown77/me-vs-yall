@@ -584,7 +584,7 @@ const GamePlayHistory = (props) => {
     <div className="play-history">
       {(game.playHistory || []).slice(0,5).map((play,playIndex)=> {
           return (
-            <div key={playIndex} style={{margin:'4px 0',display: 'flex', opacity: !show && playIndex === 4 ? '.1' : '1'}}>
+            <div key={playIndex} style={{margin:'4px 0',display: 'flex', opacity: !show && playIndex === 4 && (game.playHistory || []).length > 5 ? '.1' : '1'}}>
               <div style={{minWidth:'40px',padding:'4px',backgroundColor:'rgb(45, 232, 149)', marginRight:'4px'}}>
                 <div>
                   {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
@@ -626,7 +626,7 @@ const GamePlayHistory = (props) => {
         })
       }
       {
-        (game.playHistory || []).slice(5).length > 2 &&
+        (game.playHistory || []).length > 5 &&
         <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
         padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
           onClick={handleChange}>{show ? "show less -" : "show more +"}
@@ -654,7 +654,7 @@ const GameHighlights = (props) => {
       {
         (game.highlights || []).slice(0,5).map((play,playIndex)=> {
           return (
-            <div key={playIndex} style={{margin:'4px 0',display: 'flex', opacity: !show && playIndex === 4 ? '.1' : '1'}}>
+            <div key={playIndex} style={{margin:'4px 0',display: 'flex', opacity: !show && playIndex === 4 && (game.highlights || []).length > 5 ? '.1' : '1'}}>
               <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
                 <div>
                   {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
@@ -697,7 +697,7 @@ const GameHighlights = (props) => {
         })
       }
       {
-        (game.highlights || []).slice(5).length > 2 &&
+        (game.highlights || []).length > 5 &&
         <div style={{color: 'rgba(0,0,0,0.87)', fontSize: '15px', margin:'4px 17%', 
         padding: '2px', border: '3px solid rgba(0,0,0,0.87)', borderRadius: '8px'}}
           onClick={handleChange}>{show ? "show less -" : "show more +"}
