@@ -400,6 +400,13 @@ const boxingCompetitors = [
         shortLocation: "Jaime",
         name: "The Smooth One Arboleda",
         country: "PANAMA"
+    },
+    {
+        _id: "19823783734d1d04a1b3102f",
+        location: "Oleksandr Usyk",
+        shortLocation: "Oleksandr",
+        name: "The Cat Usyk",
+        country: "UKRAINE"
     }
 ];
 
@@ -725,6 +732,20 @@ const ufcCompetitors = [
         shortLocation: "Valentina",
         name: "Shevchenko",
         country: "RUSSIA"
+    },
+    {
+        _id: "19823783734d1d04a1b32034",
+        location: 'Nick Diaz',
+        shortLocation: "Nick",
+        name: "It's just Nick Diaz",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32035",
+        location: 'Robbie Lawler',
+        shortLocation: "Robbie",
+        name: "Ruthless Lawler",
+        country: "USA"
     }
 ];
 

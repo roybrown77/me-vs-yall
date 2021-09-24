@@ -110,23 +110,23 @@ const leagues = [
     //     description: 'wnba', 
     //     years: [2020]
     // },
-    // {
-    //     id: '59723313734d1d6202a85f27', 
-    //     name: 'mma', 
-    //     description: 'mma', 
-    //     years: [2019,2020]
-    // },
-    // {
-    //     id: '59723313734d1d6202a85f25', 
-    //     name: 'boxing', 
-    //     description: 'boxing', 
-    //     years: [2019,2020]
-    // },
     {
         id: '59723313734d1d6202a85f15', 
-        name: 'ncaaf', 
-        description: 'ncaaf', 
+        name: 'cfb', 
+        description: 'cfb', 
         years: [2019, 2020, 2021]
+    },
+    {
+        id: '59723313734d1d6202a85f27', 
+        name: 'mma', 
+        description: 'mma', 
+        years: [2019,2020,2021]
+    },
+    {
+        id: '59723313734d1d6202a85f25', 
+        name: 'boxing', 
+        description: 'boxing', 
+        years: [2019,2020,2021]
     },
     // {
     //     id: '59723313734d1d6202a85f31', 

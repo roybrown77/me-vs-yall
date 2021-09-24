@@ -356,8 +356,4 @@ a.links:hover {
   }
 }
 
-iframe > cloudflare-app {
-  display: none !important;
-}
-
 /* --- video stream end --- */

@@ -102,8 +102,8 @@ class Home extends Component {
       // const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
       // const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
       const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
-      // const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
-      // const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
+      const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
+      const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
 
       const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
       const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
@@ -111,8 +111,8 @@ class Home extends Component {
       // const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
       // const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
       const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
-      // const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
-      // const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
+      const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
+      const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
 
       const emoji = getHomePageEmoji();
 
@@ -204,10 +204,22 @@ class Home extends Component {
                   {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
                 </div>
                 <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/ncaaf'}>
-                    NCAAF
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/cfb'}>
+                    CFB
                   </Link>
                   {areAnyNCAAFGamesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mma'}>
+                    MMA
+                  </Link>
+                  {areAnyMMAMatchesInProgress && <span style={styles.inProgress} />}
+                </div>
+                <div>
+                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/boxing'}>
+                    BOXING
+                  </Link>
+                  {areAnyBoxingMatchesInProgress && <span style={styles.inProgress} />}
                 </div>
               </div>
             </div>
