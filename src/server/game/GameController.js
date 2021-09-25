@@ -99,9 +99,9 @@ const updateGames = (leagueId) => {
     updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2020, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   }
 
-  // if (leagueId === '59723313734d1d6202a85f21') {
-  //   updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
-  // }
+  if (leagueId === '59723313734d1d6202a85f21') {
+    updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  }
   
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));

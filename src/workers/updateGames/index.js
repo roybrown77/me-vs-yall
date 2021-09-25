@@ -139,9 +139,9 @@ const updateGames = async () => {
     loadBasketballGames({dayCount: 4, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2021, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   }
 
-  if ([5,9,10].includes(currentWeekDay+4) && eastCoastHour === 6 && minutes > 0 && minutes < 5) {
-    loadMlbGames({dayCount: 4, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
-  }
+  // if ([5,9,10].includes(currentWeekDay+4) && eastCoastHour === 6 && minutes > 0 && minutes < 5) {
+  //   loadMlbGames({dayCount: 4, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  // }
 
   const weekNumber = moment().diff(moment("2021-09-07"),'weeks'); // Tuesday prior to start of season
   console.log('nfl weekNumber: ' + weekNumber);
