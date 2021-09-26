@@ -52,7 +52,7 @@ import { hasGameStarted } from '../../utilities';
 
 import { getField } from './fields';
 
-import {watchLiveGames} from '../../config';
+import {watchLiveGames, isAuthenticated} from '../../config';
 
 const styles = theme => ({
   root: {
@@ -265,6 +265,7 @@ function GamePlayTabs(props) {
           <Tab label="Plays" {...a11yProps(0)} />
           <Tab label="Highlights" {...a11yProps(1)} />
           {
+            isAuthenticated &&
             watchLiveGames &&
             (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
@@ -332,6 +333,7 @@ function GamePlayTabs(props) {
         }
       </TabPanel>
       {
+        isAuthenticated &&
         watchLiveGames &&
         (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
         ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
