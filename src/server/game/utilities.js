@@ -96,7 +96,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
   const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
   if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.slice(0,9).find(x=>get(x,'lastPlay')===lastPlay))) {
-    console.log(`${message} getPlayHistory: no play 3.`);
+    console.log(`${message} getPlayHistory: no valid play 3.`);
     return playHistory;
   }
 
