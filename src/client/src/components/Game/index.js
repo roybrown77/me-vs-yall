@@ -52,7 +52,7 @@ import { hasGameStarted } from '../../utilities';
 
 import { getField } from './fields';
 
-import {watchLiveGames} from '../../../config';
+import {watchLiveGames} from '../../config';
 
 const styles = theme => ({
   root: {

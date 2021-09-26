@@ -8,5 +8,6 @@ export {
 	isProduction,
 	googleAnalyticsId,
 	authenticationClientId,
+	displayHomePageImages,
 	watchLiveGames
 };
