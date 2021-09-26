@@ -6,17 +6,10 @@ const authenticationClientId = process.env.REACT_APP_AUTHENTICATION_CLIENT_ID;
 const displayHomePageImages = process.env.REACT_APP_DISPLAY_HOME_PAGE_IMAGES === 'true';
 const watchLiveGames = process.env.REACT_APP_WATCH_LIVE_GAMES === 'true';
 
-const userJson = localStorage.getItem('user');
-const user = JSON.parse(userJson);
-const userId = get(user, 'sub');
-
-const isAuthenticated = !!userId;
-
 export {
 	isProduction,
 	googleAnalyticsId,
 	authenticationClientId,
 	displayHomePageImages,
-	watchLiveGames,
-	isAuthenticated
+	watchLiveGames
 };

@@ -52,7 +52,7 @@ import { hasGameStarted } from '../../utilities';
 
 import { getField } from './fields';
 
-import {watchLiveGames, isAuthenticated} from '../../config';
+import {watchLiveGames} from '../../config';
 
 const styles = theme => ({
   root: {
@@ -235,7 +235,7 @@ function a11yProps(index) {
 }
 
 function GamePlayTabs(props) {
-  const { game, classes, handleUpdateGamePlayTab } = props;
+  const { game, classes, handleUpdateGamePlayTab, isAuthenticated } = props;
 
   const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
 
