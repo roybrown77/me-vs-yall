@@ -52,6 +52,8 @@ import { hasGameStarted } from '../../utilities';
 
 import { getField } from './fields';
 
+import {watchLiveGames} from '../../../config';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -263,6 +265,7 @@ function GamePlayTabs(props) {
           <Tab label="Plays" {...a11yProps(0)} />
           <Tab label="Highlights" {...a11yProps(1)} />
           {
+            watchLiveGames &&
             (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
             <Tab label="Watch Live" {...a11yProps(2)} />
@@ -329,6 +332,7 @@ function GamePlayTabs(props) {
         }
       </TabPanel>
       {
+        watchLiveGames &&
         (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
         ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
         <TabPanel value={value} index={2}>
