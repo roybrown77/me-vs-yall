@@ -52,8 +52,6 @@ import { hasGameStarted } from '../../utilities';
 
 import { getField } from './fields';
 
-import {watchLiveGames} from '../../config';
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -171,36 +169,6 @@ const getFlag = (country) => {
   };
 }
 
-const getVideoStreamUrl = (game) => {
-  if (!hasGameStarted(game.startDateTime) || 
-    game.isGameOver ||
-    !['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId)) {
-      return null;
-  }
-
-  const competitors = game.competitors;
-  let leagueName = "";
-
-  if (game.leagueId === "59723313734d1d6202a85f10") {
-    leagueName = "nfl";
-  }
-
-  if (game.leagueId === "59723313734d1d6202a85f15") {
-    leagueName = "cfb";
-  }
-
-  let gameName = game.leagueId === "59723313734d1d6202a85f15" ?
-    competitors[0].location.split(" ").join("-") + "-" + competitors[1].location.split(" ").join("-") : 
-    (competitors[0].location.split(" ").join("-") + "-" + competitors[0].name.split(" ").join("-") + "-" +
-    competitors[1].location.split(" ").join("-") + "-" + competitors[1].name.split(" ").join("-"));
-
-  const url = (leagueName + "/" + gameName + "/").toLowerCase();
-
-  console.log(url);
-
-  return "https://www.streameast.live/" + url;
-};
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -235,7 +203,7 @@ function a11yProps(index) {
 }
 
 function GamePlayTabs(props) {
-  const { game, classes, handleUpdateGamePlayTab, isAuthenticated } = props;
+  const { game, classes, handleUpdateGamePlayTab } = props;
 
   const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
 
@@ -264,13 +232,6 @@ function GamePlayTabs(props) {
         }}>
           <Tab label="Plays" {...a11yProps(0)} />
           <Tab label="Highlights" {...a11yProps(1)} />
-          {
-            isAuthenticated &&
-            watchLiveGames &&
-            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
-            (game.liveVideoUrl || game.highlightVideoUrl)) &&
-            <Tab label="Watch Live" {...a11yProps(2)} />
-          }
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -332,68 +293,6 @@ function GamePlayTabs(props) {
           </div>
         }
       </TabPanel>
-      {
-        isAuthenticated &&
-        watchLiveGames &&
-        (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
-        ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
-        <TabPanel value={value} index={2}>
-          {
-            hasGameStarted(game.startDateTime) &&
-            !game.isGameOver &&
-            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
-            (game.liveVideoUrl && game.liveVideoUrl !== "")) &&
-            get(game,'currentTime','').toLowerCase() !== 'halftime' &&
-            <div className="video-stream" style={{
-              zIndex: 2, 
-              position: 'relative', 
-              top: '-250px', 
-              marginBottom: '-250px'
-            }}>
-              <iframe
-                sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
-                allowfullscreen
-                scrolling="no"
-                style={{width:"90%", height: "800px", border: "none"}}
-                title="enjoy!" 
-                src={(game.liveVideoUrl && game.liveVideoUrl !== "") ? game.liveVideoUrl : getVideoStreamUrl(game)}
-              />
-            </div>
-          }
-          {
-            game.highlightVideoUrl &&
-            game.highlightVideoUrl !== "" &&
-            (game.isGameOver || !hasGameStarted(game.startDateTime)) &&
-            <div>
-              <iframe style={{borderStyle:'none'}} width="90%" height="215" title="highlight" src={game.highlightVideoUrl} />
-            </div>
-          }
-          {
-            !hasGameStarted(game.startDateTime) &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
-            <div>
-              Please wait for game to start to watch live.
-            </div>
-          }
-          {
-            hasGameStarted(game.startDateTime) && 
-            game.isGameOver &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
-            <div>
-              Please come back next time before game ends.
-            </div>
-          }
-          {
-            hasGameStarted(game.startDateTime) &&
-            !game.isGameOver &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
-            get(game,'currentTime','').toLowerCase === 'halftime' &&
-            <div>
-              Please come back after halftime.
-            </div>
-          }
-        </TabPanel>
-      }
     </Box>
   );
 }
@@ -728,7 +627,7 @@ const TieButton = (props) => {
 
 const GameEditor = (props) => {
   const { classes, game, awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
+  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime,
   handleClearInput, handleInputChange, handleSaveGame } = props;
 
   return (
@@ -925,36 +824,6 @@ const GameEditor = (props) => {
             variant="outlined"
           />
         </div>
-        <div style={{marginTop: '16px'}}>
-          <TextField
-            name="liveVideoUrl"
-            id="outlined-number"
-            label="Live Video Url"
-            defaultValue={liveVideoUrl}
-            fullWidth
-            multiline={true}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleInputChange}
-            variant="outlined"
-          />
-        </div>
-        <div style={{marginTop: '16px'}}>
-          <TextField
-            name="highlightVideoUrl"
-            id="outlined-number"
-            label="Highlight Video Url"
-            defaultValue={highlightVideoUrl}
-            fullWidth
-            multiline={true}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleInputChange}
-            variant="outlined"
-          />
-        </div>
         <div style={{marginTop: '10px'}}>
           <Button 
               size="small"
@@ -1086,9 +955,7 @@ class Game extends Component {
             isGameOver: null,
             currentTime: null,
             gameTime: null,
-            gameDate: null,
-            liveVideoUrl: null,
-            highlightVideoUrl: null
+            gameDate: null
         };
     }
 
@@ -1136,9 +1003,7 @@ class Game extends Component {
         isGameOver: null,
         currentTime: null,
         gameTime: null,
-        gameDate: null,
-        liveVideoUrl: null,
-        highlightVideoUrl: null
+        gameDate: null
       });
     }
 
@@ -1158,7 +1023,7 @@ class Game extends Component {
         }
 
         const {awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread,
-          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl} = this.state;
+          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime} = this.state;
 
         const gameTimeFormatted = gameTime ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime : null;
 
@@ -1175,9 +1040,7 @@ class Game extends Component {
             gameName,
             isGameOver,
             currentTime,
-            gameTime: gameTimeFormatted,
-            liveVideoUrl,
-            highlightVideoUrl
+            gameTime: gameTimeFormatted
         };
 
         this.props.handleUpdateGame(game);
@@ -1192,7 +1055,7 @@ class Game extends Component {
           showDetails, userId, disableTie } = this.props;
 
         const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl } = this.state;
+          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime } = this.state;
 
         const inProgress = get(pick,'inProgress',false);
 
@@ -1201,8 +1064,7 @@ class Game extends Component {
         const props = { classes, game, pick, isAuthenticated, showDetails, userId, disableTie,
         awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
         homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, 
-        inProgress, spreadMode, liveVideoUrl, highlightVideoUrl,
-        handleMakePick: this.handleMakePick, 
+        inProgress, spreadMode, handleMakePick: this.handleMakePick, 
         handleTie: this.handleTie, handleClearInput: this.handleClearInput, 
         handleInputChange: this.handleInputChange, 
         handleSaveGame: this.handleSaveGame, handleUpdateGamePlayTab: this.handleUpdateGamePlayTab };

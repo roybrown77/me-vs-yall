@@ -256,8 +256,6 @@ export const updateGame = (game) => (dispatch, getState) => {
   searchParams.set('isGameOver', game.isGameOver);
   searchParams.set('currentTime', game.currentTime);
   searchParams.set('gameTime', game.gameTime);
-  searchParams.set('liveVideoUrl', game.liveVideoUrl);
-  searchParams.set('highlightVideoUrl', game.highlightVideoUrl);
 
   dispatch(editGame(game.id, searchParams));
 };

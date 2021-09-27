@@ -67,14 +67,6 @@ function update(game, cb) {
             set(updatedGame,'gameName',game.gameName);
         }
 
-        if (get(game,'liveVideoUrl','null').trim() !== "null") {
-            set(updatedGame,'liveVideoUrl',game.liveVideoUrl);
-        }
-
-        if (get(game,'highlightVideoUrl','null').trim() !== "null") {
-            set(updatedGame,'highlightVideoUrl',game.highlightVideoUrl);
-        }
-
         if (get(game,'isGameOver','null') !== "null") {
             set(updatedGame,'isGameOver',game.isGameOver);
         }
