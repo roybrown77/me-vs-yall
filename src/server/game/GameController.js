@@ -199,7 +199,11 @@ router.get('/games', async function (req, res) {
 
           for (let i = 0; i < game.playHistory.length; i++) {
             lastPlay = game.playHistory[i].lastPlay;
-            
+
+            if ((lastPlay || "").toLowerCase().includes('punt')) {
+              game.playHistory[i].lastPlay = lastPlay + " " + "TURNOVER ON DOWNS.  DEFENSE PLAYING LIGHTS OUT. 🥊"
+            }
+
             if ((lastPlay || "").toLowerCase().includes('touchdown') || 
               (lastPlay || "").toLowerCase().includes('sacked') || 
               (lastPlay || "").toLowerCase().includes('intercept') || 
@@ -218,6 +222,8 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('fg') || 
               (lastPlay || "").toLowerCase().includes('onside') ||
               (lastPlay || "").toLowerCase().includes('dance') || 
+              (lastPlay || "").toLowerCase().includes('deep') ||
+              (lastPlay || "").toLowerCase().includes('long') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
               if (lastHighlightTime !== lastPlay.slice(0,7)) {
