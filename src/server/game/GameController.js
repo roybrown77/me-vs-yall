@@ -201,7 +201,33 @@ router.get('/games', async function (req, res) {
             lastPlay = game.playHistory[i].lastPlay;
 
             if ((lastPlay || "").toLowerCase().includes('punt')) {
-              game.playHistory[i].lastPlay = lastPlay + " " + "TURNOVER ON DOWNS.  DEFENSE PLAYING LIGHTS OUT. 🥊"
+              game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON DOWNS 🥊";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('touchdown') || (lastPlay || "").toLowerCase().includes('td')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🤩";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('field goal') || 
+              (lastPlay || "").toLowerCase().includes('fg')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🥶";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('sacked')) {
+              game.playHistory[i].lastPlay = lastPlay + " ⚡️";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('pass deep')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🏈";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('safety') || 
+              (lastPlay || "").toLowerCase().includes('intercept') || 
+              (lastPlay || "").toLowerCase().includes('fumble') || 
+              (lastPlay || "").toLowerCase().includes('missed') || 
+              (lastPlay || "").toLowerCase().includes('no good') || 
+              (lastPlay || "").toLowerCase().includes('onside')) {
+              game.playHistory[i].lastPlay = lastPlay + " 😳";
             }
 
             if ((lastPlay || "").toLowerCase().includes('touchdown') || 
@@ -215,6 +241,7 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('field goal') || 
               (lastPlay || "").toLowerCase().includes('deflect') || 
               (lastPlay || "").toLowerCase().includes('missed') || 
+              (lastPlay || "").toLowerCase().includes('no good') || 
               (lastPlay || "").toLowerCase().includes('punt') || 
               (lastPlay || "").toLowerCase().includes('scramble') || 
               (lastPlay || "").toLowerCase().includes('tipped') ||
@@ -222,7 +249,7 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('fg') || 
               (lastPlay || "").toLowerCase().includes('onside') ||
               (lastPlay || "").toLowerCase().includes('dance') || 
-              (lastPlay || "").toLowerCase().includes('deep') ||
+              (lastPlay || "").toLowerCase().includes('pass deep') ||
               (lastPlay || "").toLowerCase().includes('long') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
