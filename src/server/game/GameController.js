@@ -226,6 +226,7 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('fumble') || 
               (lastPlay || "").toLowerCase().includes('missed') || 
               (lastPlay || "").toLowerCase().includes('no good') || 
+              (lastPlay || "").toLowerCase().includes('upheld') || 
               (lastPlay || "").toLowerCase().includes('onside')) {
               game.playHistory[i].lastPlay = lastPlay + " 😳";
             }
@@ -250,6 +251,7 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('onside') ||
               (lastPlay || "").toLowerCase().includes('dance') || 
               (lastPlay || "").toLowerCase().includes('pass deep') ||
+              (lastPlay || "").toLowerCase().includes('upheld') ||
               (lastPlay || "").toLowerCase().includes('long') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
