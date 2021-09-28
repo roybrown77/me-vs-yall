@@ -27,7 +27,7 @@ const vegasPictures = [
     zachBaby
 ];
 
-function getRandomIntInclusive(min, max) {
+function getRandomNumber(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
@@ -72,11 +72,11 @@ const images = {
 };
 
 const getImage = (leagueId) => {
-    return images[leagueId] && images[leagueId].length > 0 ? images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)] : null;
+    return images[leagueId] && images[leagueId].length > 0 ? images[leagueId][getRandomNumber(0,images[leagueId].length-1)] : null;
 };
 
 const getHomePageImage = () => {
-    return homePageImages[getRandomIntInclusive(0,homePageImages.length-1)];
+    return homePageImages[getRandomNumber(0,homePageImages.length-1)];
 };
 
 const leagues = [
@@ -576,7 +576,7 @@ const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = f
 
 const getHomePageEmoji = () => {
     const emojis = ["🏎","💃","🎒","🍄","🌶","🍿","🥊","🚣","🥁","🚗","⛽️","🏖","☎️","🧰","💌","🅰️"];
-    return emojis[getRandomIntInclusive(0,emojis.length-1)];
+    return emojis[getRandomNumber(0,emojis.length-1)];
 }
 
 const getSpreadAmount = (spreadAmount) => {
@@ -606,7 +606,7 @@ export {
     getLeaderIndicator,
     getLeagueStartDateTime,
     getImage,
-    getRandomIntInclusive,
+    getRandomNumber,
     images,
     getPicksNotSelected,
     copy,
