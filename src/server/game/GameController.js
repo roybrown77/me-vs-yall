@@ -201,7 +201,7 @@ router.get('/games', async function (req, res) {
             lastPlay = game.playHistory[i].lastPlay;
 
             if ((lastPlay || "").toLowerCase().includes('punt')) {
-              game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON DOWNS 🥊";
+              game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON DOWNS 🍰";
             }
 
             if ((lastPlay || "").toLowerCase().includes('touchdown') || (lastPlay || "").toLowerCase().includes('td')) {
