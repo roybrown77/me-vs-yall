@@ -16,7 +16,7 @@ import LightOff from '@material-ui/icons/EmojiObjects';
 
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
-import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji, getRandomNumber } from '../../utilities';
+import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji } from '../../utilities';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const history = createBrowserHistory({forceRefresh: true});
@@ -56,14 +56,6 @@ const instructions = [
   '3. Tap teams you think will win this week.',
   '4. View Leaders to see if you won.',
   "5. No purchase necessary.  It's free yall.  :D"
-];
-
-const tagLines = [
-  "if you can't win here don't bet real money over there",
-  "the ultimate sports mashup site",
-  "play for fun or play for the 💰 it's your world",
-  "feel the thrill of betting without risking a thing",
-  "compete worldwide"
 ];
 
 class Home extends Component {
@@ -189,7 +181,7 @@ class Home extends Component {
               sports x fun x friends x vegas
             </div>
             <div style={{marginTop: '10px', color: darkModeOn ? 'white' : 'black', fontSize: '15px'}}>
-              {tagLines[getRandomNumber(0,tagLines.length-1)]}
+              the ultimate sports mashup site
             </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
