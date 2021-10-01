@@ -878,6 +878,10 @@ const SimpleGame = (props) => {
             </div>
           }
         </div>
+        {
+          hasGameStarted(game.startDateTime) &&
+          <GamePlayTabs {...props} />
+        }
     </div>
   );
 }
