@@ -504,7 +504,7 @@ class Scoreboard extends Component {
                                 </IconButton>
                             </div>
                             <div style={{marginTop: '-3px'}}>
-                                details
+                                expand
                             </div>
                         </div>
                         <div style={{margin: '0 30px'}} onClick={this.handleSpreadModeToggle}>
