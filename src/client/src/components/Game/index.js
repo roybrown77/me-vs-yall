@@ -873,6 +873,18 @@ const SimpleGame = (props) => {
                 >
                     <Grow in={true} timeout={500}>
                         <Paper className={classNames(classes.paper)}>
+                            {
+                              spreadMode &&
+                              <div style={{
+                                fontSize: '17px',
+                                padding: '5px 5px 0 0', 
+                                display: get(game,'spread.teamId') === game.competitors[0]._id || get(game,'spread.teamId') === game.competitors[1]._id ? 'block' : 'none', 
+                                textAlign: 'right',
+                                height: '17px'
+                              }}>
+                                  {get(game,'spread.teamId') !== competitor._id ? "" : get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+                              </div>
+                            }
                             <SimpleCompetitor {...{...props, competitor}} />
                         </Paper>
                     </Grow>
@@ -894,9 +906,26 @@ const SimpleGame = (props) => {
               {game.gameName}
             </div>
           }
+          {
+            get(game,'isGameOver') && 
+            <span style={{marginLeft:'12px'}}>Final</span>
+          }
+          {
+            !get(game,'isGameOver') && 
+            hasGameStarted(game.startDateTime) && 
+            <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
+              {game.currentTime || 'in progress'}
+            </span>
+          }
+          {
+            hasGameStarted(game.startDateTime) &&
+            !get(game,'isGameOver') && 
+            <div className={classes.startDateTime}>
+              {game.possession} {game.down}
+            </div>
+          }
         </div>
         {
-          hasGameStarted(game.startDateTime) &&
           <GamePlayTabs {...props} />
         }
     </div>
