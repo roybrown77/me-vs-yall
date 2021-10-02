@@ -514,7 +514,7 @@ class Scoreboard extends Component {
                                 </IconButton>
                             </div>
                             <div style={{marginTop: '-3px'}}>
-                                spread mode
+                                beat vegas
                             </div>
                         </div>
                         {
