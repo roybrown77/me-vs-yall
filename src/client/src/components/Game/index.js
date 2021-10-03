@@ -877,7 +877,7 @@ const SimpleGame = (props) => {
                               spreadMode &&
                               <div style={{
                                 fontSize: '17px',
-                                padding: '5px 5px 0 0', 
+                                padding: '5px 5px 10px 0', 
                                 display: get(game,'spread.teamId') === game.competitors[0]._id || get(game,'spread.teamId') === game.competitors[1]._id ? 'block' : 'none', 
                                 textAlign: 'right',
                                 height: '17px'
