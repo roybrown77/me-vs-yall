@@ -57,7 +57,7 @@ class Footer extends Component {
                 <Route render={({ history}) => (
                     <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} 
                      onClick={() => { history.push('/leaders/' + leagueName) }}>
-                        Friends
+                        Leaders
                     </div>
                 )} />
             }
