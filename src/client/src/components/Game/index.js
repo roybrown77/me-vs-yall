@@ -111,7 +111,7 @@ const getFlag = (country) => {
     case 'PHILLIPINES':
       return  "🇵🇭";
     case 'BULGARIA':
-      return  "";
+      return  "🇺🇸";
     case 'ENGLAND':
       return  "🇬🇧";
     case 'CROATIA':
@@ -123,7 +123,7 @@ const getFlag = (country) => {
     case 'JAPAN':
       return  "🇯🇵";
     case 'BAHAMAS':
-      return  "";
+      return  "🇺🇸";
     case 'UKRAINE':
       return  "🇺🇦";
     case 'NIGERIA':
