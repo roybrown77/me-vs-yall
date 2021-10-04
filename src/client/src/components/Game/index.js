@@ -24,30 +24,6 @@ import Popover from '../Popover';
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/smile-sweat.png';
 
-import america from '../../styles/images/america.png';
-import mexico from '../../styles/images/mexico.png';
-import brazil from '../../styles/images/brazil.png';
-import italy from '../../styles/images/italy.png';
-import iceland from '../../styles/images/iceland.png';
-import sweden from '../../styles/images/sweden.png';
-import russia from '../../styles/images/russia.png';
-import phillipines from '../../styles/images/phillipines.png';
-import bulgaria from '../../styles/images/bulgaria.png';
-import england from '../../styles/images/england.png';
-import suriname from '../../styles/images/suriname.png';
-import croatia from '../../styles/images/croatia.png';
-import netherlands from '../../styles/images/netherlands.png';
-import japan from '../../styles/images/japan.png';
-import bahamas from '../../styles/images/bahamas.png';
-import ukraine from '../../styles/images/ukraine.png';
-import poland from '../../styles/images/poland.png';
-import nigeria from '../../styles/images/nigeria.png';
-import dominicanRepublic from '../../styles/images/dominican-republic.png';
-import southKorea from '../../styles/images/south-korea.png';
-import australia from '../../styles/images/australia.png';
-import nicaragua from '../../styles/images/nicaragua.png';
-import jamaica from '../../styles/images/jamaica.png';
-
 import { hasGameStarted } from '../../utilities';
 
 import { getField } from './fields';
@@ -119,53 +95,53 @@ const styles = theme => ({
 const getFlag = (country) => {
   switch (country) {
     case 'USA':
-      return america;
+      return "🇺🇸";
     case 'MEXICO':
-      return mexico;
+      return  "🇲🇽";
     case 'BRAZIL':
-      return brazil;
+      return  "🇧🇷";
     case 'ITALY':
-      return italy;
+      return  "🇲🇽";
     case 'ICELAND':
-      return iceland;
+      return  "🇮🇸";
     case 'SWEDEN':
-      return sweden;
+      return  "🇸🇪";
     case 'RUSSIA':
-      return russia;
+      return  "🇷🇺";
     case 'PHILLIPINES':
-      return phillipines;
+      return  "🇵🇭";
     case 'BULGARIA':
-      return bulgaria;
+      return  "";
     case 'ENGLAND':
-      return england;
+      return  "🇬🇧";
     case 'CROATIA':
-      return croatia;
+      return  "🇭🇷";
     case 'SURINAME':
-      return suriname;
+      return  "🇸🇷";
     case 'NETHERLANDS':
-      return netherlands;
+      return  "🇳🇱";
     case 'JAPAN':
-      return japan;
+      return  "🇯🇵";
     case 'BAHAMAS':
-      return bahamas;
+      return  "";
     case 'UKRAINE':
-      return ukraine;
+      return  "🇺🇦";
     case 'NIGERIA':
-      return nigeria;
+      return  "🇳🇬";
     case 'POLAND':
-      return poland;
+      return  "🇵🇱";
     case 'DOMINICAN REPUBLIC':
-      return dominicanRepublic;
+      return  "🇩🇴";
     case 'AUSTRALIA':
-      return australia;
+      return  "🇦🇺";
     case 'SOUTH KOREA':
-      return southKorea;
+      return  "🇺🇸";
     case 'NICARAGUA':
-      return nicaragua;
+      return  "🇳🇮";
     case 'JAMAICA':
-      return jamaica;
+      return "🇺🇸";
     default:
-      return america;
+      return "🇺🇸";
   };
 }
 
@@ -329,13 +305,11 @@ const SimpleCompetitor = (props) => {
                 }
                 {
                   competitor.country &&
-                  <div style={{paddingBottom: '4px'}}>
-                    <img alt="" style={{width:'50px', paddingTop: '3px'}} src={getFlag(competitor.country)}/>
-                  </div>
+                  <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
                 }
-                <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color }}>
-                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
-                </span>
+                <div style={{fontSize: competitor.country ? '2rem' : '2.5rem', marginTop: competitor.country ? '-10px' : '0', fontWeight: '600', color: competitor.color }}>
+                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</span>{competitor.shortLocation}
+                </div>
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
                    {competitor.name}
                 </div>
@@ -363,13 +337,11 @@ const DetailCompetitor = (props) => {
                 }
                 {
                   competitor.country &&
-                  <div style={{paddingBottom: '4px'}}>
-                    <img alt="" style={{width:'50px', paddingTop: '3px'}} src={getFlag(competitor.country)}/>
-                  </div>
+                  <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
                 }
-                <span style={{fontSize: competitor.country ? '2rem' : '2.5rem', fontWeight: '600', color: competitor.color}}>
-                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: '8px'}}>{competitor.rank}</span>{competitor.shortLocation}
-                </span>
+                <div style={{fontSize: competitor.country ? '2rem' : '2.5rem', marginTop: competitor.country ? '-10px' : '0', fontWeight: '600', color: competitor.color}}>
+                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</span>{competitor.shortLocation}
+                </div>
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0 24px 0' :  '4px 0'}}>
                   {competitor.name}
                 </div>
