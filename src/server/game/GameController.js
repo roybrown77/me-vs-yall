@@ -201,10 +201,12 @@ router.get('/games', async function (req, res) {
             lastPlay = game.playHistory[i].lastPlay;
 
             if ((lastPlay || "").toLowerCase().includes('punt')) {
-              game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON DOWNS 🍰";
+              game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
             }
 
-            if ((lastPlay || "").toLowerCase().includes('touchdown') || (lastPlay || "").toLowerCase().includes('td')) {
+            if ((lastPlay || "").toLowerCase().includes('safety') || 
+              (lastPlay || "").toLowerCase().includes('touchdown') || 
+              (lastPlay || "").toLowerCase().includes('td')) {
               game.playHistory[i].lastPlay = lastPlay + " 🤩";
             }
 
@@ -217,42 +219,57 @@ router.get('/games', async function (req, res) {
               game.playHistory[i].lastPlay = lastPlay + " ⚡️";
             }
 
-            if ((lastPlay || "").toLowerCase().includes('pass deep')) {
+            if ((lastPlay || "").toLowerCase().includes('pass deep') || 
+              (lastPlay || "").toLowerCase().includes('scramble') ||
+              (lastPlay || "").toLowerCase().includes('flea flicker') || 
+              (lastPlay || "").toLowerCase().includes('hail mary') || 
+              (lastPlay || "").toLowerCase().includes('statue of liberty') || 
+              (lastPlay || "").toLowerCase().includes('philly special')) {
               game.playHistory[i].lastPlay = lastPlay + " 🏈";
             }
 
-            if ((lastPlay || "").toLowerCase().includes('safety') || 
-              (lastPlay || "").toLowerCase().includes('intercept') || 
-              (lastPlay || "").toLowerCase().includes('fumble') || 
+            if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
+              (lastPlay || "").toLowerCase().includes('play under review') || 
+              (lastPlay || "").toLowerCase().includes('interference') || 
               (lastPlay || "").toLowerCase().includes('missed') || 
               (lastPlay || "").toLowerCase().includes('no good') || 
-              (lastPlay || "").toLowerCase().includes('upheld') || 
-              (lastPlay || "").toLowerCase().includes('onside')) {
+              (lastPlay || "").toLowerCase().includes('onside') || 
+              (lastPlay || "").toLowerCase().includes('challenge') || 
+              (lastPlay || "").toLowerCase().includes('upheld') ||
+              (lastPlay || "").toLowerCase().includes('reverse') || 
+              (lastPlay || "").toLowerCase().includes('intercept') || 
+              (lastPlay || "").toLowerCase().includes('fumble')) {
               game.playHistory[i].lastPlay = lastPlay + " 😳";
             }
 
-            if ((lastPlay || "").toLowerCase().includes('touchdown') || 
-              (lastPlay || "").toLowerCase().includes('sacked') || 
-              (lastPlay || "").toLowerCase().includes('intercept') || 
-              (lastPlay || "").toLowerCase().includes('safety') || 
-              (lastPlay || "").toLowerCase().includes('injur') || 
-              (lastPlay || "").toLowerCase().includes('reverse') || 
+            if ((lastPlay || "").toLowerCase().includes('dance') ||
               (lastPlay || "").toLowerCase().includes('fight') || 
-              (lastPlay || "").toLowerCase().includes('error') || 
-              (lastPlay || "").toLowerCase().includes('field goal') || 
-              (lastPlay || "").toLowerCase().includes('deflect') || 
-              (lastPlay || "").toLowerCase().includes('missed') || 
-              (lastPlay || "").toLowerCase().includes('no good') || 
-              (lastPlay || "").toLowerCase().includes('punt') || 
+              
+              (lastPlay || "").toLowerCase().includes('pass deep') ||
               (lastPlay || "").toLowerCase().includes('scramble') || 
-              (lastPlay || "").toLowerCase().includes('tipped') ||
+              
+              (lastPlay || "").toLowerCase().includes('touchdown') || 
+              (lastPlay || "").toLowerCase().includes('field goal') || 
               (lastPlay || "").toLowerCase().includes('td') || 
               (lastPlay || "").toLowerCase().includes('fg') || 
-              (lastPlay || "").toLowerCase().includes('onside') ||
-              (lastPlay || "").toLowerCase().includes('dance') || 
-              (lastPlay || "").toLowerCase().includes('pass deep') ||
+              (lastPlay || "").toLowerCase().includes('safety') || 
+
+              (lastPlay || "").toLowerCase().includes('missed') || 
+              (lastPlay || "").toLowerCase().includes('no good') || 
+              
+              (lastPlay || "").toLowerCase().includes('sacked') || 
+              (lastPlay || "").toLowerCase().includes('deflect') || 
+              (lastPlay || "").toLowerCase().includes('tipped') ||
+
+              (lastPlay || "").toLowerCase().includes('punt') || 
+              (lastPlay || "").toLowerCase().includes('onside') || 
+
+              (lastPlay || "").toLowerCase().includes('injur') || 
+
+              (lastPlay || "").toLowerCase().includes('challenge') || 
               (lastPlay || "").toLowerCase().includes('upheld') ||
-              (lastPlay || "").toLowerCase().includes('long') || 
+              (lastPlay || "").toLowerCase().includes('reverse') || 
+              (lastPlay || "").toLowerCase().includes('intercept') || 
               (lastPlay || "").toLowerCase().includes('fumble')) {
 
               if (lastHighlightTime !== lastPlay.slice(0,7)) {
