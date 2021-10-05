@@ -19,10 +19,10 @@ import Box from '@material-ui/core/Box';
 
 import green from '@material-ui/core/colors/green';
 
-import Popover from '../Popover';
+import CheckCircle from '@material-ui/icons/CheckCircle';
+import Cancel from '@material-ui/icons/Cancel';
 
-import angry from '../../styles/images/angry.png';
-import money from '../../styles/images/smile-sweat.png';
+import Popover from '../Popover';
 
 import { hasGameStarted } from '../../utilities';
 
@@ -273,10 +273,10 @@ function GamePlayTabs(props) {
   );
 }
 
-const HeartSelector = (props) => {
-  const {  competitor } = props;
+const SelectionIndicator = (props) => {
+  const { competitor } = props;
   return (
-    <div style={{marginTop: '10px'}}>
+    <div>
       {
         competitor.selected &&
         <svg aria-label="Unlike" className="_8-yf5 " color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="25"><path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
@@ -284,6 +284,29 @@ const HeartSelector = (props) => {
       {
         !competitor.selected &&
         <svg aria-label="Like" className="_8-yf5 " color="#262626" fill="#262626" height="25" role="img" viewBox="0 0 48 48" width="25"><path d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+      }
+    </div>
+  );
+};
+
+const GamePredictionStatusIcon = (props) => {
+  const { game, competitor, spreadMode, pick } = props;
+
+  return (
+    <div style={{paddingLeft:'2px'}}>
+      {
+        ((spreadMode && get(game,'isGameOver') && competitor.selected && !competitor.selectedWinner) ||
+        (!spreadMode && get(game,'isGameOver') && competitor.selected && ((game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || 
+        (game.winner !== '000000000000000000000000' && 
+        get(pick,'pickId') === '000000000000000000000000')))) &&
+        <Cancel style={{color:'red'}} />
+      }
+      {
+        ((spreadMode && get(game,'isGameOver') && competitor.selected && competitor.selectedWinner) || 
+        (!spreadMode && get(game,'isGameOver') && competitor.selected && ((game.winner === competitor._id && get(pick,'pickId') === competitor._id) || 
+        (game.winner === '000000000000000000000000' && 
+        get(pick,'pickId') === '000000000000000000000000')))) &&
+        <CheckCircle style={{color:'green'}} />
       }
     </div>
   );
@@ -313,7 +336,13 @@ const SimpleCompetitor = (props) => {
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
                    {competitor.name}
                 </div>
-                <HeartSelector {...props} />
+                <div style={{display: 'inline-flex', marginTop: '10px'}}>
+                  <SelectionIndicator {...props} />
+                  {
+                    get(game,'isGameOver') && competitor.selected &&
+                    <GamePredictionStatusIcon {...props} />
+                  }
+                </div>
               </div>
             </Grid>
         </Grid>
@@ -351,7 +380,13 @@ const DetailCompetitor = (props) => {
                     {competitor.record}
                   </div>
                 }
-                <HeartSelector {...props} />
+                <div style={{display: 'inline-flex', marginTop: '10px'}}>
+                  <SelectionIndicator {...props} />
+                  {
+                    get(game,'isGameOver') && competitor.selected &&
+                    <GamePredictionStatusIcon {...props} />
+                  }
+                </div>
               </div>
             </Grid>
         </Grid>
@@ -425,36 +460,10 @@ const GameFooter = (props) => {
 };
 
 const CompetitorHeader = (props) => {
-  const { classes, game, spreadMode, pick, competitor } = props;
+  const { classes, game, spreadMode, competitor } = props;
 
   return (
     <Grid item className={classNames(classes.competitorHeader)}>
-      {
-        spreadMode &&
-        <div>
-          <div style={{position:'absolute', padding: '4px',
-            display: get(game,'isGameOver') && competitor.selected && !competitor.selectedWinner ? 'block' : 'none'}}>
-            <img style={{width:'40px'}} src={angry} alt=""/>
-          </div>
-          <div style={{position:'absolute', padding: '4px',
-            display: get(game,'isGameOver') && competitor.selected && competitor.selectedWinner ? 'block' : 'none'}}>
-            <img style={{width:'40px'}} src={money} alt=""/>
-          </div>
-        </div>
-      }
-      {
-        !spreadMode &&
-        <div>
-          <div style={{position:'absolute', padding: '4px',
-            display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner !== competitor._id && get(pick,'pickId') === competitor._id) || (game.winner !== '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-            <img style={{width:'40px'}} src={angry} alt=""/>
-          </div>
-          <div style={{position:'absolute', padding: '4px',
-            display: get(game,'isGameOver') ? (!competitor.selected ? 'none' : (game.winner === competitor._id && get(pick,'pickId') === competitor._id) || (game.winner === '000000000000000000000000' && get(pick,'pickId') === '000000000000000000000000') ? 'block' : 'none') : 'none'}}>
-            <img style={{width:'40px'}} src={money} alt=""/>
-          </div>
-        </div>
-      }
       {
         spreadMode &&
         <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
