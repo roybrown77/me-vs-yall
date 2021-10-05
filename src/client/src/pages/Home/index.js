@@ -16,7 +16,7 @@ import LightOff from '@material-ui/icons/EmojiObjects';
 
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
-import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji } from '../../utilities';
+import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji, getRandomIntInclusive } from '../../utilities';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const history = createBrowserHistory({forceRefresh: true});
@@ -62,7 +62,7 @@ class Home extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        darkModeOn: false
+        darkModeOn: getRandomIntInclusive(0,1) === 0
       };
     }
 
