@@ -136,15 +136,22 @@ const updateGames = async () => {
   console.log('eastCoastHour: ' + eastCoastHour);
 
   const getGamesThisManyDaysAhead = 3;
+  const nflSeason = monthDay > 800 && monthDay <= 215;
+  const nbaSeason = monthDay > 1115 && monthDay < 415;
+  const mlbSeason = monthDay > 325 && monthDay < 415;
+  const nonNflDays = [6+getGamesThisManyDaysAhead,0+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead];
 
-  if ([6+getGamesThisManyDaysAhead,0+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead].includes(currentWeekDay+getGamesThisManyDaysAhead) && 
+  const daysToGetMlb = nflSeason ? nonNflDays : nbaSeason ? [1,3,5] : [0,1,2,3,4,5,6];
+  const daysToGetNba = nflSeason ? nonNflDays : mlbSeason ? [0,2,4,6] : [0,1,2,3,4,5,6];
+
+  if (daysToGetNba.includes(currentWeekDay+getGamesThisManyDaysAhead) && 
     monthDay > 1115 && monthDay < 715 && eastCoastHour === 5 && minutes > 0 && minutes < 5) {
-    loadBasketballGames({dayCount: getGamesThisManyDaysAhead, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2021, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+    loadBasketballGames({dayCount: getGamesThisManyDaysAhead, shouldLimit: true, year: 2021, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   }
 
-  if ([6+getGamesThisManyDaysAhead,0+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead].includes(currentWeekDay+getGamesThisManyDaysAhead) && 
+  if (daysToGetMlb.includes(currentWeekDay+getGamesThisManyDaysAhead) && 
     monthDay > 325 && monthDay <= 1115 && eastCoastHour === 6 && minutes > 0 && minutes < 5) {
-    loadMlbGames({dayCount: getGamesThisManyDaysAhead, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+    loadMlbGames({dayCount: getGamesThisManyDaysAhead, shouldLimit: false, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
 
   const weekNumber = moment().diff(moment("2021-09-07"),'weeks'); // Tuesday prior to start of season
@@ -182,7 +189,7 @@ const updateGames = async () => {
   updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
   //updateWorldFootballScores({leagueId: '59723313734d1d6202a85f17', year: 2021, message: 'updateEnglishPremierLeagueScores', baseUrl: 'http://www.espn.com/soccer/scoreboard/_/league/eng.1/date/', teams: premierLeagueTeams});
-  //updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //updateBasketballScores({leagueId: '59723313734d1d6202a85f37', year:  2021, message: 'updateWnbaGames', url: 'http://www.espn.com/wnba/scoreboard/_/date/', teams: wnbaTeams});
   updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
 };
