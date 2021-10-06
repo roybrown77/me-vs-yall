@@ -223,7 +223,6 @@ router.get('/games', async function (req, res) {
             }
 
             if ((lastPlay || "").toLowerCase().includes('pass deep') || 
-              (lastPlay || "").toLowerCase().includes('scramble') ||
               (lastPlay || "").toLowerCase().includes('flea flicker') || 
               (lastPlay || "").toLowerCase().includes('hail mary') || 
               (lastPlay || "").toLowerCase().includes('statue of liberty') || 
