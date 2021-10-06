@@ -135,14 +135,18 @@ const updateGames = async () => {
   console.log('hoursOffset: ' + hoursOffset);
   console.log('eastCoastHour: ' + eastCoastHour);
 
-  const getGamesThisManyDaysAhead = 3;
+
   const nflSeason = monthDay > 800 && monthDay <= 215;
   const nbaSeason = monthDay > 1115 && monthDay < 415;
   const mlbSeason = monthDay > 325 && monthDay < 415;
-  const nonNflDays = [6+getGamesThisManyDaysAhead,0+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead];
 
-  const daysToGetMlb = nflSeason ? nonNflDays : nbaSeason ? [1,3,5] : [0,1,2,3,4,5,6];
-  const daysToGetNba = nflSeason ? nonNflDays : mlbSeason ? [0,2,4,6] : [0,1,2,3,4,5,6];
+  const getGamesThisManyDaysAhead = 3;
+  const nonNflDays = [6+getGamesThisManyDaysAhead,0+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead];
+  const everyDay = [0+getGamesThisManyDaysAhead,1+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead,
+  3+getGamesThisManyDaysAhead,4+getGamesThisManyDaysAhead,5+getGamesThisManyDaysAhead,6+getGamesThisManyDaysAhead];
+
+  const daysToGetMlb = nflSeason ? nonNflDays : nbaSeason ? [1+getGamesThisManyDaysAhead,3+getGamesThisManyDaysAhead,5+getGamesThisManyDaysAhead] : everyDay;
+  const daysToGetNba = nflSeason ? nonNflDays : mlbSeason ? [0+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead,4+getGamesThisManyDaysAhead,6+getGamesThisManyDaysAhead] : everyDay;
 
   if (daysToGetNba.includes(currentWeekDay+getGamesThisManyDaysAhead) && 
     monthDay > 1115 && monthDay < 715 && eastCoastHour === 5 && minutes > 0 && minutes < 5) {
