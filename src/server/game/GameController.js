@@ -204,10 +204,13 @@ router.get('/games', async function (req, res) {
               game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
             }
 
-            if ((lastPlay || "").toLowerCase().includes('safety') || 
-              (lastPlay || "").toLowerCase().includes('touchdown') || 
+            if ((lastPlay || "").toLowerCase().includes('touchdown') || 
               (lastPlay || "").toLowerCase().includes('td')) {
               game.playHistory[i].lastPlay = lastPlay + " 🤩";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('safety')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🥳";
             }
 
             if ((lastPlay || "").toLowerCase().includes('field goal') || 
@@ -216,7 +219,7 @@ router.get('/games', async function (req, res) {
             }
 
             if ((lastPlay || "").toLowerCase().includes('sacked')) {
-              game.playHistory[i].lastPlay = lastPlay + " ⚡️";
+              game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
             }
 
             if ((lastPlay || "").toLowerCase().includes('pass deep') || 
@@ -226,6 +229,10 @@ router.get('/games', async function (req, res) {
               (lastPlay || "").toLowerCase().includes('statue of liberty') || 
               (lastPlay || "").toLowerCase().includes('philly special')) {
               game.playHistory[i].lastPlay = lastPlay + " 🏈";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('scramble')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🐣";
             }
 
             if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
