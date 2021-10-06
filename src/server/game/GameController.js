@@ -231,7 +231,7 @@ router.get('/games', async function (req, res) {
             }
 
             if ((lastPlay || "").toLowerCase().includes('scramble')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🐣";
+              game.playHistory[i].lastPlay = lastPlay + " 🚛";
             }
 
             if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
