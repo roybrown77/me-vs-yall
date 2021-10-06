@@ -383,8 +383,6 @@ const getScoreSetItem = async ({
     liveTotalSelector,
     liveNameSelector,
     livePlaySelector,
-    livePlaySelector2,
-    livePlaySelector3,
     liveCurrentTimeSelector,
     finalNameSelector,
     finalGameOverSelector,
@@ -411,17 +409,32 @@ const getScoreSetItem = async ({
     const lastPlayPromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerText : null;
-    }, livePlaySelector.replace("INDEX", i));
+    }, livePlaySelector[0].replace("INDEX", i));
 
     const lastPlay2Promise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, livePlaySelector2.replace("INDEX", i));
+    }, livePlaySelector[1].replace("INDEX", i));
 
     const lastPlay3Promise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
-    }, livePlaySelector3.replace("INDEX", i));
+    }, livePlaySelector[2].replace("INDEX", i));
+
+    const lastPlay4Promise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePlaySelector[3].replace("INDEX", i));
+
+    const lastPlay5Promise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePlaySelector[4].replace("INDEX", i));
+
+    const lastPlay6Promise = page.evaluate((sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.innerHTML : null;
+    }, livePlaySelector[5].replace("INDEX", i));
 
     const gameOverTextPromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
@@ -518,6 +531,9 @@ const getScoreSetItem = async ({
       lastPlay,
       lastPlay2,
       lastPlay3,
+      lastPlay4,
+      lastPlay5,
+      lastPlay6,
       gameOverText,
       down,
       possessionHome,
@@ -542,6 +558,9 @@ const getScoreSetItem = async ({
       lastPlayPromise,
       lastPlay2Promise,
       lastPlay3Promise,
+      lastPlay4Promise,
+      lastPlay5Promise,
+      lastPlay6Promise,
       gameOverTextPromise,
       downPromise,
       possessionHomePromise,
@@ -584,6 +603,9 @@ const getScoreSetItem = async ({
       lastPlay: (lastPlay || '').trim(),
       lastPlay2: (lastPlay2 || '').trim(),
       lastPlay3: (lastPlay3 || '').trim(),
+      lastPlay4: (lastPlay4 || '').trim(),
+      lastPlay5: (lastPlay5 || '').trim(),
+      lastPlay6: (lastPlay6 || '').trim(),
       currentTime: currentTime,
       gameName: gameName,
       startDateTime: startDateTime,
@@ -607,9 +629,14 @@ const getScores = async ({
     liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
     liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    livePlaySelector = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
-    livePlaySelector2 = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > div.baseballDetails > div.circleGraphs',
-    livePlaySelector3 = 'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section',
+    livePlaySelector = [
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(2) > span.description',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
+    ],
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
@@ -690,8 +717,6 @@ const getScores = async ({
       liveTotalSelector,
       liveNameSelector,
       livePlaySelector,
-      livePlaySelector2,
-      livePlaySelector3,
       liveCurrentTimeSelector,
       finalNameSelector,
       finalGameOverSelector,
@@ -739,8 +764,6 @@ const getScores = async ({
     //   liveTotalSelector,
     //   liveNameSelector,
     //   livePlaySelector,
-    //   livePlaySelector2,
-    //   livePlaySelector3,
     //   liveCurrentTimeSelector,
     //   finalNameSelector,
     //   finalGameOverSelector,
@@ -818,8 +841,12 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           console.log("lastPlay2: " + get(score,'lastPlay2'));
           console.log("lastPlay3: " + get(score,'lastPlay3'));
+          console.log("lastPlay4: " + get(score,'lastPlay4'));
+          console.log("lastPlay5: " + get(score,'lastPlay5'));
+          console.log("lastPlay6: " + get(score,'lastPlay6'));
+          console.log("down: " + get(score,'down'));
 
-          const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), lastPlay2: get(score,'lastPlay2'), currentTime: get(score,'currentTime')});
+          const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
           const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
           const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 2;
           const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
@@ -851,7 +878,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             isGameOver: isGameOver,
             playHistory: newPlayHistory,
             currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
-            down: get(score,'down'),
+            down: leagueId === '59723313734d1d6202a85f21' ? 'Pitcher: ' + get(score,'lastPlay2') + ' vs Batter: ' + get(score,'lastPlay3') + ', ' + get(score,'lastPlay4') + " " + get(score,'lastPlay5') + " " + get(score,'lastPlay6') : get(score,'down'),
             possession: get(score,'possession')
           };
 
