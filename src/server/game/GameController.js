@@ -301,10 +301,8 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('block') || 
             (history.lastPlay || "").toLowerCase().includes('steal') || 
             (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
+            (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
             && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter > 3),
             ...game.playHistory.filter(history=>
@@ -312,10 +310,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('block') || 
             (history.lastPlay || "").toLowerCase().includes('steal') || 
             (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
-            (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
             && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,4),
             ...game.playHistory.filter(history=>
@@ -323,10 +318,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('block') || 
             (history.lastPlay || "").toLowerCase().includes('steal') || 
             (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
-            (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
             && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,4),
             ...game.playHistory.filter(history=>
@@ -334,10 +326,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('block') || 
             (history.lastPlay || "").toLowerCase().includes('steal') || 
             (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
-            (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
+            (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
             && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,4)
           ];
@@ -346,34 +335,36 @@ router.get('/games', async function (req, res) {
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
           game.highlights = game.playHistory.filter(history=>
             (history.lastPlay || "").toLowerCase().includes('homered') || 
-            (history.lastPlay || "").toLowerCase().includes('scored') || 
-            (history.lastPlay || "").toLowerCase().includes('stole') || 
-            (history.lastPlay || "").toLowerCase().includes('wild') || 
-            (history.lastPlay || "").toLowerCase().includes('walked') || 
-            (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('hit by pitch') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            (history.lastPlay || "").toLowerCase().includes('fight') || 
-            (history.lastPlay || "").toLowerCase().includes('charge') ||
-            (history.lastPlay || "").toLowerCase().includes('flip') || 
-            (history.lastPlay || "").toLowerCase().includes('thrown') || 
-            (history.lastPlay || "").toLowerCase().includes('picked') || 
-            (history.lastPlay || "").toLowerCase().includes('double') || 
-            (history.lastPlay || "").toLowerCase().includes('triple') || 
-            (history.lastPlay || "").toLowerCase().includes('inside the park') || 
-            (history.lastPlay || "").toLowerCase().includes('perfect') || 
-            (history.lastPlay || "").toLowerCase().includes('complete') || 
-            (history.lastPlay || "").toLowerCase().includes('shutout') || 
-            (history.lastPlay || "").toLowerCase().includes('notable') || 
-            (history.lastPlay || "").toLowerCase().includes('balk') || 
-            (history.lastPlay || "").toLowerCase().includes('error') || 
-            (history.lastPlay || "").toLowerCase().includes('mound') || 
-            (history.lastPlay || "").toLowerCase().includes('glove') || 
-            (history.lastPlay || "").toLowerCase().includes('at home') || 
-            (history.lastPlay || "").toLowerCase().includes('safe at') || 
-            (history.lastPlay || "").toLowerCase().includes('walk off') || 
-            (history.lastPlay || "").toLowerCase().includes('struck out'));
+            (history.lastPlay || "").toLowerCase().includes('score'));
+
+            //  || 
+            // (history.lastPlay || "").toLowerCase().includes('stole') || 
+            // (history.lastPlay || "").toLowerCase().includes('wild') || 
+            // (history.lastPlay || "").toLowerCase().includes('walked') || 
+            // (history.lastPlay || "").toLowerCase().includes('caught') || 
+            // (history.lastPlay || "").toLowerCase().includes('hit by pitch') || 
+            // (history.lastPlay || "").toLowerCase().includes('injur') || 
+            // (history.lastPlay || "").toLowerCase().includes('reverse') || 
+            // (history.lastPlay || "").toLowerCase().includes('fight') || 
+            // (history.lastPlay || "").toLowerCase().includes('charge') ||
+            // (history.lastPlay || "").toLowerCase().includes('flip') || 
+            // (history.lastPlay || "").toLowerCase().includes('thrown') || 
+            // (history.lastPlay || "").toLowerCase().includes('picked') || 
+            // (history.lastPlay || "").toLowerCase().includes('double') || 
+            // (history.lastPlay || "").toLowerCase().includes('triple') || 
+            // (history.lastPlay || "").toLowerCase().includes('inside the park') || 
+            // (history.lastPlay || "").toLowerCase().includes('perfect') || 
+            // (history.lastPlay || "").toLowerCase().includes('complete') || 
+            // (history.lastPlay || "").toLowerCase().includes('shutout') || 
+            // (history.lastPlay || "").toLowerCase().includes('notable') || 
+            // (history.lastPlay || "").toLowerCase().includes('balk') || 
+            // (history.lastPlay || "").toLowerCase().includes('error') || 
+            // (history.lastPlay || "").toLowerCase().includes('mound') || 
+            // (history.lastPlay || "").toLowerCase().includes('glove') || 
+            // (history.lastPlay || "").toLowerCase().includes('at home') || 
+            // (history.lastPlay || "").toLowerCase().includes('safe at') || 
+            // (history.lastPlay || "").toLowerCase().includes('walk off') || 
+            // (history.lastPlay || "").toLowerCase().includes('struck out'));
         }
 
         const plays = game.playHistory.slice(0,playHistoryCount);
