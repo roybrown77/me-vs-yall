@@ -58,11 +58,20 @@ const instructions = [
   "5. No purchase necessary.  It's free yall.  :D"
 ];
 
+const tagLines = [
+  "if you can't win here don't bet real money over there",
+  "the ultimate sports mashup site",
+  "play for fun or play for the 💰 it's your world",
+  "feel the thrill of betting without risking a thing",
+  "compete worldwide",
+  "your mission is to beat vegas every week.  this message will self destruct."
+];
+
 class Home extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        darkModeOn: getRandomIntInclusive(0,1) === 0
+        darkModeOn: false
       };
     }
 
@@ -181,7 +190,7 @@ class Home extends Component {
               sports x fun x friends x vegas
             </div>
             <div style={{marginTop: '10px', color: darkModeOn ? 'white' : 'black', fontSize: '15px'}}>
-              the ultimate sports mashup site
+              {tagLines[getRandomIntInclusive(0,tagLines.length-1)]}
             </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
