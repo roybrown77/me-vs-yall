@@ -52,28 +52,28 @@ const items = [
     id: 1,
     image: hoodiesBw,
     name: 'White Hoodie',
-    price: '$40',
+    price: 'Sold Out',
     source: 'courtesy @ _jayfilms'
   },
   {
     id: 2,
     image: shirtsBw,
     name: 'Black Tee',
-    price: '$20',
+    price: 'Sold Out',
     contact: '@ _jayfilms'
   },
   {
     id: 3,
     image: shirts,
     name: 'White Tee',
-    price: '$20',
+    price: 'Sold Out',
     contact: '@ _romeyofficial'
   },
   {
     id: 4,
     image: shirtGray,
     name: 'Gray Tee',
-    price: '$20'
+    price: 'Sold Out'
   },
   {
     id: 5,
