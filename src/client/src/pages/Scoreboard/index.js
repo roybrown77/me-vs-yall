@@ -636,7 +636,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
-    const showDetails = get(ui,'showGameDetailsToggle',localStorage.getItem('showGameDetailsToggle') === 'true');
+    const showDetails = get(ui,'showGameDetailsToggle',localStorage.getItem('showGameDetailsToggle') !== 'false');
     const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') === 'true');
 
     const leagues = get(lookup, 'leagues', []);
