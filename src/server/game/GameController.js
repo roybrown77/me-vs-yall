@@ -75,7 +75,7 @@ const backupData = async () => {
 
 const updateGames = (leagueId) => {
   //loadBasketballGames({dayCount: 3, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-  //loadMlbGames({dayCount: 3, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  //loadMlbGames({dayCount: 2, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/2', teams: nflTeams});
   //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/4', teams: ncaaTeams});
 
@@ -333,38 +333,45 @@ router.get('/games', async function (req, res) {
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
-          game.highlights = game.playHistory.filter(history=>
-            (history.lastPlay || "").toLowerCase().includes('homered') || 
-            (history.lastPlay || "").toLowerCase().includes('score'));
+          let highlights = [];
+          let playHistory = [];
 
-            //  || 
-            // (history.lastPlay || "").toLowerCase().includes('stole') || 
-            // (history.lastPlay || "").toLowerCase().includes('wild') || 
-            // (history.lastPlay || "").toLowerCase().includes('walked') || 
-            // (history.lastPlay || "").toLowerCase().includes('caught') || 
-            // (history.lastPlay || "").toLowerCase().includes('hit by pitch') || 
-            // (history.lastPlay || "").toLowerCase().includes('injur') || 
-            // (history.lastPlay || "").toLowerCase().includes('reverse') || 
-            // (history.lastPlay || "").toLowerCase().includes('fight') || 
-            // (history.lastPlay || "").toLowerCase().includes('charge') ||
-            // (history.lastPlay || "").toLowerCase().includes('flip') || 
-            // (history.lastPlay || "").toLowerCase().includes('thrown') || 
-            // (history.lastPlay || "").toLowerCase().includes('picked') || 
-            // (history.lastPlay || "").toLowerCase().includes('double') || 
-            // (history.lastPlay || "").toLowerCase().includes('triple') || 
-            // (history.lastPlay || "").toLowerCase().includes('inside the park') || 
-            // (history.lastPlay || "").toLowerCase().includes('perfect') || 
-            // (history.lastPlay || "").toLowerCase().includes('complete') || 
-            // (history.lastPlay || "").toLowerCase().includes('shutout') || 
-            // (history.lastPlay || "").toLowerCase().includes('notable') || 
-            // (history.lastPlay || "").toLowerCase().includes('balk') || 
-            // (history.lastPlay || "").toLowerCase().includes('error') || 
-            // (history.lastPlay || "").toLowerCase().includes('mound') || 
-            // (history.lastPlay || "").toLowerCase().includes('glove') || 
-            // (history.lastPlay || "").toLowerCase().includes('at home') || 
-            // (history.lastPlay || "").toLowerCase().includes('safe at') || 
-            // (history.lastPlay || "").toLowerCase().includes('walk off') || 
-            // (history.lastPlay || "").toLowerCase().includes('struck out'));
+          for (let i = 0; i < game.playHistory.length; i++) {
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
+              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " ⚾️";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('balk') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('caught')) {
+              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " 😳";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('single') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('double') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('triple')) {
+              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " 🥳";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
+              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " 🤩";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
+              highlights.push(game.playHistory[i]);
+            }
+
+            playHistory.push(game.playHistory[i]);
+          }
+
+          game.playHistory = playHistory;
+          game.highlights = highlights;
         }
 
         const plays = game.playHistory.slice(0,playHistoryCount);
