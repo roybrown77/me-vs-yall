@@ -39,7 +39,7 @@ const hasGameStarted = (dateTime) => {
     return difference <= 0;
 };
 
-const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", lastPlay2 = "", currentTime = ""}) => {
+const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
   //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
   //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
@@ -63,8 +63,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", las
       const newPlayHistory = [
         {
           quarter: currentTime,
-          lastPlay: lastPlay,
-          lastPlay2: lastPlay2
+          lastPlay: lastPlay
         },
         ...playHistory
       ];
@@ -808,12 +807,13 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           console.log("lastPlay6: " + get(score,'lastPlay6'));
           console.log("lastPlay7: " + get(score,'lastPlay7'));
           console.log("down: " + get(score,'down'));
+          console.log("currentTime: " + get(score,'currentTime'));
 
           const runnersClass = get(score,'lastPlay7','').replace("base-","").split(' ');
           const runnersOnBase = runnersClass.length === 2 ? runnersClass[1].split('-') : [];
           const runnersOnBaseString = runnersOnBase.length === 0  || runnersOnBase.join("") === "000" ? 
           "No runners on base" : 
-          "Runners on" + (get(runnersOnBase,'[0]') === '1' ? " 1st" : "") 
+          "Runner on" + (get(runnersOnBase,'[0]') === '1' ? " 1st" : "") 
           + (get(runnersOnBase,'[1]') === '1' ? " 2nd" : "") 
           + (get(runnersOnBase,'[2]') === '1' ? " 3rd" : "");
 
@@ -850,7 +850,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             competitors: [...get(game,'competitors',[])],
             isGameOver: isGameOver,
             playHistory: newPlayHistory,
-            currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
+            currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
             down: leagueId === '59723313734d1d6202a85f21' ? 
             'Pitcher: ' + get(score,'lastPlay2') + ' vs Batter: ' + get(score,'lastPlay3') + ', ' + 
             get(score,'lastPlay4') + " " + get(score,'lastPlay5') + " " + get(score,'lastPlay6')  + ", " +
