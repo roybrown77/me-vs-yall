@@ -87,6 +87,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
       'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div.circleGraph:nth-child(1) > span.description',
       'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div.circleGraph:nth-child(2) > span.description',
       'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div.circleGraph:nth-child(3) > span.description',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
     ],
   });
   

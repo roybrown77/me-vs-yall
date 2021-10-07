@@ -436,6 +436,11 @@ const getScoreSetItem = async ({
       return element ? element.innerHTML : null;
     }, livePlaySelector[5].replace("INDEX", i));
 
+    const lastPlay7Promise = page.evaluate(async (sel) => {
+      const element = document.querySelector(sel);
+      return element ? element.className : null;
+    }, livePlaySelector[6].replace("INDEX", i));
+
     const gameOverTextPromise = page.evaluate((sel) => {
       const element = document.querySelector(sel);
       return element ? element.innerHTML : null;
@@ -534,6 +539,7 @@ const getScoreSetItem = async ({
       lastPlay4,
       lastPlay5,
       lastPlay6,
+      lastPlay7,
       gameOverText,
       down,
       possessionHome,
@@ -561,6 +567,7 @@ const getScoreSetItem = async ({
       lastPlay4Promise,
       lastPlay5Promise,
       lastPlay6Promise,
+      lastPlay7Promise,
       gameOverTextPromise,
       downPromise,
       possessionHomePromise,
@@ -606,6 +613,7 @@ const getScoreSetItem = async ({
       lastPlay4: (lastPlay4 || '').trim(),
       lastPlay5: (lastPlay5 || '').trim(),
       lastPlay6: (lastPlay6 || '').trim(),
+      lastPlay7: (lastPlay7 || '').trim(),
       currentTime: currentTime,
       gameName: gameName,
       startDateTime: startDateTime,
@@ -636,6 +644,7 @@ const getScores = async ({
       'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
       'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(2) > span.description',
       'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
+      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
     ],
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
@@ -730,53 +739,6 @@ const getScores = async ({
     });
     scoreSet.push(scores);
 
-    /* 
-      Make second call to get scores that have changed in last 7 seconds
-    */
-
-    // //await page.reload({ waitUntil: ["networkidle2"] });
-    // await page.reload(url , { waitUntil: 'networkidle2' });
-    // //await page.waitForSelector('#events');
-
-    // listLength = await page.evaluate((sel) => {
-    //   return document.getElementsByClassName(sel).length;
-    // }, root);
-    
-    //console.log(`${message} listLength: ${listLength}`);
-
-    // if (listLength === 0) {
-    //   console.log(`${message} no games found`);
-    //   await browser.close();
-    //   return scores;
-    // }
-
-    // await page.reload();
-
-    // scores = await getScoreSetItem({
-    //   message,
-    //   root,
-    //   gameNameSelector,
-    //   spreadSelector,
-    //   startDateTimeSelector,
-    //   pregameNameSelector,
-    //   recordSelector,
-    //   liveQuarterSelector,
-    //   liveTotalSelector,
-    //   liveNameSelector,
-    //   livePlaySelector,
-    //   liveCurrentTimeSelector,
-    //   finalNameSelector,
-    //   finalGameOverSelector,
-    //   finalScoreSelector,
-    //   liveDownSelector,
-    //   livePossession,
-    //   away,
-    //   home,
-    //   page,
-    //   listLength
-    // });
-    // scoreSet.push(scores);
-
     await browser.close();
   } catch(err) {
     if (!!browser) {
@@ -844,7 +806,18 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           console.log("lastPlay4: " + get(score,'lastPlay4'));
           console.log("lastPlay5: " + get(score,'lastPlay5'));
           console.log("lastPlay6: " + get(score,'lastPlay6'));
+          console.log("lastPlay7: " + get(score,'lastPlay7'));
           console.log("down: " + get(score,'down'));
+
+          const runnersClass = get(score,'lastPlay7','').replace("base-","").split(' ');
+          const runnersOnBase = runnersClass.length === 2 ? runnersClass[1].split('-') : [];
+          const runnersOnBaseString = runnersOnBase.length === 0  || runnersOnBase.join("") === "000" ? 
+          "No runners on base" : 
+          "Runners on" + (get(runnersOnBase,'[0]') === '1' ? " 1st" : "") 
+          + (get(runnersOnBase,'[1]') === '1' ? " 2nd" : "") 
+          + (get(runnersOnBase,'[2]') === '1' ? " 3rd" : "");
+
+          console.log("runnersOnBaseString: " + runnersOnBaseString);
 
           const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
           const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;
@@ -878,7 +851,10 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             isGameOver: isGameOver,
             playHistory: newPlayHistory,
             currentTime: shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
-            down: leagueId === '59723313734d1d6202a85f21' ? 'Pitcher: ' + get(score,'lastPlay2') + ' vs Batter: ' + get(score,'lastPlay3') + ', ' + get(score,'lastPlay4') + " " + get(score,'lastPlay5') + " " + get(score,'lastPlay6') : get(score,'down'),
+            down: leagueId === '59723313734d1d6202a85f21' ? 
+            'Pitcher: ' + get(score,'lastPlay2') + ' vs Batter: ' + get(score,'lastPlay3') + ', ' + 
+            get(score,'lastPlay4') + " " + get(score,'lastPlay5') + " " + get(score,'lastPlay6')  + ", " +
+            runnersOnBaseString : get(score,'down'),
             possession: get(score,'possession')
           };
 
