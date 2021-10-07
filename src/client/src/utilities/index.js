@@ -20,7 +20,6 @@ import zachBaby from '../styles/images/zach-baby.jpg';
 
 import hoodiesBw from '../styles/images/mvy-hoodie-white-bw.jpg';
 import shirts from '../styles/images/mvy-tee-white-romey.jpg';
-import shirtGray from '../styles/images/mvy-tee-gray.jpg';
 import shirtsBw from '../styles/images/mvy-tee-black-bw.jpg';
 
 const vegasPictures = [
@@ -41,7 +40,6 @@ const basketBallImages = [
 const homePageImages = [
     hoodiesBw,
     shirts,
-    shirtGray,
     shirtsBw
 ];
 
