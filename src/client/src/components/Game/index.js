@@ -460,15 +460,16 @@ const GameFooter = (props) => {
 };
 
 const CompetitorHeader = (props) => {
-  const { classes, game, spreadMode } = props;
-
-  if (!spreadMode) return null;
+  const { classes, game, spreadMode, competitor } = props;
 
   return (
     <Grid item className={classNames(classes.competitorHeader)}>
       {
-        <div style={{fontSize: '17px', padding: '5px 5px 0 0', textAlign: 'right'}}>
-          {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+        spreadMode &&
+        <div style={{fontSize: '17px', 
+            display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
+            textAlign: 'right'}}>
+            {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
         </div>
       }
     </Grid>
@@ -849,6 +850,7 @@ const SimpleGame = (props) => {
                     className={inProgress ? 'fast-flash' : ''} 
                     style={{
                       border: competitor.selected ? '15px solid #3772FA' : '',
+                      padding: '10px',
                       cursor: 'pointer'
                     }}
                 >
@@ -858,7 +860,7 @@ const SimpleGame = (props) => {
                               spreadMode &&
                               <div style={{
                                 fontSize: '17px',
-                                padding: '5px 5px 10px 0', 
+                                paddingBottom: '10px', 
                                 display: get(game,'spread.teamId') === game.competitors[0]._id || get(game,'spread.teamId') === game.competitors[1]._id ? 'block' : 'none', 
                                 textAlign: 'right',
                                 height: '17px'
@@ -930,6 +932,7 @@ const DetailGame = (props) => {
                       className={inProgress ? 'fast-flash' : ''} 
                       style={{
                         border: competitor.selected ? '15px solid #3772FA' : '',
+                        padding: '10px',
                         cursor: 'pointer'
                       }}
                   >
