@@ -74,8 +74,8 @@ const backupData = async () => {
 };
 
 const updateGames = (leagueId) => {
-  //loadBasketballGames({dayCount: 3, game1: 6, game2: 7, shouldLimit: false, isStart: true, year: 2020, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-  //loadMlbGames({dayCount: 2, game1: 1, game2: 2, shouldLimit: false, isStart: true, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
+  //loadBasketballGames({dayCount: 3, shouldLimit: false, year: 2021, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+  //loadMlbGames({dayCount: 2, shouldLimit: false, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/2', teams: nflTeams});
   //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/4', teams: ncaaTeams});
 
@@ -340,12 +340,20 @@ router.get('/games', async function (req, res) {
           for (let i = 0; i < game.playHistory.length; i++) {
             lastPlay = game.playHistory[i].lastPlay;
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
-              game.playHistory[i].lastPlay = lastPlay+ " ⚾️";
+            if ((lastPlay || "").toLowerCase().includes('foul') || 
+              (lastPlay || "").toLowerCase().includes('swinging') || 
+              (lastPlay || "").toLowerCase().includes('looking')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🥶";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
+              game.playHistory[i].lastPlay = lastPlay + " ⚾️";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('fouled out') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('flied out') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('grounded out') ||
@@ -371,6 +379,8 @@ router.get('/games', async function (req, res) {
 
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
               game.playHistory[i].lastPlay = lastPlay + " 🤩";
@@ -379,6 +389,8 @@ router.get('/games', async function (req, res) {
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
               highlights.push(game.playHistory[i]);
