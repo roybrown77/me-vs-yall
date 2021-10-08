@@ -58,7 +58,7 @@ const styles = theme => ({
     color: 'rgba(0,0,0,.87)'
   },
   lastPlay: {
-    fontSize: '12px',
+    fontSize: '15px',
     fontWeight: 'bold',
     color: 'rgba(0,0,0,.87)'
   },
