@@ -351,7 +351,8 @@ router.get('/games', async function (req, res) {
               game.playHistory[i].lastPlay = lastPlay + " ⚾️";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('hit by pitch') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('fouled out') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
