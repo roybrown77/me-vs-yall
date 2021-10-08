@@ -19,7 +19,7 @@ const {
 
 let isUpdateBasketballScoresRunning = [];
 
-const loadBasketballGames = async ({dayCount, game1, game2, shouldLimit, isStart, leagueId, year, message, baseUrl, teams}) => {
+const loadBasketballGames = async ({dayCount, shouldLimit, leagueId, year, message, baseUrl, teams}) => {
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   const root = 'scoreboard basketball';
   const url = `${baseUrl}${date}`;
@@ -29,9 +29,8 @@ const loadBasketballGames = async ({dayCount, game1, game2, shouldLimit, isStart
     url,
     root,
     shouldLimit,
-    isStart,
-    game1,
-    game2
+    leagueId,
+    year
   });
 
   if ((games || []).length === 0) {

@@ -149,8 +149,8 @@ const getGames = async ({
     away = 'away',
     home = 'home',
     shouldLimit = false,
-    game1 = 0,
-    game2 = 1
+    leagueId,
+    year
 }) => {
   let games = [];
   let browser;
@@ -273,16 +273,43 @@ const getGames = async ({
     console.log(`${message} getGames browser error: ${err.message}`);
   }
   
-  if (shouldLimit) {
-    const maxLength = 2;
-    if (games.length > maxLength) {
-        // const randomPosition = getRandomIntInclusive(0,(games.length-1)-maxLength);
-        // games = games.slice(randomPosition,randomPosition+maxLength);
+  if (shouldLimit && games.length > 0) {
+    const search = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      isGameOver: {
+        $ne: true
+      },
+      year: year
+    };
 
-        game1 = game2 > games.length-1 ? games.length-2 : game1;
-        game2 = game2 > games.length-1 ? games.length-1 : game2;
-        games = [games[game1],games[game2]]; //.slice(0,1);
+    const gamesForTeamsToSkip = await gameRepository.find(search);
+
+    const teamsToSkip = {};
+
+    for (let i = 0; i < gamesForTeamsToSkip.length-1; i++) {
+      if (!teamsToSkip[gamesForTeamsToSkip[i].competitors[0]._id]) {
+        teamsToSkip[gamesForTeamsToSkip[i].competitors[0]._id] = 1;
+      }
+
+      if (!teamsToSkip[gagamesForTeamsToSkipmes[i].competitors[1]._id]) {
+        teamsToSkip[gamesForTeamsToSkip[i].competitors[1]._id] = 1;
+      }
+    };
+
+    const maxLength = 3;
+    const limitedGames = [];
+    for (let i = 0; i < games.length-1; i++) {
+      const game = games[i];
+      if (!teamsToSkip[game.competitors[0]._id] || !teamsToSkip[game.competitors[1]._id]) {
+        limitedGames.push(game);
+      }
+
+      if (limitedGames.length === maxLength) {
+        break;
+      }
     }
+
+    games = limitedGames;
   }
 
   return games;
