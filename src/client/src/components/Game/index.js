@@ -460,16 +460,15 @@ const GameFooter = (props) => {
 };
 
 const CompetitorHeader = (props) => {
-  const { classes, game, spreadMode, competitor } = props;
+  const { classes, game, spreadMode } = props;
+
+  if (!spreadMode) return null;
 
   return (
     <Grid item className={classNames(classes.competitorHeader)}>
       {
-        spreadMode &&
-        <div style={{fontSize: '17px', padding: '5px 5px 0 0', 
-            display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
-            textAlign: 'right'}}>
-            {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+        <div style={{fontSize: '17px', padding: '5px 5px 0 0', textAlign: 'right'}}>
+          {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
         </div>
       }
     </Grid>
@@ -849,6 +848,7 @@ const SimpleGame = (props) => {
                     onClick={() => handleMakePick(game._id, competitor._id)}
                     className={inProgress ? 'fast-flash' : ''} 
                     style={{
+                      border: competitor.selected ? '15px solid #3772FA' : '',
                       cursor: 'pointer'
                     }}
                 >
@@ -929,6 +929,7 @@ const DetailGame = (props) => {
                       onClick={() => handleMakePick(game._id, competitor._id)}
                       className={inProgress ? 'fast-flash' : ''} 
                       style={{
+                        border: competitor.selected ? '15px solid #3772FA' : '',
                         cursor: 'pointer'
                       }}
                   >
