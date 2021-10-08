@@ -335,33 +335,50 @@ router.get('/games', async function (req, res) {
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
           let highlights = [];
           let playHistory = [];
+          let lastPlay;
 
           for (let i = 0; i < game.playHistory.length; i++) {
+            lastPlay = game.playHistory[i].lastPlay;
+
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
-              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " ⚾️";
+              game.playHistory[i].lastPlay = lastPlay+ " ⚾️";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('flied out') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('grounded out') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bunted') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('walked') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('balk') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('caught')) {
-              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " 😳";
+              game.playHistory[i].lastPlay = lastPlay + " 😳";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🚛";
             }
 
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('single') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('double') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('triple')) {
-              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " 🥳";
+              game.playHistory[i].lastPlay = lastPlay + " 🥳";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
-              game.playHistory[i].lastPlay = game.playHistory[i].lastPlay + " 🤩";
+              game.playHistory[i].lastPlay = lastPlay + " 🤩";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
               highlights.push(game.playHistory[i]);
