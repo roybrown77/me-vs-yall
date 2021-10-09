@@ -64,7 +64,7 @@ const tagLines = [
   "play for fun or play for the 💰 it's your world",
   "feel the thrill of betting without risking a thing",
   "compete worldwide",
-  "your mission is to beat vegas every week.  this message will self destruct."
+  "your mission should you choose to accept is to beat vegas every week.  this message will self destruct."
 ];
 
 class Home extends Component {
