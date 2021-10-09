@@ -372,18 +372,18 @@ router.get('/games', async function (req, res) {
               game.playHistory[i].lastPlay = lastPlay + " 🚛";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('single') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('score') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('single') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('double') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('triple')) {
               game.playHistory[i].lastPlay = lastPlay + " 🥳";
             }
 
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
               game.playHistory[i].lastPlay = lastPlay + " 🤩";
             }
 
