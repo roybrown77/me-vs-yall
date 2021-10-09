@@ -80,6 +80,14 @@ function update(game, cb) {
             set(updatedGame,'startDateTime', newYork.format());
         }
 
+        if (get(game,'liveVideoUrl','null').trim() !== "null") {
+            set(updatedGame,'liveVideoUrl',game.liveVideoUrl);
+        }
+
+        if (get(game,'highlightVideoUrl','null').trim() !== "null") {
+            set(updatedGame,'highlightVideoUrl',game.highlightVideoUrl);
+        }
+
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
 
         return gameRepository.findOneAndUpdate(

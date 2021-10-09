@@ -211,7 +211,7 @@ const getVideoStreamUrl = (game) => {
 };
 
 function GamePlayTabs(props) {
-  const { game, classes, handleUpdateGamePlayTab, isAuthenticated } = props;
+  const { game, classes, handleUpdateGamePlayTab } = props;
 
   const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
 
@@ -241,7 +241,6 @@ function GamePlayTabs(props) {
           <Tab label="Plays" {...a11yProps(0)} />
           <Tab label="Highlights" {...a11yProps(1)} />
           {
-            isAuthenticated &&
             watchLiveGames &&
             (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
@@ -309,7 +308,6 @@ function GamePlayTabs(props) {
         }
       </TabPanel>
       {
-        isAuthenticated &&
         watchLiveGames &&
         (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
         ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
@@ -727,7 +725,7 @@ const TieButton = (props) => {
 
 const GameEditor = (props) => {
   const { classes, game, awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime,
+  homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
   handleClearInput, handleInputChange, handleSaveGame } = props;
 
   return (
@@ -924,6 +922,36 @@ const GameEditor = (props) => {
             variant="outlined"
           />
         </div>
+        <div style={{marginTop: '16px'}}>
+          <TextField
+            name="liveVideoUrl"
+            id="outlined-number"
+            label="Live Video Url"
+            defaultValue={liveVideoUrl}
+            fullWidth
+            multiline={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{marginTop: '16px'}}>
+          <TextField
+            name="highlightVideoUrl"
+            id="outlined-number"
+            label="Highlight Video Url"
+            defaultValue={highlightVideoUrl}
+            fullWidth
+            multiline={true}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
         <div style={{marginTop: '10px'}}>
           <Button 
               size="small"
@@ -1090,7 +1118,9 @@ class Game extends Component {
             isGameOver: null,
             currentTime: null,
             gameTime: null,
-            gameDate: null
+            gameDate: null,
+            liveVideoUrl: null,
+            highlightVideoUrl: null
         };
     }
 
@@ -1138,7 +1168,9 @@ class Game extends Component {
         isGameOver: null,
         currentTime: null,
         gameTime: null,
-        gameDate: null
+        gameDate: null,
+        liveVideoUrl: null,
+        highlightVideoUrl: null
       });
     }
 
@@ -1158,7 +1190,7 @@ class Game extends Component {
         }
 
         const {awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread,
-          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime} = this.state;
+          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl} = this.state;
 
         const gameTimeFormatted = gameTime ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime : null;
 
@@ -1175,7 +1207,9 @@ class Game extends Component {
             gameName,
             isGameOver,
             currentTime,
-            gameTime: gameTimeFormatted
+            gameTime: gameTimeFormatted,
+            liveVideoUrl,
+            highlightVideoUrl
         };
 
         this.props.handleUpdateGame(game);
@@ -1190,7 +1224,7 @@ class Game extends Component {
           showDetails, userId, disableTie } = this.props;
 
         const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime } = this.state;
+          homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl } = this.state;
 
         const inProgress = get(pick,'inProgress',false);
 
@@ -1198,7 +1232,7 @@ class Game extends Component {
 
         const props = { classes, game, pick, isAuthenticated, showDetails, userId, disableTie,
         awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
-        homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, 
+        homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
         inProgress, spreadMode, handleMakePick: this.handleMakePick, 
         handleTie: this.handleTie, handleClearInput: this.handleClearInput, 
         handleInputChange: this.handleInputChange, 

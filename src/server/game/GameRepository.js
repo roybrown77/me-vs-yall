@@ -14,7 +14,9 @@ const GameSchema = new mongoose.Schema({
     highlights: Array,
     currentTime: String,
     gameName: String,
-    hashCompetitors: String
+    hashCompetitors: String,
+    liveVideoUrl: String,
+    highlightVideoUrl: String
 });
 
 GameSchema.index({"playHistory.$**": "text"});
