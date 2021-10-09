@@ -323,7 +323,7 @@ function GamePlayTabs(props) {
             (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl && game.liveVideoUrl !== "")) &&
             get(game,'currentTime','').toLowerCase() !== 'halftime' &&
-            <div className="video-stream">
+            <div>
               <iframe
                 sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
                 allowfullscreen
