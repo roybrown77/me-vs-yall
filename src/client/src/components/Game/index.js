@@ -311,19 +311,19 @@ function GamePlayTabs(props) {
         watchLiveGames &&
         (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
         ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
-        <TabPanel value={value} index={2}>
+        <TabPanel value={value} index={2} style={{
+              zIndex: 2, 
+              position: 'relative', 
+              top: '-250px', 
+              marginBottom: '-250px'
+            }}>
           {
             hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
             (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl && game.liveVideoUrl !== "")) &&
             get(game,'currentTime','').toLowerCase() !== 'halftime' &&
-            <div className="video-stream" style={{
-              zIndex: 2, 
-              position: 'relative', 
-              top: '-250px', 
-              marginBottom: '-250px'
-            }}>
+            <div className="video-stream">
               <iframe
                 sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
                 allowfullscreen
@@ -963,6 +963,7 @@ const SimpleGame = (props) => {
 
   return (
     <div key={game._id} className={classes.game}>
+        <div style={{zIndex: 3, position: 'relative', backgroundColor: 'white'}}>
         <Grid key={game._id + "-gridlist"} container className={classes.root}>
             {
               game.competitors.map((competitor) => (
@@ -1030,6 +1031,7 @@ const SimpleGame = (props) => {
               {game.possession} {game.down}
             </div>
           }
+        </div>
         </div>
         {
           <GamePlayTabs {...props} />
