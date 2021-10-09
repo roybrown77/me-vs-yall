@@ -223,7 +223,7 @@ const boxingCompetitors = [
         _id: "19823783734d1d04a1b31015",
         location: 'Deontay Wilder',
         shortLocation: "Deontay",
-        name: "The Bronze Bomber Wilder",
+        name: "Bronze Bomber Wilder",
         country: "USA"
     },
     {
