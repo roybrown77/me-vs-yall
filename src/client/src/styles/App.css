@@ -343,3 +343,17 @@ a.links:hover {
   background-color: red !important;
   padding: "10 20px";
 }
+
+/* --- video stream start --- */
+
+.video-stream {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .video-stream {
+    display: block;
+  }
+}
+
+/* --- video stream end --- */

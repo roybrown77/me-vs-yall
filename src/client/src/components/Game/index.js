@@ -26,6 +26,8 @@ import Popover from '../Popover';
 
 import { hasGameStarted } from '../../utilities';
 
+import {watchLiveGames} from '../../config';
+
 import { getField } from './fields';
 
 const styles = theme => ({
@@ -178,8 +180,38 @@ function a11yProps(index) {
   };
 }
 
+const getVideoStreamUrl = (game) => {
+  if (!hasGameStarted(game.startDateTime) || 
+    game.isGameOver ||
+    !['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId)) {
+      return null;
+  }
+
+  const competitors = game.competitors;
+  let leagueName = "";
+
+  if (game.leagueId === "59723313734d1d6202a85f10") {
+    leagueName = "nfl";
+  }
+
+  if (game.leagueId === "59723313734d1d6202a85f15") {
+    leagueName = "cfb";
+  }
+
+  let gameName = game.leagueId === "59723313734d1d6202a85f15" ?
+    competitors[0].location.split(" ").join("-") + "-" + competitors[1].location.split(" ").join("-") : 
+    (competitors[0].location.split(" ").join("-") + "-" + competitors[0].name.split(" ").join("-") + "-" +
+    competitors[1].location.split(" ").join("-") + "-" + competitors[1].name.split(" ").join("-"));
+
+  const url = (leagueName + "/" + gameName + "/").toLowerCase();
+
+  console.log(url);
+
+  return "https://www.streameast.live/" + url;
+};
+
 function GamePlayTabs(props) {
-  const { game, classes, handleUpdateGamePlayTab } = props;
+  const { game, classes, handleUpdateGamePlayTab, isAuthenticated } = props;
 
   const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
 
@@ -208,6 +240,13 @@ function GamePlayTabs(props) {
         }}>
           <Tab label="Plays" {...a11yProps(0)} />
           <Tab label="Highlights" {...a11yProps(1)} />
+          {
+            isAuthenticated &&
+            watchLiveGames &&
+            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+            (game.liveVideoUrl || game.highlightVideoUrl)) &&
+            <Tab label="Watch Live" {...a11yProps(2)} />
+          }
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -269,6 +308,68 @@ function GamePlayTabs(props) {
           </div>
         }
       </TabPanel>
+      {
+        isAuthenticated &&
+        watchLiveGames &&
+        (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+        ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
+        <TabPanel value={value} index={2}>
+          {
+            hasGameStarted(game.startDateTime) &&
+            !game.isGameOver &&
+            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+            (game.liveVideoUrl && game.liveVideoUrl !== "")) &&
+            get(game,'currentTime','').toLowerCase() !== 'halftime' &&
+            <div className="video-stream" style={{
+              zIndex: 2, 
+              position: 'relative', 
+              top: '-250px', 
+              marginBottom: '-250px'
+            }}>
+              <iframe
+                sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation" 
+                allowfullscreen
+                scrolling="no"
+                style={{width:"90%", height: "800px", border: "none"}}
+                title="enjoy!" 
+                src={(game.liveVideoUrl && game.liveVideoUrl !== "") ? game.liveVideoUrl : getVideoStreamUrl(game)}
+              />
+            </div>
+          }
+          {
+            game.highlightVideoUrl &&
+            game.highlightVideoUrl !== "" &&
+            (game.isGameOver || !hasGameStarted(game.startDateTime)) &&
+            <div>
+              <iframe style={{borderStyle:'none'}} width="90%" height="215" title="highlight" src={game.highlightVideoUrl} />
+            </div>
+          }
+          {
+            !hasGameStarted(game.startDateTime) &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            <div>
+              Please wait for game to start to watch live.
+            </div>
+          }
+          {
+            hasGameStarted(game.startDateTime) && 
+            game.isGameOver &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            <div>
+              Please come back next time before game ends.
+            </div>
+          }
+          {
+            hasGameStarted(game.startDateTime) &&
+            !game.isGameOver &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
+            get(game,'currentTime','').toLowerCase === 'halftime' &&
+            <div>
+              Please come back after halftime.
+            </div>
+          }
+        </TabPanel>
+      }
     </Box>
   );
 }
