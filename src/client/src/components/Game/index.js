@@ -344,7 +344,6 @@ function GamePlayTabs(props) {
           }
           {
             !hasGameStarted(game.startDateTime) &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
             <div>
               Please wait for game to start to watch live.
             </div>
@@ -352,7 +351,6 @@ function GamePlayTabs(props) {
           {
             hasGameStarted(game.startDateTime) && 
             game.isGameOver &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
             <div>
               Please come back next time before game ends.
             </div>
@@ -360,7 +358,6 @@ function GamePlayTabs(props) {
           {
             hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) &&
             get(game,'currentTime','').toLowerCase === 'halftime' &&
             <div>
               Please come back after halftime.
@@ -559,18 +556,15 @@ const GameFooter = (props) => {
 };
 
 const CompetitorHeader = (props) => {
-  const { classes, game, spreadMode, competitor } = props;
+  const { classes, game, competitor } = props;
 
   return (
     <Grid item className={classNames(classes.competitorHeader)}>
-      {
-        spreadMode &&
-        <div style={{fontSize: '17px', 
-            display: get(game,'spread.teamId') === competitor._id && spreadMode ? 'block' : 'none', 
-            textAlign: 'right'}}>
-            {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
-        </div>
-      }
+      <div style={{fontSize: '17px', 
+          display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
+          textAlign: 'right'}}>
+          {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+      </div>
     </Grid>
   );
 };
@@ -1045,7 +1039,7 @@ const SimpleGame = (props) => {
 }
 
 const DetailGame = (props) => {
-  const { classes, game, pick, isAuthenticated, disableTie, 
+  const { classes, game, isAuthenticated, disableTie, 
     inProgress, spreadMode, handleMakePick } = props;
 
   return (
@@ -1068,7 +1062,7 @@ const DetailGame = (props) => {
                       <Grow in={true} timeout={500}>
                           <Paper className={classNames(classes.paper)}>
                               {
-                                ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) &&
+                                spreadMode &&
                                 <CompetitorHeader {...{...props, competitor}} />
                               }
                               <DetailCompetitor {...{...props, competitor}} />
