@@ -344,7 +344,7 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
     
     for (let i = 0; i < formattedGames.length; i++) {
       if (!teamsToSkip.has(formattedGames[i].competitors[0]._id) || 
-        !teamsToSkip.has(formattedGames[i].competitors[1]._id) ) {
+        !teamsToSkip.has(formattedGames[i].competitors[1]._id)) {
         limitedGames.push(formattedGames[i]);
       }
 
