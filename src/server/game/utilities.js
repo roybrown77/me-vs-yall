@@ -148,7 +148,6 @@ const getGames = async ({
     rankSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > span',
     away = 'away',
     home = 'home',
-    shouldLimit = false,
     leagueId,
     year
 }) => {
@@ -272,94 +271,90 @@ const getGames = async ({
 
     console.log(`${message} getGames browser error: ${err.message}`);
   }
-  
-  if (shouldLimit && games.length > 0) {
-    const search = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
-      isGameOver: {
-        $ne: true
-      },
-      year: year
-    };
-
-    const gamesForTeamsToSkip = await gameRepository.find(search);
-
-    const teamsToSkip = {};
-
-    for (let i = 0; i < gamesForTeamsToSkip.length-1; i++) {
-      if (!teamsToSkip[gamesForTeamsToSkip[i].competitors[0]._id]) {
-        teamsToSkip[gamesForTeamsToSkip[i].competitors[0]._id] = 1;
-      }
-
-      if (!teamsToSkip[gagamesForTeamsToSkipmes[i].competitors[1]._id]) {
-        teamsToSkip[gamesForTeamsToSkip[i].competitors[1]._id] = 1;
-      }
-    };
-
-    const maxLength = 3;
-    const limitedGames = [];
-    for (let i = 0; i < games.length-1; i++) {
-      const game = games[i];
-      if (!teamsToSkip[game.competitors[0]._id] || !teamsToSkip[game.competitors[1]._id]) {
-        limitedGames.push(game);
-      }
-
-      if (limitedGames.length === maxLength) {
-        break;
-      }
-    }
-
-    games = limitedGames;
-  }
 
   return games;
 };
 
 const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
-const formatGames = ({message, games, leagueId, year, teams}) => {
+const formatGames = async ({message, games, leagueId, year, teams, dayCount, shouldLimit}) => {
     let formattedGames = [];
 
     games.forEach(game=>{
-        const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
-        const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
-        
-        if (!awayTeam || !homeTeam || (game.gameName || '').toLowerCase().includes('header')) {
-            console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
-            console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
-        } else {
-            if (leagueId === "59723313734d1d6202a85f15" && !(allowedConferences.includes(awayTeam.conference) && allowedConferences.includes(homeTeam.conference))) {
-                console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
-            } else {
-                const competitors = [
-                    {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
-                    {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
-                ];
+      const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
+      const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
+      
+      if (!awayTeam || !homeTeam || (game.gameName || '').toLowerCase().includes('header')) {
+          console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
+          console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
+      } else {
+          if (leagueId === "59723313734d1d6202a85f15" && !(allowedConferences.includes(awayTeam.conference) && allowedConferences.includes(homeTeam.conference))) {
+              console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
+          } else {
+              const competitors = [
+                  {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
+                  {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
+              ];
 
-                const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'))
+              const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'))
 
-                console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
-                console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
-                const amount = get(game,'spread.amount', 0);
-                
-                formattedGames.push({
-                  leagueId: mongoose.Types.ObjectId(leagueId),
-                  year: year,
-                  startDateTime: game.startDateTime,
-                  gameName: game.gameName,
-                  competitors: competitors,
-                  hashCompetitors: getCompetitorHash(competitors),
-                  spread: spreadTeam ? {
-                    teamId: get(spreadTeam,'_id'),
-                    amount: amount,
-                    spreadDateTime: get(game,'spread.spreadDateTime')
-                  } : null
-                });
-            }
-        }
-    });
+              console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
+              console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
+              const amount = get(game,'spread.amount', 0);
+              
+              formattedGames.push({
+                leagueId: mongoose.Types.ObjectId(leagueId),
+                year: year,
+                startDateTime: game.startDateTime,
+                gameName: game.gameName,
+                competitors: competitors,
+                hashCompetitors: getCompetitorHash(competitors),
+                spread: spreadTeam ? {
+                  teamId: get(spreadTeam,'_id'),
+                  amount: amount,
+                  spreadDateTime: get(game,'spread.spreadDateTime')
+                } : null
+              });
+          }
+      }
+  });
 
-  return formattedGames;
+  let limitedGames = [];
+
+  if (shouldLimit && formattedGames.length > 0) {
+    const searchGamesWithinRange = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      startDateTime: {
+        $gte: new Date(moment().add(-1 * (6-dayCount),'days')),
+        $lte: new Date(moment().add(dayCount,'days'))
+      },
+      year: year
+    };
+
+    const gamesForTeamsToSkip = await gameRepository.find(searchGamesWithinRange);
+
+    let teamsToSkip = new Set();
+
+    for (let i = 0; i < gamesForTeamsToSkip.length; i++) {
+      teamsToSkip.add(gamesForTeamsToSkip[i].competitors[0]._id);
+      teamsToSkip.add(gamesForTeamsToSkip[i].competitors[1]._id);
+    }
+
+    const maxLength = 3;
+    
+    for (let i = 0; i < formattedGames.length; i++) {
+      if (!teamsToSkip.has(formattedGames[i].competitors[0]._id) || 
+        !teamsToSkip.has(formattedGames[i].competitors[1]._id) ) {
+        limitedGames.push(formattedGames[i]);
+      }
+
+      if (limitedGames.length === maxLength) {
+        break;
+      }
+    }
+  }
+
+  return limitedGames.length === 0 ? formattedGames.slice(0,3) : limitedGames;
 };
 
 const getCompetitorHash = (competitors) => {
@@ -897,7 +892,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
                 spreadDateTime: get(score,'spread.spreadDateTime')
             });
 
-            set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? get(score,'gameName') : get(game,'gameName'));
+            set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? (get(game,'gameName') || "").split(",")[0] : get(game,'gameName'));
           }
 
           console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
