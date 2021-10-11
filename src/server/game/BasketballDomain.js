@@ -40,7 +40,7 @@ const loadBasketballGames = async ({dayCount, shouldLimit, leagueId, year, messa
 
   //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({games, leagueId, year, teams});
+  const mvyGames = await formatGames({games, leagueId, year, teams, dayCount, shouldLimit});
 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
