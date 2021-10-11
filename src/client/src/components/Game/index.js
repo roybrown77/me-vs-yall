@@ -963,73 +963,75 @@ const SimpleGame = (props) => {
 
   return (
     <div key={game._id} className={classes.game}>
+      <div style={{zIndex: 3, position: 'relative', backgroundColor: 'white', paddingBottom: '20px'}}>
         <Grid key={game._id + "-gridlist"} container className={classes.root}>
+          {
+            game.competitors.map((competitor) => (
+              <Grid
+                  key={game._id + "." + competitor._id}
+                  item xs={6}
+                  onClick={() => handleMakePick(game._id, competitor._id)}
+                  className={inProgress ? 'fast-flash' : ''} 
+                  style={{
+                    border: competitor.selected ? '15px solid #3772FA' : '',
+                    padding: '10px',
+                    cursor: 'pointer'
+                  }}
+              >
+                  <Grow in={true} timeout={500}>
+                      <Paper className={classNames(classes.paper)}>
+                          {
+                            spreadMode &&
+                            <div style={{
+                              fontSize: '17px',
+                              paddingBottom: '10px', 
+                              display: get(game,'spread.teamId') === game.competitors[0]._id || get(game,'spread.teamId') === game.competitors[1]._id ? 'block' : 'none', 
+                              textAlign: 'right',
+                              height: '17px'
+                            }}>
+                                {get(game,'spread.teamId') !== competitor._id ? "" : get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+                            </div>
+                          }
+                          <SimpleCompetitor {...{...props, competitor}} />
+                      </Paper>
+                  </Grow>
+              </Grid>
+          ))}                            
+          </Grid>
+          {
+            isAuthenticated &&
+            !hasGameStarted(game.startDateTime) &&
+            ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
+            !spreadMode &&
+            !disableTie &&
+            <TieButton {...props} />
+          }
+          <div className={classes.startDateTime}>
             {
-              game.competitors.map((competitor) => (
-                <Grid
-                    key={game._id + "." + competitor._id}
-                    item xs={6}
-                    onClick={() => handleMakePick(game._id, competitor._id)}
-                    className={inProgress ? 'fast-flash' : ''} 
-                    style={{
-                      border: competitor.selected ? '15px solid #3772FA' : '',
-                      padding: '10px',
-                      cursor: 'pointer'
-                    }}
-                >
-                    <Grow in={true} timeout={500}>
-                        <Paper className={classNames(classes.paper)}>
-                            {
-                              spreadMode &&
-                              <div style={{
-                                fontSize: '17px',
-                                paddingBottom: '10px', 
-                                display: get(game,'spread.teamId') === game.competitors[0]._id || get(game,'spread.teamId') === game.competitors[1]._id ? 'block' : 'none', 
-                                textAlign: 'right',
-                                height: '17px'
-                              }}>
-                                  {get(game,'spread.teamId') !== competitor._id ? "" : get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
-                              </div>
-                            }
-                            <SimpleCompetitor {...{...props, competitor}} />
-                        </Paper>
-                    </Grow>
-                </Grid>
-            ))}                            
-        </Grid>
-        {
-          isAuthenticated &&
-          !hasGameStarted(game.startDateTime) &&
-          ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-          !spreadMode &&
-          !disableTie &&
-          <TieButton {...props} />
-        }
-        <div className={classes.startDateTime}>
-          {
-            game.gameName && 
-            <div style={{marginTop: '10px', fontSize: '15px'}}> 
-              {game.gameName}
-            </div>
-          }
-          {
-            get(game,'isGameOver') && 
-            <span style={{marginLeft:'12px'}}>Final</span>
-          }
-          {
-            !get(game,'isGameOver') && 
-            hasGameStarted(game.startDateTime) && 
-            <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
-              {game.currentTime || 'in progress'}
-            </span>
-          }
-          {
-            hasGameStarted(game.startDateTime) &&
-            !get(game,'isGameOver') && 
-            <div className={classes.startDateTime}>
-              {game.possession} {game.down}
-            </div>
-          }
+              game.gameName && 
+              <div style={{marginTop: '10px', fontSize: '15px'}}> 
+                {game.gameName}
+              </div>
+            }
+            {
+              get(game,'isGameOver') && 
+              <span style={{marginLeft:'12px'}}>Final</span>
+            }
+            {
+              !get(game,'isGameOver') && 
+              hasGameStarted(game.startDateTime) && 
+              <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
+                {game.currentTime || 'in progress'}
+              </span>
+            }
+            {
+              hasGameStarted(game.startDateTime) &&
+              !get(game,'isGameOver') && 
+              <div className={classes.startDateTime}>
+                {game.possession} {game.down}
+              </div>
+            }
+          </div>
         </div>
         {
           <GamePlayTabs {...props} />
