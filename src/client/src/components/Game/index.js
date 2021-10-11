@@ -1033,9 +1033,7 @@ const SimpleGame = (props) => {
             }
           </div>
         </div>
-        {
-          <GamePlayTabs {...props} />
-        }
+        <GamePlayTabs {...props} />
     </div>
   );
 }
@@ -1091,9 +1089,7 @@ const DetailGame = (props) => {
           }
           <GameFooter {...props} />
         </div>
-        {
-          <GamePlayTabs {...props} />
-        }
+        <GamePlayTabs {...props} />
     </div>
   );
 }
