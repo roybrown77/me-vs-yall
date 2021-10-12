@@ -183,7 +183,9 @@ function a11yProps(index) {
 const getVideoStreamUrl = (game) => {
   if (!hasGameStarted(game.startDateTime) || 
     game.isGameOver ||
-    !['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId)) {
+    !['59723313734d1d6202a85f10',
+      '59723313734d1d6202a85f15',
+      '59723313734d1d6202a85f19'].includes(game.leagueId)) {
       return null;
   }
 
@@ -196,6 +198,10 @@ const getVideoStreamUrl = (game) => {
 
   if (game.leagueId === "59723313734d1d6202a85f15") {
     leagueName = "cfb";
+  }
+
+  if (game.leagueId === "59723313734d1d6202a85f19") {
+    leagueName = "nba";
   }
 
   let gameName = game.leagueId === "59723313734d1d6202a85f15" ?
@@ -242,7 +248,9 @@ function GamePlayTabs(props) {
           <Tab label="Highlights 📸" {...a11yProps(1)} />
           {
             watchLiveGames &&
-            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+            (['59723313734d1d6202a85f10',
+              '59723313734d1d6202a85f15',
+              '59723313734d1d6202a85f19'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
             <Tab label="Watch Live 📺" {...a11yProps(2)} />
           }
@@ -309,7 +317,9 @@ function GamePlayTabs(props) {
       </TabPanel>
       {
         watchLiveGames &&
-        (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+        (['59723313734d1d6202a85f10',
+          '59723313734d1d6202a85f15',
+          '59723313734d1d6202a85f19'].includes(get(game,'leagueId')) || 
         ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
         <TabPanel value={value} index={2}>
           {
