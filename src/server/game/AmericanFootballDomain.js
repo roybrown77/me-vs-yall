@@ -35,7 +35,7 @@ const loadAmericanFootballGames = async ({message, url, leagueId, year, teams}) 
 
   //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
-  const mvyGames = formatGames({games, leagueId, year, teams});
+  const mvyGames = await formatGames({games, leagueId, year, teams});
 
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
