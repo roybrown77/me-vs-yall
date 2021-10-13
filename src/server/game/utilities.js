@@ -306,7 +306,7 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
                 leagueId: mongoose.Types.ObjectId(leagueId),
                 year: year,
                 startDateTime: game.startDateTime,
-                gameName: game.gameName,
+                gameName: (get(game,'gameName') || "").split(",")[0],
                 competitors: competitors,
                 hashCompetitors: getCompetitorHash(competitors),
                 spread: spreadTeam ? {
@@ -892,7 +892,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
                 spreadDateTime: get(score,'spread.spreadDateTime')
             });
 
-            set(updatedGame,'gameName',(get(game,'gameName') || "").length === 0 ? (get(game,'gameName') || "").split(",")[0] : get(game,'gameName'));
+            set(updatedGame,'gameName',(get(game,'gameName') || "").split(",")[0]);
           }
 
           console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
