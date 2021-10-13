@@ -421,7 +421,7 @@ const boxingCompetitors = [
         shortLocation: "Jamel",
         name: "Semper Fi Herring",
         country: "USA"
-    }
+    },
     {
         _id: "19823783734d1d04a1b31032",
         location: "Caleb Plant",
