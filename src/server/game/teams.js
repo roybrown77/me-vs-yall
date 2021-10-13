@@ -407,6 +407,27 @@ const boxingCompetitors = [
         shortLocation: "Oleksandr",
         name: "The Cat Usyk",
         country: "UKRAINE"
+    },
+    {
+        _id: "19823783734d1d04a1b31030",
+        location: "Shakur Stevenson",
+        shortLocation: "Shakur",
+        name: "Sugar Stevenson",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31031",
+        location: "Jamel Herring",
+        shortLocation: "Jamel",
+        name: "Semper Fi Herring",
+        country: "USA"
+    }
+    {
+        _id: "19823783734d1d04a1b31032",
+        location: "Caleb Plant",
+        shortLocation: "Caleb",
+        name: "Sweethands Plant",
+        country: "USA"
     }
 ];
 
@@ -602,7 +623,7 @@ const ufcCompetitors = [
     },
     {
         _id: "19823783734d1d04a1b32021",
-        location: 'Jan Błachowicz',
+        location: 'Jan Blachowicz',
         shortLocation: "Jan",
         name: "Prince of Cieszyn Błachowicz",
         country: "POLAND"
@@ -745,6 +766,20 @@ const ufcCompetitors = [
         location: 'Robbie Lawler',
         shortLocation: "Robbie",
         name: "Ruthless Lawler",
+        country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32036",
+        location: 'Kamaru Usman',
+        shortLocation: "Kamaru",
+        name: "Nigerian Nightmare Usman",
+        country: "NIGERIA"
+    },
+    {
+        _id: "19823783734d1d04a1b32037",
+        location: 'Colby Covington',
+        shortLocation: "Colby",
+        name: "Chaos Covington",
         country: "USA"
     }
 ];
