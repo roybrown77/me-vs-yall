@@ -59,12 +59,13 @@ const instructions = [
 ];
 
 const tagLines = [
-  "if you can't win here don't bet real money over there",
-  "the ultimate sports mashup site",
-  "play for fun or play for the 💰 it's your world",
-  "feel the thrill of betting without risking a thing",
-  "compete worldwide",
-  "your mission should you choose to accept is to beat vegas every week.  this message will self destruct."
+  // "if you can't win here don't bet real money over there",
+  // "the ultimate sports mashup site",
+  // "play for fun or play for the 💰 it's your world",
+  // "feel the thrill of betting without risking a thing",
+  // "compete worldwide",
+  // "your mission should you choose to accept is to beat vegas every week.  this message will self destruct.",
+  "the ultimate free pick'em game"
 ];
 
 class Home extends Component {
