@@ -65,7 +65,7 @@ const tagLines = [
   // "feel the thrill of betting without risking a thing",
   // "compete worldwide",
   // "your mission should you choose to accept is to beat vegas every week.  this message will self destruct.",
-  "the ultimate free pick'em game"
+  "the ultimate sports pick'em game"
 ];
 
 class Home extends Component {
