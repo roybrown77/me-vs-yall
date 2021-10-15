@@ -94,7 +94,9 @@ const updateGames = (leagueId) => {
   if (leagueId === '59723313734d1d6202a85f21') {
     updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
-  
+};
+
+router.get('/games', async function (req, res) {
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -109,9 +111,7 @@ const updateGames = (leagueId) => {
   console.log('minutes: ' + minutes);
   console.log('timezoneOffset: ' + timezoneOffset);
   console.log('hoursOffset: ' + hoursOffset);
-};
 
-router.get('/games', async function (req, res) {
   console.log("time1: ", moment().format());
 
   const leagueId = get(req, 'query.leagueId');
@@ -198,7 +198,7 @@ router.get('/games', async function (req, res) {
 
             if ((lastPlay || "").toLowerCase().includes('touchdown') || 
               (lastPlay || "").toLowerCase().includes('td')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🤩";
+              game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
             }
 
             if ((lastPlay || "").toLowerCase().includes('safety')) {
@@ -304,7 +304,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('injur') || 
             (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,4),
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,10),
             ...game.playHistory.filter(history=>
             ((history.lastPlay || "").toLowerCase().includes('makes') || 
             (history.lastPlay || "").toLowerCase().includes('block') || 
@@ -312,7 +312,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('injur') || 
             (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,4),
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,10),
             ...game.playHistory.filter(history=>
             ((history.lastPlay || "").toLowerCase().includes('makes') || 
             (history.lastPlay || "").toLowerCase().includes('block') || 
@@ -320,7 +320,7 @@ router.get('/games', async function (req, res) {
             (history.lastPlay || "").toLowerCase().includes('injur') || 
             (history.lastPlay || "").toLowerCase().includes('challenge') || 
             (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,4)
+            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,10)
           ];
         }
 
@@ -376,7 +376,7 @@ router.get('/games', async function (req, res) {
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🤩";
+              game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
             }
 
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
