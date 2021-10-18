@@ -226,7 +226,7 @@ const getVideoStreamUrl = (game) => {
 
   console.log(url);
 
-  return "https://www.streameast.live/" + url;
+  return "https://www.streameast.io/" + url;
 };
 
 function GamePlayTabs(props) {
