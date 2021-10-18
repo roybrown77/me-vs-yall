@@ -46,7 +46,7 @@ class Footer extends Component {
             {
                 true &&
                 <Route render={({ history}) => (
-                    <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                    <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid #1e90ff' : ''}} 
                     onClick={() => { history.push('/scoreboards/' + leagueName) }}>
                         Scores
                     </div>
@@ -55,7 +55,7 @@ class Footer extends Component {
             {
                 true &&
                 <Route render={({ history}) => (
-                    <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                    <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid #1e90ff' : ''}} 
                      onClick={() => { history.push('/leaders/' + leagueName) }}>
                         Leaders
                     </div>
@@ -64,7 +64,7 @@ class Footer extends Component {
             {
                 true &&
                 <Route render={({ history}) => (
-                    <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid rgb(239, 253, 87)' : ''}} 
+                    <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid #1e90ff' : ''}} 
                      onClick={() => { history.push('/oftheweek') }}>
                         OTW
                     </div>
