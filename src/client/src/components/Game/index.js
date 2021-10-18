@@ -1162,7 +1162,7 @@ const DetailGame = (props) => {
                 <Button 
                     size="small"
                     className={classes.gameStats} onClick={() => handleToggleField()}>
-                    {showField ? 'team stats' : 'field'}
+                    {showField ? 'stats' : 'field'}
                 </Button>
               </div>
             }
