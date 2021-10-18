@@ -97,6 +97,8 @@ const updateGames = (leagueId) => {
 };
 
 router.get('/games', async function (req, res) {
+  console.log("time1: ", moment().format());
+
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const currentWeekDay = moment(moment().startOf('day').format()).weekday();
@@ -112,9 +114,9 @@ router.get('/games', async function (req, res) {
   console.log('timezoneOffset: ' + timezoneOffset);
   console.log('hoursOffset: ' + hoursOffset);
 
-  console.log("time1: ", moment().format());
-
   const leagueId = get(req, 'query.leagueId');
+  const year = get(req, 'query.year');
+
   if (shouldUpdateGames) {
     updateGames(leagueId);
   }
@@ -123,62 +125,214 @@ router.get('/games', async function (req, res) {
 
   try {
     const search = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: get(req, 'query.year'),
-        startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
-          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
-          $lt: new Date(moment(get(req, 'query.endDateTime')))
-        } : undefined,
-        isGameOver: true
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: year,
+      startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+        $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+        $lt: new Date(moment(get(req, 'query.endDateTime')))
+      } : undefined
     };
 
-    const finalSearch = omit(search, 
+    const thisRangeSearch = omit(search, 
       [
         get(req,'query.year','year'),
         !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
       ]
     );
 
-    console.log('games search criteria: ' + JSON.stringify(finalSearch));
+    console.log('thisRangeSearch: ' + JSON.stringify(thisRangeSearch));
 
-    let fields = {};
-
-    if (leagueId === '59723313734d1d6202a85f21') {
-      fields = { 
-        leagueId: 1, 
-        isGameOver: 1, 
-        competitors: 1, 
-        year: 1, 
-        spread: 1, 
-        startDateTime: 1, 
-        hashCompetitors: 1, 
-        highlights: 1, 
-        currentTime: 1, 
-        playHistory: {$slice: 10}
-      };
-    }
-
-    const notCompleteSearch = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: get(req, 'query.year'),
-        startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
-          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
-          $lt: new Date(moment(get(req, 'query.endDateTime')))
-        } : undefined,
-        isGameOver: {$ne: true}
+    const wholeYearSearch = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      year: year,
+      startDateTime: {
+        $gt: new Date(moment(year + '0901')),
+        $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')) : moment())
+      },
+      isGameOver: true
     };
 
-    const [gamesCompleted1, gamesCompleted2, gamesNotComplete] = await Promise.all([
-      gameRepository.find(finalSearch, {}, {sort: {startDateTime: -1}, limit: 16}), 
-      gameRepository.find(finalSearch, fields, {sort: {startDateTime: -1}, skip: 16}), 
-      gameRepository.find(notCompleteSearch, {}, {}), 
+    const wholeYearFields = { 
+      leagueId: 1, 
+      isGameOver: 1, 
+      competitors: 1, 
+      year: 1, 
+      spread: 1, 
+      startDateTime: 1, 
+      hashCompetitors: 1, 
+      highlights: 1, 
+      currentTime: 1
+    };
+
+    const [gamesThisRange, gamesWholeYear] = await Promise.all([
+      gameRepository.find(thisRangeSearch, {}, {}), 
+      gameRepository.find(wholeYearSearch, wholeYearFields, {}), 
     ]);
 
-    const allGames = [...gamesCompleted1, ...gamesCompleted2, ...gamesNotComplete];
-
     console.log("time3: ", moment().format());
+    
+    let teamStats = {};
+    let teamStatTemplate = {
+      winStreak: {
+        name: "Win Streak",
+        value: 0
+      },
+      
+      losingStreak: {
+        name: "Losing Streak",
+        value: 0
+      },
 
-    (leagueId === '59723313734d1d6202a85f21' ? [...gamesNotComplete, ...gamesCompleted1] : allGames).forEach(game=>{
+      pointDifferential: {
+        name: "Point Differential",
+        value: 0
+      },
+
+      pointsScored: {
+        name: "Points Scored",
+        value: 0
+      },
+
+      pointsAllowed: {
+        name: "Points Allowed",
+        value: 0
+      },
+
+      mostPointsScored: {
+        name: "Most Points Scored",
+        value: 0
+      },
+
+      mostPointsAllowed: {
+        name: "Most Points Allowed",
+        value: 0
+      },
+
+      // mostWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // mostLosingStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // roadWins: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // roadWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // mostRoadWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // homeWins: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // homeWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // mostHomeWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      clutchWins: {
+        name: "Clutch Wins (< 8)",
+        value: 0
+      },
+
+      // clutchWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // mostClutchWinStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+      
+      closeLosses: {
+        name: "Close Losses (< 8)",
+        value: 0
+      },
+
+      // closeLosingStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // mostCloseLosingStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // beatVegas: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // beatVegasStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // },
+
+      // mostBeatVegasStreak: {
+      //   name: "Point Differential",
+      //   value: 0
+      // }
+    };
+
+    for (let k = 0; k < gamesWholeYear.length; k++) {
+      const game = gamesWholeYear[k];
+
+      if (!teamStats[game.competitors[0]._id]) {
+        teamStats[game.competitors[0]._id] = JSON.parse(JSON.stringify(teamStatTemplate));
+      }
+
+      if (!teamStats[game.competitors[1]._id]) {
+        teamStats[game.competitors[1]._id] = JSON.parse(JSON.stringify(teamStatTemplate));
+      }
+
+      for (let i = 0; i <= 1; i++) {
+        teamStats[game.competitors[i]._id].winStreak.value = (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 
+        teamStats[game.competitors[i]._id].winStreak.value + 1 : 0;
+
+        teamStats[game.competitors[i]._id].losingStreak.value = (game.competitors[i].score || 0) <= (game.competitors[1-i].score || 0) ? 
+        teamStats[game.competitors[i]._id].losingStreak.value + 1 : 0;
+
+        teamStats[game.competitors[i]._id].pointDifferential.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0));
+        teamStats[game.competitors[i]._id].pointsScored.value += (game.competitors[i].score || 0);
+        teamStats[game.competitors[i]._id].pointsAllowed.value += (game.competitors[1-i].score || 0);
+        
+        teamStats[game.competitors[i]._id].mostPointsScored.value = (game.competitors[i].score || 0) > teamStats[game.competitors[i]._id].mostPointsScored.value ? 
+        (game.competitors[i].score || 0) : teamStats[game.competitors[i]._id].mostPointsScored.value;
+        
+        teamStats[game.competitors[i]._id].mostPointsAllowed.value = (game.competitors[1-i].score || 0) > teamStats[game.competitors[i]._id].mostPointsAllowed.value ? 
+        (game.competitors[1-i].score || 0) : teamStats[game.competitors[i]._id].mostPointsAllowed.value;
+
+        teamStats[game.competitors[i]._id].clutchWins.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) <= 7 && 
+        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > 0 ? 1 : 0;
+
+        teamStats[game.competitors[i]._id].closeLosses.value += ((game.competitors[1-i].score || 0) - (game.competitors[i].score || 0)) <= 7 && 
+        ((game.competitors[1-i].score || 0) - (game.competitors[i].score || 0)) > 0 ? 1 : 0;
+      }
+    }
+
+    //console.log("teamStats: ", JSON.stringify(teamStats));
+
+    gamesThisRange.forEach(game=>{
       game.hashCompetitors = null;
         if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
           let lastPlay;
@@ -396,13 +550,55 @@ router.get('/games', async function (req, res) {
           game.highlights = highlights;
         }
 
-        const plays = game.playHistory.slice(0,playHistoryCount);
-        game.playHistory = plays;
+        if (['59723313734d1d6202a85f10'].includes(game.leagueId.toString().toLowerCase())) {
+          const awayTeamStats = teamStats[game.competitors[0]._id];
+          const homeTeamStats = teamStats[game.competitors[1]._id];
+          
+          // game.stats = [
+          //   {
+          //     name: "Point Differential"
+          //     awayTeam: {
+          //       name: "",
+          //       value: 0,   
+          //     },
+          //     homeTeam: {
+          //       name: "",
+          //       value: 0,   
+          //     }
+          //   }
+          // ]
+
+          if (awayTeamStats && homeTeamStats) {
+            const stats = [];
+
+            for (const [key, value] of Object.entries(teamStatTemplate)) {
+              const stat = {
+                name: value.name,
+                awayTeam:  {
+                  name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name,
+                  value: awayTeamStats[key].value
+                },
+                homeTeam: {
+                  name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name,
+                  value: homeTeamStats[key].value
+                }
+              };
+
+              stats.push(stat);
+            }
+
+            game.stats = stats;
+          }
+
+          //console.log("game.stats: ", JSON.stringify(game.stats));
+        }
+
+        game.playHistory = game.playHistory.slice(0,playHistoryCount);
       });
 
       console.log("time4: ", moment().format());
 
-      res.status(200).send(allGames);
+      res.status(200).send(gamesThisRange);
   } catch (error) {
     return res.status(500).send("There was a problem finding the games: " + err.message);
   }

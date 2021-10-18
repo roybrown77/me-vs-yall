@@ -77,6 +77,19 @@ const styles = theme => ({
       borderColor: '#3772FA',
     }
   },
+  gameStats: {
+    fontWeight: "700",
+    marginTop: '10px',
+    width: '25%',
+    backgroundColor: '#5aa17f',
+    color: '#FFFFFF',
+    borderColor: '#5aa17f',
+    '&:hover': {
+      backgroundColor: '#5aa17f',
+      color: '#FFFFFF',
+      borderColor: '#5aa17f',
+    }
+  },
   saveButton: {
     fontWeight: "700",
     width: '25%',
@@ -654,7 +667,7 @@ const GameHighlights = (props) => {
   return (
     <div className="game-highlight">
       <div style={{margin:'4px 0',display:'flex'}}>
-        <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+        <div style={{minWidth:'40px',padding:'4px',backgroundColor:'#1e90ff', color:'#fff', marginRight:'4px'}}>
           MvY Highlights
         </div>
       </div>
@@ -662,7 +675,7 @@ const GameHighlights = (props) => {
         (game.highlights || []).slice(0,5).map((play,playIndex)=> {
           return (
             <div key={playIndex} style={{margin:'4px 0',display: 'flex', opacity: !show && playIndex === 4 && (game.highlights || []).length > 5 ? '.1' : '1'}}>
-              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'#1e90ff', color:'#fff', marginRight:'4px'}}>
                 <div>
                   {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
                 </div>
@@ -685,7 +698,7 @@ const GameHighlights = (props) => {
         (game.highlights || []).slice(5).map((play,playIndex)=> {
           return (
             <div key={playIndex} style={{margin:'4px 0', display: 'flex'}}>
-              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'dodgerblue', color:'#fff', marginRight:'4px'}}>
+              <div style={{minWidth:'40px',padding:'4px',backgroundColor:'#1e90ff', color:'#fff', marginRight:'4px'}}>
                 <div>
                   {['59723313734d1d6202a85f21'].includes(get(game,'leagueId')) ? play.quarter : play.quarter === 1 ? '1st' : play.quarter === 2 ? '2nd' : play.quarter === 3 ? '3rd' : play.quarter + 'th'}
                 </div>
@@ -1049,6 +1062,12 @@ const SimpleGame = (props) => {
 }
 
 const DetailGame = (props) => {
+  const [showField, setShowField] = React.useState(true);
+
+  const handleToggleField = () => {
+    setShowField(!showField);
+  };
+
   const { classes, game, isAuthenticated, disableTie, 
     inProgress, spreadMode, handleMakePick } = props;
 
@@ -1089,14 +1108,65 @@ const DetailGame = (props) => {
             !disableTie &&
             <TieButton {...props} />
           }
-          {
-            getField(get(game,'leagueId'), {
-              away: game.competitors[0].shortLocation, 
-              awayColor: game.competitors[0].color, 
-              home: game.competitors[1].shortLocation, 
-              homeColor: game.competitors[1].color,
-            })
-          }
+          <div>
+            {
+              showField &&
+              getField(get(game,'leagueId'), {
+                away: game.competitors[0].shortLocation, 
+                awayColor: game.competitors[0].color, 
+                home: game.competitors[1].shortLocation, 
+                homeColor: game.competitors[1].color,
+              })
+            }
+            {
+              !showField &&
+              <div style={{fontSize: "14px", fontFamily: "monospace"}}>
+                <div style={{
+                  borderBottom: "10px solid #5aa17f",
+                  width: "30%",
+                  margin: "auto",
+                  paddingBottom: "5px"
+                }}>{"Stat Life 🍿"}</div>
+                {
+                  (game.stats || []).length > 0 &&
+                  <div style={{padding: "10px"}}>
+                    <div style={{display:'flex'}}>
+                      <div style={{height: "24px"}}></div>
+                      <div style={{position: "absolute", right: "150px"}}>
+                        {game.stats[0].awayTeam.name}
+                      </div>
+                      <div style={{position: "absolute", right: "50px"}}>
+                        {game.stats[1].homeTeam.name}
+                      </div>
+                    </div>
+                    {
+                      (game.stats || []).map((stat,statIndex)=> (
+                        <div key={statIndex} style={{display:'flex'}}>
+                          <div>{stat.name}</div>
+                          <div style={{position: "absolute", right: "150px"}}>
+                            {stat.awayTeam.value}
+                          </div>
+                          <div style={{position: "absolute", right: "50px"}}>
+                            {stat.homeTeam.value}
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
+                }
+              </div>
+            }
+            {
+              (game.stats || []).length > 0 &&
+              <div>
+                <Button 
+                    size="small"
+                    className={classes.gameStats} onClick={() => handleToggleField()}>
+                    {showField ? 'team stats' : 'field'}
+                </Button>
+              </div>
+            }
+          </div>
           <GameFooter {...props} />
         </div>
         <GamePlayTabs {...props} />
