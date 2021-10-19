@@ -222,6 +222,36 @@ router.get('/games', async function (req, res) {
         value: 0
       },
 
+      roadPointDifferentialAvg: {
+        name: "Road Point Diff Avg",
+        value: 0
+      },
+
+      roadPointsScoredAvg: {
+        name: "Road Points Scored Avg",
+        value: 0
+      },
+
+      roadPointsAllowedAvg: {
+        name: "Road Points Allowed Avg",
+        value: 0
+      },
+
+      homePointDifferentialAvg: {
+        name: "Home Point Diff Avg",
+        value: 0
+      },
+
+      homePointsScoredAvg: {
+        name: "Home Points Scored Avg",
+        value: 0
+      },
+
+      homePointsAllowedAvg: {
+        name: "Home Points Allowed Avg",
+        value: 0
+      },
+
       mostPointsScored: {
         name: "Most Points Scored",
         value: 0
@@ -345,6 +375,24 @@ router.get('/games', async function (req, res) {
         teamStats[game.competitors[i]._id].pointDifferentialAvg.value =   Math.abs(teamStats[game.competitors[i]._id].pointDifferential.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
         teamStats[game.competitors[i]._id].pointsScoredAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointsScored.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
         teamStats[game.competitors[i]._id].pointsAllowedAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointsAllowed.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+
+        teamStats[game.competitors[i]._id].roadPointDifferentialAvg.value = game.competitors[0]._id === game.competitors[i]._id ? 
+        Math.abs(teamStats[game.competitors[i]._id].pointDifferential.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointDifferentialAvg.value;
+
+        teamStats[game.competitors[i]._id].roadPointsScoredAvg.value = game.competitors[0]._id === game.competitors[i]._id ? 
+        Math.abs(teamStats[game.competitors[i]._id].pointsScored.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointsScoredAvg.value;
+
+        teamStats[game.competitors[i]._id].roadPointsAllowedAvg.value = game.competitors[0]._id === game.competitors[i]._id ? 
+        Math.abs(teamStats[game.competitors[i]._id].pointsAllowed.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointsAllowedAvg.value;
+
+        teamStats[game.competitors[i]._id].homePointDifferentialAvg.value = game.competitors[1]._id === game.competitors[i]._id ? 
+        Math.abs(teamStats[game.competitors[i]._id].pointDifferential.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointDifferentialAvg.value;
+
+        teamStats[game.competitors[i]._id].homePointsScoredAvg.value = game.competitors[1]._id === game.competitors[i]._id ? 
+        Math.abs(teamStats[game.competitors[i]._id].pointsScored.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointsScoredAvg.value;
+
+        teamStats[game.competitors[i]._id].homePointsAllowedAvg.value = game.competitors[1]._id === game.competitors[i]._id ? 
+        Math.abs(teamStats[game.competitors[i]._id].pointsAllowed.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointsAllowedAvg.value;
 
         teamStats[game.competitors[i]._id].mostPointsScored.value = (game.competitors[i].score || 0) > teamStats[game.competitors[i]._id].mostPointsScored.value ? 
         (game.competitors[i].score || 0) : teamStats[game.competitors[i]._id].mostPointsScored.value;

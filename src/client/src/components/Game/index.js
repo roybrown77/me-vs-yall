@@ -1112,7 +1112,7 @@ const DetailGame = (props) => {
                   <div style={{padding: "10px"}}>
                     <div style={{display:'flex'}}>
                       <div style={{height: "24px"}}></div>
-                      <div style={{position: "absolute", right: "125px"}}>
+                      <div style={{position: "absolute", right: "100px"}}>
                         {game.stats[0].awayTeam.name}
                       </div>
                       <div style={{position: "absolute", right: "10px"}}>
@@ -1123,7 +1123,7 @@ const DetailGame = (props) => {
                       (game.stats || []).map((stat,statIndex)=> (
                         <div key={statIndex} style={{display:'flex'}}>
                           <div>{stat.name}</div>
-                          <div style={{position: "absolute", right: "125px"}}>
+                          <div style={{position: "absolute", right: "100px"}}>
                             {stat.awayTeam.value}
                           </div>
                           <div style={{position: "absolute", right: "10px"}}>
