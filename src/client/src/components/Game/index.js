@@ -414,8 +414,16 @@ const SimpleCompetitor = (props) => {
                   competitor.country &&
                   <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
                 }
-                <div style={{fontSize: competitor.country ? '2rem' : '2.5rem', marginTop: competitor.country ? '-10px' : '0', fontWeight: '600', color: competitor.color }}>
-                  <div style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</div>{competitor.shortLocation}
+                <div style={{
+                  fontSize: competitor.country ? '2rem' : '2.5rem', 
+                  marginTop: competitor.country ? '-10px' : '0', 
+                  fontWeight: '600', 
+                  color: competitor.color
+                }}>
+                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>
+                    {competitor.rank}
+                  </span>
+                  {competitor.shortLocation}
                 </div>
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
                    {competitor.name}
@@ -453,7 +461,14 @@ const DetailCompetitor = (props) => {
                   <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
                 }
                 <div style={{fontSize: competitor.country ? '2rem' : '2.5rem', marginTop: competitor.country ? '-10px' : '0', fontWeight: '600', color: competitor.color}}>
-                  <div style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</div>{competitor.shortLocation}
+                  <span style={{
+                    color:'lightgray', 
+                    fontSize: '17px', 
+                    paddingRight: competitor.rank ? '8px': '0'
+                  }}>
+                    {competitor.rank}
+                  </span>
+                  {competitor.shortLocation}
                 </div>
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0' :  '4px 0'}}>
                   {competitor.name}
