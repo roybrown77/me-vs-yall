@@ -177,6 +177,11 @@ router.get('/games', async function (req, res) {
     
     let teamStats = {};
     let teamStatTemplate = {
+      gamesPlayed: {
+        name: "Games Played",
+        value: 0
+      },
+
       winStreak: {
         name: "Win Streak",
         value: 0
@@ -199,6 +204,21 @@ router.get('/games', async function (req, res) {
 
       pointsAllowed: {
         name: "Points Allowed",
+        value: 0
+      },
+
+      pointDifferentialAvg: {
+        name: "Point Diff Avg",
+        value: 0
+      },
+
+      pointsScoredAvg: {
+        name: "Points Scored Avg",
+        value: 0
+      },
+
+      pointsAllowedAvg: {
+        name: "Points Allowed Avg",
         value: 0
       },
 
@@ -310,6 +330,8 @@ router.get('/games', async function (req, res) {
       }
 
       for (let i = 0; i <= 1; i++) {
+        teamStats[game.competitors[i]._id].gamesPlayed.value += 1;
+
         teamStats[game.competitors[i]._id].winStreak.value = (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 
         teamStats[game.competitors[i]._id].winStreak.value + 1 : 0;
 
@@ -320,6 +342,10 @@ router.get('/games', async function (req, res) {
         teamStats[game.competitors[i]._id].pointsScored.value += (game.competitors[i].score || 0);
         teamStats[game.competitors[i]._id].pointsAllowed.value += (game.competitors[1-i].score || 0);
         
+        teamStats[game.competitors[i]._id].pointDifferentialAvg.value =   Math.abs(teamStats[game.competitors[i]._id].pointDifferential.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+        teamStats[game.competitors[i]._id].pointsScoredAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointsScored.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+        teamStats[game.competitors[i]._id].pointsAllowedAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointsAllowed.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+
         teamStats[game.competitors[i]._id].mostPointsScored.value = (game.competitors[i].score || 0) > teamStats[game.competitors[i]._id].mostPointsScored.value ? 
         (game.competitors[i].score || 0) : teamStats[game.competitors[i]._id].mostPointsScored.value;
         
