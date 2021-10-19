@@ -329,47 +329,54 @@ const getGames = async ({
 
 const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
-const formatGames = async ({message, games, leagueId, year, teams, dayCount, shouldLimit}) => {
-    let formattedGames = [];
+const formatGames = async ({message, games, leagueId, year, teams, dayCount, shouldLimit = false}) => {
+  let formattedGames = [];
 
-    games.forEach(game=>{
-      const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
+  //console.log("games: " + JSON.stringify(games));
+
+  for (let i = 0; i < games.length; i++) {
+    const game = games[i];
+    const awayTeam = teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
       const homeTeam = teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
-      
-      if (!awayTeam || !homeTeam || (game.gameName || '').toLowerCase().includes('header')) {
-          console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
-          console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
+    
+    //console.log("awayTeam: " + JSON.stringify(awayTeam));
+    //console.log("homeTeam: " + JSON.stringify(homeTeam));
+
+    if (!awayTeam || !homeTeam) {
+        console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
+        console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
+    } else {
+      if (leagueId === "59723313734d1d6202a85f15" && !(allowedConferences.includes(awayTeam.conference) && allowedConferences.includes(homeTeam.conference))) {
+          console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
       } else {
-          if (leagueId === "59723313734d1d6202a85f15" && !(allowedConferences.includes(awayTeam.conference) && allowedConferences.includes(homeTeam.conference))) {
-              console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
-          } else {
-              const competitors = [
-                  {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
-                  {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
-              ];
+          const competitors = [
+              {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
+              {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
+          ];
 
-              const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'))
+          const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'));
 
-              console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
-              console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
-              const amount = get(game,'spread.amount', 0);
-              
-              formattedGames.push({
-                leagueId: mongoose.Types.ObjectId(leagueId),
-                year: year,
-                startDateTime: game.startDateTime,
-                gameName: (get(game,'gameName') || "").split(",")[0],
-                competitors: competitors,
-                hashCompetitors: getCompetitorHash(competitors),
-                spread: spreadTeam ? {
-                  teamId: get(spreadTeam,'_id'),
-                  amount: amount,
-                  spreadDateTime: get(game,'spread.spreadDateTime')
-                } : null
-              });
-          }
+          //console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
+          //console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
+
+          const amount = (get(game,'spread.amount') || 0);
+          
+          formattedGames.push({
+            leagueId: mongoose.Types.ObjectId(leagueId),
+            year: year,
+            startDateTime: game.startDateTime,
+            gameName: (get(game,'gameName') || "").split(",")[0],
+            competitors: competitors,
+            hashCompetitors: getCompetitorHash(competitors),
+            spread: spreadTeam ? {
+              teamId: get(spreadTeam,'_id'),
+              amount: amount,
+              spreadDateTime: get(game,'spread.spreadDateTime')
+            } : null
+          });
       }
-  });
+    }
+  }
 
   let limitedGames = [];
 
@@ -406,7 +413,7 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
     }
   }
 
-  return limitedGames.length === 0 ? formattedGames.slice(0,3) : limitedGames;
+  return limitedGames.length > 0 ? limitedGames : shouldLimit ? formattedGames.slice(0,3) : formattedGames;
 };
 
 const getCompetitorHash = (competitors) => {
@@ -419,29 +426,32 @@ const getCompetitorHash = (competitors) => {
 };
 
 const createGames = ({message, games}) => {
-    games.forEach(game=>{
-        const gameFind = {
-          leagueId: get(game,'leagueId'),
-          year: get(game,'year'),
-          hashCompetitors: getCompetitorHash(game.competitors)
-        };
+  //console.log(`${message} createGames games: ${JSON.stringify(games)}`);
 
-        console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
+  for (let i = 0; i < games.length; i++) {
+    const game = games[i];
+    const gameFind = {
+      leagueId: get(game,'leagueId'),
+      year: get(game,'year'),
+      hashCompetitors: getCompetitorHash(game.competitors)
+    };
 
-        gameRepository.find(gameFind, function (err, gamesFound) {
-            if ((gamesFound || []).length > 0) {
-                console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
-            } else {
-                gameRepository.create(game, function (err, gameCreated) {
-                    if (err) {
-                        console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
-                    } else {
-                        console.log(`${message} createGames success creating game: ${gameCreated._id}`);
-                    }
-                });
-            }
-        });
-  });
+    //console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
+
+    gameRepository.find(gameFind, function (err, gamesFound) {
+        if ((gamesFound || []).length > 0) {
+            console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
+        } else {
+            gameRepository.create(game, function (err, gameCreated) {
+                if (err) {
+                    console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
+                } else {
+                    console.log(`${message} createGames success creating game: ${gameCreated._id}`);
+                }
+            });
+        }
+    });
+  }
 };
 
 const getScoreSetItem = async ({
