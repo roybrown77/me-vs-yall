@@ -18,6 +18,7 @@ const GameSchema = new mongoose.Schema({
     liveVideoUrl: String,
     highlightVideoUrl: String,
     stats: Array,
+    serverLiveVideoUrl: String,
 });
 
 GameSchema.index({"playHistory.$**": "text"});

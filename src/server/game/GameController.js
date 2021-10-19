@@ -3,6 +3,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
+const omit = require('lodash/omit');
+const get = require('lodash/get');
+const set = require('lodash/set');
+const uniq = require('lodash/uniq');
+const transform = require('lodash/transform');
+const groupBy = require('lodash/groupBy');
+const some = require('lodash/some');
+const sortBy = require('lodash/sortBy');
+
 let router = express.Router();
 
 const gameRepository = require('./GameRepository');
@@ -46,14 +55,9 @@ const {
   wnbaTeams
 } = require('./teams');
 
-const omit = require('lodash/omit');
-const get = require('lodash/get');
-const set = require('lodash/set');
-const uniq = require('lodash/uniq');
-const transform = require('lodash/transform');
-const groupBy = require('lodash/groupBy');
-const some = require('lodash/some');
-const sortBy = require('lodash/sortBy');
+const {
+  hasGameStarted
+} = require('./utilities');
 
 const getEmailAddresses = async () => {
   const users = await userRepository.find({deleted: {$ne: true}});
@@ -94,6 +98,42 @@ const updateGames = (leagueId) => {
   if (leagueId === '59723313734d1d6202a85f21') {
     updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   }
+};
+
+const getVideoStreamUrl = (game) => {
+  if (!hasGameStarted(game.startDateTime) || 
+    game.isGameOver ||
+    !['59723313734d1d6202a85f10',
+      '59723313734d1d6202a85f15',
+      '59723313734d1d6202a85f19'].includes(game.leagueId)) {
+      return null;
+  }
+
+  const competitors = game.competitors;
+  let leagueName = "";
+
+  if (game.leagueId === "59723313734d1d6202a85f10") {
+    leagueName = "nfl";
+  }
+
+  if (game.leagueId === "59723313734d1d6202a85f15") {
+    leagueName = "cfb";
+  }
+
+  if (game.leagueId === "59723313734d1d6202a85f19") {
+    leagueName = "nba";
+  }
+
+  let gameName = game.leagueId === "59723313734d1d6202a85f15" ?
+    competitors[0].location.split(" ").join("-") + "-" + competitors[1].location.split(" ").join("-") : 
+    (competitors[0].location.split(" ").join("-") + "-" + competitors[0].name.split(" ").join("-") + "-" +
+    competitors[1].location.split(" ").join("-") + "-" + competitors[1].name.split(" ").join("-"));
+
+  const url = (leagueName + "/" + gameName + "/").toLowerCase();
+
+  //console.log(url);
+
+  return "https://www.streameast.io/" + url;
 };
 
 router.get('/games', async function (req, res) {
@@ -249,7 +289,7 @@ router.get('/games', async function (req, res) {
       // },
 
       clutchWins: {
-        name: "Clutch Wins (< 8)",
+        name: "Clutch Wins < 8",
         value: 0
       },
 
@@ -264,7 +304,7 @@ router.get('/games', async function (req, res) {
       // },
       
       closeLosses: {
-        name: "Close Losses (< 8)",
+        name: "Close Losses < 8",
         value: 0
       },
 
@@ -594,6 +634,7 @@ router.get('/games', async function (req, res) {
         }
 
         game.playHistory = game.playHistory.slice(0,playHistoryCount);
+        game.serverLiveVideoUrl = getVideoStreamUrl(game);
       });
 
       console.log("time4: ", moment().format());

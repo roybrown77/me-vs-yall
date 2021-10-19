@@ -57,7 +57,8 @@ const styles = theme => ({
   startDateTime: {
     fontSize: '14px',
     fontWeight: 'bold',
-    color: 'rgba(0,0,0,.87)'
+    color: 'rgba(0,0,0,.87)',
+    marginTop: '5px'
   },
   lastPlay: {
     fontSize: '12px',
@@ -193,42 +194,6 @@ function a11yProps(index) {
   };
 }
 
-const getVideoStreamUrl = (game) => {
-  if (!hasGameStarted(game.startDateTime) || 
-    game.isGameOver ||
-    !['59723313734d1d6202a85f10',
-      '59723313734d1d6202a85f15',
-      '59723313734d1d6202a85f19'].includes(game.leagueId)) {
-      return null;
-  }
-
-  const competitors = game.competitors;
-  let leagueName = "";
-
-  if (game.leagueId === "59723313734d1d6202a85f10") {
-    leagueName = "nfl";
-  }
-
-  if (game.leagueId === "59723313734d1d6202a85f15") {
-    leagueName = "cfb";
-  }
-
-  if (game.leagueId === "59723313734d1d6202a85f19") {
-    leagueName = "nba";
-  }
-
-  let gameName = game.leagueId === "59723313734d1d6202a85f15" ?
-    competitors[0].location.split(" ").join("-") + "-" + competitors[1].location.split(" ").join("-") : 
-    (competitors[0].location.split(" ").join("-") + "-" + competitors[0].name.split(" ").join("-") + "-" +
-    competitors[1].location.split(" ").join("-") + "-" + competitors[1].name.split(" ").join("-"));
-
-  const url = (leagueName + "/" + gameName + "/").toLowerCase();
-
-  console.log(url);
-
-  return "https://www.streameast.io/" + url;
-};
-
 function GamePlayTabs(props) {
   const { game, classes, handleUpdateGamePlayTab } = props;
 
@@ -353,7 +318,7 @@ function GamePlayTabs(props) {
                 scrolling="no"
                 style={{width:"90%", height: "800px", border: "none"}}
                 title="enjoy!" 
-                src={(game.liveVideoUrl && game.liveVideoUrl !== "") ? game.liveVideoUrl : getVideoStreamUrl(game)}
+                src={(game.liveVideoUrl && game.liveVideoUrl !== "") ? game.liveVideoUrl : game.serverLiveVideoUrl}
               />
             </div>
           }
@@ -450,7 +415,7 @@ const SimpleCompetitor = (props) => {
                   <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
                 }
                 <div style={{fontSize: competitor.country ? '2rem' : '2.5rem', marginTop: competitor.country ? '-10px' : '0', fontWeight: '600', color: competitor.color }}>
-                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</span>{competitor.shortLocation}
+                  <div style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</div>{competitor.shortLocation}
                 </div>
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
                    {competitor.name}
@@ -488,7 +453,7 @@ const DetailCompetitor = (props) => {
                   <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
                 }
                 <div style={{fontSize: competitor.country ? '2rem' : '2.5rem', marginTop: competitor.country ? '-10px' : '0', fontWeight: '600', color: competitor.color}}>
-                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</span>{competitor.shortLocation}
+                  <div style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>{competitor.rank}</div>{competitor.shortLocation}
                 </div>
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0' :  '4px 0'}}>
                   {competitor.name}
@@ -538,10 +503,10 @@ const GameFooter = (props) => {
   const { classes, game, isAuthenticated, userId } = props;
 
   return (
-    <div className={"game-footer " + classes.startDateTime}>
+    <div style={{marginTop: "10px"}} className={"game-footer " + classes.startDateTime}>
         {
           game.gameName && 
-          <div style={{marginTop: '10px', fontSize: '15px'}}> 
+          <div style={{marginTop: '5px', fontSize: '15px'}}> 
             {game.gameName}
           </div>
         }
@@ -552,20 +517,20 @@ const GameFooter = (props) => {
         }
         {
           (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
-          <div style={{marginTop: '10px'}}> 
+          <div style={{marginTop: '5px'}}> 
             {game.startDateTimeDisplay}
           </div>
         }
         {
           get(game,'isGameOver') && 
-          <span style={{marginLeft:'12px'}}>Final</span>
+          <div style={{marginTop:'5px'}}>Final</div>
         }
         {
           !get(game,'isGameOver') && 
           hasGameStarted(game.startDateTime) && 
-          <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
+          <div className='fast-flash' style={{color: 'deeppink', marginTop:'5px'}}>
             {game.currentTime || 'in progress'}
-          </span>
+          </div>
         }
         {
           hasGameStarted(game.startDateTime) &&
@@ -1029,23 +994,23 @@ const SimpleGame = (props) => {
             !disableTie &&
             <TieButton {...props} />
           }
-          <div className={classes.startDateTime}>
+          <div style={{marginTop:"10px"}} className={classes.startDateTime}>
             {
               game.gameName && 
-              <div style={{marginTop: '10px', fontSize: '15px'}}> 
+              <div style={{fontSize: '15px', marginTop: '5px'}}> 
                 {game.gameName}
               </div>
             }
             {
               get(game,'isGameOver') && 
-              <span style={{marginLeft:'12px'}}>Final</span>
+              <div style={{marginTop:'5px'}}>Final</div>
             }
             {
               !get(game,'isGameOver') && 
               hasGameStarted(game.startDateTime) && 
-              <span className='fast-flash' style={{color: 'deeppink', marginLeft:'12px'}}>
+              <div className='fast-flash' style={{color: 'deeppink', marginTop:'5px'}}>
                 {game.currentTime || 'in progress'}
-              </span>
+              </div>
             }
             {
               hasGameStarted(game.startDateTime) &&
@@ -1120,7 +1085,7 @@ const DetailGame = (props) => {
             }
             {
               !showField &&
-              <div style={{fontSize: "14px", fontFamily: "monospace"}}>
+              <div style={{fontSize: "14px", fontFamily: "monospace", marginTop: "10px"}}>
                 <div style={{
                   borderBottom: "10px solid #5aa17f",
                   width: "30%",
@@ -1132,10 +1097,10 @@ const DetailGame = (props) => {
                   <div style={{padding: "10px"}}>
                     <div style={{display:'flex'}}>
                       <div style={{height: "24px"}}></div>
-                      <div style={{position: "absolute", right: "150px"}}>
+                      <div style={{position: "absolute", right: "125px"}}>
                         {game.stats[0].awayTeam.name}
                       </div>
-                      <div style={{position: "absolute", right: "50px"}}>
+                      <div style={{position: "absolute", right: "10px"}}>
                         {game.stats[1].homeTeam.name}
                       </div>
                     </div>
@@ -1143,10 +1108,10 @@ const DetailGame = (props) => {
                       (game.stats || []).map((stat,statIndex)=> (
                         <div key={statIndex} style={{display:'flex'}}>
                           <div>{stat.name}</div>
-                          <div style={{position: "absolute", right: "150px"}}>
+                          <div style={{position: "absolute", right: "125px"}}>
                             {stat.awayTeam.value}
                           </div>
-                          <div style={{position: "absolute", right: "50px"}}>
+                          <div style={{position: "absolute", right: "10px"}}>
                             {stat.homeTeam.value}
                           </div>
                         </div>
