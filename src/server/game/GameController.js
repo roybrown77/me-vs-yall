@@ -343,7 +343,7 @@ router.get('/games', async function (req, res) {
       // },
 
       beatVegas: {
-        name: "Beat Vegas as Favorite",
+        name: "Beat Vegas as Fave",
         value: 0
       },
 
@@ -353,7 +353,7 @@ router.get('/games', async function (req, res) {
       },
 
       homeBeatVegas: {
-        name: "Beat Vegas as Road Favorite",
+        name: "Beat Vegas as Home Fave",
         value: 0
       },
 
@@ -363,7 +363,7 @@ router.get('/games', async function (req, res) {
       },
 
       roadBeatVegas: {
-        name: "Beat Vegas as Road Favorite",
+        name: "Beat Vegas as Road Fave",
         value: 0
       },
 
