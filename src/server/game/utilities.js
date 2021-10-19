@@ -35,8 +35,60 @@ const getRandomIntInclusive = (min, max) => {
 const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'minutes');
-    return difference <= 0;
+    const difference = gameStartDateTime.diff(currentDateTime,'seconds');
+    //console.log("start time difference: " + difference);
+    return difference < 5;
+};
+
+const getVideoStreamUrl = (game) => {
+  if (!hasGameStarted(game.startDateTime) || 
+    game.isGameOver ||
+    !['59723313734d1d6202a85f10',
+      '59723313734d1d6202a85f15',
+      '59723313734d1d6202a85f19'].includes(game.leagueId.toString().toLowerCase())) {
+      //console.log("invalid url scenario");
+      return null;
+  }
+
+  //console.log("url 1");
+
+  const competitors = game.competitors;
+  let leagueName = "";
+  let teams = [];
+
+  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f10") {
+    leagueName = "nfl";
+    teams = nflTeams;
+  }
+
+  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f15") {
+    leagueName = "cfb";
+    teams = ncaaTeams;
+  }
+
+  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f19") {
+    leagueName = "nba";
+    teams = nbaTeams;
+  }
+
+  const awayTeam = teams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase());
+  const homeTeam = teams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase());
+
+  if (!awayTeam || !homeTeam || leagueName === "") {
+    console.log("No data for video url");
+    return null;
+  }
+
+  let gameName = game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f15" ?
+    awayTeam.location.split(" ").join("-") + "-" + homeTeam.location.split(" ").join("-") : 
+    (awayTeam.location.split(" ").join("-") + "-" + awayTeam.name.split(" ").join("-") + "-" +
+    homeTeam.location.split(" ").join("-") + "-" + homeTeam.name.split(" ").join("-"));
+
+  const url = (leagueName + "/" + gameName + "/").toLowerCase();
+
+  console.log("url: " + url);
+
+  return "https://www.streameast.io/" + url;
 };
 
 const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
@@ -909,5 +961,6 @@ module.exports = {
     formatGames,
     createGames,
     getScores,
-    updateGames
+    updateGames,
+    getVideoStreamUrl
 };
