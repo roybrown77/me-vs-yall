@@ -133,17 +133,20 @@ const teamStatTemplate = {
 
     pointsScored: {
       name: "Points Scored",
-      value: 0
+      value: 0,
+      displayStat: true
     },
 
     pointsAllowed: {
       name: "Points Allowed",
-      value: 0
+      value: 0,
+      displayStat: true
     },
 
     pointDifferential: {
-      name: "Point Differential",
-      value: 0
+      name: "Point Diff",
+      value: 0,
+      displayStat: true
     },
 
     roadPointsScored: {
@@ -157,7 +160,7 @@ const teamStatTemplate = {
     },
 
     roadPointDifferential: {
-      name: "Road Point Differential",
+      name: "Road Point Diff",
       value: 0
     },
 
@@ -172,7 +175,7 @@ const teamStatTemplate = {
     },
 
     homePointDifferential: {
-      name: "Home Point Differential",
+      name: "Home Point Diff",
       value: 0
     },
 
@@ -294,18 +297,6 @@ const teamStatTemplate = {
       displayStat: true
     },
 
-    homeBeatVegas: {
-      name: "Beat Vegas as Home Fave",
-      value: 0,
-      displayStat: true
-    },
-
-    homeBeatVegasDog: {
-      name: "Beat Vegas as Home Dog",
-      value: 0,
-      displayStat: true
-    },
-
     roadBeatVegas: {
       name: "Beat Vegas as Road Fave",
       value: 0,
@@ -314,6 +305,18 @@ const teamStatTemplate = {
 
     roadBeatVegasDog: {
       name: "Beat Vegas as Road Dog",
+      value: 0,
+      displayStat: true
+    },
+
+    homeBeatVegas: {
+      name: "Beat Vegas as Home Fave",
+      value: 0,
+      displayStat: true
+    },
+
+    homeBeatVegasDog: {
+      name: "Beat Vegas as Home Dog",
       value: 0,
       displayStat: true
     },
@@ -390,45 +393,41 @@ const getAllTeamStats = (gamesWholeYear) => {
       teamStats[game.competitors[i]._id].losingStreak.value = (game.competitors[i].score || 0) <= (game.competitors[1-i].score || 0) ? 
       teamStats[game.competitors[i]._id].losingStreak.value + 1 : 0;
 
-      teamStats[game.competitors[i]._id].pointDifferential.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0));
       teamStats[game.competitors[i]._id].pointsScored.value += (game.competitors[i].score || 0);
       teamStats[game.competitors[i]._id].pointsAllowed.value += (game.competitors[1-i].score || 0);
+      teamStats[game.competitors[i]._id].pointDifferential.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0));
 
-      teamStats[game.competitors[i]._id].roadPointDifferential.value += game.competitors[0]._id === game.competitors[i]._id ? ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) : 0;
       teamStats[game.competitors[i]._id].roadPointsScored.value += game.competitors[0]._id === game.competitors[i]._id ? (game.competitors[i].score || 0) : 0;
       teamStats[game.competitors[i]._id].roadPointsAllowed.value += game.competitors[0]._id === game.competitors[i]._id ? (game.competitors[1-i].score || 0) : 0;
+      teamStats[game.competitors[i]._id].roadPointDifferential.value += teamStats[game.competitors[i]._id].roadPointsScored.value - teamStats[game.competitors[i]._id].roadPointsAllowed.value;
 
-      teamStats[game.competitors[i]._id].homePointDifferential.value += game.competitors[1]._id === game.competitors[i]._id ? ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) : 0;
       teamStats[game.competitors[i]._id].homePointsScored.value += game.competitors[1]._id === game.competitors[i]._id ? (game.competitors[i].score || 0) : 0;
       teamStats[game.competitors[i]._id].homePointsAllowed.value += game.competitors[1]._id === game.competitors[i]._id ? (game.competitors[1-i].score || 0) : 0;
-      
-      teamStats[game.competitors[i]._id].pointDifferentialAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointDifferential.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
-      teamStats[game.competitors[i]._id].pointsScoredAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointsScored.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
-      teamStats[game.competitors[i]._id].pointsAllowedAvg.value = Math.abs(teamStats[game.competitors[i]._id].pointsAllowed.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+      teamStats[game.competitors[i]._id].homePointDifferential.value += teamStats[game.competitors[i]._id].homePointsScored.value - teamStats[game.competitors[i]._id].homePointsAllowed.value;
 
-      teamStats[game.competitors[i]._id].roadPointDifferentialAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
-      teamStats[game.competitors[i]._id].roadGamesPlayed.value > 0 ? 
-      Math.abs(teamStats[game.competitors[i]._id].roadPointDifferential.value / teamStats[game.competitors[i]._id].roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointDifferentialAvg.value;
+      teamStats[game.competitors[i]._id].pointsScoredAvg.value = (teamStats[game.competitors[i]._id].pointsScored.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+      teamStats[game.competitors[i]._id].pointsAllowedAvg.value = (teamStats[game.competitors[i]._id].pointsAllowed.value / teamStats[game.competitors[i]._id].gamesPlayed.value).toFixed(2);
+      teamStats[game.competitors[i]._id].pointDifferentialAvg.value = (teamStats[game.competitors[i]._id].pointsScoredAvg.value - teamStats[game.competitors[i]._id].pointsAllowedAvg.value).toFixed(2);
 
       teamStats[game.competitors[i]._id].roadPointsScoredAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
       teamStats[game.competitors[i]._id].roadGamesPlayed.value > 0 ? 
-      Math.abs(teamStats[game.competitors[i]._id].roadPointsScored.value / teamStats[game.competitors[i]._id].roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointsScoredAvg.value;
+      (teamStats[game.competitors[i]._id].roadPointsScored.value / teamStats[game.competitors[i]._id].roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointsScoredAvg.value;
 
       teamStats[game.competitors[i]._id].roadPointsAllowedAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
       teamStats[game.competitors[i]._id].roadGamesPlayed.value > 0 ? 
-      Math.abs(teamStats[game.competitors[i]._id].roadPointsAllowed.value / teamStats[game.competitors[i]._id].roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointsAllowedAvg.value;
-
-      teamStats[game.competitors[i]._id].homePointDifferentialAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
-      teamStats[game.competitors[i]._id].homeGamesPlayed.value > 0 ? 
-      Math.abs(teamStats[game.competitors[i]._id].homePointDifferential.value / teamStats[game.competitors[i]._id].homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointDifferentialAvg.value;
+      (teamStats[game.competitors[i]._id].roadPointsAllowed.value / teamStats[game.competitors[i]._id].roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].roadPointsAllowedAvg.value;
+      
+      teamStats[game.competitors[i]._id].roadPointDifferentialAvg.value = (teamStats[game.competitors[i]._id].roadPointsScoredAvg.value - teamStats[game.competitors[i]._id].roadPointsAllowedAvg.value).toFixed(2);
 
       teamStats[game.competitors[i]._id].homePointsScoredAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
       teamStats[game.competitors[i]._id].homeGamesPlayed.value > 0 ?  
-      Math.abs(teamStats[game.competitors[i]._id].homePointsScored.value / teamStats[game.competitors[i]._id].homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointsScoredAvg.value;
+      (teamStats[game.competitors[i]._id].homePointsScored.value / teamStats[game.competitors[i]._id].homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointsScoredAvg.value;
 
       teamStats[game.competitors[i]._id].homePointsAllowedAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
       teamStats[game.competitors[i]._id].homeGamesPlayed.value > 0 ? 
-      Math.abs(teamStats[game.competitors[i]._id].homePointsAllowed.value / teamStats[game.competitors[i]._id].homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointsAllowedAvg.value;
+      (teamStats[game.competitors[i]._id].homePointsAllowed.value / teamStats[game.competitors[i]._id].homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].homePointsAllowedAvg.value;
+
+      teamStats[game.competitors[i]._id].homePointDifferentialAvg.value = (teamStats[game.competitors[i]._id].homePointsScoredAvg.value - teamStats[game.competitors[i]._id].homePointsAllowedAvg.value).toFixed(2);
 
       teamStats[game.competitors[i]._id].mostPointsScored.value = (game.competitors[i].score || 0) > teamStats[game.competitors[i]._id].mostPointsScored.value ? 
       (game.competitors[i].score || 0) : teamStats[game.competitors[i]._id].mostPointsScored.value;
