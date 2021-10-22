@@ -331,6 +331,18 @@ const teamStatTemplate = {
     //   value: 0
     // }
 
+    clutchDefense: {
+      name: "Allowed only 23 or less",
+      value: 0,
+      displayStat: true
+    },
+
+    topDogScoring: {
+      name: "Scored 27 or more",
+      value: 0,
+      displayStat: true
+    },
+
     clutchWins: {
       name: "Clutch Wins < 8",
       value: 0,
@@ -468,6 +480,9 @@ const getAllTeamStats = (gamesWholeYear) => {
       get(game,'spread.amount') && 
       (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
       ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) ? 1 : 0;
+
+      teamStats[game.competitors[i]._id].clutchDefense.value += (game.competitors[1-i].score || 0) <= 23 ? 1 : 0;
+      teamStats[game.competitors[i]._id].topDogScoring.value += (game.competitors[i].score || 0) >= 27 ? 1 : 0;
     }
   }
 
@@ -602,9 +617,9 @@ router.get('/games', async function (req, res) {
 
     console.log("time3: ", moment().format());
 
-    const teamStats = getAllTeamStats(gamesWholeYear);
-
     //console.log("teamStats: ", JSON.stringify(teamStats));
+
+    const teamStats = getAllTeamStats(gamesWholeYear);
 
     gamesThisRange.forEach(game=>{
       game.hashCompetitors = null;
@@ -830,7 +845,13 @@ router.get('/games', async function (req, res) {
         game.isWatchable = [
         '59723313734d1d6202a85f10',
         '59723313734d1d6202a85f15',
-        '59723313734d1d6202a85f19'].includes(game.leagueId.toString().toLowerCase());
+        '59723313734d1d6202a85f19',
+        '59723313734d1d6202a85f25',
+        '59723313734d1d6202a85f27'
+        ].includes(game.leagueId.toString().toLowerCase());
+
+        game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
+        game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
 
         //console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
       });
