@@ -707,9 +707,9 @@ router.get('/games', async function (req, res) {
 
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('score') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('single') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('double') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('triple')) {
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('singled') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('doubled') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('tripled')) {
               game.playHistory[i].lastPlay = lastPlay + " 🥳";
             }
 
