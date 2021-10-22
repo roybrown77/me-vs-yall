@@ -332,7 +332,7 @@ const teamStatTemplate = {
     // }
 
     clutchDefense: {
-      name: "Allowed only 23 or less",
+      name: "Allowed 23 or less",
       value: 0,
       displayStat: true
     },
@@ -386,15 +386,11 @@ const getAllTeamStats = (gamesWholeYear) => {
   for (let k = 0; k < gamesWholeYear.length; k++) {
     const game = gamesWholeYear[k];
 
-    if (!teamStats[game.competitors[0]._id]) {
-      teamStats[game.competitors[0]._id] = JSON.parse(JSON.stringify(teamStatTemplate));
-    }
-
-    if (!teamStats[game.competitors[1]._id]) {
-      teamStats[game.competitors[1]._id] = JSON.parse(JSON.stringify(teamStatTemplate));
-    }
-
     for (let i = 0; i <= 1; i++) {
+      if (!teamStats[game.competitors[i]._id]) {
+        teamStats[game.competitors[i]._id] = JSON.parse(JSON.stringify(teamStatTemplate));
+      }
+
       teamStats[game.competitors[i]._id].gamesPlayed.value += 1;
       teamStats[game.competitors[i]._id].roadGamesPlayed.value += game.competitors[0]._id === game.competitors[i]._id ? 1 : 0;
       teamStats[game.competitors[i]._id].homeGamesPlayed.value += game.competitors[1]._id === game.competitors[i]._id ? 1 : 0;
