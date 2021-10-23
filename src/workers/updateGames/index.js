@@ -81,24 +81,15 @@ const startCronProcess = (jobs) => {
 };
 
 const moment = require('moment-timezone');
-const gameRepository = require('../../server/game/GameRepository');
+
 const {
   nbaTeams,
   nflTeams,
-  premierLeagueTeams, 
   ncaaTeams, 
   mlbTeams,
-  countries,
   boxingCompetitors,
   ufcCompetitors,
-  mlsTeams,
-  nba2kCompetitors,
-  wnbaTeams
 } = require('../../server/game/teams');
-
-const {
-  updateWorldFootballScores
-} = require('../../server/game/WorldFootballDomain');
 
 const { 
   updateAmericanFootballScores,
@@ -135,7 +126,6 @@ const updateGames = async () => {
   console.log('hoursOffset: ' + hoursOffset);
   console.log('eastCoastHour: ' + eastCoastHour);
 
-
   const footballSeason = monthDay > 800 || monthDay <= 215;
   
   const nbaSeason = monthDay >= 1115 || monthDay < 700;
@@ -171,24 +161,6 @@ const updateGames = async () => {
   if (footballSeason && collegeWeekNumber+1 > 1 && currentWeekDay === 3 && eastCoastHour === 7 && minutes > 0 && minutes < 5) {
     loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/' + (collegeWeekNumber+1), teams: ncaaTeams});
   }
-
-  const search = {
-    startDateTime: {
-      $lte: new Date(moment().add(30, 'minutes'))
-    },
-    isGameOver: {
-      $ne: true
-    }
-  };
-
-  const games = await gameRepository.find(search);
-  
-  if (games.length === 0) {
-    console.log('all scores have been updated or games are not close to starting.');
-    return;
-  }
-
-  console.log('games.length: ' + JSON.stringify(games.length));
 
   updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
