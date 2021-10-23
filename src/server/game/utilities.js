@@ -97,7 +97,7 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
   //console.log(`${message} leagueId: ${JSON.stringify(leagueId)}`);
 
-  console.log("lastPlay 1: " + lastPlay);
+  //console.log("lastPlay 1: " + lastPlay);
 
   if (leagueId === '59723313734d1d6202a85f21') {
     const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
@@ -165,9 +165,9 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   //     return playHistory;
   // }
 
-  console.log("quarter: " + quarter);
-  console.log("time: " + time);
-  console.log("lastPlay 2: " + lastPlay);
+  // console.log("quarter: " + quarter);
+  // console.log("time: " + time);
+  // console.log("lastPlay 2: " + lastPlay);
 
   const newPlayHistory = orderBy([
     ...playHistory,
@@ -883,15 +883,14 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           const playHistory = get(game,'playHistory',[]);
           
           //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
-
-          console.log("lastPlay2: " + get(score,'lastPlay2'));
-          console.log("lastPlay3: " + get(score,'lastPlay3'));
-          console.log("lastPlay4: " + get(score,'lastPlay4'));
-          console.log("lastPlay5: " + get(score,'lastPlay5'));
-          console.log("lastPlay6: " + get(score,'lastPlay6'));
-          console.log("lastPlay7: " + get(score,'lastPlay7'));
-          console.log("down: " + get(score,'down'));
-          console.log("currentTime: " + get(score,'currentTime'));
+          // console.log("lastPlay2: " + get(score,'lastPlay2'));
+          // console.log("lastPlay3: " + get(score,'lastPlay3'));
+          // console.log("lastPlay4: " + get(score,'lastPlay4'));
+          // console.log("lastPlay5: " + get(score,'lastPlay5'));
+          // console.log("lastPlay6: " + get(score,'lastPlay6'));
+          // console.log("lastPlay7: " + get(score,'lastPlay7'));
+          // console.log("down: " + get(score,'down'));
+          // console.log("currentTime: " + get(score,'currentTime'));
 
           const runnersClass = get(score,'lastPlay7','').replace("base-","").split(' ');
           const runnersOnBase = runnersClass.length === 2 ? runnersClass[1].split('-') : [];
@@ -901,7 +900,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           + (get(runnersOnBase,'[1]') === '1' ? " 2nd" : "") 
           + (get(runnersOnBase,'[2]') === '1' ? " 3rd" : "");
 
-          console.log("runnersOnBaseString: " + runnersOnBaseString);
+          //console.log("runnersOnBaseString: " + runnersOnBaseString);
 
           const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
           const isUnderPastGracePeriod = moment().diff(moment(game.startDateTime),'minutes') < 45;

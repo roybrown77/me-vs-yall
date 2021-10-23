@@ -64,11 +64,44 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     year: year
   };
 
-  const games = await gameRepository.find(search);
-  
+  let games = await gameRepository.find(search);
+
   if ((games || []).length === 0) {
     console.log(`${message} all scores have been updated or games are not close to starting.`);
-    return;
+    
+    const month = parseInt(moment().format('MM'));
+    const monthDay = parseInt(moment().format('MMDD'));
+    const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+    const hours = parseInt(moment().format('HH'));
+    const minutes = parseInt(moment().format('mm'));
+    const timezoneOffset = moment().utcOffset()/60;
+    const hoursOffset = hours+(-1*timezoneOffset);
+    const eastCoastHour = hours + (-4 - timezoneOffset);
+
+    // console.log('monthDay: ' + monthDay);
+    // console.log('currentWeekDay: ' + currentWeekDay);
+    // console.log('hours: ' + hours);
+    // console.log('minutes: ' + minutes);
+    // console.log('timezoneOffset: ' + timezoneOffset);
+    // console.log('hoursOffset: ' + hoursOffset);
+    // console.log('eastCoastHour: ' + eastCoastHour);
+
+    if (eastCoastHour === 7 && minutes > 20 && minutes < 25) {
+      const search = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+        isGameOver: {
+          $ne: true
+        },
+        year: year
+      };
+
+      games = await gameRepository.find(search);
+    }
+
+    if ((games || []).length === 0) {
+      console.log(`${message} not time to update spread.`);
+      return;
+    }
   }
 
   isUpdateMlbScoresRunning = true;
