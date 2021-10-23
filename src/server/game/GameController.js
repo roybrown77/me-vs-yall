@@ -84,15 +84,15 @@ const updateGames = (leagueId) => {
   //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/4', teams: ncaaTeams});
 
   if (leagueId === '59723313734d1d6202a85f10') {
-    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
+    //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f15') {
-    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
+    //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f19') {
-    updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+    //updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f21') {
