@@ -57,6 +57,7 @@ class GameSearchBar extends Component {
     return (
           <div className={classes.container}>
               {
+                false &&
                 <div style={{left: '4px', top: '12px', position: 'absolute'}}>
                   <img style={{width:'40px'}} src={ball} alt=""/>
                 </div>
