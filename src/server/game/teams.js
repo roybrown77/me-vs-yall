@@ -1401,7 +1401,7 @@ const ncaaTeams = [
     {
         _id: "5b84a2889a4c08bca6ab901b",
         leagueId: "59723313734d1d6202a85f15",
-        location: "Louisiana State",
+        location: "LSU",
         shortLocation: "LSU",
         name: "Tigers",
         color: '#461D7C',
@@ -1646,7 +1646,7 @@ const ncaaTeams = [
         _id: "5b84a2889a4c08bca6ab9039",
         leagueId: "59723313734d1d6202a85f15",
         location: "Texas A&M",
-        shortLocation: "TA&M",
+        shortLocation: "Texas A M",
         alternateName: "TA&amp;M",
         name: "Aggies",
         color: '#500000',
