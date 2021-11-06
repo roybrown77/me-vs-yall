@@ -1645,8 +1645,8 @@ const ncaaTeams = [
     {
         _id: "5b84a2889a4c08bca6ab9039",
         leagueId: "59723313734d1d6202a85f15",
-        location: "Texas A&M",
-        shortLocation: "Texas A M",
+        location: "Texas A M",
+        shortLocation: "TA&M",
         alternateName: "TA&amp;M",
         name: "Aggies",
         color: '#500000',
