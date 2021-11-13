@@ -303,7 +303,9 @@ function GamePlayTabs(props) {
           {
             hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
-            (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) || 
+            (['59723313734d1d6202a85f10',
+              '59723313734d1d6202a85f15',
+              '59723313734d1d6202a85f19'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl && game.liveVideoUrl !== "")) &&
             get(game,'currentTime','').toLowerCase() !== 'halftime' &&
             <div className="video-stream" style={{
