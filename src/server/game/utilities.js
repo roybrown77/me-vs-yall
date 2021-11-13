@@ -79,10 +79,17 @@ const getVideoStreamUrl = (game) => {
     return null;
   }
 
-  let gameName = game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f15" ?
+  let gameName = "";
+
+  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f19") {
+    gameName = homeTeam.location.split(" ").join("-") + "-" + homeTeam.name.split(" ").join("-") + "-" +
+    awayTeam.location.split(" ").join("-") + "-" + awayTeam.name.split(" ").join("-");
+  } else {
+    gameName = game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f15" ?
     awayTeam.location.split(" ").join("-") + "-" + homeTeam.location.split(" ").join("-") : 
     (awayTeam.location.split(" ").join("-") + "-" + awayTeam.name.split(" ").join("-") + "-" +
     homeTeam.location.split(" ").join("-") + "-" + homeTeam.name.split(" ").join("-"));
+  }
 
   const url = (leagueName + "/" + gameName + "/").toLowerCase();
 
