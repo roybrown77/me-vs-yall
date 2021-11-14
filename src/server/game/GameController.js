@@ -759,7 +759,7 @@ router.get('/games', async function (req, res) {
 
             if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad')
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') || 
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('block') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
               (game.playHistory[i].lastPlay || "").toLowerCase().includes('three point') ||
