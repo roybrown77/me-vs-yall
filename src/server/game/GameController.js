@@ -726,41 +726,52 @@ router.get('/games', async function (req, res) {
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
-          game.highlights = [
-            ...game.playHistory.filter(history=>
-            ((history.lastPlay || "").toLowerCase().includes('makes') || 
-            (history.lastPlay || "").toLowerCase().includes('block') || 
-            (history.lastPlay || "").toLowerCase().includes('steal') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('challenge') || 
-            (history.lastPlay || "").toLowerCase().includes('caught') || 
-            (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter > 3),
-            ...game.playHistory.filter(history=>
-            ((history.lastPlay || "").toLowerCase().includes('makes') || 
-            (history.lastPlay || "").toLowerCase().includes('block') || 
-            (history.lastPlay || "").toLowerCase().includes('steal') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('challenge') || 
-            (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter  === 3).slice(0,10),
-            ...game.playHistory.filter(history=>
-            ((history.lastPlay || "").toLowerCase().includes('makes') || 
-            (history.lastPlay || "").toLowerCase().includes('block') || 
-            (history.lastPlay || "").toLowerCase().includes('steal') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('challenge') || 
-            (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 2).slice(0,10),
-            ...game.playHistory.filter(history=>
-            ((history.lastPlay || "").toLowerCase().includes('makes') || 
-            (history.lastPlay || "").toLowerCase().includes('block') || 
-            (history.lastPlay || "").toLowerCase().includes('steal') || 
-            (history.lastPlay || "").toLowerCase().includes('injur') || 
-            (history.lastPlay || "").toLowerCase().includes('challenge') || 
-            (history.lastPlay || "").toLowerCase().includes('eject')) 
-            && !(history.lastPlay || "").toLowerCase().includes('free throw') && (history.lastPlay || "").toLowerCase().includes(' - ') && history.quarter === 1).slice(0,10)
-          ];
+          let highlights = [];
+          let playHistory = [];
+          let lastPlay;
+
+          for (let i = 0; i < game.playHistory.length; i++) {
+            lastPlay = game.playHistory[i].lastPlay;
+
+            if ((lastPlay || "").toLowerCase().includes('free throw') ||  
+              (lastPlay || "").toLowerCase().includes('foul')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🥶";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('three point')) {
+              game.playHistory[i].lastPlay = lastPlay + " 🏀";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole')) {
+              game.playHistory[i].lastPlay = lastPlay + " 😳";
+            }
+
+            if ((lastPlay || "").toLowerCase().includes('block')) {
+              game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer')) {
+              game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+            }
+
+            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad')
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('block') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('three point') ||
+              (game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk')) {
+              highlights.push(game.playHistory[i]);
+            }
+
+            playHistory.push(game.playHistory[i]);
+          }
+
+          game.playHistory = playHistory;
+          game.highlights = highlights;
         }
 
         if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
