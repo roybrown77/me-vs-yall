@@ -23,6 +23,8 @@ const {
   hasGameStarted
 } = require('./utilities');
 
+const { chromiumVersion } = require('../../../config');
+
 let isUpdateWorldFootballScoresRunning = false;
 
 const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
@@ -105,7 +107,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('869685');
+    const revisionInfo = await browserFetcher.download(chromiumVersion);
     
     browser = await chromium.puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],

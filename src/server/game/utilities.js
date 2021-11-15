@@ -26,6 +26,8 @@ const {
     nba2kCompetitors
 } = require('./teams');
 
+const { chromiumVersion } = require('../../../config');
+
 const getRandomIntInclusive = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -216,7 +218,7 @@ const getGames = async ({
   
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('869685');
+    const revisionInfo = await browserFetcher.download(chromiumVersion);
 
     browser = await chromium.puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -754,7 +756,7 @@ const getScores = async ({
 
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('869685');
+    const revisionInfo = await browserFetcher.download(chromiumVersion);
 
     browser = await chromium.puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
