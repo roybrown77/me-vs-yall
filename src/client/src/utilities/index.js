@@ -265,6 +265,7 @@ const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isR
                 lossesBeforeGameOver: pickResult.lossesBeforeGameOver,
                 winsInARow: pickResult.winsInARow,
                 lossesInARow: pickResult.lossesInARow,
+                totalPicks: leaderPicks.length,
                 percentage: pickResult.wins + pickResult.losses > 0 ? parseInt((pickResult.wins/(pickResult.wins + pickResult.losses)) * 100) + '%' : '',
                 positiveWinnings: (winnings || 0) < 0 ? false : true,
                 vegasWinnings: ((winnings || 0) < 0 ? '-' : '') + formatMoney(winnings),
@@ -285,13 +286,13 @@ const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isR
                         homeScore: hasStarted ? (get(game,'competitors.1.score') || 0) : undefined
                     }
                 })
-          });
+            });
         }
 
         return result;
     }, []);
 
-    return orderBy(pickResults, ['winsBeforeGameOver', 'lossesBeforeGameOver', 'userName'], ['desc', 'asc', 'asc']);
+    return orderBy(pickResults, ['winsBeforeGameOver', 'totalPicks', 'lossesBeforeGameOver', 'userName'], ['desc', 'desc', 'asc', 'asc']);
 };
 
 const getResults = (games = [], picks = [], spreadMode = false) => {
