@@ -46,8 +46,7 @@ const getVideoStreamUrl = (game) => {
   if (!hasGameStarted(game.startDateTime) || 
     game.isGameOver ||
     !['59723313734d1d6202a85f10',
-      '59723313734d1d6202a85f15',
-      '59723313734d1d6202a85f19'].includes(game.leagueId.toString().toLowerCase())) {
+      '59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
       //console.log("invalid url scenario");
       return null;
   }
