@@ -80,19 +80,58 @@ const backupData = async () => {
 const updateGames = (leagueId) => {
   //loadBasketballGames({dayCount: 36, shouldLimit: true, year: 2021, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //loadMlbGames({dayCount: 2, shouldLimit: false, year: 2021, message: 'loadMlbGames', leagueId: '59723313734d1d6202a85f21', baseUrl: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
-  //loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/2', teams: nflTeams});
+  // const day = minutes <= 3 ? 1 : minutes > 3 && minutes <= 7 ? 2 : 3;
+  // loadAmericanFootballGames({
+  //   year: 2021, 
+  //   message: 'loadNflGames', 
+  //   leagueId: '59723313734d1d6202a85f10', 
+  //   url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/' + (weekNumber+1), 
+  //   teams: nflTeams, 
+  //   root: 'Scoreboard__Row__Main',
+  //   nameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
+  //   spreadSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+  //   startTimeSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+  //   startDateSelector: 'section:nth-of-type(' + day + ') > header > div.Card__Header__Title__Wrapper > h3',
+  // });
   //loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/4', teams: ncaaTeams});
 
   if (leagueId === '59723313734d1d6202a85f10') {
-    //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
+    updateAmericanFootballScores({
+      leagueId: '59723313734d1d6202a85f10', 
+      year: 2021, 
+      message: 'updateNflScores', 
+      url: 'https://www.espn.com/nfl/scoreboard', 
+      teams: nflTeams,
+      root: 'Scoreboard__Row__Main',
+      pregameNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      spreadSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+      liveQuarterSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+      liveTotalSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+      liveNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      liveCurrentTimeSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+      liveDownSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__DownAndDistance',
+      livePossession: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > a',
+      livePlaySelector: [
+        'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
+        'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
+        'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
+        'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
+        'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(2) > span.description',
+        'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
+        'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
+      ],
+      finalNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      finalGameOverSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
+      finalScoreSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+    });   
   }
 
   if (leagueId === '59723313734d1d6202a85f15') {
-    //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
+    updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f19') {
-    //updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+    updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   }
 
   if (leagueId === '59723313734d1d6202a85f21') {
@@ -245,46 +284,6 @@ const teamStatTemplate = {
       displayStat: true
     },
 
-    // mostWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // mostLosingStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // roadWins: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // roadWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // mostRoadWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // homeWins: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // homeWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // mostHomeWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
     beatVegas: {
       name: "Beat Vegas as Fave",
       value: 0,
@@ -321,24 +320,14 @@ const teamStatTemplate = {
       displayStat: true
     },
 
-    // beatVegasStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // mostBeatVegasStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // }
-
-    clutchDefense: {
-      name: "Allowed 23 or less",
+    topDogScoring: {
+      name: "Scored 27 or more",
       value: 0,
       displayStat: true
     },
 
-    topDogScoring: {
-      name: "Scored 27 or more",
+    clutchDefense: {
+      name: "Allowed only 23 or less",
       value: 0,
       displayStat: true
     },
@@ -348,32 +337,12 @@ const teamStatTemplate = {
       value: 0,
       displayStat: true
     },
-
-    // clutchWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // mostClutchWinStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
     
     closeLosses: {
       name: "Close Losses < 8",
       value: 0,
       displayStat: true
     },
-
-    // closeLosingStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
-
-    // mostCloseLosingStreak: {
-    //   name: "Point Differential",
-    //   value: 0
-    // },
   };
 
 const getAllTeamStats = (gamesWholeYear) => { 
@@ -495,7 +464,7 @@ const getStats = (game, teamStats) => {
   const awayTeamStats = teamStats[game.competitors[0]._id];
   const homeTeamStats = teamStats[game.competitors[1]._id];
   
-  // game.stats = [
+  // stats = [
   //   {
   //     name: "Point Differential"
   //     awayTeam: {
@@ -613,259 +582,258 @@ router.get('/games', async function (req, res) {
 
     console.log("time3: ", moment().format());
 
+    const teamStats = getAllTeamStats(gamesWholeYear);
     //console.log("teamStats: ", JSON.stringify(teamStats));
 
-    const teamStats = getAllTeamStats(gamesWholeYear);
-
     gamesThisRange.forEach(game=>{
+      if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
+        let lastPlay;
+        
+        let highlights = [];
+        let lastHighlightTime;
+
+        let playHistory = [];
+        let lastTime;
+
+        for (let i = 0; i < game.playHistory.length; i++) {
+          lastPlay = game.playHistory[i].lastPlay;
+
+          if ((lastPlay || "").toLowerCase().includes('punt')) {
+            game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('touchdown') || 
+            (lastPlay || "").toLowerCase().includes('td')) {
+            game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('safety')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🥳";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('field goal') || 
+            (lastPlay || "").toLowerCase().includes('fg')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🥶";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('sacked')) {
+            game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('pass deep') || 
+            (lastPlay || "").toLowerCase().includes('flea flicker') || 
+            (lastPlay || "").toLowerCase().includes('hail mary') || 
+            (lastPlay || "").toLowerCase().includes('statue of liberty') || 
+            (lastPlay || "").toLowerCase().includes('philly special')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🏈";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('scramble')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🚛";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
+            (lastPlay || "").toLowerCase().includes('play under review') || 
+            (lastPlay || "").toLowerCase().includes('interference') || 
+            (lastPlay || "").toLowerCase().includes('missed') || 
+            (lastPlay || "").toLowerCase().includes('no good') || 
+            (lastPlay || "").toLowerCase().includes('onside') || 
+            (lastPlay || "").toLowerCase().includes('challenge') || 
+            (lastPlay || "").toLowerCase().includes('upheld') ||
+            (lastPlay || "").toLowerCase().includes('reverse') || 
+            (lastPlay || "").toLowerCase().includes('intercept') || 
+            (lastPlay || "").toLowerCase().includes('fumble')) {
+            game.playHistory[i].lastPlay = lastPlay + " 😳";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('dance') ||
+            (lastPlay || "").toLowerCase().includes('fight') || 
+            
+            (lastPlay || "").toLowerCase().includes('pass deep') ||
+            (lastPlay || "").toLowerCase().includes('scramble') || 
+            
+            (lastPlay || "").toLowerCase().includes('touchdown') || 
+            (lastPlay || "").toLowerCase().includes('field goal') || 
+            (lastPlay || "").toLowerCase().includes('td') || 
+            (lastPlay || "").toLowerCase().includes('fg') || 
+            (lastPlay || "").toLowerCase().includes('safety') || 
+
+            (lastPlay || "").toLowerCase().includes('missed') || 
+            (lastPlay || "").toLowerCase().includes('no good') || 
+            
+            (lastPlay || "").toLowerCase().includes('sacked') || 
+            (lastPlay || "").toLowerCase().includes('deflect') || 
+            (lastPlay || "").toLowerCase().includes('tipped') ||
+
+            (lastPlay || "").toLowerCase().includes('punt') || 
+            (lastPlay || "").toLowerCase().includes('onside') || 
+
+            (lastPlay || "").toLowerCase().includes('injur') || 
+
+            (lastPlay || "").toLowerCase().includes('challenge') || 
+            (lastPlay || "").toLowerCase().includes('upheld') ||
+            (lastPlay || "").toLowerCase().includes('reverse') || 
+            (lastPlay || "").toLowerCase().includes('intercept') || 
+            (lastPlay || "").toLowerCase().includes('fumble')) {
+
+            if (lastHighlightTime !== lastPlay.slice(0,7)) {
+              lastHighlightTime = lastPlay.slice(0,7);
+              highlights.push(game.playHistory[i]);
+            }
+          }
+
+          if (lastTime !== lastPlay.slice(0,7)) {
+            lastTime = lastPlay.slice(0,7);
+            playHistory.push(game.playHistory[i]);
+          }
+        }
+
+        game.playHistory = playHistory;
+        game.highlights = highlights;
+      }
+
+      if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
+        let highlights = [];
+        let playHistory = [];
+        let lastPlay;
+
+        for (let i = 0; i < game.playHistory.length; i++) {
+          lastPlay = game.playHistory[i].lastPlay;
+
+          if ((lastPlay || "").toLowerCase().includes('free throw') ||  
+            (lastPlay || "").toLowerCase().includes('foul')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🥶";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('three point')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🏀";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole')) {
+            game.playHistory[i].lastPlay = lastPlay + " 😳";
+          }
+
+          if ((lastPlay || "").toLowerCase().includes('block')) {
+            game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer')) {
+            game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') || 
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('block') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('three point') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk')) {
+            highlights.push(game.playHistory[i]);
+          }
+
+          playHistory.push(game.playHistory[i]);
+        }
+
+        game.playHistory = playHistory;
+        game.highlights = highlights;
+      }
+
+      if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
+        let highlights = [];
+        let playHistory = [];
+        let lastPlay;
+
+        for (let i = 0; i < game.playHistory.length; i++) {
+          lastPlay = game.playHistory[i].lastPlay;
+
+          if ((lastPlay || "").toLowerCase().includes('foul') || 
+            (lastPlay || "").toLowerCase().includes('swinging') || 
+            (lastPlay || "").toLowerCase().includes('looking')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🥶";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
+            game.playHistory[i].lastPlay = lastPlay + " ⚾️";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('hit by pitch') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('fouled out') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('flied out') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('grounded out') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('bunted') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('walked') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('balk') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('caught')) {
+            game.playHistory[i].lastPlay = lastPlay + " 😳";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🚛";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('score') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('singled') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('doubled') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('tripled')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🥳";
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
+            game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+          }
+
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
+            highlights.push(game.playHistory[i]);
+          }
+
+          playHistory.push(game.playHistory[i]);
+        }
+
+        game.playHistory = playHistory;
+        game.highlights = highlights;
+      }
+
       game.hashCompetitors = null;
-        if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
-          let lastPlay;
-          
-          let highlights = [];
-          let lastHighlightTime;
+      game.playHistory = game.playHistory.slice(0,playHistoryCount);
+      game.stats = getStats(game, teamStats);
 
-          let playHistory = [];
-          let lastTime;
+      game.serverLiveVideoUrl = getVideoStreamUrl(game);
+      game.isWatchable = [
+      '59723313734d1d6202a85f10',
+      '59723313734d1d6202a85f15',
+      '59723313734d1d6202a85f19',
+      '59723313734d1d6202a85f25',
+      '59723313734d1d6202a85f27'
+      ].includes(game.leagueId.toString().toLowerCase());
+      game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
+      game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
 
-          for (let i = 0; i < game.playHistory.length; i++) {
-            lastPlay = game.playHistory[i].lastPlay;
+      //console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
+    });
 
-            if ((lastPlay || "").toLowerCase().includes('punt')) {
-              game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
-            }
+    console.log("time4: ", moment().format());
 
-            if ((lastPlay || "").toLowerCase().includes('touchdown') || 
-              (lastPlay || "").toLowerCase().includes('td')) {
-              game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('safety')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🥳";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('field goal') || 
-              (lastPlay || "").toLowerCase().includes('fg')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🥶";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('sacked')) {
-              game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('pass deep') || 
-              (lastPlay || "").toLowerCase().includes('flea flicker') || 
-              (lastPlay || "").toLowerCase().includes('hail mary') || 
-              (lastPlay || "").toLowerCase().includes('statue of liberty') || 
-              (lastPlay || "").toLowerCase().includes('philly special')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🏈";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('scramble')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🚛";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
-              (lastPlay || "").toLowerCase().includes('play under review') || 
-              (lastPlay || "").toLowerCase().includes('interference') || 
-              (lastPlay || "").toLowerCase().includes('missed') || 
-              (lastPlay || "").toLowerCase().includes('no good') || 
-              (lastPlay || "").toLowerCase().includes('onside') || 
-              (lastPlay || "").toLowerCase().includes('challenge') || 
-              (lastPlay || "").toLowerCase().includes('upheld') ||
-              (lastPlay || "").toLowerCase().includes('reverse') || 
-              (lastPlay || "").toLowerCase().includes('intercept') || 
-              (lastPlay || "").toLowerCase().includes('fumble')) {
-              game.playHistory[i].lastPlay = lastPlay + " 😳";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('dance') ||
-              (lastPlay || "").toLowerCase().includes('fight') || 
-              
-              (lastPlay || "").toLowerCase().includes('pass deep') ||
-              (lastPlay || "").toLowerCase().includes('scramble') || 
-              
-              (lastPlay || "").toLowerCase().includes('touchdown') || 
-              (lastPlay || "").toLowerCase().includes('field goal') || 
-              (lastPlay || "").toLowerCase().includes('td') || 
-              (lastPlay || "").toLowerCase().includes('fg') || 
-              (lastPlay || "").toLowerCase().includes('safety') || 
-
-              (lastPlay || "").toLowerCase().includes('missed') || 
-              (lastPlay || "").toLowerCase().includes('no good') || 
-              
-              (lastPlay || "").toLowerCase().includes('sacked') || 
-              (lastPlay || "").toLowerCase().includes('deflect') || 
-              (lastPlay || "").toLowerCase().includes('tipped') ||
-
-              (lastPlay || "").toLowerCase().includes('punt') || 
-              (lastPlay || "").toLowerCase().includes('onside') || 
-
-              (lastPlay || "").toLowerCase().includes('injur') || 
-
-              (lastPlay || "").toLowerCase().includes('challenge') || 
-              (lastPlay || "").toLowerCase().includes('upheld') ||
-              (lastPlay || "").toLowerCase().includes('reverse') || 
-              (lastPlay || "").toLowerCase().includes('intercept') || 
-              (lastPlay || "").toLowerCase().includes('fumble')) {
-
-              if (lastHighlightTime !== lastPlay.slice(0,7)) {
-                lastHighlightTime = lastPlay.slice(0,7);
-                highlights.push(game.playHistory[i]);
-              }
-            }
-
-            if (lastTime !== lastPlay.slice(0,7)) {
-              lastTime = lastPlay.slice(0,7);
-              playHistory.push(game.playHistory[i]);
-            }
-          }
-
-          game.playHistory = playHistory;
-          game.highlights = highlights;
-        }
-
-        if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
-          let highlights = [];
-          let playHistory = [];
-          let lastPlay;
-
-          for (let i = 0; i < game.playHistory.length; i++) {
-            lastPlay = game.playHistory[i].lastPlay;
-
-            if ((lastPlay || "").toLowerCase().includes('free throw') ||  
-              (lastPlay || "").toLowerCase().includes('foul')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🥶";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('three point')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🏀";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole')) {
-              game.playHistory[i].lastPlay = lastPlay + " 😳";
-            }
-
-            if ((lastPlay || "").toLowerCase().includes('block')) {
-              game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer')) {
-              game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') || 
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('block') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('three point') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk')) {
-              highlights.push(game.playHistory[i]);
-            }
-
-            playHistory.push(game.playHistory[i]);
-          }
-
-          game.playHistory = playHistory;
-          game.highlights = highlights;
-        }
-
-        if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
-          let highlights = [];
-          let playHistory = [];
-          let lastPlay;
-
-          for (let i = 0; i < game.playHistory.length; i++) {
-            lastPlay = game.playHistory[i].lastPlay;
-
-            if ((lastPlay || "").toLowerCase().includes('foul') || 
-              (lastPlay || "").toLowerCase().includes('swinging') || 
-              (lastPlay || "").toLowerCase().includes('looking')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🥶";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
-              game.playHistory[i].lastPlay = lastPlay + " ⚾️";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('hit by pitch') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('fouled out') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('flied out') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('grounded out') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('bunted') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('walked') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('balk') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('caught')) {
-              game.playHistory[i].lastPlay = lastPlay + " 😳";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🚛";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('score') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('singled') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('doubled') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('tripled')) {
-              game.playHistory[i].lastPlay = lastPlay + " 🥳";
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
-              game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
-            }
-
-            if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
-              (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
-              highlights.push(game.playHistory[i]);
-            }
-
-            playHistory.push(game.playHistory[i]);
-          }
-
-          game.playHistory = playHistory;
-          game.highlights = highlights;
-        }
-
-        game.playHistory = game.playHistory.slice(0,playHistoryCount);
-        game.stats = getStats(game, teamStats);
-        game.serverLiveVideoUrl = getVideoStreamUrl(game);
-        game.isWatchable = [
-        '59723313734d1d6202a85f10',
-        '59723313734d1d6202a85f15',
-        '59723313734d1d6202a85f19',
-        '59723313734d1d6202a85f25',
-        '59723313734d1d6202a85f27'
-        ].includes(game.leagueId.toString().toLowerCase());
-
-        game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
-        game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
-
-        //console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
-      });
-
-      console.log("time4: ", moment().format());
-
-      res.status(200).send(gamesThisRange);
+    res.status(200).send(gamesThisRange);
   } catch (error) {
     return res.status(500).send("There was a problem finding the games: " + err.message);
   }

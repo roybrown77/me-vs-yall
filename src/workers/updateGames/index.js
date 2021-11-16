@@ -7,6 +7,7 @@ const { dbConnectionString } = require('../../../config');
 if (!dbConnectionString) {
   console.log('[ENV_VARIABLE] - missing db connection string');
   process.exit(1);
+  return;
 }
 
 /*
@@ -56,6 +57,10 @@ try {
   console.log("[MONGODB] - initialization failed: ", err.message);
 }
 
+/*
+  Start Scheduler
+*/
+
 const CronJob = require('cron').CronJob;
 
 const startCronProcess = (jobs) => {
@@ -79,6 +84,10 @@ const startCronProcess = (jobs) => {
     });
   }
 };
+
+/*
+  Load & Update Games
+*/
 
 const moment = require('moment-timezone');
 
@@ -151,8 +160,21 @@ const updateGames = async () => {
   const weekNumber = moment().diff(moment("2021-09-07"),'weeks'); // Tuesday prior to start of season
   console.log('nfl weekNumber: ' + weekNumber);
 
-  if (footballSeason && weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 5) {
-    loadAmericanFootballGames({year: 2021, message: 'loadNflGames', leagueId: '59723313734d1d6202a85f10', url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/' + (weekNumber+1), teams: nflTeams});
+  if (footballSeason && weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 10) {
+    const day = minutes <= 3 ? 1 : minutes > 3 && minutes <= 7 ? 2 : 3;
+
+    loadAmericanFootballGames({
+      year: 2021, 
+      message: 'loadNflGames', 
+      leagueId: '59723313734d1d6202a85f10', 
+      url: 'https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/2/week/' + (weekNumber+1), 
+      teams: nflTeams, 
+      root: 'Scoreboard__Row__Main',
+      nameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
+      spreadSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+      startTimeSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+      startDateSelector: 'section:nth-of-type(' + day + ') > header > div.Card__Header__Title__Wrapper > h3',
+    });
   }
 
   const collegeWeekNumber = moment().diff(moment("2021-08-30"),'weeks'); // Monday prior to start of season
@@ -162,7 +184,35 @@ const updateGames = async () => {
     loadAmericanFootballGames({year: 2021, message: 'loadNCAAFGames', leagueId: '59723313734d1d6202a85f15', url: 'https://www.espn.com/college-football/scoreboard/_/year/2021/seasontype/2/week/' + (collegeWeekNumber+1), teams: ncaaTeams});
   }
 
-  //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f10', year: 2021, message: 'updateNflScores', url: 'https://www.espn.com/nfl/scoreboard', teams: nflTeams});
+  // updateAmericanFootballScores({
+  //   leagueId: '59723313734d1d6202a85f10', 
+  //   year: 2021, 
+  //   message: 'updateNflScores', 
+  //   url: 'https://www.espn.com/nfl/scoreboard', 
+  //   teams: nflTeams,
+  //   root: 'Scoreboard__Row__Main',
+  //   pregameNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+  //   spreadSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+  //   liveQuarterSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+  //   liveTotalSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+  //   liveNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+  //   liveCurrentTimeSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+  //   liveDownSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__DownAndDistance',
+  //   livePossession: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > a',
+  //   livePlaySelector: [
+  //     'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
+  //     'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
+  //     'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
+  //     'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
+  //     'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(2) > span.description',
+  //     'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
+  //     'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
+  //   ],
+  //   finalNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+  //   finalGameOverSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
+  //   finalScoreSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+  // });
+
   //updateAmericanFootballScores({leagueId: '59723313734d1d6202a85f15', year: 2021, message: 'updateNCAAFScores', url: 'https://www.espn.com/college-football/scoreboard', teams: ncaaTeams});
   updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2021, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   //updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  2021, message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});

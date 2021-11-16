@@ -975,6 +975,7 @@ const nflTeams = [
         _id: "19823783734d1d04a1b3900c",
         location: 'Washington',
         shortLocation: "WSH",
+        alternateName: "Washington",
         name: "Football Team",
         color: "#7C1415",
         stadiumName: "FedExField",

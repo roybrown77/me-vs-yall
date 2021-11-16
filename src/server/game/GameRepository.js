@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const GameSchema = new mongoose.Schema({
 	leagueId: mongoose.Schema.Types.ObjectId,
     startDateTime: 'date',
+    endDateTime: 'date',
     station: String,
     isGameOver: mongoose.Schema.Types.Boolean,
     competitors: Array,
