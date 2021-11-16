@@ -705,11 +705,16 @@ router.get('/games', async function (req, res) {
             game.playHistory[i].lastPlay = lastPlay + " 🥶";
           }
 
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🥳";
+          }
+
           if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('three point')) {
             game.playHistory[i].lastPlay = lastPlay + " 🏀";
           }
 
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('miss') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
             (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') ||
             (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole')) {
             game.playHistory[i].lastPlay = lastPlay + " 😳";
@@ -724,12 +729,9 @@ router.get('/games', async function (req, res) {
             game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
           }
 
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') || 
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('block') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
             (game.playHistory[i].lastPlay || "").toLowerCase().includes('three point') ||
+            (game.playHistory[i].lastPlay || "").toLowerCase().includes('two point') ||
             (game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk')) {
             highlights.push(game.playHistory[i]);
           }
