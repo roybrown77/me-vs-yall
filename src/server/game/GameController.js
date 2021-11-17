@@ -729,10 +729,7 @@ router.get('/games', async function (req, res) {
             game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
           }
 
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('three point') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('two point') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk')) {
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make')) {
             highlights.push(game.playHistory[i]);
           }
 
