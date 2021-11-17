@@ -465,7 +465,9 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
   //   }
   // }
 
-  return limitedGames.length > 0 ? limitedGames : shouldLimit ? formattedGames.slice(0,3) : formattedGames;
+  //return limitedGames.length > 0 ? limitedGames : shouldLimit ? formattedGames.slice(0,3) : formattedGames;
+
+  return formattedGames;
 };
 
 const getCompetitorHash = (competitors) => {
