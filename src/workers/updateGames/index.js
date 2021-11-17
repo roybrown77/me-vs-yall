@@ -147,10 +147,10 @@ const updateGames = async () => {
   const everyDay = [0+getGamesThisManyDaysAhead,1+getGamesThisManyDaysAhead,2+getGamesThisManyDaysAhead,
   3+getGamesThisManyDaysAhead,4+getGamesThisManyDaysAhead,5+getGamesThisManyDaysAhead,6+getGamesThisManyDaysAhead];
 
-  // if (nbaSeason && everyDay.includes(currentWeekDay+getGamesThisManyDaysAhead) && 
-  //   monthDay > 1115 && monthDay < 715 && eastCoastHour === 5 && minutes > 0 && minutes < 5) {
+   if (nbaSeason && everyDay.includes(currentWeekDay+getGamesThisManyDaysAhead) && 
+     monthDay > 1115 && monthDay < 715 && eastCoastHour === 5 && minutes > 0 && minutes < 5) {
     loadBasketballGames({dayCount: getGamesThisManyDaysAhead, shouldLimit: !nbaPlayoffs, year: 2021, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
-  //}
+  }
 
   if (mlbSeason && everyDay.includes(currentWeekDay+getGamesThisManyDaysAhead) && 
     monthDay > 325 && monthDay <= 1115 && eastCoastHour === 6 && minutes > 0 && minutes < 5) {
