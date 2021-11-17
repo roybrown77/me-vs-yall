@@ -205,8 +205,8 @@ const getGames = async ({
     nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
     startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
-    startDateSelector,
-    startTimeSelector,
+    startDateSelector = '',
+    startTimeSelector = '',
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
     gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
     rankSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > span',
@@ -265,6 +265,9 @@ const getGames = async ({
       return [];
     }
 
+    let startDate;
+    let startTime;
+
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
@@ -313,15 +316,19 @@ const getGames = async ({
         }
       }, startDateTimeSelector.replace("INDEX", i), leagueId);
 
-      const startDate = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, startDateSelector.replace("INDEX", i));
+      if (leagueId === '59723313734d1d6202a85f10') {
+        startDate = await page.evaluate((sel) => {
+          const element = document.querySelector(sel);
+          return element ? element.innerText : null;
+        }, startDateSelector.replace("INDEX", i));
+      }
 
-      const startTime = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, startTimeSelector.replace("INDEX", i));
+      if (leagueId === '59723313734d1d6202a85f10') {
+        startTime = await page.evaluate((sel) => {
+          const element = document.querySelector(sel);
+          return element ? element.innerText : null;
+        }, startTimeSelector.replace("INDEX", i));
+      }
 
       const spread = await page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
