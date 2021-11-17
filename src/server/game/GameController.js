@@ -729,7 +729,8 @@ router.get('/games', async function (req, res) {
             game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
           }
 
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make')) {
+          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make') && 
+            !(game.playHistory[i].lastPlay || "").toLowerCase().includes('free throw')) {
             highlights.push(game.playHistory[i]);
           }
 
