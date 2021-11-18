@@ -146,6 +146,18 @@ const teamStatTemplate = {
       displayStat: true
     },
 
+    wins: {
+      name: "Wins",
+      value: 0,
+      displayStat: true
+    },
+
+    losses: {
+      name: "Losses",
+      value: 0,
+      displayStat: true
+    },
+
     homeGamesPlayed: {
       name: "Home Games Played",
       value: 0,
@@ -361,6 +373,9 @@ const getAllTeamStats = (gamesWholeYear) => {
       }
 
       teamStats[game.competitors[i]._id].gamesPlayed.value += 1;
+      teamStats[game.competitors[i]._id].wins.value += (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 1 : 0;
+      teamStats[game.competitors[i]._id].losses.value += (game.competitors[i].score || 0) <= (game.competitors[1-i].score || 0) ? 1 : 0;
+
       teamStats[game.competitors[i]._id].roadGamesPlayed.value += game.competitors[0]._id === game.competitors[i]._id ? 1 : 0;
       teamStats[game.competitors[i]._id].homeGamesPlayed.value += game.competitors[1]._id === game.competitors[i]._id ? 1 : 0;
 
@@ -541,7 +556,10 @@ router.get('/games', async function (req, res) {
       startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
         $gt: new Date(moment(get(req, 'query.beginDateTime'))),
         $lt: new Date(moment(get(req, 'query.endDateTime')))
-      } : undefined
+      } : undefined,
+      isHidden: {
+        $ne: true
+      }
     };
 
     const thisRangeSearch = omit(search, 
@@ -876,6 +894,9 @@ router.get('/gameweeks', function (req, res) {
 router.get('/gamesInProgress', function (req, res) {
   const search = {
     isGameOver: {
+      $ne: true
+    },
+    isHidden: {
       $ne: true
     }
   };

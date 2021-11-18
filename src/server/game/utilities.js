@@ -430,42 +430,50 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
     }
   });
 
-  let limitedGames = [];
+  if (shouldLimit && formattedGames.length > 0) {
+    const searchGamesWithinRange = {
+      leagueId: mongoose.Types.ObjectId(leagueId),
+      startDateTime: {
+        $gte: new Date(moment().add(-1 * (6-dayCount),'days')),
+        $lte: new Date(moment().add(dayCount,'days'))
+      },
+      year: year
+    };
 
-  // if (shouldLimit && formattedGames.length > 0) {
-  //   const searchGamesWithinRange = {
-  //     leagueId: mongoose.Types.ObjectId(leagueId),
-  //     startDateTime: {
-  //       $gte: new Date(moment().add(-1 * (6-dayCount),'days')),
-  //       $lte: new Date(moment().add(dayCount,'days'))
-  //     },
-  //     year: year
-  //   };
+    const gamesForTeamsToSkip = await gameRepository.find(searchGamesWithinRange);
 
-  //   const gamesForTeamsToSkip = await gameRepository.find(searchGamesWithinRange);
+    let teamsToSkip = new Set();
 
-  //   let teamsToSkip = new Set();
+    for (let i = 0; i < gamesForTeamsToSkip.length; i++) {
+      teamsToSkip.add(gamesForTeamsToSkip[i].competitors[0]._id);
+      teamsToSkip.add(gamesForTeamsToSkip[i].competitors[1]._id);
+    }
 
-  //   for (let i = 0; i < gamesForTeamsToSkip.length; i++) {
-  //     teamsToSkip.add(gamesForTeamsToSkip[i].competitors[0]._id);
-  //     teamsToSkip.add(gamesForTeamsToSkip[i].competitors[1]._id);
-  //   }
-
-  //   const maxLength = 3;
+    const maxLength = 3;
+    let count = 0;
     
-  //   for (let i = 0; i < formattedGames.length; i++) {
-  //     if (!teamsToSkip.has(formattedGames[i].competitors[0]._id) || 
-  //       !teamsToSkip.has(formattedGames[i].competitors[1]._id)) {
-  //       limitedGames.push(formattedGames[i]);
-  //     }
+    for (let i = 0; i < formattedGames.length; i++) {
+      if (formattedGames[i].isHidden === false) {
+        count += 1;
+      } else {
+        if (!(!teamsToSkip.has(formattedGames[i].competitors[0]._id) || 
+          !teamsToSkip.has(formattedGames[i].competitors[1]._id))) {
+          formattedGames[i].isHidden = false;
+          count += 1;
+        }
+      }
 
-  //     if (limitedGames.length === maxLength) {
-  //       break;
-  //     }
-  //   }
-  // }
+      if (count === maxLength) {
+        break;
+      }
+    }
 
-  //return limitedGames.length > 0 ? limitedGames : shouldLimit ? formattedGames.slice(0,3) : formattedGames;
+    if (count < maxLength) {
+      for (let k = 0; k < maxLength-count; k++) {
+        formattedGames[k].isHidden = false;
+      }
+    }
+  }
 
   return formattedGames;
 };
@@ -489,6 +497,8 @@ const createGames = ({message, games}) => {
       year: get(game,'year'),
       hashCompetitors: getCompetitorHash(game.competitors)
     };
+    
+    console.log(`${message} createGames game: ${JSON.stringify(game)}`);
 
     console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
 
