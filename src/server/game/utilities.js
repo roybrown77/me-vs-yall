@@ -460,6 +460,8 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
           !teamsToSkip.has(formattedGames[i].competitors[1]._id))) {
           formattedGames[i].isHidden = false;
           count += 1;
+        } else {
+          formattedGames[i].isHidden = true;
         }
       }
 
