@@ -157,8 +157,23 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
     if (listLength === 0) {
       isUpdateWorldFootballScoresRunning = false;
+
       console.log(`${message} no games found`);
-      await browser.close();
+
+      try {
+        const pageCloseResult = await page.close();
+        console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
+      } catch (error) {
+        console.log(`pageCloseResult error 7: ${JSON.stringify(error)}`);
+      }
+
+      try {
+        const browserCloseResult = await browser.close();
+        console.log(`browserCloseResult 7: ${JSON.stringify(browserCloseResult)}`);
+      } catch (error) {
+        console.log(`browserCloseResult error 7: ${JSON.stringify(error)}`);
+      }
+
       return;
     }
 
@@ -220,12 +235,35 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       });
     }
 
-    await browser.close();
-  } catch(err) {
-    if (!!browser) {
-      await browser.close();
+    try {
+      const pageCloseResult = await page.close();
+      console.log(`pageCloseResult 8: ${JSON.stringify(pageCloseResult)}`);
+    } catch (error) {
+      console.log(`pageCloseResult error 8: ${JSON.stringify(error)}`);
     }
-    console.log(`${message} browser error: ${err.message}`);
+
+    try {
+      const browserCloseResult = await browser.close();
+      console.log(`browserCloseResult 8: ${JSON.stringify(browserCloseResult)}`);
+    } catch (error) {
+      console.log(`browserCloseResult error 8: ${JSON.stringify(error)}`);
+    }
+  } catch(err) {
+    console.log(`${message} browser error: ${JSON.stringify(err)}`);
+
+    try {
+      const pageCloseResult = await page.close();
+      console.log(`pageCloseResult 9: ${JSON.stringify(pageCloseResult)}`);
+    } catch (error) {
+      console.log(`pageCloseResult error 9: ${JSON.stringify(error)}`);
+    }
+
+    try {
+      const browserCloseResult = await browser.close();
+      console.log(`browserCloseResult 9: ${JSON.stringify(browserCloseResult)}`);
+    } catch (error) {
+      console.log(`browserCloseResult error 9: ${JSON.stringify(error)}`);
+    }
   }
 
   if (get({scores:scores},'scores',[]).length === 0) {

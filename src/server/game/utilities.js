@@ -258,10 +258,20 @@ const getGames = async ({
     console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
-      const pageCloseResult = await page.close();
-      console.log(`pageCloseResult 1: ${JSON.stringify(pageCloseResult)}`);
-      const browserCloseResult = await browser.close();
-      console.log(`browserCloseResult 1: ${JSON.stringify(browserCloseResult)}`);
+      try {
+        const pageCloseResult = await page.close();
+        console.log(`pageCloseResult 1: ${JSON.stringify(pageCloseResult)}`);
+      } catch (error) {
+        console.log(`pageCloseResult error 1: ${JSON.stringify(error)}`);
+      }
+
+      try {
+        const browserCloseResult = await browser.close();
+        console.log(`browserCloseResult 1: ${JSON.stringify(browserCloseResult)}`);
+      } catch (error) {
+        console.log(`browserCloseResult error 1: ${JSON.stringify(error)}`);
+      }
+
       return [];
     }
 
@@ -358,19 +368,35 @@ const getGames = async ({
       });
     }
 
-    const pageCloseResult = await page.close();
-    console.log(`pageCloseResult 2: ${JSON.stringify(pageCloseResult)}`);
-    const browserCloseResult = await browser.close();
-    console.log(`browserCloseResult 2: ${JSON.stringify(browserCloseResult)}`);
-  } catch(err) {
-    if (!!browser) {
+    try {
       const pageCloseResult = await page.close();
-      console.log(`pageCloseResult 3: ${JSON.stringify(pageCloseResult)}`);
-      const browserCloseResult = await browser.close();
-      console.log(`browserCloseResult 3: ${JSON.stringify(browserCloseResult)}`);
+      console.log(`pageCloseResult 2: ${JSON.stringify(pageCloseResult)}`);
+    } catch (error) {
+      console.log(`pageCloseResult error 2: ${JSON.stringify(error)}`);
     }
 
-    console.log(`${message} getGames browser error 1: ${err.message}`);
+    try {
+      const browserCloseResult = await browser.close();
+      console.log(`browserCloseResult 2: ${JSON.stringify(browserCloseResult)}`);
+    } catch (error) {
+      console.log(`browserCloseResult error 2: ${JSON.stringify(error)}`);
+    }
+  } catch(err) {
+    console.log(`${message} getGames browser error 3: ${err}`);
+
+    try {
+      const pageCloseResult = await page.close();
+      console.log(`pageCloseResult 3: ${JSON.stringify(pageCloseResult)}`);
+    } catch (error) {
+      console.log(`pageCloseResult error 3: ${JSON.stringify(error)}`);
+    }
+
+    try {
+      const browserCloseResult = await browser.close();
+      console.log(`browserCloseResult 3: ${JSON.stringify(browserCloseResult)}`);
+    } catch (error) {
+      console.log(`browserCloseResult error 3: ${JSON.stringify(error)}`);
+    }
   }
 
   //console.log("games: " + JSON.stringify(games));
@@ -920,10 +946,20 @@ const getScores = async ({
     if (listLength === 0) {
       console.log(`${message} no games found`);
 
-      const pageCloseResult = await page.close();
-      console.log(`pageCloseResult 4: ${JSON.stringify(pageCloseResult)}`);
-      const browserCloseResult = await browser.close();
-      console.log(`browserCloseResult 4: ${JSON.stringify(browserCloseResult)}`);
+      try {
+        const pageCloseResult = await page.close();
+        console.log(`pageCloseResult 4: ${JSON.stringify(pageCloseResult)}`);
+      } catch (error) {
+        console.log(`pageCloseResult error 4: ${JSON.stringify(error)}`);
+      }
+
+      try {
+        const browserCloseResult = await browser.close();
+        console.log(`browserCloseResult 4: ${JSON.stringify(browserCloseResult)}`);
+      } catch (error) {
+        console.log(`browserCloseResult error 4: ${JSON.stringify(error)}`);
+      }
+      
       return scores;
     }
 
@@ -950,19 +986,35 @@ const getScores = async ({
     });
     scoreSet.push(scores);
 
-    const pageCloseResult = await page.close();
-    console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
-    const browserCloseResult = await browser.close();
-    console.log(`browserCloseResult 5: ${JSON.stringify(browserCloseResult)}`);
+    try {
+      const pageCloseResult = await page.close();
+      console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
+    } catch (error) {
+      console.log(`pageCloseResult error 5: ${JSON.stringify(error)}`);
+    }
+
+    try {
+      const browserCloseResult = await browser.close();
+      console.log(`browserCloseResult 5: ${JSON.stringify(browserCloseResult)}`);
+    } catch (error) {
+      console.log(`browserCloseResult error 5: ${JSON.stringify(error)}`);
+    }
   } catch(err) {
-    if (!!browser) {
+    console.log(`${message} browser error 6: ${err.message}`);
+
+    try {
       const pageCloseResult = await page.close();
       console.log(`pageCloseResult 6: ${JSON.stringify(pageCloseResult)}`);
+    } catch (error) {
+      console.log(`pageCloseResult error 6: ${JSON.stringify(error)}`);
+    }
+
+    try {
       const browserCloseResult = await browser.close();
       console.log(`browserCloseResult 6: ${JSON.stringify(browserCloseResult)}`);
+    } catch (error) {
+      console.log(`browserCloseResult error 6: ${JSON.stringify(error)}`);
     }
-    
-    console.log(`${message} browser error 3: ${err.message}`);
   }
 
   scoreSet.forEach(x => {
