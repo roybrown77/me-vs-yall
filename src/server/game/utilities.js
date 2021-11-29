@@ -382,11 +382,10 @@ const getGames = async ({
       console.log(`browserCloseResult error 2: ${JSON.stringify(error)}`);
     }
   } catch(err) {
-    console.log(`${message} getGames browser error 3: ${err}`);
-
     try {
       const pageCloseResult = await page.close();
       console.log(`pageCloseResult 3: ${JSON.stringify(pageCloseResult)}`);
+      console.log(`${message} getGames browser error 3: ${err.message}`);
     } catch (error) {
       console.log(`pageCloseResult error 3: ${JSON.stringify(error)}`);
     }
@@ -1000,11 +999,10 @@ const getScores = async ({
       console.log(`browserCloseResult error 5: ${JSON.stringify(error)}`);
     }
   } catch(err) {
-    console.log(`${message} browser error 6: ${err.message}`);
-
     try {
       const pageCloseResult = await page.close();
       console.log(`pageCloseResult 6: ${JSON.stringify(pageCloseResult)}`);
+      console.log(`${message} browser error 6: ${err.message}`);
     } catch (error) {
       console.log(`pageCloseResult error 6: ${JSON.stringify(error)}`);
     }
