@@ -220,8 +220,13 @@ function GamePlayTabs(props) {
           width: 'fit-content', 
           margin: 'auto',
         }}>
-          <Tab label="Plays 🕹" {...a11yProps(0)} />
-          <Tab label="Highlights 📸" {...a11yProps(1)} />
+          {
+            isAuthenticated &&
+            userId === 'google-oauth2|114172296334563495985' &&
+            <Tab label="Edit" {...a11yProps(0)} />
+          }
+          <Tab label="Plays 🕹" {...a11yProps(1)} />
+          <Tab label="Highlights 📸" {...a11yProps(2)} />
           {
             watchLiveGames &&
             (['59723313734d1d6202a85f10',
@@ -230,13 +235,11 @@ function GamePlayTabs(props) {
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
             <Tab label="Watch Live 📺" {...a11yProps(2)} />
           }
-          {
-            isAuthenticated &&
-            userId === 'google-oauth2|114172296334563495985' &&
-            <Tab label="Edit" {...a11yProps(3)} />
-          }
         </Tabs>
       </Box>
+      <TabPanel value={value} index={3}>
+        <GameEditor {...props} />
+      </TabPanel>
       <TabPanel value={value} index={0}>
         {
           hasGameStarted(game.startDateTime) &&
@@ -356,12 +359,6 @@ function GamePlayTabs(props) {
               Please come back after halftime.
             </div>
           }
-        </TabPanel>
-      }
-      {
-        true &&
-        <TabPanel value={value} index={3}>
-          <GameEditor {...props} />
         </TabPanel>
       }
     </Box>
