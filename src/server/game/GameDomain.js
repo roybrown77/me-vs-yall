@@ -88,6 +88,10 @@ function update(game, cb) {
             set(updatedGame,'highlightVideoUrl',game.highlightVideoUrl);
         }
 
+        if (get(game,'isHidden','null') !== "null") {
+            set(updatedGame,'isHidden',game.isHidden);
+        }
+
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
 
         return gameRepository.findOneAndUpdate(

@@ -258,6 +258,7 @@ export const updateGame = (game) => (dispatch, getState) => {
   searchParams.set('gameTime', game.gameTime);
   searchParams.set('liveVideoUrl', game.liveVideoUrl);
   searchParams.set('highlightVideoUrl', game.highlightVideoUrl);
+  searchParams.set('isHidden', game.isHidden);
 
   dispatch(editGame(game.id, searchParams));
 };

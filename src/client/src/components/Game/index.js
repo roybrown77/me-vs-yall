@@ -22,8 +22,6 @@ import green from '@material-ui/core/colors/green';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import Cancel from '@material-ui/icons/Cancel';
 
-import Popover from '../Popover';
-
 import { hasGameStarted } from '../../utilities';
 
 import {watchLiveGames} from '../../config';
@@ -195,7 +193,7 @@ function a11yProps(index) {
 }
 
 function GamePlayTabs(props) {
-  const { game, classes, handleUpdateGamePlayTab } = props;
+  const { game, classes, handleUpdateGamePlayTab, isAuthenticated, userId } = props;
 
   const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
 
@@ -231,6 +229,11 @@ function GamePlayTabs(props) {
               '59723313734d1d6202a85f19'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
             <Tab label="Watch Live 📺" {...a11yProps(2)} />
+          }
+          {
+            isAuthenticated &&
+            userId === 'google-oauth2|114172296334563495985' &&
+            <Tab label="Edit" {...a11yProps(3)} />
           }
         </Tabs>
       </Box>
@@ -353,6 +356,12 @@ function GamePlayTabs(props) {
               Please come back after halftime.
             </div>
           }
+        </TabPanel>
+      }
+      {
+        true &&
+        <TabPanel value={value} index={3}>
+          <GameEditor {...props} />
         </TabPanel>
       }
     </Box>
@@ -526,11 +535,6 @@ const GameFooter = (props) => {
           <div style={{marginTop: '5px', fontSize: '15px'}}> 
             {game.gameName}
           </div>
-        }
-        {
-          isAuthenticated &&
-          userId === 'google-oauth2|114172296334563495985' &&
-          <GameEditor {...props} />
         }
         {
           (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
@@ -751,150 +755,38 @@ const TieButton = (props) => {
 const GameEditor = (props) => {
   const { classes, game, awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
   homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
-  handleClearInput, handleInputChange, handleSaveGame } = props;
+  handleInputChange, handleSaveGame, isHidden } = props;
 
   return (
-    <Popover 
-      titleStyle={{fontWeight: 'bold', marginTop: '10px'}}
-      title={game.startDateTimeDisplay}
-      handleOpen={handleClearInput}>
-      <div style={{padding:'16px'}}>
+    <div style={{padding:'16px',textAlign:'left'}}>
+      <div>
+        <Checkbox
+          name="isGameOver"
+          color="primary"
+          checked={isGameOver}
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          onChange={handleInputChange}
+        />
+        is game over
+      </div>
+      <div>
+        <Checkbox
+          name="isHidden"
+          color="primary"
+          checked={isHidden}
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+          onChange={handleInputChange}
+        />
+        is hidden
+      </div>
+      <div style={{display: 'flex'}}>
         <div>
-          <Checkbox
-            name="isGameOver"
-            color="primary"
-            checked={isGameOver}
-            inputProps={{ 'aria-label': 'secondary checkbox' }}
-            onChange={handleInputChange}
-          />
-          is game over
-        </div>
-        <div style={{display: 'flex'}}>
-          <div>
-            <TextField
-              name="awayScore"
-              id="outlined-number"
-              label={game.competitors[0].shortLocation + " score"}
-              type="number"
-              defaultValue={awayScore}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-          <div style={{paddingLeft: '16px'}}>
-            <TextField
-              name="homeScore"
-              id="outlined-number"
-              label={game.competitors[1].shortLocation + " score"}
-              type="number"
-              defaultValue={homeScore}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-        </div>
-        <div style={{display: 'flex', marginTop: '16px'}}>
-          <div>
-            <TextField
-              name="awayRank"
-              id="outlined-number"
-              label={game.competitors[0].shortLocation + " rank"}
-              type="number"
-              defaultValue={awayRank}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-          <div style={{paddingLeft: '16px'}}>
-            <TextField
-              name="homeRank"
-              id="outlined-number"
-              label={game.competitors[1].shortLocation + " rank"}
-              type="number"
-              defaultValue={homeRank}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-        </div>
-        <div style={{display: 'flex', marginTop: '16px'}}>
-          <div>
-            <TextField
-              name="awayRecord"
-              id="outlined-number"
-              label={game.competitors[0].shortLocation + " record"}
-              type="string"
-              defaultValue={awayRecord}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-          <div style={{paddingLeft: '16px'}}>
-            <TextField
-              name="homeRecord"
-              id="outlined-number"
-              label={game.competitors[1].shortLocation + " record"}
-              type="string"
-              defaultValue={homeRecord}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-        </div>
-        <div style={{display: 'flex', marginTop: '16px'}}>
-          <div>
-            <TextField
-              name="awaySpread"
-              id="outlined-number"
-              label={game.competitors[0].shortLocation + " spread"}
-              type="number"
-              defaultValue={awaySpread}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-          <div style={{paddingLeft: '16px'}}>
-            <TextField
-              name="homeSpread"
-              id="outlined-number"
-              label={game.competitors[1].shortLocation + " spread"}
-              type="number"
-              defaultValue={homeSpread}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-        </div>
-        <div style={{marginTop: '16px'}}>
           <TextField
-            name="currentTime"
+            name="awayScore"
             id="outlined-number"
-            label="Game Clock"
-            defaultValue={currentTime}
+            label={game.competitors[0].shortLocation + " score"}
+            type="number"
+            defaultValue={awayScore}
             InputLabelProps={{
               shrink: true,
             }}
@@ -902,90 +794,207 @@ const GameEditor = (props) => {
             variant="outlined"
           />
         </div>
-        <div style={{display: 'flex', marginTop: '16px'}}>
-          <div>
-            <TextField
-              name="gameDate"
-              id="outlined-number"
-              label="Game Date"
-              type="date"
-              defaultValue={gameDate}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-          <div style={{paddingLeft: '16px'}}>
-            <TextField
-              name="gameTime"
-              id="outlined-number"
-              label="Game Time"
-              type="time"
-              defaultValue={gameTime}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              variant="outlined"
-            />
-          </div>
-        </div>
-        <div style={{marginTop: '16px'}}>
+        <div style={{paddingLeft: '16px'}}>
           <TextField
-            name="gameName"
+            name="homeScore"
             id="outlined-number"
-            label="Game Name"
-            defaultValue={gameName}
-            fullWidth
-            multiline={true}
+            label={game.competitors[1].shortLocation + " score"}
+            type="number"
+            defaultValue={homeScore}
             InputLabelProps={{
               shrink: true,
             }}
             onChange={handleInputChange}
             variant="outlined"
           />
-        </div>
-        <div style={{marginTop: '16px'}}>
-          <TextField
-            name="liveVideoUrl"
-            id="outlined-number"
-            label="Live Video Url"
-            defaultValue={liveVideoUrl}
-            fullWidth
-            multiline={true}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleInputChange}
-            variant="outlined"
-          />
-        </div>
-        <div style={{marginTop: '16px'}}>
-          <TextField
-            name="highlightVideoUrl"
-            id="outlined-number"
-            label="Highlight Video Url"
-            defaultValue={highlightVideoUrl}
-            fullWidth
-            multiline={true}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleInputChange}
-            variant="outlined"
-          />
-        </div>
-        <div style={{marginTop: '10px'}}>
-          <Button 
-              size="small"
-              className={classes.saveButton} onClick={() => handleSaveGame(game._id)}>
-              Save
-          </Button>
         </div>
       </div>
-    </Popover>
+      <div style={{display: 'flex', marginTop: '16px'}}>
+        <div>
+          <TextField
+            name="awayRank"
+            id="outlined-number"
+            label={game.competitors[0].shortLocation + " rank"}
+            type="number"
+            defaultValue={awayRank}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{paddingLeft: '16px'}}>
+          <TextField
+            name="homeRank"
+            id="outlined-number"
+            label={game.competitors[1].shortLocation + " rank"}
+            type="number"
+            defaultValue={homeRank}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+      </div>
+      <div style={{display: 'flex', marginTop: '16px'}}>
+        <div>
+          <TextField
+            name="awayRecord"
+            id="outlined-number"
+            label={game.competitors[0].shortLocation + " record"}
+            type="string"
+            defaultValue={awayRecord}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{paddingLeft: '16px'}}>
+          <TextField
+            name="homeRecord"
+            id="outlined-number"
+            label={game.competitors[1].shortLocation + " record"}
+            type="string"
+            defaultValue={homeRecord}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+      </div>
+      <div style={{display: 'flex', marginTop: '16px'}}>
+        <div>
+          <TextField
+            name="awaySpread"
+            id="outlined-number"
+            label={game.competitors[0].shortLocation + " spread"}
+            type="number"
+            defaultValue={awaySpread}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{paddingLeft: '16px'}}>
+          <TextField
+            name="homeSpread"
+            id="outlined-number"
+            label={game.competitors[1].shortLocation + " spread"}
+            type="number"
+            defaultValue={homeSpread}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+      </div>
+      <div style={{marginTop: '16px'}}>
+        <TextField
+          name="currentTime"
+          id="outlined-number"
+          label="Game Clock"
+          defaultValue={currentTime}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+      </div>
+      <div style={{display: 'flex', marginTop: '16px'}}>
+        <div>
+          <TextField
+            name="gameDate"
+            id="outlined-number"
+            label="Game Date"
+            type="date"
+            defaultValue={gameDate}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{paddingLeft: '16px'}}>
+          <TextField
+            name="gameTime"
+            id="outlined-number"
+            label="Game Time"
+            type="time"
+            defaultValue={gameTime}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+      </div>
+      <div style={{marginTop: '16px'}}>
+        <TextField
+          name="gameName"
+          id="outlined-number"
+          label="Game Name"
+          defaultValue={gameName}
+          fullWidth
+          multiline={true}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+      </div>
+      <div style={{marginTop: '16px'}}>
+        <TextField
+          name="liveVideoUrl"
+          id="outlined-number"
+          label="Live Video Url"
+          defaultValue={liveVideoUrl}
+          fullWidth
+          multiline={true}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+      </div>
+      <div style={{marginTop: '16px'}}>
+        <TextField
+          name="highlightVideoUrl"
+          id="outlined-number"
+          label="Highlight Video Url"
+          defaultValue={highlightVideoUrl}
+          fullWidth
+          multiline={true}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+      </div>
+      <div style={{marginTop: '10px'}}>
+        <Button 
+            size="small"
+            className={classes.saveButton} onClick={() => handleSaveGame(game._id)}>
+            Save
+        </Button>
+      </div>
+    </div>
   );
 };
 
@@ -1200,7 +1209,8 @@ class Game extends Component {
             gameTime: null,
             gameDate: null,
             liveVideoUrl: null,
-            highlightVideoUrl: null
+            highlightVideoUrl: null,
+            isHidden: null
         };
     }
 
@@ -1250,7 +1260,8 @@ class Game extends Component {
         gameTime: null,
         gameDate: null,
         liveVideoUrl: null,
-        highlightVideoUrl: null
+        highlightVideoUrl: null,
+        isHidden: null
       });
     }
 
@@ -1269,7 +1280,7 @@ class Game extends Component {
             return;
         }
 
-        const {awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread,
+        const {awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, isHidden, 
           homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl} = this.state;
 
         const gameTimeFormatted = gameTime ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime : null;
@@ -1289,7 +1300,8 @@ class Game extends Component {
             currentTime,
             gameTime: gameTimeFormatted,
             liveVideoUrl,
-            highlightVideoUrl
+            highlightVideoUrl,
+            isHidden
         };
 
         this.props.handleUpdateGame(game);
@@ -1303,7 +1315,7 @@ class Game extends Component {
         const { classes, game, pick, isAuthenticated, 
           showDetails, userId, disableTie } = this.props;
 
-        const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
+        const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, isHidden, 
           homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl } = this.state;
 
         const inProgress = get(pick,'inProgress',false);
@@ -1311,7 +1323,7 @@ class Game extends Component {
         const spreadMode = localStorage.getItem('spreadModeToggle') === 'true';
 
         const props = { classes, game, pick, isAuthenticated, showDetails, userId, disableTie,
-        awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, 
+        awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, isHidden, 
         homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
         inProgress, spreadMode, handleMakePick: this.handleMakePick, 
         handleTie: this.handleTie, handleClearInput: this.handleClearInput, 
