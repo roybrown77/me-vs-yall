@@ -8,5 +8,5 @@ module.exports = {
   	queueUrl: process.env.CLOUDAMQP_URL || 'amqp://localhost',
   	shouldUpdateGames: process.env.SHOULD_UPDATE_GAMES_VIA_WEB_SERVER === 'true',
   	playHistoryCount: process.env.PLAY_HISTORY_COUNT || 5,
-  	chromiumVersion: process.env.CHROMIUM_VERSION
+  	chromiumVersion: 938248
 };
