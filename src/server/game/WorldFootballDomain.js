@@ -163,6 +163,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       try {
         const pageCloseResult = await page.close();
         console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
+        page = null;
       } catch (error) {
         console.log(`pageCloseResult error 7: ${JSON.stringify(error)}`);
       }
@@ -170,6 +171,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       try {
         const browserCloseResult = await browser.close();
         console.log(`browserCloseResult 7: ${JSON.stringify(browserCloseResult)}`);
+        browser = null;
       } catch (error) {
         console.log(`browserCloseResult error 7: ${JSON.stringify(error)}`);
       }
@@ -238,6 +240,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     try {
       const pageCloseResult = await page.close();
       console.log(`pageCloseResult 8: ${JSON.stringify(pageCloseResult)}`);
+      page = null;
     } catch (error) {
       console.log(`pageCloseResult error 8: ${JSON.stringify(error)}`);
     }
@@ -245,6 +248,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     try {
       const browserCloseResult = await browser.close();
       console.log(`browserCloseResult 8: ${JSON.stringify(browserCloseResult)}`);
+      browser = null;
     } catch (error) {
       console.log(`browserCloseResult error 8: ${JSON.stringify(error)}`);
     }
@@ -254,6 +258,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     try {
       const pageCloseResult = await page.close();
       console.log(`pageCloseResult 9: ${JSON.stringify(pageCloseResult)}`);
+      page = null;
     } catch (error) {
       console.log(`pageCloseResult error 9: ${JSON.stringify(error)}`);
     }
@@ -261,6 +266,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     try {
       const browserCloseResult = await browser.close();
       console.log(`browserCloseResult 9: ${JSON.stringify(browserCloseResult)}`);
+      browser = null;
     } catch (error) {
       console.log(`browserCloseResult error 9: ${JSON.stringify(error)}`);
     }
