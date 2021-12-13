@@ -31,6 +31,13 @@ const loadAmericanFootballGames = async ({
   startTimeSelector,
   startDateSelector
 }) => {
+  if (isUpdateAmericanFootballScoresRunning) {
+    console.log(`${message} already running.`)
+    return;
+  }
+
+  isUpdateAmericanFootballScoresRunning = true;
+
   let games = await getGames({
     leagueId,
     message,
@@ -44,6 +51,7 @@ const loadAmericanFootballGames = async ({
   
   if ((games || []).length === 0) {
     console.log(`${message} no games`);
+    isUpdateAmericanFootballScoresRunning = false;
     return;
   }
 
@@ -54,6 +62,8 @@ const loadAmericanFootballGames = async ({
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
+
+  isUpdateAmericanFootballScoresRunning = false;
 };
 
 const updateAmericanFootballScores = async ({
@@ -82,6 +92,8 @@ const updateAmericanFootballScores = async ({
     console.log(`${message} already running.`)
     return;
   }
+
+  isUpdateAmericanFootballScoresRunning = true;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -130,11 +142,10 @@ const updateAmericanFootballScores = async ({
 
     if ((games || []).length === 0) {
       console.log(`${message} not time to update spread.`);
+      isUpdateAmericanFootballScoresRunning = true;
       return;
     }
   }
-
-  isUpdateAmericanFootballScoresRunning = true;
 
   console.log(`${message} getting scores.`);
 

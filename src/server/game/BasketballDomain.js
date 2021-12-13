@@ -24,6 +24,13 @@ const loadBasketballGames = async ({dayCount, shouldLimit, leagueId, year, messa
   const root = 'scoreboard basketball';
   const url = `${baseUrl}${date}`;
   
+  if (isUpdateBasketballScoresRunning) {
+    console.log(`${message} already running.`)
+    return;
+  }
+
+  isUpdateBasketballScoresRunning = true;
+
   const games = await getGames({
     message,
     url,
@@ -35,6 +42,7 @@ const loadBasketballGames = async ({dayCount, shouldLimit, leagueId, year, messa
 
   if ((games || []).length === 0) {
     console.log(`${message} no games`);
+    isUpdateBasketballScoresRunning = false;
     return;
   }
 
@@ -45,6 +53,8 @@ const loadBasketballGames = async ({dayCount, shouldLimit, leagueId, year, messa
   //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
+
+  isUpdateBasketballScoresRunning = false;
 };
 
 // const month = moment().add(2, 'months');
@@ -61,6 +71,8 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
     console.log(`${message} already running.`)
     return;
   }
+
+  isUpdateBasketballScoresRunning = true;
 
   const search = {
     leagueId: mongoose.Types.ObjectId(leagueId),
@@ -109,11 +121,10 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
 
     if ((games || []).length === 0) {
       console.log(`${message} not time to update spread.`);
+      isUpdateBasketballScoresRunning = false;
       return;
     }
   }
-
-  isUpdateBasketballScoresRunning = true;
 
   const root = 'scoreboard basketball';
 
@@ -135,8 +146,8 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
   });
   
   if (scoreSet.length === 0) {
-    isUpdateBasketballScoresRunning = false;
     console.log(`${message} no scoreSet.`);
+    isUpdateBasketballScoresRunning = false;
     return;
   }
 
