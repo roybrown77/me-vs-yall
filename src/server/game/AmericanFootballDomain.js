@@ -142,7 +142,7 @@ const updateAmericanFootballScores = async ({
 
     if ((games || []).length === 0) {
       console.log(`${message} not time to update spread.`);
-      isUpdateAmericanFootballScoresRunning = true;
+      isUpdateAmericanFootballScoresRunning = false;
       return;
     }
   }
@@ -169,8 +169,8 @@ const updateAmericanFootballScores = async ({
   });
   
   if (scoreSet.length === 0) {
-    isUpdateAmericanFootballScoresRunning = false;
     console.log(`${message} no scoreSet.`);
+    isUpdateAmericanFootballScoresRunning = false;
     return;
   }
 
