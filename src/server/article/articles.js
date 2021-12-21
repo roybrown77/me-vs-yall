@@ -23,7 +23,7 @@ const articles = [
     title: "NOTES OF THE WEEK: NFL WEEK 14",
     content: week142021,
     leagueName: 'NFL',
-    date: 'December 21, 2020',
+    date: 'December 21, 2021',
     author: 'Roy B.'
   },
   {
