@@ -1894,5 +1894,6 @@ module.exports = {
 	week132020,
 	week142020,
 	week152020,
-	week162020
+	week162020,
+        week142021
 };
