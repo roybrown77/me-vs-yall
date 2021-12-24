@@ -1,13 +1,22 @@
-const week162020 = `<div>
+const week152021 = `<div>
 <i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
-Browns vs Jets 16 23
+Chiefs vs Chargers 32 28
 <br />
-(285 receiving yds, 45 rushing yds, 2 to) vs (218 receiving yds, 131 rushing yds, 0 to)
+(410 receiving yds, 86 rushing yds, 2 to) vs (236 receiving yds, 192 rushing yds, 2 to)
 <br />
 <br />
-Jets defense very fast keeping Browns  close.  Trick play gets Jets in end zone.  Batted ball pick 6 by Jets lineman very nice.  Darnold strikes for another td.  Browns offense stalls.  Darnold Jim Brown’d somebody on strong run.  Darnold throws a dime td to Crowder.  Browns get in end zone when working Chubb and Hunt in.  Jets cause fumble on Browns red zone drive to seal win.
+Roberts almost takes it to the house on opening kickoff.  Ekeler is fast.  Great balanced play calling by Chargers.  Williams mossed somebody.  Chiefs stop Chargers on multiple 4th downs.  Chiefs offense stall.  Weird in the dirt throw by 
+Mahomes at goal line.  Herbert throwing dimes.  Big catch and run by Kelce sparks Chiefs comeback.  Td dance was lit.  Not sure why pass interference wasn’t called on Chiefs late 4th.  Kelce miraculous catch and run wins it in overtime.
+<br />
+<br />
+Patriots vs Colts 17 27
+<br />
+(299 receiving yds, 81 rushing yds, 2 to) vs (57 receiving yds, 226 rushing yds, 1 to)
+<br />
+<br />
+Colts playing with urgency on both sides of the ball.  Blocked punt leads to Colts touchdown.  Patriots offense stalls on multiple interceptions.  Colts winning 20-0 late in third.  Jones makes amazing throw to escape sack.  Tip interception by Pats was money.  Colts d swarming.  Monster touchdown run by Taylor seal Colts win.
 </div>`;
 
 const week142021 = `<div>
@@ -20,6 +29,18 @@ Bears vs Packers 30 45
 <br />
 <br />
 Quinn does the discount double check after sacking Rodgers.  Fields playing confident.  Great Bears play calling.  Rodgers starts to cook late 2nd.  Douglas pick 6 off Fields.  Big crossing route td by Bird.  Grant spectacular 97 yard td return.  Rodgers to Adams td a beauty.  Bears lead 27-21 at half.  Rodgers continues to serve meals.  Packers d keeps Fields in check second half.
+</div>`;
+
+const week162020 = `<div>
+<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Browns vs Jets 16 23
+<br />
+(285 receiving yds, 45 rushing yds, 2 to) vs (218 receiving yds, 131 rushing yds, 0 to)
+<br />
+<br />
+Jets defense very fast keeping Browns  close.  Trick play gets Jets in end zone.  Batted ball pick 6 by Jets lineman very nice.  Darnold strikes for another td.  Browns offense stalls.  Darnold Jim Brown’d somebody on strong run.  Darnold throws a dime td to Crowder.  Browns get in end zone when working Chubb and Hunt in.  Jets cause fumble on Browns red zone drive to seal win.
 </div>`;
 
 const week152020 = `<div>
@@ -1895,5 +1916,6 @@ module.exports = {
 	week142020,
 	week152020,
 	week162020,
-        week142021
+        week142021,
+        week152021
 };
