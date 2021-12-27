@@ -143,12 +143,13 @@ const updateGames = async () => {
   if (footballSeason && weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 12) {
     const day = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : 4;
     const nextWeekNumber = weekNumber+1;
-
+    const url = `https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/${nextWeekNumber <= 18 ? 2 : 3}/week/${nextWeekNumber <= 18 ? nextWeekNumber : (nextWeekNumber-19+1 < 4 ? nextWeekNumber-19+1 : 5)}`;
+    
     loadAmericanFootballGames({
       year: 2021, 
       message: 'loadNflGames', 
       leagueId: '59723313734d1d6202a85f10', 
-      url: `https://www.espn.com/nfl/scoreboard/_/year/2021/seasontype/${nextWeekNumber <= 18 ? 2 : 3}/week/${nextWeekNumber <= 18 ? nextWeekNumber : (nextWeekNumber-19+1 < 4 ? nextWeekNumber-19+1 : 5)}`,
+      url,
       teams: nflTeams, 
       root: 'Scoreboard__Row__Main',
       nameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
