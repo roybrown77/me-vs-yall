@@ -404,54 +404,8 @@ const GamePredictionStatusIcon = (props) => {
   );
 };
 
-const SimpleCompetitor = (props) => {
-  const {  game, competitor } = props;
-
-  return (
-    <Grid className= "simple-competitor" item xs={12} sm container>
-        <Grid item xs>
-            <Grid item>
-              <div>
-                {
-                  !['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(get(game,'leagueId')) &&
-                  <div style={{fontSize:'25px', color: competitor.color}}>
-                    {hasGameStarted(game.startDateTime) || game.isGameOver ? get(competitor,'score') || 0 : undefined}
-                  </div>
-                }
-                {
-                  competitor.country &&
-                  <div style={{fontSize:'70px'}}>{getFlag(competitor.country)}</div>
-                }
-                <div style={{
-                  fontSize: competitor.country ? '2rem' : '2.5rem', 
-                  marginTop: competitor.country ? '-10px' : '0', 
-                  fontWeight: '600', 
-                  color: competitor.color
-                }}>
-                  <span style={{color:'lightgray', fontSize: '17px', paddingRight: competitor.rank ? '8px': '0'}}>
-                    {competitor.rank}
-                  </span>
-                  {competitor.shortLocation}
-                </div>
-                <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px'}}>
-                   {competitor.name}
-                </div>
-                <div style={{display: 'inline-flex', marginTop: '10px'}}>
-                  <SelectionIndicator {...props} />
-                  {
-                    get(game,'isGameOver') && competitor.selected &&
-                    <GamePredictionStatusIcon {...props} />
-                  }
-                </div>
-              </div>
-            </Grid>
-        </Grid>
-    </Grid>
-  );
-};
-
-const DetailCompetitor = (props) => {
-  const { game, spreadMode, pick, competitor } = props;
+const Competitor = (props) => {
+  const { game, spreadMode, pick, competitor, showDetails } = props;
 
   return (
     <Grid className="detail-competitor" item xs={12} sm container>
@@ -481,7 +435,8 @@ const DetailCompetitor = (props) => {
                 <div style={{paddingBottom: '4px', fontSize: competitor.country ? '15px' : '20px', padding: competitor.record ? '0' : ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0' :  '4px 0'}}>
                   {competitor.name}
                 </div>
-                { 
+                {
+                  showDetails && 
                   competitor.record &&
                   <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0' :  '4px 0'}}>
                     {competitor.record}
@@ -523,7 +478,7 @@ const WorldFootballGamePlayHistory = (props) => {
 };
 
 const GameFooter = (props) => {
-  const { classes, game, isAuthenticated, userId } = props;
+  const { classes, game, isAuthenticated, userId, showDetails } = props;
 
   return (
     <div style={{marginTop: "10px"}} className={"game-footer " + classes.startDateTime}>
@@ -534,6 +489,7 @@ const GameFooter = (props) => {
           </div>
         }
         {
+          showDetails &&
           (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
           <div style={{marginTop: '5px'}}> 
             {game.startDateTimeDisplay}
@@ -995,87 +951,7 @@ const GameEditor = (props) => {
   );
 };
 
-const SimpleGame = (props) => {
-  const { classes, game, isAuthenticated, disableTie, inProgress, spreadMode, handleMakePick } = props;
-
-  return (
-    <div key={game._id} className={classes.game}>
-      <div style={{zIndex: 3, position: 'relative', backgroundColor: 'white', paddingBottom: '20px'}}>
-        <Grid key={game._id + "-gridlist"} container className={classes.root}>
-          {
-            game.competitors.map((competitor) => (
-              <Grid
-                  key={game._id + "." + competitor._id}
-                  item xs={6}
-                  onClick={() => handleMakePick(game._id, competitor._id)}
-                  className={inProgress ? 'fast-flash' : ''} 
-                  style={{
-                    border: competitor.selected ? '15px solid #3772FA' : '',
-                    padding: '10px',
-                    cursor: 'pointer'
-                  }}
-              >
-                  <Grow in={true} timeout={500}>
-                      <Paper className={classNames(classes.paper)}>
-                          {
-                            spreadMode &&
-                            <div style={{
-                              fontSize: '17px',
-                              paddingBottom: '10px', 
-                              display: get(game,'spread.teamId') === game.competitors[0]._id || get(game,'spread.teamId') === game.competitors[1]._id ? 'block' : 'none', 
-                              textAlign: 'right',
-                              height: '17px'
-                            }}>
-                                {get(game,'spread.teamId') !== competitor._id ? "" : get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
-                            </div>
-                          }
-                          <SimpleCompetitor {...{...props, competitor}} />
-                      </Paper>
-                  </Grow>
-              </Grid>
-          ))}                            
-          </Grid>
-          {
-            isAuthenticated &&
-            !hasGameStarted(game.startDateTime) &&
-            ['59723313734d1d6202a85f10','59723313734d1d6202a85f17','59723313734d1d6202a85f25','59723313734d1d6202a85f27','59723313734d1d6202a85f29'].includes(get(game,'leagueId')) && 
-            !spreadMode &&
-            !disableTie &&
-            <TieButton {...props} />
-          }
-          <div style={{marginTop:"10px"}} className={classes.startDateTime}>
-            {
-              game.gameName && 
-              <div style={{fontSize: '15px', marginTop: '5px'}}> 
-                {game.gameName}
-              </div>
-            }
-            {
-              get(game,'isGameOver') && 
-              <div style={{marginTop:'5px'}}>Final</div>
-            }
-            {
-              !get(game,'isGameOver') && 
-              hasGameStarted(game.startDateTime) && 
-              <div className='fast-flash' style={{color: 'deeppink', marginTop:'5px'}}>
-                {game.currentTime || 'in progress'}
-              </div>
-            }
-            {
-              hasGameStarted(game.startDateTime) &&
-              !get(game,'isGameOver') && 
-              <div className={classes.startDateTime}>
-                {game.possession} {game.down}
-              </div>
-            }
-          </div>
-        </div>
-        <GamePlayTabs {...props} />
-    </div>
-  );
-}
-
-const DetailGame = (props) => {
+const GameContainer = (props) => {
   const [showField, setShowField] = React.useState(true);
 
   const handleToggleField = () => {
@@ -1083,7 +959,7 @@ const DetailGame = (props) => {
   };
 
   const { classes, game, isAuthenticated, disableTie, 
-    inProgress, spreadMode, handleMakePick } = props;
+    inProgress, spreadMode, handleMakePick, showDetails } = props;
 
   return (
     <div key={game._id} className={classes.game}>
@@ -1108,7 +984,7 @@ const DetailGame = (props) => {
                                 spreadMode &&
                                 <CompetitorHeader {...{...props, competitor}} />
                               }
-                              <DetailCompetitor {...{...props, competitor}} />
+                              <Competitor {...{...props, competitor}} />
                           </Paper>
                       </Grow>
                   </Grid>
@@ -1124,6 +1000,7 @@ const DetailGame = (props) => {
           }
           <div>
             {
+              showDetails && 
               showField &&
               getField(get(game,'leagueId'), {
                 away: game.competitors[0].shortLocation, 
@@ -1133,6 +1010,7 @@ const DetailGame = (props) => {
               })
             }
             {
+              showDetails && 
               !showField &&
               <div style={{fontSize: "14px", fontFamily: "monospace", marginTop: "10px"}}>
                 <div style={{
@@ -1171,6 +1049,7 @@ const DetailGame = (props) => {
               </div>
             }
             {
+              showDetails && 
               (game.stats || []).length > 0 &&
               <div>
                 <Button 
@@ -1327,7 +1206,9 @@ class Game extends Component {
         handleInputChange: this.handleInputChange, 
         handleSaveGame: this.handleSaveGame, handleUpdateGamePlayTab: this.handleUpdateGamePlayTab };
 
-        return (showDetails ? <DetailGame {...props} /> : <SimpleGame {...props} />);
+        return (
+          <GameContainer {...props} />
+        );
     }
 }
 
