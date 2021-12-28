@@ -2,13 +2,11 @@ import { Map, List } from 'immutable';
 
 import get from 'lodash/get';
 
-import * as ActionTypes from '../actions';
+import { ActionTypes } from '../actions';
 
 import { 
   leagues
 } from '../utilities';
-
-import { getUser, isLoggedIn } from '../middleware/authenticationClient';
 
 const requestStorageJson = localStorage.getItem('request');
 const requestStorage = JSON.parse(requestStorageJson);
@@ -69,25 +67,6 @@ export const scoreboardDomain = (
           }
       );
       return state.set('picks', pickListUpdateFailure);
-    default:
-      return state;
-  }
-};
-
-export const authenticationDomain = (
-  state = Map({ 
-    isAuthenticated: isLoggedIn(), 
-    dataLoading: false,
-    user: Map(getUser())
-  }), 
-  action) => {
-  switch (action.type) {
-    case 'LOGIN_REQUEST':
-      return state.set('dataLoading', true).set('isAuthenticated', false);
-    case 'LOGIN_SUCCESS':
-      return state.set('user', Map(get(action, 'user'))).set('dataLoading', false).set('isAuthenticated', true);
-    case 'LOGIN_FAILURE':
-      return state.set('dataLoading', false);
     default:
       return state;
   }

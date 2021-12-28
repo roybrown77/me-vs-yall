@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux-immutable';
 
 import {
-  authenticationDomain,
   scoreboardDomain,
   leaderDomain,
   weeksDomain,
@@ -13,6 +12,7 @@ import {
 } from './reducers';
 
 import { homePageDomain } from './homePage';
+import { authenticationDomain } from './authentication';
 
 const rootReducer = combineReducers({
   homePageDomain,
