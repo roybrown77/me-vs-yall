@@ -16,7 +16,10 @@ import LightOff from '@material-ui/icons/EmojiObjects';
 
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
-import { getHomePageImage, getAreAnyGamesInProgress, getHomePageEmoji, getRandomIntInclusive } from '../../utilities';
+
+import { getAreAnyGamesInProgress, getRandomIntInclusive } from '../../utilities';
+import { getHomePageImage, getHomePageEmoji } from './utilities';
+
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const history = createBrowserHistory({forceRefresh: true});

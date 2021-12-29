@@ -18,13 +18,79 @@ import rickey from '../styles/images/rickey.gif';
 
 import zachBaby from '../styles/images/zach-baby.jpg';
 
-import hoodiesBw from '../styles/images/mvy-hoodie-white-bw.jpg';
-import shirts from '../styles/images/mvy-tee-white-romey.jpg';
-import shirtsBw from '../styles/images/mvy-tee-black-bw.jpg';
+// private
+
+const getSpreadAmount = (spreadAmount) => {
+    const amount = Math.abs(spreadAmount);
+    return (amount > 70 ? 1.5 : amount);
+}
 
 const vegasPictures = [
     zachBaby
 ];
+
+const getVegasUser = () => {
+    return {
+        firstName: 'Vegas SuperBook',
+        authServiceId: '1',
+        picture: vegasPictures[Math.floor(Math.random()*vegasPictures.length)]
+    };
+};
+
+const getVegasPicks = (games = []) => {
+    return games.map(x=>{
+        return {
+            gameId: get(x,'spread.amount') ? x._id : '000000000000000000000000',
+            userId: '1',
+            pickId: get(x,'spread.amount') ? get(x,'spread.teamId') : get(x,'competitors.1._id') 
+        };
+    });
+};
+
+const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
+    if (!spread) return;
+
+    const teamAPick = picks.find(pick=>(pick.pickId === game.competitors[index1]._id) && pick.gameId === game._id);
+    
+    return game.isGameOver && get(game,'spread.teamId') &&
+            ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= getSpreadAmount(game.spread.amount)) ||
+            (game.competitors[index1].score >= game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index2]._id) ||
+            (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < getSpreadAmount(game.spread.amount))) 
+            ? '#009933' : 
+
+            game.isGameOver && get(game,'spread.teamId') && ((game.competitors[index1].score === game.competitors[index2].score) || teamAPick) ? 'red' : 
+
+            teamAPick ? 'lightblue' : '';
+}
+
+const getLeaderIndicator = (game,picks,index1,index2) => {
+    return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.gameId === game._id)) || 
+            (game.competitors[index1].score > game.competitors[index2].score && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
+                && pick.gameId === game._id))) ? '#009933' : 
+
+            game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
+            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.gameId === game._id)) || 
+            (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
+            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
+                && pick.gameId === game._id))) ? 'red' : 
+
+            picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000')  
+                && pick.gameId === game._id) ? 'lightblue' : '';
+}
+
+const getTimeUntilNextGamesLoad = (games = []) => {
+    const day = moment().weekday();
+    const areAllGamesOver = getAreAllGamesOver(games);
+    const time = areAllGamesOver ? (day === 2 && new Date().getHours() <= 19 ? moment().startOf('day').add(19,'hours').toISOString() :
+    day === 2 && new Date().getHours() > 19 ? moment().add(7,'day').startOf('day').add(19,'hours').toISOString() : 
+    day > 2 ? moment().add(7-Math.abs(3-day),'day').startOf('day').add(19,'hours').toISOString() : 
+    moment().add(2-day,'day').startOf('day').add(19,'hours').toISOString()) : undefined;
+    return time;
+};
+
+// public
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -35,12 +101,6 @@ function getRandomIntInclusive(min, max) {
 const basketBallImages = [
     {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
     {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
-];
-
-const homePageImages = [
-    hoodiesBw,
-    shirts,
-    shirtsBw
 ];
 
 const images = {
@@ -71,10 +131,6 @@ const images = {
 
 const getImage = (leagueId) => {
     return images[leagueId] && images[leagueId].length > 0 ? images[leagueId][getRandomIntInclusive(0,images[leagueId].length-1)] : null;
-};
-
-const getHomePageImage = () => {
-    return homePageImages[getRandomIntInclusive(0,homePageImages.length-1)];
 };
 
 const leagues = [
@@ -405,34 +461,6 @@ const getAreAllGamesOver = (games = []) => {
     return !games.some(x=>!x.isGameOver);
 };
 
-const getTimeUntilNextGamesLoad = (games = []) => {
-    const day = moment().weekday();
-    const areAllGamesOver = getAreAllGamesOver(games);
-    const time = areAllGamesOver ? (day === 2 && new Date().getHours() <= 19 ? moment().startOf('day').add(19,'hours').toISOString() :
-    day === 2 && new Date().getHours() > 19 ? moment().add(7,'day').startOf('day').add(19,'hours').toISOString() : 
-    day > 2 ? moment().add(7-Math.abs(3-day),'day').startOf('day').add(19,'hours').toISOString() : 
-    moment().add(2-day,'day').startOf('day').add(19,'hours').toISOString()) : undefined;
-    return time;
-};
-
-const getVegasUser = () => {
-    return {
-        firstName: 'Vegas SuperBook',
-        authServiceId: '1',
-        picture: vegasPictures[Math.floor(Math.random()*vegasPictures.length)]
-    };
-};
-
-const getVegasPicks = (games = []) => {
-    return games.map(x=>{
-        return {
-            gameId: get(x,'spread.amount') ? x._id : '000000000000000000000000',
-            userId: '1',
-            pickId: get(x,'spread.amount') ? get(x,'spread.teamId') : get(x,'competitors.1._id') 
-        };
-    });
-};
-
 const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false) => {
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
@@ -492,95 +520,14 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
     };
 };
 
-const copy = (games = [], picks = [], teams = []) => {
-    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
-
-    let list = "";
-    let newDate = "";
-
-    sortedGames.forEach((game)=>{
-        const displayDateTime = moment(new Date(game.startDateTime));
-        const formattedDateTime = displayDateTime.format('dddd MMM D YYYY h:mm a');
-        const teamA = teams.find(x=>x._id === game.competitors[0]._id);
-        const teamB = teams.find(x=>x._id === game.competitors[1]._id);
-
-        const selected = picks.find(x=>x.gameId === game._id && (x.pickId === game.competitors[0]._id || x.pickId === game.competitors[1]._id));
-
-        if (newDate !== formattedDateTime) {
-            list += '\n' + formattedDateTime + '\n\n';
-            newDate = formattedDateTime;
-        }
-        if (selected) {
-            list += selected.pickId === game.competitors[0]._id ? teamA.name + ' over ' + teamB.name + '\n' : teamB.name + ' over ' + teamA.name + '\n';
-        } else {
-            list += teamA.name + ' vs ' + teamB.name + '\n';
-        }
-    });
-
-    return 'https://www.mevsyall.com\n' + list + '\nhttps://www.mevsyall.com\n\n';
-};
-
 const getAreAnyGamesInProgress = (games = []) => {
     return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)
 };
-
-const getLeaderIndicator = (game,picks,index1,index2) => {
-    return game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId === '000000000000000000000000' && pick.gameId === game._id)) || 
-            (game.competitors[index1].score > game.competitors[index2].score && 
-            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
-                && pick.gameId === game._id))) ? '#009933' : 
-
-            game.isGameOver && ((game.competitors[index1].score === game.competitors[index2].score && 
-            picks.find(pick=>pick.pickId === game.competitors[index1]._id && pick.gameId === game._id)) || 
-            (game.isGameOver && game.competitors[index1].score < game.competitors[index2].score && 
-            picks.find(pick=>(pick.pickId === game.competitors[index1]._id || pick.pickId === '000000000000000000000000') 
-                && pick.gameId === game._id))) ? 'red' : 
-
-            picks.find(pick=>((pick.pickId === game.competitors[index1]._id) || pick.pickId === '000000000000000000000000')  
-                && pick.gameId === game._id) ? 'lightblue' : '';
-}
-
-const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
-    if (!spread) return;
-
-    const teamAPick = picks.find(pick=>(pick.pickId === game.competitors[index1]._id) && pick.gameId === game._id);
-    
-    return game.isGameOver && get(game,'spread.teamId') &&
-            ((game.competitors[index1].score > game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index1]._id && game.competitors[index1].score - game.competitors[index2].score >= getSpreadAmount(game.spread.amount)) ||
-            (game.competitors[index1].score >= game.competitors[index2].score && teamAPick && game.spread.teamId === game.competitors[index2]._id) ||
-            (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < getSpreadAmount(game.spread.amount))) 
-            ? '#009933' : 
-
-            game.isGameOver && get(game,'spread.teamId') && ((game.competitors[index1].score === game.competitors[index2].score) || teamAPick) ? 'red' : 
-
-            teamAPick ? 'lightblue' : '';
-}
-
-const getPicksNotSelected = (games = [], picks = []) => {
-    let count = 0;
-    games.forEach(game=>{
-        if (!picks.find(x=>x.gameId === game._id) && !game.isGameOver) {
-            count++;
-        }
-    });
-    return count;
-}
 
 const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
     const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
     const picksWithVegas = [...picks, ...getVegasPicks(sortedGames)];
     return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
-}
-
-const getHomePageEmoji = () => {
-    const emojis = ["🏎","💃","🎒","🍄","🌶","🍿","🥊","🚣","🥁","🚗","⛽️","🏖","☎️","🧰","💌","🅰️"];
-    return emojis[getRandomIntInclusive(0,emojis.length-1)];
-}
-
-const getSpreadAmount = (spreadAmount) => {
-    const amount = Math.abs(spreadAmount);
-    return (amount > 70 ? 1.5 : amount);
 }
 
 export {
@@ -595,8 +542,6 @@ export {
     getAreAllGamesOver,
     getTimeUntilNextGamesLoad,
     getLeaders,
-    getVegasUser,
-    getVegasPicks,
     getGroupedGames,
     getAreAnyGamesInProgress,
     leagues,
@@ -606,9 +551,5 @@ export {
     getLeagueStartDateTime,
     getImage,
     getRandomIntInclusive,
-    images,
-    getPicksNotSelected,
-    copy,
-    getHomePageImage,
-    getHomePageEmoji
+    images
 };

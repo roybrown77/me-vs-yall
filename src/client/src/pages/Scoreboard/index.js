@@ -41,6 +41,7 @@ import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
 import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle, spreadModeToggle } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
+
 import { 
     formatWeeks, 
     getCurrentWeek, 
@@ -49,10 +50,13 @@ import {
     getGroupedGames,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    getImage,
+    getImage
+} from '../../utilities';
+
+import { 
     getPicksNotSelected,
     copy
-} from '../../utilities';
+} from './utilities';
 
 import {createBrowserHistory} from 'history';
 const history = createBrowserHistory({forceRefresh: false});
