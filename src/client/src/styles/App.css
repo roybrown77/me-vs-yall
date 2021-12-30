@@ -363,3 +363,21 @@ a.links:hover {
 }
 
 /* --- video stream end --- */
+
+/* --- text type start --- */
+
+$color: #00FF41;
+
+#cursor {
+  border-left: .1em solid $color;
+  animation: blink .7s steps(1) infinite;
+  color: $color;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* --- text type end --- */

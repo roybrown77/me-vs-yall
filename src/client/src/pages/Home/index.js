@@ -16,8 +16,9 @@ import LightOff from '@material-ui/icons/EmojiObjects';
 
 import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
+import Typer from './Typer';
 
-import { getAreAnyGamesInProgress, getRandomIntInclusive } from '../../utilities';
+import { getAreAnyGamesInProgress } from '../../utilities';
 import { getHomePageImage, getHomePageEmoji } from './utilities';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
@@ -62,13 +63,14 @@ const instructions = [
 ];
 
 const tagLines = [
-  // "if you can't win here don't bet real money over there",
-  // "the ultimate sports mashup site",
-  // "play for fun or play for the 💰 it's your world",
-  // "feel the thrill of betting without risking a thing",
-  // "compete worldwide",
-  // "your mission should you choose to accept is to beat vegas every week.  this message will self destruct.",
-  "the ultimate sports pick'em game"
+  "track what you could have won or loss in vegas",
+  "the ultimate sports pick'em game",
+  "if you can't win here don't bet real money over there",
+  //"the ultimate sports mashup site",
+  "play for fun or play for the 💰 it's your world",
+  "feel the thrill of betting without risking a thing",
+  "compete with friends worldwide",
+  "your mission should you choose to accept is to beat vegas every week.  this message will self destruct.",
 ];
 
 class Home extends Component {
@@ -104,8 +106,8 @@ class Home extends Component {
     }
 
     render() {
-      const {games} = this.props;
-      const {darkModeOn} = this.state;
+      const { games } = this.props;
+      const { darkModeOn } = this.state;
 
       const year = moment().format('YYYY');
 
@@ -194,7 +196,9 @@ class Home extends Component {
               sports x fun x friends x vegas
             </div>
             <div style={{marginTop: '10px', color: darkModeOn ? 'white' : 'black', fontSize: '15px'}}>
-              {tagLines[getRandomIntInclusive(0,tagLines.length-1)]}
+              <Typer
+                dataText={tagLines} 
+              />
             </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div style={{textAlign:"left"}}>
