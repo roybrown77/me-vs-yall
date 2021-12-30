@@ -366,18 +366,15 @@ a.links:hover {
 
 /* --- text type start --- */
 
-$color: #00FF41;
+.typer-cursor {
+  -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
 
-#cursor {
-  border-left: .1em solid $color;
-  animation: blink .7s steps(1) infinite;
-  color: $color;
-}
+  animation-name: flash-keyframe;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
+  margin-left: 10px;
 }
 
 /* --- text type end --- */

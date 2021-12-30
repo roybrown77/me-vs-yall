@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TYPING_SPEED = 150;
+const TYPING_SPEED = 70;
 const DELETING_SPEED = 30;
 
 class Typer extends React.Component {
@@ -27,7 +27,7 @@ class Typer extends React.Component {
     });
 
     if (!isDeleting && text === fullText) {     
-      setTimeout(() => this.setState({ isDeleting: true }), 500);   
+      setTimeout(() => this.setState({ isDeleting: true }), 1500);
     } else if (isDeleting && text === '') {
       this.setState({
         isDeleting: false,
@@ -42,7 +42,7 @@ class Typer extends React.Component {
     return (
       <div>{ this.props.heading }&nbsp;
         <span>{ this.state.text }</span>
-        <span id="cursor"></span>
+        <span className="typer-cursor">_</span>
       </div>
     );
   }
