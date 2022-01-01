@@ -2,6 +2,7 @@ import React from 'react';
 
 const TYPING_SPEED = 70;
 const DELETING_SPEED = 30;
+const WAIT_BEFORE_DELETING_SECONDS = 3;
 
 class Typer extends React.Component {
   state = {
@@ -18,21 +19,25 @@ class Typer extends React.Component {
   handleType = () => {
     const { dataText } = this.props;
     const { isDeleting, loopNum, text, typingSpeed } = this.state;
-    const i = loopNum % dataText.length;
-    const fullText = dataText[i];
+    const fullText = dataText[loopNum];
 
-    this.setState({
-      text: isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1),
-      typingSpeed: isDeleting ? DELETING_SPEED : TYPING_SPEED
-    });
+    this.setState((state) => ({
+      text: state.isDeleting ? fullText.substring(0, state.text.length - 1) : fullText.substring(0, state.text.length + 1),
+      typingSpeed: state.isDeleting ? DELETING_SPEED : TYPING_SPEED
+    }));
 
     if (!isDeleting && text === fullText) {     
-      setTimeout(() => this.setState({ isDeleting: true }), 1500);
+      setTimeout(() => this.setState({ isDeleting: true }), WAIT_BEFORE_DELETING_SECONDS * 1000);
     } else if (isDeleting && text === '') {
-      this.setState({
-        isDeleting: false,
-        loopNum: loopNum + 1
-      });
+      this.setState((state) => ({
+        isDeleting: false
+      }));
+    } else {
+      if (text.length === 1 && isDeleting) {
+        this.setState((state) => ({
+          loopNum: state.loopNum >= dataText.length-1 ? 0 : ++state.loopNum
+        }));
+      }
     }
 
     setTimeout(this.handleType, typingSpeed);
