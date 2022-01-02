@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getRandomIntInclusive } from '../../utilities';
+
 const TYPING_SPEED = 70;
 const DELETING_SPEED = 30;
 const WAIT_BEFORE_DELETING_SECONDS = 3;
@@ -19,7 +21,7 @@ class Typer extends React.Component {
   handleType = () => {
     const { dataText } = this.props;
     const { isDeleting, loopNum, text, typingSpeed } = this.state;
-    const fullText = dataText[loopNum >= dataText.length ? 0 : loopNum];
+    const fullText = dataText[loopNum];
 
     this.setState((state) => ({
       text: state.isDeleting ? fullText.substring(0, state.text.length - 1) : fullText.substring(0, state.text.length + 1),
@@ -35,8 +37,9 @@ class Typer extends React.Component {
     } else {
       if (isDeleting && text.length === 1) {
         //console.log("loopNum: " + loopNum);
+        const index = getRandomIntInclusive(0,dataText.length);
         this.setState((state) => ({
-          loopNum: state.loopNum >= dataText.length ? 0 : state.loopNum + 1
+          loopNum: index === dataText.length ? 0 : index
         }));
       }
     }
