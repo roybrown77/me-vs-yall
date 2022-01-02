@@ -1,5 +1,49 @@
+const week162021 = `<div>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
+<br />
+<br />
+Rams vs Vikings 30 23
+<br />
+(197 receiving yds, 159 rushing yds, 3 to) vs (315 receiving yds, 66 rushing yds, 1 to)
+<br />
+<br />
+Rams score td on 8 minute well balanced opening drive. Strong run and hurdle by Madison. Vikings counter strong rush with great play calling. Tip pick by Rams in Vikings end zone. Madison running buses through Rams d. Michel and Odell showcase their worth. Stafford throws pick in Vikings red zone. Rams lead 13-3 at half. Stafford throws a pick in double coverage. Stafford ball tipped at line for pick on Vikings red zone. Madison pounds rock for td. Powell punt return td flip was fancy. Defenses keeping game close. Odell hits the td griddy. Vikings drive for td. Rams field goal seals game.
+<br />
+<br />
+Ravens vs Bengals 21 41
+<br />
+(304 receiving yds, 39 rushing yds, 1 to) vs (525 receiving yds, 77 rushing yds, 0 to)
+<br />
+<br />
+Bengals receivers are so wide open. Gorgeous td throw by Lamar. Mixon strong 4th and goal td run. Boyd wide open td catch and run. Higgins mossed somebody for 52 yards. 31-14 Bengals at half. Burrow slicing and dicing Ravens d. Bengals receivers have great hands.
+<br />
+<br />
+49ers vs Titans 17 20
+<br />
+(322 receiving yds, 83 rushing yds, 2 to) vs (209 receiving yds, 90 rushing yds, 0 to)
+<br />
+<br />
+Great 49er offensive execution. Jimmy G throws red zone pick in traffic. 49er defense is stout. AJ Brown twinkle toes. Foreman running like Henry. 49ers lead 10-0 at half. Titans start half strong. Jimmy G pick leads to Titans td run to tie. Tannehill making big plays. Jimmy G holding the ball too long. Samuel is a beast. 17-17 with 2 minutes left. Tannehill scrambles to save drive for game winning field goal.
+<br />
+<br />
+Dolphins vs Saints 20 3
+<br />
+(198 receiving yds, 86 rushing yds, 1 to) vs (135 receiving yds, 83 rushing yds, 2 to)
+<br />
+<br />
+Dolphins defense is fast and aggressive leading to pick 6. Tua sacked hard in red zone. Both offenses stall. Dolphins lead 10-3 at half. Dolphin flea flicker alert. Waddle td dance is dope. Going for 4th down is the trend but so is not converting them. Dolphins closing pocket fast on Book.
+<br />
+<br />
+Lions vs Falcons 16 20
+<br />
+(208 receiving yds, 130 rushing yds, 1 to) vs (215 receiving yds, 47 rushing yds, 1 to)
+<br />
+<br />
+Not much front 4 pressure from either defense. Lions fake punt leads to first down.  St. Brown mossed somebody for td. 10-10 at half. Ryan throws a beautiful td to Huerst. Falcons fumble under 2 minutes but Goff throws pick in red zone to end it.
+</div>`;
+
 const week152021 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Chiefs vs Chargers 32 28
@@ -20,7 +64,7 @@ Colts playing with urgency on both sides of the ball.  Blocked punt leads to Col
 </div>`;
 
 const week142021 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Bears vs Packers 30 45
@@ -32,7 +76,7 @@ Quinn does the discount double check after sacking Rodgers.  Fields playing conf
 </div>`;
 
 const week162020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Browns vs Jets 16 23
@@ -44,7 +88,7 @@ Jets defense very fast keeping Browns  close.  Trick play gets Jets in end zone.
 </div>`;
 
 const week152020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Seahawks vs Washington 20 15
@@ -56,7 +100,7 @@ Seattle defense playing well to start.  Both offenses start slow.  Haskins has g
 </div>`;
 
 const week142020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Ravens vs Browns 47 42
@@ -92,7 +136,7 @@ Ben getting ball out quick but receivers are dropping at times.  Steelers d cont
 </div>`;
 
 const week132020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Browns vs Titans 41 35
@@ -128,7 +172,7 @@ Panthers ns
 </div>`;
 
 const week122020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Chargers vs Bills 17 27
@@ -148,7 +192,7 @@ Cardinals d getting to Newton.  Moncrief kick return sets up White td run.  Patr
 </div>`;
 
 const week112020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Patriots vs Texans 20 27
@@ -188,7 +232,7 @@ Giants ne
 </div>`;
 
 const week102020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Jaguars vs Packers 20 24
@@ -228,7 +272,7 @@ Jets ae
 </div>`;
 
 const week92020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Bears vs Titans 17 24
@@ -260,7 +304,7 @@ Eagles ne
 </div>`;
 
 const week82020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Vikings vs Packers 28 22
@@ -462,7 +506,7 @@ Division rankings (based on top defense & offense)
 </div>`;
 
 const week72020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Panthers vs Saints 24 27
@@ -670,7 +714,7 @@ Division rankings (based on top defense & offense)
 </div>`;
 
 const week62020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Ravens vs Eagles 30 28
@@ -884,7 +928,7 @@ Division rankings (based on top defense & offense)
 </div>`;
 
 const week52020 = `<div>
-<i>The NFL bounce back is real.  Teams that lose who furiously focus on getting better eventually start winning.</i>
+<i>The NFL bounce back is real.  Teams that lose and furiously focus on getting better eventually start winning.</i>
 <br />
 <br />
 Buccaneers vs Bears 19 20
@@ -1916,6 +1960,7 @@ module.exports = {
 	week142020,
 	week152020,
 	week162020,
-        week142021,
-        week152021
+    week142021,
+    week152021,
+    week162021
 };
