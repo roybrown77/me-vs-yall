@@ -19,7 +19,7 @@ class Typer extends React.Component {
   handleType = () => {
     const { dataText } = this.props;
     const { isDeleting, loopNum, text, typingSpeed } = this.state;
-    const fullText = dataText[loopNum];
+    const fullText = dataText[loopNum >= dataText.length ? 0 : loopNum];
 
     this.setState((state) => ({
       text: state.isDeleting ? fullText.substring(0, state.text.length - 1) : fullText.substring(0, state.text.length + 1),
@@ -33,9 +33,10 @@ class Typer extends React.Component {
         isDeleting: false
       }));
     } else {
-      if (text.length === 1 && isDeleting) {
+      if (isDeleting && text.length === 1) {
+        //console.log("loopNum: " + loopNum);
         this.setState((state) => ({
-          loopNum: state.loopNum >= dataText.length-1 ? 0 : ++state.loopNum
+          loopNum: state.loopNum >= dataText.length ? 0 : state.loopNum + 1
         }));
       }
     }
