@@ -96,7 +96,7 @@ Seahawks vs Washington 20 15
 (121 receiving yds, 181 rushing yds, 1 to) vs (295 receiving yds, 84 rushing yds, 2 to)
 <br />
 <br />
-Seattle defense playing well to start.  Both offenses start slow.  Haskins has good drive but then tip pick.  Wilson runs for big gain to get going.  Wilson fires in td to Hollister.  Carson rolls somebody.  Hyde runs 50 yard td.  McLaurin Moss’d somebody.  Washington fights back with great play calling.  Turnovers hurt Washington chances to win.
+Seattle defense playing well to start.  Both offenses start slow.  Haskins has good drive but then tip pick.  Wilson runs for big gain to get going.  Wilson fires in td to Hollister.  Carson rolls somebody.  Hyde runs 50 yard td.  McLaurin mossed somebody.  Washington fights back with great play calling.  Turnovers hurt Washington chances to win.
 </div>`;
 
 const week142020 = `<div>
@@ -124,7 +124,7 @@ Saints vs Eagles 21 24
 (291 receiving yds, 96 rushing yds, 2 to) vs (167 receiving yds, 246 rushing yds, 2 to)
 <br />
 <br />
-Hurts leads solid td drive.  Saints offense stalls.  Hill throws tip pick.  Sanders runs 82 yard td.  Eagles d getting to Hill.  Hurts poised in pocket.  Saints with better play calling in second half.  Hill to Sanders td a beauty.  Big sack on Hill causes turnover.  Eagles play calling very creative.  Cook Moss’d somebody for td.  Saints nearly comeback with onside kick.
+Hurts leads solid td drive.  Saints offense stalls.  Hill throws tip pick.  Sanders runs 82 yard td.  Eagles d getting to Hill.  Hurts poised in pocket.  Saints with better play calling in second half.  Hill to Sanders td a beauty.  Big sack on Hill causes turnover.  Eagles play calling very creative.  Cook mossed somebody for td.  Saints nearly comeback with onside kick.
 <br />
 <br />
 Steelers vs Bills 15 26
@@ -132,7 +132,7 @@ Steelers vs Bills 15 26
 (187 receiving yds, 47 rushing yds, 2 to) vs (238 receiving yds, 104 rushing yds, 2 to)
 <br />
 <br />
-Ben getting ball out quick but receivers are dropping at times.  Steelers d containing well.  Conner spin move gelid.  Ben threads needle for td to Washington.  Great Bills play calling burn defense.  Steelers fight back in 4th.  Wallace reverse Moss’d somebody for pick to seal win.
+Ben getting ball out quick but receivers are dropping at times.  Steelers d containing well.  Conner spin move gelid.  Ben threads needle for td to Washington.  Great Bills play calling burn defense.  Steelers fight back in 4th.  Wallace reverse mossed somebody for pick to seal win.
 </div>`;
 
 const week132020 = `<div>
@@ -152,7 +152,7 @@ Jaguars vs Vikings 24 27 OT
 (280 receiving yds, 124 rushing yds, 4 to) vs (305 receiving yds, 145 rushing yds, 2 to)
 <br />
 <br />
-Everyone surprised by first td tip catch.  Johnson Moss’d somebody.  Thielen does Jefferson infamous td dance better than him.  Cook ends drive with strong td run.  Vikings defense getting to Glennon.  Johnson can’t do Jefferson’s dance.  Vikings interception and drive win it.
+Everyone surprised by first td tip catch.  Johnson mossed somebody.  Thielen does Jefferson infamous td dance better than him.  Cook ends drive with strong td run.  Vikings defense getting to Glennon.  Johnson can’t do Jefferson’s dance.  Vikings interception and drive win it.
 <br />
 <br />
 Bills vs 49ers 34 24
@@ -160,7 +160,7 @@ Bills vs 49ers 34 24
 (375 receiving yds, 81 rushing yds, 1 to) vs (316 receiving yds, 86 rushing yds, 2 to)
 <br />
 <br />
-Bills fumble at 1 yard line to setup 49ers td.  Allen makes strong accurate throws.  Scrambles well too.  Knox leaps into end zone for td.  Mullens holds ball too long at times.  Allen finds Davis wide wide wide open for td.  Horrible td dance tho.  White reverse Moss’d somebody for end zone pick.
+Bills fumble at 1 yard line to setup 49ers td.  Allen makes strong accurate throws.  Scrambles well too.  Knox leaps into end zone for td.  Mullens holds ball too long at times.  Allen finds Davis wide wide wide open for td.  Horrible td dance tho.  White reverse mossed somebody for end zone pick.
 <br />
 <br />
 Bye Teams
@@ -180,7 +180,7 @@ Chargers vs Bills 17 27
 (316 receiving yds, 76 rushing yds, 1 to) vs (177 receiving yds, 172 rushing yds, 3 to)
 <br />
 <br />
-Allen & Herbert solid on first drive tds.  Great play calling with Singletary capped with Beasley flea flicker td.  Bills d getting to Herbert.  Allen can run.  Kelley over the top td run super.  Davis moss’d somebody.  They trade turnovers.  Bills d seal win.
+Allen & Herbert solid on first drive tds.  Great play calling with Singletary capped with Beasley flea flicker td.  Bills d getting to Herbert.  Allen can run.  Kelley over the top td run super.  Davis mossed somebody.  They trade turnovers.  Bills d seal win.
 <br />
 <br />
 Cardinals vs Patriots 17 20
@@ -280,7 +280,7 @@ Bears vs Titans 17 24
 (335 receiving yds, 56 rushing yds, 2 to) vs (158 receiving yds, 92 rushing yds, 0 to)
 <br />
 <br />
-AJ Brown is a tough man with great hands.  Fabulous goal post hug.  Bears offense stuck in mud til late 4th.  Titans d getting to Foles.  Big man King rumbles back a fumble for td.  Robinson Moss’d somebody.
+AJ Brown is a tough man with great hands.  Fabulous goal post hug.  Bears offense stuck in mud til late 4th.  Titans d getting to Foles.  Big man King rumbles back a fumble for td.  Robinson mossed somebody.
 <br />
 <br />
 Ravens vs Colts 24 10
@@ -530,7 +530,7 @@ Giants vs Eagles 21 22
 (187 receiving yds, 160 rushing yds, 3 to) vs (359 receiving yds, 96 rushing yds, 1 to)
 <br />
 <br />
-Eagles first drive super.  Tate Moss’d somebody for td.  Scott spin moves great.  Giants d getting to Wentz.  Wentz throws pick in end zone.  Eagles blitz heavy.  Jones nearly runs 80 yard td.  Eagles fight to overcome being down 21-10 with 5 minutes left.  Big mistakes by Giants offense let them back in.
+Eagles first drive super.  Tate mossed somebody for td.  Scott spin moves great.  Giants d getting to Wentz.  Wentz throws pick in end zone.  Eagles blitz heavy.  Jones nearly runs 80 yard td.  Eagles fight to overcome being down 21-10 with 5 minutes left.  Big mistakes by Giants offense let them back in.
 <br />
 <br />
 Cowboys vs Washington 3 25
@@ -538,7 +538,7 @@ Cowboys vs Washington 3 25
 (114 receiving yds, 83 rushing yds, 1 to) vs (194 receiving yds, 208 rushing yds, 0 to)
 <br />
 <br />
-Cowboys d stops 4 and goal inches.  Dalton strip fumble for safety.  Cowboys offense stalls.  Cowboys secondary getting burnt.  Washington d getting to Dalton.  Thomas Moss’d somebody.
+Cowboys d stops 4 and goal inches.  Dalton strip fumble for safety.  Cowboys offense stalls.  Cowboys secondary getting burnt.  Washington d getting to Dalton.  Thomas mossed somebody.
 <br />
 <br />
 Bills vs Jets 18 10
@@ -554,7 +554,7 @@ Browns vs Bengals 37 34
 (316 receiving yds, 82 rushing yds, 1 to) vs (422 receiving yds, 81 rushing yds, 2 to)
 <br />
 <br />
-Burrow tip pick in end zone.  Mayfield deep pick.  Hunt running well.  Garrett strip sack fumble.  Browns blitzing.  Landry & Bryant eating.  Bengals got good receivers.  Njoku td ball throw celebration filthy.  Burrow scores in 1 minute to take lead.  Browns Higgins Moss’d somebody.  Donovan Peoples-Jones twinkle toes wins it.
+Burrow tip pick in end zone.  Mayfield deep pick.  Hunt running well.  Garrett strip sack fumble.  Browns blitzing.  Landry & Bryant eating.  Bengals got good receivers.  Njoku td ball throw celebration filthy.  Burrow scores in 1 minute to take lead.  Browns Higgins mossed somebody.  Donovan Peoples-Jones twinkle toes wins it.
 <br />
 <br />
 Steelers vs Titans 27 24
@@ -578,7 +578,7 @@ Buccaneers vs Raiders 45 20
 (369 receiving yds, 85 rushing yds, 0 to) vs (284 receiving yds, 76 rushing yds, 1 to)
 <br />
 <br />
-Agholor Moss’d somebody for td grab.  Brady still qb sneaking for tds.  Suh makes scrimmage pick and big man runs nearly 50 yards for td.  Brady to Miller deep td a beauty.  Raiders fight with deep shots.  Bucs offense well oiled.
+Agholor mossed somebody for td grab.  Brady still qb sneaking for tds.  Suh makes scrimmage pick and big man runs nearly 50 yards for td.  Brady to Miller deep td a beauty.  Raiders fight with deep shots.  Bucs offense well oiled.
 <br />
 <br />
 Jaguars vs Chargers 29 39
@@ -618,7 +618,7 @@ Bears vs Rams 10 24
 (261 receiving yds, 49 rushing yds, 2 to) vs (220 receiving yds, 160 rushing yds, 1 to)
 <br />
 <br />
-Goff getting ball out fast to beat Bears rush.  Kmet Moss’d somebody.  Rams closing pocket fast.  Bears offense not creative to move the sticks.  Great Rams secondary end zone pick.
+Goff getting ball out fast to beat Bears rush.  Kmet mossed somebody.  Rams closing pocket fast.  Bears offense not creative to move the sticks.  Great Rams secondary end zone pick.
 <br />
 <br />
 Bye Teams
@@ -746,7 +746,7 @@ Lions vs Jaguars 34 16
 (223 receiving yds, 180 rushing yds, 1 to) vs (243 receiving yds, 44 rushing yds, 2 to)
 <br />
 <br />
-Lions d closing pocket fast.  Minshew underhand throw creative.  Lions pounding the rock well with Peterson and Swift.  Jags offense stalls.  Stafford throwing dimes, nickels and quarters.  Sweet defense line interception by Jags.  Galloday Moss’s somebody.  Minshew juke for td run respectable.
+Lions d closing pocket fast.  Minshew underhand throw creative.  Lions pounding the rock well with Peterson and Swift.  Jags offense stalls.  Stafford throwing dimes, nickels and quarters.  Sweet defense line interception by Jags.  Galloday mossed somebody.  Minshew juke for td run respectable.
 <br />
 <br />
 Bears vs Panthers 23 16
@@ -1032,7 +1032,7 @@ Chargers vs Saints 27 30
 (264 receiving yds, 111 rushing yds, 0 to) vs (325 receiving yds, 95 rushing yds, 1 to)
 <br />
 <br />
-Great balanced Charger play calling.  Nice td throw by Herbert and catch by Allen.  Saints d getting to Herbert.  Great play action deep ball by Herbert to setup td.  Saints offense stalls.  Sanders and Kamara do heavy lifting for Saints.  Wide, wide, wide open Mike Williams scores td.  Crazy sweet catch by Kamara sets up qb td run by Hill to tie it.  Mike Williams Moss’s the whole Saints secondary but field goal to win doinks off bottom bar out.  Saints d hold to win game in OT.
+Great balanced Charger play calling.  Nice td throw by Herbert and catch by Allen.  Saints d getting to Herbert.  Great play action deep ball by Herbert to setup td.  Saints offense stalls.  Sanders and Kamara do heavy lifting for Saints.  Wide, wide, wide open Mike Williams scores td.  Crazy sweet catch by Kamara sets up qb td run by Hill to tie it.  Mike Williams mossed the whole Saints secondary but field goal to win doinks off bottom bar out.  Saints d hold to win game in OT.
 <br />
 <br />
 Bills vs Titans 16 42
