@@ -10,7 +10,7 @@ class Typer extends React.Component {
   state = {
     text: '',
     isDeleting: false,
-    loopNum: 0,
+    loopNum: getRandomIntInclusive(0,this.props.dataText.length-1),
     typingSpeed: TYPING_SPEED
   }
 
@@ -36,7 +36,6 @@ class Typer extends React.Component {
       }));
     } else {
       if (isDeleting && text.length === 1) {
-        //console.log("loopNum: " + loopNum);
         const index = getRandomIntInclusive(0,dataText.length);
         this.setState((state) => ({
           loopNum: index === dataText.length ? 0 : index
