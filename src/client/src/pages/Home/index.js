@@ -72,7 +72,6 @@ const tagLines = [
   "your mission should you choose to accept is to beat vegas every week.  this message will self destruct.",
   `"counting up cheese like i ate up a bag of some cheetos" - migos`,
   `"let's see what's about to happen next" - drake`,
-  `"no regard for human life!" - tnt nba announcer kevin harlan`,
   `"at the end of the game the team with the most points on the board is going to win" - john madden`,
   `"there are always new, grander challenges to confront, and a true winner will embrace each one" – mia hamm`,
   `"we will be perfect in every aspect of the game. you drop a pass, you run a mile. you miss a blocking assignment, you run a mile." - denzel washington in remember the titans`,
