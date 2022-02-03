@@ -7,10 +7,10 @@ import {
 	loadArticles,
 	loadGamesInProgress,
 	loadLeaders,
-	loadUser
+	loadUser,
+	ActionTypes,
 } from './actions';
 
-import * as ActionTypes from './actions';
 import { spreadModeToggle } from './spreadModeToggle';
 
 export {
@@ -23,6 +23,6 @@ export {
 	loadGamesInProgress,
 	loadLeaders,
 	loadUser,
-    ActionTypes,
-    spreadModeToggle
+    spreadModeToggle,
+    ActionTypes
 };

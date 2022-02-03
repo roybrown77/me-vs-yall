@@ -12,75 +12,77 @@ import { getCurrentWeek } from '../utilities';
 
 const refreshHistory = createBrowserHistory({forceRefresh: true});
 
-export const LEADERS_REQUEST = 'LEADERS_REQUEST';
-export const LEADERS_SUCCESS = 'LEADERS_SUCCESS';
-export const LEADERS_FAILURE = 'LEADERS_FAILURE';
+export const ActionTypes = {
+  LEADERS_REQUEST: 'LEADERS_REQUEST',
+  LEADERS_SUCCESS: 'LEADERS_SUCCESS',
+  LEADERS_FAILURE: 'LEADERS_FAILURE',
 
-export const LEADER_GAMES_REQUEST = 'LEADER_GAMES_REQUEST';
-export const LEADER_GAMES_SUCCESS = 'LEADER_GAMES_SUCCESS';
-export const LEADER_GAMES_FAILURE = 'LEADER_GAMES_FAILURE';
+  LEADER_GAMES_REQUEST: 'LEADER_GAMES_REQUEST',
+  LEADER_GAMES_SUCCESS: 'LEADER_GAMES_SUCCESS',
+  LEADER_GAMES_FAILURE: 'LEADER_GAMES_FAILURE',
 
-export const LEADER_PICKS_REQUEST = 'LEADER_PICKS_REQUEST';
-export const LEADER_PICKS_SUCCESS = 'LEADER_PICKS_SUCCESS';
-export const LEADER_PICKS_FAILURE = 'LEADER_PICKS_FAILURE';
+  LEADER_PICKS_REQUEST: 'LEADER_PICKS_REQUEST',
+  LEADER_PICKS_SUCCESS: 'LEADER_PICKS_SUCCESS',
+  LEADER_PICKS_FAILURE: 'LEADER_PICKS_FAILURE',
 
-export const SCOREBOARD_REQUEST = 'SCOREBOARD_REQUEST';
-export const SCOREBOARD_SUCCESS = 'SCOREBOARD_SUCCESS';
-export const SCOREBOARD_FAILURE = 'SCOREBOARD_FAILURE';
+  SCOREBOARD_REQUEST: 'SCOREBOARD_REQUEST',
+  SCOREBOARD_SUCCESS: 'SCOREBOARD_SUCCESS',
+  SCOREBOARD_FAILURE: 'SCOREBOARD_FAILURE',
 
-export const SCOREBOARD_GAMES_REQUEST = 'SCOREBOARD_GAMES_REQUEST';
-export const SCOREBOARD_GAMES_SUCCESS = 'SCOREBOARD_GAMES_SUCCESS';
-export const SCOREBOARD_GAMES_FAILURE = 'SCOREBOARD_GAMES_FAILURE';
+  SCOREBOARD_GAMES_REQUEST: 'SCOREBOARD_GAMES_REQUEST',
+  SCOREBOARD_GAMES_SUCCESS: 'SCOREBOARD_GAMES_SUCCESS',
+  SCOREBOARD_GAMES_FAILURE: 'SCOREBOARD_GAMES_FAILURE',
 
-export const SCOREBOARD_PICKS_REQUEST = 'SCOREBOARD_PICKS_REQUEST';
-export const SCOREBOARD_PICKS_SUCCESS = 'SCOREBOARD_PICKS_SUCCESS';
-export const SCOREBOARD_PICKS_FAILURE = 'SCOREBOARD_PICKS_FAILURE';
+  SCOREBOARD_PICKS_REQUEST: 'SCOREBOARD_PICKS_REQUEST',
+  SCOREBOARD_PICKS_SUCCESS: 'SCOREBOARD_PICKS_SUCCESS',
+  SCOREBOARD_PICKS_FAILURE: 'SCOREBOARD_PICKS_FAILURE',
 
-export const USERS_REQUEST = 'USERS_REQUEST';
-export const USERS_SUCCESS = 'USERS_SUCCESS';
-export const USERS_FAILURE = 'USERS_FAILURE';
+  USERS_REQUEST: 'USERS_REQUEST',
+  USERS_SUCCESS: 'USERS_SUCCESS',
+  USERS_FAILURE: 'USERS_FAILURE',
 
-export const TEAMS_REQUEST = 'TEAMS_REQUEST';
-export const TEAMS_SUCCESS = 'TEAMS_SUCCESS';
-export const TEAMS_FAILURE = 'TEAMS_FAILURE';
+  TEAMS_REQUEST: 'TEAMS_REQUEST',
+  TEAMS_SUCCESS: 'TEAMS_SUCCESS',
+  TEAMS_FAILURE: 'TEAMS_FAILURE',
 
-export const ARTICLES_REQUEST = 'ARTICLES_REQUEST';
-export const ARTICLES_SUCCESS = 'ARTICLES_SUCCESS';
-export const ARTICLES_FAILURE = 'ARTICLES_FAILURE';
+  ARTICLES_REQUEST: 'ARTICLES_REQUEST',
+  ARTICLES_SUCCESS: 'ARTICLES_SUCCESS',
+  ARTICLES_FAILURE: 'ARTICLES_FAILURE',
 
-export const CREATEUSER_REQUEST = 'CREATEUSER_REQUEST';
-export const CREATEUSER_SUCCESS = 'CREATEUSER_SUCCESS';
-export const CREATEUSER_FAILURE = 'CREATEUSER_FAILURE';
+  CREATEUSER_REQUEST: 'CREATEUSER_REQUEST',
+  CREATEUSER_SUCCESS: 'CREATEUSER_SUCCESS',
+  CREATEUSER_FAILURE: 'CREATEUSER_FAILURE',
 
-export const ADDPICK_REQUEST = 'ADDPICK_REQUEST';
-export const ADDPICK_SUCCESS = 'ADDPICK_SUCCESS';
-export const ADDPICK_FAILURE = 'ADDPICK_FAILURE';
+  ADDPICK_REQUEST: 'ADDPICK_REQUEST',
+  ADDPICK_SUCCESS: 'ADDPICK_SUCCESS',
+  ADDPICK_FAILURE: 'ADDPICK_FAILURE',
 
-export const UPDATEPICK_REQUEST = 'UPDATEPICK_REQUEST';
-export const UPDATEPICK_SUCCESS = 'UPDATEPICK_SUCCESS';
-export const UPDATEPICK_FAILURE = 'UPDATEPICK_FAILURE';
+  UPDATEPICK_REQUEST: 'UPDATEPICK_REQUEST',
+  UPDATEPICK_SUCCESS: 'UPDATEPICK_SUCCESS',
+  UPDATEPICK_FAILURE: 'UPDATEPICK_FAILURE',
 
-export const UPDATEGAME_REQUEST = 'UPDATEGAME_REQUEST';
-export const UPDATEGAME_SUCCESS = 'UPDATEGAME_SUCCESS';
-export const UPDATEGAME_FAILURE = 'UPDATEGAME_FAILURE';
+  UPDATEGAME_REQUEST: 'UPDATEGAME_REQUEST',
+  UPDATEGAME_SUCCESS: 'UPDATEGAME_SUCCESS',
+  UPDATEGAME_FAILURE: 'UPDATEGAME_FAILURE',
 
-export const GAMEWEEKS_REQUEST = 'GAMEWEEKS_REQUEST';
-export const GAMEWEEKS_SUCCESS = 'GAMEWEEKS_SUCCESS';
-export const GAMEWEEKS_FAILURE = 'GAMEWEEKS_FAILURE';
+  GAMEWEEKS_REQUEST: 'GAMEWEEKS_REQUEST',
+  GAMEWEEKS_SUCCESS: 'GAMEWEEKS_SUCCESS',
+  GAMEWEEKS_FAILURE: 'GAMEWEEKS_FAILURE',
 
-export const GAMESINPROGRESS_REQUEST = 'GAMESINPROGRESS_REQUEST';
-export const GAMESINPROGRESS_SUCCESS = 'GAMESINPROGRESS_SUCCESS';
-export const GAMESINPROGRESS_FAILURE = 'GAMESINPROGRESS_FAILURE';
+  GAMESINPROGRESS_REQUEST: 'GAMESINPROGRESS_REQUEST',
+  GAMESINPROGRESS_SUCCESS: 'GAMESINPROGRESS_SUCCESS',
+  GAMESINPROGRESS_FAILURE: 'GAMESINPROGRESS_FAILURE',
 
-export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';
+  RESET_ERROR_MESSAGE: 'RESET_ERROR_MESSAGE',
+};
 
 export const resetErrorMessage = () => ({
-    type: RESET_ERROR_MESSAGE
+    type: ActionTypes.RESET_ERROR_MESSAGE
 });
 
 const createUser = profile => ({
   [CALL_API]: {
-    types: [ CREATEUSER_REQUEST, CREATEUSER_SUCCESS, CREATEUSER_FAILURE ],
+    types: [ ActionTypes.CREATEUSER_REQUEST, ActionTypes.CREATEUSER_SUCCESS, ActionTypes.CREATEUSER_FAILURE ],
     endpoint: '/api/usermanagement/users',
     method: 'post',
     schema: Schemas.USER,
@@ -96,7 +98,7 @@ const createUser = profile => ({
 
 const createPick = pick => ({
   [CALL_API]: {
-    types: [ ADDPICK_REQUEST, ADDPICK_SUCCESS, ADDPICK_FAILURE ],
+    types: [ ActionTypes.ADDPICK_REQUEST, ActionTypes.ADDPICK_SUCCESS, ActionTypes.ADDPICK_FAILURE ],
     endpoint: '/api/pickmanagement/picks',
     method: 'POST',
     body: pick,
@@ -107,7 +109,7 @@ const createPick = pick => ({
 const editPick = (id, pick) => ({
   id,
   [CALL_API]: {
-    types: [ UPDATEPICK_REQUEST, UPDATEPICK_SUCCESS, UPDATEPICK_FAILURE ],
+    types: [ ActionTypes.UPDATEPICK_REQUEST, ActionTypes.UPDATEPICK_SUCCESS, ActionTypes.UPDATEPICK_FAILURE ],
     endpoint: '/api/pickmanagement/picks/' + encodeURIComponent(id),
     method: 'PUT',
     body: pick,
@@ -118,7 +120,7 @@ const editPick = (id, pick) => ({
 const editGame = (id, game) => ({
   id,
   [CALL_API]: {
-    types: [ UPDATEGAME_REQUEST, UPDATEGAME_SUCCESS, UPDATEGAME_FAILURE ],
+    types: [ ActionTypes.UPDATEGAME_REQUEST, ActionTypes.UPDATEGAME_SUCCESS, ActionTypes.UPDATEGAME_FAILURE ],
     endpoint: '/api/gamemanagement/games/' + encodeURIComponent(id),
     method: 'PUT',
     body: game,
@@ -128,7 +130,7 @@ const editGame = (id, game) => ({
 
 const fetchGamesInProgress = () => ({
   [CALL_API]: {
-    types: [ GAMESINPROGRESS_REQUEST, GAMESINPROGRESS_SUCCESS, GAMESINPROGRESS_FAILURE ],
+    types: [ ActionTypes.GAMESINPROGRESS_REQUEST, ActionTypes.GAMESINPROGRESS_SUCCESS, ActionTypes.GAMESINPROGRESS_FAILURE ],
     endpoint: `/api/gamemanagement/gamesInProgress`,
     schema: Schemas.GAME_ARRAY
   }
@@ -136,7 +138,7 @@ const fetchGamesInProgress = () => ({
 
 const fetchGameWeeks = query => ({
   [CALL_API]: {
-    types: [ GAMEWEEKS_REQUEST, GAMEWEEKS_SUCCESS, GAMEWEEKS_FAILURE ],
+    types: [ ActionTypes.GAMEWEEKS_REQUEST, ActionTypes.GAMEWEEKS_SUCCESS, ActionTypes.GAMEWEEKS_FAILURE ],
     endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(query)}`,
     schema: Schemas.GAME_ARRAY
   }
@@ -160,7 +162,7 @@ const fetchPicks = (query, types) => ({
 
 const fetchAllUsers = (query) => ({
   [CALL_API]: {
-    types: [ USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE ],
+    types: [ ActionTypes.USERS_REQUEST, ActionTypes.USERS_SUCCESS, ActionTypes.USERS_FAILURE ],
     endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
     schema: Schemas.USER_ARRAY
   }
@@ -176,7 +178,7 @@ const fetchAllTeams = (types) => ({
 
 const fetchArticles = query => ({
   [CALL_API]: {
-    types: [ ARTICLES_REQUEST, ARTICLES_SUCCESS, ARTICLES_FAILURE ],
+    types: [ ActionTypes.ARTICLES_REQUEST, ActionTypes.ARTICLES_SUCCESS, ActionTypes.ARTICLES_FAILURE ],
     endpoint: `/api/articlemanagement/articles`,
     schema: Schemas.ARTICLE_ARRAY
   }
@@ -285,15 +287,15 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
 
   await Promise.all([
     !!get(authenticationDomain,'isAuthenticated') ? dispatch(createUser(user)) : undefined,
-    dispatch({type: SCOREBOARD_REQUEST, request})
+    dispatch({type: ActionTypes.SCOREBOARD_REQUEST, request})
   ]);
 
   Promise.all([
-    dispatch(fetchGames(request, [ SCOREBOARD_GAMES_REQUEST, SCOREBOARD_GAMES_SUCCESS, SCOREBOARD_GAMES_FAILURE ])), 
-    !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ SCOREBOARD_PICKS_REQUEST, SCOREBOARD_PICKS_SUCCESS, SCOREBOARD_PICKS_FAILURE ])) : undefined,
-    dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
+    dispatch(fetchGames(request, [ ActionTypes.SCOREBOARD_GAMES_REQUEST, ActionTypes.SCOREBOARD_GAMES_SUCCESS, ActionTypes.SCOREBOARD_GAMES_FAILURE ])), 
+    !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ ActionTypes.SCOREBOARD_PICKS_REQUEST, ActionTypes.SCOREBOARD_PICKS_SUCCESS, ActionTypes.SCOREBOARD_PICKS_FAILURE ])) : undefined,
+    dispatch(fetchAllTeams([ ActionTypes.TEAMS_REQUEST, ActionTypes.TEAMS_SUCCESS, ActionTypes.TEAMS_FAILURE ]))
   ]).then(result=>{
-    dispatch({type: SCOREBOARD_SUCCESS, response: result});
+    dispatch({type: ActionTypes.SCOREBOARD_SUCCESS, response: result});
   });
 };
 
@@ -333,17 +335,17 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
     endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
   };
 
-  dispatch({type: LEADERS_REQUEST, request});
+  dispatch({type: ActionTypes.LEADERS_REQUEST, request});
 
   isRollup = leagueChanged ? get(currentWeek, 'isRollup') : (get(query, 'isRollup') || get(currentWeek, 'isRollup'));
 
   Promise.all([
-    dispatch(fetchGames(request, [ LEADER_GAMES_REQUEST, LEADER_GAMES_REQUEST, LEADER_GAMES_FAILURE ])), 
-    dispatch(fetchPicks(request, [ LEADER_PICKS_REQUEST, LEADER_PICKS_SUCCESS, LEADER_PICKS_FAILURE ])),
+    dispatch(fetchGames(request, [ ActionTypes.LEADER_GAMES_REQUEST, ActionTypes.LEADER_GAMES_REQUEST, ActionTypes.LEADER_GAMES_FAILURE ])), 
+    dispatch(fetchPicks(request, [ ActionTypes.LEADER_PICKS_REQUEST, ActionTypes.LEADER_PICKS_SUCCESS, ActionTypes.LEADER_PICKS_FAILURE ])),
     dispatch(fetchAllUsers({isRollup})),
-    dispatch(fetchAllTeams([ TEAMS_REQUEST, TEAMS_SUCCESS, TEAMS_FAILURE ]))
+    dispatch(fetchAllTeams([ ActionTypes.TEAMS_REQUEST, ActionTypes.TEAMS_SUCCESS, ActionTypes.TEAMS_FAILURE ]))
   ]).then(
     result=>{ 
-      dispatch({type: LEADERS_SUCCESS, response: {...result, isRollup}});
+      dispatch({type: ActionTypes.LEADERS_SUCCESS, response: {...result, isRollup}});
   });
 };
