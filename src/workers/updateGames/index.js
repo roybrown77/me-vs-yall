@@ -182,7 +182,7 @@ const updateGames = async () => {
     const getGamesThisManyDaysAhead = 3;
     
     const footballSeason = monthDay > 800 || monthDay <= 215;
-    const weekNumber = moment().diff(moment("2022-09-07"),'weeks'); // Tuesday prior to start of season
+    const weekNumber = moment().diff(moment("2022-09-06"),'weeks'); // Tuesday prior to start of season
     console.log('nfl weekNumber: ' + weekNumber);
 
     if (footballSeason && weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 12) {
