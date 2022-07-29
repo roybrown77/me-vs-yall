@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Link } from "react-router-dom";
 
 import get from 'lodash/get';
 
@@ -141,7 +142,9 @@ class Header extends Component {
         <div className={classes.appFrame}>
           <AppBar className={classNames(classes.appBar)}>
             <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
-              <img style={{height:'45px'}}src={mvy} alt=""/>
+            <Link to="/home">
+              <img style={{height:'45px'}} src={mvy} alt=""/>
+            </Link>
             </Typography>
             {
               this.props.isAuthenticated && picture &&
