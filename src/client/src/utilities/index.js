@@ -348,9 +348,9 @@ const getLeagueStartDateTime = (leagueId, games) => {
     const year = moment().format('YYYY');
     const nextYear = parseInt(year) + 1;
 
-    if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
-        return moment(`${year}0801`).toISOString();
-    }
+    // if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
+    //    return moment(`${year}0801`).toISOString();
+    // }
 
     if (leagueId === '59723313734d1d6202a85f15' && (monthDay > 108 && monthDay < 820)) {
         return moment(`${year}0820`).toISOString();
