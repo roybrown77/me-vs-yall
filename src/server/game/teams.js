@@ -976,7 +976,7 @@ const nflTeams = [
         location: 'Washington',
         shortLocation: "WSH",
         alternateName: "Washington",
-        name: "Football Team",
+        name: "Commanders",
         color: "#7C1415",
         stadiumName: "FedExField",
         stadiumCity: "Landover, MD"
@@ -3392,7 +3392,7 @@ const mlbTeams = [
         leagueId: "59723313734d1d6202a85f21",
         location: "Cleveland",
         shortLocation: "CLE",
-        name: "Indians"
+        name: "Gaurdians"
     },
     {
         color: "#27251F",

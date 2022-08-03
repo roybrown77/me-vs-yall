@@ -129,7 +129,7 @@ const articles = [
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
-    content: `Week 10: Detroit Lions over Washington Football Team`,
+    content: `Week 10: Detroit Lions over Washington Commanders`,
     leagueName: 'NFL',
     date: 'November 15, 2020',
     author: 'Mack & Beezie',
@@ -145,7 +145,7 @@ const articles = [
   },
   {
     title: "MACK & BEEZIE'S NOT SO SURE BUT BUT WE'RE FEELING IT LOCK OF THE WEEK",
-    content: `Week 9: Washington Football Team over New York Giants`,
+    content: `Week 9: Washington Commanders over New York Giants`,
     leagueName: 'NFL',
     date: 'November 8, 2020',
     author: 'Mack & Beezie',
