@@ -78,11 +78,8 @@ const backupData = async () => {
 };
 
 const updateGames = (leagueId) => {
-  // const url = `https://www.espn.com/nfl/scoreboard/_/year/2022/seasontype/1/week/1` 
-  // const THURSDAY_MODULE = 1;
-  // const SATURDAY_MODULE = 2;
-  // const SUNDAY_MODULE = 3;
-  // const MONDAY_MODULE = 4;
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/2/year/2022/seasontype/1`;
+  // const DAY_MODULE = 4; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
   // loadAmericanFootballGames({
   //   year: 2022, 
@@ -91,10 +88,10 @@ const updateGames = (leagueId) => {
   //   url,
   //   teams: nflTeams, 
   //   root: 'Scoreboard__Row__Main',
-  //   nameSelector: 'section:nth-of-type(' + THURSDAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
-  //   spreadSelector: 'section:nth-of-type(' + THURSDAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
-  //   startTimeSelector: 'section:nth-of-type(' + THURSDAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
-  //   startDateSelector: 'section:nth-of-type(' + THURSDAY_MODULE + ') > header > div.Card__Header__Title__Wrapper > h3',
+  //   nameSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
+  //   spreadSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+  //   startTimeSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+  //   startDateSelector: 'section:nth-of-type(' + DAY_MODULE + ') > header > div.Card__Header__Title__Wrapper > h3',
   // });
 
   // if (leagueId === '59723313734d1d6202a85f10') {
