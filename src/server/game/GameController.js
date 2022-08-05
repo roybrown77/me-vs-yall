@@ -822,7 +822,7 @@ router.get('/games', async function (req, res) {
       game.playHistory = game.playHistory.slice(0,playHistoryCount);
       game.stats = getStats(game, teamStats);
 
-      game.serverLiveVideoUrl = getVideoStreamUrl(game);
+      game.serverLiveVideoUrl = "https://www.youtube.com/embed/tgbNymZ7vqY" // getVideoStreamUrl(game);
       game.isWatchable = [
       '59723313734d1d6202a85f10',
       '59723313734d1d6202a85f15',
