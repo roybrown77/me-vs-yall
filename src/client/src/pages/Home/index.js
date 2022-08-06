@@ -68,13 +68,13 @@ const tagLines = [
   `"if you can't win here don't bet real money over there"`,
   `"play for fun or play for the 💰 it's your world"`,
   `"compete with friends worldwide"`,
-  `"your mission should you choose to accept is to beat vegas every week.  this message will self destruct."`,
-  `"counting up cheese like i ate up a bag of some cheetos" - migos`,
-  `"awesome baby!" - dickie v`,
-  `"at the end of the game the team with the most points on the board is going to win" - john madden`,
-  `"there are always new, grander challenges to confront, and a true winner will embrace each one" – mia hamm`,
-  `"we will be perfect in every aspect of the game. you drop a pass, you run a mile. you miss a blocking assignment, you run a mile." - denzel washington in remember the titans`,
-  `"who cares what kind of job i did if it doesn't produce results" - sean astin in rudy`
+  //`"your mission should you choose to accept is to beat vegas every week.  this message will self destruct."`,
+  //`"counting up cheese like i ate up a bag of some cheetos" - migos`,
+  //`"awesome baby!" - dickie v`,
+  //`"at the end of the game the team with the most points on the board is going to win" - john madden`,
+  //`"there are always new, grander challenges to confront, and a true winner will embrace each one" – mia hamm`,
+  //`"we will be perfect in every aspect of the game. you drop a pass, you run a mile. you miss a blocking assignment, you run a mile." - denzel washington in remember the titans`,
+  //`"who cares what kind of job i did if it doesn't produce results" - sean astin in rudy`
 ];
 
 class Home extends Component {
