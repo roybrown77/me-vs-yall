@@ -3,25 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "body-parser": "1.19.1",
-    "chrome-aws-lambda": "10.1.0",
-    "cron": "1.8.2",
-    "dotenv": "14.2.0",
-    "express": "4.17.2",
-    "express-jwt": "6.1.0",
-    "jwks-rsa": "2.0.5",
+    "body-parser": "1.20.0",
+    "cron": "2.1.0",
+    "dotenv": "16.0.1",
+    "express": "4.18.1",
+    "express-jwt": "7.7.5",
+    "jwks-rsa": "2.1.4",
     "lodash": "4.17.21",
     "moment-timezone": "0.5.34",
-    "mongoose": "6.1.7",
+    "mongoose": "6.5.1",
     "path": "0.12.7",
-    "puppeteer-core": "^13.1.1"
+    "puppeteer": "^16.1.0"
   },
   "devDependencies": {
-    "concurrently": "7.0.0",
-    "nodemon": "2.0.15"
+    "concurrently": "7.3.0",
+    "nodemon": "2.0.19"
   },
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "scripts": {
     "start_local": "concurrently \"npm run local-server\" \"npm run client\"",

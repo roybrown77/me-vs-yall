@@ -1,5 +1,4 @@
-const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -22,8 +21,6 @@ const {
   updateGames,
   hasGameStarted
 } = require('./utilities');
-
-const { chromiumVersion } = require('../../../config');
 
 let isUpdateWorldFootballScoresRunning = false;
 
@@ -107,9 +104,8 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download(chromiumVersion);
     
-    browser = await chromium.puppeteer.launch({
+    browser = await puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
       // defaultViewport: {
       //   width: 1500,
@@ -118,10 +114,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: revisionInfo.executablePath,
-      //headless: chromium.headless
     });
 
     page = await browser.newPage();
@@ -161,19 +153,24 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       console.log(`${message} no games found`);
 
       try {
-        const pageCloseResult = await page.close();
-        console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
-        page = null;
+        if (page !== null) {
+          const pageCloseResult = await page.close();
+          console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
+          console.log(`${message} page finally 7: ${err.message}`);
+          page = null;
+        }
       } catch (error) {
-        console.log(`pageCloseResult error 7: ${JSON.stringify(error)}`);
+        console.log(`pageCloseResult finally error 7: ${JSON.stringify(error.message)}`);
       }
-
+  
       try {
-        const browserCloseResult = await browser.close();
-        console.log(`browserCloseResult 7: ${JSON.stringify(browserCloseResult)}`);
-        browser = null;
+        if (browser !== null) {
+          const browserCloseResult = await browser.close();
+          console.log(`browser finally 7: ${JSON.stringify(browserCloseResult)}`);
+          browser = null;
+        }
       } catch (error) {
-        console.log(`browserCloseResult error 7: ${JSON.stringify(error)}`);
+        console.log(`browser finally error 7: ${JSON.stringify(error.message)}`);
       }
 
       return;
@@ -236,40 +233,29 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         startDateTime: startDateTime
       });
     }
-
-    try {
-      const pageCloseResult = await page.close();
-      console.log(`pageCloseResult 8: ${JSON.stringify(pageCloseResult)}`);
-      page = null;
-    } catch (error) {
-      console.log(`pageCloseResult error 8: ${JSON.stringify(error)}`);
-    }
-
-    try {
-      const browserCloseResult = await browser.close();
-      console.log(`browserCloseResult 8: ${JSON.stringify(browserCloseResult)}`);
-      browser = null;
-    } catch (error) {
-      console.log(`browserCloseResult error 8: ${JSON.stringify(error)}`);
-    }
   } catch(err) {
-    console.log(`${message} browser error: ${JSON.stringify(err)}`);
-
+    console.log(`${message} getGames browser error 5: ${err.message}`);
+  } finally {
     try {
-      const pageCloseResult = await page.close();
-      console.log(`pageCloseResult 9: ${JSON.stringify(pageCloseResult)}`);
-      page = null;
+      if (page !== null) {
+        const pageCloseResult = await page.close();
+        console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
+        console.log(`${message} page finally 5: ${err.message}`);
+        page = null;
+      }
     } catch (error) {
-      console.log(`pageCloseResult error 9: ${JSON.stringify(error)}`);
+      console.log(`pageCloseResult finally error 5: ${JSON.stringify(error.message)}`);
     }
 
     try {
-      const browserCloseResult = await browser.close();
-      console.log(`browserCloseResult 9: ${JSON.stringify(browserCloseResult)}`);
-      browser = null;
+      if (browser !== null) {
+        const browserCloseResult = await browser.close();
+        console.log(`browser finally 5: ${JSON.stringify(browserCloseResult)}`);
+        browser = null;
+      }
     } catch (error) {
-      console.log(`browserCloseResult error 9: ${JSON.stringify(error)}`);
-    }
+      console.log(`browser finally error 5: ${JSON.stringify(error.message)}`);
+    } 
   }
 
   if (get({scores:scores},'scores',[]).length === 0) {

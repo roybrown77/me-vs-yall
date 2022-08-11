@@ -65,7 +65,7 @@ const secret = jwks.expressJwtSecret({
   jwksUri: "https://mevsyall.auth0.com/.well-known/jwks.json"
 });
 
-const jwt = require('express-jwt');
+const  { expressjwt: jwt } = require('express-jwt');
 const authCheck = jwt({
     secret: secret,
     audience: 'https://mevsyallcom/api/',

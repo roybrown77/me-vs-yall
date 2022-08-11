@@ -17,12 +17,12 @@ const ids = [
 ];
 
 router.post('/picks/', function (req, res) {
-    if (ids.includes(req.user.sub)) {
+    if (ids.includes(req.auth.sub)) {
         return res.status(200).send({});
     }
 
     const pick = {
-        userId: req.user.sub,
+        userId: req.auth.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: moment().toISOString()
@@ -35,12 +35,12 @@ router.post('/picks/', function (req, res) {
 });
 
 router.put('/picks/:id', function (req, res) {
-    if (ids.includes(req.user.sub)) {
+    if (ids.includes(req.auth.sub)) {
         return res.status(200).send({});
     }
 
     const pick = {
-        userId: req.user.sub,
+        userId: req.auth.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
         createDateTime: moment().toISOString()

@@ -14,7 +14,7 @@ const get = require('lodash/get');
 router.put('/games/:id', function (req, res) {
     const game = {
         id: mongoose.Types.ObjectId(req.body.id),
-        userId: req.user.sub,
+        userId: req.auth.sub,
         awayScore: req.body.awayScore,
         homeScore: req.body.homeScore,
         awayRecord: req.body.awayRecord,
