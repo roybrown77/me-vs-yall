@@ -20,7 +20,7 @@
     "nodemon": "2.0.19"
   },
   "engines": {
-    "node": "16.x"
+    "node": "14.x"
   },
   "scripts": {
     "start_local": "concurrently \"npm run local-server\" \"npm run client\"",
