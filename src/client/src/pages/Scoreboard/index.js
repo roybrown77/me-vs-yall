@@ -103,18 +103,21 @@ const styles = theme => ({
     borderRadius: '8px'
   },
   button: {
-    fontSize: '1rem',
-    fontWeight: "700",
-    marginBottom: '4px',
-    width: '75%',
     backgroundColor: '#3772FA',
-    color: '#FFFFFF',
     borderColor: '#3772FA',
     '&:hover': {
       backgroundColor: '#3772FA',
       color: '#FFFFFF',
       borderColor: '#3772FA',
-    }
+    },
+    borderRadius: 0,
+    color: '#FFFFFF',
+    fontSize: '1.5rem',
+    fontWeight: "700",
+    lineHeight: '2.75',
+    marginBottom: '4px',
+    padding: '0',
+    width: '75%'
   },
   soundButton: {
     color: '#000'
@@ -400,7 +403,7 @@ class Scoreboard extends Component {
                             variant="contained" 
                             className={classNames(classes.button)}
                             onClick={() => googleLogin()}>
-                          Press to Play
+                          Play For Free
                         </Button>
                     }
                     {
@@ -426,6 +429,7 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
+                        false &&
                         !get(currentWeek,'prize') &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}>
                             <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins bragging rights!</div>
@@ -476,12 +480,13 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
-                        true &&
+                        false &&
                         <div style={{color: '#1e90ff', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid #1e90ff'}}>
                             ** invite your friends.  it's fun beating them.  :D **
                         </div>
                     }
                     {
+                        false &&
                         ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(leagueId) &&
                         <div style={{
                                 justifyContent: 'center',

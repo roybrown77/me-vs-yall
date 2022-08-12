@@ -110,18 +110,21 @@ const styles = theme => ({
     margin: 'auto'
   },
   button: {
-    fontSize: '1rem',
-    fontWeight: "700",
-    marginBottom: '4px',
-    width: '75%',
     backgroundColor: '#3772FA',
-    color: '#FFFFFF',
     borderColor: '#3772FA',
     '&:hover': {
       backgroundColor: '#3772FA',
       color: '#FFFFFF',
       borderColor: '#3772FA',
-    }
+    },
+    borderRadius: 0,
+    color: '#FFFFFF',
+    fontSize: '1.5rem',
+    fontWeight: "700",
+    lineHeight: '2.75',
+    marginBottom: '4px',
+    padding: '0',
+    width: '75%'
   },
   soundButton: {
     color: '#000'
@@ -318,7 +321,7 @@ class Leader extends Component {
                             variant="contained" 
                             className={classNames(classes.button)}
                             onClick={() => googleLogin()}>
-                          Press to Play
+                          Play For Free
                         </Button>
                     }
                     {
@@ -336,12 +339,14 @@ class Leader extends Component {
                         </div>
                     }
                     {
+                        false &&
                         !get(currentWeek,'prize') &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}>
                             <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins bragging rights!</div>
                         </div>
                     }
                     {
+                        false &&
                         <div style={{margin: '4px 14%', padding: '4px', border: '4px solid blue', cursor: 'pointer'}}>
                             <div style={{color: 'blue', fontSize: '17px'}}>watch your name rise and fall as scores change.  builds drama. :D</div>
                         </div>
@@ -383,13 +388,13 @@ class Leader extends Component {
                         </div>
                     }
                     {
-                        true &&
+                        false &&
                         <div style={{color: '#1e90ff', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid #1e90ff'}}>
                             ** invite your friends.  it's fun beating them.  :D **
                         </div>
                     }
                     {
-                        true &&
+                        false &&
                         <div style={{
                                 justifyContent: 'center',
                                 display:'flex', 

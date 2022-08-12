@@ -56,7 +56,7 @@ const styles = {
 
 const instructions = [
   '1. Tap league.',
-  '2. Tap "Press To Play" to sign in.',
+  '2. Tap "Play For Free" to sign in.',
   '3. Tap teams you think will win this week.',
   '4. View Leaders to see if you won.',
   "5. No purchase necessary.  It's free yall.  :D"
