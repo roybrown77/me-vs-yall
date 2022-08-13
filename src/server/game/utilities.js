@@ -373,7 +373,6 @@ const getGames = async ({
       if (page !== null) {
         const pageCloseResult = await page.close();
         console.log(`pageCloseResult 2: ${JSON.stringify(pageCloseResult)}`);
-        console.log(`${message} page finally 2: ${err.message}`);
         page = null;
       }
     } catch (error) {
@@ -986,7 +985,6 @@ const getScores = async ({
       if (page !== null) {
         const pageCloseResult = await page.close();
         console.log(`pageCloseResult 4: ${JSON.stringify(pageCloseResult)}`);
-        console.log(`${message} page finally 4: ${err.message}`);
         page = null;
       }
     } catch (error) {
