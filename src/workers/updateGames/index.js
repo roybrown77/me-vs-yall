@@ -146,6 +146,14 @@ const updateGames = async () => {
   const games = await gameRepository.find(search, {}, {});
 
   if (games.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10')) {
+    const day = currentWeekDay === 4 ? 1 : 
+    currentWeekDay === 7 ? 2 : 
+    currentWeekDay === 1 ? 3 : 
+    currentWeekDay === 5  && moment().diff(moment("2022-09-06"),'weeks') > 0 ? 1 : 
+    currentWeekDay === 7  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 3 : 
+    currentWeekDay === 1  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 4 : 
+    currentWeekDay === 6  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 3 : 2;
+
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10', 
       year: 2022, 
@@ -153,16 +161,16 @@ const updateGames = async () => {
       url: 'https://www.espn.com/nfl/scoreboard', 
       teams: nflTeams,
       root: 'Scoreboard__Row__Main',
-      pregameNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
-      spreadSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
-      liveQuarterSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
-      liveTotalSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
-      liveNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
-      liveCurrentTimeSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
-      liveDownSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__DownAndDistance',
-      livePossession: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > a',
+      pregameNameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      spreadSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+      liveQuarterSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+      liveTotalSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+      liveNameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      liveCurrentTimeSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+      liveDownSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__DownAndDistance',
+      livePossession: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > a',
       livePlaySelector: [
-        'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
+        'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
         'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
         'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
         'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
@@ -170,9 +178,9 @@ const updateGames = async () => {
         'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
         'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
       ],
-      finalNameSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
-      finalGameOverSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
-      finalScoreSelector: 'section:nth-of-type(1) > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+      finalNameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      finalGameOverSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
+      finalScoreSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
     });
   } else if (games.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19')) {
     updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2022, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});

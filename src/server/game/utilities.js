@@ -1089,7 +1089,9 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 2;
           const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
           !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
-          moment().diff(moment(game.startDateTime),'hours') > 12;
+          moment().diff(moment(game.startDateTime),'hours') > 7;
+
+          console.log(`${message} isGameOver: ${isGameOver}`);
 
           const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
             (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
@@ -1111,7 +1113,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           const updatedGame = {
             competitors: [...get(game,'competitors',[])],
-            isGameOver: isGameOver && game.endDateTime && moment().diff(moment(game.endDateTime),'minutes') > 10,
+            isGameOver: isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7,
             playHistory: newPlayHistory,
             currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
             down: leagueId === '59723313734d1d6202a85f21' ? 
@@ -1140,7 +1142,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           
           console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
 
-          //console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
+          console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
 
           gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
       });
