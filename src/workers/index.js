@@ -141,7 +141,6 @@ const updateGames = async () => {
   console.log('weeks since start: ' + weeksSinceStart)
 
   const search = {
-    leagueId: mongoose.Types.ObjectId('59723313734d1d6202a85f10'),
     startDateTime: {
       $gte: new Date(moment(startDate).add(weeksSinceStart, 'weeks')),
       $lte: new Date(moment().add(8, 'days'))
@@ -152,9 +151,9 @@ const updateGames = async () => {
   let gameDayIndex = [];
   
   games.forEach(game => {
-    console.log(`game.startDateTime: ${game.startDateTime}`);
+    // console.log(`game.startDateTime: ${game.startDateTime}`);
     const day = moment(game.startDateTime).weekday();
-    console.log(`day: ${day}`);
+    // console.log(`day: ${day}`);
     gameDayIndex.push(day);
   });
 
