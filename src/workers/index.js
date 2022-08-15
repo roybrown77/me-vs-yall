@@ -142,7 +142,7 @@ const updateGames = async () => {
 
   const search = {
     startDateTime: {
-      $gte: new Date(moment(startDate).add(weeksSinceStart, 'weeks')),
+      $gte: new Date(moment(startDate).add(weeksSinceStart + 1, 'weeks')),
       $lte: new Date(moment().add(8, 'days'))
     }
   };
