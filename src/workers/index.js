@@ -157,6 +157,11 @@ const updateGames = async () => {
     gameDayIndex.push(day);
   });
 
+  if (games.length === 0) {
+    console.log(`No new games are loaded`);
+    return;
+  }
+
   const sortedGames = sortBy(games, ['startDateTime']);
 
   gameDayIndex = [...new Set(gameDayIndex)];
@@ -164,7 +169,14 @@ const updateGames = async () => {
   console.log(`gameDayIndex: ${JSON.stringify(gameDayIndex)}`);
 
   if (sortedGames.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10')) {
-    const day =  moment(sortedGames[0].startDateTime).weekday();
+    const game = sortedGames.find(x=>!x.isGameOver);
+
+    if (!game) {
+      console.log(`All games are completed`);
+      return;
+    }
+
+    const day =  moment(game.startDateTime).weekday();
     const dayIndex = gameDayIndex.findIndex(x=>x===day) + 1;
 
     console.log(`day: ${dayIndex}`);
