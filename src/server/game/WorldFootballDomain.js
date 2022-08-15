@@ -152,19 +152,19 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
       console.log(`${message} no games found`);
 
-      try {
-        if (page !== null) {
-          const pageCloseResult = await page.close();
-          console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
-          console.log(`${message} page finally 7: ${err.message}`);
-          page = null;
-        }
-      } catch (error) {
-        console.log(`pageCloseResult finally error 7: ${JSON.stringify(error.message)}`);
-      }
+      // try {
+      //   if (page !== null) {
+      //     const pageCloseResult = await page.close();
+      //     console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
+      //     console.log(`${message} page finally 7: ${err.message}`);
+      //     page = null;
+      //   }
+      // } catch (error) {
+      //   console.log(`pageCloseResult finally error 7: ${JSON.stringify(error.message)}`);
+      // }
   
       try {
-        if (browser !== null) {
+        if (browser.isConnected()) {
           const browserCloseResult = await browser.close();
           console.log(`browser finally 7: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
@@ -237,18 +237,18 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     console.log(`${message} getGames browser error 5: ${err.message}`);
   } finally {
     try {
-      if (page !== null) {
-        const pageCloseResult = await page.close();
-        console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
-        console.log(`${message} page finally 5: ${err.message}`);
-        page = null;
-      }
-    } catch (error) {
-      console.log(`pageCloseResult finally error 5: ${JSON.stringify(error.message)}`);
-    }
+    //   if (page !== null) {
+    //     const pageCloseResult = await page.close();
+    //     console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
+    //     console.log(`${message} page finally 5: ${err.message}`);
+    //     page = null;
+    //   }
+    // } catch (error) {
+    //   console.log(`pageCloseResult finally error 5: ${JSON.stringify(error.message)}`);
+    // }
 
     try {
-      if (browser !== null) {
+      if (browser.isConnected()) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 5: ${JSON.stringify(browserCloseResult)}`);
         browser = null;

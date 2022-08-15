@@ -250,19 +250,19 @@ const getGames = async ({
     console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
-      try {
-        if (page !== null) {
-          const pageCloseResult = await page.close();
-          console.log(`pageCloseResult 1: ${JSON.stringify(pageCloseResult)}`);
-          console.log(`${message} page finally 1: ${err.message}`);
-          page = null;
-        }
-      } catch (error) {
-        console.log(`pageCloseResult finally error 1: ${JSON.stringify(error.message)}`);
-      }
+      // try {
+      //   if (page !== null) {
+      //     const pageCloseResult = await page.close();
+      //     console.log(`pageCloseResult 1: ${JSON.stringify(pageCloseResult)}`);
+      //     console.log(`${message} page finally 1: ${err.message}`);
+      //     page = null;
+      //   }
+      // } catch (error) {
+      //   console.log(`pageCloseResult finally error 1: ${JSON.stringify(error.message)}`);
+      // }
   
       try {
-        if (browser !== null) {
+        if (browser.isConnected()) {
           const browserCloseResult = await browser.close();
           console.log(`browser finally 1: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
@@ -369,18 +369,18 @@ const getGames = async ({
   } catch(err) {
     console.log(`${message} getGames browser error 2: ${err.message}`);
   } finally {
-    try {
-      if (page !== null) {
-        const pageCloseResult = await page.close();
-        console.log(`pageCloseResult 2: ${JSON.stringify(pageCloseResult)}`);
-        page = null;
-      }
-    } catch (error) {
-      console.log(`pageCloseResult finally error 2: ${JSON.stringify(error.message)}`);
-    }
+    // try {
+    //   if (page !== null) {
+    //     const pageCloseResult = await page.close();
+    //     console.log(`pageCloseResult 2: ${JSON.stringify(pageCloseResult)}`);
+    //     page = null;
+    //   }
+    // } catch (error) {
+    //   console.log(`pageCloseResult finally error 2: ${JSON.stringify(error.message)}`);
+    // }
 
     try {
-      if (browser !== null) {
+      if (browser.isConnected()) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 2: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
@@ -561,8 +561,6 @@ const getScoreSetItem = async ({
     page,
     listLength
   }) => {
-  console.log(`*** score set: ${leagueId}`);
-
   let scores = [];
 
   try {
@@ -848,6 +846,7 @@ const getScoreSetItem = async ({
     console.log(`${message} browser error 2: ${err.message}`);
   }
 
+  // console.log(`scores: ${JSON.stringify(scores)}`);
   return scores;
 };
 
@@ -932,19 +931,19 @@ const getScores = async ({
     if (listLength === 0) {
       console.log(`${message} no games found`);
 
-      try {
-        if (page !== null) {
-          const pageCloseResult = await page.close();
-          console.log(`pageCloseResult 3: ${JSON.stringify(pageCloseResult)}`);
-          console.log(`${message} page finally 3: ${err.message}`);
-          page = null;
-        }
-      } catch (error) {
-        console.log(`pageCloseResult finally error 3: ${JSON.stringify(error.message)}`);
-      }
+      // try {
+      //   if (page !== null) {
+      //     const pageCloseResult = await page.close();
+      //     console.log(`pageCloseResult 3: ${JSON.stringify(pageCloseResult)}`);
+      //     console.log(`${message} page finally 3: ${err.message}`);
+      //     page = null;
+      //   }
+      // } catch (error) {
+      //   console.log(`pageCloseResult finally error 3: ${JSON.stringify(error.message)}`);
+      // }
   
       try {
-        if (browser !== null) {
+        if (browser.isConnected()) {
           const browserCloseResult = await browser.close();
           console.log(`browser finally 3: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
@@ -981,18 +980,18 @@ const getScores = async ({
   } catch(err) {
     console.log(`${message} getGames browser error 6: ${err.message}`);
   } finally {
-    try {
-      if (page !== null) {
-        const pageCloseResult = await page.close();
-        console.log(`pageCloseResult 4: ${JSON.stringify(pageCloseResult)}`);
-        page = null;
-      }
-    } catch (error) {
-      console.log(`pageCloseResult finally error 4: ${JSON.stringify(error.message)}`);
-    }
+    // try {
+    //   if (page !== null) {
+    //     const pageCloseResult = await page.close();
+    //     console.log(`pageCloseResult 4: ${JSON.stringify(pageCloseResult)}`);
+    //     page = null;
+    //   }
+    // } catch (error) {
+    //   console.log(`pageCloseResult finally error 4: ${JSON.stringify(error.message)}`);
+    // }
 
     try {
-      if (browser !== null) {
+      if (browser.isConnected()) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 4: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
@@ -1002,9 +1001,7 @@ const getScores = async ({
     } 
   }
 
-  scoreSet.forEach(x => {
-    //console.log(`${message} scores: ${JSON.stringify(x)}`);
-  })
+  // console.log(`scoreSet: ${JSON.stringify(scoreSet)}`);
 
   return scoreSet;
 };
@@ -1013,15 +1010,15 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
     const multiplePreGames = [];
     const multipleFinalGames = [];
     
-    //console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
+    // console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
 
     scoreSet.forEach(scores=>{
-      //console.log(`${message} games: ${JSON.stringify(games)}`);
-      //console.log(`${message} updating scores.`);
       const sortedScores = scores.reverse();
 
+      // console.log(`${message} sortedScores: ${JSON.stringify(sortedScores)}`);
+
       games.forEach(game=>{
-          //console.log(`${message} game: ${JSON.stringify(game)}`);
+          // console.log(`${message} game: ${JSON.stringify(game)}`);
 
           const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
           const awayShortLocation = leagueId === '59723313734d1d6202a85f10' ? get(awayTeam,'alternateName') || get(awayTeam,'name') : get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
@@ -1030,8 +1027,8 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           let preGameScore = 0;
 
-          // console.log(`${message} awayShortLocation: ${JSON.stringify(awayShortLocation)}`);
-          // console.log(`${message} homeShortLocation: ${JSON.stringify(homeShortLocation)}`);
+          console.log(`${message} awayShortLocation: ${JSON.stringify(awayShortLocation)}`);
+          console.log(`${message} homeShortLocation: ${JSON.stringify(homeShortLocation)}`);
 
           preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
@@ -1043,11 +1040,15 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
-          //console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
+          // console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
-          const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
+          let finalScore2 = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
 
-          //console.log(`${message} scoreIndex: ${scoreIndex}`);
+          // console.log(`${message} finalScore2: ${JSON.stringify(finalScore2)}`);
+
+          const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore < -1 ? finalScore : finalScore2;
+
+          // console.log(`${message} scoreIndex: ${scoreIndex}`);
 
           const score = sortedScores[scoreIndex];
 
@@ -1086,10 +1087,9 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 2;
           const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
-          !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || 
-          moment().diff(moment(game.startDateTime),'hours') > 7;
+          !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || moment().diff(moment(game.startDateTime),'hours') > 7;;
 
-          console.log(`${message} isGameOver: ${isGameOver}`);
+          // console.log(`${message} isGameOver: ${isGameOver}`);
 
           const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
             (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
@@ -1140,7 +1140,7 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           
           console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
 
-          console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
+          // console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
 
           gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
       });

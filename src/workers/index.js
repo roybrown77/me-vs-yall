@@ -2,7 +2,7 @@
   Get environment variables
 */
 
-const { dbConnectionString } = require('../../../config');
+const { dbConnectionString } = require('../../config');
 
 if (!dbConnectionString) {
   console.log('[ENV_VARIABLE] - missing db connection string');
@@ -95,24 +95,24 @@ const {
   mlbTeams,
   boxingCompetitors,
   ufcCompetitors,
-} = require('../../server/game/teams');
+} = require('../server/game/teams');
 
 const { 
   updateAmericanFootballScores,
   loadAmericanFootballGames
-} = require('../../server/game/AmericanFootballDomain');
+} = require('../server/game/AmericanFootballDomain');
 
 const {
   updateBasketballScores,
   loadBasketballGames
-} = require('../../server/game/BasketballDomain');
+} = require('../server/game/BasketballDomain');
 
 const { 
   updateMlbScores,
   loadMlbGames
-} = require('../../server/game/MLBDomain');
+} = require('../server/game/MLBDomain');
 
-const gameRepository = require('../../server/game/GameRepository');
+const gameRepository = require('../server/game/GameRepository');
 
 const updateGames = async () => {
   console.log('updateGames: ' + moment().format());
@@ -149,9 +149,9 @@ const updateGames = async () => {
     const day = currentWeekDay === 4 ? 1 : 
     currentWeekDay === 7 ? 2 : 
     currentWeekDay === 1 ? 3 : 
-    currentWeekDay === 5  && moment().diff(moment("2022-09-06"),'weeks') > 0 ? 1 : 
-    currentWeekDay === 7  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 3 : 
-    currentWeekDay === 1  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 4 : 
+    currentWeekDay === 7  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 3 :
+    currentWeekDay === 1  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 4 :
+    currentWeekDay === 5  && moment().diff(moment("2022-09-06"),'weeks') > 0 ? 1 :  
     currentWeekDay === 6  && moment().diff(moment("2022-09-06"),'weeks') <= 0 ? 3 : 2;
 
     updateAmericanFootballScores({
