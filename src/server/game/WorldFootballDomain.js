@@ -236,7 +236,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   } catch(err) {
     console.log(`${message} getGames browser error 5: ${err.message}`);
   } finally {
-    try {
+    // try {
     //   if (page !== null) {
     //     const pageCloseResult = await page.close();
     //     console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
