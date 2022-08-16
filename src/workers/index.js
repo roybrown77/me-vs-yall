@@ -230,13 +230,7 @@ const updateGames = async () => {
     console.log('nfl weekNumber: ' + weekNumber);
 
     if (footballSeason && weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 12) {
-      const dayIndex = getDayIndex(sortedGames, '59723313734d1d6202a85f10');
-
-      if (!dayIndex) {
-        console.log(`All games are completed`);
-        return;
-      }
-
+      const dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : 4;
       const nextWeekNumber = weekNumber+1;
       const url = `https://www.espn.com/nfl/scoreboard/_/year/2022/seasontype/${nextWeekNumber <= 18 ? 2 : 3}/week/${nextWeekNumber <= 18 ? nextWeekNumber : (nextWeekNumber-19+1 < 4 ? nextWeekNumber-19+1 : 5)}`;
       
