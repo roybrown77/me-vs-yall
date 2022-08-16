@@ -115,6 +115,34 @@ const {
 const gameRepository = require('../server/game/GameRepository');
 const sortBy = require('lodash/sortBy');
 
+const getDayIndex = (games, leagueId) => {
+  // need to build per league and remove duplicated code
+  let gameDayIndex = [];
+
+  games.filter(x=>x.leagueId.toString().toLowerCase() === leagueId).forEach(game => {
+    // console.log(`game.startDateTime: ${game.startDateTime}`);
+    const day = moment(game.startDateTime).weekday();
+    // console.log(`day: ${day}`);
+    gameDayIndex.push(day);
+  });
+
+  gameDayIndex = [...new Set(gameDayIndex)];
+
+  console.log(`gameDayIndex: ${JSON.stringify(gameDayIndex)}`);
+
+  const firstGameOfWeek = games.find(x=>!x.isGameOver);
+
+  if (!firstGameOfWeek) {
+    console.log(`${leagueId}: All games are completed`);
+    return;
+  }
+
+  const day =  moment(firstGameOfWeek.startDateTime).weekday();
+  const dayIndex = gameDayIndex.findIndex(x=>x===day) + 1;
+  console.log(`dayIndex: ${dayIndex}`);
+  return dayIndex;
+};
+
 const updateGames = async () => {
   console.log('updateGames: ' + moment().format());
 
@@ -142,20 +170,12 @@ const updateGames = async () => {
 
   const search = {
     startDateTime: {
-      $gte: new Date(moment(startDate).add(weeksSinceStart + 1, 'weeks')),
+      $gte: new Date(moment(startDate).add(weeksSinceStart, 'weeks')),
       $lte: new Date(moment().add(8, 'days'))
     }
   };
 
   const games = await gameRepository.find(search, {}, {});
-  let gameDayIndex = [];
-  
-  games.forEach(game => {
-    // console.log(`game.startDateTime: ${game.startDateTime}`);
-    const day = moment(game.startDateTime).weekday();
-    // console.log(`day: ${day}`);
-    gameDayIndex.push(day);
-  });
 
   if (games.length === 0) {
     console.log(`No new games are loaded`);
@@ -164,22 +184,13 @@ const updateGames = async () => {
 
   const sortedGames = sortBy(games, ['startDateTime']);
 
-  gameDayIndex = [...new Set(gameDayIndex)];
-
-  console.log(`gameDayIndex: ${JSON.stringify(gameDayIndex)}`);
-
   if (sortedGames.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10')) {
-    const game = sortedGames.find(x=>!x.isGameOver);
+    const dayIndex = getDayIndex(sortedGames, '59723313734d1d6202a85f10');
 
-    if (!game) {
+    if (!dayIndex) {
       console.log(`All games are completed`);
       return;
     }
-
-    const day =  moment(game.startDateTime).weekday();
-    const dayIndex = gameDayIndex.findIndex(x=>x===day) + 1;
-
-    console.log(`day: ${dayIndex}`);
 
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10', 
@@ -214,14 +225,18 @@ const updateGames = async () => {
   } else if (games.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21')) {
     updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  parseInt(moment().format('YYYY')), message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   } else {
-    const getGamesThisManyDaysAhead = 3;
-    
     const footballSeason = monthDay > 800 || monthDay <= 215;
     const weekNumber = moment().diff(moment("2022-09-06"),'weeks'); // Tuesday prior to start of season
     console.log('nfl weekNumber: ' + weekNumber);
 
     if (footballSeason && weekNumber+1 > 1 && currentWeekDay === 2 && eastCoastHour === 7 && minutes > 0 && minutes < 12) {
-      const day = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : 4;
+      const dayIndex = getDayIndex(sortedGames, '59723313734d1d6202a85f10');
+
+      if (!dayIndex) {
+        console.log(`All games are completed`);
+        return;
+      }
+
       const nextWeekNumber = weekNumber+1;
       const url = `https://www.espn.com/nfl/scoreboard/_/year/2022/seasontype/${nextWeekNumber <= 18 ? 2 : 3}/week/${nextWeekNumber <= 18 ? nextWeekNumber : (nextWeekNumber-19+1 < 4 ? nextWeekNumber-19+1 : 5)}`;
       
@@ -232,15 +247,16 @@ const updateGames = async () => {
         url,
         teams: nflTeams, 
         root: 'Scoreboard__Row__Main',
-        nameSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
-        spreadSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
-        startTimeSelector: 'section:nth-of-type(' + day + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
-        startDateSelector: 'section:nth-of-type(' + day + ') > header > div.Card__Header__Title__Wrapper > h3',
+        nameSelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
+        spreadSelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+        startTimeSelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+        startDateSelector: 'section:nth-of-type(' + dayIndex + ') > header > div.Card__Header__Title__Wrapper > h3',
       });
     }
 
     const nbaSeason = monthDay >= 1115 || monthDay < 700;
     const nbaPlayoffs = monthDay > 415 && monthDay < 700;
+    const getGamesThisManyDaysAhead = 3;
 
     if (nbaSeason && eastCoastHour === 5 && minutes > 0 && minutes < 5) {
       loadBasketballGames({dayCount: getGamesThisManyDaysAhead, shouldLimit: !nbaPlayoffs, year: 2022, message: 'loadNbaGames', leagueId: '59723313734d1d6202a85f19', baseUrl: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
