@@ -976,7 +976,7 @@ const GameContainer = (props) => {
                       onClick={() => handleMakePick(game._id, competitor._id)}
                       className={inProgress ? 'fast-flash' : ''} 
                       style={{
-                        border: competitor.selected ? '15px solid #3772FA' : '',
+                        border: competitor.selected ? '15px solid #3772FA' : '12px dashed #E7E7E7',
                         padding: '10px',
                         cursor: 'pointer'
                       }}
