@@ -139,7 +139,7 @@ const getDayIndex = (games, leagueId) => {
 
   const day =  moment(firstGameOfWeek.startDateTime).weekday();
   const dayIndex = gameDayIndex.findIndex(x=>x===day) + 1;
-  console.log(`dayIndex: ${dayIndex}`);
+  console.log(`dayIndex 1: ${dayIndex}`);
   return dayIndex;
 };
 
@@ -185,12 +185,20 @@ const updateGames = async () => {
   const sortedGames = sortBy(games, ['startDateTime']);
 
   if (sortedGames.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10')) {
-    const dayIndex = getDayIndex(sortedGames, '59723313734d1d6202a85f10');
+    let dayIndex = 0;
+
+    if (eastCoastHour === 7 && minutes > 0 && minutes < 15) {
+      dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
+    } else {
+      dayIndex = getDayIndex(sortedGames, '59723313734d1d6202a85f10');
+    }
 
     if (!dayIndex) {
       console.log(`All games are completed`);
       return;
     }
+
+    console.log(`dayIndex 2: ${dayIndex}`);
 
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10', 
