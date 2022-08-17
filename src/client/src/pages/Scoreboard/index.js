@@ -79,9 +79,6 @@ const nbaJams = new Howl({
 });
 
 const styles = theme => ({
-  root: {
-    paddingTop: '4px'
-  },
   googleLogin: {
     width: '250px',
     '&:hover': {
@@ -93,7 +90,6 @@ const styles = theme => ({
   },
   pickResultContainer: {
     margin: '0 25% 6px 25%',
-    padding: '4px',
     backgroundColor: 'white'
   },
   banner: {
@@ -287,10 +283,6 @@ class Scoreboard extends Component {
         }));
     }
 
-    handleShowGameDetailsToggle = () => {
-        this.props.showGameDetailsToggle(!this.props.showDetails);
-    }
-
     handleSpreadModeToggle = () => {
         this.props.spreadModeToggle(!this.props.spreadMode);
     }
@@ -341,7 +333,6 @@ class Scoreboard extends Component {
             isAuthenticated, 
             dataLoading, 
             weeksDataLoading,
-            showDetails,
             spreadMode,
             userId,
             weekId,
@@ -506,17 +497,7 @@ class Scoreboard extends Component {
                             fontSize: '17px', 
                             paddingBottom: '20px',
                             fontFamily: 'monospace'}}>
-                        <div onClick={this.handleShowGameDetailsToggle}>
-                            <div>
-                                <IconButton className={showDetails ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="showGameDetailsToggle">
-                                    {showDetails ? <ToggleOn/> : <ToggleOff/>}
-                                </IconButton>
-                            </div>
-                            <div style={{marginTop: '-3px'}}>
-                                expand
-                            </div>
-                        </div>
-                        <div style={{margin: '0 30px'}} onClick={this.handleSpreadModeToggle}>
+                        <div style={{marginRight: '40px'}} onClick={this.handleSpreadModeToggle}>
                             <div>
                                 <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
                                     {spreadMode ? <ToggleOn/> : <ToggleOff/>}
@@ -528,7 +509,7 @@ class Scoreboard extends Component {
                         </div>
                         {
                             document.queryCommandSupported('copy') &&
-                            <div>
+                            <div style={{marginRight: '40px'}}>
                                 <div>
                                     <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
                                         <Share/>
@@ -577,7 +558,6 @@ class Scoreboard extends Component {
                                                 handleUpdateGame={this.handleUpdateGame} 
                                                 handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
                                                 isAuthenticated={isAuthenticated}
-                                                showDetails={showDetails}
                                                 userId={userId}
                                                 spreadMode={spreadMode}
                                                 disableTie={disableTie}
@@ -614,7 +594,6 @@ class Scoreboard extends Component {
                                                     handleUpdateGame={this.handleUpdateGame} 
                                                     handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
                                                     isAuthenticated={isAuthenticated}
-                                                    showDetails={showDetails}
                                                     userId={userId}
                                                     disableTie={disableTie}
                                                 />
@@ -653,7 +632,6 @@ const mapStateToProps = (state, ownProps) => {
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
-    const showDetails = get(ui,'showGameDetailsToggle',localStorage.getItem('showGameDetailsToggle') !== 'false');
     const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') === 'true');
 
     const leagues = get(lookup, 'leagues', []);
@@ -698,7 +676,6 @@ const mapStateToProps = (state, ownProps) => {
         teams,
         userId,
         isAuthenticated,
-        showDetails,
         spreadMode
     }
 };
@@ -726,7 +703,6 @@ Scoreboard.propTypes = {
     updatePick: PropTypes.func.isRequired,
     updateGame: PropTypes.func.isRequired,
     showGameDetailsToggle: PropTypes.func.isRequired,
-    showDetails: PropTypes.bool,
     spreadModeToggle: PropTypes.func.isRequired,
     spreadMode: PropTypes.bool
 };

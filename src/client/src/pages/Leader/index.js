@@ -63,7 +63,6 @@ const boasty = new Howl({
 const styles = theme => ({
   root: {
     width: '100%',
-    paddingTop: '4px',
     paddingBottom: '12px'
   },
   heading: {
@@ -77,8 +76,7 @@ const styles = theme => ({
     }
   },
   container: {
-    backgroundColor: '#ffffff',
-    padding: '4px'
+    backgroundColor: '#ffffff'
   },
   userName: {
     padding: '10px',

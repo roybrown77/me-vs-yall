@@ -222,18 +222,19 @@ function GamePlayTabs(props) {
         }}>
           <Tab label="Plays 🕹" {...a11yProps(0)} />
           <Tab label="Highlights 📸" {...a11yProps(1)} />
+          <Tab label="Research 🍿" {...a11yProps(2)} />
           {
             watchLiveGames &&
             (['59723313734d1d6202a85f10',
               '59723313734d1d6202a85f15',
               '59723313734d1d6202a85f19'].includes(get(game,'leagueId')) || 
             (game.liveVideoUrl || game.highlightVideoUrl)) &&
-            <Tab label="Watch Live 📺" {...a11yProps(2)} />
+            <Tab label="Watch Live 📺" {...a11yProps(3)} />
           }
           {
             isAuthenticated &&
             userId === 'google-oauth2|114172296334563495985' &&
-            <Tab label="Edit" {...a11yProps(2)} />
+            <Tab label="Edit" {...a11yProps(3)} />
           }
         </Tabs>
       </Box>
@@ -296,13 +297,48 @@ function GamePlayTabs(props) {
           </div>
         }
       </TabPanel>
+      <TabPanel value={value} index={2}>
+        {
+          (game.stats || []).length > 0 &&
+          <div style={{fontSize: "14px", fontFamily: "monospace"}}>
+            <div style={{padding: "10px"}}>
+              <div style={{display:'flex'}}>
+                <div style={{height: "24px"}}></div>
+                <div style={{position: "absolute", right: "100px"}}>
+                  {game.stats[0].awayTeam.name}
+                </div>
+                <div style={{position: "absolute", right: "10px"}}>
+                  {game.stats[1].homeTeam.name}
+                </div>
+              </div>
+              {
+                (game.stats || []).map((stat,statIndex)=> (
+                  <div key={statIndex} style={{display:'flex'}}>
+                    <div>{stat.name}</div>
+                    <div style={{position: "absolute", right: "100px"}}>
+                      {stat.awayTeam.value}
+                    </div>
+                    <div style={{position: "absolute", right: "10px"}}>
+                      {stat.homeTeam.value}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        }
+        {
+          (game.stats || []).length === 0 &&
+          <div>Stats are not available until season starts.  Check last season stats by selecting year above.</div>
+        }
+      </TabPanel>
       {
         watchLiveGames &&
         (['59723313734d1d6202a85f10',
           '59723313734d1d6202a85f15',
           '59723313734d1d6202a85f19'].includes(get(game,'leagueId')) || 
         ((game.liveVideoUrl && game.liveVideoUrl !== "") || (game.highlightVideoUrl && game.highlightVideoUrl !== ""))) &&
-        <TabPanel value={value} index={2}>
+        <TabPanel value={value} index={3}>
           {
             hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
@@ -408,7 +444,7 @@ const GamePredictionStatusIcon = (props) => {
 };
 
 const Competitor = (props) => {
-  const { game, spreadMode, pick, competitor, showDetails } = props;
+  const { game, spreadMode, pick, competitor } = props;
 
   return (
     <Grid className="detail-competitor" item xs={12} sm container>
@@ -439,7 +475,6 @@ const Competitor = (props) => {
                   {competitor.name}
                 </div>
                 {
-                  showDetails && 
                   competitor.record &&
                   <div style={{fontSize: '16px', color: '#BDBDBD', padding: ((get(game,'isGameOver') && get(pick,'pickId')) || (get(game,'spread.amount') && spreadMode)) ? '4px 0' :  '4px 0'}}>
                     {competitor.record}
@@ -481,7 +516,7 @@ const WorldFootballGamePlayHistory = (props) => {
 };
 
 const GameFooter = (props) => {
-  const { classes, game, isAuthenticated, userId, showDetails } = props;
+  const { classes, game, isAuthenticated, userId } = props;
 
   return (
     <div style={{marginTop: "10px"}} className={"game-footer " + classes.startDateTime}>
@@ -492,7 +527,6 @@ const GameFooter = (props) => {
           </div>
         }
         {
-          showDetails &&
           (userId !== 'google-oauth2|114172296334563495985' || !isAuthenticated) &&                   
           <div style={{marginTop: '5px'}}> 
             {game.startDateTimeDisplay}
@@ -955,14 +989,8 @@ const GameEditor = (props) => {
 };
 
 const GameContainer = (props) => {
-  const [showField, setShowField] = React.useState(true);
-
-  const handleToggleField = () => {
-    setShowField(!showField);
-  };
-
   const { classes, game, isAuthenticated, disableTie, 
-    inProgress, spreadMode, handleMakePick, showDetails } = props;
+    inProgress, spreadMode, handleMakePick } = props;
 
   return (
     <div key={game._id} className={classes.game}>
@@ -1003,64 +1031,13 @@ const GameContainer = (props) => {
           }
           <div>
             {
-              showDetails && 
-              showField &&
+              true &&
               getField(get(game,'leagueId'), {
                 away: game.competitors[0].shortLocation, 
                 awayColor: game.competitors[0].color, 
                 home: game.competitors[1].shortLocation, 
                 homeColor: game.competitors[1].color,
               })
-            }
-            {
-              showDetails && 
-              !showField &&
-              <div style={{fontSize: "14px", fontFamily: "monospace", marginTop: "10px"}}>
-                <div style={{
-                  borderBottom: "10px solid #5aa17f",
-                  width: "30%",
-                  margin: "auto",
-                  paddingBottom: "5px"
-                }}>{"Stat Life 🍿"}</div>
-                {
-                  (game.stats || []).length > 0 &&
-                  <div style={{padding: "10px"}}>
-                    <div style={{display:'flex'}}>
-                      <div style={{height: "24px"}}></div>
-                      <div style={{position: "absolute", right: "100px"}}>
-                        {game.stats[0].awayTeam.name}
-                      </div>
-                      <div style={{position: "absolute", right: "10px"}}>
-                        {game.stats[1].homeTeam.name}
-                      </div>
-                    </div>
-                    {
-                      (game.stats || []).map((stat,statIndex)=> (
-                        <div key={statIndex} style={{display:'flex'}}>
-                          <div>{stat.name}</div>
-                          <div style={{position: "absolute", right: "100px"}}>
-                            {stat.awayTeam.value}
-                          </div>
-                          <div style={{position: "absolute", right: "10px"}}>
-                            {stat.homeTeam.value}
-                          </div>
-                        </div>
-                      ))
-                    }
-                  </div>
-                }
-              </div>
-            }
-            {
-              showDetails && 
-              (game.stats || []).length > 0 &&
-              <div>
-                <Button 
-                    size="small"
-                    className={classes.gameStats} onClick={() => handleToggleField()}>
-                    {showField ? 'stats' : 'field'}
-                </Button>
-              </div>
             }
           </div>
           <GameFooter {...props} />
@@ -1191,8 +1168,7 @@ class Game extends Component {
     }
 
     render() {
-        const { classes, game, pick, isAuthenticated, 
-          showDetails, userId, disableTie } = this.props;
+        const { classes, game, pick, isAuthenticated, userId, disableTie } = this.props;
 
         const { awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, isHidden, 
           homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl } = this.state;
@@ -1201,7 +1177,7 @@ class Game extends Component {
 
         const spreadMode = localStorage.getItem('spreadModeToggle') === 'true';
 
-        const props = { classes, game, pick, isAuthenticated, showDetails, userId, disableTie,
+        const props = { classes, game, pick, isAuthenticated, userId, disableTie,
         awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, isHidden, 
         homeSpread, gameName, isGameOver, currentTime, gameDate, gameTime, liveVideoUrl, highlightVideoUrl,
         inProgress, spreadMode, handleMakePick: this.handleMakePick, 
@@ -1219,7 +1195,6 @@ Game.propTypes = {
   game: PropTypes.object,
   pick: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
-  showDetails: PropTypes.bool,
   spreadMode: PropTypes.bool,
   disableTie: PropTypes.bool,
   handleMakePick: PropTypes.func,
