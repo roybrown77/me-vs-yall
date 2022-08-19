@@ -10,7 +10,7 @@ const get = require('lodash/get');
 router.post('/users/', function (req, res) {
     const user = req.body;
 
-    if (get(req, 'user.sub') !== get(user, 'sub')) {
+    if (get(req, 'auth.sub') !== get(user, 'sub')) {
         return res.status(401).send();
     }
 
