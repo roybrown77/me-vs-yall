@@ -301,13 +301,13 @@ const teamStatTemplate = {
     },
 
     clutchWins: {
-      name: "Clutch Wins < 8",
+      name: "Won by less than 8",
       value: 0,
       displayStat: true
     },
     
     closeLosses: {
-      name: "Close Losses < 8",
+      name: "Loss by less than 8",
       value: 0,
       displayStat: true
     },
