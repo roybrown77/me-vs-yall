@@ -395,7 +395,7 @@ const getAllTeamStats = (gamesWholeYear) => {
 
       teamStats[game.competitors[i]._id].beatVegasDog.value += get(game,'spread.amount') && 
       (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
-      ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) ? 1 : 0;
+      ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
 
       teamStats[game.competitors[i]._id].homeBeatVegas.value += game.competitors[1]._id === game.competitors[i]._id &&
       get(game,'spread.amount') && 
@@ -405,7 +405,7 @@ const getAllTeamStats = (gamesWholeYear) => {
       teamStats[game.competitors[i]._id].homeBeatVegasDog.value += game.competitors[1]._id === game.competitors[i]._id && 
       get(game,'spread.amount') && 
       (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
-      ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) ? 1 : 0;
+      ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
 
       teamStats[game.competitors[i]._id].roadBeatVegas.value += game.competitors[0]._id === game.competitors[i]._id &&
       get(game,'spread.amount') && 
@@ -415,7 +415,7 @@ const getAllTeamStats = (gamesWholeYear) => {
       teamStats[game.competitors[i]._id].roadBeatVegasDog.value += game.competitors[0]._id === game.competitors[i]._id && 
       get(game,'spread.amount') && 
       (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
-      ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) ? 1 : 0;
+      ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
 
       teamStats[game.competitors[i]._id].clutchDefense.value += (game.competitors[1-i].score || 0) <= 23 ? 1 : 0;
       teamStats[game.competitors[i]._id].topDogScoring.value += (game.competitors[i].score || 0) >= 27 ? 1 : 0;
