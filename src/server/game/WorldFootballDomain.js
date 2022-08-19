@@ -164,7 +164,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       // }
   
       try {
-        if (browser.isConnected()) {
+        if (browser !== null) {
           const browserCloseResult = await browser.close();
           console.log(`browser finally 7: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
@@ -248,7 +248,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     // }
 
     try {
-      if (browser.isConnected()) {
+      if (browser !== null) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 5: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
