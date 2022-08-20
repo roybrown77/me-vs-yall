@@ -115,7 +115,7 @@ const {
 const gameRepository = require('../server/game/GameRepository');
 const sortBy = require('lodash/sortBy');
 
-const getDayIndex = (games, leagueId) => {
+const getDayIndex = (games, currentWeekDay, leagueId) => {
   // need to build per league and remove duplicated code
   let gameDayIndex = [];
 
@@ -137,8 +137,7 @@ const getDayIndex = (games, leagueId) => {
     return;
   }
 
-  const day =  moment(firstGameOfWeek.startDateTime).weekday();
-  const dayIndex = gameDayIndex.findIndex(x=>x===day) + 1;
+  const dayIndex = gameDayIndex.findIndex(x=>x===currentWeekDay) + 1;
   console.log(`dayIndex 1: ${dayIndex}`);
   return dayIndex;
 };
@@ -190,7 +189,7 @@ const updateGames = async () => {
     if (eastCoastHour === 7 && minutes > 0 && minutes < 15) {
       dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
     } else {
-      dayIndex = getDayIndex(sortedGames, '59723313734d1d6202a85f10');
+      dayIndex = getDayIndex(sortedGames, currentWeekDay, '59723313734d1d6202a85f10');
     }
 
     if (!dayIndex) {
