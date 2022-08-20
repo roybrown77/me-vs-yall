@@ -8,10 +8,8 @@ const PickResult = ({games, picks, spreadMode = false}) => {
 	const results = getResults(games, picks, spreadMode);
 
 	return (gamesOver && 
-		<div>
-			<div style={{fontSize: '40px', color: 'rgba(0, 0, 0, 0.87)'}}>
-				{results['wins'] +  " - " + results['losses']}
-			</div>
+		<div style={{fontSize: '20px', fontFamily: 'monospace', fontcolor: 'rgba(0, 0, 0, 0.87)'}}>
+			{`${results['wins']} wins ${results['losses']} losses`}
 		</div>
 	);
 };
