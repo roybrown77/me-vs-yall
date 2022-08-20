@@ -567,19 +567,21 @@ class Leader extends Component {
                                                     </AccordionSummary>
                                                     <AccordionDetails className={classes.expansionPanelDetails}>
                                                         <div style={{margin: '12px auto'}}>
-                                                            <Popover 
-                                                                title={'in Vegas you would have won: ' + leader.vegasWinnings}
-                                                                titleStyle={{color: leader.positiveWinnings ? '#009933' : 'red', textDecoration:'underline', fontWeight: '700'}}
-                                                            >
-                                                                {
-                                                                    <div style={{padding:'16px'}}>
-                                                                        <div>${(leader.wins + leader.losses) * 110} initial bets = {leader.wins + leader.losses} bets x $110</div>
-                                                                        <div style={{paddingTop:'16px'}}>{leader.positiveWinnings ? '$' : '-$'}{Math.abs(leader.wins * 100 - leader.losses * 110)} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
-                                                                        <div style={{paddingTop:'16px'}}>${leader.wins * 100 + leader.wins * 110} payout = initial bets + profit</div>
-                                                                        {!spreadMode && <div style={{paddingTop:'16px'}}><i>assumes you beat the spread</i></div>}
-                                                                    </div>
-                                                                }
-                                                            </Popover>
+                                                            {
+                                                                spreadMode &&
+                                                                <Popover 
+                                                                    title={'in Vegas you would have won: ' + leader.vegasWinnings}
+                                                                    titleStyle={{color: leader.positiveWinnings ? '#009933' : 'red', textDecoration:'underline', fontWeight: '700'}}
+                                                                >
+                                                                    {
+                                                                        <div style={{padding:'16px'}}>
+                                                                            <div>${(leader.wins + leader.losses) * 110} initial bets = {leader.wins + leader.losses} bets x $110</div>
+                                                                            <div style={{paddingTop:'16px'}}>{leader.positiveWinnings ? '$' : '-$'}{Math.abs(leader.wins * 100 - leader.losses * 110)} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
+                                                                            <div style={{paddingTop:'16px'}}>${leader.wins * 100 + leader.wins * 110} payout = initial bets + profit</div>
+                                                                        </div>
+                                                                    }
+                                                                </Popover>
+                                                            }
                                                             {
                                                                 <table style={{
                                                                     width:"100%", 
