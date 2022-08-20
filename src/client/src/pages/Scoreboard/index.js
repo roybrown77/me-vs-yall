@@ -22,6 +22,10 @@ import ToggleOn from '@material-ui/icons/ToggleOn';
 import ToggleOff from '@material-ui/icons/ToggleOff';
 import Share from '@material-ui/icons/BackupOutlined';
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
 import PickResult from '../../components/PickResult';
@@ -39,7 +43,7 @@ import tecmoWebm from './tecmo-touchdown.webm';
 import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
-import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle, spreadModeToggle } from '../../actions';
+import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle } from '../../actions';
 import { googleLogin } from '../../middleware/authenticationClient';
 
 import { 
@@ -89,7 +93,7 @@ const styles = theme => ({
     display: 'none',
   },
   pickResultContainer: {
-    margin: '0 25% 6px 25%',
+    margin: '0 15% 6px 15%',
     backgroundColor: 'white'
   },
   banner: {
@@ -111,9 +115,12 @@ const styles = theme => ({
     fontSize: '1.5rem',
     fontWeight: "700",
     lineHeight: '2.75',
-    marginBottom: '4px',
+    marginBottom: '10px',
     padding: '0',
-    width: '75%'
+    width: '75%',
+    '-webkit-box-shadow': '-8px 8px 0px 0px black',
+    '-moz-box-shadow': '-8px 8px 0px 0px blackk',
+    boxShadow: '-8px 8px 0px 0px black'
   },
   soundButton: {
     color: '#000'
@@ -128,6 +135,39 @@ const styles = theme => ({
 
 let gameDate;
 
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+        >
+        {value === index && (
+            <Box sx={{ p: 3, padding: 0 }}>
+            {children}
+            </Box>
+        )}
+        </div>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -138,7 +178,8 @@ class Scoreboard extends Component {
         this.state = {
             soundOn: false,
             openCopyAlert: false,
-            gamePlayTabValue: 0
+            gamePlayTabValue: 0,
+            tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0
         };
     }
 
@@ -157,10 +198,11 @@ class Scoreboard extends Component {
             year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId
+            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+            gameType: this.state.tabValue
         });
 
-        this.startPolling();
+        this.startPolling(this.state.tabValue);
     }
 
     componentWillUnmount() {
@@ -168,15 +210,38 @@ class Scoreboard extends Component {
         console.log('stop timerID: ' + this.timerID);
     }
 
-    startPolling = () => {
+    handleTabChange = (event, newValue) => {
+        clearInterval(this.timerID);
+        console.log('stop timerID: ' + this.timerID);
+
+        const { leagueName } = this.props.match.params;
+
+        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+        
+        this.props.loadScoreboard({
+            leagueId: urlLeagueId,
+            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+            gameType: newValue
+        });
+
+        localStorage.setItem('tabValue', newValue);
+        this.setState({tabValue: newValue});
+        this.startPolling(newValue);
+    };
+
+    startPolling = (tabValue) => {
         this.timerID = setInterval(
-            () => this.poll(),
-            15000
+            () => this.poll(tabValue),
+            2000
         );
         console.log('start timerID: ' + this.timerID);
     }
 
-    poll = () => {
+    poll = (tabValue) => {
         console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
 
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
@@ -194,7 +259,8 @@ class Scoreboard extends Component {
             year: this.props.year,
             beginDateTime: this.props.beginDateTime,
             endDateTime: this.props.endDateTime,
-            weekId: this.props.weekId
+            weekId: this.props.weekId,
+            gameType: tabValue
         });
     }
 
@@ -253,9 +319,9 @@ class Scoreboard extends Component {
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
         if (!!pickFound) {
-            this.props.updatePick(get(pickFound,'_id'), pick);
+            this.props.updatePick(get(pickFound,'_id'), {...pick, gameType: this.state.tabValue});
         } else {
-            this.props.addPick(pick);
+            this.props.addPick({...pick, gameType: this.state.tabValue});
         }
     }
 
@@ -281,10 +347,6 @@ class Scoreboard extends Component {
         this.setState((state) => ({
             soundOn: !state.soundOn
         }));
-    }
-
-    handleSpreadModeToggle = () => {
-        this.props.spreadModeToggle(!this.props.spreadMode);
     }
 
     handleSharePicks = () => {
@@ -317,7 +379,7 @@ class Scoreboard extends Component {
             clearInterval(this.timerID);
             console.log('stop timerID: ' + this.timerID);
         } else {
-            this.startPolling();
+            this.startPolling(this.state.tabValue);
         }
     };
 
@@ -491,90 +553,71 @@ class Scoreboard extends Component {
                             </IconButton>
                         </div>
                     }
-                    <div style={{
-                            justifyContent: 'center',
-                            display:'flex', 
-                            fontSize: '17px', 
-                            paddingBottom: '20px',
-                            fontFamily: 'monospace'}}>
-                        <div style={{marginRight: '40px'}} onClick={this.handleSpreadModeToggle}>
-                            <div>
-                                <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
-                                    {spreadMode ? <ToggleOn/> : <ToggleOff/>}
-                                </IconButton>
-                            </div>
-                            <div style={{marginTop: '-3px'}}>
-                                beat vegas
-                            </div>
-                        </div>
-                        {
-                            document.queryCommandSupported('copy') &&
-                            <div style={{marginRight: '40px'}}>
+                    {
+                        false &&
+                        <div style={{
+                                justifyContent: 'center',
+                                display:'flex', 
+                                fontSize: '17px', 
+                                paddingBottom: '20px',
+                                fontFamily: 'monospace'}}>
+                            <div style={{marginRight: '40px'}} onClick={()=>{}}>
                                 <div>
-                                    <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
-                                        <Share/>
+                                    <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                                        {spreadMode ? <ToggleOn/> : <ToggleOff/>}
                                     </IconButton>
                                 </div>
                                 <div style={{marginTop: '-3px'}}>
-                                    share
+                                    beat vegas
                                 </div>
-                                <textarea style={{position:'fixed',bottom:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
-                                <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
-                                    <Alert onClose={this.handleCopyAlertClose} severity="success">
-                                      {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
-                                    </Alert>
-                                </Snackbar>
                             </div>
-                        }
-                    </div>
-                    {
-                        <div className={classes.root}>
                             {
-                                groupedGames.notCompleted.map(game => {
-                                    let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                                    let newDate = (gameDate !== newGameDate);
-                                    if (newDate) gameDate = newGameDate;
-
-                                    return (
-                                        <div key={game._id}>
-                                            {
-                                                newDate &&
-                                                <div style={{
-                                                    position: 'relative', 
-                                                    zIndex: 3, 
-                                                    fontFamily:'monospace', 
-                                                    backgroundColor:'rgba(0,0,0,0.87)', 
-                                                    color: '#ffffff', width: '100%', 
-                                                    padding: '2px 0', 
-                                                    marginBottom:'8px'
-                                                }}>
-                                                    <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
-                                                </div>
-                                            }
-                                            <Game 
-                                                game={game} 
-                                                pick={picks.find(x=>x.gameId === game._id)}
-                                                handleMakePick={this.handleMakePick} 
-                                                handleUpdateGame={this.handleUpdateGame} 
-                                                handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
-                                                isAuthenticated={isAuthenticated}
-                                                userId={userId}
-                                                spreadMode={spreadMode}
-                                                disableTie={disableTie}
-                                            />
-                                        </div>
-                                    );
-                                })
-                            }
-                            <div>
-                                {
-                                    groupedGames.completed.length > 0 &&
-                                    <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                        <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Completed Matches ***</div>
+                                document.queryCommandSupported('copy') &&
+                                <div style={{marginRight: '40px'}}>
+                                    <div>
+                                        <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
+                                            <Share/>
+                                        </IconButton>
                                     </div>
-                                }
+                                    <div style={{marginTop: '-3px'}}>
+                                        share
+                                    </div>
+                                    <textarea style={{position:'fixed',bottom:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
+                                    <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
+                                        <Alert onClose={this.handleCopyAlertClose} severity="success">
+                                        {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
+                                        </Alert>
+                                    </Snackbar>
+                                </div>
+                            }
+                        </div>
+                    }
+                    {
+                        <Box sx={{
+                            marginTop: '30px',
+                            position: "relative",
+                            zIndex: "2",
+                            backgroundColor: "white"
+                            }}>
+                            <Box sx={{ 
+                                borderBottom: 1, 
+                                borderColor: 'divider', 
+                                position: "relative",
+                                zIndex: "3",
+                                backgroundColor: "white"
+                            }}>
+                                <Tabs value={this.state.tabValue} onChange={this.handleTabChange}  aria-label="game types" style={{
+                                    paddingBottom: "20px",
+                                    width: 'fit-content', 
+                                    margin: 'auto',
+                                }}>
+                                <Tab label="Straight Up" {...a11yProps(0)} />
+                                <Tab label="Beat Vegas Mode" {...a11yProps(1)} />
+                                </Tabs>
+                            </Box>
+                            <div className={classes.root}>
                                 {
-                                    groupedGames.completed.map(game => {
+                                    groupedGames.notCompleted.map(game => {
                                         let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                         let newDate = (gameDate !== newGameDate);
                                         if (newDate) gameDate = newGameDate;
@@ -583,7 +626,15 @@ class Scoreboard extends Component {
                                             <div key={game._id}>
                                                 {
                                                     newDate &&
-                                                    <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                    <div style={{
+                                                        position: 'relative', 
+                                                        zIndex: 3, 
+                                                        fontFamily:'monospace', 
+                                                        backgroundColor:'rgba(0,0,0,0.87)', 
+                                                        color: '#ffffff', width: '100%', 
+                                                        padding: '2px 0', 
+                                                        marginBottom:'8px'
+                                                    }}>
                                                         <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
                                                     </div>
                                                 }
@@ -595,14 +646,51 @@ class Scoreboard extends Component {
                                                     handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
                                                     isAuthenticated={isAuthenticated}
                                                     userId={userId}
+                                                    spreadMode={spreadMode}
                                                     disableTie={disableTie}
                                                 />
                                             </div>
                                         );
                                     })
                                 }
+                                <div>
+                                    {
+                                        groupedGames.completed.length > 0 &&
+                                        <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                            <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Completed Matches ***</div>
+                                        </div>
+                                    }
+                                    {
+                                        groupedGames.completed.map(game => {
+                                            let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                                            let newDate = (gameDate !== newGameDate);
+                                            if (newDate) gameDate = newGameDate;
+
+                                            return (
+                                                <div key={game._id}>
+                                                    {
+                                                        newDate &&
+                                                        <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                            <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
+                                                        </div>
+                                                    }
+                                                    <Game 
+                                                        game={game} 
+                                                        pick={picks.find(x=>x.gameId === game._id)}
+                                                        handleMakePick={this.handleMakePick} 
+                                                        handleUpdateGame={this.handleUpdateGame} 
+                                                        handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
+                                                        isAuthenticated={isAuthenticated}
+                                                        userId={userId}
+                                                        disableTie={disableTie}
+                                                    />
+                                                </div>
+                                            );
+                                        })
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        </Box>
                     }
                     {
                         image &&
@@ -632,7 +720,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
-    const spreadMode = get(ui,'spreadModeToggle',localStorage.getItem('spreadModeToggle') === 'true');
+    const spreadMode = localStorage.getItem('tabValue') === '1';
 
     const leagues = get(lookup, 'leagues', []);
     const league = leagues.find(x=>x.id === leagueId);
@@ -703,7 +791,6 @@ Scoreboard.propTypes = {
     updatePick: PropTypes.func.isRequired,
     updateGame: PropTypes.func.isRequired,
     showGameDetailsToggle: PropTypes.func.isRequired,
-    spreadModeToggle: PropTypes.func.isRequired,
     spreadMode: PropTypes.bool
 };
 
@@ -713,5 +800,4 @@ export default connect(mapStateToProps, {
   updatePick,
   updateGame,
   showGameDetailsToggle,
-  spreadModeToggle
 })(withStyles(styles, { withTheme: true })(Scoreboard));

@@ -183,8 +183,7 @@ export const articleDomain = (
 export const ui = (state = Map({
   request: Map({
     leagueId,
-    showGameDetailsToggle: true,
-    spreadModeToggle: false
+    showGameDetailsToggle: true
   })
 }), action) => {
   switch (action.type) {
@@ -197,9 +196,6 @@ export const ui = (state = Map({
     case 'SHOWGAMEDETAILSTOGGLE':
       localStorage.setItem('showGameDetailsToggle', get(action, 'flag'));
       return state.set('showGameDetailsToggle', get(action, 'flag'));
-    case 'SPREADMODETOGGLE':
-      localStorage.setItem('spreadModeToggle', get(action, 'flag', false));
-      return state.set('spreadModeToggle', get(action, 'flag', false));
     default:
       return state;
   }

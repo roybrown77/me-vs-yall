@@ -11,8 +11,6 @@ import {
 	ActionTypes,
 } from './actions';
 
-import { spreadModeToggle } from './spreadModeToggle';
-
 export {
 	loadScoreboard,
 	addPick,
@@ -23,6 +21,5 @@ export {
 	loadGamesInProgress,
 	loadLeaders,
 	loadUser,
-    spreadModeToggle,
     ActionTypes
 };

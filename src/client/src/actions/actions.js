@@ -224,6 +224,7 @@ export const addPick = (pick) => (dispatch, getState) => {
   const searchParams = new URLSearchParams();
   searchParams.set('gameId', pick.gameId);
   searchParams.set('pickId', pick.pickId);
+  searchParams.set('gameType', pick.gameType);
 
   dispatch(createPick(searchParams));
 };
@@ -232,6 +233,7 @@ export const updatePick = (id, pick) => (dispatch, getState) => {
   const searchParams = new URLSearchParams();
   searchParams.set('pickId', pick.pickId);
   searchParams.set('gameId', pick.gameId);
+  searchParams.set('gameType', pick.gameType);
 
   dispatch(editPick(id, searchParams));
 };
@@ -266,6 +268,7 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
   const currentLeague = leagues.find(x=>x.name === leagueName);
   const leagueId = currentLeague.id;
   const leagueChanged = get(query, 'leagueId') !== leagueId;
+  const gameType = get(query, 'gameType');
 
   const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
 
@@ -282,7 +285,8 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
     weekId: leagueChanged ? get(currentWeek, 'weekId') : (get(query, 'weekId') || get(currentWeek, 'weekId')),
     year: leagueChanged ? get(currentWeek, 'year') : (get(query, 'year') || get(currentWeek, 'year')),
     beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime'),
+    gameType: gameType
   };
 
   await Promise.all([
@@ -319,6 +323,7 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
   const currentLeague = leagues.find(x=>x.name === leagueName);
   const leagueId = currentLeague.id;
   const leagueChanged = get(query, 'leagueId') !== leagueId;
+  const gameType = get(query, 'gameType');
 
   const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
   let isRollup = leagueChanged ? false : get(query, 'isRollup');
@@ -332,7 +337,8 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
     weekId: leagueChanged ? get(currentWeek, 'weekId') : get(query, 'weekId') || get(currentWeek, 'weekId'),
     year: leagueChanged ? get(currentWeek, 'year') : get(query, 'year') || get(currentWeek, 'year'),
     beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime')
+    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime'),
+    gameType: gameType
   };
 
   dispatch({type: ActionTypes.LEADERS_REQUEST, request});

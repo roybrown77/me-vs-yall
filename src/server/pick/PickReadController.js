@@ -11,10 +11,13 @@ const omit = require('lodash/omit');
 const get = require('lodash/get');
 
 router.get('/picks/', function (req, res) {
+    const gameType = req.query.gameType;
+
     const search = {
         leagueId: mongoose.Types.ObjectId(req.query.leagueId),
         userId: req.query.userId,
         year: req.query.year,
+        gameType: gameType === "1" ? 1 : { $ne: 1 },
         createDateTime: {
           $gte: new Date(moment(get(req, 'query.beginDateTime'))),
           $lte: new Date(moment(get(req, 'query.endDateTime')))

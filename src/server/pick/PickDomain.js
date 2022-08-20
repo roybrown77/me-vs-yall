@@ -20,8 +20,9 @@ function upsert(pick, cb) {
 
         return pickRepository.findOneAndUpdate(
             {
-                userId: pick.userId, 
-                gameId: pick.gameId
+                userId: pick.userId,
+                gameId: pick.gameId,
+                gameType: pick.gameType === "1" ? 1 : { $ne: 1 },
             }, 
             finalPick,
             {

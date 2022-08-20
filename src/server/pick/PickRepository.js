@@ -7,6 +7,7 @@ const PickSchema = new mongoose.Schema({
     pickId: mongoose.Schema.Types.ObjectId,
     gameDateTime: 'date',
     createDateTime: 'date',
-    year: Number
+    year: Number,
+    gameType: Number
 });
 module.exports = mongoose.model('Pick', PickSchema)

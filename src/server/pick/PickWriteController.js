@@ -25,6 +25,7 @@ router.post('/picks/', function (req, res) {
         userId: req.auth.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
+        gameType: req.body.gameType,
         createDateTime: moment().toISOString()
     };
 
@@ -43,6 +44,7 @@ router.put('/picks/:id', function (req, res) {
         userId: req.auth.sub,
         gameId: mongoose.Types.ObjectId(req.body.gameId),
         pickId: mongoose.Types.ObjectId(req.body.pickId),
+        gameType: req.body.gameType,
         createDateTime: moment().toISOString()
     };
 
