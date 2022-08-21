@@ -262,7 +262,7 @@ const getGames = async ({
       // }
   
       try {
-        if (browser !== null) {
+        if (!!browser) {
           const browserCloseResult = await browser.close();
           console.log(`browser finally 1: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
@@ -380,7 +380,7 @@ const getGames = async ({
     // }
 
     try {
-      if (browser !== null) {
+      if (!!browser) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 2: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
@@ -943,7 +943,7 @@ const getScores = async ({
       // }
   
       try {
-        if (browser !== null) {
+        if (!!browser) {
           const browserCloseResult = await browser.close();
           console.log(`browser finally 3: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
@@ -991,7 +991,7 @@ const getScores = async ({
     // }
 
     try {
-      if (browser !== null) {
+      if (!!browser) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 4: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
