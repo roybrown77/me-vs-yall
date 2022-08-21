@@ -443,6 +443,7 @@ class Scoreboard extends Component {
                         />
                     }
                     {
+                        false &&
                         <div style={{height: '8px'}}>
                             {
                                 (dataLoading || weeksDataLoading) &&
@@ -694,6 +695,7 @@ class Scoreboard extends Component {
                         </Box>
                     }
                     {
+                        false &&
                         image &&
                         !(dataLoading || weeksDataLoading) &&
                         <div>
