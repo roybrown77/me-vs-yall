@@ -440,6 +440,7 @@ class Leader extends Component {
                         </div>
                     }
                     {
+                        false &&
                         isAuthenticated &&
                         areAllGamesOver &&
                         !(dataLoading || weeksDataLoading) &&

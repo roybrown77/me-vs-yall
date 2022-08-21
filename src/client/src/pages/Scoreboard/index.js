@@ -525,6 +525,7 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
+                        false &&
                         isAuthenticated &&
                         areAllGamesOver &&
                         !(dataLoading || weeksDataLoading) &&
