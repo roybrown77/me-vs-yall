@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -21,7 +21,7 @@ const {
   updateGames,
   hasGameStarted
 } = require('./utilities');
-
+    
 let isUpdateWorldFootballScoresRunning = false;
 
 const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
@@ -104,6 +104,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
 
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download(1022525);
     
     browser = await puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -114,6 +115,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
+      executablePath: revisionInfo.executablePath,
     });
 
     page = await browser.newPage();

@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -216,6 +216,7 @@ const getGames = async ({
   
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download(1022525);
 
     browser = await puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -226,6 +227,7 @@ const getGames = async ({
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
+      executablePath: revisionInfo.executablePath,
     });
 
     page = await browser.newPage();
@@ -889,6 +891,7 @@ const getScores = async ({
 
   try {
     const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download(1022525);
 
     browser = await puppeteer.launch({
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -899,6 +902,7 @@ const getScores = async ({
       // timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
+      executablePath: revisionInfo.executablePath,
     });
 
     page = await browser.newPage();
