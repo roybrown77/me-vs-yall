@@ -329,7 +329,7 @@ function GamePlayTabs(props) {
         }
         {
           (game.stats || []).length === 0 &&
-          <div>Stats are not available until season starts.  Check last season stats by selecting year above.</div>
+          <div>Stats are not available until 2nd game.  Check last season stats by selecting year above.</div>
         }
       </TabPanel>
       {
