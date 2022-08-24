@@ -272,7 +272,7 @@ const TinyScoreboard = ({title, games}) => {
                                         }
                                         <div>{game.competitors[0].shortLocation}</div>
                                         <div>{game.competitors[1].shortLocation}</div>
-                                        <div style={{width:'35px'}}>
+                                        <div>
                                             {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
                                         </div>
                                     </div>
@@ -285,7 +285,7 @@ const TinyScoreboard = ({title, games}) => {
                                         }
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
-                                        <div style={{width:'35px'}}>
+                                        <div style={{height:'14px'}}>
                                             {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
                                         </div>
                                     </div>
@@ -302,7 +302,7 @@ const TinyScoreboard = ({title, games}) => {
                                         <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>{
                                             game.competitors[1].score}
                                         </div>
-                                        <div style={{width:'35px'}}>
+                                        <div style={{height:'14px', width:'35px'}}>
                                             {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
                                         </div>
                                     </div>
