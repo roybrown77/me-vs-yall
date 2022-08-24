@@ -267,9 +267,9 @@ const TinyScoreboard = ({title, games}) => {
                                         <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
                                             {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
                                         </div>
-                                        <div>{game.competitors[0].shortLocation}</div>
-                                        <div>{game.competitors[1].shortLocation}</div>
-                                        <div>
+                                        <div style={{height:'14px'}}>{game.competitors[0].shortLocation}</div>
+                                        <div style={{height:'14px'}}>{game.competitors[1].shortLocation}</div>
+                                        <div style={{height:'14px'}}>
                                             {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
                                         </div>
                                     </div>
