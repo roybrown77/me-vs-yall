@@ -264,12 +264,9 @@ const TinyScoreboard = ({title, games}) => {
                             <div style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
                                 <div style={{display:'flex'}}>
                                     <div style={{marginRight:'5px', textAlign: 'left'}}>
-                                        {
-                                            (game.isGameOver || hasGameStarted(game.startDateTime)) && 
-                                            <div style={{color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
-                                                {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
-                                            </div>
-                                        }
+                                        <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
+                                            {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
+                                        </div>
                                         <div>{game.competitors[0].shortLocation}</div>
                                         <div>{game.competitors[1].shortLocation}</div>
                                         <div>
@@ -277,12 +274,9 @@ const TinyScoreboard = ({title, games}) => {
                                         </div>
                                     </div>
                                     <div style={{marginRight:'5px', textAlign: 'left'}}>
-                                        {
-                                            (game.isGameOver || hasGameStarted(game.startDateTime)) && 
-                                            <div style={{height:'14px'}}>
-                                                {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].time') : ''}
-                                            </div>
-                                        }
+                                        <div style={{height:'14px'}}>
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].time') : ''}
+                                        </div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
                                         <div style={{height:'14px'}}>
@@ -290,12 +284,9 @@ const TinyScoreboard = ({title, games}) => {
                                         </div>
                                     </div>
                                     <div style={{marginRight:'10px', textAlign: 'right'}}>
-                                        {
-                                            (game.isGameOver || hasGameStarted(game.startDateTime)) && 
-                                            <div style={{height:'14px'}}>
-                                                {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].quarter') : ''}
-                                            </div>
-                                        }
+                                        <div style={{height:'14px'}}>
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].quarter') : ''}
+                                        </div>
                                         <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>{
                                             game.competitors[0].score}
                                         </div>
