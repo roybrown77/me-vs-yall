@@ -272,7 +272,7 @@ const TinyScoreboard = ({title, games}) => {
                                         }
                                         <div>{game.competitors[0].shortLocation}</div>
                                         <div>{game.competitors[1].shortLocation}</div>
-                                        <div>
+                                        <div style={{width:'35px'}}>
                                             {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
                                         </div>
                                     </div>
@@ -285,7 +285,7 @@ const TinyScoreboard = ({title, games}) => {
                                         }
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
-                                        <div>
+                                        <div style={{width:'35px'}}>
                                             {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
                                         </div>
                                     </div>
