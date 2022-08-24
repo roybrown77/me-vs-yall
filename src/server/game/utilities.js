@@ -656,7 +656,7 @@ const getScoreSetItem = async ({
       const possessionHomePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
         if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
+          return element ? element.innerHTML : null;
         } else {
           return element ? element.innerHTML : null;
         }
@@ -665,7 +665,7 @@ const getScoreSetItem = async ({
       const possessionAwayPromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
         if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
+          return element ? element.innerHTML : null;
         } else {
           return element ? element.innerHTML : null;
         }
@@ -815,6 +815,9 @@ const getScoreSetItem = async ({
         spreadPromise
       ]);
 
+      console.log(`possessionHome: ${possessionHome}`);
+      console.log(`possessionAway: ${possessionAway}`);
+
       scores.push({
         spread: {
          team: (spread || "").replace('Line: ','').replace('Line : ','').split(' ')[0],
@@ -841,7 +844,7 @@ const getScoreSetItem = async ({
         lastPlay7: (lastPlay7 || '').trim(),
         currentTime: currentTime,
         down: (down || '').trim(),
-        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : undefined)
+        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : "")
       });
     }
   } catch(err) {
