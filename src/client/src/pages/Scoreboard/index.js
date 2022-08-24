@@ -119,7 +119,7 @@ const styles = theme => ({
     padding: '0',
     width: '75%',
     '-webkit-box-shadow': '-8px 8px 0px 0px black',
-    '-moz-box-shadow': '-8px 8px 0px 0px blackk',
+    '-moz-box-shadow': '-8px 8px 0px 0px black',
     boxShadow: '-8px 8px 0px 0px black'
   },
   soundButton: {
@@ -135,7 +135,7 @@ const styles = theme => ({
 
 let gameDate;
 
-function TabPanel(props) {
+const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -153,7 +153,7 @@ function TabPanel(props) {
         )}
         </div>
     );
-}
+};
 
 TabPanel.propTypes = {
     children: PropTypes.node,
@@ -161,16 +161,161 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
+const a11yProps = (index) => {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
     };
-}
+};
 
-function Alert(props) {
+const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+};
+
+const Loader = ({dataLoading, weeksDataLoading}) => {
+    return (
+        <div style={{height: '8px'}}>
+            {
+                (dataLoading || weeksDataLoading) &&
+                <LinearProgress />
+            }
+        </div>
+    );
+};
+
+const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuthenticated}) => {
+    return (
+        <div style={{
+            justifyContent: 'center',
+            display:'flex', 
+            fontSize: '17px', 
+            paddingBottom: '20px',
+            fontFamily: 'monospace'}}>
+            <div style={{marginRight: '40px'}} onClick={()=>{}}>
+                <div>
+                    <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                        {spreadMode ? <ToggleOn/> : <ToggleOff/>}
+                    </IconButton>
+                </div>
+                <div style={{marginTop: '-3px'}}>
+                    beat vegas
+                </div>
+            </div>
+            {
+                document.queryCommandSupported('copy') &&
+                <div style={{marginRight: '40px'}}>
+                    <div>
+                        <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
+                            <Share/>
+                        </IconButton>
+                    </div>
+                    <div style={{marginTop: '-3px'}}>
+                        share
+                    </div>
+                    <textarea style={{position:'fixed',bottom:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
+                    <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
+                        <Alert onClose={this.handleCopyAlertClose} severity="success">
+                        {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
+                        </Alert>
+                    </Snackbar>
+                </div>
+            }
+        </div>
+    );
+};
+
+const TinyScoreboard = ({title, games}) => {
+    const styles = {
+        header: {
+            backgroundColor: 'black',
+            color: 'white',
+            width: '80px',
+            padding: '10px',
+            textAlign: 'right',
+            lineHeight: '20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            '-webkit-box-shadow': '0px 8px 0px 0px dodgerblue',
+            '-moz-box-shadow': '0px 8px 0px 0px dodgerblue',
+            boxShadow: '0px 8px 0px 0px dodgerblue'
+        },
+        gameContainer: {
+            display: 'flex',
+            fontSize: '12px',
+            padding: '5px 0 15px 10px',
+            fontWeight: 'bold',
+            backgroundColor: 'white',
+            overflowX: 'scroll'
+        }
+    };
+
+    if (games.length === 0) return null;
+
+    return (
+        <div style={{margin: '10px 0 20px 0'}}>
+            <div style={{display: 'flex'}}>
+                <div style={styles.header}>
+                    {title}
+                </div>
+                <div style={styles.gameContainer}>
+                {
+                    games.map((game, index) => {
+                        return (
+                            <div style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
+                                <div style={{display:'flex'}}>
+                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
+                                        {
+                                            (game.isGameOver || hasGameStarted(game.startDateTime)) && 
+                                            <div style={{color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
+                                                {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
+                                            </div>
+                                        }
+                                        <div>{game.competitors[0].shortLocation}</div>
+                                        <div>{game.competitors[1].shortLocation}</div>
+                                        <div>
+                                            {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
+                                        </div>
+                                    </div>
+                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
+                                        {
+                                            (game.isGameOver || hasGameStarted(game.startDateTime)) && 
+                                            <div style={{height:'14px'}}>
+                                                {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].time') : ''}
+                                            </div>
+                                        }
+                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
+                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
+                                        <div>
+                                            {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
+                                        </div>
+                                    </div>
+                                    <div style={{marginRight:'10px', textAlign: 'right'}}>
+                                        {
+                                            (game.isGameOver || hasGameStarted(game.startDateTime)) && 
+                                            <div style={{height:'14px'}}>
+                                                {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].quarter') : ''}
+                                            </div>
+                                        }
+                                        <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>{
+                                            game.competitors[0].score}
+                                        </div>
+                                        <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>{
+                                            game.competitors[1].score}
+                                        </div>
+                                        <div style={{width:'35px'}}>
+                                            {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+                </div>
+            </div>
+        </div>
+    );
+};
 
 class Scoreboard extends Component {
     constructor(props) {
@@ -426,6 +571,16 @@ class Scoreboard extends Component {
         return (
             <div>
                 <PageContainer>
+                    <TinyScoreboard {...{
+                            title: `Get Ready`,
+                            games: groupedGames.notCompleted
+                        }
+                    }/>
+                    <TinyScoreboard {...{
+                            title: `Party Done`,
+                            games: groupedGames.completed
+                        }
+                    }/>
                     {
                         <GameSearchBar 
                             leagueId={leagueId}
@@ -443,13 +598,7 @@ class Scoreboard extends Component {
                         />
                     }
                     {
-                        false &&
-                        <div style={{height: '8px'}}>
-                            {
-                                (dataLoading || weeksDataLoading) &&
-                                <LinearProgress />
-                            }
-                        </div>
+                        <Loader {...{dataLoading, weeksDataLoading}} />
                     }
                     {
                         !isAuthenticated && 
@@ -557,42 +706,7 @@ class Scoreboard extends Component {
                     }
                     {
                         false &&
-                        <div style={{
-                                justifyContent: 'center',
-                                display:'flex', 
-                                fontSize: '17px', 
-                                paddingBottom: '20px',
-                                fontFamily: 'monospace'}}>
-                            <div style={{marginRight: '40px'}} onClick={()=>{}}>
-                                <div>
-                                    <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
-                                        {spreadMode ? <ToggleOn/> : <ToggleOff/>}
-                                    </IconButton>
-                                </div>
-                                <div style={{marginTop: '-3px'}}>
-                                    beat vegas
-                                </div>
-                            </div>
-                            {
-                                document.queryCommandSupported('copy') &&
-                                <div style={{marginRight: '40px'}}>
-                                    <div>
-                                        <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
-                                            <Share/>
-                                        </IconButton>
-                                    </div>
-                                    <div style={{marginTop: '-3px'}}>
-                                        share
-                                    </div>
-                                    <textarea style={{position:'fixed',bottom:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
-                                    <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
-                                        <Alert onClose={this.handleCopyAlertClose} severity="success">
-                                        {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
-                                        </Alert>
-                                    </Snackbar>
-                                </div>
-                            }
-                        </div>
+                        <ScoreboardOptions {...{classes, spreadMode, copyData, openCopyAlert, isAuthenticated}} />
                     }
                     {
                         <Box sx={{
@@ -613,8 +727,8 @@ class Scoreboard extends Component {
                                     width: 'fit-content', 
                                     margin: 'auto',
                                 }}>
-                                <Tab label="Straight Up" {...a11yProps(0)} />
-                                <Tab label="Beat Vegas Mode" {...a11yProps(1)} />
+                                    <Tab label="Straight Up" {...a11yProps(0)} />
+                                    <Tab label="Beat Vegas Mode" {...a11yProps(1)} />
                                 </Tabs>
                             </Box>
                             <div className={classes.root}>
