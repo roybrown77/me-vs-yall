@@ -719,7 +719,7 @@ class Scoreboard extends Component {
                                     margin: 'auto',
                                 }}>
                                     <Tab label="Straight Up" {...a11yProps(0)} />
-                                    <Tab label="Beat Vegas Mode" {...a11yProps(1)} />
+                                    <Tab label="Beat Vegas Mode $" {...a11yProps(1)} />
                                 </Tabs>
                             </Box>
                             <div className={classes.root}>
