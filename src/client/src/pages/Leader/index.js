@@ -589,8 +589,8 @@ class Leader extends Component {
                                                                 areAnyGamesInProgress &&
                                                                 <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
                                                             }
-                                                            {!spreadMode && <div>{leader.percentage}</div>}
                                                             {spreadMode && <VegasWinCalculation {...{leader}} />}
+                                                            <div>{leader.percentage}</div>
                                                             <div>{leader.wins} - {leader.losses}</div>
                                                         </div>
                                                     </AccordionSummary>
