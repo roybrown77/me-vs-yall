@@ -224,6 +224,15 @@ const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuth
     );
 };
 
+const formatQuarter = (quarter) => {
+    return quarter === 1 ? `${quarter}st` : quarter === 2 ? `${quarter}nd` : quarter === 3 ? `${quarter}rd` : `${quarter}th`;
+};
+
+const formatTime = (time) => {
+    const value = (time || 0);
+    return value > 59 ? (value/100).toFixed(2).toString().replace('.',':') : ':' + value;
+};
+
 const TinyScoreboard = ({title, games}) => {
     const styles = {
         header: {
@@ -275,7 +284,7 @@ const TinyScoreboard = ({title, games}) => {
                                     </div>
                                     <div style={{marginRight:'5px', textAlign: 'left'}}>
                                         <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].time') : ''}
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatTime(get(game,'playHistory[0].time')) : ''}
                                         </div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
@@ -285,13 +294,13 @@ const TinyScoreboard = ({title, games}) => {
                                     </div>
                                     <div style={{marginRight:'10px', textAlign: 'right'}}>
                                         <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? get(game,'playHistory[0].quarter') : ''}
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatQuarter(get(game,'playHistory[0].quarter')) : ''}
                                         </div>
-                                        <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>{
-                                            game.competitors[0].score}
+                                        <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>
+                                            {hasGameStarted(game.startDateTime) ? game.competitors[0].score || 0 : null}
                                         </div>
-                                        <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>{
-                                            game.competitors[1].score}
+                                        <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>
+                                            {hasGameStarted(game.startDateTime) ? game.competitors[1].score || 0 : null}
                                         </div>
                                         <div style={{height:'14px', width:'35px'}}>
                                             {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
@@ -563,7 +572,7 @@ class Scoreboard extends Component {
             <div>
                 <PageContainer>
                     <TinyScoreboard {...{
-                            title: `Get Ready`,
+                            title: `Upcoming`,
                             games: groupedGames.notCompleted
                         }
                     }/>
@@ -589,6 +598,7 @@ class Scoreboard extends Component {
                         />
                     }
                     {
+                        false &&
                         <Loader {...{dataLoading, weeksDataLoading}} />
                     }
                     {
