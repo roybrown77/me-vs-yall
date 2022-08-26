@@ -225,6 +225,7 @@ const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuth
 };
 
 const formatQuarter = (quarter) => {
+    if (!quarter) return;
     return quarter === 1 ? `${quarter}st` : quarter === 2 ? `${quarter}nd` : quarter === 3 ? `${quarter}rd` : `${quarter}th`;
 };
 
