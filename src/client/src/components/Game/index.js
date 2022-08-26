@@ -562,7 +562,7 @@ const CompetitorHeader = (props) => {
       <div style={{fontSize: '17px', 
           display: get(game,'spread.teamId') === competitor._id ? 'block' : 'none', 
           textAlign: 'right'}}>
-          {get(game,'spread.amount',0) < -70 ? get(game,'spread.amount') + " / -1.5" : "-110 / " + get(game,'spread.amount')}
+          {get(game,'spread.amount',0) < -70 ? "-1.5" : get(game,'spread.amount')}
       </div>
     </Grid>
   );
