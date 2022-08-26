@@ -189,7 +189,7 @@ const updateGames = async () => {
     if (eastCoastHour === 7 && minutes > 0 && minutes < 15) {
       dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
     } else {
-      dayIndex = 1; // getDayIndex(timezoneOffset, sortedGames, currentWeekDay, '59723313734d1d6202a85f10');
+      dayIndex = getDayIndex(timezoneOffset, sortedGames, currentWeekDay, '59723313734d1d6202a85f10');
     }
 
     if (!dayIndex) {
