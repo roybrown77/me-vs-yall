@@ -115,13 +115,13 @@ const {
 const gameRepository = require('../server/game/GameRepository');
 const sortBy = require('lodash/sortBy');
 
-const getDayIndex = (games, currentWeekDay, leagueId) => {
+const getDayIndex = (timezoneOffset, games, currentWeekDay, leagueId) => {
   // need to build per league and remove duplicated code
   let gameDayIndex = [];
 
   games.filter(x=>x.leagueId.toString().toLowerCase() === leagueId).forEach(game => {
     // console.log(`game.startDateTime: ${game.startDateTime}`);
-    const day = moment(game.startDateTime).weekday();
+    const day = moment(game.startDateTime).add(timezoneOffset < 0 ? timezoneOffset : -5, 'hours').weekday();
     // console.log(`day: ${day}`);
     gameDayIndex.push(day);
   });
@@ -147,10 +147,10 @@ const updateGames = async () => {
 
   const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
-  const currentWeekDay = moment(moment().startOf('day').format()).weekday();
+  const timezoneOffset = moment().utcOffset()/60;
+  const currentWeekDay = moment(moment().add(timezoneOffset < 0 ? timezoneOffset : -5, 'hours')).weekday();
   const hours = parseInt(moment().format('HH'));
   const minutes = parseInt(moment().format('mm'));
-  const timezoneOffset = moment().utcOffset()/60;
   const hoursOffset = hours+(-1*timezoneOffset);
   const eastCoastHour = hours + (-4 - timezoneOffset);
 
@@ -189,7 +189,7 @@ const updateGames = async () => {
     if (eastCoastHour === 7 && minutes > 0 && minutes < 15) {
       dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
     } else {
-      dayIndex = getDayIndex(sortedGames, currentWeekDay, '59723313734d1d6202a85f10');
+      dayIndex = getDayIndex(timezoneOffset, sortedGames, currentWeekDay, '59723313734d1d6202a85f10');
     }
 
     if (!dayIndex) {
