@@ -1,0 +1,111 @@
+import React from 'react';
+import Skeleton from '@material-ui/lab/Skeleton';
+import get from 'lodash/get';
+
+import { 
+    hasGameStarted
+} from '../../utilities';
+
+const formatQuarter = (quarter) => {
+    if (!quarter) return;
+    return quarter === 1 ? `${quarter}st` : quarter === 2 ? `${quarter}nd` : quarter === 3 ? `${quarter}rd` : `${quarter}th`;
+};
+
+const formatTime = (time) => {
+    const value = (time || 0);
+    return value > 59 ? (value/100).toFixed(2).toString().replace('.',':') : ':' + value;
+};
+
+const TinyScoreboard = ({loading, title, games}) => {
+    const styles = {
+        header: {
+            backgroundColor: 'black',
+            color: 'white',
+            width: '80px',
+            padding: '10px',
+            textAlign: 'right',
+            lineHeight: '20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            '-webkit-box-shadow': '0px 8px 0px 0px dodgerblue',
+            '-moz-box-shadow': '0px 8px 0px 0px dodgerblue',
+            boxShadow: '0px 8px 0px 0px dodgerblue'
+        },
+        gameContainer: {
+            display: 'flex',
+            fontSize: '12px',
+            padding: '5px 0 15px 10px',
+            fontWeight: 'bold',
+            backgroundColor: 'white',
+            overflowX: 'scroll'
+        }
+    };
+
+    if (loading) {
+        return (
+            <div>
+                <Skeleton animation="pulse" height='40px' variant="rectangular"/>
+            </div>
+        );
+    }
+
+    if (games.length === 0 && !loading) return null;
+
+    return (
+        <div style={{margin: '0 0 15px 0'}}>
+            <div style={{display: 'flex'}}>
+                <div style={styles.header}>
+                    {title}
+                </div>
+                <div style={styles.gameContainer}>
+                {
+                    (games.length === 0 ? [1] : games).map((game, index) => {
+                        return (
+                            <div style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
+                                <div style={{display:'flex'}}>
+                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
+                                        <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
+                                            {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
+                                        </div>
+                                        <div style={{height:'14px'}}>{game.competitors[0].shortLocation}</div>
+                                        <div style={{height:'14px'}}>{game.competitors[1].shortLocation}</div>
+                                        <div style={{height:'14px'}}>
+                                            {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
+                                        </div>
+                                    </div>
+                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
+                                        <div style={{height:'14px'}}>
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatTime(get(game,'playHistory[0].time')) : ''}
+                                        </div>
+                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
+                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
+                                        <div style={{height:'14px'}}>
+                                            {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
+                                        </div>
+                                    </div>
+                                    <div style={{marginRight:'10px', textAlign: 'right'}}>
+                                        <div style={{height:'14px'}}>
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatQuarter(get(game,'playHistory[0].quarter')) : ''}
+                                        </div>
+                                        <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>
+                                            {hasGameStarted(game.startDateTime) ? game.competitors[0].score || 0 : null}
+                                        </div>
+                                        <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>
+                                            {hasGameStarted(game.startDateTime) ? game.competitors[1].score || 0 : null}
+                                        </div>
+                                        <div style={{height:'14px', width:'35px'}}>
+                                            {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default TinyScoreboard;

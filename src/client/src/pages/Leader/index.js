@@ -12,9 +12,9 @@ import Slide from '@material-ui/core/Slide';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
 import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
@@ -223,7 +223,8 @@ class Leader extends Component {
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: this.state.tabValue
+            gameType: this.state.tabValue,
+            loading: true
         });
 
         this.startPolling(this.state.tabValue);
@@ -285,7 +286,8 @@ class Leader extends Component {
         this.props.loadLeaders({
             leagueId: leagueFound.id,
             year,
-            gameType: this.state.tabValue
+            gameType: this.state.tabValue,
+            loading: true
         });
     }
 
@@ -299,7 +301,8 @@ class Leader extends Component {
         this.props.loadLeaders({
             leagueId: this.props.leagueId,
             year: yearFound,
-            gameType: this.state.tabValue
+            gameType: this.state.tabValue,
+            loading: true
         });
     }
   
@@ -316,7 +319,8 @@ class Leader extends Component {
             beginDateTime: weekFound.beginDateTime,
             endDateTime: weekFound.endDateTime,
             weekId: weekFound._id,
-            gameType: this.state.tabValue
+            gameType: this.state.tabValue,
+            loading: true
         });
     }
 
@@ -343,7 +347,8 @@ class Leader extends Component {
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: newValue
+            gameType: newValue,
+            loading: true
         });
 
         localStorage.setItem('tabValue', newValue);
@@ -358,7 +363,6 @@ class Leader extends Component {
             games, 
             isAuthenticated,
             dataLoading,
-            weeksDataLoading,
             weeks = [],
             weekId,
             leagueId,
@@ -392,15 +396,6 @@ class Leader extends Component {
                             onFilterWeek={this.handleFilterWeek}
                             onFilterDate={this.handleFilterDate}
                         />
-                    }
-                    {
-                        false &&
-                        <div style={{height: '8px'}}>
-                            {
-                                (dataLoading || weeksDataLoading) &&
-                                <LinearProgress />
-                            }
-                        </div>
                     }
                     {
                         !isAuthenticated && 
@@ -470,7 +465,7 @@ class Leader extends Component {
                         false &&
                         isAuthenticated &&
                         areAllGamesOver &&
-                        !(dataLoading || weeksDataLoading) &&
+                        !(dataLoading) &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>
@@ -516,7 +511,6 @@ class Leader extends Component {
                         </div>
                     }
                     {
-                        leaders.length > 0 && 
                         <Box sx={{
                             marginTop: '30px',
                             position: "relative",
@@ -541,8 +535,16 @@ class Leader extends Component {
                             </Box>
                             <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                                 <div className={classes.root}>
-                                    <div style={{backgroundColor:'white',padding:'4px'}}>
                                     {
+                                        dataLoading &&
+                                        <div style={{margin: '10px 0'}}>
+                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
+                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
+                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
+                                        </div>
+                                    }
+                                    {
+                                        !dataLoading &&
                                         leaders.map((leader, index) => (
                                             <div className={classes.container} key={leader.id}>
                                                 <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>
@@ -669,7 +671,6 @@ class Leader extends Component {
                                             </div>
                                         ))
                                     }
-                                    </div>
                                 </div>
                             </Slide>
                         </Box>
@@ -677,7 +678,7 @@ class Leader extends Component {
                     {
                         false &&
                         image &&
-                        !(dataLoading || weeksDataLoading) &&
+                        !(dataLoading) &&
                         <div>
                             <img style={{width:'90%'}} src={image.picture} alt=""/>
                             <div style={{
@@ -700,7 +701,7 @@ const mapStateToProps = (state, ownProps) => {
     const weeksDomain = state.get('weeksDomain').toJS();
     const authenticationDomain = state.get('authenticationDomain').toJS();
 
-    const dataLoading = get(leaderDomain, 'dataLoading');
+    const dataLoading = get(leaderDomain, 'dataLoading', true);
     const games = get(leaderDomain, 'gameList', []);
     const pickList = get(leaderDomain, 'pickList', []);
     const userList = get(leaderDomain, 'userList', []);
@@ -720,8 +721,6 @@ const mapStateToProps = (state, ownProps) => {
     const years = get(league, 'years',[]);
     const year = get(request, 'year') || last(years);
 
-    
-    const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
     const weeks = formatWeeks(rawWeeks);
     const currentWeek = getCurrentWeek(weeks);
@@ -735,7 +734,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         isAuthenticated,
         dataLoading,
-        weeksDataLoading,
         leaders,
         weeks,
         leagues,
@@ -754,7 +752,6 @@ const mapStateToProps = (state, ownProps) => {
 Leader.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     dataLoading: PropTypes.bool,
-    weeksDataLoading: PropTypes.bool,
     leaders: PropTypes.array,
     weeks: PropTypes.array,
     leagues: PropTypes.array,

@@ -17,12 +17,13 @@ export const scoreboardDomain = (
     leagueId,
     games: List(), 
     picks: List(),
-    dataLoading: false
+    dataLoading: true,
+    loading: true
   }), 
   action) => {
   switch (action.type) {
     case ActionTypes.SCOREBOARD_REQUEST:
-      return state.set('dataLoading', true).set('leagueId', get(action,'request.leagueId'));
+      return state.set('dataLoading', get(action,'request.loading') === true).set('leagueId', get(action,'request.leagueId'));
     case ActionTypes.SCOREBOARD_SUCCESS:
       if (action.response) {
         const gameList = get(action, 'response[0].response', []).map(item=>{
@@ -74,24 +75,19 @@ export const scoreboardDomain = (
 
 export const weeksDomain = (
   state = Map({ 
-    gameWeeks: List(), 
-    dataLoading: false 
+    gameWeeks: List()
   }), 
   action) => {
   switch (action.type) {
-    case ActionTypes.GAMEWEEKS_REQUEST:
-      return state.set('dataLoading', true);
     case ActionTypes.GAMEWEEKS_SUCCESS:
       if (action.response) {
         const gameWeekList = action.response.map(item=>{
           return Map(item);
         });
 
-        return state.set('gameWeeks', List(gameWeekList)).set("dataLoading", false);
+        return state.set('gameWeeks', List(gameWeekList));
       }
       return state;
-    case ActionTypes.GAMEWEEKS_FAILURE:
-      return state.set('dataLoading', false);
     default:
       return state;
   }
@@ -100,7 +96,7 @@ export const weeksDomain = (
 export const teamDomain = (
   state = Map({ 
     teams: List(), 
-    dataLoading: false 
+    dataLoading: true
   }), 
   action) => {
   switch (action.type) {
@@ -125,12 +121,13 @@ export const teamDomain = (
 export const leaderDomain = (
   state = Map({ 
     leagueId,
-    dataLoading: false
+    dataLoading: false,
+    loading: true
   }), 
   action) => {
   switch (action.type) {
     case ActionTypes.LEADERS_REQUEST:
-      return state.set('dataLoading', true).set('leagueId', get(action,'request.leagueId'));
+      return state.set('dataLoading', get(action,'request.loading') === true).set('leagueId', get(action,'request.leagueId'));
     case ActionTypes.LEADERS_SUCCESS:  
       if (action.response) {
         const gameList = get(action, 'response[0].response', []);

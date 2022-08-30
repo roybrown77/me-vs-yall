@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import football from '../../styles/images/football.png';
 import soccer from '../../styles/images/soccer.png';
@@ -34,9 +35,10 @@ const styles = theme => ({
   }
 });
 
-class GameSearchBar extends Component {  
+class GameSearchBar extends Component {
   render() {
     const { classes, weeks, weekId, leagueId, year } = this.props;
+
     const weekIndex = weeks.findIndex(x=>x._id === weekId);
     const weeksToDisplay = this.props.weeks.map((week, index) =>
                     <MenuItem key={index} value={index}>{week.displayName}</MenuItem>
@@ -54,6 +56,18 @@ class GameSearchBar extends Component {
       ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(leagueId) ? soccer : leagueId === '59723313734d1d6202a85f21' ? baseball : 
       leagueId === '59723313734d1d6202a85f25' ? boxing : leagueId === '59723313734d1d6202a85f27' ? mma : basketball; 
 
+    if (weeks.length === 0) {
+      return (
+        <div style={{margin: '10px'}}>
+            <div style={{display: 'inline-flex', marginBottom: '10px'}}>
+                <Skeleton style={{marginRight: '20px'}} animation="pulse" height='40px' width='100px' variant="rectangular"/>
+                <Skeleton animation="pulse" height='40px' width='100px' variant="rectangular"/>
+            </div>
+            <Skeleton animation="pulse" height='40px' variant="rectangular"/>
+        </div>
+      );
+    }
+  
     return (
           <div className={classes.container}>
               {

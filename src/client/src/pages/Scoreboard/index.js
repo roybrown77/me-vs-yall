@@ -11,8 +11,9 @@ import moment from 'moment-timezone';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Skeleton from '@material-ui/lab/Skeleton';
+
 import { withStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -32,6 +33,7 @@ import PickResult from '../../components/PickResult';
 import Game from '../../components/Game';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
+import TinyScoreboard from '../../components/TinyScoreboard';
 
 import {Howl, Howler} from 'howler';
 import maddenM4a from './madden-touchdown.m4a';
@@ -172,17 +174,6 @@ const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-const Loader = ({dataLoading, weeksDataLoading}) => {
-    return (
-        <div style={{height: '8px'}}>
-            {
-                (dataLoading || weeksDataLoading) &&
-                <LinearProgress />
-            }
-        </div>
-    );
-};
-
 const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuthenticated}) => {
     return (
         <div style={{
@@ -224,100 +215,6 @@ const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuth
     );
 };
 
-const formatQuarter = (quarter) => {
-    if (!quarter) return;
-    return quarter === 1 ? `${quarter}st` : quarter === 2 ? `${quarter}nd` : quarter === 3 ? `${quarter}rd` : `${quarter}th`;
-};
-
-const formatTime = (time) => {
-    const value = (time || 0);
-    return value > 59 ? (value/100).toFixed(2).toString().replace('.',':') : ':' + value;
-};
-
-const TinyScoreboard = ({title, games}) => {
-    const styles = {
-        header: {
-            backgroundColor: 'black',
-            color: 'white',
-            width: '80px',
-            padding: '10px',
-            textAlign: 'right',
-            lineHeight: '20px',
-            fontWeight: 'bold',
-            fontSize: '14px',
-            '-webkit-box-shadow': '0px 8px 0px 0px dodgerblue',
-            '-moz-box-shadow': '0px 8px 0px 0px dodgerblue',
-            boxShadow: '0px 8px 0px 0px dodgerblue'
-        },
-        gameContainer: {
-            display: 'flex',
-            fontSize: '12px',
-            padding: '5px 0 15px 10px',
-            fontWeight: 'bold',
-            backgroundColor: 'white',
-            overflowX: 'scroll'
-        }
-    };
-
-    if (games.length === 0) return null;
-
-    return (
-        <div style={{margin: '10px 0 20px 0'}}>
-            <div style={{display: 'flex'}}>
-                <div style={styles.header}>
-                    {title}
-                </div>
-                <div style={styles.gameContainer}>
-                {
-                    games.map((game, index) => {
-                        return (
-                            <div style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
-                                <div style={{display:'flex'}}>
-                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
-                                        <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
-                                            {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
-                                        </div>
-                                        <div style={{height:'14px'}}>{game.competitors[0].shortLocation}</div>
-                                        <div style={{height:'14px'}}>{game.competitors[1].shortLocation}</div>
-                                        <div style={{height:'14px'}}>
-                                            {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
-                                        </div>
-                                    </div>
-                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
-                                        <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatTime(get(game,'playHistory[0].time')) : ''}
-                                        </div>
-                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
-                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
-                                        <div style={{height:'14px'}}>
-                                            {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
-                                        </div>
-                                    </div>
-                                    <div style={{marginRight:'10px', textAlign: 'right'}}>
-                                        <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatQuarter(get(game,'playHistory[0].quarter')) : ''}
-                                        </div>
-                                        <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>
-                                            {hasGameStarted(game.startDateTime) ? game.competitors[0].score || 0 : null}
-                                        </div>
-                                        <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>
-                                            {hasGameStarted(game.startDateTime) ? game.competitors[1].score || 0 : null}
-                                        </div>
-                                        <div style={{height:'14px', width:'35px'}}>
-                                            {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-                </div>
-            </div>
-        </div>
-    );
-};
-
 class Scoreboard extends Component {
     constructor(props) {
         super(props);
@@ -345,7 +242,8 @@ class Scoreboard extends Component {
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: this.state.tabValue
+            gameType: this.state.tabValue,
+            loading: true
         });
 
         this.startPolling(this.state.tabValue);
@@ -353,12 +251,12 @@ class Scoreboard extends Component {
 
     componentWillUnmount() {
         clearInterval(this.timerID);
-        console.log('stop timerID: ' + this.timerID);
+        // console.log('stop timerID: ' + this.timerID);
     }
 
     handleTabChange = (event, newValue) => {
         clearInterval(this.timerID);
-        console.log('stop timerID: ' + this.timerID);
+        // console.log('stop timerID: ' + this.timerID);
 
         const { leagueName } = this.props.match.params;
 
@@ -371,7 +269,8 @@ class Scoreboard extends Component {
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: newValue
+            gameType: newValue,
+            loading: true
         });
 
         localStorage.setItem('tabValue', newValue);
@@ -382,19 +281,18 @@ class Scoreboard extends Component {
     startPolling = (tabValue) => {
         this.timerID = setInterval(
             () => this.poll(tabValue),
-            2000
+            15000
         );
-        console.log('start timerID: ' + this.timerID);
+        // console.log('start timerID: ' + this.timerID);
     }
 
     poll = (tabValue) => {
-        console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
+        // console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
 
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
 
         const minutes = parseInt(moment().format('mm'));
         const minuteInterval = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-        console.log('minuteInterval: ' + minuteInterval);
         
         if (!areAnyGamesInProgress && minuteInterval !== 10) return;
 
@@ -425,7 +323,8 @@ class Scoreboard extends Component {
 
         this.props.loadScoreboard({
             leagueId: leagueFound.id,
-            year
+            year,
+            loading: true
         });
     }
 
@@ -438,7 +337,8 @@ class Scoreboard extends Component {
 
         this.props.loadScoreboard({
             leagueId: this.props.leagueId,
-            year: yearFound
+            year: yearFound,
+            loading: true
         });
     }
   
@@ -454,7 +354,8 @@ class Scoreboard extends Component {
             year: this.props.year,
             beginDateTime: weekFound.beginDateTime,
             endDateTime: weekFound.endDateTime,
-            weekId: weekFound._id
+            weekId: weekFound._id,
+            loading: true
         });
     }
 
@@ -523,9 +424,7 @@ class Scoreboard extends Component {
     handleUpdateGamePlayTab = (gamePlayTabValue) => {
         if (gamePlayTabValue === 2) {
             clearInterval(this.timerID);
-            console.log('stop timerID: ' + this.timerID);
-        } else {
-            this.startPolling(this.state.tabValue);
+            // console.log('stop timerID: ' + this.timerID);
         }
     };
 
@@ -539,8 +438,7 @@ class Scoreboard extends Component {
             years,
             weeks = [],
             isAuthenticated, 
-            dataLoading, 
-            weeksDataLoading,
+            dataLoading = true,
             spreadMode,
             userId,
             weekId,
@@ -573,17 +471,19 @@ class Scoreboard extends Component {
             <div>
                 <PageContainer>
                     <TinyScoreboard {...{
-                            title: `Upcoming`,
-                            games: groupedGames.notCompleted
+                            title: `Let's Go!!!`,
+                            games: groupedGames.notCompleted,
+                            loading: dataLoading
                         }
                     }/>
                     <TinyScoreboard {...{
                             title: `Party Done`,
-                            games: groupedGames.completed
+                            games: groupedGames.completed,
+                            loading: dataLoading
                         }
                     }/>
                     {
-                        <GameSearchBar 
+                        <GameSearchBar
                             leagueId={leagueId}
                             leagues={leagues}
                             year={year}
@@ -599,10 +499,6 @@ class Scoreboard extends Component {
                         />
                     }
                     {
-                        false &&
-                        <Loader {...{dataLoading, weeksDataLoading}} />
-                    }
-                    {
                         !isAuthenticated && 
                         <Button
                             variant="contained" 
@@ -612,11 +508,19 @@ class Scoreboard extends Component {
                         </Button>
                     }
                     {
+                        dataLoading &&
+                        isAuthenticated &&
+                        <div style={{margin: '0 15% 10px 15%'}}>
+                            <Skeleton animation="pulse" height='30px' variant="rectangular"/>
+                        </div>
+                    }
+                    {
+                        !dataLoading &&
                         isAuthenticated && 
                         picks.length > 0 &&
                         areAnyGamesOver && 
                         <div className={classNames(classes.pickResultContainer)}>
-                            <PickResult spreadMode={spreadMode} games={games} picks={picks}/>
+                            <PickResult spreadMode={spreadMode} games={groupedGames.completed} picks={picks}/>
                         </div>
                     }
                     {
@@ -680,7 +584,7 @@ class Scoreboard extends Component {
                         false &&
                         isAuthenticated &&
                         areAllGamesOver &&
-                        !(dataLoading || weeksDataLoading) &&
+                        !(dataLoading) &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>
@@ -735,6 +639,17 @@ class Scoreboard extends Component {
                             </Box>
                             <div className={classes.root}>
                                 {
+                                    dataLoading &&
+                                    <div style={{margin: '10px 0'}}>
+                                        <Skeleton animation="pulse" height='5em' variant="rectangular"/>
+                                        <div style={{display: 'flex'}}>
+                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rectangular"/>
+                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rectangular"/>
+                                        </div>
+                                    </div>
+                                }
+                                {
+                                    !dataLoading &&
                                     groupedGames.notCompleted.map(game => {
                                         let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                         let newDate = (gameDate !== newGameDate);
@@ -773,12 +688,14 @@ class Scoreboard extends Component {
                                 }
                                 <div>
                                     {
+                                        !dataLoading &&
                                         groupedGames.completed.length > 0 &&
                                         <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
                                             <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Completed Matches ***</div>
                                         </div>
                                     }
                                     {
+                                        !dataLoading &&
                                         groupedGames.completed.map(game => {
                                             let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                             let newDate = (gameDate !== newGameDate);
@@ -813,7 +730,7 @@ class Scoreboard extends Component {
                     {
                         false &&
                         image &&
-                        !(dataLoading || weeksDataLoading) &&
+                        !(dataLoading) &&
                         <div>
                             <img style={{width:'90%'}} src={image.picture} alt=""/>
                             <div style={{
@@ -832,7 +749,7 @@ const mapStateToProps = (state, ownProps) => {
     const lookup = state.get('lookup').toJS();
 
     const scoreboardDomain = state.get('scoreboardDomain').toJS();
-    const dataLoading = get(scoreboardDomain, 'dataLoading');
+    const dataLoading = get(scoreboardDomain, 'dataLoading', true);
     const games = get(scoreboardDomain, 'games', []);
     const picks = get(scoreboardDomain, 'picks', []);
     const leagueId = get(scoreboardDomain, 'leagueId');
@@ -848,7 +765,6 @@ const mapStateToProps = (state, ownProps) => {
     const year = get(request, 'year') || last(years);
 
     const weeksDomain = state.get('weeksDomain').toJS();
-    const weeksDataLoading = get(weeksDomain, 'dataLoading');
     const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
     const weeks = formatWeeks(rawWeeks);
     const currentWeek = getCurrentWeek(weeks);
@@ -869,7 +785,6 @@ const mapStateToProps = (state, ownProps) => {
     
     return {
         dataLoading,
-        weeksDataLoading,
         games,
         picks,
         weeks,
@@ -890,7 +805,6 @@ const mapStateToProps = (state, ownProps) => {
 Scoreboard.propTypes = {
     classes: PropTypes.object.isRequired,
     dataLoading: PropTypes.bool,
-    weeksDataLoading: PropTypes.bool,
     games: PropTypes.array,
     picks: PropTypes.array,
     weeks: PropTypes.array,

@@ -269,6 +269,7 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
   const leagueId = currentLeague.id;
   const leagueChanged = get(query, 'leagueId') !== leagueId;
   const gameType = get(query, 'gameType');
+  const loading = get(query, 'loading');
 
   const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
 
@@ -286,7 +287,8 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
     year: leagueChanged ? get(currentWeek, 'year') : (get(query, 'year') || get(currentWeek, 'year')),
     beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
     endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime'),
-    gameType: gameType
+    gameType: gameType,
+    loading: loading
   };
 
   await Promise.all([
@@ -324,6 +326,7 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
   const leagueId = currentLeague.id;
   const leagueChanged = get(query, 'leagueId') !== leagueId;
   const gameType = get(query, 'gameType');
+  const loading = get(query, 'loading');
 
   const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
   let isRollup = leagueChanged ? false : get(query, 'isRollup');
@@ -338,7 +341,8 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
     year: leagueChanged ? get(currentWeek, 'year') : get(query, 'year') || get(currentWeek, 'year'),
     beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
     endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime'),
-    gameType: gameType
+    gameType: gameType,
+    loading: loading
   };
 
   dispatch({type: ActionTypes.LEADERS_REQUEST, request});
