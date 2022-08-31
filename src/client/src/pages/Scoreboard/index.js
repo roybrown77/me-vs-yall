@@ -263,15 +263,17 @@ class Scoreboard extends Component {
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
         
-        this.props.loadScoreboard({
-            leagueId: urlLeagueId,
-            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
-            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
-            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: newValue,
-            loading: true
-        });
+        if (this.props.isAuthenticated) {
+            this.props.loadScoreboard({
+                leagueId: urlLeagueId,
+                year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+                beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+                endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+                weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+                gameType: newValue,
+                loading: true
+            });
+        }
 
         localStorage.setItem('tabValue', newValue);
         this.setState({tabValue: newValue});
