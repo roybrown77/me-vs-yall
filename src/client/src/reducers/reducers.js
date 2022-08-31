@@ -22,6 +22,8 @@ export const scoreboardDomain = (
   }), 
   action) => {
   switch (action.type) {
+    case ActionTypes.GAMEWEEKS_REQUEST:
+      return state.set('dataLoading', true);
     case ActionTypes.SCOREBOARD_REQUEST:
       return state.set('dataLoading', get(action,'request.loading') === true).set('leagueId', get(action,'request.leagueId'));
     case ActionTypes.SCOREBOARD_SUCCESS:
@@ -32,7 +34,6 @@ export const scoreboardDomain = (
         const pickList = get(action, 'response[1].response', []).map(item=>{
           return Map(item);
         });
-
         return state.set('games', List(gameList)).set('picks', List(pickList)).set('dataLoading', false);
       }
       return state;
@@ -68,6 +69,42 @@ export const scoreboardDomain = (
           }
       );
       return state.set('picks', pickListUpdateFailure);
+    default:
+      return state;
+  }
+};
+
+export const leaderDomain = (
+  state = Map({ 
+    leagueId,
+    dataLoading: true,
+    loading: true
+  }), 
+  action) => {
+  switch (action.type) {
+    case ActionTypes.GAMEWEEKS_REQUEST:
+      return state.set('dataLoading', true);
+    case ActionTypes.LEADERS_REQUEST:
+      return state.set('dataLoading', get(action,'request.loading') === true).set('leagueId', get(action,'request.leagueId'));
+    case ActionTypes.LEADERS_SUCCESS:  
+      if (action.response) {
+        const gameList = get(action, 'response[0].response', []);
+        const pickList = get(action, 'response[1].response', []);
+        const userList = get(action, 'response[2].response', []);
+        const teamList = get(action, 'response[3].response', []);
+        const isRollup = get(action, 'response.isRollup', false);
+
+        return state
+        .set('gameList', List(gameList))
+        .set('pickList', List(pickList))
+        .set('userList', List(userList))
+        .set('teamList', List(teamList))
+        .set("isRollup", isRollup)
+        .set("dataLoading", false);
+      }
+      return state;
+    case ActionTypes.LEADERS_FAILURE:
+      return state.set('dataLoading', false);
     default:
       return state;
   }
@@ -112,40 +149,6 @@ export const teamDomain = (
       }
       return state;
     case ActionTypes.TEAMS_FAILURE:
-      return state.set('dataLoading', false);
-    default:
-      return state;
-  }
-};
-
-export const leaderDomain = (
-  state = Map({ 
-    leagueId,
-    dataLoading: false,
-    loading: true
-  }), 
-  action) => {
-  switch (action.type) {
-    case ActionTypes.LEADERS_REQUEST:
-      return state.set('dataLoading', get(action,'request.loading') === true).set('leagueId', get(action,'request.leagueId'));
-    case ActionTypes.LEADERS_SUCCESS:  
-      if (action.response) {
-        const gameList = get(action, 'response[0].response', []);
-        const pickList = get(action, 'response[1].response', []);
-        const userList = get(action, 'response[2].response', []);
-        const teamList = get(action, 'response[3].response', []);
-        const isRollup = get(action, 'response.isRollup', false);
-
-        return state
-        .set('gameList', List(gameList))
-        .set('pickList', List(pickList))
-        .set('userList', List(userList))
-        .set('teamList', List(teamList))
-        .set("isRollup", isRollup)
-        .set("dataLoading", false);
-      }
-      return state;
-    case ActionTypes.LEADERS_FAILURE:
       return state.set('dataLoading', false);
     default:
       return state;
