@@ -232,7 +232,7 @@ class Leader extends Component {
 
     componentWillUnmount() {
         clearInterval(this.timerID);
-        console.log('stop timerID: ' + this.timerID);
+        // console.log('stop timerID: ' + this.timerID);
     }
 
     startPolling = (tabValue) => {
@@ -240,11 +240,11 @@ class Leader extends Component {
             () => this.poll(tabValue),
             15000
         );
-        console.log('start timerID: ' + this.timerID);
+        // console.log('start timerID: ' + this.timerID);
     }
 
     poll = (tabValue) => {
-        console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
+        // console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
 
         const leagueName = window.location.pathname.split('/')[2];
         const leagueFound = this.props.leagues.find(x=>x.name === leagueName);
@@ -334,7 +334,7 @@ class Leader extends Component {
 
     handleTabChange = (event, newValue) => {
         clearInterval(this.timerID);
-        console.log('stop timerID: ' + this.timerID);
+        // console.log('stop timerID: ' + this.timerID);
 
         const { leagueName } = this.props.match.params;
 
