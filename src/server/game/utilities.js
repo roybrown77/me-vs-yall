@@ -10,26 +10,11 @@ const sample = require('lodash/sample');
 const pick = require('lodash/pick');
 
 const gameRepository = require('./GameRepository');
-const gameWeekRepository = require('./GameWeekRepository');
 const {
     nbaTeams,
     nflTeams,
-    premierLeagueTeams,
-    mlsTeams,
-    ncaaTeams,
-    mlbTeams,
-    wnbaTeams,
-    countries,
-    boxingCompetitors,
-    ufcCompetitors,
-    nba2kCompetitors
+    ncaaTeams
 } = require('./teams');
-
-const getRandomIntInclusive = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-}
 
 const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
@@ -50,7 +35,6 @@ const getVideoStreamUrl = (game) => {
 
   //console.log("url 1");
 
-  const competitors = game.competitors;
   let leagueName = "";
   let teams = [];
 
@@ -243,7 +227,7 @@ const getGames = async ({
 
     await page.goto(url, { waitUntil: 'networkidle2' });
 
-    //await page.waitForSelector('#events'/*,{visible: true}*/);
+    // await page.waitForSelector('#events'/*,{visible: true}*/);
 
     const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
