@@ -530,7 +530,7 @@ class Leader extends Component {
                                     margin: 'auto',
                                 }}>
                                 <Tab label="Straight Up" {...a11yProps(0)} />
-                                <Tab label="Beat Vegas Mode $" {...a11yProps(1)} />
+                                <Tab label="Spread Mode" {...a11yProps(1)} />
                                 </Tabs>
                             </Box>
                             <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
