@@ -437,29 +437,11 @@ const leagues = [
         description: 'nba', 
         years: [2018, 2019, 2020, 2021]
     },
-    // {
-    //     id: '59723313734d1d6202a85f17', 
-    //     name: 'premier', 
-    //     description: 'premier',
-    //     years: [2018, 2019, 2020]
-    // },
     {
         id: '59723313734d1d6202a85f21', 
         name: 'mlb', 
         description: 'mlb', 
         years: [2020,2021]
-    },
-    // {
-    //     id: '59723313734d1d6202a85f37', 
-    //     name: 'wnba', 
-    //     description: 'wnba', 
-    //     years: [2020]
-    // },
-    {
-        id: '59723313734d1d6202a85f15', 
-        name: 'cfb', 
-        description: 'cfb', 
-        years: [2019, 2020, 2021]
     },
     {
         id: '59723313734d1d6202a85f27', 
@@ -473,36 +455,54 @@ const leagues = [
         description: 'boxing', 
         years: [2019,2020,2021]
     },
-    // {
-    //     id: '59723313734d1d6202a85f31', 
-    //     name: 'ncaaw', 
-    //     description: 'ncaaw', 
-    //     years: [2019]
-    // },
-    // {
-    //     id: '59723313734d1d6202a85f33', 
-    //     name: 'ncaam', 
-    //     description: 'ncaam', 
-    //     years: [2019]
-    // },
-    // {
-    //     id: '59723313734d1d6202a85f29', 
-    //     name: 'mls', 
-    //     description: 'mls',
-    //     years: [2019]
-    // },
-    // {
-    //     id: '59723313734d1d6202a85f35', 
-    //     name: 'nba2k', 
-    //     description: 'nba 2k', 
-    //     years: [2020]
-    // },
+    {
+        id: '59723313734d1d6202a85f17', 
+        name: 'premier', 
+        description: 'premier',
+        years: [2018, 2019, 2020]
+    },
+    {
+        id: '59723313734d1d6202a85f29', 
+        name: 'mls', 
+        description: 'mls',
+        years: [2019]
+    },
+    {
+        id: '59723313734d1d6202a85f35', 
+        name: 'nba2k', 
+        description: 'nba 2k', 
+        years: [2020]
+    },
+    {
+        id: '59723313734d1d6202a85f15', 
+        name: 'cfb', 
+        description: 'cfb', 
+        years: [2019, 2020, 2021]
+    },
+    {
+        id: '59723313734d1d6202a85f37', 
+        name: 'wnba', 
+        description: 'wnba', 
+        years: [2020]
+    },
+    {
+        id: '59723313734d1d6202a85f31', 
+        name: 'ncaaw', 
+        description: 'ncaaw', 
+        years: [2019]
+    },
+    {
+        id: '59723313734d1d6202a85f33', 
+        name: 'ncaam', 
+        description: 'ncaam', 
+        years: [2019]
+    },
     // {
     //     id: '59723313734d1d6202a85f23', 
     //     name: 'xgames', 
     //     description: 'x games', 
     //     years: [2019]
-    // },
+    // }
 ];
 
 const getStartDateTime = (games) => {
