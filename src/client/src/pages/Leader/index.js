@@ -549,7 +549,7 @@ class Leader extends Component {
                                             <div className={classes.container} key={leader.id}>
                                                 <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>
                                                     <AccordionSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                                                        <div style={{display: 'flex', width: '100%'}}>
+                                                        <div style={{display: 'flex', width: '75%'}}>
                                                             {
                                                                 [1,2,3].includes(index+1) &&
                                                                 <div style={{margin: 'auto 10px auto 0'}}>
