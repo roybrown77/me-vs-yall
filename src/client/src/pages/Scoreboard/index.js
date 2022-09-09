@@ -477,13 +477,13 @@ class Scoreboard extends Component {
                     <TinyScoreboard {...{
                             title: `Let's Go!!!`,
                             games: groupedGames.notCompleted,
-                            loading: dataLoading
+                            loading: dataLoading && !areAnyGamesInProgress
                         }
                     }/>
                     <TinyScoreboard {...{
                             title: `Party Done`,
                             games: groupedGames.completed,
-                            loading: dataLoading
+                            loading: dataLoading && !areAnyGamesInProgress
                         }
                     }/>
                     {
@@ -644,6 +644,7 @@ class Scoreboard extends Component {
                             <div className={classes.root}>
                                 {
                                     dataLoading &&
+                                    !areAnyGamesInProgress && 
                                     <div style={{margin: '10px 0'}}>
                                         <Skeleton animation="pulse" height='5em' variant="rectangular"/>
                                         <div style={{display: 'flex'}}>
