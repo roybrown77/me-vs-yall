@@ -21,7 +21,6 @@ const TinyScoreboard = ({loading, title, games}) => {
         header: {
             backgroundColor: 'black',
             color: 'white',
-            width: '80px',
             padding: '10px',
             textAlign: 'right',
             lineHeight: '20px',
@@ -34,7 +33,7 @@ const TinyScoreboard = ({loading, title, games}) => {
         gameContainer: {
             display: 'flex',
             fontSize: '12px',
-            padding: '5px 0 15px 10px',
+            padding: '5px 0 5px 10px',
             fontWeight: 'bold',
             backgroundColor: 'white',
             overflowX: 'scroll'
