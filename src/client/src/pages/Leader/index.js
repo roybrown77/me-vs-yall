@@ -266,7 +266,8 @@ class Leader extends Component {
             beginDateTime: this.props.beginDateTime,
             endDateTime: this.props.endDateTime,
             weekId: this.props.weekId,
-            gameType: tabValue
+            gameType: tabValue,
+            loading: false
         });
     }
 
