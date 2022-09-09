@@ -654,7 +654,6 @@ class Scoreboard extends Component {
                                     </div>
                                 }
                                 {
-                                    !dataLoading &&
                                     groupedGames.notCompleted.map(game => {
                                         let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                         let newDate = (gameDate !== newGameDate);
@@ -693,14 +692,12 @@ class Scoreboard extends Component {
                                 }
                                 <div>
                                     {
-                                        !dataLoading &&
                                         groupedGames.completed.length > 0 &&
                                         <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
                                             <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Completed Matches ***</div>
                                         </div>
                                     }
                                     {
-                                        !dataLoading &&
                                         groupedGames.completed.map(game => {
                                             let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                             let newDate = (gameDate !== newGameDate);
