@@ -466,7 +466,6 @@ class Leader extends Component {
                         false &&
                         isAuthenticated &&
                         areAllGamesOver &&
-                        !(dataLoading) &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
                         </div>
@@ -537,6 +536,7 @@ class Leader extends Component {
                             <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
                                 <div className={classes.root}>
                                     {
+                                        !areAnyGamesInProgress &&
                                         dataLoading &&
                                         <div style={{margin: '10px 0'}}>
                                             <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
@@ -545,7 +545,8 @@ class Leader extends Component {
                                         </div>
                                     }
                                     {
-                                        !dataLoading &&
+                                        !(!areAnyGamesInProgress &&
+                                        dataLoading) &&
                                         leaders.map((leader, index) => (
                                             <div className={classes.container} key={leader.id}>
                                                 <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>

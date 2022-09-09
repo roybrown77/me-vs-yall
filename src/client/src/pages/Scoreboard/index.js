@@ -455,7 +455,6 @@ class Scoreboard extends Component {
         const {soundOn, openCopyAlert} = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
-        const areAnyGamesOver = games.some(x=>x.isGameOver);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const groupedGames = getGroupedGames(games, picks, teams, spreadMode);
@@ -512,19 +511,9 @@ class Scoreboard extends Component {
                         </Button>
                     }
                     {
-                        dataLoading &&
-                        isAuthenticated &&
-                        <div style={{margin: '0 15% 10px 15%'}}>
-                            <Skeleton animation="pulse" height='30px' variant="rectangular"/>
-                        </div>
-                    }
-                    {
-                        !dataLoading &&
                         isAuthenticated && 
-                        picks.length > 0 &&
-                        areAnyGamesOver && 
                         <div className={classNames(classes.pickResultContainer)}>
-                            <PickResult spreadMode={spreadMode} games={groupedGames.completed} picks={picks}/>
+                            <PickResult loading={dataLoading && !areAnyGamesInProgress} spreadMode={spreadMode} games={groupedGames.completed} picks={picks}/>
                         </div>
                     }
                     {
