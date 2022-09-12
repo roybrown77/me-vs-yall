@@ -993,7 +993,7 @@ const GameContainer = (props) => {
     inProgress, spreadMode, handleMakePick } = props;
 
   return (
-    <div key={game._id} className={classes.game}>
+    <div id={"game-" + game._id} key={game._id} className={classes.game}>
         <div style={{zIndex: 3, position: 'relative', backgroundColor: 'white', paddingBottom: '20px'}}>
           <Grid key={game._id + "-gridlist"} container className={classes.root}>
               {

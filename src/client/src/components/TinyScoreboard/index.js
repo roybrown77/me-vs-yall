@@ -37,6 +37,12 @@ const TinyScoreboard = ({loading, title, games}) => {
             fontWeight: 'bold',
             backgroundColor: 'white',
             overflowX: 'scroll'
+        },
+        linkToGame: {
+            color: 'black',
+            margin: '4px',
+            border: '4px solid black',
+            borderRadius: '8px'
         }
     };
 
@@ -97,6 +103,9 @@ const TinyScoreboard = ({loading, title, games}) => {
                                         </div>
                                     </div>
                                 </div>
+                                <a href={"#game-" + game._id} style={{textDecoration: 'none'}}>
+                                    <div style={styles.linkToGame}>{hasGameStarted(game.startDateTime) ? game.isGameOver ? 'Recap' : 'Plays' : 'Preview'}</div>
+                                </a>
                             </div>
                         )
                     })
