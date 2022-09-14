@@ -145,7 +145,6 @@ const getDayIndex = (timezoneOffset, games, currentWeekDay, leagueId) => {
 const updateGames = async () => {
   console.log('updateGames: ' + moment().format());
 
-  const month = parseInt(moment().format('MM'));
   const monthDay = parseInt(moment().format('MMDD'));
   const timezoneOffset = moment().utcOffset()/60;
   const currentWeekDay = moment(moment().add(timezoneOffset < 0 ? timezoneOffset : -5, 'hours')).weekday();
@@ -168,9 +167,8 @@ const updateGames = async () => {
   console.log('weeks since start: ' + weeksSinceStart)
 
   const search = {
-    startDateTime: {
-      $gte: new Date(moment(startDate).add(weeksSinceStart, 'weeks')),
-      $lte: new Date(moment().add(8, 'days'))
+    isGameOver: {
+      $ne: true
     }
   };
 
