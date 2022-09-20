@@ -19,6 +19,7 @@ const formatTime = (time) => {
 const TinyScoreboard = ({loading, title, games}) => {
     const styles = {
         header: {
+            maxWidth: '35px',
             backgroundColor: 'black',
             color: 'white',
             padding: '10px',
