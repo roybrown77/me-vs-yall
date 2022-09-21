@@ -78,8 +78,8 @@ const backupData = async () => {
 };
 
 const updateGames = (leagueId) => {
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/4/year/2022/seasontype/1`;
-  // const DAY_MODULE = 5; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/3/year/2022/seasontype/2`;
+  // const DAY_MODULE = 3; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
   // loadAmericanFootballGames({
   //   year: 2022, 
