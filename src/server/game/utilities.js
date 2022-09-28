@@ -1033,11 +1033,11 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           // console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
 
-          let finalScore2 = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
+          // let finalScore2 = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
 
           // console.log(`${message} finalScore2: ${JSON.stringify(finalScore2)}`);
 
-          const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore < -1 ? finalScore : finalScore2;
+          const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
 
           // console.log(`${message} scoreIndex: ${scoreIndex}`);
 
