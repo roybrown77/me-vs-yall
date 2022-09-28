@@ -206,7 +206,7 @@ const updateGames = async () => {
       leagueId: '59723313734d1d6202a85f10', 
       year: 2022, 
       message: 'updateNflScores', 
-      url: 'https://www.espn.com/nfl/scoreboard/_/week/3/year/2022/seasontype/2', 
+      url: url, 
       teams: nflTeams,
       root: 'Scoreboard__Row__Main',
       pregameNameSelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
