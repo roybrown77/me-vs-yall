@@ -1021,25 +1021,27 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           console.log(`${message} awayShortLocation: ${JSON.stringify(awayShortLocation)}`);
           console.log(`${message} homeShortLocation: ${JSON.stringify(homeShortLocation)}`);
 
-          preGameScore = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+          preGameScoreIndex = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
-          //console.log(`${message} preGameScore: ${JSON.stringify(preGameScore)}`);
+          console.log(`${message} preGameScoreIndex: ${JSON.stringify(preGameScoreIndex)}`);
 
-          const inProgressScore = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
+          const inProgressScoreIndex = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
-          //console.log(`${message} inProgressScore: ${JSON.stringify(inProgressScore)}`);
+          console.log(`${message} inProgressScoreIndex: ${JSON.stringify(inProgressScoreIndex)}`);
 
-          let finalScore = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
+          let finalScoreIndex = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
-          // console.log(`${message} finalScore: ${JSON.stringify(finalScore)}`);
+          console.log(`${message} finalScoreIndex: ${JSON.stringify(finalScoreIndex)}`);
 
-          // let finalScore2 = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
+          let scoreByHomeTeam = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
 
-          // console.log(`${message} finalScore2: ${JSON.stringify(finalScore2)}`);
+          console.log(`${message} scoreByHomeTeam: ${JSON.stringify(scoreByHomeTeam)}`);
 
-          const scoreIndex = preGameScore > -1 ? preGameScore : inProgressScore > -1 ? inProgressScore : finalScore;
+          const scoreIndex = preGameScoreIndex > -1 ? preGameScoreIndex : 
+            inProgressScoreIndex > -1 ? inProgressScoreIndex : 
+            finalScoreIndex > -1 ? finalScoreIndex : scoreByHomeTeamIndex;
 
-          // console.log(`${message} scoreIndex: ${scoreIndex}`);
+          console.log(`${message} scoreIndex: ${scoreIndex}`);
 
           const score = sortedScores[scoreIndex];
 
