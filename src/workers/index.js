@@ -200,7 +200,7 @@ const updateGames = async () => {
       return;
     }
 
-    console.log(`dayIndex 2: ${dayIndex}`);
+    console.log(`dayIndex: ${dayIndex}`);
 
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10', 
