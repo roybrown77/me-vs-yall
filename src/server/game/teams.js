@@ -974,7 +974,7 @@ const nflTeams = [
     {
         _id: "19823783734d1d04a1b3900c",
         location: 'Washington',
-        shortLocation: "WSH",
+        shortLocation: "WAS",
         alternateName: "Washington",
         name: "Commanders",
         color: "#7C1415",
