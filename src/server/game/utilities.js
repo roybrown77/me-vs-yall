@@ -1033,9 +1033,9 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           console.log(`${message} finalScoreIndex: ${JSON.stringify(finalScoreIndex)}`);
 
-          let scoreByHomeTeam = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
+          let scoreByHomeTeamIndex = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
 
-          console.log(`${message} scoreByHomeTeam: ${JSON.stringify(scoreByHomeTeam)}`);
+          console.log(`${message} scoreByHomeTeamIndex: ${JSON.stringify(scoreByHomeTeamIndex)}`);
 
           const scoreIndex = preGameScoreIndex > -1 ? preGameScoreIndex : 
             inProgressScoreIndex > -1 ? inProgressScoreIndex : 
