@@ -69,6 +69,7 @@ const tagLines = [
   `"play for fun or play for the 💰 it's your world"`,
   `"compete with friends worldwide"`,
   `"your mission should you choose to accept is to beat vegas every week.  this message will self destruct."`,
+  `"the underground mixtape version of sports"`
   //`"counting up cheese like i ate up a bag of some cheetos" - migos`,
   //`"awesome baby!" - dickie v`,
   //`"at the end of the game the team with the most points on the board is going to win" - john madden`,
