@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -26,7 +26,7 @@ import { hasGameStarted } from '../../utilities';
 
 import {watchLiveGames} from '../../config';
 
-import { getField } from './fields';
+import { Field } from './Field';
 
 const styles = theme => ({
   root: {
@@ -76,6 +76,18 @@ const styles = theme => ({
       borderColor: '#3772FA',
     }
   },
+  miniGameButton: {
+    fontWeight: "700",
+    marginTop: '10px',
+    backgroundColor: '#3772FA',
+    color: '#FFFFFF',
+    borderColor: '#3772FA',
+    '&:hover': {
+      backgroundColor: '#3772FA',
+      color: '#FFFFFF',
+      borderColor: '#3772FA',
+    }
+  },
   gameStats: {
     fontWeight: "700",
     marginTop: '10px',
@@ -106,6 +118,70 @@ const styles = theme => ({
   }
 });
 
+const MiniRallyGame = (props) => {
+  const [awayScore, setAwayScore] = useState(props.game.competitors[0].score || 0);
+  const [homeScore, setHomeScore] = useState(props.game.competitors[1].score || 0);
+
+  useEffect(() => {
+    setAwayScore(props.game.competitors[0].score || 0);
+    setHomeScore(props.game.competitors[1].score || 0);
+  },[props.game.competitors]);
+
+  const awayScoreHandler = () => {
+    setAwayScore(awayScore + 7);
+  };
+
+  const homeScoreHandler = () => {
+    setHomeScore(homeScore + 7);
+  };
+  
+  return (
+    <div style={{marginTop: '10px'}}>
+      <div style={{display: 'inline-flex', width: '50%', padding: '3px', backgroundColor: 'black', borderRadius: '4px'}}>
+        <div style={{
+          width: '100%',
+          border: '5px dotted yellow',
+          margin: '2px',
+          display: 'inline-flex',
+          padding: '5px'
+        }}>
+          <div style={{ margin: 'auto', width: '25%'}}>
+            <div style={{color: 'white', marginBottom: '5px'}}>{props.game.competitors[0].shortLocation}</div>
+            <div style={{backgroundColor: 'white',  fontSize: '20px'}}>
+              {awayScore}
+            </div>
+          </div>
+          <div style={{ margin: 'auto', width: '25%'}}>
+            <div style={{color: 'white', marginBottom: '5px'}}>{props.game.competitors[1].shortLocation}</div>
+            <div style={{backgroundColor: 'white',  fontSize: '20px'}}>
+              {homeScore}
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div>
+        <Button size="small" className={props.classes.miniGameButton} onClick={() => {}}>
+          Start Mini Rally Game!
+        </Button>
+      </div> */}
+      <Field {...{
+          leagueId: get(props.game,'leagueId'),
+          away: props.game.competitors[0].shortLocation, 
+          awayColor: props.game.competitors[0].color, 
+          home: props.game.competitors[1].shortLocation, 
+          homeColor: props.game.competitors[1].color,
+          awayScoreHandler,
+          homeScoreHandler
+        }
+      }/>
+      <div>
+        <Button size="small" className={props.classes.miniGameButton} onClick={() => {}}>
+          Tap Ball To Start Mini Rally Game!
+        </Button>
+      </div>
+    </div>
+  );
+}
 const getFlag = (country) => {
   switch (country) {
     case 'USA':
@@ -1031,13 +1107,20 @@ const GameContainer = (props) => {
           }
           <div>
             {
-              true &&
-              getField(get(game,'leagueId'), {
-                away: game.competitors[0].shortLocation, 
-                awayColor: game.competitors[0].color, 
-                home: game.competitors[1].shortLocation, 
-                homeColor: game.competitors[1].color,
-              })
+              ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) && 
+              <MiniRallyGame {...{game, classes}} />
+            }
+            {
+              !['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(get(game,'leagueId')) && 
+              <Field {...{
+                  leagueId: get(game,'leagueId'),
+                  away: game.competitors[0].shortLocation, 
+                  awayColor: game.competitors[0].color, 
+                  home: game.competitors[1].shortLocation, 
+                  homeColor: game.competitors[1].color,
+                  style: {paddingTop: '16px'}
+                }
+              }/>
             }
           </div>
           <GameFooter {...props} />
