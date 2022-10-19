@@ -251,6 +251,7 @@ class Scoreboard extends Component {
 
     componentWillUnmount() {
         clearInterval(this.timerID);
+        console.log("x2")
         // console.log('stop timerID: ' + this.timerID);
     }
 
@@ -442,7 +443,7 @@ class Scoreboard extends Component {
             years,
             weeks = [],
             isAuthenticated, 
-            dataLoading = true,
+            dataLoading,
             spreadMode,
             userId,
             weekId,
@@ -632,8 +633,8 @@ class Scoreboard extends Component {
                             </Box>
                             <div className={classes.root}>
                                 {
+                                    !areAnyGamesInProgress &&
                                     dataLoading &&
-                                    !areAnyGamesInProgress && 
                                     <div style={{margin: '10px 0'}}>
                                         <Skeleton animation="pulse" height='5em' variant="rectangular"/>
                                         <div style={{display: 'flex'}}>
@@ -643,6 +644,8 @@ class Scoreboard extends Component {
                                     </div>
                                 }
                                 {
+                                    !(!areAnyGamesInProgress &&
+                                    dataLoading) &&
                                     groupedGames.notCompleted.map(game => {
                                         let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
                                         let newDate = (gameDate !== newGameDate);
@@ -679,42 +682,46 @@ class Scoreboard extends Component {
                                         );
                                     })
                                 }
-                                <div>
-                                    {
-                                        groupedGames.completed.length > 0 &&
-                                        <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                            <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Game Over ***</div>
-                                        </div>
-                                    }
-                                    {
-                                        groupedGames.completed.map(game => {
-                                            let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                                            let newDate = (gameDate !== newGameDate);
-                                            if (newDate) gameDate = newGameDate;
+                                {
+                                    !(!areAnyGamesInProgress &&
+                                    dataLoading) &&
+                                    <div>
+                                        {
+                                            groupedGames.completed.length > 0 &&
+                                            <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Game Over ***</div>
+                                            </div>
+                                        }
+                                        {
+                                            groupedGames.completed.map(game => {
+                                                let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
+                                                let newDate = (gameDate !== newGameDate);
+                                                if (newDate) gameDate = newGameDate;
 
-                                            return (
-                                                <div key={game._id}>
-                                                    {
-                                                        newDate &&
-                                                        <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                                            <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
-                                                        </div>
-                                                    }
-                                                    <Game 
-                                                        game={game} 
-                                                        pick={picks.find(x=>x.gameId === game._id)}
-                                                        handleMakePick={this.handleMakePick} 
-                                                        handleUpdateGame={this.handleUpdateGame} 
-                                                        handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
-                                                        isAuthenticated={isAuthenticated}
-                                                        userId={userId}
-                                                        disableTie={disableTie}
-                                                    />
-                                                </div>
-                                            );
-                                        })
-                                    }
-                                </div>
+                                                return (
+                                                    <div key={game._id}>
+                                                        {
+                                                            newDate &&
+                                                            <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
+                                                                <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
+                                                            </div>
+                                                        }
+                                                        <Game 
+                                                            game={game} 
+                                                            pick={picks.find(x=>x.gameId === game._id)}
+                                                            handleMakePick={this.handleMakePick} 
+                                                            handleUpdateGame={this.handleUpdateGame} 
+                                                            handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
+                                                            isAuthenticated={isAuthenticated}
+                                                            userId={userId}
+                                                            disableTie={disableTie}
+                                                        />
+                                                    </div>
+                                                );
+                                            })
+                                        }
+                                    </div>
+                                }
                             </div>
                         </Box>
                     }
