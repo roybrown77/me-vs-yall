@@ -161,14 +161,13 @@ const updateGames = async () => {
   console.log('hoursOffset: ' + hoursOffset);
   console.log('eastCoastHour: ' + eastCoastHour);
 
-  const preseasonStartDate = "2022-08-02"; // Tuesday prior to start of preseason
+  const preseasonStartDate = "2022-08-02"; // Tuesday prior to start of preseason, first Tuesday in August
   const weeksSinceStart = moment().diff(moment(preseasonStartDate),'weeks');
   console.log('weeks since start: ' + weeksSinceStart);
   const regularSeasonWeek = weeksSinceStart-4;
   console.log('regular season week: ' + regularSeasonWeek);
   
-  // const url = `https://www.espn.com/nfl/scoreboard/_/year/2022/seasontype/${nextWeekNumber <= 18 ? 2 : 3}/week/${nextWeekNumber <= 18 ? nextWeekNumber : (nextWeekNumber-19+1 < 4 ? nextWeekNumber-19+1 : 5)}`;
-  const url = `https://www.espn.com/nfl/scoreboard/_/week/${regularSeasonWeek}/year/2022/seasontype/2`;
+  const url = `https://www.espn.com/nfl/scoreboard/_/week/${regularSeasonWeek <= 18 ? 2 : 3}/year/2022/seasontype/${regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5)}`;
   console.log('url: ' + url);
 
   const search = {
