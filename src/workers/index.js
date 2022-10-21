@@ -167,7 +167,7 @@ const updateGames = async () => {
   const regularSeasonWeek = weeksSinceStart-4;
   console.log('regular season week: ' + regularSeasonWeek);
   
-  const url = `https://www.espn.com/nfl/scoreboard/_/week/${regularSeasonWeek <= 18 ? 2 : 3}/year/2022/seasontype/${regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5)}`;
+  const url = `https://www.espn.com/nfl/scoreboard/_/week/${regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5)}/year/2022/seasontype/${regularSeasonWeek <= 18 ? 2 : 3}`;
   console.log('url: ' + url);
 
   const search = {
