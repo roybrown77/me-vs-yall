@@ -35,7 +35,6 @@ const mongoose = require('mongoose');
 
 mongoose.connection.on("connected", function(ref) {
   console.log("[MONGODB] - Connected!");
-  console.log('startCronProcess fire!');
   startCronProcess(cronJobs);
 });
 
@@ -61,7 +60,7 @@ try {
 const CronJob = require('cron').CronJob;
 
 const startCronProcess = (jobs) => {
-  console.log('startCronProcess');
+  console.log('startCronProcess fire!');
 
   if (jobs && jobs.length) {
     jobs.forEach(job => {
