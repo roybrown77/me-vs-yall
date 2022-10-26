@@ -63,7 +63,7 @@ const instructions = [
 ];
 
 const tagLines = [
-  `"track what you could have won or loss in vegas"`,
+  // `"track what you could have won or loss in vegas"`,
   `"the ultimate sports pick'em game"`,
   // `"if you can't win here don't bet real money over there"`,
   // `"play for fun or play for the 💰 it's your world"`,
