@@ -128,7 +128,7 @@ const styles = theme => ({
     color: '#000'
   },
   toggleButtonOn: {
-    color: 'blue'
+    color: 'black'
   },
   toggleButtonOff: {
     color: 'gray'
@@ -222,7 +222,8 @@ class Scoreboard extends Component {
             soundOn: false,
             openCopyAlert: false,
             gamePlayTabValue: 0,
-            tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0
+            tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
+            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0'
         };
     }
 
@@ -433,6 +434,33 @@ class Scoreboard extends Component {
         }
     };
 
+    handleSpreadToggle = () => {
+        clearInterval(this.timerID);
+        
+        const { leagueName } = this.props.match.params;
+
+        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+        
+        if (this.props.isAuthenticated) {
+            this.props.loadScoreboard({
+                leagueId: urlLeagueId,
+                year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+                beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+                endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+                weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+                gameType: "0",
+                loading: true
+            });
+        }
+
+        localStorage.setItem('spreadModeToggle', this.state.spreadModeToggle === '0' ? '1' : '0');
+        this.setState((state) => ({
+            spreadModeToggle: state.spreadModeToggle === '0' ? '1' : '0'
+        }));
+        this.startPolling(this.state.spreadModeToggle === '0' ? '1' : '0');
+    }
+
     render() {
         const { 
             classes, 
@@ -452,6 +480,9 @@ class Scoreboard extends Component {
             beginDateTime,
             endDateTime
         } = this.props;
+
+
+        console.log(`spreadMode: ${this.props.spreadMode}`)
 
         const {soundOn, openCopyAlert} = this.state;
 
@@ -608,9 +639,16 @@ class Scoreboard extends Component {
                         false &&
                         <ScoreboardOptions {...{classes, spreadMode, copyData, openCopyAlert, isAuthenticated}} />
                     }
+                    <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
+                        <div style={{fontSize:'9px'}}>
+                            vs Spread
+                        </div>
+                        <div><IconButton className={this.state.spreadModeToggle === '1' ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                            {this.state.spreadModeToggle === '1' ? <ToggleOn/> : <ToggleOff/>}
+                        </IconButton></div>
+                    </div>
                     {
                         <Box sx={{
-                            marginTop: '30px',
                             position: "relative",
                             zIndex: "2",
                             backgroundColor: "white"
@@ -628,7 +666,7 @@ class Scoreboard extends Component {
                                     margin: 'auto',
                                 }}>
                                     <Tab label="Straight Up" {...a11yProps(0)} />
-                                    <Tab label="Spread Mode" {...a11yProps(1)} />
+                                    <Tab label="Spread Mode $" {...a11yProps(1)} />
                                 </Tabs>
                             </Box>
                             <div className={classes.root}>
@@ -675,7 +713,6 @@ class Scoreboard extends Component {
                                                     handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
                                                     isAuthenticated={isAuthenticated}
                                                     userId={userId}
-                                                    spreadMode={spreadMode}
                                                     disableTie={disableTie}
                                                 />
                                             </div>
@@ -754,7 +791,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const ui = state.get('ui').toJS();
     const request = get(ui,'request');
-    const spreadMode = localStorage.getItem('tabValue') === '1';
+    const spreadMode = localStorage.getItem('tabValue') === '1' || localStorage.getItem('spreadModeToggle') === '1';
 
     const leagues = get(lookup, 'leagues', []);
     const league = leagues.find(x=>x.id === leagueId);

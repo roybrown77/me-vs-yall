@@ -1258,7 +1258,7 @@ class Game extends Component {
 
         const inProgress = get(pick,'inProgress',false);
 
-        const spreadMode = localStorage.getItem('tabValue') === '1';
+        const spreadMode = localStorage.getItem('tabValue') === '1' || localStorage.getItem('spreadModeToggle') === '1';
 
         const props = { classes, game, pick, isAuthenticated, userId, disableTie,
         awayScore, homeScore, awayRank, homeRank, awayRecord, homeRecord, awaySpread, isHidden, 

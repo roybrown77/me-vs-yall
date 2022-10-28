@@ -135,7 +135,10 @@ const styles = theme => ({
     color: '#000'
   },
   toggleButtonOn: {
-    color: 'blue'
+    color: 'black'
+  },
+  toggleButtonOff: {
+    color: 'gray'
   }
 });
 
@@ -203,7 +206,8 @@ class Leader extends Component {
         super(props);
         this.state = {
             soundOn: false,
-            tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0
+            tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
+            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0'
         };
     }
 
@@ -356,6 +360,33 @@ class Leader extends Component {
         this.setState({tabValue: newValue});
         this.startPolling(newValue);
     };
+
+    handleSpreadToggle = () => {
+        clearInterval(this.timerID);
+        
+        const { leagueName } = this.props.match.params;
+
+        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
+        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+        
+        if (this.props.isAuthenticated) {
+            this.props.loadLeaders({
+                leagueId: urlLeagueId,
+                year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+                beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+                endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+                weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+                gameType: "0",
+                loading: true
+            });
+        }
+
+        localStorage.setItem('spreadModeToggle', this.state.spreadModeToggle === '0' ? '1' : '0');
+        this.setState((state) => ({
+            spreadModeToggle: state.spreadModeToggle === '0' ? '1' : '0'
+        }));
+        this.startPolling(this.state.spreadModeToggle === '0' ? '1' : '0');
+    }
 
     render() {
         const { 
@@ -510,9 +541,16 @@ class Leader extends Component {
                             </div>
                         </div>
                     }
+                    <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
+                        <div style={{fontSize:'9px'}}>
+                            vs Spread
+                        </div>
+                        <div><IconButton className={this.state.spreadModeToggle === '1' ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
+                            {this.state.spreadModeToggle === '1' ? <ToggleOn/> : <ToggleOff/>}
+                        </IconButton></div>
+                    </div>
                     {
                         <Box sx={{
-                            marginTop: '30px',
                             position: "relative",
                             zIndex: "2",
                             backgroundColor: "white"
@@ -530,7 +568,7 @@ class Leader extends Component {
                                     margin: 'auto',
                                 }}>
                                 <Tab label="Straight Up" {...a11yProps(0)} />
-                                <Tab label="Spread Mode" {...a11yProps(1)} />
+                                <Tab label="Spread Mode $" {...a11yProps(1)} />
                                 </Tabs>
                             </Box>
                             <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
@@ -711,7 +749,7 @@ const mapStateToProps = (state, ownProps) => {
     const isRollup = get(leaderDomain, 'isRollup', false);
     const leagueId = get(leaderDomain, 'leagueId');
 
-    const spreadMode = localStorage.getItem('tabValue') === '1';
+    const spreadMode = localStorage.getItem('tabValue') === '1' || localStorage.getItem('spreadModeToggle') === '1';
     
     const leaders = getLeaders(games, pickList, userList, teamList, isRollup, spreadMode);
     
