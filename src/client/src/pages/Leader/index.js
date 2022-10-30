@@ -369,17 +369,15 @@ class Leader extends Component {
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
         
-        if (this.props.isAuthenticated) {
-            this.props.loadLeaders({
-                leagueId: urlLeagueId,
-                year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
-                beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
-                endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-                weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-                gameType: "0",
-                loading: true
-            });
-        }
+        this.props.loadLeaders({
+            leagueId: urlLeagueId,
+            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
+            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
+            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
+            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
+            gameType: "0",
+            loading: true
+        });
 
         localStorage.setItem('spreadModeToggle', this.state.spreadModeToggle === '0' ? '1' : '0');
         this.setState((state) => ({
@@ -519,26 +517,6 @@ class Leader extends Component {
                             <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
                                 {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
                             </IconButton>
-                        </div>
-                    }
-                    {
-                        false &&
-                        <div style={{
-                                justifyContent: 'center',
-                                display:'flex', 
-                                fontSize: '17px', 
-                                paddingBottom: '20px',
-                                fontFamily: 'monospace'}}>
-                            <div onClick={()=>{}}>
-                                <div>
-                                    <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
-                                        {spreadMode ? <ToggleOn/> : <ToggleOff/>}
-                                    </IconButton>
-                                </div>
-                                <div style={{marginTop: '-3px'}}>
-                                    beat vegas
-                                </div>
-                            </div>
                         </div>
                     }
                     <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
