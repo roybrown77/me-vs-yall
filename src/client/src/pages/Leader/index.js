@@ -368,6 +368,8 @@ class Leader extends Component {
 
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
+
+        const isSpreadMode = localStorage.getItem('tabValue') === '1';
         
         this.props.loadLeaders({
             leagueId: urlLeagueId,
@@ -375,7 +377,7 @@ class Leader extends Component {
             beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
             endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
             weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: "0",
+            gameType: isSpreadMode ? "1" : "0",
             loading: true
         });
 
