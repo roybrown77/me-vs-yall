@@ -41,7 +41,7 @@ const TinyScoreboard = ({loading, title, games}) => {
         },
         linkToGame: {
             color: 'black',
-            margin: '4px',
+            margin: '4px 8px 0 0',
             border: '4px solid black',
             borderRadius: '8px'
         }
