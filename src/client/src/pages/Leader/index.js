@@ -751,6 +751,10 @@ const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
+
+    const userJson = localStorage.getItem('user');
+    const user = JSON.parse(userJson);
+    const userId = get(user, 'sub');
     
     return {
         isAuthenticated,
@@ -766,7 +770,8 @@ const mapStateToProps = (state, ownProps) => {
         endDateTime,
         games,
         isRollup,
-        spreadMode
+        spreadMode,
+        userId
     }
 };
 
@@ -788,7 +793,8 @@ Leader.propTypes = {
     loadLeaders: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     isRollup: PropTypes.bool,
-    spreadMode: PropTypes.bool
+    spreadMode: PropTypes.bool,
+    userId: PropTypes.string
 };
 
 export default connect(mapStateToProps, {
