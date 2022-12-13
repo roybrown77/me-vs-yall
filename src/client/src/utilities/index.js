@@ -171,7 +171,7 @@ const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isR
 };
 
 const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
-    const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+    const sortedGames = orderBy(games,['_id'],['desc']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
     const picksWithVegas = [...picks, ...getVegasPicks(sortedGames)];
     return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
 }
