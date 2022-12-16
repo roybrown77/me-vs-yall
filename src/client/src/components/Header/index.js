@@ -13,7 +13,7 @@ import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToApp from '@material-ui/icons/ExitToAppOutlined';
 
-import { logout } from '../../middleware/authenticationClient';
+import { googleLogin, logout } from '../../middleware/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const profileStyles = makeStyles((theme) => ({
@@ -163,6 +163,24 @@ class Header extends Component {
               this.props.isAuthenticated && !picture &&
               <div className={classes.userDefaultPicture}>
                 <div style={{margin: '8px 0'}}>{user.name[0]}</div>
+              </div>
+            }
+            {
+              !this.props.isAuthenticated &&
+              <div style={{
+                position: 'fixed',
+                left: 'unset !important',
+                right: '0',
+                top: '0 !important',
+                margin: '5px',
+                padding: '5px',
+                borderRadius: '4px',
+                border: '3px solid black',
+                fontFamily: 'monospace',
+                fontWeight: 'bold',
+                cursor: 'pointer'
+              }} onClick={() => googleLogin()}>
+                Sign In
               </div>
             }
           </AppBar>
