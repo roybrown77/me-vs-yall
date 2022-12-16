@@ -436,7 +436,7 @@ class Leader extends Component {
                             variant="contained" 
                             className={classNames(classes.button)}
                             onClick={() => googleLogin()}>
-                          Play For Free
+                          Make Your Picks
                         </Button>
                     }
                     {
