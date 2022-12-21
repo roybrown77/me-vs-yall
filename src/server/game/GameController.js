@@ -675,9 +675,7 @@ router.get('/games', async function (req, res) {
             if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
               highlights.push(game.playHistory[i]);
             }
-          } catch {
-
-          }
+          } catch {}
         }
 
         game.playHistory = [...new Set(playHistory)];
