@@ -114,6 +114,12 @@ const teamStatTemplate = {
       displayStat: true
     },
 
+    ties: {
+      name: "Ties",
+      value: 0,
+      displayStat: true
+    },
+
     homeGamesPlayed: {
       name: "Home Games Played",
       value: 0,
@@ -330,7 +336,8 @@ const getAllTeamStats = (gamesWholeYear) => {
 
       teamStats[game.competitors[i]._id].gamesPlayed.value += 1;
       teamStats[game.competitors[i]._id].wins.value += (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 1 : 0;
-      teamStats[game.competitors[i]._id].losses.value += (game.competitors[i].score || 0) <= (game.competitors[1-i].score || 0) ? 1 : 0;
+      teamStats[game.competitors[i]._id].losses.value += (game.competitors[i].score || 0) < (game.competitors[1-i].score || 0) ? 1 : 0;
+      teamStats[game.competitors[i]._id].ties.value += (game.competitors[i].score || 0) === (game.competitors[1-i].score || 0) ? 1 : 0;
 
       teamStats[game.competitors[i]._id].roadGamesPlayed.value += game.competitors[0]._id === game.competitors[i]._id ? 1 : 0;
       teamStats[game.competitors[i]._id].homeGamesPlayed.value += game.competitors[1]._id === game.competitors[i]._id ? 1 : 0;
