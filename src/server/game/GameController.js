@@ -667,6 +667,18 @@ router.get('/games', async function (req, res) {
             lastTime = lastPlay.slice(0,7);
             playHistory.push(game.playHistory[i]);
           }
+
+          try {
+            const yards = /for([^yards]+)yards/.exec(lastPlay)[1];
+            const yardNumber = parseInt(yards);
+
+            if (yardNumber >= 15) {
+              console.log(`******* ${lastPlay}`);
+              highlights.push(game.playHistory[i]);
+            }
+          } catch {
+
+          }
         }
 
         game.playHistory = playHistory;
