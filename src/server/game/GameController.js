@@ -673,7 +673,6 @@ router.get('/games', async function (req, res) {
             const yardNumber = parseInt(yards);
 
             if (yardNumber >= 15) {
-              console.log(`******* ${lastPlay}`);
               highlights.push(game.playHistory[i]);
             }
           } catch {
