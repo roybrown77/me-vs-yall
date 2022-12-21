@@ -672,7 +672,7 @@ router.get('/games', async function (req, res) {
             const yards = /for([^yards]+)yards/.exec(lastPlay)[1];
             const yardNumber = parseInt(yards);
 
-            if (yardNumber >= 15) {
+            if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
               highlights.push(game.playHistory[i]);
             }
           } catch {
@@ -680,8 +680,8 @@ router.get('/games', async function (req, res) {
           }
         }
 
-        game.playHistory = playHistory;
-        game.highlights = highlights;
+        game.playHistory = [...new Set(playHistory)];
+        game.highlights = [...new Set(highlights)];
       }
 
       if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
