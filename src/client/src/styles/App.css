@@ -447,3 +447,7 @@ a.links:hover {
   from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
   to   { -webkit-transform: translate3d(0, 200px, 0); transform: translate3d(0, 200px, 0); }
 } */
+
+.remaining-games-notifier {
+  bottom: 50px !important;
+}

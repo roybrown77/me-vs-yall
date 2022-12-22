@@ -174,6 +174,20 @@ const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
+const RemainingGamesNotifier = ({isAuthenticated, picksNotSelected}) => {
+    if (!isAuthenticated || picksNotSelected === 0) {
+        return null;
+    }
+
+    return (
+        <Snackbar className="remaining-games-notifier" open={true}>
+            <Alert severity="error">
+                {`${picksNotSelected} Remaining Pick(s)`}
+            </Alert>
+        </Snackbar>
+    );
+};
+
 const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuthenticated}) => {
     return (
         <div style={{
@@ -597,14 +611,6 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
-                        isAuthenticated && 
-                        picksNotSelected > 0 &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 20%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            <div>tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} below</div>
-                            <div className='fast-flash'><b>{picksNotSelected}</b> remaining</div>
-                        </div>
-                    }
-                    {
                         false &&
                         isAuthenticated &&
                         areAllGamesOver &&
@@ -638,6 +644,7 @@ class Scoreboard extends Component {
                         false &&
                         <ScoreboardOptions {...{classes, spreadMode, copyData, openCopyAlert, isAuthenticated}} />
                     }
+                    <RemainingGamesNotifier {...{isAuthenticated, picksNotSelected}} />
                     <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
                         <div style={{fontSize:'9px'}}>
                             vs Spread
