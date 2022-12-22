@@ -441,6 +441,20 @@ const getStats = (game, teamStats) => {
 
   const awayTeamStats = teamStats[game.competitors[0]._id];
   const homeTeamStats = teamStats[game.competitors[1]._id];
+  
+  // stats = [
+  //   {
+  //     name: "Point Differential"
+  //     awayTeam: {
+  //       name: "",
+  //       value: 0,   
+  //     },
+  //     homeTeam: {
+  //       name: "",
+  //       value: 0,   
+  //     }
+  //   }
+  // ]
 
   if (awayTeamStats && homeTeamStats) {
     for (const [key, value] of Object.entries(teamStatTemplate)) {

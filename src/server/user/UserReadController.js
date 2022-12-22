@@ -22,11 +22,7 @@ router.get('/users', function (req, res) {
             x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
             goodUsers.push(x);
         });
-        const mvyHomeTeamPlayer = {
-            authServiceId: 2,
-            firstName: 'MvY Home Teams'
-        };
-        res.status(200).send([...goodUsers,vegas,mvyHomeTeamPlayer]);
+        res.status(200).send([...goodUsers,vegas]);
     });
 });
 
