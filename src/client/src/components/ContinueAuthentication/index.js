@@ -39,7 +39,6 @@ const ContinueAuthentication = (props) => {
                 <Snackbar
                     open={open}
                     autoHideDuration={30000}
-                    onClose={handleClose}
                 >
                     <div style={{fontFamily: 'monospace', backgroundColor: '#fff', width: '100%', textAlign: 'left', borderRadius: '15px'}}>
                         <div>
