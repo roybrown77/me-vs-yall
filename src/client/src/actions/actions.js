@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 
 import { CALL_API, Schemas } from '../middleware/httpClient';
-import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationClient';
+import { getUserProfile, getUser, setIdToken, setAccessToken, setExpiration, isConfirmedAuthentication } from '../middleware/authenticationClient';
 
 import { getCurrentWeek } from '../utilities';
 
@@ -274,9 +274,7 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
   const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
 
   const gameWeeks = await dispatch(fetchGameWeeks({leagueId,year}));
-  const authenticationDomain = currentState.get('authenticationDomain').toJS();
-  const userInSession = getUser();
-  const user = get(authenticationDomain,'user',userInSession);
+  const user = getUser();
   const weeks = get(gameWeeks,'response',[]);
   const currentWeek = getCurrentWeek(weeks);
 
@@ -292,13 +290,13 @@ export const loadScoreboard = (query, requiredFields = []) => async (dispatch, g
   };
 
   await Promise.all([
-    !!get(authenticationDomain,'isAuthenticated') ? dispatch(createUser(user)) : undefined,
+    isConfirmedAuthentication() ? dispatch(createUser(user)) : undefined,
     dispatch({type: ActionTypes.SCOREBOARD_REQUEST, request})
   ]);
 
   Promise.all([
     dispatch(fetchGames(request, [ ActionTypes.SCOREBOARD_GAMES_REQUEST, ActionTypes.SCOREBOARD_GAMES_SUCCESS, ActionTypes.SCOREBOARD_GAMES_FAILURE ])), 
-    !!get(authenticationDomain,'isAuthenticated') ? dispatch(fetchPicks(request, [ ActionTypes.SCOREBOARD_PICKS_REQUEST, ActionTypes.SCOREBOARD_PICKS_SUCCESS, ActionTypes.SCOREBOARD_PICKS_FAILURE ])) : undefined,
+    isConfirmedAuthentication() ? dispatch(fetchPicks(request, [ ActionTypes.SCOREBOARD_PICKS_REQUEST, ActionTypes.SCOREBOARD_PICKS_SUCCESS, ActionTypes.SCOREBOARD_PICKS_FAILURE ])) : undefined,
     dispatch(fetchAllTeams([ ActionTypes.TEAMS_REQUEST, ActionTypes.TEAMS_SUCCESS, ActionTypes.TEAMS_FAILURE ]))
   ]).then(result=>{
     dispatch({type: ActionTypes.SCOREBOARD_SUCCESS, response: result});

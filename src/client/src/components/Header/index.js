@@ -13,7 +13,7 @@ import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToApp from '@material-ui/icons/ExitToAppOutlined';
 
-import { googleLogin, logout } from '../../middleware/authenticationClient';
+import { googleLogin, isConfirmedAuthentication, logout } from '../../middleware/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const profileStyles = makeStyles((theme) => ({
@@ -149,7 +149,7 @@ class Header extends Component {
             {
               this.props.isAuthenticated && picture &&
               <Profile mainElement={(<img className={classes.userPicture} src={picture} alt=""/>)}>
-                <div style={{display:'flex', padding: '8px', cursor: 'pointer'}} onClick={() => logout()}>
+                <div style={{display:'flex', padding: '8px', cursor: 'pointer'}} onClick={logout}>
                   <div>
                     <ExitToApp/>
                   </div>
@@ -179,7 +179,7 @@ class Header extends Component {
                 fontFamily: 'monospace',
                 fontWeight: 'bold',
                 cursor: 'pointer'
-              }} onClick={() => googleLogin()}>
+              }} onClick={googleLogin}>
                 Sign In
               </div>
             }
@@ -194,11 +194,10 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const authenticationDomain = state.get('authenticationDomain').toJS();
-    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
+    const isAuthenticated = isConfirmedAuthentication();
 
     return {
-        isAuthenticated,
+        isAuthenticated
     }
 };
 
@@ -206,7 +205,7 @@ Header.propTypes = {
     isAuthenticated: PropTypes.bool,
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired
 };
 
 export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(Header));

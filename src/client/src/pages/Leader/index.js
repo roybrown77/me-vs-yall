@@ -42,7 +42,7 @@ import {Howl, Howler} from 'howler';
 import boastyM4a from './boasty.m4a';
 import boastyWebm from './boasty.webm';
 
-import { googleLogin } from '../../middleware/authenticationClient';
+import { googleLogin, isConfirmedAuthentication, getUser } from '../../middleware/authenticationClient';
 import { loadLeaders } from '../../actions';
 import { 
     formatWeeks, 
@@ -207,7 +207,8 @@ class Leader extends Component {
         this.state = {
             soundOn: false,
             tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
-            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0'
+            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0',
+            isAuthenticated: isConfirmedAuthentication()
         };
     }
 
@@ -392,8 +393,7 @@ class Leader extends Component {
         const { 
             classes, 
             leaders, 
-            games, 
-            isAuthenticated,
+            games,
             dataLoading,
             weeks = [],
             weekId,
@@ -403,7 +403,7 @@ class Leader extends Component {
             userId
         } = this.props;
 
-        const {soundOn} = this.state;
+        const { soundOn, isAuthenticated } = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
@@ -435,7 +435,7 @@ class Leader extends Component {
                         <Button
                             variant="contained" 
                             className={classNames(classes.button)}
-                            onClick={() => googleLogin()}>
+                            onClick={googleLogin}>
                           Make Your Picks
                         </Button>
                     }
@@ -549,7 +549,10 @@ class Leader extends Component {
                                     margin: 'auto',
                                 }}>
                                 <Tab label="Straight Up" {...a11yProps(0)} />
-                                {userId === 'google-oauth2|114172296334563495985' && <Tab label="Spread Mode $" {...a11yProps(1)} />}
+                                {
+                                    isAuthenticated && userId === 'google-oauth2|114172296334563495985' && 
+                                    <Tab label="Spread Mode $" {...a11yProps(1)} />
+                                }
                                 </Tabs>
                             </Box>
                             <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={250}>
@@ -720,7 +723,6 @@ const mapStateToProps = (state, ownProps) => {
     const leaderDomain = state.get('leaderDomain').toJS();
     const ui = state.get('ui').toJS();
     const weeksDomain = state.get('weeksDomain').toJS();
-    const authenticationDomain = state.get('authenticationDomain').toJS();
 
     const dataLoading = get(leaderDomain, 'dataLoading', true);
     const games = get(leaderDomain, 'gameList', []);
@@ -747,17 +749,13 @@ const mapStateToProps = (state, ownProps) => {
     const currentWeek = getCurrentWeek(weeks);
     const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
     const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    
-    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
 
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
 
-    const userJson = localStorage.getItem('user');
-    const user = JSON.parse(userJson);
+    const user = getUser();
     const userId = get(user, 'sub');
     
     return {
-        isAuthenticated,
         dataLoading,
         leaders,
         weeks,
@@ -776,7 +774,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 Leader.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
     dataLoading: PropTypes.bool,
     leaders: PropTypes.array,
     weeks: PropTypes.array,

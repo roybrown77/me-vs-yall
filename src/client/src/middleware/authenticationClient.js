@@ -16,6 +16,8 @@ const RESPONSE_TYPE = 'token id_token';
 const AUDIENCE = 'https://mevsyallcom/api/';
 const SCOPE = 'openid profile email';
 
+const WAIT_FOR_NEXT_SIGN_IN_PROMPT = 1; // hours
+
 const auth = new auth0.WebAuth({
   clientID: authenticationClientId,
   domain: CLIENT_DOMAIN,
@@ -25,106 +27,133 @@ const auth = new auth0.WebAuth({
   scope: SCOPE
 });
 
-export function isLoggedIn() {
-  const idToken = getIdToken();
-  const tokenExpired = !isTokenExpired();
-  const result = !!idToken && !tokenExpired;
-  return result;
-}
-
-export function autoGoogleLogin() {
+export const autoGoogleLogin = () => {
   auth.authorize({
     connection: 'google-oauth2',
     prompt: 'none'
   });
-}
+};
 
-export function googleLogin() {
+export const googleLogin = () => {
+  setConfirmedContinueAuthentication(true);
   auth.authorize({
     connection: 'google-oauth2',
     prompt: 'select_account'
   });
-}
+};
 
-export function serverLogout() {
+export const serverLogout = () => {
   clearIdToken();
   clearAccessToken();
   history.push('/login');
-}
+};
 
-export function logout() {
+export const logout = () => {
   localStorage.clear();
   history.push('/');
-}
+};
 
-export function requireAuth(nextState, replace) {
+export const isLoggedIn = () => {
+  const idToken = getIdToken();
+  const tokenExpired = !isTokenExpired();
+  const result = !!idToken && !tokenExpired;
+  return result;
+};
+
+export const requireAuth = (nextState, replace) => {
   if (!isLoggedIn()) {
     replace({pathname: '/'});
   }
-}
+};
 
-export function setIdToken() {
+export const setConfirmedContinueAuthentication = (value) => {
+  return localStorage.setItem('confirmedContinueAuthentication', value ? '1' : '0');
+};
+
+export const isConfirmedContinueAuthentication = () => {
+  return localStorage.getItem('confirmedContinueAuthentication') === '1';
+};
+
+export const setIdToken = () => {
   const idToken = getParameterByName(ID_TOKEN_KEY);
   localStorage.setItem(ID_TOKEN_KEY, idToken);
-}
+};
 
-export function getIdToken() {
+export const getIdToken = () => {
   return localStorage.getItem(ID_TOKEN_KEY);
-}
+};
 
-export function setAccessToken() {
+export const setAccessToken = () => {
   const accessToken = getParameterByName(ACCESS_TOKEN_KEY);
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-}
+};
 
-export function getAccessToken() {
+export const getAccessToken = () => {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
-}
+};
 
-export function setExpiration() {
+export const setExpiration = () => {
   const expiresIn = getParameterByName(EXPIRATION_KEY);
   const expiresAt = moment(new Date()).add(expiresIn, 'seconds').format();
   localStorage.setItem(EXPIRATION_KEY, expiresAt);
-}
+};
 
-export function getUserProfile(cb) {
-  const token = getAccessToken();
-
-  auth.client.userInfo(token, (err, profile) => {
-    cb(err, profile);
-  });
-}
-
-export function getUser() {
-  const userString = localStorage.getItem(USER_KEY);
-  return JSON.parse(userString);
-}
-
-function getTokenExpirationDate() {
+const getTokenExpirationDate = () => {
   return localStorage.getItem(EXPIRATION_KEY);
-}
+};
 
-function isTokenExpired() {
+const isTokenExpired = () => {
   const expirationDateTimeString = getTokenExpirationDate();
   const expirationDateTime = moment(expirationDateTimeString);
   const currentDateTime = moment(new Date());
   const diff = expirationDateTime.diff(currentDateTime, 'minutes');
   return diff > 0;
-}
+};
 
-function clearIdToken() {
+export const getUserProfile = (cb) => {
+  const token = getAccessToken();
+
+  auth.client.userInfo(token, (err, profile) => {
+    cb(err, profile);
+  });
+};
+
+export const getUser = () => {
+  const userString = localStorage.getItem(USER_KEY);
+  return JSON.parse(userString);
+};
+
+const clearIdToken = () => {
   localStorage.removeItem(ID_TOKEN_KEY);
-}
+};
 
-function clearAccessToken() {
+const clearAccessToken = () => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
-}
+};
 
-// function clearExpiration() {
-//   localStorage.removeItem(EXPIRATION_KEY);
-// }
-
-function getParameterByName(name) {
+const getParameterByName = (name) => {
   const match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+};
+
+export const continueAuthentication = (value) => {
+  if (value === false) {
+      localStorage.clear();
+      localStorage.setItem('confirmedContinueAuthenticationTime', moment().toISOString());
+      setConfirmedContinueAuthentication(false);
+  } else {
+      setConfirmedContinueAuthentication(true);
+      window.location.reload();
+  }
 }
+
+export const waitForAuth = () => {
+  const lastAuthTime = localStorage.getItem('confirmedContinueAuthenticationTime') || moment().toISOString();
+  localStorage.setItem('confirmedContinueAuthenticationTime', lastAuthTime);
+  const lastAuthTimeDiff =  moment().diff(moment(lastAuthTime),'hours');
+  return lastAuthTimeDiff < WAIT_FOR_NEXT_SIGN_IN_PROMPT;
+}
+
+export const isConfirmedAuthentication = () => {
+  return isLoggedIn() && isConfirmedContinueAuthentication();
+};

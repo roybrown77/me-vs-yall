@@ -18,11 +18,7 @@ import rickey from '../styles/images/rickey.gif';
 
 import zachBaby from '../styles/images/zach-baby.jpg';
 
-// scoreboard
-
-const areAnyGamesOver = (games = []) => {
-    return games.some(x=>!!x.isGameOver);
-};
+// *** scoreboard
 
 const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false) => {
     const formattedGames = games.map((game)=>{
@@ -83,7 +79,7 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
     };
 };
 
-// leaders
+// *** leaders
 
 const getWinnings = (results) => {
     return (results['wins'] * 100) - (results['losses'] * 110);
@@ -231,7 +227,7 @@ const getLeaderIndicator = (game,picks,index1,index2) => {
                 && pick.gameId === game._id) ? 'lightblue' : '';
 }
 
-// multiple
+// *** multiple
 
 const getAreAnyGamesInProgress = (games = []) => {
     return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)
@@ -517,6 +513,10 @@ const getSpreadAmount = (spreadAmount) => {
     const amount = Math.abs(spreadAmount);
     return (amount > 70 ? 1.5 : amount);
 }
+
+const areAnyGamesOver = (games = []) => {
+    return games.some(x=>!!x.isGameOver);
+};
 
 export {
     getResults,

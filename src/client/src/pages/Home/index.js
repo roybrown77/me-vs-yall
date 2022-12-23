@@ -22,6 +22,7 @@ import { getAreAnyGamesInProgress } from '../../utilities';
 import { getHomePageImage, getHomePageEmoji } from './utilities';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
+import { isConfirmedAuthentication } from '../../middleware/authenticationClient';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -185,7 +186,7 @@ class Home extends Component {
           }
           </div>
           {darkModeOn && <div style={{position: "absolute", width:"100%", height:"100%"}}>
-            <img style={{width:'100%', height: "100%"}} src={getHomePageImage()} alt=""/>
+            <img style={{width:'100%', height: "100%"}} src={getHomePageImage} alt=""/>
           </div>}
           <div style={{
             color: "white",
@@ -260,13 +261,13 @@ class Home extends Component {
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/tips'}>Tips</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/shop'}>Shop</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/play'}>Play</Link></div>
-                {true && <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={()=>this.tube()}>Tube</Link></div>}
+                {true && <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={this.tube}>Tube</Link></div>}
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/about'}>About</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/contact'}>Contact</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={()=>this.gram()}>Gram</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={this.gram}>Gram</Link></div>
               </div>
             </div>
             <div style={{color: darkModeOn ? 'white' : 'black'}}>
@@ -290,8 +291,7 @@ class Home extends Component {
 const mapStateToProps = (state, ownProps) => {
     const homePageDomain = state.get('homePageDomain').toJS();
     const games = get(homePageDomain, 'games', []);
-    const authenticationDomain = state.get('authenticationDomain').toJS();
-    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
+    const isAuthenticated = isConfirmedAuthentication();
 
     return {
       isAuthenticated,

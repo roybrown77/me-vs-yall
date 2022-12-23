@@ -137,8 +137,8 @@ const FootballField = (props) => {
       {
         true &&
         <g>
-          <ellipse onClick={throwBallRight} className={isThrowingRight ? "ball throwBallRight" : "ball"} cx="40" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1}}></ellipse>
-          <ellipse onClick={throwBallLeft} className={isThrowingLeft ? "ball throwBallLeft" : "ball"} cx="330" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1}}></ellipse>
+          <ellipse onClick={throwBallRight} className={isThrowingRight ? "ball throwBallRight" : "ball"} cx="40" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
+          <ellipse onClick={throwBallLeft} className={isThrowingLeft ? "ball throwBallLeft" : "ball"} cx="330" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
           
           {!hideXO.current && <svg viewBox="135 65 100 100">
             <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>

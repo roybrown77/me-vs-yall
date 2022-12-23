@@ -35,7 +35,7 @@ import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 import TinyScoreboard from '../../components/TinyScoreboard';
 
-import {Howl, Howler} from 'howler';
+import { Howl, Howler } from 'howler';
 import maddenM4a from './madden-touchdown.m4a';
 import maddenWebm from './madden-touchdown.webm';
 
@@ -46,7 +46,12 @@ import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
 import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
 import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle } from '../../actions';
-import { googleLogin } from '../../middleware/authenticationClient';
+
+import { 
+    googleLogin, 
+    isConfirmedAuthentication,
+    getUser 
+} from '../../middleware/authenticationClient';
 
 import { 
     formatWeeks, 
@@ -65,6 +70,7 @@ import {
 } from './utilities';
 
 import {createBrowserHistory} from 'history';
+
 const history = createBrowserHistory({forceRefresh: false});
 
 Howler.volume(1);
@@ -228,7 +234,6 @@ const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuth
         </div>
     );
 };
-
 class Scoreboard extends Component {
     constructor(props) {
         super(props);
@@ -237,7 +242,8 @@ class Scoreboard extends Component {
             openCopyAlert: false,
             gamePlayTabValue: 0,
             tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
-            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0'
+            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0',
+            isAuthenticated: isConfirmedAuthentication()
         };
     }
 
@@ -278,7 +284,7 @@ class Scoreboard extends Component {
         const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
         const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
         
-        if (this.props.isAuthenticated) {
+        if (this.state.isAuthenticated) {
             this.props.loadScoreboard({
                 leagueId: urlLeagueId,
                 year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
@@ -381,7 +387,7 @@ class Scoreboard extends Component {
     handleMakePick = (pick) => {
         const gameFound = this.props.games.find(x=>x._id === pick.gameId);
 
-        if (!this.props.isAuthenticated || gameFound.isGameOver) return;
+        if (!this.state.isAuthenticated || gameFound.isGameOver) return;
 
         const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
         if (!!pickFound) {
@@ -392,7 +398,7 @@ class Scoreboard extends Component {
     }
 
     handleUpdateGame = (game) => {
-        if (!this.props.isAuthenticated) return;
+        if (!this.state.isAuthenticated) return;
 
         this.props.updateGame(game);
     }
@@ -483,7 +489,6 @@ class Scoreboard extends Component {
             leagues,
             years,
             weeks = [],
-            isAuthenticated, 
             dataLoading,
             spreadMode,
             userId,
@@ -494,10 +499,11 @@ class Scoreboard extends Component {
             endDateTime
         } = this.props;
 
-
-        console.log(`spreadMode: ${this.props.spreadMode}`)
-
-        const {soundOn, openCopyAlert} = this.state;
+        const {
+            soundOn, 
+            openCopyAlert,
+            isAuthenticated
+        } = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
@@ -551,7 +557,7 @@ class Scoreboard extends Component {
                         <Button
                             variant="contained" 
                             className={classNames(classes.button)}
-                            onClick={() => googleLogin()}>
+                            onClick={googleLogin}>
                           Make Your Picks
                         </Button>
                     }
@@ -672,7 +678,11 @@ class Scoreboard extends Component {
                                     margin: 'auto',
                                 }}>
                                     <Tab label="Straight Up" {...a11yProps(0)} />
-                                    {userId === 'google-oauth2|114172296334563495985' && <Tab label="Spread Mode $" {...a11yProps(1)} />}
+                                    {
+                                        isAuthenticated &&
+                                        userId === 'google-oauth2|114172296334563495985' && 
+                                        <Tab label="Spread Mode $" {...a11yProps(1)} />
+                                    }
                                 </Tabs>
                             </Box>
                             <div className={classes.root}>
@@ -815,13 +825,9 @@ const mapStateToProps = (state, ownProps) => {
     const teamDomain = state.get('teamDomain').toJS();
     const teams = get(teamDomain, 'teams', []);
 
-    const authenticationDomain = state.get('authenticationDomain').toJS();
-    const isAuthenticated = get(authenticationDomain, 'isAuthenticated');
-
     const weekId = get(request,'weekId') || get(currentWeek,'_id');
 
-    const userJson = localStorage.getItem('user');
-    const user = JSON.parse(userJson);
+    const user =  getUser();
     const userId = get(user, 'sub');
     
     return {
@@ -838,7 +844,6 @@ const mapStateToProps = (state, ownProps) => {
         endDateTime,
         teams,
         userId,
-        isAuthenticated,
         spreadMode
     }
 };
@@ -859,7 +864,6 @@ Scoreboard.propTypes = {
     beginDateTime: PropTypes.string,
     endDateTime: PropTypes.string,
     userId: PropTypes.string,
-    isAuthenticated: PropTypes.bool.isRequired,
     loadScoreboard: PropTypes.func.isRequired,
     addPick: PropTypes.func.isRequired,
     updatePick: PropTypes.func.isRequired,
