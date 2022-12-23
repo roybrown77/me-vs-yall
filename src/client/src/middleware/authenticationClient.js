@@ -148,7 +148,7 @@ export const continueAuthentication = (value) => {
 }
 
 export const waitForAuth = () => {
-  const lastAuthTime = localStorage.getItem('confirmedContinueAuthenticationTime') || moment().toISOString();
+  const lastAuthTime = localStorage.getItem('confirmedContinueAuthenticationTime') || moment().add(-2,'hours').toISOString();
   localStorage.setItem('confirmedContinueAuthenticationTime', lastAuthTime);
   const lastAuthTimeDiff =  moment().diff(moment(lastAuthTime),'hours');
   return lastAuthTimeDiff < WAIT_FOR_NEXT_SIGN_IN_PROMPT;
