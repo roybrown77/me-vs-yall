@@ -28,10 +28,15 @@ const auth = new auth0.WebAuth({
 });
 
 export const autoGoogleLogin = () => {
-  auth.authorize({
-    connection: 'google-oauth2',
-    prompt: 'none'
-  });
+  try {
+    auth.authorize({
+      connection: 'google-oauth2',
+      prompt: 'none'
+    });
+  } catch {
+    localStorage.setItem('confirmedContinueAuthenticationTime', moment().add(24,'hours').toISOString());
+    window.location.reload();
+  }
 };
 
 export const googleLogin = () => {
