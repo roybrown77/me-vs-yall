@@ -458,12 +458,6 @@ a.links:hover {
   bottom: 0 !important;
 }
 
-.MuiSnackbar-anchorOriginBottomCenter {
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-}
-
 @media screen and (min-width: 800px) {
   .MuiSnackbar-anchorOriginBottomCenter {
     margin: auto;
