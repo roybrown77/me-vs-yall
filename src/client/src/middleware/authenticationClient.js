@@ -34,7 +34,7 @@ export const autoGoogleLogin = () => {
       prompt: 'none'
     });
   } catch {
-    localStorage.setItem('confirmedContinueAuthenticationTime', moment().add(24,'hours').toISOString());
+    localStorage.setItem('confirmedContinueAuthenticationTime', moment().add(3,'hours').toISOString());
     window.location.reload();
   }
 };
@@ -125,7 +125,12 @@ export const getUserProfile = (cb) => {
 
 export const getUser = () => {
   const userString = localStorage.getItem(USER_KEY);
-  return JSON.parse(userString);
+  try {
+    return JSON.parse(userString);
+  } catch {
+    localStorage.setItem('confirmedContinueAuthenticationTime', moment().add(3,'hours').toISOString());
+    return {};
+  }
 };
 
 const clearIdToken = () => {
