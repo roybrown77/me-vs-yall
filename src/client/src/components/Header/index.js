@@ -13,7 +13,7 @@ import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToApp from '@material-ui/icons/ExitToAppOutlined';
 
-import { googleLogin, isConfirmedAuthentication, logout } from '../../middleware/authenticationClient';
+import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../middleware/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const profileStyles = makeStyles((theme) => ({
@@ -132,9 +132,7 @@ const Profile = (props) => {
 
 class Header extends Component {
   render() {
-    const { classes, children } = this.props;
-    const userJson = localStorage.getItem('user');
-    const user = JSON.parse(userJson || JSON.stringify({}));
+    const { classes, children, user } = this.props;
     const picture = get(user,'picture');
 
     return (
@@ -195,9 +193,11 @@ class Header extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const isAuthenticated = isConfirmedAuthentication();
+    const user = getUser();
 
     return {
-        isAuthenticated
+        isAuthenticated,
+        user
     }
 };
 
@@ -205,7 +205,8 @@ Header.propTypes = {
     isAuthenticated: PropTypes.bool,
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    user: PropTypes.object
 };
 
 export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(Header));
