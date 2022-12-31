@@ -8,13 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import football from '../../styles/images/football.png';
-import soccer from '../../styles/images/soccer.png';
-import basketball from '../../styles/images/basketball.png';
-import baseball from '../../styles/images/baseball.png';
-import boxing from '../../styles/images/boxing.png';
-import mma from '../../styles/images/mma.png';
-
 import get from 'lodash/get';
 
 const styles = theme => ({
@@ -52,10 +45,6 @@ class GameSearchBar extends Component {
                     <MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>
                   );
 
-    const ball = ['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(leagueId) ? football : 
-      ['59723313734d1d6202a85f17','59723313734d1d6202a85f29'].includes(leagueId) ? soccer : leagueId === '59723313734d1d6202a85f21' ? baseball : 
-      leagueId === '59723313734d1d6202a85f25' ? boxing : leagueId === '59723313734d1d6202a85f27' ? mma : basketball; 
-
     if (weeks.length === 0) {
       return (
         <div style={{margin: '10px'}}>
@@ -70,12 +59,6 @@ class GameSearchBar extends Component {
   
     return (
           <div className={classes.container}>
-              {
-                false &&
-                <div style={{left: '4px', top: '12px', position: 'absolute'}}>
-                  <img style={{width:'40px'}} src={ball} alt=""/>
-                </div>
-              }
               <Grid item xs={12} justifyContent="center" sm container>
                   <FormControl className={classes.formControl}>
                     <Select
