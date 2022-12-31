@@ -6,6 +6,7 @@ const callApi = ({endpoint, method, body, schema}) => {
   return axios({
         url: endpoint,
         headers: {
+            'Content-Type': 'charset=UTF-8',
             'Accept': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
         },
