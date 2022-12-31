@@ -53,7 +53,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.set("port", httpPort || 3001);
 app.use(function (req, res, next) {
-  req.headers['content-type'] = 'application/json; charset=UTF-8';
+  res.setHeader('content-type', 'application/json; charset=UTF-8');
   next();
 });
 
