@@ -37,6 +37,7 @@ const ContinueAuthentication = (props) => {
         return (
             <Slide direction={'up'} in={true} mountOnEnter unmountOnExit timeout={750}>
                 <Snackbar
+                    className='one-tap-sign-in'
                     open={open}
                     autoHideDuration={30000}
                 >

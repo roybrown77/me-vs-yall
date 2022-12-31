@@ -452,14 +452,14 @@ a.links:hover {
   bottom: 50px !important;
 }
 
-.MuiSnackbar-anchorOriginBottomCenter {
+.one-tap-sign-in {
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
 }
 
 @media screen and (min-width: 800px) {
-  .MuiSnackbar-anchorOriginBottomCenter {
+  .one-tap-sign-in {
     margin: auto;
     width: 50%;
   }
