@@ -6,6 +6,16 @@ import groupBy from 'lodash/groupBy';
 import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
+import mccaffrey from '../styles/images/mccaffrey.jpg';
+import beastMode from '../styles/images/beast-mode.png';
+import mahomes from '../styles/images/mahomes.gif';
+import mack from '../styles/images/mack.jpeg';
+
+import kawhi from '../styles/images/kawhi.jpg';
+import kadeemWoody from '../styles/images/kadeem-woody-wmcj.jpg';
+
+import rickey from '../styles/images/rickey.gif';
+
 import zachBaby from '../styles/images/zach-baby.jpg';
 
 // *** scoreboard
@@ -375,17 +385,24 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
+const basketBallImages = [
+    {id: 'kawhi', picture: kawhi, source: 'Kawhi Leonard / Vaughn Ridley / Getty Images'},
+    {id: 'kadeemWoody', picture: kadeemWoody, source: 'Kadeem / Woody / Ron Shelton / 20th Century Fox'},
+];
+
 const images = {
     '59723313734d1d6202a85f10': [
+        {id: 'mccaffrey', picture: mccaffrey, source: 'Christian MacCaffrey / David T. Foster III / Charlotte Observer'},
+        {id: 'beastMode', picture: beastMode, source: 'Marshawn Lynch / dribbble.com'},
+        {id: 'mahomes', picture: mahomes, source: 'HOF Patrick Mahomes / dribbble.com'},
+        {id: 'mack', picture: mack, source: 'Khalil Mack / Chicago Bears'}
     ],
     '59723313734d1d6202a85f15': [
     ],
     '59723313734d1d6202a85f17': [
     ],
-    '59723313734d1d6202a85f19': [
-    ],
-    '59723313734d1d6202a85f35': [
-    ],
+    '59723313734d1d6202a85f19': basketBallImages,
+    '59723313734d1d6202a85f35': basketBallImages,
     '59723313734d1d6202a85f25': [
     ],
     '59723313734d1d6202a85f37': [
@@ -395,6 +412,7 @@ const images = {
     '59723313734d1d6202a85f29': [
     ],
     '59723313734d1d6202a85f21': [
+        {id: 'rickey', picture: rickey, source: 'Rickey Henderson / dribbble.com'}
     ]
 };
 
