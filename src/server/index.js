@@ -53,6 +53,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.set("port", httpPort || 3001);
 app.use(function (req, res, next) {
+  if (req.headers['accept'] !== 'application/json') {
+    res.setHeader('content-type', `${req.headers['accept']}, charset=UTF-8`);
+  }
   next();
 });
 
