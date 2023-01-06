@@ -96,228 +96,228 @@ const updateGames = (leagueId) => {
 };
 
 const teamStatTemplate = {
-    gamesPlayed: {
-      name: "Games Played",
-      value: 0,
-      displayStat: true
-    },
+  gamesPlayed: {
+    name: "Games Played",
+    value: 0,
+    displayStat: true
+  },
 
-    wins: {
-      name: "Wins",
-      value: 0,
-      displayStat: true
-    },
+  wins: {
+    name: "Wins",
+    value: 0,
+    displayStat: true
+  },
 
-    losses: {
-      name: "Losses",
-      value: 0,
-      displayStat: true
-    },
+  losses: {
+    name: "Losses",
+    value: 0,
+    displayStat: true
+  },
 
-    ties: {
-      name: "Ties",
-      value: 0,
-      displayStat: true
-    },
+  ties: {
+    name: "Ties",
+    value: 0,
+    displayStat: true
+  },
 
-    homeGamesPlayed: {
-      name: "Home Games Played",
-      value: 0,
-      displayStat: true
-    },
+  homeGamesPlayed: {
+    name: "Home Games Played",
+    value: 0,
+    displayStat: true
+  },
 
-    roadGamesPlayed: {
-      name: "Road Games Played",
-      value: 0,
-      displayStat: true
-    },
+  roadGamesPlayed: {
+    name: "Road Games Played",
+    value: 0,
+    displayStat: true
+  },
 
-    winStreak: {
-      name: "Win Streak",
-      value: 0,
-      displayStat: true
-    },
-    
-    losingStreak: {
-      name: "Losing Streak",
-      value: 0,
-      displayStat: true
-    },
+  winStreak: {
+    name: "Win Streak",
+    value: 0,
+    displayStat: true
+  },
+  
+  losingStreak: {
+    name: "Losing Streak",
+    value: 0,
+    displayStat: true
+  },
 
-    pointsScored: {
-      name: "Points Scored",
-      value: 0,
-      displayStat: true
-    },
+  pointsScored: {
+    name: "Points Scored",
+    value: 0,
+    displayStat: true
+  },
 
-    pointsAllowed: {
-      name: "Points Allowed",
-      value: 0,
-      displayStat: true
-    },
+  pointsAllowed: {
+    name: "Points Allowed",
+    value: 0,
+    displayStat: true
+  },
 
-    pointDifferential: {
-      name: "Point Diff",
-      value: 0,
-      displayStat: true
-    },
+  pointDifferential: {
+    name: "Point Diff",
+    value: 0,
+    displayStat: true
+  },
 
-    roadPointsScored: {
-      name: "Road Points Scored",
-      value: 0
-    },
+  roadPointsScored: {
+    name: "Road Points Scored",
+    value: 0
+  },
 
-    roadPointsAllowed: {
-      name: "Road Points Allowed",
-      value: 0
-    },
+  roadPointsAllowed: {
+    name: "Road Points Allowed",
+    value: 0
+  },
 
-    roadPointDifferential: {
-      name: "Road Point Diff",
-      value: 0
-    },
+  roadPointDifferential: {
+    name: "Road Point Diff",
+    value: 0
+  },
 
-    homePointsScored: {
-      name: "Home Points Scored",
-      value: 0
-    },
+  homePointsScored: {
+    name: "Home Points Scored",
+    value: 0
+  },
 
-    homePointsAllowed: {
-      name: "Home Points Allowed",
-      value: 0
-    },
+  homePointsAllowed: {
+    name: "Home Points Allowed",
+    value: 0
+  },
 
-    homePointDifferential: {
-      name: "Home Point Diff",
-      value: 0
-    },
+  homePointDifferential: {
+    name: "Home Point Diff",
+    value: 0
+  },
 
-    pointsScoredAvg: {
-      name: "Points Scored Avg",
-      value: 0,
-      displayStat: true
-    },
+  pointsScoredAvg: {
+    name: "Points Scored Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    pointsAllowedAvg: {
-      name: "Points Allowed Avg",
-      value: 0,
-      displayStat: true
-    },
+  pointsAllowedAvg: {
+    name: "Points Allowed Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    pointDifferentialAvg: {
-      name: "Point Diff Avg",
-      value: 0,
-      displayStat: true
-    },
+  pointDifferentialAvg: {
+    name: "Point Diff Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    roadPointsScoredAvg: {
-      name: "Road Points Scored Avg",
-      value: 0,
-      displayStat: true
-    },
+  roadPointsScoredAvg: {
+    name: "Road Points Scored Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    roadPointsAllowedAvg: {
-      name: "Road Points Allowed Avg",
-      value: 0,
-      displayStat: true
-    },
+  roadPointsAllowedAvg: {
+    name: "Road Points Allowed Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    roadPointDifferentialAvg: {
-      name: "Road Point Diff Avg",
-      value: 0,
-      displayStat: true
-    },
+  roadPointDifferentialAvg: {
+    name: "Road Point Diff Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    homePointsScoredAvg: {
-      name: "Home Points Scored Avg",
-      value: 0,
-      displayStat: true
-    },
+  homePointsScoredAvg: {
+    name: "Home Points Scored Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    homePointsAllowedAvg: {
-      name: "Home Points Allowed Avg",
-      value: 0,
-      displayStat: true
-    },
+  homePointsAllowedAvg: {
+    name: "Home Points Allowed Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    homePointDifferentialAvg: {
-      name: "Home Point Diff Avg",
-      value: 0,
-      displayStat: true
-    },
+  homePointDifferentialAvg: {
+    name: "Home Point Diff Avg",
+    value: 0,
+    displayStat: true
+  },
 
-    mostPointsScored: {
-      name: "Most Points Scored",
-      value: 0,
-      displayStat: true
-    },
+  mostPointsScored: {
+    name: "Most Points Scored",
+    value: 0,
+    displayStat: true
+  },
 
-    mostPointsAllowed: {
-      name: "Most Points Allowed",
-      value: 0,
-      displayStat: true
-    },
+  mostPointsAllowed: {
+    name: "Most Points Allowed",
+    value: 0,
+    displayStat: true
+  },
 
-    beatVegas: {
-      name: "Beat Vegas as Fave",
-      value: 0,
-      displayStat: true
-    },
+  beatVegas: {
+    name: "Beat Vegas as Fave",
+    value: 0,
+    displayStat: true
+  },
 
-    beatVegasDog: {
-      name: "Beat Vegas as Dog",
-      value: 0,
-      displayStat: true
-    },
+  beatVegasDog: {
+    name: "Beat Vegas as Dog",
+    value: 0,
+    displayStat: true
+  },
 
-    roadBeatVegas: {
-      name: "Beat Vegas as Road Fave",
-      value: 0,
-      displayStat: true
-    },
+  roadBeatVegas: {
+    name: "Beat Vegas as Road Fave",
+    value: 0,
+    displayStat: true
+  },
 
-    roadBeatVegasDog: {
-      name: "Beat Vegas as Road Dog",
-      value: 0,
-      displayStat: true
-    },
+  roadBeatVegasDog: {
+    name: "Beat Vegas as Road Dog",
+    value: 0,
+    displayStat: true
+  },
 
-    homeBeatVegas: {
-      name: "Beat Vegas as Home Fave",
-      value: 0,
-      displayStat: true
-    },
+  homeBeatVegas: {
+    name: "Beat Vegas as Home Fave",
+    value: 0,
+    displayStat: true
+  },
 
-    homeBeatVegasDog: {
-      name: "Beat Vegas as Home Dog",
-      value: 0,
-      displayStat: true
-    },
+  homeBeatVegasDog: {
+    name: "Beat Vegas as Home Dog",
+    value: 0,
+    displayStat: true
+  },
 
-    topDogScoring: {
-      name: "Scored 27 or more",
-      value: 0,
-      displayStat: true
-    },
+  topDogScoring: {
+    name: "Scored 27 or more",
+    value: 0,
+    displayStat: true
+  },
 
-    clutchDefense: {
-      name: "Allowed only 23 or less",
-      value: 0,
-      displayStat: true
-    },
+  clutchDefense: {
+    name: "Allowed only 23 or less",
+    value: 0,
+    displayStat: true
+  },
 
-    clutchWins: {
-      name: "Won by less than 8",
-      value: 0,
-      displayStat: true
-    },
-    
-    closeLosses: {
-      name: "Loss by less than 8",
-      value: 0,
-      displayStat: true
-    },
-  };
+  clutchWins: {
+    name: "Won by less than 8",
+    value: 0,
+    displayStat: true
+  },
+  
+  closeLosses: {
+    name: "Loss by less than 8",
+    value: 0,
+    displayStat: true
+  }
+};
 
 const getAllTeamStats = (gamesWholeYear) => { 
   let teamStats = {};
@@ -485,6 +485,256 @@ const getStats = (game, teamStats) => {
   return stats;
 };
 
+const setAmericanFootballPlays = (game) => {
+  if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
+    const monthDay = parseInt(moment().format('MMDD'));
+
+    let lastPlay;
+    
+    let highlights = [];
+    let lastHighlightTime;
+
+    let playHistory = [];
+    let lastTime;
+
+    for (let i = 0; i < game.playHistory.length; i++) {
+      lastPlay = game.playHistory[i].lastPlay;
+
+      if ((lastPlay || "").toLowerCase().includes('punt')) {
+        game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('touchdown') || 
+        (lastPlay || "").toLowerCase().includes('td')) {
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('safety')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🥳";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('field goal') || 
+        (lastPlay || "").toLowerCase().includes('fg')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🥶";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('sacked')) {
+        game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('pass deep') || 
+        (lastPlay || "").toLowerCase().includes('flea flicker') || 
+        (lastPlay || "").toLowerCase().includes('hail mary') || 
+        (lastPlay || "").toLowerCase().includes('statue of liberty') || 
+        (lastPlay || "").toLowerCase().includes('philly special')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🏈";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('scramble')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🚛";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
+        (lastPlay || "").toLowerCase().includes('play under review') || 
+        (lastPlay || "").toLowerCase().includes('interference') || 
+        (lastPlay || "").toLowerCase().includes('missed') || 
+        (lastPlay || "").toLowerCase().includes('no good') || 
+        (lastPlay || "").toLowerCase().includes('onside') || 
+        (lastPlay || "").toLowerCase().includes('challenge') || 
+        (lastPlay || "").toLowerCase().includes('upheld') ||
+        (lastPlay || "").toLowerCase().includes('reverse') || 
+        (lastPlay || "").toLowerCase().includes('intercept') || 
+        (lastPlay || "").toLowerCase().includes('fumble')) {
+        game.playHistory[i].lastPlay = lastPlay + " 😳";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('dance') ||
+        (lastPlay || "").toLowerCase().includes('fight') || 
+        
+        (lastPlay || "").toLowerCase().includes('pass deep') ||
+        (lastPlay || "").toLowerCase().includes('scramble') || 
+        
+        (lastPlay || "").toLowerCase().includes('touchdown') || 
+        (lastPlay || "").toLowerCase().includes('field goal') || 
+        (lastPlay || "").toLowerCase().includes('td') || 
+        (lastPlay || "").toLowerCase().includes('fg') || 
+        (lastPlay || "").toLowerCase().includes('safety') || 
+
+        (lastPlay || "").toLowerCase().includes('missed') || 
+        (lastPlay || "").toLowerCase().includes('no good') || 
+        
+        (lastPlay || "").toLowerCase().includes('sacked') || 
+        (lastPlay || "").toLowerCase().includes('deflect') || 
+        (lastPlay || "").toLowerCase().includes('tipped') ||
+
+        (lastPlay || "").toLowerCase().includes('punt') || 
+        (lastPlay || "").toLowerCase().includes('onside') || 
+
+        (lastPlay || "").toLowerCase().includes('injur') || 
+
+        (lastPlay || "").toLowerCase().includes('challenge') || 
+        (lastPlay || "").toLowerCase().includes('upheld') ||
+        (lastPlay || "").toLowerCase().includes('reverse') || 
+        (lastPlay || "").toLowerCase().includes('intercept') || 
+        (lastPlay || "").toLowerCase().includes('fumble')) {
+
+        if (lastHighlightTime !== lastPlay.slice(0,7)) {
+          lastHighlightTime = lastPlay.slice(0,7);
+          highlights.push(game.playHistory[i]);
+        }
+      }
+
+      if (lastTime !== lastPlay.slice(0,7)) {
+        lastTime = lastPlay.slice(0,7);
+        playHistory.push(game.playHistory[i]);
+      }
+
+      try {
+        const yards = /for([^yards]+)yards/.exec(lastPlay)[1];
+        const yardNumber = parseInt(yards);
+
+        if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
+          highlights.push(game.playHistory[i]);
+        }
+      } catch {
+        console.log("Error getting plays greater than or equal to 15 yards");
+      }
+    }
+
+    game.playHistory = [...new Set(playHistory)];
+    game.highlights = [...new Set(highlights)];
+  }
+}
+
+const setBasketballPlays = (game) => {
+  if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
+    const monthDay = parseInt(moment().format('MMDD'));
+  
+    let highlights = [];
+    let playHistory = [];
+    let lastPlay;
+
+    for (let i = 0; i < game.playHistory.length; i++) {
+      lastPlay = game.playHistory[i].lastPlay;
+
+      if ((lastPlay || "").toLowerCase().includes('free throw') ||  
+        (lastPlay || "").toLowerCase().includes('foul')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🥶";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🥳";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('three point')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🏀";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('miss') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole')) {
+        game.playHistory[i].lastPlay = lastPlay + " 😳";
+      }
+
+      if ((lastPlay || "").toLowerCase().includes('block')) {
+        game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer')) {
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make') && 
+        !(game.playHistory[i].lastPlay || "").toLowerCase().includes('free throw')) {
+        highlights.push(game.playHistory[i]);
+      }
+
+      playHistory.push(game.playHistory[i]);
+    }
+
+    game.playHistory = playHistory;
+    game.highlights = highlights;
+  }
+}
+
+const setBaseballPlays = (game) => {
+  if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
+    const monthDay = parseInt(moment().format('MMDD'));
+  
+    let highlights = [];
+    let playHistory = [];
+    let lastPlay;
+
+    for (let i = 0; i < game.playHistory.length; i++) {
+      lastPlay = game.playHistory[i].lastPlay;
+
+      if ((lastPlay || "").toLowerCase().includes('foul') || 
+        (lastPlay || "").toLowerCase().includes('swinging') || 
+        (lastPlay || "").toLowerCase().includes('looking')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🥶";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
+        game.playHistory[i].lastPlay = lastPlay + " ⚾️";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('hit by pitch') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('fouled out') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('flied out') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('grounded out') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('bunted') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('walked') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('balk') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('caught')) {
+        game.playHistory[i].lastPlay = lastPlay + " 😳";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🚛";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('score') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('singled') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('doubled') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('tripled')) {
+        game.playHistory[i].lastPlay = lastPlay + " 🥳";
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+      }
+
+      if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
+        (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
+        highlights.push(game.playHistory[i]);
+      }
+
+      playHistory.push(game.playHistory[i]);
+    }
+
+    game.playHistory = playHistory;
+    game.highlights = highlights;
+  }
+}
+
 router.get('/games', async function (req, res) {
   console.log("time1: ", moment().format());
 
@@ -567,258 +817,25 @@ router.get('/games', async function (req, res) {
     //console.log("teamStats: ", JSON.stringify(teamStats));
 
     gamesThisRange.forEach(game=>{
-      if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
-        let lastPlay;
-        
-        let highlights = [];
-        let lastHighlightTime;
-
-        let playHistory = [];
-        let lastTime;
-
-        for (let i = 0; i < game.playHistory.length; i++) {
-          lastPlay = game.playHistory[i].lastPlay;
-
-          if ((lastPlay || "").toLowerCase().includes('punt')) {
-            game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('touchdown') || 
-            (lastPlay || "").toLowerCase().includes('td')) {
-            game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('safety')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🥳";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('field goal') || 
-            (lastPlay || "").toLowerCase().includes('fg')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🥶";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('sacked')) {
-            game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('pass deep') || 
-            (lastPlay || "").toLowerCase().includes('flea flicker') || 
-            (lastPlay || "").toLowerCase().includes('hail mary') || 
-            (lastPlay || "").toLowerCase().includes('statue of liberty') || 
-            (lastPlay || "").toLowerCase().includes('philly special')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🏈";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('scramble')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🚛";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
-            (lastPlay || "").toLowerCase().includes('play under review') || 
-            (lastPlay || "").toLowerCase().includes('interference') || 
-            (lastPlay || "").toLowerCase().includes('missed') || 
-            (lastPlay || "").toLowerCase().includes('no good') || 
-            (lastPlay || "").toLowerCase().includes('onside') || 
-            (lastPlay || "").toLowerCase().includes('challenge') || 
-            (lastPlay || "").toLowerCase().includes('upheld') ||
-            (lastPlay || "").toLowerCase().includes('reverse') || 
-            (lastPlay || "").toLowerCase().includes('intercept') || 
-            (lastPlay || "").toLowerCase().includes('fumble')) {
-            game.playHistory[i].lastPlay = lastPlay + " 😳";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('dance') ||
-            (lastPlay || "").toLowerCase().includes('fight') || 
-            
-            (lastPlay || "").toLowerCase().includes('pass deep') ||
-            (lastPlay || "").toLowerCase().includes('scramble') || 
-            
-            (lastPlay || "").toLowerCase().includes('touchdown') || 
-            (lastPlay || "").toLowerCase().includes('field goal') || 
-            (lastPlay || "").toLowerCase().includes('td') || 
-            (lastPlay || "").toLowerCase().includes('fg') || 
-            (lastPlay || "").toLowerCase().includes('safety') || 
-
-            (lastPlay || "").toLowerCase().includes('missed') || 
-            (lastPlay || "").toLowerCase().includes('no good') || 
-            
-            (lastPlay || "").toLowerCase().includes('sacked') || 
-            (lastPlay || "").toLowerCase().includes('deflect') || 
-            (lastPlay || "").toLowerCase().includes('tipped') ||
-
-            (lastPlay || "").toLowerCase().includes('punt') || 
-            (lastPlay || "").toLowerCase().includes('onside') || 
-
-            (lastPlay || "").toLowerCase().includes('injur') || 
-
-            (lastPlay || "").toLowerCase().includes('challenge') || 
-            (lastPlay || "").toLowerCase().includes('upheld') ||
-            (lastPlay || "").toLowerCase().includes('reverse') || 
-            (lastPlay || "").toLowerCase().includes('intercept') || 
-            (lastPlay || "").toLowerCase().includes('fumble')) {
-
-            if (lastHighlightTime !== lastPlay.slice(0,7)) {
-              lastHighlightTime = lastPlay.slice(0,7);
-              highlights.push(game.playHistory[i]);
-            }
-          }
-
-          if (lastTime !== lastPlay.slice(0,7)) {
-            lastTime = lastPlay.slice(0,7);
-            playHistory.push(game.playHistory[i]);
-          }
-
-          try {
-            const yards = /for([^yards]+)yards/.exec(lastPlay)[1];
-            const yardNumber = parseInt(yards);
-
-            if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
-              highlights.push(game.playHistory[i]);
-            }
-          } catch {}
-        }
-
-        game.playHistory = [...new Set(playHistory)];
-        game.highlights = [...new Set(highlights)];
-      }
-
-      if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
-        let highlights = [];
-        let playHistory = [];
-        let lastPlay;
-
-        for (let i = 0; i < game.playHistory.length; i++) {
-          lastPlay = game.playHistory[i].lastPlay;
-
-          if ((lastPlay || "").toLowerCase().includes('free throw') ||  
-            (lastPlay || "").toLowerCase().includes('foul')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🥶";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🥳";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('three point')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🏀";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('miss') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('bad') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole')) {
-            game.playHistory[i].lastPlay = lastPlay + " 😳";
-          }
-
-          if ((lastPlay || "").toLowerCase().includes('block')) {
-            game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer')) {
-            game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make') && 
-            !(game.playHistory[i].lastPlay || "").toLowerCase().includes('free throw')) {
-            highlights.push(game.playHistory[i]);
-          }
-
-          playHistory.push(game.playHistory[i]);
-        }
-
-        game.playHistory = playHistory;
-        game.highlights = highlights;
-      }
-
-      if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
-        let highlights = [];
-        let playHistory = [];
-        let lastPlay;
-
-        for (let i = 0; i < game.playHistory.length; i++) {
-          lastPlay = game.playHistory[i].lastPlay;
-
-          if ((lastPlay || "").toLowerCase().includes('foul') || 
-            (lastPlay || "").toLowerCase().includes('swinging') || 
-            (lastPlay || "").toLowerCase().includes('looking')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🥶";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('struck out') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('strike 3')) {
-            game.playHistory[i].lastPlay = lastPlay + " ⚾️";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('hit by pitch') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('thrown out') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('fouled out') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('indifference') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('choice') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('flied out') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('grounded out') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('bunted') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('walked') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('balk') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('caught')) {
-            game.playHistory[i].lastPlay = lastPlay + " 😳";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('steal')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🚛";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('stole home') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('score') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('singled') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('doubled') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('tripled')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🥳";
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
-            game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
-          }
-
-          if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('stole') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('inside the park') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered') || 
-            (game.playHistory[i].lastPlay || "").toLowerCase().includes('score')) {
-            highlights.push(game.playHistory[i]);
-          }
-
-          playHistory.push(game.playHistory[i]);
-        }
-
-        game.playHistory = playHistory;
-        game.highlights = highlights;
-      }
+      setAmericanFootballPlays(game);
+      setBasketballPlays(game);
+      setBaseballPlays(game);
 
       game.hashCompetitors = null;
       game.playHistory = game.playHistory.slice(0,playHistoryCount);
       game.stats = getStats(game, teamStats);
 
-      game.serverLiveVideoUrl = "https://www.youtube.com/embed/tgbNymZ7vqY" // getVideoStreamUrl(game);
-      game.isWatchable = [
-      '59723313734d1d6202a85f10',
-      '59723313734d1d6202a85f15',
-      '59723313734d1d6202a85f19',
-      '59723313734d1d6202a85f25',
-      '59723313734d1d6202a85f27'
-      ].includes(game.leagueId.toString().toLowerCase());
-      game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
-      game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
-
-      //console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
+      // game.serverLiveVideoUrl = "https://www.youtube.com/embed/tgbNymZ7vqY" // getVideoStreamUrl(game);
+      // game.isWatchable = [
+      // '59723313734d1d6202a85f10',
+      // '59723313734d1d6202a85f15',
+      // '59723313734d1d6202a85f19',
+      // '59723313734d1d6202a85f25',
+      // '59723313734d1d6202a85f27'
+      // ].includes(game.leagueId.toString().toLowerCase());
+      // game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
+      // game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
+      // console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
     });
 
     console.log("time4: ", moment().format());
