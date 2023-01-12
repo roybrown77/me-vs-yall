@@ -193,13 +193,13 @@ const teamStatTemplate = {
   },
 
   pointsScoredAvg: {
-    name: "Points Scored Avg",
+    name: "Pnts Scrd Avg",
     value: 0,
     displayStat: true
   },
 
   pointsAllowedAvg: {
-    name: "Points Allowed Avg",
+    name: "Pnts Allwd Avg",
     value: 0,
     displayStat: true
   },
@@ -211,13 +211,13 @@ const teamStatTemplate = {
   },
 
   roadPointsScoredAvg: {
-    name: "Road Points Scored Avg",
+    name: "Road Pnts Scrd Avg",
     value: 0,
     displayStat: true
   },
 
   roadPointsAllowedAvg: {
-    name: "Road Points Allowed Avg",
+    name: "Road Pnts Allwd Avg",
     value: 0,
     displayStat: true
   },
@@ -229,13 +229,13 @@ const teamStatTemplate = {
   },
 
   homePointsScoredAvg: {
-    name: "Home Points Scored Avg",
+    name: "Home Pnts Scrd Avg",
     value: 0,
     displayStat: true
   },
 
   homePointsAllowedAvg: {
-    name: "Home Points Allowed Avg",
+    name: "Home Pnts Allwd Avg",
     value: 0,
     displayStat: true
   },
@@ -319,223 +319,224 @@ const teamStatTemplate = {
   },
 
   last3gamesPlayed: {
-    name: "Last 3 Games Played",
+    name: "Games Played",
     value: 0,
     displayStat: false
   },
 
   last3wins: {
-    name: "Last 3 Wins",
+    name: "Wins",
     value: 0,
-    displayStat: true
+    displayStat: true,
+    header: 'Stats for Last 3 Games'
   },
 
   last3losses: {
-    name: "Last 3 Losses",
+    name: "Losses",
     value: 0,
     displayStat: true
   },
 
   last3ties: {
-    name: "Last 3 Ties",
+    name: "Ties",
     value: 0,
     displayStat: true
   },
 
   last3homeGamesPlayed: {
-    name: "Last 3 Home Games Played",
+    name: "Home Games Played",
     value: 0,
     displayStat: true
   },
 
   last3roadGamesPlayed: {
-    name: "Last 3 Road Games Played",
+    name: "Road Games Played",
     value: 0,
     displayStat: true
   },
 
   last3winStreak: {
-    name: "Last 3 Win Streak",
+    name: "Win Streak",
     value: 0,
     displayStat: true
   },
   
   last3losingStreak: {
-    name: "Last 3 Losing Streak",
+    name: "Losing Streak",
     value: 0,
     displayStat: true
   },
 
   last3pointsScored: {
-    name: "Last 3 Points Scored",
+    name: "Points Scored",
     value: 0,
     displayStat: true
   },
 
   last3pointsAllowed: {
-    name: "Last 3 Points Allowed",
+    name: "Points Allowed",
     value: 0,
     displayStat: true
   },
 
   last3pointDifferential: {
-    name: "Last 3 Point Diff",
+    name: "Point Diff",
     value: 0,
     displayStat: true
   },
 
   last3roadPointsScored: {
-    name: "Last 3 Road Points Scored",
+    name: "Road Points Scored",
     value: 0
   },
 
   last3roadPointsAllowed: {
-    name: "Last 3 Road Points Allowed",
+    name: "Road Points Allowed",
     value: 0
   },
 
   last3roadPointDifferential: {
-    name: "Last 3 Road Point Diff",
+    name: "Road Point Diff",
     value: 0
   },
 
   last3homePointsScored: {
-    name: "Last 3 Home Points Scored",
+    name: "Home Points Scored",
     value: 0
   },
 
   last3homePointsAllowed: {
-    name: "Last 3 Home Points Allowed",
+    name: "Home Points Allowed",
     value: 0
   },
 
   last3homePointDifferential: {
-    name: "Last 3 Home Point Diff",
+    name: "Home Point Diff",
     value: 0
   },
 
   last3pointsScoredAvg: {
-    name: "Last 3 Points Scored Avg",
+    name: "Pnts Scrd Avg",
     value: 0,
     displayStat: true
   },
 
   last3pointsAllowedAvg: {
-    name: "Last 3 Points Allowed Avg",
+    name: "Pnts Allwd Avg",
     value: 0,
     displayStat: true
   },
 
   last3pointDifferentialAvg: {
-    name: "Last 3 Point Diff Avg",
+    name: "Point Diff Avg",
     value: 0,
     displayStat: true
   },
 
   last3roadPointsScoredAvg: {
-    name: "Last 3 Road Points Scored Avg",
+    name: "Road Pnts Scrd Avg",
     value: 0,
     displayStat: true
   },
 
   last3roadPointsAllowedAvg: {
-    name: "Last 3 Road Points Allowed Avg",
+    name: "Road Pnts Allwd Avg",
     value: 0,
     displayStat: true
   },
 
   last3roadPointDifferentialAvg: {
-    name: "Last 3 Road Point Diff Avg",
+    name: "Road Point Diff Avg",
     value: 0,
     displayStat: true
   },
 
   last3homePointsScoredAvg: {
-    name: "Last 3 Home Points Scored Avg",
+    name: "Home Pnts Scrd Avg",
     value: 0,
     displayStat: true
   },
 
   last3homePointsAllowedAvg: {
-    name: "Last 3 Home Points Allowed Avg",
+    name: "Home Pnts Allwd Avg",
     value: 0,
     displayStat: true
   },
 
   last3homePointDifferentialAvg: {
-    name: "Last 3 Home Point Diff Avg",
+    name: "Home Point Diff Avg",
     value: 0,
     displayStat: true
   },
 
   last3mostPointsScored: {
-    name: "Last 3 Most Points Scored",
+    name: "Most Points Scored",
     value: 0,
     displayStat: true
   },
 
   last3mostPointsAllowed: {
-    name: "Last 3 Most Points Allowed",
+    name: "Most Points Allowed",
     value: 0,
     displayStat: true
   },
 
   last3beatVegas: {
-    name: "Last 3 Beat Vegas as Fave",
+    name: "Beat Vegas as Fave",
     value: 0,
     displayStat: true
   },
 
   last3beatVegasDog: {
-    name: "Last 3 Beat Vegas as Dog",
+    name: "Beat Vegas as Dog",
     value: 0,
     displayStat: true
   },
 
   last3roadBeatVegas: {
-    name: "Last 3 Beat Vegas as Road Fave",
+    name: "Beat Vegas as Road Fave",
     value: 0,
     displayStat: true
   },
 
   last3roadBeatVegasDog: {
-    name: "Last 3 Beat Vegas as Road Dog",
+    name: "Beat Vegas as Road Dog",
     value: 0,
     displayStat: true
   },
 
   last3homeBeatVegas: {
-    name: "Last 3 Beat Vegas as Home Fave",
+    name: "Beat Vegas as Home Fave",
     value: 0,
     displayStat: true
   },
 
   last3homeBeatVegasDog: {
-    name: "Last 3 Beat Vegas as Home Dog",
+    name: "Beat Vegas as Home Dog",
     value: 0,
     displayStat: true
   },
 
   last3topDogScoring: {
-    name: "Last 3 Scored 27 or more",
+    name: "Scored 27 or more",
     value: 0,
     displayStat: true
   },
 
   last3clutchDefense: {
-    name: "Last 3 Allowed only 23 or less",
+    name: "Allowed only 23 or less",
     value: 0,
     displayStat: true
   },
 
   last3clutchWins: {
-    name: "Last 3 Won by less than 8",
+    name: "Won by less than 8",
     value: 0,
     displayStat: true
   },
   
   last3closeLosses: {
-    name: "Last 3 Loss by less than 8",
+    name: "Loss by less than 8",
     value: 0,
     displayStat: true
   },
@@ -768,6 +769,7 @@ const getStats = (game, teamStats) => {
 
       const stat = {
         name: value.name,
+        header: value.header,
         awayTeam:  {
           name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name,
           value: awayTeamStats[key].value

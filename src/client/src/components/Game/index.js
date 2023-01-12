@@ -389,13 +389,19 @@ function GamePlayTabs(props) {
               </div>
               {
                 (game.stats || []).map((stat,statIndex)=> (
-                  <div key={statIndex} style={{display:'flex'}}>
-                    <div>{stat.name}</div>
-                    <div style={{position: "absolute", right: "100px"}}>
-                      {stat.awayTeam.value}
-                    </div>
-                    <div style={{position: "absolute", right: "10px"}}>
-                      {stat.homeTeam.value}
+                  <div key={statIndex}>
+                    {
+                      stat.header &&
+                      <div style={{margin: '10px 0'}}>{stat.header}</div>
+                    }
+                    <div style={{display:'flex'}}>
+                      <div>{stat.name}</div>
+                      <div style={{position: "absolute", right: "100px"}}>
+                        {stat.awayTeam.value}
+                      </div>
+                      <div style={{position: "absolute", right: "10px"}}>
+                        {stat.homeTeam.value}
+                      </div>
                     </div>
                   </div>
                 ))
