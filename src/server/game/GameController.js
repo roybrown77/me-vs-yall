@@ -321,14 +321,14 @@ const teamStatTemplate = {
   last3gamesPlayed: {
     name: "Games Played",
     value: 0,
-    displayStat: true
+    displayStat: true,
+    header: 'Stats for Last 3 Games'
   },
 
   last3wins: {
     name: "Wins",
     value: 0,
-    displayStat: true,
-    header: 'Stats for Last 3 Games'
+    displayStat: true
   },
 
   last3losses: {
