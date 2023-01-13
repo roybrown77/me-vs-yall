@@ -321,7 +321,7 @@ const teamStatTemplate = {
   last3gamesPlayed: {
     name: "Games Played",
     value: 0,
-    displayStat: false
+    displayStat: true
   },
 
   last3wins: {
@@ -650,8 +650,9 @@ const getAllTeamStats = (gamesWholeYear) => {
       teamStats[game.competitors[i]._id].clutchDefense.value += (game.competitors[1-i].score || 0) <= 23 ? 1 : 0;
       teamStats[game.competitors[i]._id].topDogScoring.value += (game.competitors[i].score || 0) >= 27 ? 1 : 0;
 
-      const weeksSinceGameStart = moment().diff(moment(game.startDateTime),'weeks');
-      if (weeksSinceGameStart < 3) {  
+      const weeksBetweenGameAndLastGame = moment(gamesWholeYear[gamesWholeYear.length-1].startDateTime).diff(moment(game.startDateTime),'weeks');
+      console.log(`weeksBetweenGameAndLastGame: ${weeksBetweenGameAndLastGame}`);
+      if (weeksBetweenGameAndLastGame < 3) {
         teamStats[game.competitors[i]._id].last3gamesPlayed.value += 1;
         teamStats[game.competitors[i]._id].last3wins.value += (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 1 : 0;
         teamStats[game.competitors[i]._id].last3losses.value += (game.competitors[i].score || 0) < (game.competitors[1-i].score || 0) ? 1 : 0;
