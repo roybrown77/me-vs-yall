@@ -146,7 +146,7 @@ class Home extends Component {
               !darkModeOn &&
               <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
                 <div style={{marginTop: '2em'}}>
-                  <img style={{width:'275px'}} src={mvy} alt=""/>
+                  <img style={{height:'137px', width:'275px'}} src={mvy} alt=""/>
                 </div>
               </Slide>
             }

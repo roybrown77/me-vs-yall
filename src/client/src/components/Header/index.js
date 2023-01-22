@@ -141,7 +141,7 @@ class Header extends Component {
           <AppBar className={classNames(classes.appBar)}>
             <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
             <Link to="/home">
-              <img style={{height:'45px'}} src={mvy} alt=""/>
+              <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
             </Link>
             </Typography>
             {
