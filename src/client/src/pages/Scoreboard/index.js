@@ -97,8 +97,8 @@ const styles = theme => ({
     marginBottom: '10px',
     padding: '0',
     width: '75%',
-    '-webkit-box-shadow': '-8px 8px 0px 0px black',
-    '-moz-box-shadow': '-8px 8px 0px 0px black',
+    'WebkitBoxShadow': '-8px 8px 0px 0px black',
+    'MozBoxShadow': '-8px 8px 0px 0px black',
     boxShadow: '-8px 8px 0px 0px black'
   },
   toggleButtonOn: {
@@ -623,10 +623,10 @@ class Scoreboard extends Component {
                                     !areAnyGamesInProgress &&
                                     dataLoading &&
                                     <div style={{margin: '10px 0'}}>
-                                        <Skeleton animation="pulse" height='5em' variant="rectangular"/>
+                                        <Skeleton animation="pulse" height='5em' variant="rect"/>
                                         <div style={{display: 'flex'}}>
-                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rectangular"/>
-                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rectangular"/>
+                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rect"/>
+                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rect"/>
                                         </div>
                                     </div>
                                 }

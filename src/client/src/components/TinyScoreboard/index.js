@@ -27,8 +27,8 @@ const TinyScoreboard = ({loading, title, games}) => {
             lineHeight: '20px',
             fontWeight: 'bold',
             fontSize: '14px',
-            '-webkit-box-shadow': '0px 8px 0px 0px dodgerblue',
-            '-moz-box-shadow': '0px 8px 0px 0px dodgerblue',
+            'WebkitBoxShadow': '0px 8px 0px 0px dodgerblue',
+            'MozBoxShadow': '0px 8px 0px 0px dodgerblue',
             boxShadow: '0px 8px 0px 0px dodgerblue'
         },
         gameContainer: {
@@ -50,7 +50,7 @@ const TinyScoreboard = ({loading, title, games}) => {
     if (loading) {
         return (
             <div>
-                <Skeleton animation="pulse" height='40px' variant="rectangular"/>
+                <Skeleton animation="pulse" height='40px' variant="rect"/>
             </div>
         );
     }
@@ -67,7 +67,7 @@ const TinyScoreboard = ({loading, title, games}) => {
                 {
                     (games.length === 0 ? [1] : games).map((game, index) => {
                         return (
-                            <div style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
+                            <div key={index} style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
                                 <div style={{display:'flex'}}>
                                     <div style={{marginRight:'5px', textAlign: 'left'}}>
                                         <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>

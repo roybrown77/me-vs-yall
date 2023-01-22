@@ -49,10 +49,10 @@ class GameSearchBar extends Component {
       return (
         <div style={{margin: '10px'}}>
             <div style={{display: 'inline-flex', marginBottom: '10px'}}>
-                <Skeleton style={{marginRight: '20px'}} animation="pulse" height='40px' width='100px' variant="rectangular"/>
-                <Skeleton animation="pulse" height='40px' width='100px' variant="rectangular"/>
+                <Skeleton style={{marginRight: '20px'}} animation="pulse" height='40px' width='100px' variant="rect"/>
+                <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>
             </div>
-            <Skeleton animation="pulse" height='40px' variant="rectangular"/>
+            <Skeleton animation="pulse" height='40px' variant="rect"/>
         </div>
       );
     }

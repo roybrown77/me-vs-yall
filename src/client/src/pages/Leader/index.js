@@ -114,8 +114,8 @@ const styles = theme => ({
     marginBottom: '10px',
     padding: '0',
     width: '75%',
-    '-webkit-box-shadow': '-8px 8px 0px 0px black',
-    '-moz-box-shadow': '-8px 8px 0px 0px blackk',
+    'WebkitBoxShadow': '-8px 8px 0px 0px black',
+    'MozBoxShadow': '-8px 8px 0px 0px blackk',
     boxShadow: '-8px 8px 0px 0px black'
   },
   toggleButtonOn: {
@@ -522,9 +522,9 @@ class Leader extends Component {
                                         !areAnyGamesInProgress &&
                                         dataLoading &&
                                         <div style={{margin: '10px 0'}}>
-                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
-                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
-                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rectangular"/>
+                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rect"/>
+                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rect"/>
+                                            <Skeleton style={{margin: '10px 0 0 0'}} animation="pulse" height='5em' variant="rect"/>
                                         </div>
                                     }
                                     {

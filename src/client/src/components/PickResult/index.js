@@ -11,7 +11,7 @@ const PickResult = ({loading = false, games, picks, spreadMode = false}) => {
 	if (loading) {
 		<div>
 			<div style={{margin: '0 15% 10px 15%'}}>
-				<Skeleton animation="pulse" height='30px' variant="rectangular"/>
+				<Skeleton animation="pulse" height='30px' variant="rect"/>
 			</div>
 		</div>
 	}
