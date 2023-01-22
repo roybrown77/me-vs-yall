@@ -16,11 +16,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
-import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ToggleOn from '@material-ui/icons/ToggleOn';
 import ToggleOff from '@material-ui/icons/ToggleOff';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -38,10 +36,6 @@ import bronze from '../../styles/images/bronze.png';
 import ice from '../../styles/images/ice.png';
 import money from '../../styles/images/smile-sweat.png';
 
-import {Howl, Howler} from 'howler';
-import boastyM4a from './boasty.m4a';
-import boastyWebm from './boasty.webm';
-
 import { googleLogin, isConfirmedAuthentication, getUser } from '../../middleware/authenticationClient';
 import { loadLeaders } from '../../actions';
 import { 
@@ -56,13 +50,6 @@ import {
 
 import {createBrowserHistory} from 'history';
 const history = createBrowserHistory({forceRefresh: false});
-
-Howler.volume(1);
-
-const boasty = new Howl({
-  src: [boastyM4a, boastyWebm],
-  format: ['m4a', 'webm']
-});
 
 const styles = theme => ({
   root: {
@@ -130,9 +117,6 @@ const styles = theme => ({
     '-webkit-box-shadow': '-8px 8px 0px 0px black',
     '-moz-box-shadow': '-8px 8px 0px 0px blackk',
     boxShadow: '-8px 8px 0px 0px black'
-  },
-  soundButton: {
-    color: '#000'
   },
   toggleButtonOn: {
     color: 'black'
@@ -205,7 +189,6 @@ class Leader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            soundOn: false,
             tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
             spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0',
             isAuthenticated: isConfirmedAuthentication()
@@ -330,14 +313,6 @@ class Leader extends Component {
         });
     }
 
-    handleToggleSound = () => {
-        if (!this.state.soundOn) { boasty.play(); } else { boasty.stop(); };
-
-        this.setState((state) => ({
-            soundOn: !state.soundOn
-        }));
-    }
-
     handleTabChange = (event, newValue) => {
         clearInterval(this.timerID);
         // console.log('stop timerID: ' + this.timerID);
@@ -403,7 +378,7 @@ class Leader extends Component {
             userId
         } = this.props;
 
-        const { soundOn, isAuthenticated } = this.state;
+        const { isAuthenticated } = this.state;
 
         const currentWeek = weeks.find(x=>x._id === weekId);
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
@@ -506,20 +481,6 @@ class Leader extends Component {
                         false &&
                         <div style={{color: '#1e90ff', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid #1e90ff'}}>
                             ** invite your friends.  it's fun beating them.  :D **
-                        </div>
-                    }
-                    {
-                        false &&
-                        <div style={{
-                                justifyContent: 'center',
-                                display:'flex', 
-                                fontSize: '17px', 
-                                fontFamily: 'monospace', 
-                                fontWeight: 'bold'}}>
-                            <div style={{margin:'auto 0'}}>boasty when u win</div>
-                            <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
-                                {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
-                            </IconButton>
                         </div>
                     }
                     <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>

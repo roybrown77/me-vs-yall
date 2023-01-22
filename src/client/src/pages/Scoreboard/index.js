@@ -17,8 +17,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
-import VolumeUpOutlinedIcon from '@material-ui/icons/VolumeUpOutlined';
-import VolumeOffOutlinedIcon from '@material-ui/icons/VolumeOffOutlined';
 import ToggleOn from '@material-ui/icons/ToggleOn';
 import ToggleOff from '@material-ui/icons/ToggleOff';
 import Share from '@material-ui/icons/BackupOutlined';
@@ -34,16 +32,6 @@ import Game from '../../components/Game';
 import Countdown from '../../components/Countdown';
 import Popover from '../../components/Popover';
 import TinyScoreboard from '../../components/TinyScoreboard';
-
-import { Howl, Howler } from 'howler';
-import maddenM4a from './madden-touchdown.m4a';
-import maddenWebm from './madden-touchdown.webm';
-
-import tecmoM4a from './tecmo-touchdown.m4a';
-import tecmoWebm from './tecmo-touchdown.webm';
-
-import nbaJamsM4a from './nba-jams-boom-shakalaka.m4a';
-import nbaJamsWebm from './nba-jams-boom-shakalaka.webm';
 
 import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle } from '../../actions';
 
@@ -72,23 +60,6 @@ import {
 import {createBrowserHistory} from 'history';
 
 const history = createBrowserHistory({forceRefresh: false});
-
-Howler.volume(1);
-
-const madden = new Howl({
-  src: [maddenM4a, maddenWebm],
-  format: ['m4a', 'webm']
-});
-
-const tecmo = new Howl({
-  src: [tecmoM4a, tecmoWebm],
-  format: ['m4a', 'webm']
-});
-
-const nbaJams = new Howl({
-  src: [nbaJamsM4a, nbaJamsWebm],
-  format: ['m4a', 'webm']
-});
 
 const styles = theme => ({
   googleLogin: {
@@ -129,9 +100,6 @@ const styles = theme => ({
     '-webkit-box-shadow': '-8px 8px 0px 0px black',
     '-moz-box-shadow': '-8px 8px 0px 0px black',
     boxShadow: '-8px 8px 0px 0px black'
-  },
-  soundButton: {
-    color: '#000'
   },
   toggleButtonOn: {
     color: 'black'
@@ -238,7 +206,6 @@ class Scoreboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            soundOn: false,
             openCopyAlert: false,
             gamePlayTabValue: 0,
             tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
@@ -403,24 +370,6 @@ class Scoreboard extends Component {
         this.props.updateGame(game);
     }
 
-    handleToggleSound = () => {
-        if (['59723313734d1d6202a85f10'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { tecmo.play(); } else { tecmo.stop(); };
-        }
-
-        if (['59723313734d1d6202a85f15'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { madden.play(); } else { madden.stop(); };
-        }
-
-        if (['59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(this.props.leagueId)) {
-            if (!this.state.soundOn) { nbaJams.play(); } else { nbaJams.stop(); };
-        }
-
-        this.setState((state) => ({
-            soundOn: !state.soundOn
-        }));
-    }
-
     handleSharePicks = () => {
         const copyText = document.getElementById("copyInput");
 
@@ -500,7 +449,6 @@ class Scoreboard extends Component {
         } = this.props;
 
         const {
-            soundOn, 
             openCopyAlert,
             isAuthenticated
         } = this.state;
@@ -629,21 +577,6 @@ class Scoreboard extends Component {
                         false &&
                         <div style={{color: '#1e90ff', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid #1e90ff'}}>
                             ** invite your friends.  it's fun beating them.  :D **
-                        </div>
-                    }
-                    {
-                        false &&
-                        ['59723313734d1d6202a85f10','59723313734d1d6202a85f15','59723313734d1d6202a85f19', '59723313734d1d6202a85f31', '59723313734d1d6202a85f33', '59723313734d1d6202a85f35', '59723313734d1d6202a85f37'].includes(leagueId) &&
-                        <div style={{
-                                justifyContent: 'center',
-                                display:'flex', 
-                                fontSize: '17px', 
-                                fontFamily: 'monospace', 
-                                fontWeight: 'bold'}}>
-                            <div style={{margin:'auto 0'}}>retro arcade sound</div>
-                            <IconButton className={classes.soundButton} aria-label="sound" onClick={this.handleToggleSound}>
-                                {soundOn ? <VolumeUpOutlinedIcon/> : <VolumeOffOutlinedIcon/>}
-                            </IconButton>
                         </div>
                     }
                     {
