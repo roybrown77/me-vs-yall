@@ -49,14 +49,11 @@ try {
 
 const express = require('express');
 const app = express();
-
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
-
 app.set("port", httpPort || 3001);
-
 app.use(function (req, res, next) {
-  res.append('content-type', 'application/json; charset=UTF-8');
+  req.headers['content-type'] = 'application/json; charset=UTF-8';
   next();
 });
 
@@ -115,10 +112,10 @@ if (nodeEnv === "production") {
   });
 }
 
-
 const server = app.listen(app.get("port"), () => {
     console.log(`[WEB_SERVER] - http://localhost:${app.get("port")}/`);
 });
+
 
 /*
   Handle web server events gracefully
