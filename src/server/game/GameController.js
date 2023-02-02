@@ -317,229 +317,228 @@ const teamStatTemplate = {
     value: 0,
     displayStat: true
   },
+  // last3gamesPlayed: {
+  //   name: "Games Played",
+  //   value: 0,
+  //   displayStat: true,
+  //   header: 'Stats for Last 3 Games'
+  // },
 
-  last3gamesPlayed: {
-    name: "Games Played",
-    value: 0,
-    displayStat: true,
-    header: 'Stats for Last 3 Games'
-  },
+  // last3wins: {
+  //   name: "Wins",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3wins: {
-    name: "Wins",
-    value: 0,
-    displayStat: true
-  },
+  // last3losses: {
+  //   name: "Losses",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3losses: {
-    name: "Losses",
-    value: 0,
-    displayStat: true
-  },
+  // last3ties: {
+  //   name: "Ties",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3ties: {
-    name: "Ties",
-    value: 0,
-    displayStat: true
-  },
+  // last3homeGamesPlayed: {
+  //   name: "Home Games Played",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3homeGamesPlayed: {
-    name: "Home Games Played",
-    value: 0,
-    displayStat: true
-  },
+  // last3roadGamesPlayed: {
+  //   name: "Road Games Played",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadGamesPlayed: {
-    name: "Road Games Played",
-    value: 0,
-    displayStat: true
-  },
-
-  last3winStreak: {
-    name: "Win Streak",
-    value: 0,
-    displayStat: true
-  },
+  // last3winStreak: {
+  //   name: "Win Streak",
+  //   value: 0,
+  //   displayStat: true
+  // },
   
-  last3losingStreak: {
-    name: "Losing Streak",
-    value: 0,
-    displayStat: true
-  },
+  // last3losingStreak: {
+  //   name: "Losing Streak",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3pointsScored: {
-    name: "Points Scored",
-    value: 0,
-    displayStat: true
-  },
+  // last3pointsScored: {
+  //   name: "Points Scored",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3pointsAllowed: {
-    name: "Points Allowed",
-    value: 0,
-    displayStat: true
-  },
+  // last3pointsAllowed: {
+  //   name: "Points Allowed",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3pointDifferential: {
-    name: "Point Diff",
-    value: 0,
-    displayStat: true
-  },
+  // last3pointDifferential: {
+  //   name: "Point Diff",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadPointsScored: {
-    name: "Road Points Scored",
-    value: 0
-  },
+  // last3roadPointsScored: {
+  //   name: "Road Points Scored",
+  //   value: 0
+  // },
 
-  last3roadPointsAllowed: {
-    name: "Road Points Allowed",
-    value: 0
-  },
+  // last3roadPointsAllowed: {
+  //   name: "Road Points Allowed",
+  //   value: 0
+  // },
 
-  last3roadPointDifferential: {
-    name: "Road Point Diff",
-    value: 0
-  },
+  // last3roadPointDifferential: {
+  //   name: "Road Point Diff",
+  //   value: 0
+  // },
 
-  last3homePointsScored: {
-    name: "Home Points Scored",
-    value: 0
-  },
+  // last3homePointsScored: {
+  //   name: "Home Points Scored",
+  //   value: 0
+  // },
 
-  last3homePointsAllowed: {
-    name: "Home Points Allowed",
-    value: 0
-  },
+  // last3homePointsAllowed: {
+  //   name: "Home Points Allowed",
+  //   value: 0
+  // },
 
-  last3homePointDifferential: {
-    name: "Home Point Diff",
-    value: 0
-  },
+  // last3homePointDifferential: {
+  //   name: "Home Point Diff",
+  //   value: 0
+  // },
 
-  last3pointsScoredAvg: {
-    name: "Pnts Scrd Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3pointsScoredAvg: {
+  //   name: "Pnts Scrd Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3pointsAllowedAvg: {
-    name: "Pnts Allwd Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3pointsAllowedAvg: {
+  //   name: "Pnts Allwd Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3pointDifferentialAvg: {
-    name: "Point Diff Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3pointDifferentialAvg: {
+  //   name: "Point Diff Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadPointsScoredAvg: {
-    name: "Road Pnts Scrd Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3roadPointsScoredAvg: {
+  //   name: "Road Pnts Scrd Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadPointsAllowedAvg: {
-    name: "Road Pnts Allwd Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3roadPointsAllowedAvg: {
+  //   name: "Road Pnts Allwd Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadPointDifferentialAvg: {
-    name: "Road Point Diff Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3roadPointDifferentialAvg: {
+  //   name: "Road Point Diff Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3homePointsScoredAvg: {
-    name: "Home Pnts Scrd Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3homePointsScoredAvg: {
+  //   name: "Home Pnts Scrd Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3homePointsAllowedAvg: {
-    name: "Home Pnts Allwd Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3homePointsAllowedAvg: {
+  //   name: "Home Pnts Allwd Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3homePointDifferentialAvg: {
-    name: "Home Point Diff Avg",
-    value: 0,
-    displayStat: true
-  },
+  // last3homePointDifferentialAvg: {
+  //   name: "Home Point Diff Avg",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3mostPointsScored: {
-    name: "Most Points Scored",
-    value: 0,
-    displayStat: true
-  },
+  // last3mostPointsScored: {
+  //   name: "Most Points Scored",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3mostPointsAllowed: {
-    name: "Most Points Allowed",
-    value: 0,
-    displayStat: true
-  },
+  // last3mostPointsAllowed: {
+  //   name: "Most Points Allowed",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3beatVegas: {
-    name: "Beat Vegas as Fave",
-    value: 0,
-    displayStat: true
-  },
+  // last3beatVegas: {
+  //   name: "Beat Vegas as Fave",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3beatVegasDog: {
-    name: "Beat Vegas as Dog",
-    value: 0,
-    displayStat: true
-  },
+  // last3beatVegasDog: {
+  //   name: "Beat Vegas as Dog",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadBeatVegas: {
-    name: "Beat Vegas as Road Fave",
-    value: 0,
-    displayStat: true
-  },
+  // last3roadBeatVegas: {
+  //   name: "Beat Vegas as Road Fave",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3roadBeatVegasDog: {
-    name: "Beat Vegas as Road Dog",
-    value: 0,
-    displayStat: true
-  },
+  // last3roadBeatVegasDog: {
+  //   name: "Beat Vegas as Road Dog",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3homeBeatVegas: {
-    name: "Beat Vegas as Home Fave",
-    value: 0,
-    displayStat: true
-  },
+  // last3homeBeatVegas: {
+  //   name: "Beat Vegas as Home Fave",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3homeBeatVegasDog: {
-    name: "Beat Vegas as Home Dog",
-    value: 0,
-    displayStat: true
-  },
+  // last3homeBeatVegasDog: {
+  //   name: "Beat Vegas as Home Dog",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3topDogScoring: {
-    name: "Scored 27 or more",
-    value: 0,
-    displayStat: true
-  },
+  // last3topDogScoring: {
+  //   name: "Scored 27 or more",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3clutchDefense: {
-    name: "Allowed only 23 or less",
-    value: 0,
-    displayStat: true
-  },
+  // last3clutchDefense: {
+  //   name: "Allowed only 23 or less",
+  //   value: 0,
+  //   displayStat: true
+  // },
 
-  last3clutchWins: {
-    name: "Won by less than 8",
-    value: 0,
-    displayStat: true
-  },
+  // last3clutchWins: {
+  //   name: "Won by less than 8",
+  //   value: 0,
+  //   displayStat: true
+  // },
   
-  last3closeLosses: {
-    name: "Loss by less than 8",
-    value: 0,
-    displayStat: true
-  },
+  // last3closeLosses: {
+  //   name: "Loss by less than 8",
+  //   value: 0,
+  //   displayStat: true
+  // },
 };
 
 const getAllTeamStats = (gamesWholeYear) => { 
@@ -650,102 +649,102 @@ const getAllTeamStats = (gamesWholeYear) => {
       teamStats[game.competitors[i]._id].clutchDefense.value += (game.competitors[1-i].score || 0) <= 23 ? 1 : 0;
       teamStats[game.competitors[i]._id].topDogScoring.value += (game.competitors[i].score || 0) >= 27 ? 1 : 0;
 
-      const weeksBetweenGameAndLastGame = moment(gamesWholeYear[gamesWholeYear.length-1].startDateTime).diff(moment(game.startDateTime),'weeks');
-      console.log(`weeksBetweenGameAndLastGame: ${weeksBetweenGameAndLastGame}`);
-      if (weeksBetweenGameAndLastGame < 3) {
-        teamStats[game.competitors[i]._id].last3gamesPlayed.value += 1;
-        teamStats[game.competitors[i]._id].last3wins.value += (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 1 : 0;
-        teamStats[game.competitors[i]._id].last3losses.value += (game.competitors[i].score || 0) < (game.competitors[1-i].score || 0) ? 1 : 0;
-        teamStats[game.competitors[i]._id].last3ties.value += (game.competitors[i].score || 0) === (game.competitors[1-i].score || 0) ? 1 : 0;
+    //   const weeksBetweenGameAndLastGame = moment(gamesWholeYear[gamesWholeYear.length-1].startDateTime).diff(moment(game.startDateTime),'weeks');
+    //   console.log(`weeksBetweenGameAndLastGame: ${weeksBetweenGameAndLastGame}`);
+    //   if (weeksBetweenGameAndLastGame < 3) {
+    //     teamStats[game.competitors[i]._id].last3gamesPlayed.value += 1;
+    //     teamStats[game.competitors[i]._id].last3wins.value += (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3losses.value += (game.competitors[i].score || 0) < (game.competitors[1-i].score || 0) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3ties.value += (game.competitors[i].score || 0) === (game.competitors[1-i].score || 0) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3roadGamesPlayed.value += game.competitors[0]._id === game.competitors[i]._id ? 1 : 0;
-        teamStats[game.competitors[i]._id].last3homeGamesPlayed.value += game.competitors[1]._id === game.competitors[i]._id ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3roadGamesPlayed.value += game.competitors[0]._id === game.competitors[i]._id ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3homeGamesPlayed.value += game.competitors[1]._id === game.competitors[i]._id ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3winStreak.value = (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 
-        teamStats[game.competitors[i]._id].last3winStreak.value + 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3winStreak.value = (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 
+    //     teamStats[game.competitors[i]._id].last3winStreak.value + 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3losingStreak.value = (game.competitors[i].score || 0) <= (game.competitors[1-i].score || 0) ? 
-        teamStats[game.competitors[i]._id].last3losingStreak.value + 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3losingStreak.value = (game.competitors[i].score || 0) <= (game.competitors[1-i].score || 0) ? 
+    //     teamStats[game.competitors[i]._id].last3losingStreak.value + 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3pointsScored.value += (game.competitors[i].score || 0);
-        teamStats[game.competitors[i]._id].last3pointsAllowed.value += (game.competitors[1-i].score || 0);
-        teamStats[game.competitors[i]._id].last3pointDifferential.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0));
+    //     teamStats[game.competitors[i]._id].last3pointsScored.value += (game.competitors[i].score || 0);
+    //     teamStats[game.competitors[i]._id].last3pointsAllowed.value += (game.competitors[1-i].score || 0);
+    //     teamStats[game.competitors[i]._id].last3pointDifferential.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0));
 
-        teamStats[game.competitors[i]._id].last3roadPointsScored.value += game.competitors[0]._id === game.competitors[i]._id ? (game.competitors[i].score || 0) : 0;
-        teamStats[game.competitors[i]._id].last3roadPointsAllowed.value += game.competitors[0]._id === game.competitors[i]._id ? (game.competitors[1-i].score || 0) : 0;
-        teamStats[game.competitors[i]._id].last3roadPointDifferential.value += teamStats[game.competitors[i]._id].last3roadPointsScored.value - teamStats[game.competitors[i]._id].last3roadPointsAllowed.value;
+    //     teamStats[game.competitors[i]._id].last3roadPointsScored.value += game.competitors[0]._id === game.competitors[i]._id ? (game.competitors[i].score || 0) : 0;
+    //     teamStats[game.competitors[i]._id].last3roadPointsAllowed.value += game.competitors[0]._id === game.competitors[i]._id ? (game.competitors[1-i].score || 0) : 0;
+    //     teamStats[game.competitors[i]._id].last3roadPointDifferential.value += teamStats[game.competitors[i]._id].last3roadPointsScored.value - teamStats[game.competitors[i]._id].last3roadPointsAllowed.value;
 
-        teamStats[game.competitors[i]._id].last3homePointsScored.value += game.competitors[1]._id === game.competitors[i]._id ? (game.competitors[i].score || 0) : 0;
-        teamStats[game.competitors[i]._id].last3homePointsAllowed.value += game.competitors[1]._id === game.competitors[i]._id ? (game.competitors[1-i].score || 0) : 0;
-        teamStats[game.competitors[i]._id].last3homePointDifferential.value += teamStats[game.competitors[i]._id].last3homePointsScored.value - teamStats[game.competitors[i]._id].last3homePointsAllowed.value;
+    //     teamStats[game.competitors[i]._id].last3homePointsScored.value += game.competitors[1]._id === game.competitors[i]._id ? (game.competitors[i].score || 0) : 0;
+    //     teamStats[game.competitors[i]._id].last3homePointsAllowed.value += game.competitors[1]._id === game.competitors[i]._id ? (game.competitors[1-i].score || 0) : 0;
+    //     teamStats[game.competitors[i]._id].last3homePointDifferential.value += teamStats[game.competitors[i]._id].last3homePointsScored.value - teamStats[game.competitors[i]._id].last3homePointsAllowed.value;
 
-        teamStats[game.competitors[i]._id].last3pointsScoredAvg.value = (teamStats[game.competitors[i]._id].last3pointsScored.value / teamStats[game.competitors[i]._id].last3gamesPlayed.value).toFixed(2);
-        teamStats[game.competitors[i]._id].last3pointsAllowedAvg.value = (teamStats[game.competitors[i]._id].last3pointsAllowed.value / teamStats[game.competitors[i]._id].last3gamesPlayed.value).toFixed(2);
-        teamStats[game.competitors[i]._id].last3pointDifferentialAvg.value = (teamStats[game.competitors[i]._id].last3pointsScoredAvg.value - teamStats[game.competitors[i]._id].last3pointsAllowedAvg.value).toFixed(2);
+    //     teamStats[game.competitors[i]._id].last3pointsScoredAvg.value = (teamStats[game.competitors[i]._id].last3pointsScored.value / teamStats[game.competitors[i]._id].last3gamesPlayed.value).toFixed(2);
+    //     teamStats[game.competitors[i]._id].last3pointsAllowedAvg.value = (teamStats[game.competitors[i]._id].last3pointsAllowed.value / teamStats[game.competitors[i]._id].last3gamesPlayed.value).toFixed(2);
+    //     teamStats[game.competitors[i]._id].last3pointDifferentialAvg.value = (teamStats[game.competitors[i]._id].last3pointsScoredAvg.value - teamStats[game.competitors[i]._id].last3pointsAllowedAvg.value).toFixed(2);
 
-        teamStats[game.competitors[i]._id].last3roadPointsScoredAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
-        teamStats[game.competitors[i]._id].last3roadGamesPlayed.value > 0 ? 
-        (teamStats[game.competitors[i]._id].last3roadPointsScored.value / teamStats[game.competitors[i]._id].last3roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3roadPointsScoredAvg.value;
+    //     teamStats[game.competitors[i]._id].last3roadPointsScoredAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
+    //     teamStats[game.competitors[i]._id].last3roadGamesPlayed.value > 0 ? 
+    //     (teamStats[game.competitors[i]._id].last3roadPointsScored.value / teamStats[game.competitors[i]._id].last3roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3roadPointsScoredAvg.value;
 
-        teamStats[game.competitors[i]._id].last3roadPointsAllowedAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
-        teamStats[game.competitors[i]._id].last3roadGamesPlayed.value > 0 ? 
-        (teamStats[game.competitors[i]._id].last3roadPointsAllowed.value / teamStats[game.competitors[i]._id].last3roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3roadPointsAllowedAvg.value;
+    //     teamStats[game.competitors[i]._id].last3roadPointsAllowedAvg.value = game.competitors[0]._id === game.competitors[i]._id && 
+    //     teamStats[game.competitors[i]._id].last3roadGamesPlayed.value > 0 ? 
+    //     (teamStats[game.competitors[i]._id].last3roadPointsAllowed.value / teamStats[game.competitors[i]._id].last3roadGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3roadPointsAllowedAvg.value;
         
-        teamStats[game.competitors[i]._id].last3roadPointDifferentialAvg.value = (teamStats[game.competitors[i]._id].last3roadPointsScoredAvg.value - teamStats[game.competitors[i]._id].last3roadPointsAllowedAvg.value).toFixed(2);
+    //     teamStats[game.competitors[i]._id].last3roadPointDifferentialAvg.value = (teamStats[game.competitors[i]._id].last3roadPointsScoredAvg.value - teamStats[game.competitors[i]._id].last3roadPointsAllowedAvg.value).toFixed(2);
 
-        teamStats[game.competitors[i]._id].last3homePointsScoredAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
-        teamStats[game.competitors[i]._id].last3homeGamesPlayed.value > 0 ?  
-        (teamStats[game.competitors[i]._id].last3homePointsScored.value / teamStats[game.competitors[i]._id].last3homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3homePointsScoredAvg.value;
+    //     teamStats[game.competitors[i]._id].last3homePointsScoredAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
+    //     teamStats[game.competitors[i]._id].last3homeGamesPlayed.value > 0 ?  
+    //     (teamStats[game.competitors[i]._id].last3homePointsScored.value / teamStats[game.competitors[i]._id].last3homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3homePointsScoredAvg.value;
 
-        teamStats[game.competitors[i]._id].last3homePointsAllowedAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
-        teamStats[game.competitors[i]._id].last3homeGamesPlayed.value > 0 ? 
-        (teamStats[game.competitors[i]._id].last3homePointsAllowed.value / teamStats[game.competitors[i]._id].last3homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3homePointsAllowedAvg.value;
+    //     teamStats[game.competitors[i]._id].last3homePointsAllowedAvg.value = game.competitors[1]._id === game.competitors[i]._id && 
+    //     teamStats[game.competitors[i]._id].last3homeGamesPlayed.value > 0 ? 
+    //     (teamStats[game.competitors[i]._id].last3homePointsAllowed.value / teamStats[game.competitors[i]._id].last3homeGamesPlayed.value).toFixed(2) : teamStats[game.competitors[i]._id].last3homePointsAllowedAvg.value;
 
-        teamStats[game.competitors[i]._id].last3homePointDifferentialAvg.value = (teamStats[game.competitors[i]._id].last3homePointsScoredAvg.value - teamStats[game.competitors[i]._id].last3homePointsAllowedAvg.value).toFixed(2);
+    //     teamStats[game.competitors[i]._id].last3homePointDifferentialAvg.value = (teamStats[game.competitors[i]._id].last3homePointsScoredAvg.value - teamStats[game.competitors[i]._id].last3homePointsAllowedAvg.value).toFixed(2);
 
-        teamStats[game.competitors[i]._id].last3mostPointsScored.value = (game.competitors[i].score || 0) > teamStats[game.competitors[i]._id].last3mostPointsScored.value ? 
-        (game.competitors[i].score || 0) : teamStats[game.competitors[i]._id].last3mostPointsScored.value;
+    //     teamStats[game.competitors[i]._id].last3mostPointsScored.value = (game.competitors[i].score || 0) > teamStats[game.competitors[i]._id].last3mostPointsScored.value ? 
+    //     (game.competitors[i].score || 0) : teamStats[game.competitors[i]._id].last3mostPointsScored.value;
         
-        teamStats[game.competitors[i]._id].last3mostPointsAllowed.value = (game.competitors[1-i].score || 0) > teamStats[game.competitors[i]._id].last3mostPointsAllowed.value ? 
-        (game.competitors[1-i].score || 0) : teamStats[game.competitors[i]._id].last3mostPointsAllowed.value;
+    //     teamStats[game.competitors[i]._id].last3mostPointsAllowed.value = (game.competitors[1-i].score || 0) > teamStats[game.competitors[i]._id].last3mostPointsAllowed.value ? 
+    //     (game.competitors[1-i].score || 0) : teamStats[game.competitors[i]._id].last3mostPointsAllowed.value;
 
-        teamStats[game.competitors[i]._id].last3clutchWins.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) <= 7 && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > 0 ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3clutchWins.value += ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) <= 7 && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > 0 ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3closeLosses.value += ((game.competitors[1-i].score || 0) - (game.competitors[i].score || 0)) <= 7 && 
-        ((game.competitors[1-i].score || 0) - (game.competitors[i].score || 0)) > 0 ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3closeLosses.value += ((game.competitors[1-i].score || 0) - (game.competitors[i].score || 0)) <= 7 && 
+    //     ((game.competitors[1-i].score || 0) - (game.competitors[i].score || 0)) > 0 ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3beatVegas.value += get(game,'spread.amount') && 
-        (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[i]._id.toString().toLowerCase() && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) >= Math.abs((get(game,'spread.amount') || 0)) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3beatVegas.value += get(game,'spread.amount') && 
+    //     (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[i]._id.toString().toLowerCase() && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) >= Math.abs((get(game,'spread.amount') || 0)) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3beatVegasDog.value += get(game,'spread.amount') && 
-        (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3beatVegasDog.value += get(game,'spread.amount') && 
+    //     (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3homeBeatVegas.value += game.competitors[1]._id === game.competitors[i]._id &&
-        get(game,'spread.amount') && 
-        (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[i]._id.toString().toLowerCase() && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) >= Math.abs((get(game,'spread.amount') || 0)) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3homeBeatVegas.value += game.competitors[1]._id === game.competitors[i]._id &&
+    //     get(game,'spread.amount') && 
+    //     (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[i]._id.toString().toLowerCase() && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) >= Math.abs((get(game,'spread.amount') || 0)) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3homeBeatVegasDog.value += game.competitors[1]._id === game.competitors[i]._id && 
-        get(game,'spread.amount') && 
-        (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3homeBeatVegasDog.value += game.competitors[1]._id === game.competitors[i]._id && 
+    //     get(game,'spread.amount') && 
+    //     (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3roadBeatVegas.value += game.competitors[0]._id === game.competitors[i]._id &&
-        get(game,'spread.amount') && 
-        (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[i]._id.toString().toLowerCase() && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) >= Math.abs((get(game,'spread.amount') || 0)) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3roadBeatVegas.value += game.competitors[0]._id === game.competitors[i]._id &&
+    //     get(game,'spread.amount') && 
+    //     (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[i]._id.toString().toLowerCase() && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) >= Math.abs((get(game,'spread.amount') || 0)) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3roadBeatVegasDog.value += game.competitors[0]._id === game.competitors[i]._id && 
-        get(game,'spread.amount') && 
-        (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
-        ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3roadBeatVegasDog.value += game.competitors[0]._id === game.competitors[i]._id && 
+    //     get(game,'spread.amount') && 
+    //     (get(game,'spread.teamId') || '').toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase() && 
+    //     ((game.competitors[i].score || 0) - (game.competitors[1-i].score || 0)) > (get(game,'spread.amount') || 0) ? 1 : 0;
 
-        teamStats[game.competitors[i]._id].last3clutchDefense.value += (game.competitors[1-i].score || 0) <= 23 ? 1 : 0;
-        teamStats[game.competitors[i]._id].last3topDogScoring.value += (game.competitors[i].score || 0) >= 27 ? 1 : 0;
-      }
+    //     teamStats[game.competitors[i]._id].last3clutchDefense.value += (game.competitors[1-i].score || 0) <= 23 ? 1 : 0;
+    //     teamStats[game.competitors[i]._id].last3topDogScoring.value += (game.competitors[i].score || 0) >= 27 ? 1 : 0;
+    //   }
     }
   }
 
