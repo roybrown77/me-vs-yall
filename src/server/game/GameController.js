@@ -78,11 +78,11 @@ const backupData = async () => {
 };
 
 const updateGames = (leagueId) => {
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/3/year/2022/seasontype/3`;
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/1/year/2022/seasontype/1`;
   // const DAY_MODULE = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
   // loadAmericanFootballGames({
-  //   year: 2022, 
+  //   year: 2023, 
   //   message: 'loadNflGames', 
   //   leagueId: '59723313734d1d6202a85f10', 
   //   url,
