@@ -6,7 +6,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
 import Immutable from 'immutable';
@@ -61,10 +61,7 @@ render(
             <main>
               <div style={{height:'100%'}}>
                   <Switch>
-                      <Route exact path='/'>
-                        <Redirect to='/scoreboards/nfl' />  
-                      </Route>
-                      <Route path='/home' component={Home}/>
+                      <Route exact path='/' component={Home}/>
                       <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
                       <Route path='/leaders/:leagueName' component={Leader}/>
                       <Route path='/shop' component={Shop}/>
@@ -74,6 +71,7 @@ render(
                       <Route path='/play' component={Play}/>
                       <Route path='/contact' component={Contact}/>
                       <Route path='/authenticationCallback' component={AuthenticationCallback}/>
+                      <Route path='*' component={Home}/>
                   </Switch>
               </div>
             </main>

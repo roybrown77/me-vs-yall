@@ -6,7 +6,7 @@ import mvy from '../../styles/images/mvy.png';
 
 class Launch extends Component {
     componentDidMount() {
-        setTimeout(() => { window.location = '/home'; }, 1000);
+        setTimeout(() => { window.location = '/'; }, 1000);
     }
 
     render() {

@@ -140,7 +140,7 @@ class Header extends Component {
         <div className={classes.appFrame}>
           <AppBar className={classNames(classes.appBar)}>
             <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
-            <Link to="/home">
+            <Link to="/">
               <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
             </Link>
             </Typography>
