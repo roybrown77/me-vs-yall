@@ -76,7 +76,7 @@ const styles = theme => ({
       borderColor: '#3772FA',
     }
   },
-  miniGameButton: {
+  gamePlayMessage: {
     fontWeight: "700",
     marginTop: '10px',
     backgroundColor: '#3772FA',
@@ -159,11 +159,6 @@ const MiniRallyGame = (props) => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <Button size="small" className={props.classes.miniGameButton} onClick={() => {}}>
-          Start Mini Rally Game!
-        </Button>
-      </div> */}
       <Field {...{
           leagueId: get(props.game,'leagueId'),
           away: props.game.competitors[0].shortLocation, 
@@ -175,8 +170,8 @@ const MiniRallyGame = (props) => {
         }
       }/>
       <div>
-        <Button size="small" className={props.classes.miniGameButton} onClick={() => {}}>
-          Tap Ball To Start Mini Rally Game!
+        <Button size="small" className={props.classes.gamePlayMessage} onClick={() => {}}>
+          Tap Team To Play!
         </Button>
       </div>
     </div>
