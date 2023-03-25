@@ -178,7 +178,7 @@ class Header extends Component {
                 fontWeight: 'bold',
                 cursor: 'pointer'
               }} onClick={googleLogin}>
-                Sign In
+                {`SIGN IN >`}
               </div>
             }
           </AppBar>
