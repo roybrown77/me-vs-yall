@@ -258,13 +258,13 @@ class Home extends Component {
           }}>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
               <div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/tips'}>Tips</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/about'}>About</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/shop'}>Shop</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/play'}>Play</Link></div>
                 {true && <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={this.tube}>Tube</Link></div>}
               </div>
               <div style={{paddingLeft:'50px'}}>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/about'}>About</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/origin'}>Origin</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/contact'}>Contact</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={''} onClick={this.gram}>Gram</Link></div>
