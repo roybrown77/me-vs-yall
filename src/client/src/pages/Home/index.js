@@ -238,7 +238,7 @@ class Home extends Component {
             </div> */}
             <div style={{padding: '10px', margin: '50px auto 25px auto', border: '5px solid #000', width: '150px'}}>
               <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/play'}>
-                SIGN IN
+                SIGN IN >
               </Link>
             </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
