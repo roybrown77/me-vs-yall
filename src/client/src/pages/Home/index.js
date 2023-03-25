@@ -55,6 +55,50 @@ const styles = {
   }
 };
 
+const leagues = [
+  {
+    name: 'NFL',
+    url: '/scoreboards/nfl',
+    color: '#000',
+    id: '59723313734d1d6202a85f10'
+  },
+  {
+    name: 'NBA',
+    url: '/scoreboards/nba',
+    color: '#000',
+    id: '59723313734d1d6202a85f19'
+  },
+  {
+    name: 'MLB',
+    url: '/scoreboards/mlb',
+    color: '#000',
+    id: '59723313734d1d6202a85f21'
+  },
+  {
+    name: 'CFB',
+    url: '/scoreboards/cfb',
+    color: '#000',
+    id: '59723313734d1d6202a85f15'
+  },
+  {
+    name: 'MMA',
+    url: '/scoreboards/mma',
+    color: '#000',
+    id: '59723313734d1d6202a85f27'
+  },
+  {
+    name: 'BOXING',
+    url: '/scoreboards/boxing',
+    color: '#000',
+    id: '59723313734d1d6202a85f25'
+  }
+];
+
+const gamesInProgress = (games, leagueId) => {
+  const filteredGames = games.filter(x=>x.leagueId===leagueId);
+  return getAreAnyGamesInProgress(filteredGames);
+};
+
 const instructions = [
   '1. Tap league.',
   '2. Tap "Play For Free" to sign in.',
@@ -116,25 +160,6 @@ class Home extends Component {
       const { darkModeOn } = this.state;
 
       const year = moment().format('YYYY');
-
-      const nflGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f10');
-      const nbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f19');
-      const ncaafGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f15');
-      // const premierGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f17');
-      // const wnbaGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f37');
-      const mlbGames = games.filter(x=>x.leagueId==='59723313734d1d6202a85f21');
-      const boxingMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f25');
-      const mmaMatches = games.filter(x=>x.leagueId==='59723313734d1d6202a85f27');
-
-      const areAnyNflGamesInProgress = getAreAnyGamesInProgress(nflGames);
-      const areAnyNbaGamesInProgress = getAreAnyGamesInProgress(nbaGames);
-      const areAnyNCAAFGamesInProgress = getAreAnyGamesInProgress(ncaafGames);
-      // const areAnyPremierGamesInProgress = getAreAnyGamesInProgress(premierGames);
-      // const areAnyWnbaGamesInProgress = getAreAnyGamesInProgress(wnbaGames);
-      const areAnyMlbGamesInProgress = getAreAnyGamesInProgress(mlbGames);
-      const areAnyBoxingMatchesInProgress = getAreAnyGamesInProgress(boxingMatches);
-      const areAnyMMAMatchesInProgress = getAreAnyGamesInProgress(mmaMatches);
-
       const emoji = getHomePageEmoji();
 
       return (
@@ -206,44 +231,27 @@ class Home extends Component {
                 dataText={tagLines} 
               />
             </div>
+            {/* <div style={{padding: '10px', margin: '50px auto 25px auto', border: '5px solid #000', width: '175px'}}>
+              <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'scoreboards/nfl'}>
+                SCOREBOARDS
+              </Link>
+            </div> */}
+            <div style={{padding: '10px', margin: '50px auto 25px auto', border: '5px solid #000', width: '150px'}}>
+              <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/play'}>
+                SIGN IN
+              </Link>
+            </div>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
-              <div style={{textAlign:"left"}}>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/nfl'}>
-                    NFL
-                  </Link>
-                  {areAnyNflGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/nba'}>
-                    NBA
-                  </Link>
-                  {areAnyNbaGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mlb'}>
-                    MLB
-                  </Link>
-                  {areAnyMlbGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/cfb'}>
-                    CFB
-                  </Link>
-                  {areAnyNCAAFGamesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/mma'}>
-                    MMA
-                  </Link>
-                  {areAnyMMAMatchesInProgress && <span style={styles.inProgress} />}
-                </div>
-                <div>
-                  <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/scoreboards/boxing'}>
-                    BOXING
-                  </Link>
-                  {areAnyBoxingMatchesInProgress && <span style={styles.inProgress} />}
-                </div>
+              <div style={{display: 'inline-flex'}}>
+                {
+                  leagues.map((league, index) => (
+                  <div style={{paddingRight: '10px', marginRight: '10px', borderRight: index === leagues.length-1 ? '' : '1px solid #000', fontSize: '15px'}}>
+                    <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:league.color}} to={league.url}>
+                      {league.name}
+                    </Link>
+                    {gamesInProgress(games,league.id) && <span style={styles.inProgress} />}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
