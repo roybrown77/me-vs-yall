@@ -8,7 +8,7 @@ import mvy from '../../styles/images/mvy.png';
 class Play extends Component {
     componentDidMount() {
         if (isLoggedIn()) {
-            setTimeout(() => { window.location = '/'; }, 1000);
+            setTimeout(() => { window.location = '/scoreboards/nfl'; }, 1000);
         } else {
             setTimeout(() => { googleLogin(); }, 1000);
         }
