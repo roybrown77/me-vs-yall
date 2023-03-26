@@ -40,7 +40,7 @@ try {
   console.log('[MONGODB] - Connecting...');
   mongoose.connect(dbConnectionString,options);
 } catch (err) {
-  console.log("[MONGODB] - initialization failed: ", err.message);
+  console.log("[MONGODB] - initialization failed: ", err);
 }
 
 /*

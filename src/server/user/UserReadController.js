@@ -9,7 +9,31 @@ const get = require('lodash/get');
 
 const censoredIds = ['google-oauth2|105396867324708249567'];
 const excludedIds = [];
-const vegas = {firstName: 'Vegas',authServiceId: '1'};
+
+const vegas = {
+    firstName: 'Vegas',
+    authServiceId: '1'
+};
+
+const mvyKingHomer = {
+    authServiceId: 2,
+    firstName: 'King Homer'
+};
+
+const mvyKingRoad = {
+    authServiceId: 3,
+    firstName: 'King Road'
+};
+
+const mvyKingDefense = {
+    authServiceId: 4,
+    firstName: 'King Defense'
+};
+
+const mvyKingRoadHome = {
+    authServiceId: 5,
+    firstName: 'King Road vs Homer'
+};
 
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
@@ -22,7 +46,8 @@ router.get('/users', function (req, res) {
             x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
             goodUsers.push(x);
         });
-        res.status(200).send([...goodUsers,vegas]);
+        
+        res.status(200).send([...goodUsers, vegas, mvyKingHomer, mvyKingRoad, mvyKingDefense, mvyKingRoadHome]);
     });
 });
 

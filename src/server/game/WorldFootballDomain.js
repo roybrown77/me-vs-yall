@@ -162,7 +162,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       //     page = null;
       //   }
       // } catch (error) {
-      //   console.log(`pageCloseResult finally error 7: ${JSON.stringify(error.message)}`);
+      //   console.log(`pageCloseResult finally error 7: `, error);
       // }
   
       try {
@@ -172,7 +172,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
           browser = null;
         }
       } catch (error) {
-        console.log(`browser finally error 7: ${JSON.stringify(error.message)}`);
+        console.log(`browser finally error 7: `, error);
       }
 
       return;
@@ -235,8 +235,8 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         startDateTime: startDateTime
       });
     }
-  } catch(err) {
-    console.log(`${message} getGames browser error 5: ${err.message}`);
+  } catch (err) {
+    console.log(`${message} getGames browser error 5: `, err);
   } finally {
     // try {
     //   if (page !== null) {
@@ -246,7 +246,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     //     page = null;
     //   }
     // } catch (error) {
-    //   console.log(`pageCloseResult finally error 5: ${JSON.stringify(error.message)}`);
+    //   console.log(`pageCloseResult finally error 5: `, error);
     // }
 
     try {
@@ -256,7 +256,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         browser = null;
       }
     } catch (error) {
-      console.log(`browser finally error 5: ${JSON.stringify(error.message)}`);
+      console.log(`browser finally error 5: `, error);
     } 
   }
 

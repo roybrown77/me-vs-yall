@@ -16,13 +16,7 @@ const {
     ncaaTeams
 } = require('./teams');
 
-const hasGameStarted = (dateTime) => {
-    const gameStartDateTime = moment(new Date(dateTime));
-    const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'seconds');
-    //console.log("start time difference: " + difference);
-    return difference < 5;
-};
+// ** game
 
 const getVideoStreamUrl = (game) => {
   if (!hasGameStarted(game.startDateTime) || 
@@ -79,6 +73,8 @@ const getVideoStreamUrl = (game) => {
 
   return "https://www.streameast.io/" + url;
 };
+
+// *** multiple
 
 const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
@@ -177,6 +173,14 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
   return newPlayHistory;
 };
 
+const hasGameStarted = (dateTime) => {
+    const gameStartDateTime = moment(new Date(dateTime));
+    const currentDateTime = moment(new Date());
+    const difference = gameStartDateTime.diff(currentDateTime,'seconds');
+    //console.log("start time difference: " + difference);
+    return difference < 5;
+};
+
 const getGames = async ({
     leagueId,
     year,
@@ -244,7 +248,7 @@ const getGames = async ({
       //     page = null;
       //   }
       // } catch (error) {
-      //   console.log(`pageCloseResult finally error 1: ${JSON.stringify(error.message)}`);
+      //   console.log(`pageCloseResult finally error 1: `, error);
       // }
   
       try {
@@ -254,7 +258,7 @@ const getGames = async ({
           browser = null;
         }
       } catch (error) {
-        console.log(`browser finally error 1: ${JSON.stringify(error.message)}`);
+        console.log(`browser finally error 1: `, error.message);
       }
 
       return [];
@@ -352,8 +356,8 @@ const getGames = async ({
           homeRank: parseInt(homeRank).toString() === 'NaN' ? null : parseInt(homeRank)
       });
     }
-  } catch(err) {
-    console.log(`${message} getGames browser error 2: ${err.message}`);
+  } catch (err) {
+    console.log(`${message} getGames browser error 2: `, err);
   } finally {
     // try {
     //   if (page !== null) {
@@ -362,7 +366,7 @@ const getGames = async ({
     //     page = null;
     //   }
     // } catch (error) {
-    //   console.log(`pageCloseResult finally error 2: ${JSON.stringify(error.message)}`);
+    //   console.log(`pageCloseResult finally error 2: `, error);
     // }
 
     try {
@@ -372,7 +376,7 @@ const getGames = async ({
         browser = null;
       }
     } catch (error) {
-      console.log(`browser finally error 2: ${JSON.stringify(error.message)}`);
+      console.log(`browser finally error 2: `, error);
     } 
   }
 
@@ -831,8 +835,8 @@ const getScoreSetItem = async ({
         possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : "")
       });
     }
-  } catch(err) {
-    console.log(`${message} browser error 2: ${err.message}`);
+  } catch (err) {
+    console.log(`${message} browser error 2: `, err);
   }
 
   // console.log(`scores: ${JSON.stringify(scores)}`);
@@ -930,7 +934,7 @@ const getScores = async ({
       //     page = null;
       //   }
       // } catch (error) {
-      //   console.log(`pageCloseResult finally error 3: ${JSON.stringify(error.message)}`);
+      //   console.log(`pageCloseResult finally error 3: `, error);
       // }
   
       try {
@@ -940,7 +944,7 @@ const getScores = async ({
           browser = null;
         }
       } catch (error) {
-        console.log(`browser finally error 3: ${JSON.stringify(error.message)}`);
+        console.log(`browser finally error 3: `, error);
       } 
       
       return scores;
@@ -968,8 +972,8 @@ const getScores = async ({
       listLength
     });
     scoreSet.push(scores);
-  } catch(err) {
-    console.log(`${message} getGames browser error 6: ${err.message}`);
+  } catch (err) {
+    console.log(`${message} getGames browser error 6: `, err);
   } finally {
     // try {
     //   if (page !== null) {
@@ -978,7 +982,7 @@ const getScores = async ({
     //     page = null;
     //   }
     // } catch (error) {
-    //   console.log(`pageCloseResult finally error 4: ${JSON.stringify(error.message)}`);
+    //   console.log(`pageCloseResult finally error 4: `, error);
     // }
 
     try {
@@ -988,7 +992,7 @@ const getScores = async ({
         browser = null;
       }
     } catch (error) {
-      console.log(`browser finally error 4: ${JSON.stringify(error.message)}`);
+      console.log(`browser finally error 4: `, error);
     } 
   }
 
