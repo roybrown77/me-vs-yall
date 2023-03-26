@@ -22,7 +22,7 @@ import { getAreAnyGamesInProgress } from '../../utilities';
 import { getHomePageImage, getHomePageEmoji } from './utilities';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
-import { isConfirmedAuthentication } from '../../middleware/authenticationClient';
+import { isConfirmedAuthentication, googleLogin } from '../../middleware/authenticationClient';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -34,11 +34,26 @@ const styles = {
     position: 'absolute',
     margin: '15px 0 0 10px'
   },
+  signIn: {
+    margin: '50px auto 25px auto',
+    padding: '10px',
+    borderRadius: '4px',
+    border: '3px solid black',
+    fontFamily: 'monospace',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    color: '#000',
+    width: '175px'
+  },
+  leagueSelections: {
+    padding:'20px',
+    marginTop: '50px',
+  },
   footerLinks: {
     padding:'20px',
     display:'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   link: {
     color: 'white',
@@ -231,17 +246,13 @@ class Home extends Component {
                 dataText={tagLines} 
               />
             </div>
-            {/* <div style={{padding: '10px', margin: '50px auto 25px auto', border: '5px solid #000', width: '175px'}}>
-              <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'scoreboards/nfl'}>
-                SCOREBOARDS
-              </Link>
-            </div> */}
-            <div style={{padding: '10px', margin: '50px auto 25px auto', border: '5px solid #000', width: '150px'}}>
-              <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/play'}>
-                {`SIGN IN >`}
-              </Link>
-            </div>
-            <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
+            {
+              !this.props.isAuthenticated &&
+              <div style={styles.signIn} onClick={googleLogin}>
+                SIGN IN
+              </div>
+            }
+            <div style={darkModeOn ? styles.leagueSelections : {...styles.leagueSelections, color:'black'}}>
               <div style={{display: 'inline-flex'}}>
                 {
                   leagues.map((league, index) => (
@@ -264,7 +275,7 @@ class Home extends Component {
             right: "0", 
             zIndex:"2"
           }}>
-            <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks,color:'black'}}>
+            <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks, color:'black'}}>
               <div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/about'}>About</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'black'}} to={'/shop'}>Shop</Link></div>
