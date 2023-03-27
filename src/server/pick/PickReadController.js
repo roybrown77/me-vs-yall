@@ -86,23 +86,17 @@ router.get('/picks/', async function (req, res) {
     pickRepository.find(finalSearch, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
         gamesThisRange.forEach((game)=>{
-            const mvyHomeTeamPlayerPicks = {
+            const mvyHomePicks = {
                 _id: mongoose.Types.ObjectId().toString(),
                 userId: 2,
                 gameId: game._id,
                 pickId: game.competitors[1]._id,
                 leagueId: game.leagueId
             };
-            const mvyAwayTeamPlayerPicks = {
-                _id: mongoose.Types.ObjectId().toString(),
-                userId: 3,
-                gameId: game._id,
-                pickId: game.competitors[0]._id,
-                leagueId: game.leagueId
-            };
-
-            let mvyKingDefensePicks = {};
-            let mvyKingRoadHomePicks = {};
+            
+            let mvyDefensePicks = {};
+            let mvyRoadHomePicks = {};
+            let mvyOffensePicks = {}
 
             try {
                 const gameStats = getGameStats(game, teamStats);
@@ -113,7 +107,17 @@ router.get('/picks/', async function (req, res) {
                 const roadPointsScored = gameStats.find(x=>x.name === 'Road Pnts Scrd Avg');
                 const homePointsScored = gameStats.find(x=>x.name === 'Home Pnts Scrd Avg');
 
-                mvyKingDefensePicks = {
+                mvyOffensePicks = {
+                    _id: mongoose.Types.ObjectId().toString(),
+                    userId: 3,
+                    gameId: game._id,
+                    pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                    leagueId: game.leagueId,
+                    leagueId: game.leagueId
+                };
+
+                mvyDefensePicks = {
                     _id: mongoose.Types.ObjectId().toString(),
                     userId: 4,
                     gameId: game._id,
@@ -122,7 +126,7 @@ router.get('/picks/', async function (req, res) {
                     leagueId: game.leagueId
                 };
 
-                mvyKingRoadHomePicks = {
+                mvyRoadHomePicks = {
                     _id: mongoose.Types.ObjectId().toString(),
                     userId: 5,
                     gameId: game._id,
@@ -135,7 +139,7 @@ router.get('/picks/', async function (req, res) {
                 console.log("PickReadController user picks error", error);
             }
 
-            picks = [...picks, mvyHomeTeamPlayerPicks, mvyAwayTeamPlayerPicks, mvyKingDefensePicks, mvyKingRoadHomePicks];
+            picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks];
         });
         res.status(200).send(picks);
     });

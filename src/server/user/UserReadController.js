@@ -22,7 +22,7 @@ const mvyKingHomer = {
 
 const mvyKingRoad = {
     authServiceId: 3,
-    firstName: 'King Road'
+    firstName: 'King Offense'
 };
 
 const mvyKingDefense = {
