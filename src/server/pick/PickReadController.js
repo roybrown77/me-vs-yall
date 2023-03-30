@@ -153,7 +153,11 @@ router.get('/picks/', async function (req, res) {
                         leagueId: game.leagueId
                     };
 
-                    const weekday = moment(moment(game.startDateTime).startOf('day').format()).weekday();
+                    const date = new Date(game.startDateTime);
+                    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+                    const weekday = date.getDay();
+
+                    console.log("weekday", weekday);
 
                     // Monday
                     // playoffs - straight up 100%, spread 100%
@@ -217,19 +221,19 @@ router.get('/picks/', async function (req, res) {
                     // playoffs - straight up 0%, spread 0%; due to constraints
                     // season - straight up 59%, spread 68%
 
-                    if (weekday === 0 && 
-                        game.spread.teamId === game.competitors[0]._id.toString().toLowerCase() &&
-                        !(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)) {
-                        mvyDayPicks = {
-                            _id: mongoose.Types.ObjectId().toString(),
-                            userId: 10,
-                            gameId: game._id,
-                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                            : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
-                            ? game.competitors[0]._id : game.competitors[1]._id,
-                            leagueId: game.leagueId
-                        };
-                    }
+                    // if (weekday === 0 && 
+                    //     game.spread.teamId === game.competitors[0]._id.toString().toLowerCase() &&
+                    //     !(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
 
                     // Sunday
                     // playoffs - straight up 75%, spread 50%
@@ -246,6 +250,22 @@ router.get('/picks/', async function (req, res) {
                     //         leagueId: game.leagueId
                     //     };
                     // }
+
+                    // Sunday
+                    // playoffs - straight up 59%, spread 47%
+                    // season - straight up 887%, spread 62%
+
+                    if (weekday === 0) {
+                        mvyDayPicks = {
+                            _id: mongoose.Types.ObjectId().toString(),
+                            userId: 10,
+                            gameId: game._id,
+                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0
+                            ? game.competitors[0]._id : game.competitors[1]._id,
+                            leagueId: game.leagueId
+                        };
+                    }
 
                     // Sunday Weekly
                     // playoffs - straight up 0%, spread 0%; due to constraints
