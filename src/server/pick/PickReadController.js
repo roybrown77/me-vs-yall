@@ -253,7 +253,7 @@ router.get('/picks/', async function (req, res) {
 
                     // Sunday
                     // playoffs - straight up 59%, spread 47%
-                    // season - straight up 887%, spread 62%
+                    // season - straight up 87%, spread 62%
 
                     if (weekday === 0) {
                         mvyDayPicks = {
