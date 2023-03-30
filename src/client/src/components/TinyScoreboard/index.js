@@ -20,8 +20,8 @@ const TinyScoreboard = ({loading, title, games}) => {
     const styles = {
         header: {
             maxWidth: '35px',
-            backgroundColor: 'black',
-            color: 'white',
+            backgroundColor: '#000',
+            color: '#fff',
             padding: '10px',
             textAlign: 'right',
             lineHeight: '20px',
@@ -36,13 +36,13 @@ const TinyScoreboard = ({loading, title, games}) => {
             fontSize: '12px',
             padding: '5px 0 5px 10px',
             fontWeight: 'bold',
-            backgroundColor: 'white',
+            backgroundColor: '#fff',
             overflowX: 'scroll'
         },
         linkToGame: {
-            color: 'black',
+            color: '#000',
             margin: '4px 8px 0 0',
-            border: '4px solid black',
+            border: '4px solid #000',
             borderRadius: '8px'
         }
     };

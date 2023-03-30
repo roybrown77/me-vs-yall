@@ -257,7 +257,7 @@ body {
   height: 100%;
   width: 100%;
   position: absolute;
-  background: white;
+  background: #fff;
 }
 
 .fa {
@@ -276,7 +276,7 @@ body {
 
 .preview {
   background-color: #3D9970;
-  color: white;
+  color: #fff;
   font-size: 40px;
   font-weight: 900;
   font-family: sans-serif;

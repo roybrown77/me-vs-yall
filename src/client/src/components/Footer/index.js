@@ -15,7 +15,7 @@ const styles = {
     backgroundColor: "#f5fffa", 
     boxShadow: "none",
     width: "100%",
-    color: "black"
+    color: "#000"
   },
   action: {
     fontSize: '15px',

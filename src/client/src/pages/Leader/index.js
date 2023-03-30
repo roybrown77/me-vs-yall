@@ -116,12 +116,12 @@ const styles = theme => ({
     marginBottom: '10px',
     padding: '0',
     width: '75%',
-    'WebkitBoxShadow': '-8px 8px 0px 0px black',
-    'MozBoxShadow': '-8px 8px 0px 0px blackk',
-    boxShadow: '-8px 8px 0px 0px black'
+    'WebkitBoxShadow': '-8px 8px 0px 0px #000',
+    'MozBoxShadow': '-8px 8px 0px 0px #000',
+    boxShadow: '-8px 8px 0px 0px #000'
   },
   toggleButtonOn: {
-    color: 'black'
+    color: '#000'
   },
   toggleButtonOff: {
     color: 'gray'
@@ -497,14 +497,14 @@ class Leader extends Component {
                         <Box sx={{
                             position: "relative",
                             zIndex: "2",
-                            backgroundColor: "white"
+                            backgroundColor: "#fff"
                             }}>
                             <Box sx={{ 
                                 borderBottom: 1, 
                                 borderColor: 'divider', 
                                 position: "relative",
                                 zIndex: "3",
-                                backgroundColor: "white"
+                                backgroundColor: "#fff"
                             }}>
                                 <Tabs value={this.state.tabValue} onChange={this.handleTabChange}  aria-label="game types" style={{
                                     paddingBottom: "20px",

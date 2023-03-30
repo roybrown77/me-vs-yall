@@ -173,7 +173,7 @@ class Header extends Component {
                 margin: '5px',
                 padding: '5px',
                 borderRadius: '4px',
-                border: '3px solid black',
+                border: '3px solid #000',
                 fontFamily: 'monospace',
                 fontWeight: 'bold',
                 cursor: 'pointer'

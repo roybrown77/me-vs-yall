@@ -137,7 +137,7 @@ const MiniRallyGame = (props) => {
   
   return (
     <div style={{marginTop: '10px'}}>
-      <div style={{display: 'inline-flex', width: '50%', padding: '3px', backgroundColor: 'black', borderRadius: '4px'}}>
+      <div style={{display: 'inline-flex', width: '50%', padding: '3px', backgroundColor: '#000', borderRadius: '4px'}}>
         <div style={{
           width: '100%',
           border: '5px dotted yellow',
@@ -146,14 +146,14 @@ const MiniRallyGame = (props) => {
           padding: '5px'
         }}>
           <div style={{ margin: 'auto', width: '25%'}}>
-            <div style={{color: 'white', marginBottom: '5px'}}>{props.game.competitors[0].shortLocation}</div>
-            <div style={{backgroundColor: 'white',  fontSize: '20px'}}>
+            <div style={{color: '#fff', marginBottom: '5px'}}>{props.game.competitors[0].shortLocation}</div>
+            <div style={{backgroundColor: '#fff',  fontSize: '20px'}}>
               {awayScore}
             </div>
           </div>
           <div style={{ margin: 'auto', width: '25%'}}>
-            <div style={{color: 'white', marginBottom: '5px'}}>{props.game.competitors[1].shortLocation}</div>
-            <div style={{backgroundColor: 'white',  fontSize: '20px'}}>
+            <div style={{color: '#fff', marginBottom: '5px'}}>{props.game.competitors[1].shortLocation}</div>
+            <div style={{backgroundColor: '#fff',  fontSize: '20px'}}>
               {homeScore}
             </div>
           </div>
@@ -277,14 +277,14 @@ function GamePlayTabs(props) {
     <Box sx={{
       position: "relative",
       zIndex: "2",
-      backgroundColor: "white"
+      backgroundColor: "#fff"
     }}>
       <Box sx={{ 
         borderBottom: 1, 
         borderColor: 'divider', 
         position: "relative",
         zIndex: "3",
-        backgroundColor: "white"
+        backgroundColor: "#fff"
       }}>
         <Tabs value={value} onChange={handleChange} aria-label="game play tabs" style={{
           paddingBottom: "20px",
@@ -1072,7 +1072,7 @@ const GameContainer = (props) => {
 
   return (
     <div id={"game-" + game._id} key={game._id} className={classes.game}>
-        <div style={{zIndex: 3, position: 'relative', backgroundColor: 'white', paddingBottom: '20px'}}>
+        <div style={{zIndex: 3, position: 'relative', backgroundColor: '#fff', paddingBottom: '20px'}}>
           <Grid key={game._id + "-gridlist"} container className={classes.root}>
               {
                 game.competitors.map((competitor) => (
