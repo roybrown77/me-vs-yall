@@ -678,10 +678,12 @@ const getAllTeamStats = (gamesWholeYear) => {
           name: value.name,
           header: value.header,
           awayTeam:  {
+            id: game.competitors[0]._id.toString().toLowerCase(),
             name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name,
             value: awayTeamStats[key].value
           },
           homeTeam: {
+            id: game.competitors[1]._id.toString().toLowerCase(),
             name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name,
             value: homeTeamStats[key].value
           }

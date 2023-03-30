@@ -70,10 +70,12 @@ const styles = theme => ({
     backgroundColor: '#ffffff'
   },
   userName: {
-    padding: '10px',
-    textAlign: 'left',
-    wordBreak: 'break-all',
-    width: '100%'
+    padding: '10px 0 0 10px',
+    fontSize: '12px',
+    fontWeight: '900',
+    wordWrap: 'break-word',
+    width: '75px',
+    textAlign: 'left'
   },
   expansionSummary: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
@@ -534,7 +536,7 @@ class Leader extends Component {
                                             <div className={classes.container} key={leader.id}>
                                                 <Accordion style={{borderRadius:'8px', boxShadow:'none'}}>
                                                     <AccordionSummary className={classes.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                                                        <div style={{display: 'flex', width: '75%'}}>
+                                                        <div style={{display: 'flex'}}>
                                                             {
                                                                 [1,2,3].includes(index+1) &&
                                                                 <div style={{margin: 'auto 10px auto 0'}}>
@@ -558,27 +560,26 @@ class Leader extends Component {
                                                             }
                                                             {
                                                                 !leader.picture &&
-                                                                <div className={classes.userDefaultPictureContainer}>
+                                                                <div className={classes.userDefaultPictureContainer} style={{backgroundColor:'#'+Math.floor(Math.random()*16777215).toString(16)}}>
                                                                     <div style={{margin: '10px 15px'}}>{leader.userName[0]}</div>
                                                                 </div>
                                                             }
                                                             <div className={classes.userName}>{leader.userName}</div>
-                                                            {
-                                                                true &&
-                                                                <div style={{display:'flex', margin: 'auto'}}>
-                                                                    <div><img style={{width:'30px'}} src={leader.winsInARow > leader.lossesInARow ? money : ice} alt=""/></div>
-                                                                    <div style={{fontWeight: '700'}}><span style={{margin: '3px 0'}}>x</span><span>{leader.winsInARow || leader.lossesInARow}</span></div>
-                                                                </div>
-                                                            }
                                                         </div>
-                                                        <div style={{textAlign:'right', margin: 'auto 0 auto auto', width: '25%'}}>
-                                                            {
-                                                                areAnyGamesInProgress &&
-                                                                <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
-                                                            }
-                                                            {spreadMode && <VegasWinCalculation {...{leader}} />}
-                                                            <div>{leader.percentage}</div>
-                                                            <div>{leader.wins} - {leader.losses}</div>
+                                                        <div style={{display:'inline-flex'}}>
+                                                            <div style={{display:'flex', position: 'absolute', right: '130px'}}>
+                                                                <div><img style={{width:'30px'}} src={leader.winsInARow > leader.lossesInARow ? money : ice} alt=""/></div>
+                                                                <div style={{fontWeight: '700', fontSize: '14px'}}><span style={{margin: '3px 0'}}>x</span><span>{leader.winsInARow || leader.lossesInARow}</span></div>
+                                                            </div>
+                                                            <div style={{textAlign:'right', position: 'absolute', right: '50px', fontSize: '14px'}}>
+                                                                {
+                                                                    areAnyGamesInProgress &&
+                                                                    <div style={{color:'gray'}}>{leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}</div>
+                                                                }
+                                                                {spreadMode && <VegasWinCalculation {...{leader}} />}
+                                                                <div>{leader.percentage}</div>
+                                                                <div>{leader.wins} - {leader.losses}</div>
+                                                            </div>
                                                         </div>
                                                     </AccordionSummary>
                                                     <AccordionDetails className={classes.expansionPanelDetails}>

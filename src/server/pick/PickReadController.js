@@ -82,10 +82,15 @@ router.get('/picks/', async function (req, res) {
     ]);
 
     const teamStats = getAllTeamStats(gamesWholeYear);
+    let count = 0;
 
     pickRepository.find(finalSearch, function (err, picks) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
-        gamesThisRange.forEach((game)=>{
+        gamesThisRange.forEach((game, index)=>{
+
+            // playoffs - straight up 69%, spread 46%
+            // season - straight up 56%, spread 46%
+
             const mvyHomePicks = {
                 _id: mongoose.Types.ObjectId().toString(),
                 userId: 2,
@@ -96,7 +101,8 @@ router.get('/picks/', async function (req, res) {
             
             let mvyDefensePicks = {};
             let mvyRoadHomePicks = {};
-            let mvyOffensePicks = {}
+            let mvyOffensePicks = {};
+            let mvyDayPicks = {};
 
             try {
                 const gameStats = getGameStats(game, teamStats);
@@ -107,39 +113,268 @@ router.get('/picks/', async function (req, res) {
                 const roadPointsScored = gameStats.find(x=>x.name === 'Road Pnts Scrd Avg');
                 const homePointsScored = gameStats.find(x=>x.name === 'Home Pnts Scrd Avg');
 
-                mvyOffensePicks = {
-                    _id: mongoose.Types.ObjectId().toString(),
-                    userId: 3,
-                    gameId: game._id,
-                    pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                    : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
-                    leagueId: game.leagueId,
-                    leagueId: game.leagueId
-                };
+                if ((gamesThisRange.length > 80 && index > 80) || gamesThisRange.length <= 48) {
 
-                mvyDefensePicks = {
-                    _id: mongoose.Types.ObjectId().toString(),
-                    userId: 4,
-                    gameId: game._id,
-                    pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                    : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
-                    leagueId: game.leagueId
-                };
+                    // playoffs - straight up 76%, spread 53%
+                    // season - straight up 74%, spread 61%
 
-                mvyRoadHomePicks = {
-                    _id: mongoose.Types.ObjectId().toString(),
-                    userId: 5,
-                    gameId: game._id,
-                    pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                    : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
-                    ? game.competitors[0]._id : game.competitors[1]._id,
-                    leagueId: game.leagueId
-                };
+                    mvyOffensePicks = {
+                        _id: mongoose.Types.ObjectId().toString(),
+                        userId: 3,
+                        gameId: game._id,
+                        pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                        : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                        leagueId: game.leagueId,
+                        leagueId: game.leagueId
+                    };
+
+                    // playoffs - straight up 92%, spread 69%
+                    // season - straight up 62%, spread 50%
+
+                    mvyDefensePicks = {
+                        _id: mongoose.Types.ObjectId().toString(),
+                        userId: 4,
+                        gameId: game._id,
+                        pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 ? game.competitors[0]._id : game.competitors[1]._id)
+                        : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                        leagueId: game.leagueId
+                    };
+
+                    // playoffs - straight up 84%, spread 61%
+                    // season - straight up 69%, spread 57%
+
+                    mvyRoadHomePicks = {
+                        _id: mongoose.Types.ObjectId().toString(),
+                        userId: 5,
+                        gameId: game._id,
+                        pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                        : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                        ? game.competitors[0]._id : game.competitors[1]._id,
+                        leagueId: game.leagueId
+                    };
+
+                    const weekday = moment(moment(game.startDateTime).startOf('day').format()).weekday();
+
+                    // Monday
+                    // playoffs - straight up 100%, spread 100%
+                    // season - straight up 69%, spread 53%
+
+                    // Thursday
+                    // playoffs - straight up 0%, spread 0%
+                    // season - straight up 76%, spread 69%
+
+                    // Saturday
+                    // playoffs - straight up 100%, spread 75%
+                    // season - straight up 85%, spread 60%
+    
+                    if (weekday === 1 || weekday === 4 || weekday === 6) {
+                        mvyDayPicks = {
+                            _id: mongoose.Types.ObjectId().toString(),
+                            userId: weekday === 1 ? 7 : weekday === 4 ? 8 : 9,
+                            gameId: game._id,
+                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                            ? game.competitors[0]._id : game.competitors[1]._id,
+                            leagueId: game.leagueId
+                        };
+                    }
+
+                    // playoffs - straight up ?, spread ?
+                    // season - straight up ?, spread ?
+
+                    // if (weekday === 0 && 
+                    //     roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // playoffs - straight up ?, spread ?
+                    // season - straight up ?, spread ?
+
+                    // if (weekday === 0 && 
+                    //     game.spread.teamId === game.competitors[0]._id.toString().toLowerCase() &&
+                    //     roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && 
+                    //     roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // Sunday
+                    // playoffs - straight up 0%, spread 0%; due to constraints
+                    // season - straight up 59%, spread 68%
+
+                    if (weekday === 0 && 
+                        game.spread.teamId === game.competitors[0]._id.toString().toLowerCase() &&
+                        !(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)) {
+                        mvyDayPicks = {
+                            _id: mongoose.Types.ObjectId().toString(),
+                            userId: 10,
+                            gameId: game._id,
+                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                            ? game.competitors[0]._id : game.competitors[1]._id,
+                            leagueId: game.leagueId
+                        };
+                    }
+
+                    // Sunday
+                    // playoffs - straight up 75%, spread 50%
+                    // season - straight up 66%, spread 56%
+
+                    // if (weekday === 0) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // Sunday Weekly
+                    // playoffs - straight up 0%, spread 0%; due to constraints
+                    // season - straight up 75%, spread 50%
+
+                    // if (weekday === 0 &&
+                    //     index%16 === 0) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // Sunday Weekly
+                    // playoffs - straight up 0%, spread 0%; due to constraints
+                    // season - straight up 87%, spread 37%
+
+                    // if (weekday === 0 &&
+                    //     index%16 === 0) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 3
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // Sunday Weekly
+                    // playoffs - straight up 0%, spread 0%; due to constraints
+                    // season - straight up 12%, spread 62%
+
+                    // if (weekday === 0 &&
+                    //     index%16 === 0) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : !(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // Sunday Weekly
+                    // playoffs - straight up 0%, spread 0%; due to constraints
+                    // season - straight up 46%, spread 60%
+                    // if (weekday === 0 &&
+                    //     index%11) {
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : !(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // Sunday Weekly
+                    // playoffs - straight up 0%, spread 0%; due to constraints
+                    // season - straight up 83%, spread 83%
+                    // ++count;
+                    // if (weekday === 0 &&
+                    //     count === 10) {
+                    //     count = 0;
+                    //     mvyDayPicks = {
+                    //         _id: mongoose.Types.ObjectId().toString(),
+                    //         userId: 10,
+                    //         gameId: game._id,
+                    //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //         : (roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)
+                    //         ? game.competitors[0]._id : game.competitors[1]._id,
+                    //         leagueId: game.leagueId
+                    //     };
+                    // }
+
+                    // playoffs - straight up ?, spread ?
+                    // season - straight up ?, spread ?
+
+                    // mvyOffensePicks = {
+                    //     _id: mongoose.Types.ObjectId().toString(),
+                    //     userId: 3,
+                    //     gameId: game._id,
+                    //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //     : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                    //     leagueId: game.leagueId,
+                    //     leagueId: game.leagueId
+                    // };
+
+                    // playoffs - straight up ?, spread ?
+                    // season - straight up ?, spread ?
+    
+                    // mvyDefensePicks = {
+                    //     _id: mongoose.Types.ObjectId().toString(),
+                    //     userId: 4,
+                    //     gameId: game._id,
+                    //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //     : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                    //     leagueId: game.leagueId
+                    // };
+
+                    // playoffs - straight up ?, spread ?
+                    // season - straight up ?, spread ?
+    
+                    // mvyRoadHomePicks = {
+                    //     _id: mongoose.Types.ObjectId().toString(),
+                    //     userId: 5,
+                    //     gameId: game._id,
+                    //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    //     : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
+                    //     ? game.competitors[0]._id : game.competitors[1]._id,
+                    //     leagueId: game.leagueId
+                    // };
+                }
             } catch (error) {
                 console.log("PickReadController user picks error", error);
             }
 
-            picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks];
+            picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyDayPicks];
         });
         res.status(200).send(picks);
     });
@@ -154,3 +389,10 @@ router.get('/picks/:id', function (req, res) {
 });
 
 module.exports = router;
+
+/*
+
+Archived Stats
+
+
+*/
