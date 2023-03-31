@@ -154,7 +154,7 @@ router.get('/picks/', async function (req, res) {
                     };
 
                     const date = new Date(game.startDateTime);
-                    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+                    date.setMinutes(date.getMinutes() - 300);
                     const weekday = date.getDay();
 
                     console.log("weekday", weekday, date, game.startDateTime, new Date().getTimezoneOffset());
