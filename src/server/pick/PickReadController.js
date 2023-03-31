@@ -157,7 +157,7 @@ router.get('/picks/', async function (req, res) {
                     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
                     const weekday = date.getDay();
 
-                    console.log("weekday", weekday);
+                    console.log("weekday", weekday, game.startDateTime);
 
                     // Monday
                     // playoffs - straight up 100%, spread 100%
