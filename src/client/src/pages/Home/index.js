@@ -256,7 +256,7 @@ class Home extends Component {
               <div style={{display: 'inline-flex'}}>
                 {
                   leagues.map((league, index) => (
-                  <div style={{paddingRight: '10px', marginRight: '10px', borderRight: index === leagues.length-1 ? '' : darkModeOn ? '1px solid #fff' : '1px solid #000', fontSize: '15px'}}>
+                  <div key={league.id} style={{paddingRight: '10px', marginRight: '10px', borderRight: index === leagues.length-1 ? '' : darkModeOn ? '1px solid #fff' : '1px solid #000', fontSize: '15px'}}>
                     <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:league.color}} to={league.url}>
                       {league.name}
                     </Link>
