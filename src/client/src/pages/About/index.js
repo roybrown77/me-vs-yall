@@ -90,9 +90,9 @@ const stats = [
   },
   {
     title: 'BET EXAMPLE',
-    content: `Patriots vs Cowboys with -3 next to Cowboys means Cowboys would need to win by 3 points or more for you to win money if you select Cowboys 
+    content: `Patriots vs Cowboys with -3 next to Cowboys means Cowboys would need to win by more than 3 points for you to win money if you select Cowboys 
               (the favorite).  If you select Patriots (the underdog), you can win if Cowboys win by less than 3 points, game ties or Patriots win.  Patriots 
-              +3 is the same as Cowboys -3.  This always confuses folks initially including me.  Plus sign means Patriots will give up 3 points and minus 
+              +3 is the same as Cowboys -3.  If Cowboys win by exactly 3 points normally casinos call this a push back where money is refunded.  These standards always confuses folks initially including me.  Plus sign means Patriots will give up 3 points and minus 
               sign means Cowboys will take 3 points.`
   },
   {
@@ -101,8 +101,8 @@ const stats = [
               $110 on each game and there was a $100 payout.`
   },
   {
-    title: 'BEAT VEGAS',
-    content: `When you tap beat vegas it shows results against the Vegas spread.`
+    title: 'vs Spread',
+    content: `When you tap 'vs Spread' it shows results against the Vegas spread.`
   },
   {
     title: 'THE CONNECT',
@@ -126,7 +126,7 @@ const stats = [
   },
   {
     title: 'NEW FEATURES',
-    content: `Sign in again to get new app features or clear browser cache.`
+    content: `Sign in again or clear browser cache to get new features or if problems arise.`
   },
   {
     title: 'TAGS',
