@@ -55,6 +55,16 @@ const mvyRandomSunday = {
     firstName: 'King Sunday'
 };
 
+const mvySundaySingle = {
+    authServiceId: 11,
+    firstName: 'King Sunday Single'
+};
+
+const mvyMultiVegas= {
+    authServiceId: 12,
+    firstName: 'Kang Multivegas'
+};
+
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
@@ -66,10 +76,21 @@ router.get('/users', function (req, res) {
             x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
             goodUsers.push(x);
         });
-
-        // res.status(200).send([...goodUsers, vegas, mvyKingHomer, mvyKingRoad, mvyKingDefense, mvyKingRoadHome]);
         
-        res.status(200).send([...goodUsers, vegas, mvyKingHomer, mvyKingRoad, mvyKingDefense, mvyKingRoadHome, mvyMonday, mvyThursday, mvySaturday, mvyRandomSunday]);
+        res.status(200).send([
+            ...goodUsers, 
+            vegas, 
+            mvyKingHomer, 
+            mvyKingRoad, 
+            mvyKingDefense, 
+            mvyKingRoadHome, 
+            mvyMonday, 
+            mvyThursday, 
+            mvySaturday, 
+            mvyRandomSunday,
+            mvySundaySingle,
+            mvyMultiVegas
+        ]);
     });
 });
 

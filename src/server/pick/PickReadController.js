@@ -103,6 +103,9 @@ router.get('/picks/', async function (req, res) {
             let mvyRoadHomePicks = {};
             let mvyOffensePicks = {};
             let mvyDayPicks = {};
+            let mvyMultiVegasPicks = {};
+
+            let lastDay = 1;
 
             try {
                 const gameStats = getGameStats(game, teamStats);
@@ -118,27 +121,33 @@ router.get('/picks/', async function (req, res) {
                     // playoffs - straight up 76%, spread 53%
                     // season - straight up 74%, spread 61%
 
-                    mvyOffensePicks = {
-                        _id: mongoose.Types.ObjectId().toString(),
-                        userId: 3,
-                        gameId: game._id,
-                        pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                        : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
-                        leagueId: game.leagueId,
-                        leagueId: game.leagueId
-                    };
+                    // if ((game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                    // : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) {
+                        mvyOffensePicks = {
+                            _id: mongoose.Types.ObjectId().toString(),
+                            userId: 3,
+                            gameId: game._id,
+                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                            leagueId: game.leagueId,
+                            leagueId: game.leagueId
+                        };
+                    // }
 
                     // playoffs - straight up 92%, spread 69%
                     // season - straight up 62%, spread 50%
 
-                    mvyDefensePicks = {
-                        _id: mongoose.Types.ObjectId().toString(),
-                        userId: 4,
-                        gameId: game._id,
-                        pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 ? game.competitors[0]._id : game.competitors[1]._id)
-                        : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
-                        leagueId: game.leagueId
-                    };
+                    // if ((game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 ? game.competitors[0]._id : game.competitors[1]._id)
+                    // : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0) {
+                        mvyDefensePicks = {
+                            _id: mongoose.Types.ObjectId().toString(),
+                            userId: 4,
+                            gameId: game._id,
+                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 ? game.competitors[0]._id : game.competitors[1]._id)
+                            : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
+                            leagueId: game.leagueId
+                        };
+                    // }
 
                     // playoffs - straight up 84%, spread 61%
                     // season - straight up 69%, spread 57%
@@ -354,6 +363,28 @@ router.get('/picks/', async function (req, res) {
                         };
                     }
 
+                    // MultiVegas
+                    // playoffs - straight up ?, spread ?
+                    // season - straight up ?, spread ?
+                    // if (weekday === 0 && 
+                    //     lastDay === 1 &&
+                    //     ((roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase())) {
+                    if (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase()) {
+                        mvyMultiVegasPicks = {
+                            _id: mongoose.Types.ObjectId().toString(),
+                            userId: 12,
+                            gameId: game._id,
+                            pickId: roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
+                            leagueId: game.leagueId
+                        };
+                    }
+
+                    // if (weekday === 0 && lastDay !== 1) {
+                    //     lastDay = 0;
+                    // } else {
+                    //     lastDay = 1;
+                    // }
+
                     // playoffs - straight up ?, spread ?
                     // season - straight up ?, spread ?
 
@@ -396,7 +427,7 @@ router.get('/picks/', async function (req, res) {
                 console.log("PickReadController user picks error", error);
             }
 
-            picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyDayPicks];
+            picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyDayPicks, mvyMultiVegasPicks];
         });
         res.status(200).send(picks);
     });
