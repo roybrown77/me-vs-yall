@@ -511,7 +511,7 @@ class Leader extends Component {
                                     width: 'fit-content', 
                                     margin: 'auto',
                                 }}>
-                                <Tab label="Straight Up" {...a11yProps(0)} />
+                                <Tab label="Leaders" {...a11yProps(0)} />
                                 {
                                     isAuthenticated && userId === 'google-oauth2|114172296334563495985' && 
                                     <Tab label="Spread Mode $" {...a11yProps(1)} />

@@ -610,7 +610,7 @@ class Scoreboard extends Component {
                                     width: 'fit-content', 
                                     margin: 'auto',
                                 }}>
-                                    <Tab label="Straight Up" {...a11yProps(0)} />
+                                    <Tab label="Scores" {...a11yProps(0)} />
                                     {
                                         isAuthenticated &&
                                         userId === 'google-oauth2|114172296334563495985' && 
