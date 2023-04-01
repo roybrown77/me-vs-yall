@@ -195,7 +195,7 @@ const getSpreadLeaderIndicator = (game,picks,index1,index2,spread = null) => {
             (game.competitors[index2].score > game.competitors[index1].score && teamAPick && game.spread.teamId === game.competitors[index2]._id && game.competitors[index2].score - game.competitors[index1].score < getSpreadAmount(game.spread.amount))) 
             ? '#009933' : 
 
-            game.isGameOver && get(game,'spread.teamId') && ((game.competitors[index1].score === game.competitors[index2].score) || teamAPick) ? 'red' : 
+            game.isGameOver && get(game,'spread.teamId') &&  teamAPick ? 'red' : 
 
             teamAPick ? 'lightblue' : '';
 }
