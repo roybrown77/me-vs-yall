@@ -369,7 +369,7 @@ router.get('/picks/', async function (req, res) {
                     // if (weekday === 0 && 
                     //     lastDay === 1 &&
                     //     ((roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase())) {
-                    if (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase()) {
+                    if (weekday === 0 && weekday !== lastDay && roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase()) {
                         mvyMultiVegasPicks = {
                             _id: mongoose.Types.ObjectId().toString(),
                             userId: 12,
@@ -379,11 +379,7 @@ router.get('/picks/', async function (req, res) {
                         };
                     }
 
-                    // if (weekday === 0 && lastDay !== 1) {
-                    //     lastDay = 0;
-                    // } else {
-                    //     lastDay = 1;
-                    // }
+                    lastDay = weekday;
 
                     // playoffs - straight up ?, spread ?
                     // season - straight up ?, spread ?
