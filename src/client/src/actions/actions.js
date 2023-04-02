@@ -340,7 +340,8 @@ export const loadLeaders = (query, requiredFields = []) => async (dispatch, getS
     beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
     endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime'),
     gameType: gameType,
-    loading: loading
+    loading: loading,
+    includeStrategies: true
   };
 
   dispatch({type: ActionTypes.LEADERS_REQUEST, request});
