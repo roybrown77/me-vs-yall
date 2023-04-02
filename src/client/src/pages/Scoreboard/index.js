@@ -596,7 +596,7 @@ class Scoreboard extends Component {
                         <Box sx={{
                             position: "relative",
                             zIndex: "2",
-                            backgroundColor: "#fff"
+                            backgroundColor: "#EFFBF8"
                             }}>
                             <Box sx={{ 
                                 borderBottom: 1, 
