@@ -52,12 +52,12 @@ const mvySaturday = {
 
 const mvyRandomSunday = {
     authServiceId: 10,
-    firstName: 'King Sunday'
+    firstName: 'King Sunday Limit'
 };
 
 const mvySundaySingle = {
     authServiceId: 11,
-    firstName: 'King Sunday Single'
+    firstName: 'King Sunday'
 };
 
 const mvyMultiVegas= {
