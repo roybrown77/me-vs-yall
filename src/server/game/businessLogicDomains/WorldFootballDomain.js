@@ -11,7 +11,7 @@ const groupBy = require('lodash/groupBy');
 const some = require('lodash/some');
 const sortBy = require('lodash/sortBy');
 
-const gameRepository = require('./GameRepository');
+const gameRepository = require('../databaseRepositories/GameRepository');
 
 const {
   getGames,
@@ -20,7 +20,7 @@ const {
   getScores,
   updateGames,
   hasGameStarted
-} = require('./utilities');
+} = require('../../utilities/utilities');
     
 let isUpdateWorldFootballScoresRunning = false;
 

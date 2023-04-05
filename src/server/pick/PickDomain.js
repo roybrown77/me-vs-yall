@@ -2,7 +2,7 @@ const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 
 const pickRepository = require('./PickRepository');
-const gameRepository = require('../game/GameRepository');
+const gameRepository = require('../game/databaseRepositories/GameRepository');
 
 const get = require('lodash/get');
 

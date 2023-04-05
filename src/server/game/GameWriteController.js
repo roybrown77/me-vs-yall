@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 let router = express.Router();
 
-const gameDomain = require('./GameDomain');
+const gameDomain = require('./businessLogicDomains/GameDomain');
 
 const omit = require('lodash/omit');
 const get = require('lodash/get');

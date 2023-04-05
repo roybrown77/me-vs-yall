@@ -7,14 +7,14 @@ const omit = require('lodash/omit');
 const get = require('lodash/get');
 const sortBy = require('lodash/sortBy');
 
-const gameRepository = require('./GameRepository');
-const gameWeekRepository = require('./GameWeekRepository');
+const gameRepository = require('./databaseRepositories/GameRepository');
+const gameWeekRepository = require('./databaseRepositories/GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 
 const { shouldUpdateGames, playHistoryCount } = require('../../../config');
 
-const { getAllTeamStats, getGameStats } = require('../utilities');
+const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
 
 const {
   nbaTeams,
@@ -27,7 +27,7 @@ const {
   mlsTeams,
   nba2kCompetitors,
   wnbaTeams
-} = require('./teams');
+} = require('../utilities/teams');
 
 let router = express.Router();
 

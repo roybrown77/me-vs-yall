@@ -94,24 +94,24 @@ const {
   mlbTeams,
   boxingCompetitors,
   ufcCompetitors,
-} = require('../server/game/teams');
+} = require('../server/utilities/teams');
 
 const { 
   updateAmericanFootballScores,
   loadAmericanFootballGames
-} = require('../server/game/AmericanFootballDomain');
+} = require('../server/game/businessLogicDomains/AmericanFootballDomain');
 
 const {
   updateBasketballScores,
   loadBasketballGames
-} = require('../server/game/BasketballDomain');
+} = require('../server/game/businessLogicDomains/BasketballDomain');
 
 const { 
   updateMlbScores,
   loadMlbGames
-} = require('../server/game/MLBDomain');
+} = require('../server/game/businessLogicDomains/MLBDomain');
 
-const gameRepository = require('../server/game/GameRepository');
+const gameRepository = require('../server/game/databaseRepositories/GameRepository');
 const sortBy = require('lodash/sortBy');
 
 const updateGames = async () => {

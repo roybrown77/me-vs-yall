@@ -7,8 +7,8 @@ const omit = require('lodash/omit');
 const get = require('lodash/get');
 
 const pickRepository = require('./PickRepository');
-const gameRepository = require('../game/GameRepository');
-const { getAllTeamStats, getGameStats } = require('../utilities');
+const gameRepository = require('../game/databaseRepositories/GameRepository');
+const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
 
 let router = express.Router();
 

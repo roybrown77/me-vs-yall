@@ -9,7 +9,7 @@ const isNaN = require('lodash/isNaN');
 const sample = require('lodash/sample');
 const pick = require('lodash/pick');
 
-const gameRepository = require('./GameRepository');
+const gameRepository = require('../game/databaseRepositories/GameRepository');
 const {
     nbaTeams,
     nflTeams,

@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 
-const { nflTeams } = require('../game/teams');
+const { nflTeams } = require('./teams');
 
 const teamStatTemplate = {
     gamesPlayed: {

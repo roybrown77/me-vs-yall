@@ -7,7 +7,7 @@ const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
 
 
-const gameRepository = require('./GameRepository');
+const gameRepository = require('../databaseRepositories/GameRepository');
 
 const {
   getGames,
@@ -15,7 +15,7 @@ const {
   createGames,
   getScores,
   updateGames
-} = require('./utilities');
+} = require('../../utilities/utilities');
 
 let isUpdateAmericanFootballScoresRunning = false;
 
