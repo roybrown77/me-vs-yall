@@ -89,6 +89,9 @@ router.get('/picks/', async function (req, res) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
 
         if (includeStrategies) {
+            // let lastDay = "";
+            // let lastDay = 1;
+
             gamesThisRange.forEach((game, index)=>{
 
                 // playoffs - straight up 69%, spread 46%
@@ -107,8 +110,6 @@ router.get('/picks/', async function (req, res) {
                 let mvyOffensePicks = {};
                 let mvyDayPicks = {};
                 let mvyMultiVegasPicks = {};
-
-                let lastDay = 1;
 
                 try {
                     const gameStats = getGameStats(game, teamStats);
@@ -169,7 +170,7 @@ router.get('/picks/', async function (req, res) {
                         date.setMinutes(date.getMinutes() - 300);
                         const weekday = date.getDay();
 
-                        console.log("weekday", weekday, date, game.startDateTime, new Date().getTimezoneOffset());
+                        // console.log("weekday", weekday, date, game.startDateTime, new Date().getTimezoneOffset());
 
                         // Monday
                         // playoffs - straight up 100%, spread 100%
@@ -388,18 +389,28 @@ router.get('/picks/', async function (req, res) {
                         // if (weekday === 0 && 
                         //     lastDay === 1 &&
                         //     ((roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase())) {
-                        if (weekday === 0) {
-                            mvyMultiVegasPicks = {
+                        
+                        if (((roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
+                            (!(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase()))) {
+                            mvyOffensePicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
                                 userId: 12,
                                 gameId: game._id,
-                                pickId: roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
+                                pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? 
+                                    game.competitors[0]._id : game.competitors[1]._id)
+                                : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
+                                game.competitors[0]._id : game.competitors[1]._id,
+                                leagueId: game.leagueId,
                                 leagueId: game.leagueId
                             };
                         }
 
-                        lastDay = weekday;
+                        // lastDay = moment(game.startDateTime).format('YYYYMMDD');
 
+                        // console.log('lastDay', lastDay);
+
+                        // lastDay = weekday;
+        
                         // playoffs - straight up ?, spread ?
                         // season - straight up ?, spread ?
 
