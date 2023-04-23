@@ -71,26 +71,11 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
 
 // *** leaders
 
-const getWinnings = (results) => {
-    return (results['wins'] * 100) - (results['losses'] * 110);
-};
-
-const formatMoney = (number, places, symbol, thousand, decimal) => {
-    number = number || 0;
-    places = !isNaN(places = Math.abs(places)) ? places : 2;
-    symbol = symbol !== undefined ? symbol : "$";
-    thousand = thousand || ",";
-    decimal = decimal || ".";
-    let i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "";
-    let j = i.length > 3 ? i.length % 3 : 0;
-
-    const format = symbol + 
-    (j ? i.substr(0, j) + thousand : "") + 
-    i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + 
-    (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
-
-    return format;
-};
+const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
+    const sortedGames = orderBy(games,['_id'],['desc']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+    const picksWithVegas = [...picks, ...getVegasPicks(sortedGames)];
+    return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
+}
 
 const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
     const picksByUser = groupBy(picks, 'userId');
@@ -156,11 +141,26 @@ const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isR
     return orderBy(pickResults, ['winsBeforeGameOver', 'totalPicks', 'lossesBeforeGameOver', 'userName'], ['desc', 'desc', 'asc', 'asc']);
 };
 
-const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
-    const sortedGames = orderBy(games,['_id'],['desc']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
-    const picksWithVegas = [...picks, ...getVegasPicks(sortedGames)];
-    return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
-}
+const getWinnings = (results) => {
+    return (results['wins'] * 100) - (results['losses'] * 110);
+};
+
+const formatMoney = (number, places, symbol, thousand, decimal) => {
+    number = number || 0;
+    places = !isNaN(places = Math.abs(places)) ? places : 2;
+    symbol = symbol !== undefined ? symbol : "$";
+    thousand = thousand || ",";
+    decimal = decimal || ".";
+    let i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "";
+    let j = i.length > 3 ? i.length % 3 : 0;
+
+    const format = symbol + 
+    (j ? i.substr(0, j) + thousand : "") + 
+    i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + 
+    (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+
+    return format;
+};
 
 const getVegasPicks = (games = []) => {
     return games.map(x=>{
