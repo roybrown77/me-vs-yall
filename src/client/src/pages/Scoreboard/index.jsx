@@ -9,8 +9,8 @@ import last from 'lodash/last';
 
 import moment from 'moment-timezone';
 
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import {createBrowserHistory} from 'history';
+
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -19,11 +19,15 @@ import IconButton from '@material-ui/core/IconButton';
 
 import ToggleOn from '@material-ui/icons/ToggleOn';
 import ToggleOff from '@material-ui/icons/ToggleOff';
-import Share from '@material-ui/icons/BackupOutlined';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+
+import {
+    RemainingGamesNotifier,
+    a11yProps,
+} from './components';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -49,159 +53,20 @@ import {
     getGroupedGames,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    getImage
 } from '../../utilities';
 
 import { 
     getPicksNotSelected,
-    copy
 } from './utilities';
 
-import {createBrowserHistory} from 'history';
+import { 
+    styles
+} from './constants';
 
 const history = createBrowserHistory({forceRefresh: false});
 
-const styles = theme => ({
-  googleLogin: {
-    width: '250px',
-    '&:hover': {
-      cursor: 'pointer'
-    }
-  },
-  input: {
-    display: 'none',
-  },
-  pickResultContainer: {
-    margin: '0 15% 6px 15%',
-    backgroundColor: '#fff'
-  },
-  banner: {
-    marginBottom: '10px'
-  },
-  bannerImage: {
-    borderRadius: '8px'
-  },
-  button: {
-    backgroundColor: '#3772FA',
-    borderColor: '#3772FA',
-    '&:hover': {
-      backgroundColor: '#3772FA',
-      color: '#FFFFFF',
-      borderColor: '#3772FA',
-    },
-    borderRadius: 0,
-    color: '#FFFFFF',
-    fontSize: '1.5rem',
-    fontWeight: "700",
-    lineHeight: '2.75',
-    marginBottom: '10px',
-    padding: '0',
-    width: '75%',
-    'WebkitBoxShadow': '-8px 8px 0px 0px #000',
-    'MozBoxShadow': '-8px 8px 0px 0px #000',
-    boxShadow: '-8px 8px 0px 0px #000'
-  },
-  toggleButtonOn: {
-    color: '#000'
-  },
-  toggleButtonOff: {
-    color: 'gray'
-  }
-});
-
 let gameDate;
 
-const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-        >
-        {value === index && (
-            <Box sx={{ p: 3, padding: 0 }}>
-            {children}
-            </Box>
-        )}
-        </div>
-    );
-};
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-const a11yProps = (index) => {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-};
-
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-};
-
-const RemainingGamesNotifier = ({isAuthenticated, picksNotSelected}) => {
-    if (!isAuthenticated || picksNotSelected === 0) {
-        return null;
-    }
-
-    return (
-        <Snackbar className="remaining-games-notifier" open={true}>
-            <Alert severity="error">
-                {`${picksNotSelected} Remaining Pick(s)`}
-            </Alert>
-        </Snackbar>
-    );
-};
-
-const ScoreboardOptions = ({classes, spreadMode, copyData, openCopyAlert, isAuthenticated}) => {
-    return (
-        <div style={{
-            justifyContent: 'center',
-            display:'flex', 
-            fontSize: '17px', 
-            paddingBottom: '20px',
-            fontFamily: 'monospace'}}>
-            <div style={{marginRight: '40px'}} onClick={()=>{}}>
-                <div>
-                    <IconButton className={spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
-                        {spreadMode ? <ToggleOn/> : <ToggleOff/>}
-                    </IconButton>
-                </div>
-                <div style={{marginTop: '-3px'}}>
-                    beat vegas
-                </div>
-            </div>
-            {
-                document.queryCommandSupported('copy') &&
-                <div style={{marginRight: '40px'}}>
-                    <div>
-                        <IconButton className={classes.toggleButtonOn} aria-label="share picks" onClick={this.handleSharePicks}>
-                            <Share/>
-                        </IconButton>
-                    </div>
-                    <div style={{marginTop: '-3px'}}>
-                        share
-                    </div>
-                    <textarea style={{position:'fixed',bottom:'-10em'}} type="text" onChange={()=>{}} value={copyData} id="copyInput" readOnly />
-                    <Snackbar open={openCopyAlert} autoHideDuration={10000} onClose={this.handleCopyAlertClose}>
-                        <Alert onClose={this.handleCopyAlertClose} severity="success">
-                        {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
-                        </Alert>
-                    </Snackbar>
-                </div>
-            }
-        </div>
-    );
-};
 class Scoreboard extends Component {
     constructor(props) {
         super(props);
@@ -449,7 +314,6 @@ class Scoreboard extends Component {
         } = this.props;
 
         const {
-            openCopyAlert,
             isAuthenticated
         } = this.state;
 
@@ -462,10 +326,6 @@ class Scoreboard extends Component {
         const picksNotSelected = getPicksNotSelected(gamesNotStarted, picks);
 
         gameDate = null;
-
-        const image = getImage(leagueId);
-
-        const copyData = copy(games,picks,teams);
 
         const disableTie = get(currentWeek,'disableTie') || false;
 
@@ -530,13 +390,6 @@ class Scoreboard extends Component {
                         </div>
                     }
                     {
-                        false &&
-                        !get(currentWeek,'prize') &&
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins bragging rights!</div>
-                        </div>
-                    }
-                    {
                         get(currentWeek,'prize') &&
                         <Popover 
                             borderStyle={{margin: '4px 14%', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}
@@ -563,25 +416,6 @@ class Scoreboard extends Component {
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** sign in then tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} **
                         </div>
-                    }
-                    {
-                        false &&
-                        isAuthenticated &&
-                        areAllGamesOver &&
-                        !(dataLoading) &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
-                        </div>
-                    }
-                    {
-                        false &&
-                        <div style={{color: '#1e90ff', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid #1e90ff'}}>
-                            ** invite your friends.  it's fun beating them.  :D **
-                        </div>
-                    }
-                    {
-                        false &&
-                        <ScoreboardOptions {...{classes, spreadMode, copyData, openCopyAlert, isAuthenticated}} />
                     }
                     <RemainingGamesNotifier {...{isAuthenticated, picksNotSelected}} />
                     <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
@@ -710,18 +544,6 @@ class Scoreboard extends Component {
                                 }
                             </div>
                         </Box>
-                    }
-                    {
-                        false &&
-                        image &&
-                        !(dataLoading) &&
-                        <div>
-                            <img style={{width:'90%'}} src={image.picture} alt=""/>
-                            <div style={{
-                                color: 'gray',
-                                fontSize: '10px'
-                            }}>Image via {image.source}</div>
-                        </div>
                     }
                 </PageContainer>
             </div>

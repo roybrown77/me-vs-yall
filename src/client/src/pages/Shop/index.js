@@ -107,10 +107,6 @@ class Shop extends React.Component {
                 </Grid>
               ))}
             </Grid>
-            {
-              false &&
-              <div style={{padding:'12px'}}>Please call 770.765.2611 (Atlanta) to order.</div>
-            }
           </Grid>
         </Grid>
       </PageContainer>

@@ -7,6 +7,8 @@ import ReactGA from 'react-ga';
 import get from 'lodash/get';
 import last from 'lodash/last';
 
+import {createBrowserHistory} from 'history';
+
 import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
 import Accordion from '@material-ui/core/Accordion';
@@ -23,6 +25,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+
+import {
+    a11yProps,
+    VegasWinCalculation,
+} from './components';
 
 import PageContainer from '../PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
@@ -44,148 +51,12 @@ import {
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-    getImage,
     getLeaders
 } from '../../utilities';
 
-import {createBrowserHistory} from 'history';
+import { styles } from './constants';
+
 const history = createBrowserHistory({forceRefresh: false});
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    paddingBottom: '12px'
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-  googleLogin: {
-    width: '250px',
-    '&:hover': {
-      cursor: 'pointer'
-    }
-  },
-  container: {
-    backgroundColor: '#ffffff'
-  },
-  userName: {
-    padding: '10px 0 0 10px',
-    fontSize: '12px',
-    fontWeight: '900',
-    wordWrap: 'break-word',
-    width: '75px',
-    textAlign: 'left'
-  },
-  expansionSummary: {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-    padding: '0 12px'
-  },
-  expansionPanelDetails: {
-    padding: '8px'
-  },
-  userPicture: {
-    height: '50px',
-    width: '50px',
-    borderRadius: '8px',
-    objectFit: 'cover'
-  },
-  userDefaultPictureContainer: {
-    width: '50px',
-    height: '50px',
-    borderRadius: '8px',
-    backgroundColor: '#3772FA',
-    color: '#fff',
-    fontSize: '1.5rem',
-    objectFit: 'cover',
-    margin: 'auto'
-  },
-  button: {
-    backgroundColor: '#3772FA',
-    borderColor: '#3772FA',
-    '&:hover': {
-      backgroundColor: '#3772FA',
-      color: '#FFFFFF',
-      borderColor: '#3772FA',
-    },
-    borderRadius: 0,
-    color: '#FFFFFF',
-    fontSize: '1.5rem',
-    fontWeight: "700",
-    lineHeight: '2.75',
-    marginBottom: '10px',
-    padding: '0',
-    width: '75%',
-    'WebkitBoxShadow': '-8px 8px 0px 0px #000',
-    'MozBoxShadow': '-8px 8px 0px 0px #000',
-    boxShadow: '-8px 8px 0px 0px #000'
-  },
-  toggleButtonOn: {
-    color: '#000'
-  },
-  toggleButtonOff: {
-    color: 'gray'
-  }
-});
-
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-        >
-        {value === index && (
-            <Box sx={{ p: 3, padding: 0 }}>
-            {children}
-            </Box>
-        )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
-const VegasWinCalculation = (props) => {
-    const { leader, title='', showInfo=false } = props;
-
-    if (!showInfo) {
-        return (
-            <div style={{color: leader.positiveWinnings ? '#009933' : 'red', textDecoration:'underline', fontWeight: '700'}}>
-                {`${title}${leader.vegasWinnings}`}
-            </div>
-        );
-    }
-
-    return (
-        <Popover 
-            title={`${title}${leader.vegasWinnings}`}
-            titleStyle={{color: leader.positiveWinnings ? '#009933' : 'red', textDecoration:'underline', fontWeight: '700'}}
-        >
-            <div style={{padding:'16px'}}>
-                <div>${(leader.wins + leader.losses) * 110} initial bets = {leader.wins + leader.losses} bets x $110</div>
-                <div style={{paddingTop:'16px'}}>{leader.positiveWinnings ? '$' : '-$'}{Math.abs(leader.wins * 100 - leader.losses * 110)} profit = {leader.wins} wins x $100 - {leader.losses} losses x $110</div>
-                <div style={{paddingTop:'16px'}}>${leader.wins * 100 + leader.wins * 110} payout = initial bets + profit</div>
-                <div style={{paddingTop:'16px', fontStyle: 'italic'}}>Wins are determined against the spread</div>
-            </div>
-        </Popover>
-    );
-};
 
 class Leader extends Component {
     constructor(props) {
@@ -386,7 +257,6 @@ class Leader extends Component {
         const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
         const areAllGamesOver = getAreAllGamesOver(games);
         const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
-        const image = getImage(leagueId);
 
         return (
             <div>
@@ -431,19 +301,6 @@ class Leader extends Component {
                         </div>
                     }
                     {
-                        false &&
-                        !get(currentWeek,'prize') &&
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}>
-                            <div style={{color: 'darkgreen', fontSize: '17px'}}>player with the most correct wins bragging rights!</div>
-                        </div>
-                    }
-                    {
-                        false &&
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid blue', cursor: 'pointer'}}>
-                            <div style={{color: 'blue', fontSize: '17px'}}>watch your name rise and fall as scores change.  builds drama. :D</div>
-                        </div>
-                    }
-                    {
                         get(currentWeek,'prize') &&
                         <Popover 
                             borderStyle={{margin: '4px 14%', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}
@@ -469,20 +326,6 @@ class Leader extends Component {
                         !isAuthenticated &&
                         <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
                             ** sign in then tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} **
-                        </div>
-                    }
-                    {
-                        false &&
-                        isAuthenticated &&
-                        areAllGamesOver &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 10%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'tap fighter before match starts' : 'tap team before game starts'} **
-                        </div>
-                    }
-                    {
-                        false &&
-                        <div style={{color: '#1e90ff', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid #1e90ff'}}>
-                            ** invite your friends.  it's fun beating them.  :D **
                         </div>
                     }
                     <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
@@ -660,18 +503,6 @@ class Leader extends Component {
                                 </div>
                             </Slide>
                         </Box>
-                    }
-                    {
-                        false &&
-                        image &&
-                        !(dataLoading) &&
-                        <div>
-                            <img style={{width:'90%'}} src={image.picture} alt=""/>
-                            <div style={{
-                                color: 'gray',
-                                fontSize: '10px'
-                            }}>Image via {image.source}</div>
-                        </div>
                     }
                 </PageContainer>
             </div>

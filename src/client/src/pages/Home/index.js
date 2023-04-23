@@ -14,12 +14,11 @@ import IconButton from '@material-ui/core/IconButton';
 import LightOn from '@material-ui/icons/EmojiObjectsOutlined';
 import LightOff from '@material-ui/icons/EmojiObjects';
 
-import Popover from '../../components/Popover';
 import { loadGamesInProgress } from '../../actions';
 import Typer from './Typer';
 
 import { getAreAnyGamesInProgress } from '../../utilities';
-import { getHomePageImage, getHomePageEmoji } from './utilities';
+import { getHomePageImage } from './utilities';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import { isConfirmedAuthentication, googleLogin } from '../../middleware/authenticationClient';
@@ -114,28 +113,8 @@ const gamesInProgress = (games, leagueId) => {
   return getAreAnyGamesInProgress(filteredGames);
 };
 
-const instructions = [
-  '1. Tap league.',
-  '2. Tap "Play For Free" to sign in.',
-  '3. Tap teams you think will win this week.',
-  '4. View Leaders to see if you won.',
-  "5. No purchase necessary.  It's free yall.  :D"
-];
-
 const tagLines = [
-  // `"track what you could have won or loss in vegas"`,
   `"the ultimate sports pick'em game"`,
-  // `"if you can't win here don't bet real money over there"`,
-  // `"play for fun or play for the 💰 it's your world"`,
-  // `"compete with friends worldwide"`,
-  // `"your mission should you choose to accept is to beat vegas every week.  this message will self destruct."`,
-  // `"the underground mixtape version of sports"`
-  //`"counting up cheese like i ate up a bag of some cheetos" - migos`,
-  //`"awesome baby!" - dickie v`,
-  //`"at the end of the game the team with the most points on the board is going to win" - john madden`,
-  //`"there are always new, grander challenges to confront, and a true winner will embrace each one" – mia hamm`,
-  //`"we will be perfect in every aspect of the game. you drop a pass, you run a mile. you miss a blocking assignment, you run a mile." - denzel washington in remember the titans`,
-  //`"who cares what kind of job i did if it doesn't produce results" - sean astin in rudy`
 ];
 
 class Home extends Component {
@@ -175,7 +154,6 @@ class Home extends Component {
       const { darkModeOn } = this.state;
 
       const year = moment().format('YYYY');
-      const emoji = getHomePageEmoji();
 
       return (
         <div style={{backgroundColor: 'transparent', fontFamily: 'monospace'}} className="fade-in">
@@ -207,23 +185,6 @@ class Home extends Component {
             position: "fixed",
             zIndex:"777"
           }}>
-          {
-            false && 
-            <Popover 
-              borderStyle={{maxWidth: '100px', padding: '16px', backgroundColor: '#000', color: '#fff', cursor: 'pointer', borderRadius: '10px', fontFamily: 'monospace !important'}}
-              title={'How To Play'}>
-              <div style={{padding:'16px'}}>
-                <div style={{marginBottom:'16px'}}>To feel the thrill of betting without risking a thing:</div>
-                {
-                  instructions.map((instruction,instructionIndex)=>{
-                    return (
-                        <div key={instructionIndex}>{instruction}</div>
-                    );
-                  })
-                }
-              </div>
-            </Popover>
-          }
           </div>
           {darkModeOn && <div style={{position: "absolute", width:"100%", height:"100%"}}>
             <img style={{width:'100%', height: "100%"}} src={getHomePageImage} alt=""/>
@@ -280,7 +241,7 @@ class Home extends Component {
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/about'}>About</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/shop'}>Shop</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/play'}>Play</Link></div>
-                {true && <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>}
+                <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>
               </div>
               <div style={{paddingLeft:'50px'}}>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/origin'}>Origin</Link></div>
@@ -293,12 +254,6 @@ class Home extends Component {
               <div>© 2017-{year} Me vs Yall</div>
               <div>
                 {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
-                {
-                  false && 
-                  <span style={{margin: '-5px 0 0 10px', position: 'absolute', fontSize: '15px'}}>
-                  {emoji}
-                  </span>
-                }
               </div>
             </div>
           </div>

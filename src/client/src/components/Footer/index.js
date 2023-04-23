@@ -35,41 +35,29 @@ class Footer extends Component {
 
         return (
             <BottomNavigation style={styles.root}>
-            {
-                true &&
-                <Route render={({ history}) => (
-                    <div style={styles.action} onClick={() => { history.push('/') }}>
-                        MvY
-                    </div>
-                )} />
-            }
-            {
-                true &&
-                <Route render={({ history}) => (
-                    <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid #1e90ff' : ''}} 
-                    onClick={() => { history.push('/scoreboards/' + leagueName) }}>
-                        Scores
-                    </div>
-                )} />
-            }
-            {
-                true &&
-                <Route render={({ history}) => (
-                    <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid #1e90ff' : ''}} 
-                     onClick={() => { history.push('/leaders/' + leagueName) }}>
-                        Leaders
-                    </div>
-                )} />
-            }
-            {
-                true &&
-                <Route render={({ history}) => (
-                    <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid #1e90ff' : ''}} 
-                     onClick={() => { history.push('/oftheweek') }}>
-                        OTW
-                    </div>
-                )} />
-            }
+            <Route render={({ history}) => (
+                <div style={styles.action} onClick={() => { history.push('/') }}>
+                    MvY
+                </div>
+            )} />
+            <Route render={({ history}) => (
+                <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid #1e90ff' : ''}} 
+                onClick={() => { history.push('/scoreboards/' + leagueName) }}>
+                    Scores
+                </div>
+            )} />
+            <Route render={({ history}) => (
+                <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid #1e90ff' : ''}} 
+                    onClick={() => { history.push('/leaders/' + leagueName) }}>
+                    Leaders
+                </div>
+            )} />
+            <Route render={({ history}) => (
+                <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid #1e90ff' : ''}} 
+                    onClick={() => { history.push('/oftheweek') }}>
+                    OTW
+                </div>
+            )} />
             </BottomNavigation>
         );
     }

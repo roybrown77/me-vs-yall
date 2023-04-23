@@ -127,39 +127,25 @@ const FootballField = (props) => {
       <rect className="goal-post-left" x="10.663" y="11.922" width="0.587" height="27.804" rx="0" ry="0" fill="#faed24" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
       <path className="goal-post-left" fill="#f8ed40" stroke="#000000" d="M10.181,39.725C10.181,39.725,10.191999999999998,40.124,10.353,40.421C10.514,40.717999999999996,10.722999999999999,40.671,10.722999999999999,40.671V12.483L10.181,11.702V39.725Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="goal-post-left" fill="#818181" stroke="#000000" d="M363.967,54.432L362.957,53.236L362.957,44.868L363.967,46.064Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
-      
-      {
-        false && 
-        <g fill="brown" transform="rotate(-15 50 100)">
-          <ellipse cx="55" cy="10" rx="5" ry="2" id="football-1" fill="darkbrown" stroke="darkbrown" style={{fillOpacity: 1, strokeWidth: 1}}></ellipse>
-        </g>
-      }
-      {
-        true &&
-        <g>
-          <ellipse onClick={throwBallRight} className={isThrowingRight ? "ball throwBallRight" : "ball"} cx="40" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
-          <ellipse onClick={throwBallLeft} className={isThrowingLeft ? "ball throwBallLeft" : "ball"} cx="330" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
-          
-          {!hideXO.current && <svg viewBox="135 65 100 100">
-            <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
-          </svg>}
-          {!hideXO.current && <ellipse cx="285" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>}
-          {!hideXO.current && <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>}
-          {!hideXO.current && <svg viewBox="-97 -32.5 100 100">
-            {false && <line x1="40" x2="30" y1="50" y2="40" stroke="black" strokeWidth="4" strokeOpacity="1" />}
-            {false && <line x1="30" x2="40" y1="50" y2="40" stroke="black" strokeWidth="4" strokeOpacity="1" />}
+      <g>
+        <ellipse onClick={throwBallRight} className={isThrowingRight ? "ball throwBallRight" : "ball"} cx="40" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
+        <ellipse onClick={throwBallLeft} className={isThrowingLeft ? "ball throwBallLeft" : "ball"} cx="330" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
+        
+        {!hideXO.current && <svg viewBox="135 65 100 100">
+          <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
+        </svg>}
+        {!hideXO.current && <ellipse cx="285" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>}
+        {!hideXO.current && <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>}
+        {!hideXO.current && <svg viewBox="-97 -32.5 100 100">
+          <line x1="35" x2="45" y1="45" y2="40" stroke="black" strokeWidth="3" strokeOpacity="1" />
+          <line x1="35" x2="90" y1="45" y2="45" stroke="black" strokeWidth="3" strokeOpacity="1" />
+          <line x1="35" x2="45" y1="45" y2="50" stroke="black" strokeWidth="3" strokeOpacity="1" />
+        </svg>}
 
-            <line x1="35" x2="45" y1="45" y2="40" stroke="black" strokeWidth="3" strokeOpacity="1" />
-            <line x1="35" x2="90" y1="45" y2="45" stroke="black" strokeWidth="3" strokeOpacity="1" />
-            <line x1="35" x2="45" y1="45" y2="50" stroke="black" strokeWidth="3" strokeOpacity="1" />
-          </svg>}
-
-          <svg viewBox="-75 -25 100 100">
+        <svg viewBox="-75 -25 100 100">
             <line x1="15" x2="20" y1="30" y2="70" stroke="yellow" strokeWidth="4" strokeOpacity="1" />
-          </svg>
-        </g>
-      }
-
+        </svg>
+      </g>
       <rect className="goal-post-left" x="363.967" y="46.064" width="2.02" height="8.367" rx="0" ry="0" fill="#2a443b" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
       <path className="goal-post-left" fill="#989898" stroke="#000000" d="M364.977,44.869L362.957,44.869L363.967,46.063L365.987,46.063Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="goal-post-left" fill="none" stroke="#faed24" d="M358.536,36.307H360.244C363.055,36.307,364.497,38.137,364.497,43.909000000000006V44.55700000000001" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" strokeMiterlimit="10" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeLinecap: 'square', strokeLinejoin: 'round', strokeMiterlimit: '10', strokeOpacity: 1}}></path>
@@ -261,13 +247,12 @@ const BasketballCourt = (props) => {
       <path d="M 4.8,18 1.4,21.1 6.3,15.4 23.8,18.1 23.8,21.4 23.8,19.5   z" fill="#e6e6e5" style={{strokeWidth: '0px'}}></path>
       <path d="M 1.4,24.2 1.4,21.1 4.8,18 23.8,19.5 23.8,21.4 7,21.9 4.9,21.9   z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path></g>
       
-      {true && <ellipse cx="50" cy="0" rx="5" ry="5" id="bball-1" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
-      {true && <ellipse cx="90" cy="50" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot home miss"></ellipse>}
-      {true && <ellipse cx="200" cy="90" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>}
-      
-      {true && <ellipse cx="530" cy="0" rx="5" ry="5" id="bball-2" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
-      {true && <ellipse cx="450" cy="25" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot away make"></ellipse>}
-      {true && <ellipse cx="375" cy="55" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>}
+      <ellipse cx="50" cy="0" rx="5" ry="5" id="bball-1" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
+      <ellipse cx="90" cy="50" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot home miss"></ellipse>
+      <ellipse cx="200" cy="90" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>
+      <ellipse cx="530" cy="0" rx="5" ry="5" id="bball-2" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
+      <ellipse cx="450" cy="25" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot away make"></ellipse>
+      <ellipse cx="375" cy="55" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
       
       <g transform="matrix(1,0,0,1,552,-10)" className="hoopRight"><path d="M1.6,0.3l-1,0L0.5,20.5l4.6,14l1,0V13.1L1.6,0.3z" fill="#f7f8f8" style={{strokeWidth: '0px'}}></path>
       <path d="M0.8,2.1l4,11.4l0,19.3L0.8,20.5L0.8,2.1z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path>
