@@ -293,7 +293,7 @@ function GamePlayTabs(props) {
         }}>
           <Tab label="Plays 🕹" {...a11yProps(0)} />
           <Tab label="Highlights 📸" {...a11yProps(1)} />
-          <Tab label="Research 🍿" {...a11yProps(2)} />
+          <Tab label="Stats 🍿" {...a11yProps(2)} />
           {
             watchLiveGames &&
             (['59723313734d1d6202a85f10',
@@ -406,7 +406,7 @@ function GamePlayTabs(props) {
         }
         {
           (game.stats || []).length === 0 &&
-          <div>Stats are not available until 2nd game.  Check last season stats by selecting year above.</div>
+          <div>No stats available.  Please check last season stats by selecting year above.</div>
         }
       </TabPanel>
       {
