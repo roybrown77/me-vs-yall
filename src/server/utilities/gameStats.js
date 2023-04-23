@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 
-const { nflTeams } = require('./teams');
+const { nflTeams, ncaaTeams } = require('./teams');
 
 const teamStatTemplate = {
     gamesPlayed: {
@@ -451,7 +451,7 @@ const teamStatTemplate = {
 const getAllTeamStats = (gamesWholeYear) => { 
     let teamStats = {};
   
-    if (gamesWholeYear.length > 0 && !['59723313734d1d6202a85f10'].includes(gamesWholeYear[0].leagueId.toString().toLowerCase())) {
+    if (gamesWholeYear.length > 0 && !['59723313734d1d6202a85f10', '59723313734d1d6202a85f15'].includes(gamesWholeYear[0].leagueId.toString().toLowerCase())) {
       return teamStats;
     }
   
@@ -661,7 +661,7 @@ const getAllTeamStats = (gamesWholeYear) => {
   const getGameStats = (game, teamStats) => {
     const stats = [];
   
-    if (!['59723313734d1d6202a85f10'].includes(game.leagueId.toString().toLowerCase())) {
+    if (!['59723313734d1d6202a85f10', '59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
       return stats;
     }
   
@@ -679,12 +679,14 @@ const getAllTeamStats = (gamesWholeYear) => {
           header: value.header,
           awayTeam:  {
             id: game.competitors[0]._id.toString().toLowerCase(),
-            name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name,
+            name: game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10' ? nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name : 
+            game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f15' ? ncaaTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name : null,
             value: awayTeamStats[key].value
           },
           homeTeam: {
             id: game.competitors[1]._id.toString().toLowerCase(),
-            name: nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name,
+            name: game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10' ? nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name : 
+            game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f15' ? ncaaTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name : null,
             value: homeTeamStats[key].value
           }
         };
