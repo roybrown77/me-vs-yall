@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Divider from '@material-ui/core/Divider';
-import ReactHtmlParser from 'react-html-parser';
+import parser from 'html-react-parser';
 
 import get from 'lodash/get';
 
@@ -75,7 +75,7 @@ class OfTheWeek extends Component {
                     </div>
                     <br/>
                     <div style={styles.content}>
-                      <div style={{margin:'auto 0'}}>{ReactHtmlParser(article.content)}</div>
+                      <div style={{margin:'auto 0'}}>{parser(article.content)}</div>
                       {!article.lockOfTheWeek ? null : article.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
                     </div>
                     <br/>
