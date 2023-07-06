@@ -12,6 +12,10 @@ const gameWeekRepository = require('./databaseRepositories/GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 
+const { 
+  loadAmericanFootballGames
+} = require('./businessLogicDomains/AmericanFootballDomain');
+
 const { shouldUpdateGames, playHistoryCount } = require('../../../config');
 
 const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
@@ -49,22 +53,26 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
-const updateGames = (leagueId) => {
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/1/year/2022/seasontype/1`;
+const loadGames = (leagueId) => {
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/1/year/2023/seasontype/1`;
   // const DAY_MODULE = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
-  // loadAmericanFootballGames({
-  //   year: 2023, 
-  //   message: 'loadNflGames', 
-  //   leagueId: '59723313734d1d6202a85f10', 
-  //   url,
-  //   teams: nflTeams, 
-  //   root: 'Scoreboard__Row__Main',
-  //   nameSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
-  //   spreadSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
-  //   startTimeSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
-  //   startDateSelector: 'section:nth-of-type(' + DAY_MODULE + ') > header > div.Card__Header__Title__Wrapper > h3',
-  // });
+  // try {
+  //   loadAmericanFootballGames({
+  //     year: 2023, 
+  //     message: 'loadNflGames', 
+  //     leagueId: '59723313734d1d6202a85f10', 
+  //     url,
+  //     teams: nflTeams, 
+  //     root: 'Scoreboard__Row__Main',
+  //     nameSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
+  //     spreadSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+  //     startTimeSelector: 'section:nth-of-type(' + DAY_MODULE + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+  //     startDateSelector: 'section:nth-of-type(' + DAY_MODULE + ') > header > div.Card__Header__Title__Wrapper > h3',
+  //   });
+  // } catch (error) {
+  //   console.log('loadAmericanFootballGames error', error);
+  // }
 };
 
 const setAmericanFootballPlays = (game) => {
@@ -341,7 +349,7 @@ router.get('/games', async function (req, res) {
   const year = get(req, 'query.year');
 
   if (shouldUpdateGames) {
-    updateGames(leagueId);
+    loadGames(leagueId);
   }
   
   console.log("time2: ", moment().format());
