@@ -12,6 +12,12 @@ const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
 
 let router = express.Router();
 
+const getRandomIntInclusive = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+};
+
 router.get('/picks/', async function (req, res) {
     const gameType = req.query.gameType;
     const leagueId = get(req, 'query.leagueId');
@@ -94,7 +100,7 @@ router.get('/picks/', async function (req, res) {
 
                 const mvyHomePicks = {
                     _id: mongoose.Types.ObjectId().toString(),
-                    userId: 2,
+                    userId: 2, // King Homer
                     gameId: game._id,
                     pickId: game.competitors[1]._id,
                     leagueId: game.leagueId
@@ -121,7 +127,7 @@ router.get('/picks/', async function (req, res) {
 
                         // mvyOffensePicks = {
                         //     _id: mongoose.Types.ObjectId().toString(),
-                        //     userId: 3,
+                        //     userId: 3, // King Offense
                         //     gameId: game._id,
                         //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //     : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
@@ -134,7 +140,7 @@ router.get('/picks/', async function (req, res) {
         
                         // mvyDefensePicks = {
                         //     _id: mongoose.Types.ObjectId().toString(),
-                        //     userId: 4,
+                        //     userId: 4, // King Defense
                         //     gameId: game._id,
                         //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //     : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
@@ -146,7 +152,7 @@ router.get('/picks/', async function (req, res) {
         
                         // mvyRoadHomePicks = {
                         //     _id: mongoose.Types.ObjectId().toString(),
-                        //     userId: 5,
+                        //     userId: 5, // King Road vs Homer
                         //     gameId: game._id,
                         //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //     : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -161,7 +167,7 @@ router.get('/picks/', async function (req, res) {
                         // : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) {
                             mvyOffensePicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 3,
+                                userId: 3, // King Offense
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id,
@@ -177,7 +183,7 @@ router.get('/picks/', async function (req, res) {
                         // : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0) {
                             mvyDefensePicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 4,
+                                userId: 4, // King Defense
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 ? game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
@@ -190,7 +196,7 @@ router.get('/picks/', async function (req, res) {
 
                         mvyRoadHomePicks = {
                             _id: mongoose.Types.ObjectId().toString(),
-                            userId: 5,
+                            userId: 5, // King Road vs Homer
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                             : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -219,7 +225,7 @@ router.get('/picks/', async function (req, res) {
                         if (weekday === 1 || weekday === 4 || weekday === 6) {
                             mvyDayPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: weekday === 1 ? 7 : weekday === 4 ? 8 : 9,
+                                userId: weekday === 1 ? 7 : weekday === 4 ? 8 : 9, // King Monday, Thursday, Saturday
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -236,7 +242,7 @@ router.get('/picks/', async function (req, res) {
                         //     index%16 === 0) {
                         //     mvyDayPicks = {
                         //         _id: mongoose.Types.ObjectId().toString(),
-                        //         userId: 10,
+                        //         userId: 10, // King Don Do it Shark
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -249,18 +255,18 @@ router.get('/picks/', async function (req, res) {
                         // playoffs - straight up 0%, spread 0%; due to constraints
                         // season - straight up 83%, spread 83%
 
-                        if (weekday === 0 && 
-                            index%10 === 0) {
+                        // if (weekday === 0 && 
+                        //     index%10 === 0) {
                             mvyDayPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 10,
+                                userId: 10, // King Don Do it Shark
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                                 : (roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)
                                 ? game.competitors[0]._id : game.competitors[1]._id,
                                 leagueId: game.leagueId
                             };
-                        }
+                        //}
 
                                                 // Sunday
                         // playoffs - straight up ?, spread ?
@@ -270,7 +276,7 @@ router.get('/picks/', async function (req, res) {
                         //     roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0) {
                         //     mvyDayPicks = {
                         //         _id: mongoose.Types.ObjectId().toString(),
-                        //         userId: 11,
+                        //         userId: 11, // King Sunday
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -289,7 +295,7 @@ router.get('/picks/', async function (req, res) {
                         //     roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) {
                         //     mvyDayPicks = {
                         //         _id: mongoose.Types.ObjectId().toString(),
-                        //         userId: 11,
+                        //         userId: 11, // King Sunday
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -307,7 +313,7 @@ router.get('/picks/', async function (req, res) {
                         //     !(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0)) {
                         //     mvyDayPicks = {
                         //         _id: mongoose.Types.ObjectId().toString(),
-                        //         userId: 11,
+                        //         userId: 11, // King Sunday
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -323,7 +329,7 @@ router.get('/picks/', async function (req, res) {
                         // if (weekday === 0) {
                         //     mvyDayPicks = {
                         //         _id: mongoose.Types.ObjectId().toString(),
-                        //         userId: 11,
+                        //         userId: 11, // King Sunday
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -339,7 +345,7 @@ router.get('/picks/', async function (req, res) {
                         // if (weekday === 0) {
                         //     mvyDayPicks = {
                         //         _id: mongoose.Types.ObjectId().toString(),
-                        //         userId: 11,
+                        //         userId: 11, // King Sunday
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                         //         : roadPointsAllowed.awayTeam.value - homePointsAllowed.homeTeam.value < 0
@@ -355,7 +361,7 @@ router.get('/picks/', async function (req, res) {
                         if (weekday === 0) {
                             mvyDayPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 11,
+                                userId: 11, // King Sunday
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
@@ -375,7 +381,7 @@ router.get('/picks/', async function (req, res) {
                             (!(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase()))) {
                             mvyOffensePicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 12,
+                                userId: 12, // Kang Multivegas
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? 
                                     game.competitors[0]._id : game.competitors[1]._id)
@@ -385,6 +391,23 @@ router.get('/picks/', async function (req, res) {
                                 leagueId: game.leagueId
                             };
                         }
+
+                        // 55-70% whole year
+
+                        // if (((roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
+                        //     (!(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase()))) {
+                        //     mvyOffensePicks = {
+                        //         _id: mongoose.Types.ObjectId().toString(),
+                        //         userId: 12, // Kang Multivegas
+                        //         gameId: game._id,
+                        //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? 
+                        //             game.competitors[0]._id : game.competitors[1]._id)
+                        //         : getRandomIntInclusive(0,1) === 0 && roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
+                        //         game.competitors[0]._id : game.competitors[1]._id,
+                        //         leagueId: game.leagueId,
+                        //         leagueId: game.leagueId
+                        //     };
+                        // }
                     }
                 } catch (error) {
                     console.log("PickReadController user picks error", error);
