@@ -115,7 +115,7 @@ const gameRepository = require('../server/game/databaseRepositories/GameReposito
 const sortBy = require('lodash/sortBy');
 
 const updateGames = async () => {
-  console.log('updateGames: ' + moment().format());
+  console.log('******* updateGames: ' + moment().format());
 
   const monthDay = parseInt(moment().format('MMDD'));
   const timezoneOffset = moment().utcOffset()/60;
@@ -154,8 +154,8 @@ const updateGames = async () => {
     console.log('weeks since start: ' + weeksSinceStart);
     const regularSeasonWeek = weeksSinceStart-4;
     console.log('regular season week: ' + regularSeasonWeek);
-    const weekNumber = regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
-    const seasonNumber = regularSeasonWeek <= 18 ? 2 : 3;
+    const weekNumber = regularSeasonWeek < 0 ? 5+regularSeasonWeek : regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
+    const seasonNumber = regularSeasonWeek < 0 ? 1 : regularSeasonWeek <= 18 ? 2 : 3;
 
     const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
     console.log('url: ' + url);
