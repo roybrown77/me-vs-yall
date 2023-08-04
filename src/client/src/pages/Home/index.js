@@ -57,7 +57,8 @@ const styles = {
   link: {
     color: '#fff',
     textDecoration: 'none',
-    fontFamily: 'monospace !important'
+    fontFamily: 'monospace !important',
+    paddingBottom: '5px',
   },
   toggleOn: {
     color: '#fff',
@@ -218,10 +219,12 @@ class Home extends Component {
                 {
                   leagues.map((league, index) => (
                   <div key={league.id} style={{paddingRight: '10px', marginRight: '10px', borderRight: index === leagues.length-1 ? '' : darkModeOn ? '1px solid #fff' : '1px solid #000', fontSize: '15px'}}>
-                    <Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:league.color}} to={league.url}>
+                    <Link className="links" style={darkModeOn ? 
+                      {...styles.link, borderBottom: gamesInProgress(games,league.id) ? '10px solid #fff' : ''} : 
+                      {...styles.link, color:league.color, borderBottom: gamesInProgress(games,league.id) ? '10px solid red' : ''}}
+                      to={league.url}>
                       {league.name}
                     </Link>
-                    {gamesInProgress(games,league.id) && <span style={styles.inProgress} />}
                   </div>
                 ))}
               </div>
