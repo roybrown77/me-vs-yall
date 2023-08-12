@@ -97,6 +97,14 @@ router.get('/picks/', async function (req, res) {
                     pickId: game.competitors[1]._id,
                     leagueId: game.leagueId
                 };
+
+                const mvyRoadPicks = {
+                    _id: mongoose.Types.ObjectId().toString(),
+                    userId: 14, // King Road
+                    gameId: game._id,
+                    pickId: game.competitors[0]._id,
+                    leagueId: game.leagueId
+                };
                 
                 let mvyDefensePicks = {};
                 let mvyRoadHomePicks = {};
@@ -206,7 +214,7 @@ router.get('/picks/', async function (req, res) {
                     console.log("PickReadController user picks error", error);
                 }
 
-                picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyDayPicks, mvyMultiVegasPicks];
+                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyDayPicks, mvyMultiVegasPicks];
             });
         }
 

@@ -65,6 +65,11 @@ const mvyMultiVegas= {
     firstName: 'Kang Multivegas'
 };
 
+const mvyRoad= {
+    authServiceId: 14,
+    firstName: 'King Road'
+};
+
 router.get('/users', function (req, res) {
     userRepository.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
@@ -89,7 +94,8 @@ router.get('/users', function (req, res) {
             mvySaturday, 
             mvyRandomSunday,
             mvySundaySingle,
-            mvyMultiVegas
+            mvyMultiVegas,
+            mvyRoad
         ]);
     });
 });
