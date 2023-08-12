@@ -100,7 +100,7 @@ router.get('/picks/', async function (req, res) {
 
                 const mvyRoadPicks = {
                     _id: mongoose.Types.ObjectId().toString(),
-                    userId: 14, // King Road
+                    userId: 14, // King Roadie
                     gameId: game._id,
                     pickId: game.competitors[0]._id,
                     leagueId: game.leagueId
