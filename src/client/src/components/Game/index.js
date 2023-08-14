@@ -171,7 +171,7 @@ const MiniRallyGame = (props) => {
       }/>
       <div>
         <Button size="small" className={props.classes.gamePlayMessage} onClick={() => {}}>
-          Tap Team To Play!
+          Tap Ball!
         </Button>
       </div>
     </div>
