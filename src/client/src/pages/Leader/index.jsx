@@ -449,7 +449,7 @@ class Leader extends Component {
                                                                                     <td align="center">
                                                                                     </td>
                                                                                     <td align="center">                                                                      
-                                                                                        <div style={{padding:'12px 0',fontWeight:'600',color:'rgba(0, 0, 0, 0.87)'}}>{game.date}</div>                                                
+                                                                                        <div style={{margin:'12px 0',fontWeight:'600',color:'rgba(0, 0, 0, 0.87)'}}>{game.date}</div>                                                
                                                                                     </td>
                                                                                     <td align="center">
                                                                                     </td>
