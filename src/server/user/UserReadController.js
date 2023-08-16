@@ -65,9 +65,19 @@ const mvyMultiVegas= {
     firstName: 'Kang Multivegas'
 };
 
-const mvyRoad= {
+const mvyRoadie = {
     authServiceId: 14,
     firstName: 'King Roadie'
+};
+
+const mvyKingDefenseHomer = {
+    authServiceId: 15,
+    firstName: 'King Sunday X'
+};
+
+const mvyKingDefenseRoadie = {
+    authServiceId: 17,
+    firstName: 'King Road vs Homer X'
 };
 
 router.get('/users', function (req, res) {
@@ -95,7 +105,9 @@ router.get('/users', function (req, res) {
             mvyRandomSunday,
             mvySundaySingle,
             mvyMultiVegas,
-            mvyRoad
+            mvyRoadie,
+            mvyKingDefenseHomer,
+            mvyKingDefenseRoadie
         ]);
     });
 });
