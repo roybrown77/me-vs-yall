@@ -34,7 +34,7 @@ const TinyScoreboard = ({loading, title, games}) => {
         gameContainer: {
             display: 'flex',
             fontSize: '12px',
-            padding: '5px 0 5px 10px',
+            padding: '5px 0 15px 10px',
             fontWeight: 'bold',
             backgroundColor: '#fff',
             overflowX: 'scroll'

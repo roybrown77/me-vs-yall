@@ -339,7 +339,7 @@ class Scoreboard extends Component {
                         }
                     }/>
                     <TinyScoreboard {...{
-                            title: `Party Done`,
+                            title: `Game Over`,
                             games: groupedGames.completed,
                             loading: dataLoading && !areAnyGamesInProgress
                         }
