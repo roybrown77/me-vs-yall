@@ -474,7 +474,7 @@ function GamePlayTabs(props) {
       {
         isAuthenticated && 
         userId === 'google-oauth2|114172296334563495985' &&
-        <TabPanel value={value} index={2}>
+        <TabPanel value={value} index={3}>
           <GameEditor {...props} />
         </TabPanel>
       }
