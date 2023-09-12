@@ -181,8 +181,9 @@ const setAmericanFootballPlays = (game) => {
 
       try {
         const yardArray = /for([^yards]+)yards/.exec(lastPlay);
-        if (yardArray > 0) {
-          const yardNumber = parseInt(yardArray[1]);
+        if (Array(yardArray).length > 0) {
+          const yardString = yardArray[1]?.replace("' '", "").replace(",", "");
+          const yardNumber = parseInt(yardString);
 
           if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
             highlights.push(game.playHistory[i]);
