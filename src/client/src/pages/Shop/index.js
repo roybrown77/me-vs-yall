@@ -1,8 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import { useEffect } from 'react';
 import ReactGA from 'react-ga';
-
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import PageContainer from '../PageContainer';
@@ -83,37 +80,33 @@ const items = [
   }
 ];
 
-class Shop extends React.Component {
-  componentDidMount() {
+const Shop = () => {
+  useEffect(() => {
       ReactGA.ga('send', 'pageview', '/shop');
       window.scrollTo(0, 0);
-  }
+  },[]);
 
-  render() {
-    return (
-      <PageContainer>
-        <Grid container style={styles.root}>
-          <Grid item xs={12} style={{paddingTop:'12px'}}>
-            <Grid container justify="center">
-              {items.map(item => (
-                <Grid key={item.id} item style={{padding:'4px',cursor:'pointer'}}>
-                  <div style={styles.item}>
-                    <div style={styles.name}>{item.name}</div>
-                    <img src={item.image} style={styles.image} alt=""/>
-                    <div style={styles.price}>{item.price}</div>
-                    <div style={styles.contact}>{item.contact}</div>
-                    <div style={styles.source}>{item.source}</div>
-                  </div>
-                </Grid>
-              ))}
-            </Grid>
+  return (
+    <PageContainer>
+      <Grid container style={styles.root}>
+        <Grid item xs={12} style={{paddingTop:'12px'}}>
+          <Grid container justify="center">
+            {items.map(item => (
+              <Grid key={item.id} item style={{padding:'4px',cursor:'pointer'}}>
+                <div style={styles.item}>
+                  <div style={styles.name}>{item.name}</div>
+                  <img src={item.image} style={styles.image} alt=""/>
+                  <div style={styles.price}>{item.price}</div>
+                  <div style={styles.contact}>{item.contact}</div>
+                  <div style={styles.source}>{item.source}</div>
+                </div>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-      </PageContainer>
-    );
-  }
-}
+      </Grid>
+    </PageContainer>
+  );
+};
 
-const mapStateToProps = (state) => {return {}};
-
-export default connect(mapStateToProps, {})(withStyles(styles, { withTheme: true })(Shop));
+export default Shop;

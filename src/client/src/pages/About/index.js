@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
 import ReactGA from 'react-ga';
 
 import Typography from '@material-ui/core/Typography';
@@ -134,47 +134,45 @@ const stats = [
   }
 ];
 
-class About extends Component {
-  componentDidMount() {
+const About = () => {
+  useEffect(() => {
       ReactGA.ga('send', 'pageview', '/about');
       window.scrollTo(0, 0);
-  }
+  },[]);
 
-  render() {
-    return (
-      <div>
-          <PageContainer>
-            <div style={styles.titleContainer}>
-              <Typography component="h3" align={'left'} style={styles.title}>
-                About
-              </Typography>
-              <Typography align={'left'} style={styles.contentTitle}>
-                Not The Rib Plate Special But Still Nutritious
-              </Typography>
-            </div>
-            {
-              stats.map(stat=>(
-                <div key={stat.title.replace(' ', '')} style={styles.stats}>
-                  <div style={styles.container}>
-                    <Typography align={'left'} style={styles.contentTitle}>
-                      {stat.title}
-                    </Typography>
-                    <br/>
-                    <Typography align={'left'} style={styles.content}>
-                      {stat.content}
-                    </Typography>
-                    <Divider style={{
-                      margin: '12px 0',
-                      height: '10px',
-                      backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
-                    }} />
-                  </div>
+  return (
+    <div>
+        <PageContainer>
+          <div style={styles.titleContainer}>
+            <Typography component="h3" align={'left'} style={styles.title}>
+              About
+            </Typography>
+            <Typography align={'left'} style={styles.contentTitle}>
+              Not The Rib Plate Special But Still Nutritious
+            </Typography>
+          </div>
+          {
+            stats.map(stat=>(
+              <div key={stat.title.replace(' ', '')} style={styles.stats}>
+                <div style={styles.container}>
+                  <Typography align={'left'} style={styles.contentTitle}>
+                    {stat.title}
+                  </Typography>
+                  <br/>
+                  <Typography align={'left'} style={styles.content}>
+                    {stat.content}
+                  </Typography>
+                  <Divider style={{
+                    margin: '12px 0',
+                    height: '10px',
+                    backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                  }} />
                 </div>
-            ))}
-          </PageContainer>
-      </div>
-    );
-  }
-}
+              </div>
+          ))}
+        </PageContainer>
+    </div>
+  );
+};
 
 export default About;
