@@ -109,7 +109,7 @@ router.get('/picks/', async function (req, res) {
                 let mvyRoadHomePicks = {};
                 let mvyRoadHomeXPicks = {}
                 let mvyDayPicks = {};
-                let mvyPrimetime = {};
+                let mvyDonDoItShark = {};
                 let mvySundayPicks = {};
                 let mvySundayXPicks = {};
                 let mvyMultiVegasPicks = {};
@@ -140,16 +140,6 @@ router.get('/picks/', async function (req, res) {
                         ? game.competitors[0]._id : game.competitors[1]._id,
                         leagueId: game.leagueId
                     };
-
-                    // mvyPrimetime = {
-                    //     _id: mongoose.Types.ObjectId().toString(),
-                    //     userId: 10, // King Don Do it Shark; Points Scored
-                    //     gameId: game._id,
-                    //     pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed.awayTeam.value - roadPointsAllowed.homeTeam.value < 3 && roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                    //     : roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0
-                    //     ? game.competitors[0]._id : game.competitors[1]._id,
-                    //     leagueId: game.leagueId
-                    // };
 
                     mvyDefensePicks = {
                         _id: mongoose.Types.ObjectId().toString(),
@@ -230,11 +220,19 @@ router.get('/picks/', async function (req, res) {
                             leagueId: game.leagueId
                         };
                     }
+
+                    mvyDonDoItShark = {
+                        _id: mongoose.Types.ObjectId().toString(),
+                        userId: 10, // King Don Do it Shark; Points Scored
+                        gameId: game._id,
+                        pickId: game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
+                        leagueId: game.leagueId
+                    };
                 } catch (error) {
                     console.log("PickReadController user picks error", error);
                 }
 
-                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvyPrimetime, mvySundayPicks, mvySundayXPicks, mvyMultiVegasPicks];
+                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvySundayPicks, mvySundayXPicks, mvyMultiVegasPicks, mvyDonDoItShark];
             });
         }
 
