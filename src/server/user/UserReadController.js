@@ -11,8 +11,8 @@ const censoredIds = ['google-oauth2|105396867324708249567'];
 const excludedIds = [];
 
 const vegas = {
-    firstName: 'Vegas',
-    authServiceId: '1'
+    authServiceId: 1,
+    firstName: 'Vegas'
 };
 
 const mvyKingHomer = {
