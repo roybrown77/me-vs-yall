@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import ContinueAuthentication from '../../components/ContinueAuthentication';
 
 function PageContainer(props) {
     return (
@@ -14,7 +13,6 @@ function PageContainer(props) {
                 </div>
             </Header>
             <Footer/>
-            <ContinueAuthentication />
         </div>
     );
 }
