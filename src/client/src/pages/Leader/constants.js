@@ -26,7 +26,7 @@ const styles = theme => ({
     },
     expansionSummary: {
       borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-      padding: '5px 10px'
+      minHeight: '5.5rem'
     },
     expansionPanelDetails: {
       padding: '8px'
