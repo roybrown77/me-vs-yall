@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -87,7 +87,7 @@ const styles = {
 const Profile = (props) => {
   const classes = profileStyles();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
@@ -130,68 +130,66 @@ const Profile = (props) => {
 };
 
 
-class Header extends Component {
-  render() {
-    const { classes, children, user } = this.props;
-    const picture = get(user,'picture');
+const Header = (props) => {
+  const { classes, children, user, isAuthenticated } = props;
+  const picture = get(user,'picture');
 
-    return (
-      <div className={classes.root}>
-        <div className={classes.appFrame}>
-          <AppBar className={classNames(classes.appBar)}>
-            <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
-            <Link to="/">
-              <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
-            </Link>
-            </Typography>
-            {
-              this.props.isAuthenticated && picture &&
-              <Profile mainElement={(<img className={classes.userPicture} src={picture} alt=""/>)}>
-                <div style={{display:'flex', padding: '8px', cursor: 'pointer'}} onClick={logout}>
-                  <div>
-                    <ExitToApp/>
-                  </div>
-                  <div style={{padding: '3px 0 0 10px'}}>
-                    Sign out
-                  </div>
+  return (
+    <div className={classes.root}>
+      <div className={classes.appFrame}>
+        <AppBar className={classNames(classes.appBar)}>
+          <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
+          <Link to="/">
+            <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
+          </Link>
+          </Typography>
+          {
+            isAuthenticated && picture &&
+            <Profile mainElement={(<img className={classes.userPicture} src={picture} alt=""/>)}>
+              <div style={{display:'flex', padding: '8px', cursor: 'pointer'}} onClick={logout}>
+                <div>
+                  <ExitToApp/>
                 </div>
-              </Profile>
-            }
-            {
-              this.props.isAuthenticated && !picture &&
-              <div className={classes.userDefaultPicture}>
-                <div style={{margin: '8px 0'}}>{user.name[0]}</div>
+                <div style={{padding: '3px 0 0 10px'}}>
+                  Sign out
+                </div>
               </div>
-            }
-            {
-              !this.props.isAuthenticated &&
-              <div style={{
-                position: 'fixed',
-                left: 'unset !important',
-                right: '0',
-                top: '0 !important',
-                margin: '5px',
-                padding: '5px',
-                borderRadius: '4px',
-                border: '3px solid #000',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }} onClick={googleLogin}>
-                SIGN IN
-              </div>
-            }
-          </AppBar>
-          <main>
-            {children}
-          </main>
-        </div>
+            </Profile>
+          }
+          {
+            isAuthenticated && !picture &&
+            <div className={classes.userDefaultPicture}>
+              <div style={{margin: '8px 0'}}>{user.name[0]}</div>
+            </div>
+          }
+          {
+            !isAuthenticated &&
+            <div style={{
+              position: 'fixed',
+              left: 'unset !important',
+              right: '0',
+              top: '0 !important',
+              margin: '5px',
+              padding: '5px',
+              borderRadius: '4px',
+              border: '3px solid #000',
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }} onClick={googleLogin}>
+              SIGN IN
+            </div>
+          }
+        </AppBar>
+        <main>
+          {children}
+        </main>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = () => {
     const isAuthenticated = isConfirmedAuthentication();
     const user = getUser();
 

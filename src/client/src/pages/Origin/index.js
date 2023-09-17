@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
 import ReactGA from 'react-ga';
 
 import PageContainer from '../PageContainer';
@@ -17,27 +17,25 @@ const line4 = `Me vs Yall Engineering and Internship Program has provided code `
 
 const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`;
 
-class Origin extends Component {
-    componentDidMount() {
+const Origin = () => {
+    useEffect(() => {
       ReactGA.ga('send', 'pageview', '/origin');
       window.scrollTo(0, 0);
-    }
+    }, []);
 
-    render() {
-        return (
-            <PageContainer>
-                <div style={{textAlign: 'left', padding: '12px'}}>{line1}</div>
-                <div style={{textAlign: 'left', padding: '12px'}}>{line2}</div>
-                <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
-                    {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
-                </div>
-                <div style={{marginTop:'24px'}}>
-                  <iframe style={{borderStyle:'none'}} width="320" height="215" title="Los D Baya" src={videoUrl} />
-                </div>
-            </PageContainer>
-        );
-    }
-}
+    return (
+        <PageContainer>
+            <div style={{textAlign: 'left', padding: '12px'}}>{line1}</div>
+            <div style={{textAlign: 'left', padding: '12px'}}>{line2}</div>
+            <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
+            <div style={{textAlign: 'left', padding: '12px'}}>
+                {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+            </div>
+            <div style={{marginTop:'24px'}}>
+                <iframe style={{borderStyle:'none'}} width="320" height="215" title="Los D Baya" src={videoUrl} />
+            </div>
+        </PageContainer>
+    );
+};
 
 export default Origin;
