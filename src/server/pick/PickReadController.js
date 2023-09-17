@@ -84,7 +84,7 @@ router.get('/picks/', async function (req, res) {
         if (err) return res.status(500).send("There was a problem finding the picks.");
 
         if (includeStrategies) {
-            sortedGamesThisRange.forEach((game, index) => {
+            sortedGamesThisRange.forEach((game) => {
                 const sortedGamesWholeYearUpUntilGameDateTime = sortedGamesWholeYear.filter(x => x.startDateTime < game.startDateTime);
                 const teamStats = getAllTeamStats(sortedGamesWholeYearUpUntilGameDateTime);
 
