@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import React from 'react';
 import ReactGA from 'react-ga';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -44,63 +44,61 @@ const styles = {
   }
 };
 
-const OfTheWeek = (props) => {
-  const handleLoadArticles = useCallback(() => {
-    props.loadArticles()
-  },[props]);
-
-  useEffect(() => {
+class OfTheWeek extends React.Component {
+  componentDidMount() {
       ReactGA.ga('send', 'pageview', '/oftheweek');
       window.scrollTo(0, 0);
-      handleLoadArticles();
-  });
+      this.props.loadArticles();
+  }
   
-  const { articles } = props;
+  render() {
+    const {articles} = this.props;
 
-  return (
-    <div>
-      <PageContainer>
-        <div style={{textAlign: 'left', lineHeight: '1.5', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.87)'}}>
-          <div style={styles.titleContainer}>
-            <div component="h3" style={styles.title}>
-              #$%@ of the Week
+    return (
+      <div>
+        <PageContainer>
+          <div style={{textAlign: 'left', lineHeight: '1.5', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.87)'}}>
+            <div style={styles.titleContainer}>
+              <div component="h3" style={styles.title}>
+                #$%@ of the Week
+              </div>
+              <div style={styles.contentTitle}>
+                That Might Help You With Picks And In Life
+              </div>
             </div>
-            <div style={styles.contentTitle}>
-              That Might Help You With Picks And In Life
-            </div>
-          </div>
-          {
-            articles.map((article,index)=>(
-              <div key={index} style={styles.root}>
-                <div style={styles.container}>
-                  <div style={styles.contentTitle}>
-                    {article.title}
-                  </div>
-                  <br/>
-                  <div style={styles.content}>
-                    <div style={{margin:'auto 0'}}>{parser(article.content)}</div>
-                    {!article.lockOfTheWeek ? null : article.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
-                  </div>
-                  <br/>
-                  <div style={{fontSize: '0.875rem'}}>
-                    - {article.author}
-                  </div>
-                  <Divider style={{
-                    margin: '12px 0',
-                    height: '10px',
-                    backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
-                  }} />
-                  <div style={{textAlign: 'center', fontSize: '0.875rem'}}>
-                    {article.leagueName} {article.date}
+            {
+              articles.map((article,index)=>(
+                <div key={index} style={styles.root}>
+                  <div style={styles.container}>
+                    <div style={styles.contentTitle}>
+                      {article.title}
+                    </div>
+                    <br/>
+                    <div style={styles.content}>
+                      <div style={{margin:'auto 0'}}>{parser(article.content)}</div>
+                      {!article.lockOfTheWeek ? null : article.correct ? <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={money} alt=""/></div> : <div style={{paddingLeft:'8px'}}><img style={{width:'40px'}} src={angry} alt=""/></div> }
+                    </div>
+                    <br/>
+                    <div style={{fontSize: '0.875rem'}}>
+                      - {article.author}
+                    </div>
+                    <Divider style={{
+                      margin: '12px 0',
+                      height: '10px',
+                      backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+                    }} />
+                    <div style={{textAlign: 'center', fontSize: '0.875rem'}}>
+                      {article.leagueName} {article.date}
+                    </div>
                   </div>
                 </div>
-              </div>
-          ))}
-        </div>
-      </PageContainer>
-    </div>
-  );
-};
+            ))}
+          </div>
+        </PageContainer>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = (state, ownProps) => {
     const articleDomain = state.get('articleDomain').toJS();
