@@ -1,4 +1,3 @@
-import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -26,42 +25,39 @@ const styles = {
   }
 };
 
-class Footer extends Component {
-    render() {
-        const leagueName = this.props.leagueName;
-        const selected = window.location.pathname.includes('scoreboards') ? 'scoreboards' : 
-        window.location.pathname.includes('leaders') ? 'leaders' : 
-        window.location.pathname.includes('oftheweek') ? 'oftheweek' : 'MvY';
+const Footer = ({ leagueName }) => {
+    const selected = window.location.pathname.includes('scoreboards') ? 'scoreboards' : 
+    window.location.pathname.includes('leaders') ? 'leaders' : 
+    window.location.pathname.includes('oftheweek') ? 'oftheweek' : 'MvY';
 
-        return (
-            <BottomNavigation style={styles.root}>
-            <Route render={({ history}) => (
-                <div style={styles.action} onClick={() => { history.push('/') }}>
-                    MvY
-                </div>
-            )} />
-            <Route render={({ history}) => (
-                <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid #1e90ff' : ''}} 
-                onClick={() => { history.push('/scoreboards/' + leagueName) }}>
-                    Scores
-                </div>
-            )} />
-            <Route render={({ history}) => (
-                <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid #1e90ff' : ''}} 
-                    onClick={() => { history.push('/leaders/' + leagueName) }}>
-                    Leaders
-                </div>
-            )} />
-            <Route render={({ history}) => (
-                <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid #1e90ff' : ''}} 
-                    onClick={() => { history.push('/oftheweek') }}>
-                    OTW
-                </div>
-            )} />
-            </BottomNavigation>
-        );
-    }
-}
+    return (
+        <BottomNavigation style={styles.root}>
+        <Route render={({ history}) => (
+            <div style={styles.action} onClick={() => { history.push('/') }}>
+                MvY
+            </div>
+        )} />
+        <Route render={({ history}) => (
+            <div style={{...styles.action, borderBottom: selected === 'scoreboards' ? '7px solid #1e90ff' : ''}} 
+            onClick={() => { history.push('/scoreboards/' + leagueName) }}>
+                Scores
+            </div>
+        )} />
+        <Route render={({ history}) => (
+            <div style={{...styles.action, borderBottom: selected === 'leaders' ? '7px solid #1e90ff' : ''}} 
+                onClick={() => { history.push('/leaders/' + leagueName) }}>
+                Leaders
+            </div>
+        )} />
+        <Route render={({ history}) => (
+            <div style={{...styles.action, borderBottom: selected === 'oftheweek' ? '7px solid #1e90ff' : ''}} 
+                onClick={() => { history.push('/oftheweek') }}>
+                OTW
+            </div>
+        )} />
+        </BottomNavigation>
+    );
+};
 
 const mapStateToProps = (state, ownProps) => {
     const ui = state.get('ui').toJS();
