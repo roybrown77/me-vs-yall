@@ -91,7 +91,7 @@ const setAmericanFootballPlays = (game) => {
       lastPlay = game.playHistory[i].lastPlay;
 
       if ((lastPlay || "").toLowerCase().includes('punt')) {
-        game.playHistory[i].lastPlay = lastPlay + " TURNOVER ON YARDS 🍰";
+        game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES TURNOVER ON DOWNS 🚧";
       }
 
       if ((lastPlay || "").toLowerCase().includes('touchdown') || 
