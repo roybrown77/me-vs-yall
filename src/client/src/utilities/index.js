@@ -18,7 +18,7 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
         const displayDateTime = moment(new Date(game.startDateTime));
         const away = teams.find(x=>x._id === game.competitors[0]._id);
         const home = teams.find(x=>x._id === game.competitors[1]._id);
-        const gameName = game?.gameName?.trim()?.length > 0 ? game.gameName : `${away?.emojis?.[getRandomIntInclusive(0,away?.emojis?.length-1)]} 🆚 ${home?.emojis?.[getRandomIntInclusive(0,home?.emojis?.length-1)]}`;
+        const gameName = game?.gameName?.trim()?.length > 0 ? game.gameName : `${away?.emojis?.[getRandomIntInclusive(0,away?.emojis?.length-1)] || away?.name} 🆚 ${home?.emojis?.[getRandomIntInclusive(0,home?.emojis?.length-1)] || home?.name}`;
         if (spreadMode) {
             return {
             ...game,
