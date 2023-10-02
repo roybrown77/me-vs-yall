@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import Grid from '@material-ui/core/Grid';
 
-import PageContainer from '../PageContainer';
+import PageContainer from '../../components/PageContainer';
 
 import hoodiesBw from '../../styles/images/mvy-hoodie-white-bw.jpg';
 import shirtsBw from '../../styles/images/mvy-tee-black-bw.jpg';

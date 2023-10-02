@@ -24,12 +24,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import {
-    RemainingGamesNotifier,
-    a11yProps,
-} from './components';
+import RemainingGamesNotifier from './RemainingGamesNotifier';
 
-import PageContainer from '../PageContainer';
+import PageContainer from '../../components/PageContainer';
 import GameSearchBar from '../../components/GameSearchBar';
 import PickResult from '../../components/PickResult';
 import Game from '../../components/Game';
@@ -55,13 +52,11 @@ import {
     getLeagueStartDateTime,
 } from '../../utilities';
 
-import { 
-    getPicksNotSelected,
-} from './utilities';
+import { getPicksNotSelected } from './utilities';
 
-import { 
-    styles
-} from './constants';
+import a11yProps from "../../utilities/a11yProps";
+
+import styles from './styles';
 
 const history = createBrowserHistory({forceRefresh: false});
 
@@ -301,7 +296,6 @@ class Scoreboard extends Component {
             picks, 
             teams,
             leagues,
-            years,
             weeks = [],
             dataLoading,
             spreadMode,
@@ -344,22 +338,19 @@ class Scoreboard extends Component {
                             loading: dataLoading && !areAnyGamesInProgress
                         }
                     }/>
-                    {
-                        <GameSearchBar
-                            leagueId={leagueId}
-                            leagues={leagues}
-                            year={year}
-                            years={years}
-                            weekId={weekId}
-                            weeks={weeks}
-                            beginDateTime={beginDateTime}
-                            endDateTime={endDateTime}
-                            onFilterLeague={this.handleFilterLeague}
-                            onFilterYear={this.handleFilterYear}
-                            onFilterWeek={this.handleFilterWeek}
-                            onFilterDate={this.handleFilterDate}
-                        />
-                    }
+                    <GameSearchBar
+                        leagueId={leagueId}
+                        leagues={leagues}
+                        yearSelected={year}
+                        weekId={weekId}
+                        weeks={weeks}
+                        beginDateTime={beginDateTime}
+                        endDateTime={endDateTime}
+                        onFilterLeague={this.handleFilterLeague}
+                        onFilterYear={this.handleFilterYear}
+                        onFilterWeek={this.handleFilterWeek}
+                        onFilterDate={this.handleFilterDate}
+                    />
                     {
                         !isAuthenticated && 
                         <Button
@@ -445,11 +436,6 @@ class Scoreboard extends Component {
                                     margin: 'auto',
                                 }}>
                                     <Tab label="Scores" {...a11yProps(0)} />
-                                    {
-                                        isAuthenticated &&
-                                        userId === 'google-oauth2|114172296334563495985' && 
-                                        <Tab label="Spread Mode $" {...a11yProps(1)} />
-                                    }
                                 </Tabs>
                             </Box>
                             <div className={classes.root}>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import ReactGA from 'react-ga';
 
-import PageContainer from '../PageContainer';
+import PageContainer from '../../components/PageContainer';
 
 const line1 = `info@mevsyall.com`;
 

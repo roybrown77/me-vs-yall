@@ -4,7 +4,7 @@ import ReactGA from 'react-ga';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
-import PageContainer from '../PageContainer';
+import PageContainer from '../../components/PageContainer';
 
 const styles = {
   titleContainer: {

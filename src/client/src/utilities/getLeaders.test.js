@@ -1,4 +1,4 @@
-//import {getLeaders} from "./index";
+// import {getLeaders} from "./index";
 
 describe("Get Leaders", () => {
 	it('when no games selected', () => {

@@ -160,14 +160,6 @@ const fetchPicks = (query, types) => ({
   }
 });
 
-const fetchAllUsers = (query) => ({
-  [CALL_API]: {
-    types: [ ActionTypes.USERS_REQUEST, ActionTypes.USERS_SUCCESS, ActionTypes.USERS_FAILURE ],
-    endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
-    schema: Schemas.USER_ARRAY
-  }
-});
-
 const fetchAllTeams = (types) => ({
   [CALL_API]: {
     types,
@@ -313,48 +305,4 @@ export const loadGameWeeks = (query, requiredFields = []) => (dispatch, getState
 
 export const loadArticles = (query, requiredFields = []) => (dispatch, getState) => {
   dispatch(fetchArticles());
-};
-
-export const loadLeaders = (query, requiredFields = []) => async (dispatch, getState) => {
-  const currentState = getState();
-  const leagueName = window.location.pathname.split('/')[2];
-  const lookup = currentState.get('lookup').toJS();
-  const leagues = get(lookup, 'leagues', []);
-  const currentLeague = leagues.find(x=>x.name === leagueName);
-  const leagueId = currentLeague.id;
-  const leagueChanged = get(query, 'leagueId') !== leagueId;
-  const gameType = get(query, 'gameType');
-  const loading = get(query, 'loading');
-
-  const year = leagueChanged ? last(currentLeague.years) : get(query, 'year');
-  let isRollup = leagueChanged ? false : get(query, 'isRollup');
-
-  const gameWeeks = await dispatch(fetchGameWeeks({leagueId,year,isRollup}));
-  const weeks = get(gameWeeks,'response',[]);
-  const currentWeek = getCurrentWeek(weeks);
-
-  const request = {
-    leagueId: leagueId,
-    weekId: leagueChanged ? get(currentWeek, 'weekId') : get(query, 'weekId') || get(currentWeek, 'weekId'),
-    year: leagueChanged ? get(currentWeek, 'year') : get(query, 'year') || get(currentWeek, 'year'),
-    beginDateTime: leagueChanged ? get(currentWeek,'beginDateTime') : get(query, 'beginDateTime') || get(currentWeek,'beginDateTime'),
-    endDateTime: leagueChanged ? get(currentWeek,'endDateTime') : get(query, 'endDateTime') || get(currentWeek,'endDateTime'),
-    gameType: gameType,
-    loading: loading,
-    includeStrategies: true
-  };
-
-  dispatch({type: ActionTypes.LEADERS_REQUEST, request});
-
-  isRollup = leagueChanged ? get(currentWeek, 'isRollup') : (get(query, 'isRollup') || get(currentWeek, 'isRollup'));
-
-  Promise.all([
-    dispatch(fetchGames(request, [ ActionTypes.LEADER_GAMES_REQUEST, ActionTypes.LEADER_GAMES_REQUEST, ActionTypes.LEADER_GAMES_FAILURE ])), 
-    dispatch(fetchPicks(request, [ ActionTypes.LEADER_PICKS_REQUEST, ActionTypes.LEADER_PICKS_SUCCESS, ActionTypes.LEADER_PICKS_FAILURE ])),
-    dispatch(fetchAllUsers({isRollup})),
-    dispatch(fetchAllTeams([ ActionTypes.TEAMS_REQUEST, ActionTypes.TEAMS_SUCCESS, ActionTypes.TEAMS_FAILURE ]))
-  ]).then(
-    result=>{ 
-      dispatch({type: ActionTypes.LEADERS_SUCCESS, response: {...result, isRollup}});
-  });
 };

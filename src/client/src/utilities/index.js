@@ -7,6 +7,9 @@ import transform from 'lodash/transform';
 import orderBy from 'lodash/orderBy';
 
 import zachBaby from '../styles/images/zach-baby.jpg';
+import gold from "../styles/images/gold.png";
+import silver from "../styles/images/silver.png";
+import bronze from "../styles/images/bronze.png";
 
 // *** scoreboard
 
@@ -14,9 +17,12 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
         if (spreadMode) {
+            const away = teams.find(x=>x._id === game.competitors[0]._id);
+            const home = teams.find(x=>x._id === game.competitors[1]._id);
             return {
             ...game,
             startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
+            gameName: game?.gameName?.length > 0 || (away?.emojis?.length === 0 || home?.emojis?.length === 0) ? game.gameName : `${away?.emojis?.[getRandomIntInclusive(0,away?.emojis?.length-1)]} 🆚 ${home?.emojis?.[getRandomIntInclusive(0,home?.emojis?.length-1)]}`,
             competitors: game.competitors.map((competitor, index)=> {
                     const team = teams.find(x=>x._id === competitor._id);
                     const index1 = index;
@@ -71,10 +77,35 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
 
 // *** leaders
 
-const getLeaders = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
+const getLeaders = ({games = [], picks = [], users = [], teams = [], spreadMode = false, isRollup = false}) => {
     const sortedGames = orderBy(games,['_id'],['desc']).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
     const picksWithVegas = [...picks, ...getVegasPicks(sortedGames)];
-    return getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
+    const formattedLeaders = getLeadersFormatted(sortedGames, picksWithVegas, users, teams, isRollup, spreadMode);
+    let wins;
+    let losses;
+    let medalCount = 0;
+    formattedLeaders.map((leader) => {
+      if ((leader.wins !== wins || leader.losses !== losses) && medalCount <= 3) {
+        wins = leader.wins;
+        losses = leader.losses;
+        medalCount = medalCount + 1;
+      }
+
+      if (leader.wins >= wins && leader.losses >= losses && medalCount === 1) {
+        leader.medal = gold;
+      }
+      
+      if (leader.wins >= wins && leader.losses >= losses && medalCount === 2) {
+        leader.medal = silver;
+      }
+      
+      if (leader.wins >= wins && leader.losses >= losses && medalCount === 3) {
+        leader.medal = bronze;
+      }
+
+      return leader;
+    });
+    return formattedLeaders;
 }
 
 const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isRollup = false, spreadMode = false) => {
@@ -217,7 +248,7 @@ const getLeaderIndicator = (game,picks,index1,index2) => {
                 && pick.gameId === game._id) ? 'lightblue' : '';
 }
 
-// *** multiple
+// *** shared
 
 const getAreAnyGamesInProgress = (games = []) => {
     return games.some(x=>hasGameStarted(x.startDateTime) && !x.isGameOver)

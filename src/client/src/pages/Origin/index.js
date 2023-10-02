@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import ReactGA from 'react-ga';
 
-import PageContainer from '../PageContainer';
+import PageContainer from '../../components/PageContainer';
 
 const line1 = `A long time ago (2007) in a galaxy far, far away (Alpharetta, Georgia), a buddy and I would scribble on paper 
                who we thought would win the upcoming week's NFL games.  Whoever got the most correct would win bragging rights 

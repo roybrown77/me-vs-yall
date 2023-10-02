@@ -11,7 +11,7 @@ import get from 'lodash/get';
 import angry from '../../styles/images/angry.png';
 import money from '../../styles/images/smile-sweat.png';
 
-import PageContainer from '../PageContainer';
+import PageContainer from '../../components/PageContainer';
 
 import { loadArticles } from '../../actions';
 

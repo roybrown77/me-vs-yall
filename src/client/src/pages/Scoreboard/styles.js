@@ -1,4 +1,4 @@
-const styles = theme => ({
+const styles = {
     googleLogin: {
       width: '250px',
       '&:hover': {
@@ -44,8 +44,6 @@ const styles = theme => ({
     toggleButtonOff: {
       color: 'gray'
     }
-  });
-
-  export {
-    styles,
   };
+
+  export default styles;

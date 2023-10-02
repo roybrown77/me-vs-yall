@@ -6,7 +6,6 @@ import {
 	showGameDetailsToggle,
 	loadArticles,
 	loadGamesInProgress,
-	loadLeaders,
 	loadUser,
 	ActionTypes,
 } from './actions';
@@ -19,7 +18,6 @@ export {
 	showGameDetailsToggle,
 	loadArticles,
 	loadGamesInProgress,
-	loadLeaders,
 	loadUser,
     ActionTypes
 };
