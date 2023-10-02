@@ -16,13 +16,14 @@ import bronze from "../styles/images/bronze.png";
 const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false) => {
     const formattedGames = games.map((game)=>{
         const displayDateTime = moment(new Date(game.startDateTime));
+        const away = teams.find(x=>x._id === game.competitors[0]._id);
+        const home = teams.find(x=>x._id === game.competitors[1]._id);
+        const gameName = game?.gameName?.trim()?.length > 0 ? game.gameName : `${away?.emojis?.[getRandomIntInclusive(0,away?.emojis?.length-1)]} 🆚 ${home?.emojis?.[getRandomIntInclusive(0,home?.emojis?.length-1)]}`;
         if (spreadMode) {
-            const away = teams.find(x=>x._id === game.competitors[0]._id);
-            const home = teams.find(x=>x._id === game.competitors[1]._id);
             return {
             ...game,
             startDateTimeDisplay: displayDateTime.format('dddd MMM D YYYY h:mm a'),
-            gameName: game?.gameName?.length > 0 || (away?.emojis?.length === 0 || home?.emojis?.length === 0) ? game.gameName : `${away?.emojis?.[getRandomIntInclusive(0,away?.emojis?.length-1)]} 🆚 ${home?.emojis?.[getRandomIntInclusive(0,home?.emojis?.length-1)]}`,
+            gameName,
             competitors: game.competitors.map((competitor, index)=> {
                     const team = teams.find(x=>x._id === competitor._id);
                     const index1 = index;
@@ -52,6 +53,7 @@ const getGroupedGames = (games = [], picks = [], teams = [], spreadMode = false)
             winner: game.competitors[0].score === game.competitors[1].score ? 
                 '000000000000000000000000' : (game.competitors[0].score > game.competitors[1].score ? 
                 game.competitors[0]._id : game.competitors[1]._id),
+            gameName,
             competitors: game.competitors.map((competitor)=> {
                     const team = teams.find(x=>x._id === competitor._id);
                     return {
