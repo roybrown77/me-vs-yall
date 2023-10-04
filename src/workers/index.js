@@ -155,7 +155,7 @@ const updateGames = async () => {
     // const weekNumber = regularSeasonWeek < 0 ? 5+regularSeasonWeek : regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
     // const seasonNumber = regularSeasonWeek < 0 ? 1 : regularSeasonWeek <= 18 ? 2 : 3;
 
-    const weekNumber = 4;
+    const weekNumber = 5;
     const seasonNumber = 2;
 
     const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
