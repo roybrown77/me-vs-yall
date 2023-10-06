@@ -135,8 +135,8 @@ const FootballField = (props) => {
       <path className="goal-post-left" fill="#f8ed40" stroke="#000000" d="M10.181,39.725C10.181,39.725,10.191999999999998,40.124,10.353,40.421C10.514,40.717999999999996,10.722999999999999,40.671,10.722999999999999,40.671V12.483L10.181,11.702V39.725Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="goal-post-left" fill="#818181" stroke="#000000" d="M363.967,54.432L362.957,53.236L362.957,44.868L363.967,46.064Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <g>
-        <ellipse onClick={throwBallRight} className={isThrowingRight ? "ball throwBallRight" : "ball"} cx="40" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
-        <ellipse onClick={throwBallLeft} className={isThrowingLeft ? "ball throwBallLeft" : "ball"} cx="330" cy="25" rx="11" ry="4" id="line" fill="brown" stroke="brown" style={{fillOpacity: 1, strokeWidth: 1, cursor: 'pointer'}}></ellipse>
+        <text onClick={throwBallRight} className={isThrowingRight ? "ball throwBallRight" : "ball"} x="35" y="25" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
+        <text onClick={throwBallLeft} className={isThrowingLeft ? "ball throwBallLeft" : "ball"} x="315" y="25" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
         
         {!hideXO.current && <svg viewBox="135 65 100 100">
           <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
