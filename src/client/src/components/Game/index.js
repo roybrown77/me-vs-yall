@@ -234,7 +234,7 @@ const getFlag = (country) => {
   };
 }
 
-function GamePlayTabs(props) {
+const  GamePlayTabs = (props) => {
   const { game, classes, handleUpdateGamePlayTab, isAuthenticated, userId } = props;
 
   const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
@@ -451,7 +451,7 @@ function GamePlayTabs(props) {
       }
     </Box>
   );
-}
+};
 
 // const SelectionIndicator = (props) => {
 //   const { competitor } = props;

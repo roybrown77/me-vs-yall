@@ -1,16 +1,16 @@
 import React from 'react';
 import Popover from '@material-ui/core/Popover';
 
-export default function SimplePopover(props) {
+const SimplePopover = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  function handleClick(event) {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
-  function handleClose() {
+  const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   const open = !!anchorEl ? Boolean(anchorEl) : false;
   const id = open ? 'simple-popover' : undefined;
@@ -58,3 +58,5 @@ export default function SimplePopover(props) {
     </div>
   );
 }
+
+export default SimplePopover;

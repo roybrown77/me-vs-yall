@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 
-function TabPanel(props) {
+const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -19,7 +19,7 @@ function TabPanel(props) {
         )}
         </div>
     );
-}
+};
 
 TabPanel.propTypes = {
     children: PropTypes.node,

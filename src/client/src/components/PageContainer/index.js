@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer';
 
-function PageContainer(props) {
+const PageContainer = (props) => {
     return (
         <div>
             <Header>
@@ -15,7 +15,7 @@ function PageContainer(props) {
             <Footer/>
         </div>
     );
-}
+};
 
 PageContainer.propTypes = {
   children: PropTypes.node.isRequired,

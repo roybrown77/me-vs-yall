@@ -89,13 +89,13 @@ const Profile = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  function handleClick(event) {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
-  function handleClose() {
+  const handleClose = () =>{
     setAnchorEl(null);
-  }
+  };
 
   const open = !!anchorEl ? Boolean(anchorEl) : false;
   const id = open ? 'simple-popover' : undefined;
