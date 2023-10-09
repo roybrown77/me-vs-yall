@@ -32,6 +32,7 @@
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
+    "eslint": "^8.51.0",
     "react-scripts": "5.0.0",
     "redux-devtools-extension": "2.13.9"
   },
