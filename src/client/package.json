@@ -43,9 +43,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint --max-warnings 0 --ext .jsx --ext .js src/"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
