@@ -173,11 +173,11 @@ const MiniRallyGame = (props) => {
           homeScoreHandler
         }
       }/>
-      {false && <div>
+      <div>
         <Button size="small" className={props.classes.gamePlayMessage} onClick={() => {}}>
-          Tap Ball!
+          Let's Ball!
         </Button>
-      </div>}
+      </div>
     </div>
   );
 }
