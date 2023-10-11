@@ -171,7 +171,7 @@ const getLeadersFormatted = (games = [], picks = [], users = [], teams = [], isR
         return result;
     }, []);
 
-    return orderBy(pickResults, ['winsBeforeGameOver', 'winsInARow', 'wins', 'userName'], ['desc', 'desc', 'desc', 'asc']);
+    return orderBy(pickResults, ['winsBeforeGameOver', 'winsInARow', 'wins', 'lossesInARow', 'userName'], ['desc', 'desc', 'desc', 'asc', 'asc']);
 };
 
 const getWinnings = (results) => {
