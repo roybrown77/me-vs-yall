@@ -64,7 +64,7 @@ body {
   }
 }
 
-/* --- loader start --- */
+/* --- loader animation start --- */
 
 .loader {
   margin-left: 50%;
@@ -124,15 +124,9 @@ body {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg); } }
 
-.pick-processing {
-  position: absolute;
-  left: 50%;
-  z-index: 1;
-}
+/* --- loade ranimation end --- */
 
-/* --- loader end --- */
-
-/* --- animation start --- */
+/* --- flash animation start --- */
 
 .fast-flash {
   -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
@@ -166,6 +160,10 @@ body {
   100% {opacity: 0;}
 }
 
+/* --- flash animation end --- */
+
+/* --- fade animation start --- */
+
 .fade-in {
   opacity:0;  /* make things invisible upon start */
   -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
@@ -187,9 +185,9 @@ body {
 @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-/* --- animation end --- */
+/* --- fade animation end --- */
 
-/* --- splash screen start --- */
+/* --- splash page start --- */
 
 @media screen and (min-width: 1000px) {
   #home {
@@ -197,7 +195,7 @@ body {
   }
 }
 
-/* --- splash screen end --- */
+/* --- splash page end --- */
 
 /* --- header & side bar start --- */
 
@@ -215,7 +213,7 @@ body {
 
 /* --- header & side bar end --- */
 
-/* --- leagues start --- */
+/* --- leagues page start --- */
 
 .list {
   padding: 0;
@@ -249,7 +247,7 @@ body {
   cursor: pointer;
 }
 
-/* --- leagues end --- */
+/* --- leagues page end --- */
 
 /* --- login start--- */
 
@@ -315,16 +313,19 @@ body {
   }
 }
 
-.grid-tile div div {
-}
-
 .game-pick-in-progress {
   border: '8px solid #BA68C8' !important;
 }
 
+.pick-processing {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+}
+
 /* --- game end --- */
 
-/* --- leaders start --- */
+/* --- leaders page start --- */
 
 .leader-win-loss-tie-header {
   font-weight: bold;
@@ -343,7 +344,7 @@ body {
   font: 1.4rem/1 sans-serif;
 }
 
-/* --- leaders end --- */
+/* --- leaders page end --- */
 
 a.links:hover {
   background-color: red !important;
@@ -364,7 +365,7 @@ a.links:hover {
 
 /* --- video stream end --- */
 
-/* --- text type start --- */
+/* --- text type animation start --- */
 
 .typer-cursor {
   -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
@@ -377,7 +378,9 @@ a.links:hover {
   margin-left: 10px;
 }
 
-/* --- text type end --- */
+/* --- text type animation end --- */
+
+/* --- mini game animation start --- */
 
 .ball {
   width: 100px;
@@ -448,9 +451,17 @@ a.links:hover {
   to   { -webkit-transform: translate3d(0, 200px, 0); transform: translate3d(0, 200px, 0); }
 } */
 
+/* --- mini game animation end --- */
+
+/* --- remaining games toast popup start --- */
+
 .remaining-games-notifier {
   bottom: 50px !important;
 }
+
+/* --- remaining games toast popup end --- */
+
+/* --- one tap sign in start --- */
 
 .one-tap-sign-in {
   left: 0 !important;
@@ -464,3 +475,5 @@ a.links:hover {
     width: 50%;
   }
 }
+
+/* --- one tap sign in end --- */

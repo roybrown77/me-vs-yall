@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import classNames from "classnames";
 import ReactGA from "react-ga";
 
@@ -33,9 +33,6 @@ import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import Countdown from "../../components/Countdown";
 import Popover from "../../components/Popover";
-
-import ice from "../../styles/images/ice.png";
-import money from "../../styles/images/smile-sweat.png";
 
 import {
   googleLogin,
@@ -627,36 +624,6 @@ class Leader extends Component {
                             <div style={{ display: "inline-flex" }}>
                               <div
                                 style={{
-                                  display: "flex",
-                                  position: "absolute",
-                                  right: "130px",
-                                }}
-                              >
-                                <div>
-                                  <img
-                                    style={{ width: "30px" }}
-                                    src={
-                                      leader.winsInARow > leader.lossesInARow
-                                        ? money
-                                        : ice
-                                    }
-                                    alt=""
-                                  />
-                                </div>
-                                <div
-                                  style={{
-                                    fontWeight: "700",
-                                    fontSize: "14px",
-                                  }}
-                                >
-                                  <span style={{ margin: "3px 0" }}>x</span>
-                                  <span>
-                                    {leader.winsInARow || leader.lossesInARow}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                style={{
                                   textAlign: "right",
                                   position: "absolute",
                                   right: "50px",
@@ -675,6 +642,9 @@ class Leader extends Component {
                                 <div>{leader.percentage}</div>
                                 <div>
                                   {leader.wins} - {leader.losses}
+                                </div>
+                                <div style={{fontWeight: "700",fontSize: "15px"}}>
+                                  {`${leader.winsInARow > leader.lossesInARow ? "😅" : "🥶"}x${leader.winsInARow || leader.lossesInARow}`}
                                 </div>
                               </div>
                             </div>
