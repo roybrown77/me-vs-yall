@@ -569,7 +569,7 @@ class Leader extends Component {
                             className={classes.expansionSummary}
                             expandIcon={<ExpandMoreIcon />}
                           >
-                            <div style={{ display: "flex" }}>
+                            <div style={{ display: "flex", paddingBottom: '1.25rem' }}>
                               {leader.medal && (
                                 <div style={{ margin: "auto 10px auto 0" }}>
                                   <img
