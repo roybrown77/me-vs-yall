@@ -72,9 +72,20 @@ router.get('/picks/', async function (req, res) {
         isGameOver: true
     };
 
+    const fields = { 
+        leagueId: 1, 
+        isGameOver: 1, 
+        competitors: 1, 
+        year: 1, 
+        spread: 1, 
+        startDateTime: 1, 
+        hashCompetitors: 1, 
+        currentTime: 1
+      };
+
     const [gamesThisRange, gamesWholeYear] = await Promise.all([
-        gameRepository.find(thisRangeSearch, {}, {}), 
-        gameRepository.find(wholeYearSearch, {}, {}), 
+        gameRepository.find(thisRangeSearch, fields, {}), 
+        gameRepository.find(wholeYearSearch, fields, {}), 
     ]);
 
     const sortedGamesThisRange = sortBy(gamesThisRange, ['startDateTime']);
