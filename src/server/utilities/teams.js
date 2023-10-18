@@ -1121,7 +1121,7 @@ const nflTeams = [
         color: "#4095D1",
         stadiumName: "Nissan Stadium",
         stadiumCity: "Nashville, TN",
-        emojis: ["🔱"]
+        emojis: ["🔱","🥁","🎸"]
     },
     {
         _id: "19823783734d1d04a1b3901a",
@@ -1179,7 +1179,7 @@ const nflTeams = [
         color: "#7AC142",
         stadiumName: "CenturyLink Field",
         stadiumCity: "Seattle, WA",
-        emojis: ["🌊🦅"]
+        emojis: ["🌊🦅","🎸"]
     },
     {
         _id: "19823783734d1d04a1b39000",
