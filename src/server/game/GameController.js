@@ -53,7 +53,7 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
-const loadGames = (leagueId) => {
+const loadGames = () => {
   // const url = `https://www.espn.com/nfl/scoreboard/_/week/7/year/2023/seasontype/2`;
   // const DAY_MODULE = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
@@ -352,6 +352,9 @@ router.get('/games', async function (req, res) {
   if (shouldUpdateGames) {
     loadGames(leagueId);
   }
+
+  // backupData();
+  // getEmailAddresses();
   
   console.log("time2: ", moment().format());
 
@@ -490,9 +493,6 @@ router.get('/gamesInProgress', function (req, res) {
 });
 
 router.get('/teams', function (req, res) {
-  //backupData();
-  //getEmailAddresses();
-
   const teams = [
     ...nflTeams,
     ...premierLeagueTeams,

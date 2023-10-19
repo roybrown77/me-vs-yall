@@ -43,58 +43,60 @@ router.get('/picks/', async function (req, res) {
         ]
     );
 
-    const gameSearch = {
-        leagueId: mongoose.Types.ObjectId(mongoose.Types.ObjectId(leagueId)),
-        year: year,
-        startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
-          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
-          $lt: new Date(moment(get(req, 'query.endDateTime')))
-        } : undefined,
-        isHidden: {
-          $ne: true
-        }
-    };
-  
-    const thisRangeSearch = omit(gameSearch, 
-    [
-        get(req,'query.year','year'),
-        !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
-    ]
-    );
-
-    const wholeYearSearch = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
-        year: year,
-        startDateTime: {
-            $gt: new Date(moment(year + '0901')),
-            $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')).add('-7','days') : moment())
-        },
-        isGameOver: true
-    };
-
-    const fields = { 
-        leagueId: 1, 
-        isGameOver: 1, 
-        competitors: 1, 
-        year: 1, 
-        spread: 1, 
-        startDateTime: 1, 
-        hashCompetitors: 1, 
-        currentTime: 1
-      };
-
-    const [gamesThisRange, gamesWholeYear] = await Promise.all([
-        gameRepository.find(thisRangeSearch, fields, {}), 
-        gameRepository.find(wholeYearSearch, fields, {}), 
-    ]);
-
-    const sortedGamesThisRange = sortBy(gamesThisRange, ['startDateTime']);
-    const sortedGamesWholeYear = sortBy(gamesWholeYear, ['startDateTime']);
-
-    pickRepository.find(finalSearch, function (err, picks) {
+    pickRepository.find(finalSearch, async (err, picks) => {
         if (err) return res.status(500).send("There was a problem finding the picks.");
 
         if (includeStrategies) {
+            console.log('include strategies');
+
+            const gameSearch = {
+                leagueId: mongoose.Types.ObjectId(mongoose.Types.ObjectId(leagueId)),
+                year: year,
+                startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
+                  $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+                  $lt: new Date(moment(get(req, 'query.endDateTime')))
+                } : undefined,
+                isHidden: {
+                  $ne: true
+                }
+            };
+          
+            const thisRangeSearch = omit(gameSearch, 
+            [
+                get(req,'query.year','year'),
+                !get(req,'query.beginDateTime') || get(req,'query.beginDateTime') === '-1' ? 'startDateTime' : undefined, 
+            ]
+            );
+        
+            const wholeYearSearch = {
+                leagueId: mongoose.Types.ObjectId(leagueId),
+                year: year,
+                startDateTime: {
+                    $gt: new Date(moment(year + '0901')),
+                    $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')).add('-7','days') : moment())
+                },
+                isGameOver: true
+            };
+        
+            const fields = { 
+                leagueId: 1, 
+                isGameOver: 1, 
+                competitors: 1, 
+                year: 1, 
+                spread: 1, 
+                startDateTime: 1, 
+                hashCompetitors: 1, 
+                currentTime: 1
+              };
+        
+            const [gamesThisRange, gamesWholeYear] = await Promise.all([
+                gameRepository.find(thisRangeSearch, fields, {}), 
+                gameRepository.find(wholeYearSearch, fields, {}), 
+            ]);
+        
+            const sortedGamesThisRange = sortBy(gamesThisRange, ['startDateTime']);
+            const sortedGamesWholeYear = sortBy(gamesWholeYear, ['startDateTime']);
+            
             sortedGamesThisRange.forEach((game) => {
                 const sortedGamesWholeYearUpUntilGameDateTime = sortedGamesWholeYear.filter(x => x.startDateTime < game.startDateTime);
                 const teamStats = getAllTeamStats(sortedGamesWholeYearUpUntilGameDateTime);
