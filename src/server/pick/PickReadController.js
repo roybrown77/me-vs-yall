@@ -224,7 +224,7 @@ router.get('/picks/', async function (req, res) {
                         (!(roadPointsScored.awayTeam.value - homePointsScored.homeTeam.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase()))) {
                         mvyMultiVegasPicks = {
                             _id: mongoose.Types.ObjectId().toString(),
-                            userId: 12, // Kang Multivegas; Points Scored for Dogs
+                            userId: 12, // Kang; Points Scored for Dogs
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored.awayTeam.value - roadPointsScored.homeTeam.value > 0 ? 
                                 game.competitors[0]._id : game.competitors[1]._id)

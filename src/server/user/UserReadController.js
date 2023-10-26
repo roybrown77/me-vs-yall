@@ -62,7 +62,7 @@ const mvySundaySingle = {
 
 const mvyMultiVegas= {
     authServiceId: 12,
-    firstName: 'Kang Multivegas'
+    firstName: 'King Kang'
 };
 
 const mvyRoadie = {
