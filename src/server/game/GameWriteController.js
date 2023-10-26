@@ -29,9 +29,9 @@ router.put('/games/:id', function (req, res) {
         isHidden: req.body.isHidden
     };
 
-    gameDomain.update(game, (err, gameCreated) => {
+    gameDomain.update(game, (err, gameToUpdate) => {
         if (err) return res.status(500).send("There was a problem updating the information to the database: " + err.message);
-        return res.status(200).send({...game,_id:gameCreated._id});
+        return res.status(200).send({...game, _id: gameToUpdate._id});
     });
 });
 
