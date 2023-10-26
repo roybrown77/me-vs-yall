@@ -1,12 +1,9 @@
 import { Component } from "react";
 import classNames from "classnames";
 import ReactGA from "react-ga";
-
 import get from "lodash/get";
 import last from "lodash/last";
-
 import { createBrowserHistory } from "history";
-
 import queryString from "query-string";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -16,28 +13,22 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
 import Skeleton from "@material-ui/lab/Skeleton";
-
 import ToggleOn from "@material-ui/icons/ToggleOn";
 import ToggleOff from "@material-ui/icons/ToggleOff";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
-
 import VegasWinCalculationPopup from "./VegasWinCalculationPopup";
-import a11yProps from "../../utilities/a11yProps";
-
 import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import Countdown from "../../components/Countdown";
 import Popover from "../../components/Popover";
 
-import {
-  googleLogin,
-  isConfirmedAuthentication,
-} from "../../middleware/authenticationClient";
+import a11yProps from "../../utilities/a11yProps";
+import { callApi } from "../../utilities/http";
 import {
   formatWeeks,
   getAreAllGamesOver,
@@ -46,15 +37,18 @@ import {
   getLeaders,
   leagues,
 } from "../../utilities";
-import { callApi } from "../../utilities/http";
+import {
+  googleLogin,
+  isConfirmedAuthentication,
+} from "../../middleware/authenticationClient";
 
 import styles from "./styles";
 
 const isAuthenticated = isConfirmedAuthentication();
 
-const getSpreadMode = () => localStorage.getItem('spreadModeToggle', '0');;
-
 const history = createBrowserHistory({ forceRefresh: false });
+
+const getSpreadMode = () => localStorage.getItem("spreadModeToggle", "0");
 
 class Leader extends Component {
   constructor(props) {
@@ -63,29 +57,28 @@ class Leader extends Component {
     const { leagueName } = this.props.match.params;
     const league = leagues.find(
       (league) =>
-        get(league, "name", "nfl").toLowerCase() === (leagueName || "").toLowerCase()
+        get(league, "name", "nfl").toLowerCase() ===
+        (leagueName || "").toLowerCase()
     );
     const leagueId = league.id;
     const year = last(league.years);
 
     this.state = {
-        dataLoading: true,
-        
-        weeks: [],
-        games: [],
-        picks: [],
-        users: [],
-        teams: [],
+      dataLoading: true,
 
-        leagueId,
-        year,
-        weekId: null,
-        beginDateTime: null,
-        endDateTime: null,
-        
-        leaders: [],
+      weeks: [],
+      games: [],
+      picks: [],
+      users: [],
+      teams: [],
 
-        isRollup: false
+      leagueId,
+      year,
+      weekId: null,
+      beginDateTime: null,
+      endDateTime: null,
+
+      leaders: [],
     };
   }
 
@@ -109,7 +102,7 @@ class Leader extends Component {
       this.startPolling();
     }
 
-    const league = leagues.find(league => league.id === leagueId);
+    const league = leagues.find((league) => league.id === leagueId);
     ReactGA.ga("send", "pageview", "/leaders/" + league.name);
   }
 
@@ -118,16 +111,14 @@ class Leader extends Component {
   }
 
   loadGameWeeks = async ({ leagueId, year }) => {
-    const gameWeeksQuery = { leagueId, year, isRollup: false };
+    const gameWeeksQuery = { leagueId, year };
 
-    const [weeks] = await Promise.all([
-      callApi({
-        method: "GET",
-        endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(
-          gameWeeksQuery
-        )}`,
-      }),
-    ]);
+    const weeks = await callApi({
+      method: "GET",
+      endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(
+        gameWeeksQuery
+      )}`,
+    });
 
     return weeks;
   };
@@ -143,15 +134,7 @@ class Leader extends Component {
   }) => {
     if (showLoader) {
       this.setState({
-        weeks: formatWeeks(weeks),
-
-        leagueId,
-        year,
-        weekId,
-        beginDateTime,
-        endDateTime,
-
-        dataLoading: true
+        dataLoading: true,
       });
     }
 
@@ -163,10 +146,9 @@ class Leader extends Component {
       endDateTime,
 
       includeStrategies: true,
-      isRollup: false,
     };
 
-    const [games, picks, users, teams] = await Promise.all([
+    const [games = [], picks = [], users = [], teams = []] = await Promise.all([
       callApi({
         method: "GET",
         endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
@@ -182,69 +164,78 @@ class Leader extends Component {
       callApi({ method: "GET", endpoint: `/api/gamemanagement/teams` }),
     ]);
 
-    if (games && picks && users && teams) {
-        const leaders = getLeaders({
-            games,
-            picks,
-            users,
-            teams,
-            spreadMode: getSpreadMode() === "1",
-        });
-        this.setState(() => ({
-            games,
-            picks,
-            users,
-            teams,
+    const leaders = getLeaders({
+      games,
+      picks,
+      users,
+      teams,
+      spreadMode: getSpreadMode() === "1",
+    });
+    this.setState(() => ({
+      weeks: formatWeeks(weeks),
 
-            leaders,
-            dataLoading: false,
-        }));
-    }
+      leagueId,
+      year,
+      weekId,
+      beginDateTime,
+      endDateTime,
+
+      games,
+      picks,
+      users,
+      teams,
+
+      leaders,
+      dataLoading: false,
+    }));
   };
 
   startPolling = () => {
     clearInterval(this.timerID);
-    const { games, weeks, leagueId, year, weekId, beginDateTime, endDateTime } = this.state;
-    this.timerID = setInterval(() => this.poll({
-        games,
-        weeks,
-        leagueId,
-        year,
-        weekId,
-        beginDateTime,
-        endDateTime,
-    }), 15000);
+    const { games, weeks, leagueId, year, weekId, beginDateTime, endDateTime } =
+      this.state;
+    this.timerID = setInterval(
+      () =>
+        this.poll({
+          games,
+          weeks,
+          leagueId,
+          year,
+          weekId,
+          beginDateTime,
+          endDateTime,
+        }),
+      15000
+    );
   };
 
   poll = ({
-      games,
+    games,
+    weeks,
+    leagueId,
+    year,
+    weekId,
+    beginDateTime,
+    endDateTime,
+  }) => {
+    const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
+    if (!areAnyGamesInProgress) return;
+
+    this.loadData({
       weeks,
       leagueId,
       year,
       weekId,
       beginDateTime,
       endDateTime,
-  }) => {
-    const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
-    if (!areAnyGamesInProgress) return;
-
-    this.loadData({
-        weeks,
-        leagueId,
-        year,
-        weekId,
-        beginDateTime,
-        endDateTime,
-        showLoader: false
+      showLoader: false,
     });
   };
 
   handleFilterLeague = async (event) => {
     const leagueSelected = event.target.value;
     const leagueId = leagueSelected;
-    const leagueFound = leagues.find(
-      (league) => league.id === leagueId
-    );
+    const leagueFound = leagues.find((league) => league.id === leagueId);
 
     ReactGA.ga("send", "pageview", "/leaders/" + leagueFound.name);
     history.push("/leaders/" + leagueFound.name);
@@ -253,15 +244,15 @@ class Leader extends Component {
     const year = last(years);
     const weeks = await this.loadGameWeeks({ leagueId, year });
     const currentWeek = last(weeks);
-    this.setState(()=>({leagueId: leagueFound.id}));
+    this.setState(() => ({ leagueId: leagueFound.id }));
 
     const request = {
-        weeks,
-        leagueId: currentWeek.leagueId,
-        year,
-        weekId: currentWeek._id,
-        beginDateTime: currentWeek.beginDateTime,
-        endDateTime: currentWeek.endDateTime,
+      weeks,
+      leagueId: currentWeek.leagueId,
+      year,
+      weekId: currentWeek._id,
+      beginDateTime: currentWeek.beginDateTime,
+      endDateTime: currentWeek.endDateTime,
     };
 
     this.loadData(request);
@@ -270,22 +261,20 @@ class Leader extends Component {
   handleFilterYear = async (event) => {
     const yearSelected = event.target.value;
     const { leagueId } = this.state;
-    const league = leagues.find(league => league.id === leagueId);
-    const yearFound = league.years.find(
-      (year) => year === yearSelected
-    );
+    const league = leagues.find((league) => league.id === leagueId);
+    const yearFound = league.years.find((year) => year === yearSelected);
 
     const weeks = await this.loadGameWeeks({ leagueId, year: yearFound });
     const currentWeek = last(weeks);
-    this.setState(()=>({ weeks, year: yearFound, weekId: currentWeek._id}));
+    this.setState(() => ({ weeks, year: yearFound, weekId: currentWeek._id }));
 
     const request = {
-        weeks,
-        leagueId,
-        year: yearFound,
-        weekId: currentWeek._id,
-        beginDateTime: currentWeek.beginDateTime,
-        endDateTime: currentWeek.endDateTime,
+      weeks,
+      leagueId,
+      year: yearFound,
+      weekId: currentWeek._id,
+      beginDateTime: currentWeek.beginDateTime,
+      endDateTime: currentWeek.endDateTime,
     };
 
     this.loadData(request);
@@ -295,15 +284,15 @@ class Leader extends Component {
     const weekId = event.target.value;
     const { weeks, leagueId, year } = this.state;
     const currentWeek = weeks[weekId];
-    this.setState(()=>({weekId: currentWeek._id}));
+    this.setState(() => ({ weekId: currentWeek._id }));
 
     const request = {
-        weeks,
-        leagueId,
-        year,
-        weekId: currentWeek._id,
-        beginDateTime: currentWeek.beginDateTime,
-        endDateTime: currentWeek.endDateTime,
+      weeks,
+      leagueId,
+      year,
+      weekId: currentWeek._id,
+      beginDateTime: currentWeek.beginDateTime,
+      endDateTime: currentWeek.endDateTime,
     };
 
     this.loadData(request);
@@ -311,26 +300,26 @@ class Leader extends Component {
 
   handleSpreadToggle = () => {
     const value = getSpreadMode() === "1" ? "0" : "1";
-    localStorage.setItem('spreadModeToggle', value);
+    localStorage.setItem("spreadModeToggle", value);
     const { games, picks, users, teams } = this.state;
     const spreadToggleLeaders = getLeaders({
-        games,
-        picks,
-        users,
-        teams,
-        spreadMode: value === "1",
+      games,
+      picks,
+      users,
+      teams,
+      spreadMode: value === "1",
     });
-    this.setState({leaders: spreadToggleLeaders});
+    this.setState({ leaders: spreadToggleLeaders });
   };
 
   render() {
     const { classes } = this.props;
     const {
       dataLoading,
-  
+
       weeks,
       games,
-      
+
       leagueId,
       year,
       weekId,
@@ -338,8 +327,6 @@ class Leader extends Component {
       endDateTime,
 
       leaders,
-
-      isRollup,
     } = this.state;
     const spreadMode = getSpreadMode() === "1";
     const currentWeek = weeks.find((x) => x._id === weekId);
@@ -351,17 +338,17 @@ class Leader extends Component {
       <div>
         <PageContainer>
           <GameSearchBar
-              leagueId={leagueId}
-              leagues={leagues}
-              yearSelected={year}
-              weekId={weekId}
-              weeks={weeks}
-              beginDateTime={beginDateTime}
-              endDateTime={endDateTime}
-              onFilterLeague={this.handleFilterLeague}
-              onFilterYear={this.handleFilterYear}
-              onFilterWeek={this.handleFilterWeek}
-              onFilterDate={this.handleFilterDate}
+            leagueId={leagueId}
+            leagues={leagues}
+            yearSelected={year}
+            weekId={weekId}
+            weeks={weeks}
+            beginDateTime={beginDateTime}
+            endDateTime={endDateTime}
+            onFilterLeague={this.handleFilterLeague}
+            onFilterYear={this.handleFilterYear}
+            onFilterWeek={this.handleFilterWeek}
+            onFilterDate={this.handleFilterDate}
           />
           {!isAuthenticated && (
             <Button
@@ -489,9 +476,7 @@ class Leader extends Component {
             <div>
               <IconButton
                 className={
-                  spreadMode
-                    ? classes.toggleButtonOn
-                    : classes.toggleButtonOff
+                  spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
                 }
                 aria-label="spreadModeToggle"
               >
@@ -518,7 +503,6 @@ class Leader extends Component {
               >
                 <Tabs
                   value={0}
-                  onChange={this.handleTabChange}
                   aria-label="game types"
                   style={{
                     paddingBottom: "20px",
@@ -579,17 +563,18 @@ class Leader extends Component {
                                   />
                                 </div>
                               )}
-                              {![1, 2, 3].includes(index + 1) && !leader.medal && (
-                                <div
-                                  style={{
-                                    margin: "auto 10px auto 0",
-                                    color: index === 0 ? "#FFC107" : "#000",
-                                    fontWeight: index === 0 ? "700" : "400",
-                                  }}
-                                >
-                                  {index + 1}
-                                </div>
-                              )}
+                              {![1, 2, 3].includes(index + 1) &&
+                                !leader.medal && (
+                                  <div
+                                    style={{
+                                      margin: "auto 10px auto 0",
+                                      color: index === 0 ? "#FFC107" : "#000",
+                                      fontWeight: index === 0 ? "700" : "400",
+                                    }}
+                                  >
+                                    {index + 1}
+                                  </div>
+                                )}
                               {leader.picture && (
                                 <div style={{ margin: "auto" }}>
                                   <img
@@ -643,8 +628,19 @@ class Leader extends Component {
                                 <div>
                                   {leader.wins} - {leader.losses}
                                 </div>
-                                <div style={{fontWeight: "700",fontSize: "15px"}}>
-                                  {`${leader.winsInARow > leader.lossesInARow ? "😅" : "🥶"}x${leader.winsInARow || leader.lossesInARow}`}
+                                <div
+                                  style={{
+                                    fontWeight: "700",
+                                    fontSize: "15px",
+                                  }}
+                                >
+                                  {`${
+                                    leader.winsInARow > leader.lossesInARow
+                                      ? "😅"
+                                      : "🥶"
+                                  }x${
+                                    leader.winsInARow || leader.lossesInARow
+                                  }`}
                                 </div>
                               </div>
                             </div>
@@ -662,83 +658,77 @@ class Leader extends Component {
                                   }}
                                 />
                               )}
-                              {
-                                <table
-                                  style={{
-                                    width: "100%",
-                                    backgroundColor: "#fff",
-                                  }}
-                                >
-                                  {!isRollup &&
-                                    get(leader, "games", []).map(
-                                      (game, gameIndex) => {
-                                        return (
-                                          <tbody
-                                            key={leader.id + "-" + game._id}
-                                          >
-                                            {game.isNewDate && (
-                                              <tr>
-                                                <td align="center"></td>
-                                                <td align="center"></td>
-                                                <td align="center">
-                                                  <div
-                                                    style={{
-                                                      margin: "12px 0",
-                                                      fontWeight: "600",
-                                                      color:
-                                                        "rgba(0, 0, 0, 0.87)",
-                                                    }}
-                                                  >
-                                                    {game.date}
-                                                  </div>
-                                                </td>
-                                                <td align="center"></td>
-                                                <td align="center"></td>
-                                              </tr>
-                                            )}
-                                            <tr>
-                                              <td align="center">
-                                                <div
-                                                  style={{
-                                                    width: "24px",
-                                                    height: "24px",
-                                                    backgroundColor:
-                                                      game.awayIndicator,
-                                                  }}
-                                                />
-                                              </td>
-                                              {
-                                                <td align="center">
-                                                  <span>{game.awayScore}</span>
-                                                </td>
-                                              }
-                                              <td align="center">
-                                                <span>{game.awayTeam}</span>
-                                                <span> vs </span>
-                                                <span>{game.homeTeam}</span>
-                                              </td>
-                                              {
-                                                <td align="center">
-                                                  <span>{game.homeScore}</span>
-                                                </td>
-                                              }
-                                              <td align="center">
-                                                <div
-                                                  style={{
-                                                    width: "24px",
-                                                    height: "24px",
-                                                    backgroundColor:
-                                                      game.homeIndicator,
-                                                  }}
-                                                />
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        );
-                                      }
-                                    )}
-                                </table>
-                              }
+                              <table
+                                style={{
+                                  width: "100%",
+                                  backgroundColor: "#fff",
+                                }}
+                              >
+                                {get(leader, "games", []).map(
+                                  (game) => {
+                                    return (
+                                      <tbody key={leader.id + "-" + game._id}>
+                                        {game.isNewDate && (
+                                          <tr>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center">
+                                              <div
+                                                style={{
+                                                  margin: "12px 0",
+                                                  fontWeight: "600",
+                                                  color: "rgba(0, 0, 0, 0.87)",
+                                                }}
+                                              >
+                                                {game.date}
+                                              </div>
+                                            </td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                          </tr>
+                                        )}
+                                        <tr>
+                                          <td align="center">
+                                            <div
+                                              style={{
+                                                width: "24px",
+                                                height: "24px",
+                                                backgroundColor:
+                                                  game.awayIndicator,
+                                              }}
+                                            />
+                                          </td>
+                                          {
+                                            <td align="center">
+                                              <span>{game.awayScore}</span>
+                                            </td>
+                                          }
+                                          <td align="center">
+                                            <span>{game.awayTeam}</span>
+                                            <span> vs </span>
+                                            <span>{game.homeTeam}</span>
+                                          </td>
+                                          {
+                                            <td align="center">
+                                              <span>{game.homeScore}</span>
+                                            </td>
+                                          }
+                                          <td align="center">
+                                            <div
+                                              style={{
+                                                width: "24px",
+                                                height: "24px",
+                                                backgroundColor:
+                                                  game.homeIndicator,
+                                              }}
+                                            />
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    );
+                                  }
+                                )}
+                              </table>
                             </div>
                           </AccordionDetails>
                         </Accordion>

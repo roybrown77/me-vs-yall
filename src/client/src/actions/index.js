@@ -1,9 +1,4 @@
 import {
-	loadScoreboard,
-	addPick,
-	updatePick,
-	updateGame,
-	showGameDetailsToggle,
 	loadArticles,
 	loadGamesInProgress,
 	loadUser,
@@ -11,11 +6,6 @@ import {
 } from './actions';
 
 export {
-	loadScoreboard,
-	addPick,
-	updatePick,
-	updateGame,
-	showGameDetailsToggle,
 	loadArticles,
 	loadGamesInProgress,
 	loadUser,

@@ -13,12 +13,7 @@ import bronze from "../styles/images/bronze.png";
 
 // *** scoreboard
 
-const getGroupedGames = (
-  games = [],
-  picks = [],
-  teams = [],
-  spreadMode = false
-) => {
+const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false}) => {
   const formattedGames = games.map((game) => {
     const displayDateTime = moment(new Date(game.startDateTime));
     const away = teams.find((x) => x._id === game.competitors[0]._id);

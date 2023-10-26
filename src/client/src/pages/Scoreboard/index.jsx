@@ -1,622 +1,834 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import ReactGA from 'react-ga';
+import { Component } from "react";
+import classNames from "classnames";
+import ReactGA from "react-ga";
+import get from "lodash/get";
+import last from "lodash/last";
+import moment from "moment-timezone";
+import { createBrowserHistory } from "history";
+import queryString from "query-string";
+import URLSearchParams from 'url-search-params';
 
-import get from 'lodash/get';
-import last from 'lodash/last';
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
+import Skeleton from "@material-ui/lab/Skeleton";
+import ToggleOn from "@material-ui/icons/ToggleOn";
+import ToggleOff from "@material-ui/icons/ToggleOff";
 
-import moment from 'moment-timezone';
+import RemainingGamesNotifier from "./RemainingGamesNotifier";
+import PageContainer from "../../components/PageContainer";
+import GameSearchBar from "../../components/GameSearchBar";
+import PickResult from "../../components/PickResult";
+import Game from "../../components/Game";
+import Countdown from "../../components/Countdown";
+import Popover from "../../components/Popover";
+import TinyScoreboard from "../../components/TinyScoreboard";
 
-import {createBrowserHistory} from 'history';
-
-import Skeleton from '@material-ui/lab/Skeleton';
-
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-
-import ToggleOn from '@material-ui/icons/ToggleOn';
-import ToggleOff from '@material-ui/icons/ToggleOff';
-
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-
-import RemainingGamesNotifier from './RemainingGamesNotifier';
-
-import PageContainer from '../../components/PageContainer';
-import GameSearchBar from '../../components/GameSearchBar';
-import PickResult from '../../components/PickResult';
-import Game from '../../components/Game';
-import Countdown from '../../components/Countdown';
-import Popover from '../../components/Popover';
-import TinyScoreboard from '../../components/TinyScoreboard';
-
-import { loadScoreboard, addPick, updatePick, updateGame, showGameDetailsToggle } from '../../actions';
-
-import { 
-    googleLogin, 
-    isConfirmedAuthentication,
-    getUser 
-} from '../../middleware/authenticationClient';
-
-import { 
-    formatWeeks, 
-    getCurrentWeek, 
+import { getPicksNotSelected } from "./utilities";
+import a11yProps from "../../utilities/a11yProps";
+import { callApi } from "../../utilities/http";
+import {
+    formatWeeks,
     hasGameStarted,
     getAreAllGamesOver,
     getGroupedGames,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
-} from '../../utilities';
+    leagues,
+  } from "../../utilities";
+import {
+  googleLogin,
+  isConfirmedAuthentication,
+  getUser,
+} from "../../middleware/authenticationClient";
 
-import { getPicksNotSelected } from './utilities';
+import styles from "./styles";
 
-import a11yProps from "../../utilities/a11yProps";
+const isAuthenticated = isConfirmedAuthentication();
 
-import styles from './styles';
+const history = createBrowserHistory({ forceRefresh: false });
 
-const history = createBrowserHistory({forceRefresh: false});
+const getSpreadMode = () => localStorage.getItem("spreadModeToggle", "0");
 
 let gameDate;
 
 class Scoreboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            openCopyAlert: false,
-            gamePlayTabValue: 0,
-            tabValue: localStorage.getItem('tabValue') === '1' ? 1 : 0,
-            spreadModeToggle: localStorage.getItem('spreadModeToggle', '0') === '1' ? '1' : '0',
-            isAuthenticated: isConfirmedAuthentication()
-        };
+  constructor(props) {
+    super(props);
+    const { leagueName } = this.props.match.params;
+    const league = leagues.find(
+      (league) =>
+        get(league, "name", "nfl").toLowerCase() ===
+        (leagueName || "").toLowerCase()
+    );
+    const leagueId = league.id;
+    const year = last(league.years);
+
+    this.state = {
+      openCopyAlert: false,
+
+      dataLoading: true,
+
+      weeks: [],
+      games: [],
+      picks: [],
+      teams: [],
+
+      leagueId,
+      year,
+      weekId: null,
+      beginDateTime: null,
+      endDateTime: null,
+
+      groupedGames: [],
+
+      updatingPick: false
+    };
+  }
+
+  async componentDidMount() {
+    window.scrollTo(0, 0);
+
+    const { leagueId, year } = this.state;
+
+    const weeks = await this.loadGameWeeks({ leagueId, year: year });
+
+    if (weeks) {
+      const currentWeek = last(weeks);
+      this.loadData({
+        weeks,
+        leagueId,
+        year: currentWeek.year,
+        weekId: currentWeek._id,
+        beginDateTime: currentWeek.beginDateTime,
+        endDateTime: currentWeek.endDateTime,
+      });
+
+      this.startPolling();
     }
 
-    componentDidMount() {
-        window.scrollTo(0, 0);
-
-        const { leagueName } = this.props.match.params;
-
-        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
-
-        ReactGA.ga('send', 'pageview', '/scoreboards/' + urlLeague.name);
-        
-        this.props.loadScoreboard({
-            leagueId: urlLeagueId,
-            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
-            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
-            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: this.state.tabValue,
-            loading: true
-        });
-
-        this.startPolling(this.state.tabValue);
+    if (isAuthenticated) {
+      await this.createUser({ user: getUser() });
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-        // console.log('stop timerID: ' + this.timerID);
+    const league = leagues.find((league) => league.id === leagueId);
+    ReactGA.ga("send", "pageview", "/scoreboards/" + league.name);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  loadGameWeeks = async ({ leagueId, year }) => {
+    const gameWeeksQuery = { leagueId, year };
+
+    const weeks = await callApi({
+      method: "GET",
+      endpoint: `/api/gamemanagement/gameweeks?${queryString.stringify(
+        gameWeeksQuery
+      )}`,
+    });
+
+    return weeks;
+  };
+
+  updateGame = async (game) => {
+    const gameParams = new URLSearchParams();
+    gameParams.set('id', game.id);
+    gameParams.set('awayScore', game.awayScore);
+    gameParams.set('homeScore', game.homeScore);
+    gameParams.set('awayRank', game.awayRank);
+    gameParams.set('homeRank', game.homeRank);
+    gameParams.set('awayRecord', game.awayRecord);
+    gameParams.set('homeRecord', game.homeRecord);
+    gameParams.set('awaySpread', game.awaySpread);
+    gameParams.set('homeSpread', game.homeSpread);
+    gameParams.set('gameName', game.gameName);
+    gameParams.set('isGameOver', game.isGameOver);
+    gameParams.set('currentTime', game.currentTime);
+    gameParams.set('gameTime', game.gameTime);
+    gameParams.set('liveVideoUrl', game.liveVideoUrl);
+    gameParams.set('highlightVideoUrl', game.highlightVideoUrl);
+    gameParams.set('isHidden', game.isHidden);
+
+    await callApi({
+      method: "PUT",
+      endpoint: `/api/gamemanagement/games/${encodeURIComponent(game.id)}`,
+      body: gameParams
+    });
+  };
+
+  upsertPick = async (id, pick) => {
+    this.setState(() => ({ updatingPick: true }));
+
+    const pickParams = new URLSearchParams();
+    pickParams.set('gameId', pick.gameId);
+    pickParams.set('pickId', pick.pickId);
+
+    await callApi({
+      method: id ? 'PUT' : 'POST',
+      endpoint: id ? `/api/pickmanagement/picks/${encodeURIComponent(id)}` : '/api/pickmanagement/picks',
+      body: pickParams
+    });
+
+    const user = getUser();
+    const userId = get(user, "sub");
+
+    const query = {
+      userId,
+      leagueId: this.state.leagueId,
+      year: this.state.year,
+      weekId: this.state.weekId,
+      beginDateTime: this.state.beginDateTime,
+      endDateTime: this.state.endDateTime,
+    };
+    const picks = await callApi({
+      method: "GET",
+      endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+        query
+      )}`,
+    });
+    const groupedGames = getGroupedGames({
+      games: this.state.games,
+      picks,
+      teams: this.state.teams,
+      spreadMode: getSpreadMode() === "1",
+    });
+    this.setState(() => ({ updatingPick: false, picks, groupedGames }));
+  };
+
+  createUser = async ({ user }) => {
+    await callApi({
+      method: "GET",
+      endpoint: `/api/usermanagement/users`,
+      body: {
+        sub: user.sub,
+        email: user.email,
+        family_name: user.family_name,
+        given_name: user.given_name,
+        picture: user.picture,
+      },
+    });
+  };
+
+  loadData = async ({
+    weeks,
+    leagueId,
+    year,
+    weekId,
+    beginDateTime,
+    endDateTime,
+    showLoader = true,
+  }) => {
+    const user = getUser();
+    const userId = get(user, "sub");
+
+    if (showLoader) {
+      this.setState({
+        dataLoading: true,
+      });
     }
 
-    handleTabChange = (event, newValue) => {
-        clearInterval(this.timerID);
-        // console.log('stop timerID: ' + this.timerID);
-
-        const { leagueName } = this.props.match.params;
-
-        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
-        
-        if (this.state.isAuthenticated) {
-            this.props.loadScoreboard({
-                leagueId: urlLeagueId,
-                year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
-                beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
-                endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-                weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-                gameType: newValue,
-                loading: true
-            });
-        }
-
-        localStorage.setItem('tabValue', newValue);
-        this.setState({tabValue: newValue});
-        this.startPolling(newValue);
+    const query = {
+      userId,
+      leagueId,
+      year,
+      weekId,
+      beginDateTime,
+      endDateTime,
     };
 
-    startPolling = (tabValue) => {
-        this.timerID = setInterval(
-            () => this.poll(tabValue),
-            15000
-        );
-        // console.log('start timerID: ' + this.timerID);
-    }
+    const [games = [], picks = [], teams = []] = await Promise.all([
+      callApi({
+        method: "GET",
+        endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+      }),
+      isAuthenticated
+        ? callApi({
+            method: "GET",
+            endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+              query
+            )}`,
+          })
+        : undefined,
+      callApi({ method: "GET", endpoint: `/api/gamemanagement/teams` }),
+    ]);
 
-    poll = (tabValue) => {
-        // console.log('running timerID: ' + this.timerID + ' ' + (new Date()).toLocaleTimeString());
+    const groupedGames = getGroupedGames({
+      games,
+      picks,
+      teams,
+      spreadMode: getSpreadMode() === "1",
+    });
+    this.setState(() => ({
+      weeks: formatWeeks(weeks),
 
-        const areAnyGamesInProgress = getAreAnyGamesInProgress(this.props.games);
+      userId,
+      leagueId,
+      year,
+      weekId,
+      beginDateTime,
+      endDateTime,
 
-        // why only run every 10 minutes?
-        // const minutes = parseInt(moment().format('mm'));
-        // const minuteInterval = (minutes > 15 ? 15 - (minutes % 15) : minutes);
-        
-        if (!areAnyGamesInProgress) return;
+      games,
+      picks,
+      teams,
 
-        if (this.props.weeks.findIndex(x=>x._id === this.props.weekId)+1 < this.props.weeks.length) return;
+      groupedGames,
+      dataLoading: false,
+    }));
+  };
 
-        this.props.loadScoreboard({
-            leagueId: this.props.leagueId,
-            year: this.props.year,
-            beginDateTime: this.props.beginDateTime,
-            endDateTime: this.props.endDateTime,
-            weekId: this.props.weekId,
-            gameType: tabValue,
-            loading: false
-        });
-    }
+  startPolling = () => {
+    clearInterval(this.timerID);
+    const { games, weeks, leagueId, year, weekId, beginDateTime, endDateTime } =
+      this.state;
+    this.timerID = setInterval(
+      () =>
+        this.poll({
+          games,
+          weeks,
+          leagueId,
+          year,
+          weekId,
+          beginDateTime,
+          endDateTime,
+        }),
+      15000
+    );
+  };
 
-    handleFilterLeague = (event, league) => {
-        if (get(this.props, 'leagues', []).length === 0) {
-            return;
-        }
+  poll = ({
+    games,
+    weeks,
+    leagueId,
+    year,
+    weekId,
+    beginDateTime,
+    endDateTime,
+  }) => {
+    const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
+    if (!areAnyGamesInProgress) return;
 
-        const leagueFound = this.props.leagues.find(x=>x.id===league.props.value);
-        const years = get(leagueFound,'years',[]);
-        const year = last(years);
+    this.loadData({
+      weeks,
+      leagueId,
+      year,
+      weekId,
+      beginDateTime,
+      endDateTime,
+      showLoader: false,
+    });
+  };
 
-        ReactGA.ga('send', 'pageview', '/scoreboards/' + leagueFound.name);
+  handleFilterLeague = async (event) => {
+    const leagueSelected = event.target.value;
+    const leagueId = leagueSelected;
+    const leagueFound = leagues.find((league) => league.id === leagueId);
 
-        history.push('/scoreboards/' + leagueFound.name);
+    ReactGA.ga("send", "pageview", "/leaders/" + leagueFound.name);
+    history.push("/leaders/" + leagueFound.name);
 
-        this.props.loadScoreboard({
-            leagueId: leagueFound.id,
-            year,
-            loading: true
-        });
-    }
+    const years = get(leagueFound, "years", []);
+    const year = last(years);
+    const weeks = await this.loadGameWeeks({ leagueId, year });
+    const currentWeek = last(weeks);
+    this.setState(() => ({ leagueId: leagueFound.id }));
 
-    handleFilterYear = (event, year) => {
-        if (get(this.props, 'years', []).length === 0) {
-            return;
-        }
-
-        const yearFound = this.props.years.find(x=>x===parseInt(year.props.value));
-
-        this.props.loadScoreboard({
-            leagueId: this.props.leagueId,
-            year: yearFound,
-            loading: true
-        });
-    }
-  
-    handleFilterWeek = (event, week) => {
-        if (get(this.props, 'weeks', []).length === 0) {
-            return;
-        }
-
-        const weekFound = this.props.weeks[week.props.value];
-
-        this.props.loadScoreboard({
-            leagueId: this.props.leagueId,
-            year: this.props.year,
-            beginDateTime: weekFound.beginDateTime,
-            endDateTime: weekFound.endDateTime,
-            weekId: weekFound._id,
-            loading: true
-        });
-    }
-
-    handleMakePick = (pick) => {
-        const gameFound = this.props.games.find(x=>x._id === pick.gameId);
-
-        if (!this.state.isAuthenticated || gameFound.isGameOver) return;
-
-        const pickFound = this.props.picks.find(x=>x.gameId === pick.gameId);
-        if (!!pickFound) {
-            this.props.updatePick(get(pickFound,'_id'), {...pick, gameType: this.state.tabValue});
-        } else {
-            this.props.addPick({...pick, gameType: this.state.tabValue});
-        }
-    }
-
-    handleUpdateGame = (game) => {
-        if (!this.state.isAuthenticated) return;
-
-        this.props.updateGame(game);
-    }
-
-    handleSharePicks = () => {
-        const copyText = document.getElementById("copyInput");
-
-        copyText.select();
-        
-        /* for mobile devices */
-        copyText.setSelectionRange(0, 99999);
-
-        document.execCommand("copy");
-        
-        this.setState((state) => ({
-            openCopyAlert: true
-        }));
-    }
-
-    handleCopyAlertClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-
-        this.setState((state) => ({
-            openCopyAlert: false
-        }));
+    const request = {
+      weeks,
+      leagueId: currentWeek.leagueId,
+      year,
+      weekId: currentWeek._id,
+      beginDateTime: currentWeek.beginDateTime,
+      endDateTime: currentWeek.endDateTime,
     };
 
-    handleUpdateGamePlayTab = (gamePlayTabValue) => {
-        if (gamePlayTabValue === 2) {
-            clearInterval(this.timerID);
-            // console.log('stop timerID: ' + this.timerID);
-        }
+    this.loadData(request);
+  };
+
+  handleFilterYear = async (event) => {
+    const yearSelected = event.target.value;
+    const { leagueId } = this.state;
+    const league = leagues.find((league) => league.id === leagueId);
+    const yearFound = league.years.find((year) => year === yearSelected);
+
+    const weeks = await this.loadGameWeeks({ leagueId, year: yearFound });
+    const currentWeek = last(weeks);
+    this.setState(() => ({ weeks, year: yearFound, weekId: currentWeek._id }));
+
+    const request = {
+      weeks,
+      leagueId,
+      year: yearFound,
+      weekId: currentWeek._id,
+      beginDateTime: currentWeek.beginDateTime,
+      endDateTime: currentWeek.endDateTime,
     };
 
-    handleSpreadToggle = () => {
-        clearInterval(this.timerID);
-        
-        const { leagueName } = this.props.match.params;
+    this.loadData(request);
+  };
 
-        const urlLeague = this.props.leagues.find(x=>get(x,'name','').toLowerCase() === (leagueName || '').toLowerCase());
-        const urlLeagueId = get(urlLeague,'id',this.props.leagueId);
-        
-        const isSpreadMode = localStorage.getItem('tabValue') === '1';
+  handleFilterWeek = (event) => {
+    const weekId = event.target.value;
+    const { weeks, leagueId, year } = this.state;
+    const currentWeek = weeks[weekId];
+    this.setState(() => ({ weekId: currentWeek._id }));
 
-        this.props.loadScoreboard({
-            leagueId: urlLeagueId,
-            year: urlLeagueId !== this.props.leagueId ? undefined : this.props.year,
-            beginDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.beginDateTime,
-            endDateTime: urlLeagueId !== this.props.leagueId ? undefined : this.props.endDateTime,
-            weekId: urlLeagueId !== this.props.leagueId ? undefined : this.props.weekId,
-            gameType: isSpreadMode ? "1" : "0",
-            loading: true
-        });
+    const request = {
+      weeks,
+      leagueId,
+      year,
+      weekId: currentWeek._id,
+      beginDateTime: currentWeek.beginDateTime,
+      endDateTime: currentWeek.endDateTime,
+    };
 
-        localStorage.setItem('spreadModeToggle', this.state.spreadModeToggle === '0' ? '1' : '0');
-        this.setState((state) => ({
-            spreadModeToggle: state.spreadModeToggle === '0' ? '1' : '0'
-        }));
-        this.startPolling(this.state.spreadModeToggle === '0' ? '1' : '0');
+    this.loadData(request);
+  };
+
+  handleSpreadToggle = () => {
+    const value = getSpreadMode() === "1" ? "0" : "1";
+    localStorage.setItem("spreadModeToggle", value);
+    const { games, picks, teams } = this.state;
+    const groupedGames = getGroupedGames({
+      games,
+      picks,
+      teams,
+      spreadMode: value === "1",
+    });
+    this.setState({ groupedGames });
+  };
+
+  handleMakePick = (pick) => {
+    const gameFound = this.state.games.find((x) => x._id === pick.gameId);
+    if (!isAuthenticated || gameFound.isGameOver) return;
+    const pickFound = this.state.picks.find((x) => x.gameId === pick.gameId);
+    this.upsertPick(pickFound?._id, pick);
+  };
+
+  handleUpdateGame = (game) => {
+    if (!isAuthenticated) return;
+    this.updateGame(game);
+  };
+
+  handleSharePicks = () => {
+    const copyText = document.getElementById("copyInput");
+
+    copyText.select();
+
+    /* for mobile devices */
+    copyText.setSelectionRange(0, 99999);
+
+    document.execCommand("copy");
+
+    this.setState((state) => ({
+      openCopyAlert: true,
+    }));
+  };
+
+  handleCopyAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
 
-    render() {
-        const { 
-            classes, 
-            games, 
-            picks, 
-            teams,
-            leagues,
-            weeks = [],
-            dataLoading,
-            spreadMode,
-            userId,
-            weekId,
-            leagueId,
-            year,
-            beginDateTime,
-            endDateTime
-        } = this.props;
+    this.setState((state) => ({
+      openCopyAlert: false,
+    }));
+  };
 
-        const {
-            isAuthenticated
-        } = this.state;
+  render() {
+    const { classes } = this.props;
 
-        const currentWeek = weeks.find(x=>x._id === weekId);
-        const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
-        const areAllGamesOver = getAreAllGamesOver(games);
-        const groupedGames = getGroupedGames(games, picks, teams, spreadMode);
-        const gamesNotStarted = games.filter(x=>!hasGameStarted(x.startDateTime));
-        const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
-        const picksNotSelected = getPicksNotSelected(gamesNotStarted, picks);
+    const {
+      dataLoading,
 
-        gameDate = null;
+      userId,
 
-        const disableTie = get(currentWeek,'disableTie') || false;
+      weeks,
+      games,
+      picks,
 
-        return (
-            <div>
-                <PageContainer>
-                    <TinyScoreboard {...{
-                            title: `Let's Go!!!`,
-                            games: groupedGames.notCompleted,
-                            loading: dataLoading && !areAnyGamesInProgress
-                        }
-                    }/>
-                    <TinyScoreboard {...{
-                            title: `Game Over`,
-                            games: groupedGames.completed,
-                            loading: dataLoading && !areAnyGamesInProgress
-                        }
-                    }/>
-                    <GameSearchBar
-                        leagueId={leagueId}
-                        leagues={leagues}
-                        yearSelected={year}
-                        weekId={weekId}
-                        weeks={weeks}
-                        beginDateTime={beginDateTime}
-                        endDateTime={endDateTime}
-                        onFilterLeague={this.handleFilterLeague}
-                        onFilterYear={this.handleFilterYear}
-                        onFilterWeek={this.handleFilterWeek}
-                        onFilterDate={this.handleFilterDate}
-                    />
-                    {
-                        !isAuthenticated && 
-                        <Button
-                            variant="contained" 
-                            className={classNames(classes.button)}
-                            onClick={googleLogin}>
-                          Make Your Picks
-                        </Button>
-                    }
-                    {
-                        isAuthenticated && 
-                        <div className={classNames(classes.pickResultContainer)}>
-                            <PickResult loading={dataLoading && !areAnyGamesInProgress} spreadMode={spreadMode} games={groupedGames.completed} picks={picks}/>
-                        </div>
-                    }
-                    {
-                        !areAllGamesOver &&
-                        !areAnyGamesInProgress &&
-                        <div style={{margin: '4px 14%', padding: '4px', border: '4px solid deeppink'}}>
-                            <div style={{color: 'deeppink', fontSize: '17px'}}>next {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fight' : 'game'} starts in</div>
-                            <Countdown date={timeUntilNextGameStarts}/>
-                        </div>
-                    }
-                    {
-                        areAnyGamesInProgress &&
-                        <div style={{color: 'deeppink', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid deeppink'}}>
-                            <div className='fast-flash'>** {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fights' : 'games'} in progress **</div>
-                        </div>
-                    }
-                    {
-                        get(currentWeek,'prize') &&
-                        <Popover 
-                            borderStyle={{margin: '4px 14%', border: '4px solid lightgreen', borderRadius: '8px', cursor: 'pointer'}}
-                            titleStyle={{color: 'darkgreen', fontSize: '17px', borderBottom:'3px solid lightgreen', padding: '4px'}}
-                            subTitleStyle={{color: 'darkgreen', fontSize: '17px', borderTop:'3px solid lightgreen', padding: '4px'}}
-                            title={'player with the most correct wins!'}
-                            subTitle={'tap to view rules.'}
-                            segments={get(currentWeek,'prizes')}
-                        >
-                            {
-                                <div style={{padding:'16px'}}>
-                                    <div style={{paddingBottom: '12px'}}>{get(currentWeek,'prize.message')}</div>
-                                    {get(currentWeek,'prize.rules',[]).map((rule,ruleIndex)=>{
-                                        return (
-                                            <div key={ruleIndex}>{rule}</div>
-                                        );
-                                    })}
-                                </div>
-                            }
-                        </Popover>
-                    }
-                    {
-                        !isAuthenticated &&
-                        <div style={{color: 'darkviolet', fontSize: '17px', margin:'4px 17%', padding: '4px', border: '4px solid darkviolet', borderRadius: '8px'}}>
-                            ** sign in then tap {['59723313734d1d6202a85f25','59723313734d1d6202a85f27'].includes(leagueId) ? 'fighter' : 'team'} **
-                        </div>
-                    }
-                    <RemainingGamesNotifier {...{isAuthenticated, picksNotSelected}} />
-                    <div onClick={this.handleSpreadToggle} style={{marginTop:'25px', padding: '10px', marginLeft: 'auto', textAlign:'right',backgroundColor:'#fff', width: '40px'}}>
-                        <div style={{fontSize:'9px'}}>
-                            vs Spread
-                        </div>
-                        <div><IconButton className={this.state.spreadModeToggle === '1' ? classes.toggleButtonOn : classes.toggleButtonOff} aria-label="spreadModeToggle">
-                            {this.state.spreadModeToggle === '1' ? <ToggleOn/> : <ToggleOff/>}
-                        </IconButton></div>
-                    </div>
-                    {
-                        <Box sx={{
-                            position: "relative",
-                            zIndex: "2",
-                            backgroundColor: "#EFFBF8"
-                            }}>
-                            <Box sx={{ 
-                                borderBottom: 1, 
-                                borderColor: 'divider', 
-                                position: "relative",
-                                zIndex: "3",
-                                backgroundColor: "#fff"
-                            }}>
-                                <Tabs value={this.state.tabValue} onChange={this.handleTabChange}  aria-label="game types" style={{
-                                    paddingBottom: "20px",
-                                    width: 'fit-content', 
-                                    margin: 'auto',
-                                }}>
-                                    <Tab label="Scores" {...a11yProps(0)} />
-                                </Tabs>
-                            </Box>
-                            <div className={classes.root}>
-                                {
-                                    !areAnyGamesInProgress &&
-                                    dataLoading &&
-                                    <div style={{margin: '10px 0'}}>
-                                        <Skeleton animation="pulse" height='5em' variant="rect"/>
-                                        <div style={{display: 'flex'}}>
-                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rect"/>
-                                            <Skeleton style={{margin: '20px'}} animation="pulse" height='10em' width='50%' variant="rect"/>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    !(!areAnyGamesInProgress &&
-                                    dataLoading) &&
-                                    groupedGames.notCompleted.map(game => {
-                                        let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                                        let newDate = (gameDate !== newGameDate);
-                                        if (newDate) gameDate = newGameDate;
+      leagueId,
+      year,
+      weekId,
+      beginDateTime,
+      endDateTime,
 
-                                        return (
-                                            <div key={game._id}>
-                                                {
-                                                    newDate &&
-                                                    <div style={{
-                                                        position: 'relative', 
-                                                        zIndex: 3, 
-                                                        fontFamily:'monospace', 
-                                                        backgroundColor:'rgba(0,0,0,0.87)', 
-                                                        color: '#ffffff', width: '100%', 
-                                                        padding: '2px 0', 
-                                                        marginBottom:'8px'
-                                                    }}>
-                                                        <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
-                                                    </div>
-                                                }
-                                                <Game 
-                                                    game={game} 
-                                                    pick={picks.find(x=>x.gameId === game._id)}
-                                                    handleMakePick={this.handleMakePick} 
-                                                    handleUpdateGame={this.handleUpdateGame} 
-                                                    handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
-                                                    isAuthenticated={isAuthenticated}
-                                                    userId={userId}
-                                                    disableTie={disableTie}
-                                                />
-                                            </div>
-                                        );
-                                    })
-                                }
-                                {
-                                    !(!areAnyGamesInProgress &&
-                                    dataLoading) &&
-                                    <div>
-                                        {
-                                            groupedGames.completed.length > 0 &&
-                                            <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                                <div style={{margin:'16px 0',fontSize:'14px', fontWeight:'600'}}>*** Game Over ***</div>
-                                            </div>
-                                        }
-                                        {
-                                            groupedGames.completed.map(game => {
-                                                let newGameDate = moment(get(game,'startDateTime')).format('dddd MMM D YYYY');
-                                                let newDate = (gameDate !== newGameDate);
-                                                if (newDate) gameDate = newGameDate;
+      groupedGames,
 
-                                                return (
-                                                    <div key={game._id}>
-                                                        {
-                                                            newDate &&
-                                                            <div style={{position: 'relative', zIndex: 10, fontFamily:'monospace', backgroundColor:'rgba(0,0,0,0.87)', color: '#ffffff', width: '100%', padding: '2px 0', marginBottom:'8px'}}>
-                                                                <div style={{margin:'16px 0',fontSize:'14px',fontWeight:'600'}}>{gameDate}</div>
-                                                            </div>
-                                                        }
-                                                        <Game 
-                                                            game={game} 
-                                                            pick={picks.find(x=>x.gameId === game._id)}
-                                                            handleMakePick={this.handleMakePick} 
-                                                            handleUpdateGame={this.handleUpdateGame} 
-                                                            handleUpdateGamePlayTab={this.handleUpdateGamePlayTab}
-                                                            isAuthenticated={isAuthenticated}
-                                                            userId={userId}
-                                                            disableTie={disableTie}
-                                                        />
-                                                    </div>
-                                                );
-                                            })
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        </Box>
-                    }
-                </PageContainer>
+      updatingPick,
+    } = this.state;
+    const spreadMode = getSpreadMode() === "1";
+    const currentWeek = weeks.find((x) => x._id === weekId);
+    const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
+    const areAllGamesOver = getAreAllGamesOver(games);
+    const gamesNotStarted = games.filter(
+      (x) => !hasGameStarted(x.startDateTime)
+    );
+    const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
+    const picksNotSelected = getPicksNotSelected(gamesNotStarted, picks);
+
+    gameDate = null;
+
+    const disableTie = currentWeek?.disableTie;
+
+    return (
+      <div>
+        <PageContainer>
+          <TinyScoreboard
+            {...{
+              title: `Let's Go!!!`,
+              games: groupedGames.notCompleted,
+              loading: dataLoading && !areAnyGamesInProgress,
+            }}
+          />
+          <TinyScoreboard
+            {...{
+              title: `Game Over`,
+              games: groupedGames.completed,
+              loading: dataLoading && !areAnyGamesInProgress,
+            }}
+          />
+          <GameSearchBar
+            leagueId={leagueId}
+            leagues={leagues}
+            yearSelected={year}
+            weekId={weekId}
+            weeks={weeks}
+            beginDateTime={beginDateTime}
+            endDateTime={endDateTime}
+            onFilterLeague={this.handleFilterLeague}
+            onFilterYear={this.handleFilterYear}
+            onFilterWeek={this.handleFilterWeek}
+            onFilterDate={this.handleFilterDate}
+          />
+          {!isAuthenticated && (
+            <Button
+              variant="contained"
+              className={classNames(classes.button)}
+              onClick={googleLogin}
+            >
+              Make Your Picks
+            </Button>
+          )}
+          {isAuthenticated && (
+            <div className={classNames(classes.pickResultContainer)}>
+              <PickResult
+                loading={dataLoading && !areAnyGamesInProgress}
+                spreadMode={spreadMode}
+                games={groupedGames.completed}
+                picks={picks}
+              />
             </div>
-        )
-    }
+          )}
+          {!areAllGamesOver && !areAnyGamesInProgress && (
+            <div
+              style={{
+                margin: "4px 14%",
+                padding: "4px",
+                border: "4px solid deeppink",
+              }}
+            >
+              <div style={{ color: "deeppink", fontSize: "17px" }}>
+                next{" "}
+                {[
+                  "59723313734d1d6202a85f25",
+                  "59723313734d1d6202a85f27",
+                ].includes(leagueId)
+                  ? "fight"
+                  : "game"}{" "}
+                starts in
+              </div>
+              <Countdown date={timeUntilNextGameStarts} />
+            </div>
+          )}
+          {areAnyGamesInProgress && (
+            <div
+              style={{
+                color: "deeppink",
+                fontSize: "17px",
+                margin: "4px 17%",
+                padding: "4px",
+                border: "4px solid deeppink",
+              }}
+            >
+              <div className="fast-flash">
+                **{" "}
+                {[
+                  "59723313734d1d6202a85f25",
+                  "59723313734d1d6202a85f27",
+                ].includes(leagueId)
+                  ? "fights"
+                  : "games"}{" "}
+                in progress **
+              </div>
+            </div>
+          )}
+          {get(currentWeek, "prize") && (
+            <Popover
+              borderStyle={{
+                margin: "4px 14%",
+                border: "4px solid lightgreen",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+              titleStyle={{
+                color: "darkgreen",
+                fontSize: "17px",
+                borderBottom: "3px solid lightgreen",
+                padding: "4px",
+              }}
+              subTitleStyle={{
+                color: "darkgreen",
+                fontSize: "17px",
+                borderTop: "3px solid lightgreen",
+                padding: "4px",
+              }}
+              title={"player with the most correct wins!"}
+              subTitle={"tap to view rules."}
+              segments={get(currentWeek, "prizes")}
+            >
+              {
+                <div style={{ padding: "16px" }}>
+                  <div style={{ paddingBottom: "12px" }}>
+                    {get(currentWeek, "prize.message")}
+                  </div>
+                  {get(currentWeek, "prize.rules", []).map(
+                    (rule, ruleIndex) => {
+                      return <div key={ruleIndex}>{rule}</div>;
+                    }
+                  )}
+                </div>
+              }
+            </Popover>
+          )}
+          {!isAuthenticated && (
+            <div
+              style={{
+                color: "darkviolet",
+                fontSize: "17px",
+                margin: "4px 17%",
+                padding: "4px",
+                border: "4px solid darkviolet",
+                borderRadius: "8px",
+              }}
+            >
+              ** sign in then tap{" "}
+              {[
+                "59723313734d1d6202a85f25",
+                "59723313734d1d6202a85f27",
+              ].includes(leagueId)
+                ? "fighter"
+                : "team"}{" "}
+              **
+            </div>
+          )}
+          <div
+            onClick={this.handleSpreadToggle}
+            style={{
+              marginTop: "25px",
+              padding: "10px",
+              marginLeft: "auto",
+              textAlign: "right",
+              backgroundColor: "#fff",
+              width: "40px",
+            }}
+          >
+            <div style={{ fontSize: "9px" }}>vs Spread</div>
+            <div>
+              <IconButton
+                className={
+                  spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
+                }
+                aria-label="spreadModeToggle"
+              >
+                {spreadMode ? <ToggleOn /> : <ToggleOff />}
+              </IconButton>
+            </div>
+          </div>
+          {
+            <Box
+              sx={{
+                position: "relative",
+                zIndex: "2",
+                backgroundColor: "#EFFBF8",
+              }}
+            >
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  position: "relative",
+                  zIndex: "3",
+                  backgroundColor: "#fff",
+                }}
+              >
+                <Tabs
+                  value={0}
+                  aria-label="game types"
+                  style={{
+                    paddingBottom: "20px",
+                    width: "fit-content",
+                    margin: "auto",
+                  }}
+                >
+                  <Tab label="Scores" {...a11yProps(0)} />
+                </Tabs>
+              </Box>
+              <div className={classes.root}>
+                {!areAnyGamesInProgress && dataLoading && (
+                  <div style={{ margin: "10px 0" }}>
+                    <Skeleton animation="pulse" height="5em" variant="rect" />
+                    <div style={{ display: "flex" }}>
+                      <Skeleton
+                        style={{ margin: "20px" }}
+                        animation="pulse"
+                        height="10em"
+                        width="50%"
+                        variant="rect"
+                      />
+                      <Skeleton
+                        style={{ margin: "20px" }}
+                        animation="pulse"
+                        height="10em"
+                        width="50%"
+                        variant="rect"
+                      />
+                    </div>
+                  </div>
+                )}
+                {!(!areAnyGamesInProgress && dataLoading) &&
+                  groupedGames.notCompleted.map((game) => {
+                    let newGameDate = moment(get(game, "startDateTime")).format(
+                      "dddd MMM D YYYY"
+                    );
+                    let newDate = gameDate !== newGameDate;
+                    if (newDate) gameDate = newGameDate;
+
+                    return (
+                      <div key={game._id}>
+                        {newDate && (
+                          <div
+                            style={{
+                              position: "relative",
+                              zIndex: 3,
+                              fontFamily: "monospace",
+                              backgroundColor: "rgba(0,0,0,0.87)",
+                              color: "#ffffff",
+                              width: "100%",
+                              padding: "2px 0",
+                              marginBottom: "8px",
+                            }}
+                          >
+                            <div
+                              style={{
+                                margin: "16px 0",
+                                fontSize: "14px",
+                                fontWeight: "600",
+                              }}
+                            >
+                              {gameDate}
+                            </div>
+                          </div>
+                        )}
+                        <Game
+                          game={game}
+                          pick={picks.find((x) => x.gameId === game._id)}
+                          handleMakePick={this.handleMakePick}
+                          handleUpdateGame={this.handleUpdateGame}
+                          isAuthenticated={isAuthenticated}
+                          userId={userId}
+                          disableTie={disableTie}
+                          updatingPick={updatingPick}
+                        />
+                      </div>
+                    );
+                  })}
+                {!(!areAnyGamesInProgress && dataLoading) && (
+                  <div>
+                    {groupedGames.completed.length > 0 && (
+                      <div
+                        style={{
+                          position: "relative",
+                          zIndex: 10,
+                          fontFamily: "monospace",
+                          backgroundColor: "rgba(0,0,0,0.87)",
+                          color: "#ffffff",
+                          width: "100%",
+                          padding: "2px 0",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            margin: "16px 0",
+                            fontSize: "14px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          *** Game Over ***
+                        </div>
+                      </div>
+                    )}
+                    {groupedGames.completed.map((game) => {
+                      let newGameDate = moment(
+                        get(game, "startDateTime")
+                      ).format("dddd MMM D YYYY");
+                      let newDate = gameDate !== newGameDate;
+                      if (newDate) gameDate = newGameDate;
+
+                      return (
+                        <div key={game._id}>
+                          {newDate && (
+                            <div
+                              style={{
+                                position: "relative",
+                                zIndex: 10,
+                                fontFamily: "monospace",
+                                backgroundColor: "rgba(0,0,0,0.87)",
+                                color: "#ffffff",
+                                width: "100%",
+                                padding: "2px 0",
+                                marginBottom: "8px",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  margin: "16px 0",
+                                  fontSize: "14px",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {gameDate}
+                              </div>
+                            </div>
+                          )}
+                          <Game
+                            game={game}
+                            pick={picks.find((x) => x.gameId === game._id)}
+                            handleMakePick={this.handleMakePick}
+                            handleUpdateGame={this.handleUpdateGame}
+                            isAuthenticated={isAuthenticated}
+                            userId={userId}
+                            disableTie={disableTie}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </Box>
+          }
+          <RemainingGamesNotifier {...{ isAuthenticated, picksNotSelected }} />
+        </PageContainer>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const lookup = state.get('lookup').toJS();
-
-    const scoreboardDomain = state.get('scoreboardDomain').toJS();
-    const dataLoading = get(scoreboardDomain, 'dataLoading', true);
-    const games = get(scoreboardDomain, 'games', []);
-    const picks = get(scoreboardDomain, 'picks', []);
-    const leagueId = get(scoreboardDomain, 'leagueId');
-
-    const ui = state.get('ui').toJS();
-    const request = get(ui,'request');
-    const spreadMode = localStorage.getItem('tabValue') === '1' || localStorage.getItem('spreadModeToggle') === '1';
-
-    const leagues = get(lookup, 'leagues', []);
-    const league = leagues.find(x=>x.id === leagueId);
-
-    const years = get(league, 'years',[]);
-    const year = get(request, 'year') || last(years);
-
-    const weeksDomain = state.get('weeksDomain').toJS();
-    const rawWeeks = get(weeksDomain,'gameWeeks', []).filter(x=>x.year===year);
-    const weeks = formatWeeks(rawWeeks);
-    const currentWeek = getCurrentWeek(weeks);
-    const beginDateTime = get(request, 'beginDateTime') || get(currentWeek, 'beginDateTime');
-    const endDateTime = get(request, 'endDateTime') || get(currentWeek, 'endDateTime');
-    
-    const teamDomain = state.get('teamDomain').toJS();
-    const teams = get(teamDomain, 'teams', []);
-
-    const weekId = get(request,'weekId') || get(currentWeek,'_id');
-
-    const user =  getUser();
-    const userId = get(user, 'sub');
-    
-    return {
-        dataLoading,
-        games,
-        picks,
-        weeks,
-        leagues,
-        years,
-        leagueId,
-        year,
-        weekId,
-        beginDateTime,
-        endDateTime,
-        teams,
-        userId,
-        spreadMode
-    }
-};
-
-Scoreboard.propTypes = {
-    classes: PropTypes.object.isRequired,
-    dataLoading: PropTypes.bool,
-    games: PropTypes.array,
-    picks: PropTypes.array,
-    weeks: PropTypes.array,
-    leagues: PropTypes.array,
-    years: PropTypes.array,
-    teams: PropTypes.array,
-    leagueId: PropTypes.string,
-    year: PropTypes.number,
-    week: PropTypes.number,
-    weekId: PropTypes.string,
-    beginDateTime: PropTypes.string,
-    endDateTime: PropTypes.string,
-    userId: PropTypes.string,
-    loadScoreboard: PropTypes.func.isRequired,
-    addPick: PropTypes.func.isRequired,
-    updatePick: PropTypes.func.isRequired,
-    updateGame: PropTypes.func.isRequired,
-    showGameDetailsToggle: PropTypes.func.isRequired,
-    spreadMode: PropTypes.bool
-};
-
-export default connect(mapStateToProps, {
-  loadScoreboard,
-  addPick,
-  updatePick,
-  updateGame,
-  showGameDetailsToggle,
-})(withStyles(styles, { withTheme: true })(Scoreboard));
+export default withStyles(styles, { withTheme: true })(Scoreboard);

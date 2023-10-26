@@ -12,113 +12,6 @@ const requestStorageJson = localStorage.getItem('request');
 const requestStorage = JSON.parse(requestStorageJson);
 const leagueId = get(requestStorage, 'leagueId') || '59723313734d1d6202a85f10';
 
-export const scoreboardDomain = (
-  state = Map({ 
-    leagueId,
-    games: List(), 
-    picks: List(),
-    dataLoading: true,
-    loading: true
-  }), 
-  action) => {
-  switch (action.type) {
-    case ActionTypes.GAMEWEEKS_REQUEST:
-      return state.set('dataLoading', true);
-    case ActionTypes.SCOREBOARD_REQUEST:
-      return state.set('dataLoading', get(action,'request.loading') === true).set('leagueId', get(action,'request.leagueId'));
-    case ActionTypes.SCOREBOARD_SUCCESS:
-      if (action.response) {
-        const gameList = get(action, 'response[0].response', []).map(item=>{
-          return Map(item);
-        });
-        const pickList = get(action, 'response[1].response', []).map(item=>{
-          return Map(item);
-        });
-        return state.set('games', List(gameList)).set('picks', List(pickList)).set('dataLoading', false);
-      }
-      return state;
-    case ActionTypes.SCOREBOARD_FAILURE:
-      return state.set('dataLoading', false);
-    case ActionTypes.ADDPICK_SUCCESS:
-      const pickListWithNewValue = state.get('picks').set(state.get('picks').size, Map(action.response).set("inProgress", false));
-      return state.set('picks', pickListWithNewValue)
-    case ActionTypes.UPDATEPICK_REQUEST:
-      const pickListUpdateRequest = state.get('picks').update(
-        state.get('picks').findIndex(function(item) { 
-            return item.get("_id") === action.id; 
-          }), function(item) {
-            return item.set("inProgress", true);
-          }
-      );
-      return state.set('picks', pickListUpdateRequest);
-    case ActionTypes.UPDATEPICK_SUCCESS:
-      const pickListToUpdate = state.get('picks').update(
-        state.get('picks').findIndex(function(item) { 
-            return item.get("gameId") === action.response.gameId; 
-          }), function(item) {
-            return item.set("pickId", action.response.pickId).set("inProgress", false);
-          }
-      );
-      return state.set('picks', pickListToUpdate);
-    case ActionTypes.UPDATEPICK_FAILURE:
-      const pickListUpdateFailure = state.get('picks').update(
-        state.get('picks').findIndex(function(item) { 
-            return item.get("_id") === action.id; 
-          }), function(item) {
-            return item.set("inProgress", false);
-          }
-      );
-      return state.set('picks', pickListUpdateFailure);
-    default:
-      return state;
-  }
-};
-
-export const weeksDomain = (
-  state = Map({ 
-    gameWeeks: List()
-  }), 
-  action) => {
-  switch (action.type) {
-    case ActionTypes.GAMEWEEKS_SUCCESS:
-      if (action.response) {
-        const gameWeekList = action.response.map(item=>{
-          return Map(item);
-        });
-
-        return state.set('gameWeeks', List(gameWeekList));
-      }
-      return state;
-    default:
-      return state;
-  }
-};
-
-export const teamDomain = (
-  state = Map({ 
-    teams: List(), 
-    dataLoading: true
-  }), 
-  action) => {
-  switch (action.type) {
-    case ActionTypes.TEAMS_REQUEST:
-      return state.set('dataLoading', true);
-    case ActionTypes.TEAMS_SUCCESS:
-      if (action.response) {
-        const teamList = action.response.map(item=>{
-          return Map(item);
-        });
-
-        return state.set('teams', List(teamList)).set("dataLoading", false);
-      }
-      return state;
-    case ActionTypes.TEAMS_FAILURE:
-      return state.set('dataLoading', false);
-    default:
-      return state;
-  }
-};
-
 export const articleDomain = (
   state = Map({ 
     articles: List(), 
@@ -147,19 +40,9 @@ export const articleDomain = (
 export const ui = (state = Map({
   request: Map({
     leagueId,
-    showGameDetailsToggle: true
   })
 }), action) => {
   switch (action.type) {
-    case 'SCOREBOARD_REQUEST':
-      localStorage.setItem('request', JSON.stringify(get(action, 'request', {})));
-      return state.set('request', get(action, 'request'));
-    case 'LEADERS_REQUEST':
-      localStorage.setItem('request', JSON.stringify(get(action, 'request', {})));
-      return state.set('request', get(action, 'request'));
-    case 'SHOWGAMEDETAILSTOGGLE':
-      localStorage.setItem('showGameDetailsToggle', get(action, 'flag'));
-      return state.set('showGameDetailsToggle', get(action, 'flag'));
     default:
       return state;
   }
@@ -170,16 +53,4 @@ export const lookup = (state = Map({leagues}), action) => {
     default:
       return state;
   }
-};
-
-export const errorMessage = (state = null, action) => {
-  const { type, error } = action;
-
-  if (type === ActionTypes.RESET_ERROR_MESSAGE) {
-    return null;
-  } else if (error) {
-    return error;
-  }
-
-  return state;
 };

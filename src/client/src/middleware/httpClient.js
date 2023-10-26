@@ -46,8 +46,6 @@ export const Schemas = {
   GAME_ARRAY: [gameSchema],
   PICK: pickSchema,
   PICK_ARRAY: [pickSchema],
-  LEADER: leaderSchema,
-  LEADER_ARRAY: [leaderSchema],
   USER: userSchema,
   USER_ARRAY: [userSchema],
   TEAM: teamSchema,
