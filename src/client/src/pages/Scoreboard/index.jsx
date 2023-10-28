@@ -106,8 +106,6 @@ class Scoreboard extends Component {
         beginDateTime: currentWeek.beginDateTime,
         endDateTime: currentWeek.endDateTime,
       });
-
-      this.startPolling();
     }
 
     if (isAuthenticated) {
@@ -280,12 +278,12 @@ class Scoreboard extends Component {
       groupedGames,
       dataLoading: false,
     }));
+
+    this.startPolling({ games, weeks, leagueId, year, weekId, beginDateTime, endDateTime });
   };
 
-  startPolling = () => {
+  startPolling = ({ games, weeks, leagueId, year, weekId, beginDateTime, endDateTime }) => {
     clearInterval(this.timerID);
-    const { games, weeks, leagueId, year, weekId, beginDateTime, endDateTime } =
-      this.state;
     this.timerID = setInterval(
       () =>
         this.poll({

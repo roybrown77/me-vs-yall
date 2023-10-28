@@ -98,8 +98,6 @@ class Leader extends Component {
         beginDateTime: currentWeek.beginDateTime,
         endDateTime: currentWeek.endDateTime,
       });
-
-      this.startPolling();
     }
 
     const league = leagues.find((league) => league.id === leagueId);
@@ -188,12 +186,12 @@ class Leader extends Component {
       leaders,
       dataLoading: false,
     }));
+
+    this.startPolling({ games, weeks, leagueId, year, weekId, beginDateTime, endDateTime });
   };
 
-  startPolling = () => {
+  startPolling = ({ games, weeks, leagueId, year, weekId, beginDateTime, endDateTime }) => {
     clearInterval(this.timerID);
-    const { games, weeks, leagueId, year, weekId, beginDateTime, endDateTime } =
-      this.state;
     this.timerID = setInterval(
       () =>
         this.poll({
