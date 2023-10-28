@@ -21,36 +21,12 @@ const gameSchema = new schema.Entity('games', {}, {
   idAttribute: game => game._id
 });
 
-const pickSchema = new schema.Entity('picks', {}, {
-  idAttribute: pick => pick._id
-});
-
-const leaderSchema = new schema.Entity('leaders', {}, {
-  idAttribute: leader => leader._id
-});
-
-const userSchema = new schema.Entity('users', {}, {
-  idAttribute: user => user._id
-});
-
-const teamSchema = new schema.Entity('teams', {}, {
-  idAttribute: team => team._id
-});
-
 const articleSchema = new schema.Entity('articles', {}, {
   idAttribute: article => article._id
 });
 
 export const Schemas = {
-  GAME: gameSchema,
   GAME_ARRAY: [gameSchema],
-  PICK: pickSchema,
-  PICK_ARRAY: [pickSchema],
-  USER: userSchema,
-  USER_ARRAY: [userSchema],
-  TEAM: teamSchema,
-  TEAM_ARRAY: [teamSchema],
-  ARTICLE: articleSchema,
   ARTICLE_ARRAY: [articleSchema]
 };
 
