@@ -16,7 +16,7 @@ const {
     ncaaTeams
 } = require('./teams');
 
-// ** game
+const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
 const getVideoStreamUrl = (game) => {
   if (!hasGameStarted(game.startDateTime) || 
@@ -73,8 +73,6 @@ const getVideoStreamUrl = (game) => {
 
   return "https://www.streameast.io/" + url;
 };
-
-// *** multiple
 
 const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
   //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
@@ -384,8 +382,6 @@ const getGames = async ({
   
   return games;
 };
-
-const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
 const formatGames = async ({message, games, leagueId, year, teams, dayCount, shouldLimit = false}) => {
   let formattedGames = [];
