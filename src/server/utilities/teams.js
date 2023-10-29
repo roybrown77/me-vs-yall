@@ -1071,7 +1071,7 @@ const nflTeams = [
         color: "#FFC20E",
         stadiumName: "Heinz Field",
         stadiumCity: "Pittsburgh, PA",
-        emojis: ["🛠️"]
+        emojis: ["🛠️","⚔️","⚒️"]
     },
     {
         _id: "19823783734d1d04a1b39015",
