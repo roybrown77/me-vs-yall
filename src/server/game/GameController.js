@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -105,11 +104,11 @@ const setAmericanFootballPlays = (game) => {
 
       if ((lastPlay || "").toLowerCase().includes('field goal') || 
         (lastPlay || "").toLowerCase().includes('fg')) {
-        game.playHistory[i].lastPlay = lastPlay + " 🥶";
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🥶" : monthDay >= 1024 && monthDay <= 1031 ? " 🧟‍♂️" : " 🥶");
       }
 
       if ((lastPlay || "").toLowerCase().includes('sacked')) {
-        game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " ⚡️🦖" : monthDay >= 1024 && monthDay <= 1031 ? " 🧟‍♂️" : " ⚡️🦖");
       }
 
       if ((lastPlay || "").toLowerCase().includes('pass deep') || 
@@ -507,6 +506,23 @@ router.get('/teams', function (req, res) {
   ];
 
   res.status(200).send(teams);
+});
+
+router.get('/teams:id', function (req, res) {
+  const teams = {
+    '': nflTeams,
+    '': premierLeagueTeams,
+    '': nbaTeams,
+    '': mlbTeams,
+    '': ncaaTeams,
+    '': boxingCompetitors,
+    '': ufcCompetitors,
+    '': mlsTeams,
+    '': nba2kCompetitors,
+    '': wnbaTeams
+  };
+
+  res.status(200).send(teams[req.params.id.toString().toLowerCase()]);
 });
 
 module.exports = router;
