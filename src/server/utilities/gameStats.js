@@ -446,7 +446,7 @@ const teamStatTemplate = {
     //   value: 0,
     //   displayStat: true
     // },
-  };
+};
   
 const getAllTeamStats = (gamesWholeYear) => { 
     let teamStats = {};
@@ -656,9 +656,9 @@ const getAllTeamStats = (gamesWholeYear) => {
     }
   
     return teamStats;
-  };
+};
   
-  const getGameStats = (game, teamStats) => {
+const getGameStats = (game, teamStats) => {
     const stats = [];
   
     if (!['59723313734d1d6202a85f10', '59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
@@ -700,7 +700,7 @@ const getAllTeamStats = (gamesWholeYear) => {
     //console.log("game.stats: ", JSON.stringify(game.stats));
   
     return stats;
-  };
+};
 
   module.exports = {
     getAllTeamStats,
