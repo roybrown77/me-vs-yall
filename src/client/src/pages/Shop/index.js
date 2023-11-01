@@ -76,7 +76,7 @@ const items = [
     id: 5,
     image: stickers,
     name: 'Stickers',
-    price: '$1'
+    price: 'Sold Out'
   }
 ];
 
