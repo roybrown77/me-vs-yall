@@ -332,6 +332,8 @@ class Leader extends Component {
     const areAllGamesOver = getAreAllGamesOver(games);
     const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
 
+    const leaderSummaryPadding = (areAnyGamesInProgress ? .5 : 0) + (spreadMode ? .5 : 0);
+
     return (
       <div>
         <PageContainer>
@@ -550,8 +552,9 @@ class Leader extends Component {
                           <AccordionSummary
                             className={classes.expansionSummary}
                             expandIcon={<ExpandMoreIcon />}
-                          >
-                            <div style={{ display: "flex", paddingBottom: '1.25rem' }}>
+                            styles={{ }}
+                          >                     
+                            <div style={{ display: "flex", paddingBottom: `${leaderSummaryPadding + (leader.percentage ? 1 : 0)}rem` }}>
                               {leader.medal && (
                                 <div style={{ margin: "auto 10px auto 0" }}>
                                   <img

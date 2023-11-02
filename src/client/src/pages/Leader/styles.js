@@ -21,12 +21,10 @@ const styles = theme => ({
       fontSize: '12px',
       fontWeight: '900',
       wordWrap: 'break-word',
-      width: '75px',
       textAlign: 'left'
     },
     expansionSummary: {
-      borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-      paddingBottom: '1rem'
+      borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
     },
     expansionPanelDetails: {
       padding: '8px'
