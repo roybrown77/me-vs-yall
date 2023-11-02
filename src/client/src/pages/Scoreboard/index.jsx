@@ -109,7 +109,21 @@ class Scoreboard extends Component {
     }
 
     if (isAuthenticated) {
-      await this.createUser({ user: getUser() });
+      const createUser = async ({ user }) => {
+        await callApi({
+          method: "GET",
+          endpoint: `/api/usermanagement/users`,
+          body: {
+            sub: user.sub,
+            email: user.email,
+            family_name: user.family_name,
+            given_name: user.given_name,
+            picture: user.picture,
+          },
+        });
+      };
+
+      await createUser({ user: getUser() });
     }
 
     const league = leagues.find((league) => league.id === leagueId);
@@ -131,85 +145,6 @@ class Scoreboard extends Component {
     });
 
     return weeks;
-  };
-
-  updateGame = async (game) => {
-    const gameParams = new URLSearchParams();
-    gameParams.set('id', game.id);
-    gameParams.set('awayScore', game.awayScore);
-    gameParams.set('homeScore', game.homeScore);
-    gameParams.set('awayRank', game.awayRank);
-    gameParams.set('homeRank', game.homeRank);
-    gameParams.set('awayRecord', game.awayRecord);
-    gameParams.set('homeRecord', game.homeRecord);
-    gameParams.set('awaySpread', game.awaySpread);
-    gameParams.set('homeSpread', game.homeSpread);
-    gameParams.set('gameName', game.gameName);
-    gameParams.set('isGameOver', game.isGameOver);
-    gameParams.set('currentTime', game.currentTime);
-    gameParams.set('gameTime', game.gameTime);
-    gameParams.set('liveVideoUrl', game.liveVideoUrl);
-    gameParams.set('highlightVideoUrl', game.highlightVideoUrl);
-    gameParams.set('isHidden', game.isHidden);
-
-    await callApi({
-      method: "PUT",
-      endpoint: `/api/gamemanagement/games/${encodeURIComponent(game.id)}`,
-      body: gameParams
-    });
-  };
-
-  upsertPick = async (id, pick) => {
-    this.setState(() => ({ updatingPick: true }));
-
-    const pickParams = new URLSearchParams();
-    pickParams.set('gameId', pick.gameId);
-    pickParams.set('pickId', pick.pickId);
-
-    await callApi({
-      method: id ? 'PUT' : 'POST',
-      endpoint: id ? `/api/pickmanagement/picks/${encodeURIComponent(id)}` : '/api/pickmanagement/picks',
-      body: pickParams
-    });
-
-    const user = getUser();
-    const userId = get(user, "sub");
-
-    const query = {
-      userId,
-      leagueId: this.state.leagueId,
-      year: this.state.year,
-      weekId: this.state.weekId,
-      beginDateTime: this.state.beginDateTime,
-      endDateTime: this.state.endDateTime,
-    };
-    const picks = await callApi({
-      method: "GET",
-      endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-        query
-      )}`,
-    });
-    const groupedGames = getGroupedGames({
-      games: this.state.games,
-      picks,
-      teams: this.state.teams,
-      spreadMode: getSpreadMode() === "1",
-    });
-    this.setState(() => ({ updatingPick: false, picks, groupedGames }));
-  };
-
-  createUser = async ({ user }) => {
-    await callApi({
-      method: "GET",
-      endpoint: `/api/usermanagement/users`,
-      body: {
-        sub: user.sub,
-        email: user.email,
-        family_name: user.family_name,
-        given_name: user.given_name,
-        picture: user.picture,
-      },
-    });
   };
 
   loadData = async ({
@@ -401,18 +336,6 @@ class Scoreboard extends Component {
     this.setState({ groupedGames });
   };
 
-  handleMakePick = (pick) => {
-    const gameFound = this.state.games.find((x) => x._id === pick.gameId);
-    if (!isAuthenticated || gameFound.isGameOver) return;
-    const pickFound = this.state.picks.find((x) => x.gameId === pick.gameId);
-    this.upsertPick(pickFound?._id, pick);
-  };
-
-  handleUpdateGame = (game) => {
-    if (!isAuthenticated) return;
-    this.updateGame(game);
-  };
-
   handleSharePicks = () => {
     const copyText = document.getElementById("copyInput");
 
@@ -436,6 +359,85 @@ class Scoreboard extends Component {
     this.setState((state) => ({
       openCopyAlert: false,
     }));
+  };
+
+  handleMakePick = (pick) => {
+    const gameFound = this.state.games.find((x) => x._id === pick.gameId);
+    if (!isAuthenticated || gameFound.isGameOver) return;
+    const pickFound = this.state.picks.find((x) => x.gameId === pick.gameId);
+
+    const upsertPick = async (id, pick) => {
+      this.setState(() => ({ updatingPick: true }));
+  
+      const pickParams = new URLSearchParams();
+      pickParams.set('gameId', pick.gameId);
+      pickParams.set('pickId', pick.pickId);
+  
+      await callApi({
+        method: id ? 'PUT' : 'POST',
+        endpoint: id ? `/api/pickmanagement/picks/${encodeURIComponent(id)}` : '/api/pickmanagement/picks',
+        body: pickParams
+      });
+  
+      const user = getUser();
+      const userId = get(user, "sub");
+  
+      const query = {
+        userId,
+        leagueId: this.state.leagueId,
+        year: this.state.year,
+        weekId: this.state.weekId,
+        beginDateTime: this.state.beginDateTime,
+        endDateTime: this.state.endDateTime,
+      };
+      const picks = await callApi({
+        method: "GET",
+        endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+          query
+        )}`,
+      });
+      const groupedGames = getGroupedGames({
+        games: this.state.games,
+        picks,
+        teams: this.state.teams,
+        spreadMode: getSpreadMode() === "1",
+      });
+      this.setState(() => ({ updatingPick: false, picks, groupedGames }));
+    };
+
+    upsertPick(pickFound?._id, pick);
+  };
+
+  handleUpdateGame = (game) => {
+    if (!isAuthenticated) return;
+
+    const updateGame = async (game) => {
+      const gameParams = new URLSearchParams();
+      gameParams.set('id', game.id);
+      gameParams.set('awayScore', game.awayScore);
+      gameParams.set('homeScore', game.homeScore);
+      gameParams.set('awayRank', game.awayRank);
+      gameParams.set('homeRank', game.homeRank);
+      gameParams.set('awayRecord', game.awayRecord);
+      gameParams.set('homeRecord', game.homeRecord);
+      gameParams.set('awaySpread', game.awaySpread);
+      gameParams.set('homeSpread', game.homeSpread);
+      gameParams.set('gameName', game.gameName);
+      gameParams.set('isGameOver', game.isGameOver);
+      gameParams.set('currentTime', game.currentTime);
+      gameParams.set('gameTime', game.gameTime);
+      gameParams.set('liveVideoUrl', game.liveVideoUrl);
+      gameParams.set('highlightVideoUrl', game.highlightVideoUrl);
+      gameParams.set('isHidden', game.isHidden);
+  
+      await callApi({
+        method: "PUT",
+        endpoint: `/api/gamemanagement/games/${encodeURIComponent(game.id)}`,
+        body: gameParams
+      });
+    };
+    
+    updateGame(game);
   };
 
   render() {
