@@ -173,11 +173,6 @@ const setAmericanFootballPlays = (game) => {
         }
       }
 
-      if (lastTime !== lastPlay.slice(0,7)) {
-        lastTime = lastPlay.slice(0,7);
-        playHistory.push(game.playHistory[i]);
-      }
-
       try {
         const yardArray = /for([^yards]+)yards/.exec(lastPlay);
         if (Array(yardArray).length > 0) {
@@ -191,6 +186,13 @@ const setAmericanFootballPlays = (game) => {
       } catch (error) {
         console.log("Error getting plays greater than or equal to 15 yards");
       }
+
+      // if (lastTime !== lastPlay.slice(0,7)) {
+      //   lastTime = lastPlay.slice(0,7);
+      //   playHistory.push(game.playHistory[i]);
+      // }
+
+      playHistory.push(game.playHistory[i]);
     }
 
     game.playHistory = [...new Set(playHistory)];
