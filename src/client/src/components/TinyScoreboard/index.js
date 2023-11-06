@@ -65,7 +65,7 @@ const TinyScoreboard = ({loading, title, games}) => {
                 </div>
                 <div style={styles.gameContainer}>
                 {
-                    (games.length === 0 ? [1] : games).map((game, index) => {
+                    games.map((game, index) => {
                         return (
                             <div key={index} style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
                                 <div style={{display:'flex'}}>
@@ -81,7 +81,7 @@ const TinyScoreboard = ({loading, title, games}) => {
                                     </div>
                                     <div style={{marginRight:'5px', textAlign: 'left'}}>
                                         <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatTime(get(game,'playHistory[0].time')) : ''}
+                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? (game.currentTime?.toLowerCase() === 'halftime' ? 'HT' : formatTime(get(game,'playHistory[0].time'))) : ''}
                                         </div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
                                         <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
