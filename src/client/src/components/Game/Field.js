@@ -42,8 +42,8 @@ import React from 'react';
 // };
 
 const FootballField = (props) => {
-  const [isHeartedLeft, setIsHeartedLeft] = React.useState(false);
-  const [isHeartedRight, setIsHeartedRight] = React.useState(false);
+  const [isHeartedLeft, setIsHeartedLeft] = React.useState(true);
+  const [isHeartedRight, setIsHeartedRight] = React.useState(true);
 
   const [isThrowingRight, setIsThrowingRight] = React.useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = React.useState(false);
