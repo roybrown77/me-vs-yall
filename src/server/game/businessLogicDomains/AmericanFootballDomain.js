@@ -106,7 +106,7 @@ const updateAmericanFootballScores = async ({
     const timezoneOffset = moment().utcOffset()/60;
     const eastCoastHour = hours + (-4 - timezoneOffset);
 
-    if ((eastCoastHour === 2 && minutes > 0 && minutes < 15)|| (eastCoastHour === 14 && minutes > 0 && minutes < 15)) {
+    if ((eastCoastHour === 2 && minutes > 0 && minutes < 15) || (eastCoastHour === 14 && minutes > 0 && minutes < 15)) {
       const search = {
       leagueId: mongoose.Types.ObjectId(leagueId),
         isGameOver: {

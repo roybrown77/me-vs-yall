@@ -184,7 +184,7 @@ const setAmericanFootballPlays = (game) => {
           }
         }
       } catch (error) {
-        console.log("Error getting plays greater than or equal to 15 yards");
+        // console.log("Error getting plays greater than or equal to 15 yards");
       }
 
       // if (lastTime !== lastPlay.slice(0,7)) {
