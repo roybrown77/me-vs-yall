@@ -13,12 +13,6 @@ const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
 
 let router = express.Router();
 
-const getRandomIntInclusive = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-};
-
 router.get('/picks/', async function (req, res) {
     const gameType = req.query.gameType;
     const leagueId = get(req, 'query.leagueId');
@@ -136,13 +130,9 @@ router.get('/picks/', async function (req, res) {
                     const roadPointsScored = gameStats.find(x=>x.name === 'Road Pnts Scrd Avg');
                     const homePointsScored = gameStats.find(x=>x.name === 'Home Pnts Scrd Avg');
 
-                        const date = new Date(game.startDateTime);
-                        date.setMinutes(date.getMinutes() - 300);
-                        const weekday = date.getDay();
-
-                    // const randomValue = getRandomIntInclusive(1,10);
-                    // console.log('randomValue', randomValue);
-                    // if (randomValue === 7) {
+                    const date = new Date(game.startDateTime);
+                    date.setMinutes(date.getMinutes() - 300);
+                    const weekday = date.getDay();
 
                     mvyOffensePicks = {
                         _id: mongoose.Types.ObjectId().toString(),
