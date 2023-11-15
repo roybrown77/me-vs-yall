@@ -242,7 +242,7 @@ class Home extends Component {
           }}>
             <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks, color:'#000'}}>
               <div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/about'}>About</Link></div>
+                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/tips'}>Tips</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/shop'}>Shop</Link></div>
                 <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/play'}>Play</Link></div>
                 <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>
