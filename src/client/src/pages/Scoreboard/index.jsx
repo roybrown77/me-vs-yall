@@ -14,9 +14,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
+import Snackbar from '@material-ui/core/Snackbar';
 import Skeleton from "@material-ui/lab/Skeleton";
 import ToggleOn from "@material-ui/icons/ToggleOn";
 import ToggleOff from "@material-ui/icons/ToggleOff";
+import Share from '@material-ui/icons/ReplyOutlined';
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import PageContainer from "../../components/PageContainer";
@@ -26,8 +28,9 @@ import Game from "../../components/Game";
 import Countdown from "../../components/Countdown";
 import Popover from "../../components/Popover";
 import TinyScoreboard from "../../components/TinyScoreboard";
+import Alert from '../../components/Alert';
 
-import { getPicksNotSelected } from "./utilities";
+import { getPicksNotSelected, getCopiedGamesToShare } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
 import {
@@ -68,8 +71,6 @@ class Scoreboard extends Component {
     const year = last(league.years);
 
     this.state = {
-      openCopyAlert: false,
-
       dataLoading: true,
 
       weeks: [],
@@ -85,7 +86,9 @@ class Scoreboard extends Component {
 
       groupedGames: [],
 
-      updatingPick: false
+      updatingPick: false,
+
+      openGamesCopiedAlert: false
     };
   }
 
@@ -336,31 +339,6 @@ class Scoreboard extends Component {
     this.setState({ groupedGames });
   };
 
-  handleSharePicks = () => {
-    const copyText = document.getElementById("copyInput");
-
-    copyText.select();
-
-    /* for mobile devices */
-    copyText.setSelectionRange(0, 99999);
-
-    document.execCommand("copy");
-
-    this.setState((state) => ({
-      openCopyAlert: true,
-    }));
-  };
-
-  handleCopyAlertClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    this.setState((state) => ({
-      openCopyAlert: false,
-    }));
-  };
-
   handleMakePick = (pick) => {
     const gameFound = this.state.games.find((x) => x._id === pick.gameId);
     if (!isAuthenticated || gameFound.isGameOver) return;
@@ -440,6 +418,39 @@ class Scoreboard extends Component {
     updateGame(game);
   };
 
+  handleShareGames = () => {
+    const { games, picks, teams } = this.state;
+
+    const gamesToShare = getCopiedGamesToShare(games, picks, teams);
+
+    // Create a temporary text area element
+    const textArea = document.createElement('textarea');
+    textArea.value = gamesToShare;
+
+    // Append the text area to the document
+    document.body.appendChild(textArea);
+
+    // Select the text in the text area
+    textArea.select();
+    textArea.setSelectionRange(0, textArea.value.length);
+
+    // Copy the selected text to the clipboard
+    document.execCommand('copy');
+
+    // Remove the temporary text area
+    document.body.removeChild(textArea);
+
+    this.setState(() => ({
+      openGamesCopiedAlert: true
+    }));
+  };
+
+  handleGamesCopiedAlertClose = () => {
+    this.setState(() => ({
+      openGamesCopiedAlert: false
+    }));
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -461,7 +472,10 @@ class Scoreboard extends Component {
       groupedGames,
 
       updatingPick,
+
+      openGamesCopiedAlert,
     } = this.state;
+
     const spreadMode = getSpreadMode() === "1";
     const currentWeek = weeks.find((x) => x._id === weekId);
     const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
@@ -627,27 +641,53 @@ class Scoreboard extends Component {
               **
             </div>
           )}
-          <div
-            onClick={this.handleSpreadToggle}
-            style={{
-              marginTop: "25px",
-              padding: "10px",
-              marginLeft: "auto",
-              textAlign: "right",
-              backgroundColor: "#fff",
-              width: "40px",
-            }}
-          >
-            <div style={{ fontSize: "9px" }}>vs Spread</div>
-            <div>
-              <IconButton
-                className={
-                  spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
-                }
-                aria-label="spreadModeToggle"
+          <div style={{ display: 'flex' }}>
+            {
+              document.queryCommandSupported('copy') && 
+              <div
+                style={{
+                  marginTop: "25px",
+                  marginLeft: "auto",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                }}
               >
-                {spreadMode ? <ToggleOn /> : <ToggleOff />}
-              </IconButton>
+                <div style={{ fontSize: "9px" }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
+                <div>
+                  <IconButton
+                    className={classes.toggleButtonOn}
+                    aria-label={isAuthenticated ? 'share picks': 'share games'}
+                  >
+                    <Share onClick={this.handleShareGames} style={{ '-webkit-transform': 'scaleX(-1)', transform: 'scaleX(-1)' }}/>
+                  </IconButton>
+                  <Snackbar open={openGamesCopiedAlert}>
+                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
+                      {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
+                    </Alert>
+                  </Snackbar>
+                </div>
+              </div>
+            }
+            <div
+              onClick={this.handleSpreadToggle}
+              style={{
+                marginTop: "25px",
+                padding: "10px",
+                backgroundColor: "#fff",
+                marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined
+              }}
+            >
+              <div style={{ fontSize: "9px" }}>vs Spread</div>
+              <div>
+                <IconButton
+                  className={
+                    spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
+                  }
+                  aria-label="toggle spread mode"
+                >
+                  {spreadMode ? <ToggleOn /> : <ToggleOff />}
+                </IconButton>
+              </div>
             </div>
           </div>
           {

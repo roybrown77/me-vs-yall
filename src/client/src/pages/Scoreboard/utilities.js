@@ -10,7 +10,7 @@ const getPicksNotSelected = (games = [], picks = []) => {
     return count;
 };
 
-const copy = (games = [], picks = [], teams = []) => {
+const getCopiedGamesToShare = (games = [], picks = [], teams = []) => {
     const sortedGames = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
     let list = "";
@@ -40,5 +40,5 @@ const copy = (games = [], picks = [], teams = []) => {
 
 export {
     getPicksNotSelected,
-    copy
+    getCopiedGamesToShare
 };
