@@ -1,6 +1,5 @@
 import { Component } from "react";
 import classNames from "classnames";
-import ReactGA from "react-ga";
 import get from "lodash/get";
 import last from "lodash/last";
 import moment from "moment-timezone";
@@ -130,7 +129,6 @@ class Scoreboard extends Component {
     }
 
     const league = leagues.find((league) => league.id === leagueId);
-    ReactGA.ga("send", "pageview", "/scoreboards/" + league.name);
   }
 
   componentWillUnmount() {
@@ -265,7 +263,6 @@ class Scoreboard extends Component {
     const leagueId = leagueSelected;
     const leagueFound = leagues.find((league) => league.id === leagueId);
 
-    ReactGA.ga("send", "pageview", "/leaders/" + leagueFound.name);
     history.push("/leaders/" + leagueFound.name);
 
     const years = get(leagueFound, "years", []);

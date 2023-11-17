@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import ReactGA from 'react-ga';
 
 import PageContainer from '../../components/PageContainer';
 
@@ -19,7 +18,6 @@ const videoUrl = `https://www.youtube.com/embed/k2KTcFctHyU?autoplay=1`;
 
 const Origin = () => {
     useEffect(() => {
-      ReactGA.ga('send', 'pageview', '/origin');
       window.scrollTo(0, 0);
     }, []);
 

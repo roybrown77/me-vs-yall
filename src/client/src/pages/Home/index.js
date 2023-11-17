@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
 import {createBrowserHistory} from 'history';
-import ReactGA from 'react-ga';
 
 import get from 'lodash/get';
 
@@ -128,7 +127,6 @@ class Home extends Component {
     }
 
     componentDidMount() {
-      ReactGA.ga('send', 'pageview', '/');
       window.scrollTo(0, 0);
       this.props.loadGamesInProgress();
     }

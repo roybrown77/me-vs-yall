@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import ReactGA from 'react-ga';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -135,7 +134,6 @@ const stats = [
 
 const About = () => {
   useEffect(() => {
-      ReactGA.ga('send', 'pageview', '/about');
       window.scrollTo(0, 0);
   },[]);
 

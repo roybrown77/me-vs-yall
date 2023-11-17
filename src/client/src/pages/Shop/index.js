@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import ReactGA from 'react-ga';
 import Grid from '@material-ui/core/Grid';
 
 import PageContainer from '../../components/PageContainer';
@@ -82,7 +81,6 @@ const items = [
 
 const Shop = () => {
   useEffect(() => {
-      ReactGA.ga('send', 'pageview', '/shop');
       window.scrollTo(0, 0);
   },[]);
 

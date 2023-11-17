@@ -7,14 +7,13 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ReactGA from 'react-ga';
 
 import Immutable from 'immutable';
 import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 
 import httpClient from './middleware/httpClient';
 import rootReducer from './reducers';
-import {isProduction,googleAnalyticsId} from './config';
+import {isProduction} from './config';
 
 import Home from './pages/Home';
 import Scoreboard from './pages/Scoreboard';
@@ -28,9 +27,6 @@ import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
 import './index.css';
-
-ReactGA.initialize(googleAnalyticsId);
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 const initialState = Immutable.Map();
 

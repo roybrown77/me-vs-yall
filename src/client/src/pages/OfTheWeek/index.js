@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactGA from 'react-ga';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -46,7 +45,6 @@ const styles = {
 
 class OfTheWeek extends React.Component {
   componentDidMount() {
-      ReactGA.ga('send', 'pageview', '/oftheweek');
       window.scrollTo(0, 0);
       this.props.loadArticles();
   }
