@@ -26,8 +26,6 @@ import Contact from './pages/Contact';
 import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
-import './index.css';
-
 const initialState = Immutable.Map();
 
 const composeAll = isProduction ? compose : composeWithDevTools;
