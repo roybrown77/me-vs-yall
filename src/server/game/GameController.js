@@ -53,8 +53,8 @@ const backupData = async () => {
 };
 
 const loadGames = () => {
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/11/year/2023/seasontype/2`;
-  // const DAY_MODULE = 3; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/12/year/2023/seasontype/2`;
+  // const DAY_MODULE = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
   // try {
   //   loadAmericanFootballGames({
