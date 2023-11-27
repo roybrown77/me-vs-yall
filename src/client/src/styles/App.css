@@ -195,6 +195,16 @@ body {
   }
 }
 
+.link-group {
+  color: #000;
+  text-decoration: none !important;
+}
+
+.link-text:hover {
+  color: dodgerblue !important;
+  border-bottom: 1px solid dodgerblue !important;
+}
+
 /* --- splash page end --- */
 
 /* --- header & side bar start --- */
@@ -345,11 +355,6 @@ body {
 }
 
 /* --- leaders page end --- */
-
-a.links:hover {
-  background-color: red !important;
-  padding: "10 20px";
-}
 
 /* --- video stream start --- */
 

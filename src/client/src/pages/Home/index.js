@@ -43,9 +43,11 @@ const styles = {
     color: '#000',
     width: '175px'
   },
-  leagueSelections: {
-    padding:'20px',
-    marginTop: '50px',
+  selections: {
+    marginTop: '4rem',
+    fontSize: '15px',
+    gap: '1rem',
+    display: 'grid'
   },
   footerLinks: {
     padding:'20px',
@@ -54,10 +56,7 @@ const styles = {
     justifyContent: 'center',
   },
   link: {
-    color: '#fff',
-    textDecoration: 'none',
-    fontFamily: 'monospace !important',
-    paddingBottom: '5px',
+    color: '#000',
   },
   toggleOn: {
     color: '#fff',
@@ -122,7 +121,7 @@ class Home extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        darkModeOn: false
+        showInfo: false
       };
     }
 
@@ -143,40 +142,35 @@ class Home extends Component {
       history.push(route);
     };
 
-    handleToggleDarkMode = () => {
+    handleToggleShowInfo = () => {
         this.setState((state) => ({
-            darkModeOn: !state.darkModeOn
+          showInfo: !state.showInfo
         }));
     }
 
     render() {
       const { games } = this.props;
-      const { darkModeOn } = this.state;
+      const { showInfo } = this.state;
 
       const year = moment().format('YYYY');
 
       return (
         <div style={{backgroundColor: 'transparent', fontFamily: 'monospace'}} className="fade-in">
-          {darkModeOn && <div style={{backgroundColor:"black", position: "absolute", width:"100%", height:"100%", opacity: ".9", zIndex:"1"}}>
-          </div>}
-          {!darkModeOn && <div style={{backgroundColor:"transparent", position: "absolute", width:"100%", height:"100%", zIndex:"1"}}>
-            {
-              !darkModeOn &&
-              <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
-                <div style={{marginTop: '2em'}}>
-                  <img style={{height:'137px', width:'275px'}} src={mvy} alt=""/>
-                </div>
-              </Slide>
-            }
-          </div>}
+          <div style={{backgroundColor:"transparent", position: "absolute", width:"100%", height:"100%", zIndex:"1"}}>
+            <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
+              <div style={{marginTop: '2em'}}>
+                <img style={{height:'137px', width:'275px'}} src={mvy} alt=""/>
+              </div>
+            </Slide>
+          </div>
           <div style={{
             bottom: "0",
-            left: "0", 
+            right: "0", 
             position: "fixed",
             zIndex:"777"
           }}>
-            <IconButton style={{fontSize: '10px'}} aria-label="dark mode" onClick={this.handleToggleDarkMode}>
-                {darkModeOn ? <LightOn style={styles.toggleOn}/> : <LightOff style={styles.toggleOff}/>}
+            <IconButton style={{fontSize: '10px'}} aria-label="show info" onClick={this.handleToggleShowInfo}>
+              <LightOff style={styles.toggleOff}/>
             </IconButton>
           </div>
           <div style={{
@@ -186,9 +180,6 @@ class Home extends Component {
             zIndex:"777"
           }}>
           </div>
-          {darkModeOn && <div style={{position: "absolute", width:"100%", height:"100%"}}>
-            <img style={{width:'100%', height: "100%"}} src={getHomePageImage} alt=""/>
-          </div>}
           <div style={{
             color: "#fff",
             padding: "16px",
@@ -197,68 +188,59 @@ class Home extends Component {
             position: "relative",
             left: "0", 
             zIndex:"2",
-            paddingTop: darkModeOn ? "2em" : "5em"
+            paddingTop: "5em"
           }}>
-            <div style={{color: darkModeOn ? '#fff' : '#000', fontSize: '15px'}}>
+            <div style={{color: '#000', fontSize: '15px'}}>
               sports x fun x friends x vegas
             </div>
-            <div style={{marginTop: '10px', color: darkModeOn ? '#fff' : '#000', fontSize: '15px'}}>
+            <div style={{marginTop: '1.5rem', color: '#000', fontSize: '15px'}}>
               <Typer
                 dataText={tagLines} 
               />
             </div>
-            {
-              !this.props.isAuthenticated &&
-              <div style={{...styles.signIn, color: darkModeOn ? '#fff' : '#000', borderColor: darkModeOn ? '#fff' : '#000'}} onClick={googleLogin}>
-                SIGN IN
+            <div style={styles.selections}>
+              <div>
+                <Link className="link-group" onClick={googleLogin}>
+                  <span style={{ marginRight: '1rem' }}>{">"}</span><span className="link-text">Sign In</span>
+                </Link>
               </div>
-            }
-            <div style={darkModeOn ? styles.leagueSelections : {...styles.leagueSelections, color: '#000'}}>
-              <div style={{display: 'inline-flex'}}>
-                {
-                  leagues.map((league, index) => (
-                  <div key={league.id} style={{paddingRight: '10px', marginRight: '10px', borderRight: index === leagues.length-1 ? '' : darkModeOn ? '1px solid #fff' : '1px solid #000', fontSize: '15px'}}>
-                    <Link className="links" style={darkModeOn ? 
-                      {...styles.link, borderBottom: gamesInProgress(games,league.id) ? '10px solid #fff' : ''} : 
-                      {...styles.link, color:league.color, borderBottom: gamesInProgress(games,league.id) ? '10px solid red' : ''}}
-                      to={league.url}>
-                      {league.name}
-                    </Link>
-                  </div>
-                ))}
+              <div>
+                <Link className="link-group" to={"/scoreboards/nfl"}>
+                  <span style={{ marginRight: '1rem' }}>{">"}</span><span className="link-text">View Games</span>
+                </Link>
               </div>
             </div>
           </div>
-          <div style={{
+          {showInfo && <div style={{
             color: "#fff",
             padding: "10px",
             fontSize: "10px",
             bottom: "0",
             position: "fixed",
-            right: "0", 
+            right: "4rem", 
             zIndex:"2"
           }}>
-            <div style={darkModeOn ? styles.footerLinks : {...styles.footerLinks, color:'#000'}}>
+            <div className="link-group" style={{...styles.footerLinks, color:'#000'}}>
               <div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/tips'}>Tips</Link></div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/shop'}>Shop</Link></div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/play'}>Play</Link></div>
-                <div><Link style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/tips'}>Tips</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/shop'}>Shop</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/play'}>Play</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>
               </div>
               <div style={{paddingLeft:'50px'}}>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/origin'}>Origin</Link></div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/contact'}>Contact</Link></div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
-                <div><Link className="links" style={darkModeOn ? styles.link : {...styles.link,color:'#000'}} to={''} onClick={this.gram}>Gram</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/origin'}>Origin</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/contact'}>Contact</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
+                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={''} onClick={this.gram}>Gram</Link></div>
               </div>
             </div>
-            <div style={{color: darkModeOn ? '#fff' : '#000'}}>
+            <div style={{color: '#000'}}>
               <div>© 2017-{year} Me vs Yall</div>
               <div>
                 {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
               </div>
             </div>
-          </div>
+          </div>}
         </div>
       );
     }
