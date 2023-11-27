@@ -10,14 +10,12 @@ import get from 'lodash/get';
 import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
-import LightOn from '@material-ui/icons/EmojiObjectsOutlined';
 import LightOff from '@material-ui/icons/EmojiObjects';
 
 import { loadGamesInProgress } from '../../actions';
 import Typer from './Typer';
 
 import { getAreAnyGamesInProgress } from '../../utilities';
-import { getHomePageImage } from './utilities';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import { isConfirmedAuthentication, googleLogin } from '../../middleware/authenticationClient';
@@ -68,45 +66,6 @@ const styles = {
   }
 };
 
-const leagues = [
-  {
-    name: 'NFL',
-    url: '/scoreboards/nfl',
-    color: '#000',
-    id: '59723313734d1d6202a85f10'
-  },
-  {
-    name: 'NBA',
-    url: '/scoreboards/nba',
-    color: '#000',
-    id: '59723313734d1d6202a85f19'
-  },
-  {
-    name: 'MLB',
-    url: '/scoreboards/mlb',
-    color: '#000',
-    id: '59723313734d1d6202a85f21'
-  },
-  {
-    name: 'CFB',
-    url: '/scoreboards/cfb',
-    color: '#000',
-    id: '59723313734d1d6202a85f15'
-  },
-  {
-    name: 'MMA',
-    url: '/scoreboards/mma',
-    color: '#000',
-    id: '59723313734d1d6202a85f27'
-  },
-  {
-    name: 'BOXING',
-    url: '/scoreboards/boxing',
-    color: '#000',
-    id: '59723313734d1d6202a85f25'
-  }
-];
-
 const gamesInProgress = (games, leagueId) => {
   const filteredGames = games.filter(x=>x.leagueId===leagueId);
   return getAreAnyGamesInProgress(filteredGames);
@@ -155,11 +114,11 @@ class Home extends Component {
       const year = moment().format('YYYY');
 
       return (
-        <div style={{backgroundColor: 'transparent', fontFamily: 'monospace'}} className="fade-in">
-          <div style={{backgroundColor:"transparent", position: "absolute", width:"100%", height:"100%", zIndex:"1"}}>
+        <div style={{ backgroundColor: 'transparent', fontFamily: 'monospace' }} className="fade-in">
+          <div style={{ backgroundColor:"transparent", position: "absolute", width:"100%", height:"100%", zIndex:"1" }}>
             <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
-              <div style={{marginTop: '2em'}}>
-                <img style={{height:'137px', width:'275px'}} src={mvy} alt=""/>
+              <div style={{ marginTop: '2em' }}>
+                <img style={{ height:'137px', width:'275px' }} src={mvy} alt=""/>
               </div>
             </Slide>
           </div>
@@ -169,16 +128,9 @@ class Home extends Component {
             position: "fixed",
             zIndex:"777"
           }}>
-            <IconButton style={{fontSize: '10px'}} aria-label="show info" onClick={this.handleToggleShowInfo}>
+            <IconButton style={{ fontSize: '10px' }} aria-label="show info" onClick={this.handleToggleShowInfo}>
               <LightOff style={styles.toggleOff}/>
             </IconButton>
-          </div>
-          <div style={{
-            bottom: "9em",
-            left: "10px", 
-            position: "fixed",
-            zIndex:"777"
-          }}>
           </div>
           <div style={{
             color: "#fff",
@@ -190,10 +142,10 @@ class Home extends Component {
             zIndex:"2",
             paddingTop: "5em"
           }}>
-            <div style={{color: '#000', fontSize: '15px'}}>
+            <div style={{ color: '#000', fontSize: '15px' }}>
               sports x fun x friends x vegas
             </div>
-            <div style={{marginTop: '1.5rem', color: '#000', fontSize: '15px'}}>
+            <div style={{ marginTop: '1.5rem', color: '#000', fontSize: '15px' }}>
               <Typer
                 dataText={tagLines} 
               />
@@ -201,12 +153,12 @@ class Home extends Component {
             <div style={styles.selections}>
               <div>
                 <Link className="link-group" onClick={googleLogin}>
-                  <span style={{ marginRight: '1rem' }}>{">"}</span><span className="link-text">Sign In</span>
+                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text">Sign In</span>
                 </Link>
               </div>
               <div>
                 <Link className="link-group" to={"/scoreboards/nfl"}>
-                  <span style={{ marginRight: '1rem' }}>{">"}</span><span className="link-text">View Games</span>
+                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text">View Games</span>
                 </Link>
               </div>
             </div>
@@ -227,14 +179,14 @@ class Home extends Component {
                 <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/play'}>Play</Link></div>
                 <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>
               </div>
-              <div style={{paddingLeft:'50px'}}>
+              <div style={{ paddingLeft:'50px' }}>
                 <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/origin'}>Origin</Link></div>
                 <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/contact'}>Contact</Link></div>
                 <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
                 <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={''} onClick={this.gram}>Gram</Link></div>
               </div>
             </div>
-            <div style={{color: '#000'}}>
+            <div style={{ color: '#000' }}>
               <div>© 2017-{year} Me vs Yall</div>
               <div>
                 {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
