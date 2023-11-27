@@ -153,12 +153,12 @@ class Home extends Component {
             <div style={styles.selections}>
               <div>
                 <Link className="link-group" onClick={googleLogin}>
-                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text">Sign In</span>
+                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text-main">Sign In</span>
                 </Link>
               </div>
               <div>
                 <Link className="link-group" to={"/scoreboards/nfl"}>
-                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text">View Games</span>
+                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text-main">View Games</span>
                 </Link>
               </div>
             </div>

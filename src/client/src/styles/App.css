@@ -205,6 +205,12 @@ body {
   border-bottom: 1px solid dodgerblue !important;
 }
 
+.link-text-main:hover {
+  color: dodgerblue !important;
+  border: .5rem solid dodgerblue !important;
+  padding: .25rem;
+}
+
 /* --- splash page end --- */
 
 /* --- header & side bar start --- */
