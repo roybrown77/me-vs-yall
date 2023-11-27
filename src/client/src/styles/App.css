@@ -203,12 +203,14 @@ body {
 .link-text:hover {
   color: dodgerblue !important;
   border-bottom: 1px solid dodgerblue !important;
+  font-weight: bold;
 }
 
 .link-text-main:hover {
   color: dodgerblue !important;
   border: .5rem solid dodgerblue !important;
   padding: .25rem;
+  font-weight: bold;
 }
 
 /* --- splash page end --- */
