@@ -83,14 +83,14 @@ const stats = [
   },
   {
     title: 'SPREAD',
-    content: `The negative number in upper right corner is the spread.  It's what the sportsbook sets so they don't lose money.  This number can change all week as they adjust due to too many bets on one team, injuries, cold weather, 
-              road record, coaching/player experience and other factors.`
+    content: `The negative number in upper right corner is the spread.  It's what the sportsbook sets so they don't lose money.  This number can change all week as they adjust due to too many bets on one team, injuries, weather, 
+              record, coaching/player experience and other factors.`
   },
   {
     title: 'BET EXAMPLE',
     content: `Patriots vs Cowboys with -3 next to Cowboys means Cowboys would need to win by more than 3 points for you to win money if you select Cowboys 
               (the favorite).  If you select Patriots (the underdog), you can win if Cowboys win by less than 3 points, game ties or Patriots win.  Patriots 
-              +3 is the same as Cowboys -3.  If Cowboys win by exactly 3 points sportsbooks call this a pus which refunds the money.  These standards always confuses folks initially including me.  Plus sign means Patriots will give up 3 points and minus 
+              +3 is the same as Cowboys -3.  If Cowboys win by exactly 3 points sportsbooks call this a push which refunds the money.  These standards always confuses folks initially including me.  Plus sign means Patriots will give up 3 points and minus 
               sign means Cowboys will take 3 points.`
   },
   {
