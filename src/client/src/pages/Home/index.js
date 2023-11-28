@@ -73,7 +73,7 @@ const gamesInProgress = (games, leagueId) => {
 
 const tagLines = [
   `"the ultimate sports pick'em game"`,
-  `"your mission should you choose to accept is to pick the perfect week.  correctly pick the winner of every gam this week and you will succeed.  this message will self destruct."`
+  `"your mission should you choose to accept is to pick the perfect week.  correctly pick the winner of every game this week and you will succeed.  this message will self destruct."`
 ];
 
 class Home extends Component {
