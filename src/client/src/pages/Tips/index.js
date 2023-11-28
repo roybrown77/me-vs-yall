@@ -132,7 +132,7 @@ const stats = [
   }
 ];
 
-const About = () => {
+const Tips = () => {
   useEffect(() => {
       window.scrollTo(0, 0);
   },[]);
@@ -142,7 +142,7 @@ const About = () => {
         <PageContainer>
           <div style={styles.titleContainer}>
             <Typography component="h3" align={'left'} style={styles.title}>
-              About
+              Tips
             </Typography>
             <Typography align={'left'} style={styles.contentTitle}>
               Not The Rib Plate Special But Still Nutritious
@@ -172,4 +172,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Tips;
