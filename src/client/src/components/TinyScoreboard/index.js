@@ -47,15 +47,7 @@ const TinyScoreboard = ({loading, title, games}) => {
         }
     };
 
-    if (loading) {
-        return (
-            <div>
-                <Skeleton animation="pulse" height='40px' variant="rect"/>
-            </div>
-        );
-    }
-
-    if (games.length === 0 && !loading) return null;
+    if (games?.length === 0 && !loading) return null;
 
     return (
         <div style={{margin: '0 0 15px 0'}}>
@@ -63,55 +55,64 @@ const TinyScoreboard = ({loading, title, games}) => {
                 <div style={styles.header}>
                     {title}
                 </div>
-                <div style={styles.gameContainer}>
                 {
-                    games.map((game, index) => {
-                        return (
-                            <div key={index} style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
-                                <div style={{display:'flex'}}>
-                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
-                                        <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
-                                            {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
-                                        </div>
-                                        <div style={{height:'14px'}}>{game.competitors[0].shortLocation}</div>
-                                        <div style={{height:'14px'}}>{game.competitors[1].shortLocation}</div>
-                                        <div style={{height:'14px'}}>
-                                            {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
-                                        </div>
-                                    </div>
-                                    <div style={{marginRight:'5px', textAlign: 'left'}}>
-                                        <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? (game.currentTime?.toLowerCase() === 'halftime' ? 'HT' : formatTime(get(game,'playHistory[0].time'))) : ''}
-                                        </div>
-                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
-                                        <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
-                                        <div style={{height:'14px'}}>
-                                            {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
-                                        </div>
-                                    </div>
-                                    <div style={{marginRight:'10px', textAlign: 'right'}}>
-                                        <div style={{height:'14px'}}>
-                                            {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatQuarter(get(game,'playHistory[0].quarter')) : ''}
-                                        </div>
-                                        <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>
-                                            {hasGameStarted(game.startDateTime) ? game.competitors[0].score || 0 : null}
-                                        </div>
-                                        <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>
-                                            {hasGameStarted(game.startDateTime) ? game.competitors[1].score || 0 : null}
-                                        </div>
-                                        <div style={{height:'14px', width:'35px'}}>
-                                            {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href={"#game-" + game._id} style={{textDecoration: 'none'}}>
-                                    <div style={styles.linkToGame}>{hasGameStarted(game.startDateTime) ? game.isGameOver ? 'Recap' : 'Plays' : 'Preview'}</div>
-                                </a>
-                            </div>
-                        )
-                    })
+                    loading && 
+                    <div style={{...styles.gameContainer, padding: '10px', height: '70px', width: '100%' }}>
+                        <Skeleton animation="pulse" height='100%' width='100%' variant="rect"/>
+                    </div>
                 }
-                </div>
+                { 
+                    !loading && 
+                    <div style={styles.gameContainer}>
+                        {
+                            games?.map((game, index) => {
+                                return (
+                                    <div key={index} style={{marginRight: '10px', borderRight: index+1 === games.length ? '' : '1px dashed gray'}}>
+                                        <div style={{display:'flex'}}>
+                                            <div style={{marginRight:'5px', textAlign: 'left'}}>
+                                                <div style={{height:'14px', color: game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? 'red' : ''}}>
+                                                    {game.isGameOver ? 'Final' : hasGameStarted(game.startDateTime) ? 'Live' : ''}
+                                                </div>
+                                                <div style={{height:'14px'}}>{game.competitors[0].shortLocation}</div>
+                                                <div style={{height:'14px'}}>{game.competitors[1].shortLocation}</div>
+                                                <div style={{height:'14px'}}>
+                                                    {Intl.DateTimeFormat(navigator.language, { weekday: 'short' }).format(new Date(game.startDateTime))}
+                                                </div>
+                                            </div>
+                                            <div style={{marginRight:'5px', textAlign: 'left'}}>
+                                                <div style={{height:'14px'}}>
+                                                    {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? (game.currentTime?.toLowerCase() === 'halftime' ? 'HT' : formatTime(get(game,'playHistory[0].time'))) : ''}
+                                                </div>
+                                                <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
+                                                <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
+                                                <div style={{height:'14px'}}>
+                                                    {Intl.DateTimeFormat(navigator.language, { day: 'numeric', month: 'numeric' }).format(new Date(game.startDateTime))}
+                                                </div>
+                                            </div>
+                                            <div style={{marginRight:'10px', textAlign: 'right'}}>
+                                                <div style={{height:'14px'}}>
+                                                    {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatQuarter(get(game,'playHistory[0].quarter')) : ''}
+                                                </div>
+                                                <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>
+                                                    {hasGameStarted(game.startDateTime) ? game.competitors[0].score || 0 : null}
+                                                </div>
+                                                <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>
+                                                    {hasGameStarted(game.startDateTime) ? game.competitors[1].score || 0 : null}
+                                                </div>
+                                                <div style={{height:'14px', width:'35px'}}>
+                                                    {Intl.DateTimeFormat(navigator.language, { hour: 'numeric', hour12: true }).format(new Date(game.startDateTime))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href={"#game-" + game._id} style={{textDecoration: 'none'}}>
+                                            <div style={styles.linkToGame}>{hasGameStarted(game.startDateTime) ? game.isGameOver ? 'Recap' : 'Plays' : 'Preview'}</div>
+                                        </a>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                }
             </div>
         </div>
     );
