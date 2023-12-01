@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -30,12 +28,6 @@ const styles = theme => ({
 });
 
 const GameSearchBar = ({ classes, leagueId, leagues, weekId, yearSelected, weeks, loading, onFilterLeague, onFilterYear, onFilterWeek }) => {
-  const xRef = useRef(leagueId);
-
-  useEffect(() => {
-    xRef.current = leagueId;
-  }, [leagueId]);
-
   const leagueSelected = leagueId && leagues.find(league => league.id === leagueId);
   const leaguesToDisplay = leagueId && leagues.map((league) =><MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>);
 
