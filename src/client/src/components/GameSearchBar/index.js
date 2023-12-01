@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -27,11 +29,18 @@ const styles = theme => ({
   }
 });
 
-const GameSearchBar = ({ classes, leagueId, leagues, yearSelected, weekId, weeks, onFilterLeague, onFilterYear, onFilterWeek }) => {
+const GameSearchBar = ({ classes, leagueId, leagues, weekId, yearSelected, weeks, loading, onFilterLeague, onFilterYear, onFilterWeek }) => {
+  const xRef = useRef(leagueId);
+
+  useEffect(() => {
+    xRef.current = leagueId;
+  }, [leagueId]);
+
   const leagueSelected = leagueId && leagues.find(league => league.id === leagueId);
   const leaguesToDisplay = leagueId && leagues.map((league) =><MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>);
 
   const yearsToDisplay = leagueId && leagueSelected.years.map((year) => <MenuItem key={year} value={year}>{year}</MenuItem>);
+  const isYearFound = leagueId && yearsToDisplay.findIndex(x=>x.key === yearSelected.toString()) !== -1;
 
   const weekIndexSelected = leagueId && weeks.findIndex(x=>x._id === weekId);
   const weeksToDisplay = leagueId && weeks.map((week, index) => <MenuItem key={index} value={index}>{week.displayName}</MenuItem>);
@@ -52,7 +61,7 @@ const GameSearchBar = ({ classes, leagueId, leagues, yearSelected, weekId, weeks
               {!leagueId && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
             </FormControl> 
             <FormControl className={classes.formControl}>
-              {leagueId &&<Select
+              {isYearFound && <Select
                   value={yearSelected}
                   onChange={onFilterYear}
                   displayEmpty
@@ -61,12 +70,12 @@ const GameSearchBar = ({ classes, leagueId, leagues, yearSelected, weekId, weeks
                   >
                   {yearsToDisplay}
               </Select>}
-              {!leagueId && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
+              {!isYearFound && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
             </FormControl>  
         </Grid>
         <Grid item xs={12} justifyContent="center" sm container>
           <FormControl className={classes.formControl}>
-            {(leagueId && weeksToDisplay.length > 0) && <Select
+            {!loading && <Select
                 value={weekIndexSelected}
                 onChange={onFilterWeek}
                 displayEmpty
@@ -76,7 +85,7 @@ const GameSearchBar = ({ classes, leagueId, leagues, yearSelected, weekId, weeks
                 >
                 {weeksToDisplay}
             </Select>}
-            {(!leagueId || weeksToDisplay.length === 0) && <Skeleton animation="pulse" height='40px' variant="rect"/>}
+            {loading && <Skeleton animation="pulse" height='40px' variant="rect"/>}
           </FormControl>
         </Grid>
     </div>
@@ -86,15 +95,18 @@ const GameSearchBar = ({ classes, leagueId, leagues, yearSelected, weekId, weeks
 GameSearchBar.propTypes = {
   leagueId: PropTypes.string,
   leagues: PropTypes.array,
-  year: PropTypes.number,
-  years: PropTypes.array,
   weekId: PropTypes.string,
   weeks: PropTypes.array,
-  dataLoading: PropTypes.bool,
+  yearSelected: PropTypes.number,
+  loading: PropTypes.bool,
   onFilterLeague: PropTypes.func,
   onFilterYear: PropTypes.func,
   onFilterWeek: PropTypes.func,
   classes: PropTypes.object.isRequired,
+};
+
+GameSearchBar.defaultProps = {
+  loading: false,
 };
 
 export default (withStyles(styles, { withTheme: true })(GameSearchBar));

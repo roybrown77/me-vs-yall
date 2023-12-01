@@ -318,8 +318,6 @@ class Leader extends Component {
       leagueId,
       year,
       weekId,
-      beginDateTime,
-      endDateTime,
 
       leaders,
     } = this.state;
@@ -340,8 +338,7 @@ class Leader extends Component {
             yearSelected={year}
             weekId={weekId}
             weeks={weeks}
-            beginDateTime={beginDateTime}
-            endDateTime={endDateTime}
+            loading={dataLoading}
             onFilterLeague={this.handleFilterLeague}
             onFilterYear={this.handleFilterYear}
             onFilterWeek={this.handleFilterWeek}
@@ -464,9 +461,8 @@ class Leader extends Component {
               marginTop: "25px",
               padding: "10px",
               marginLeft: "auto",
-              textAlign: "right",
               backgroundColor: "#fff",
-              width: "40px",
+              width: "57px",
             }}
           >
             <div style={{ fontSize: "9px" }}>vs Spread</div>

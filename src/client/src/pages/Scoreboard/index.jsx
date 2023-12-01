@@ -463,8 +463,6 @@ class Scoreboard extends Component {
       leagueId,
       year,
       weekId,
-      beginDateTime,
-      endDateTime,
 
       groupedGames,
 
@@ -497,21 +495,20 @@ class Scoreboard extends Component {
               loading: dataLoading && !areAnyGamesInProgress,
             }}
           />
-          <TinyScoreboard
+          {!(dataLoading && !areAnyGamesInProgress) && <TinyScoreboard
             {...{
               title: `Game Over`,
               games: groupedGames.completed,
               loading: dataLoading && !areAnyGamesInProgress,
             }}
-          />
+          />}
           <GameSearchBar
             leagueId={leagueId}
             leagues={leagues}
             yearSelected={year}
             weekId={weekId}
             weeks={weeks}
-            beginDateTime={beginDateTime}
-            endDateTime={endDateTime}
+            loading={dataLoading}
             onFilterLeague={this.handleFilterLeague}
             onFilterYear={this.handleFilterYear}
             onFilterWeek={this.handleFilterWeek}
