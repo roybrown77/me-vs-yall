@@ -329,6 +329,8 @@ class Leader extends Component {
 
     const leaderSummaryPadding = (areAnyGamesInProgress ? .5 : 0) + (spreadMode ? .5 : 0);
 
+    const isLoading = dataLoading && !areAnyGamesInProgress;
+
     return (
       <div>
         <PageContainer>
@@ -338,7 +340,7 @@ class Leader extends Component {
             yearSelected={year}
             weekId={weekId}
             weeks={weeks}
-            loading={dataLoading}
+            loading={isLoading}
             onFilterLeague={this.handleFilterLeague}
             onFilterYear={this.handleFilterYear}
             onFilterWeek={this.handleFilterWeek}
@@ -514,7 +516,7 @@ class Leader extends Component {
                 timeout={250}
               >
                 <div className={classes.root}>
-                  {!areAnyGamesInProgress && dataLoading && (
+                  {isLoading && (
                     <div style={{ margin: "10px 0" }}>
                       <Skeleton
                         style={{ margin: "10px 0 0 0" }}
@@ -536,7 +538,7 @@ class Leader extends Component {
                       />
                     </div>
                   )}
-                  {!(!areAnyGamesInProgress && dataLoading) &&
+                  {!isLoading &&
                     leaders.map((leader, index) => (
                       <div className={classes.container} key={leader.id}>
                         <Accordion

@@ -483,6 +483,8 @@ class Scoreboard extends Component {
 
     const disableTie = currentWeek?.disableTie;
 
+    const isLoading = dataLoading && !areAnyGamesInProgress;
+
     return (
       <div>
         <PageContainer>
@@ -490,14 +492,14 @@ class Scoreboard extends Component {
             {...{
               title: `Let's Go!!!`,
               games: groupedGames.notCompleted,
-              loading: dataLoading && !areAnyGamesInProgress,
+              loading: isLoading,
             }}
           />
-          {!(dataLoading && !areAnyGamesInProgress) && <TinyScoreboard
+          {!isLoading && <TinyScoreboard
             {...{
               title: `Game Over`,
               games: groupedGames.completed,
-              loading: dataLoading && !areAnyGamesInProgress,
+              loading: isLoading,
             }}
           />}
           <GameSearchBar
@@ -506,7 +508,7 @@ class Scoreboard extends Component {
             yearSelected={year}
             weekId={weekId}
             weeks={weeks}
-            loading={dataLoading}
+            loading={isLoading}
             onFilterLeague={this.handleFilterLeague}
             onFilterYear={this.handleFilterYear}
             onFilterWeek={this.handleFilterWeek}
@@ -524,7 +526,7 @@ class Scoreboard extends Component {
           {isAuthenticated && (
             <div className={classNames(classes.pickResultContainer)}>
               <PickResult
-                loading={dataLoading && !areAnyGamesInProgress}
+                loading={isLoading}
                 spreadMode={spreadMode}
                 games={groupedGames.completed}
                 picks={picks}
@@ -712,7 +714,7 @@ class Scoreboard extends Component {
                 </Tabs>
               </Box>
               <div className={classes.root}>
-                {!areAnyGamesInProgress && dataLoading && (
+                {isLoading && (
                   <div style={{ margin: "10px 0" }}>
                     <Skeleton animation="pulse" height="5em" variant="rect" />
                     <div style={{ display: "flex" }}>
@@ -733,7 +735,7 @@ class Scoreboard extends Component {
                     </div>
                   </div>
                 )}
-                {!(!areAnyGamesInProgress && dataLoading) &&
+                {!isLoading &&
                   groupedGames.notCompleted.map((game) => {
                     let newGameDate = moment(get(game, "startDateTime")).format(
                       "dddd MMM D YYYY"
@@ -780,7 +782,7 @@ class Scoreboard extends Component {
                       </div>
                     );
                   })}
-                {!(!areAnyGamesInProgress && dataLoading) && (
+                {!isLoading && (
                   <div>
                     {groupedGames.completed.length > 0 && (
                       <div
