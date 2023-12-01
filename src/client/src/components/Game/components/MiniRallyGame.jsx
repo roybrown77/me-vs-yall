@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Field } from "./Field";
+import AmericanFootballField from "./Fields/AmericanFootballField";
 
 const MiniRallyGame = (props) => {
   const [awayScore, setAwayScore] = useState(
@@ -61,9 +61,8 @@ const MiniRallyGame = (props) => {
           </div>
         </div>
       </div>
-      <Field
+      <AmericanFootballField
         {...{
-          leagueId: props?.game?.leagueId,
           away: props.game.competitors[0].shortLocation,
           awayColor: props.game.competitors[0].color,
           home: props.game.competitors[1].shortLocation,
