@@ -113,7 +113,7 @@ class Scoreboard extends Component {
     if (isAuthenticated) {
       const createUser = async ({ user }) => {
         await callApi({
-          method: "GET",
+          method: "POST",
           endpoint: `/api/usermanagement/users`,
           body: {
             sub: user.sub,
@@ -127,8 +127,6 @@ class Scoreboard extends Component {
 
       await createUser({ user: getUser() });
     }
-
-    const league = leagues.find((league) => league.id === leagueId);
   }
 
   componentWillUnmount() {
