@@ -53,7 +53,7 @@ const backupData = async () => {
 };
 
 const loadGames = () => {
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/13/year/2023/seasontype/2`;
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/14/year/2023/seasontype/2`;
   // const DAY_MODULE = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
 
   // try {
