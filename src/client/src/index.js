@@ -55,17 +55,17 @@ render(
             <main>
               <div style={{height:'100%'}}>
                   <Switch>
-                      <Route exact path='/' component={Home}/>
-                      <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
-                      <Route path='/leaders/:leagueName' component={Leader}/>
-                      <Route path='/shop' component={Shop}/>
-                      <Route path='/oftheweek' component={OfTheWeek}/>
-                      <Route path='/tips' component={Tips}/>
-                      <Route path='/origin' component={Origin}/>
-                      <Route path='/play' component={Play}/>
-                      <Route path='/contact' component={Contact}/>
-                      <Route path='/authenticationCallback' component={AuthenticationCallback}/>
-                      <Route path='*' component={Home}/>
+                    <Route exact path='/' component={Home}/>
+                    <Route path='/scoreboards/:leagueName' component={Scoreboard}/>
+                    <Route path='/leaders/:leagueName' component={Leader}/>
+                    <Route path='/shop' component={Shop}/>
+                    <Route path='/oftheweek' component={OfTheWeek}/>
+                    <Route path='/tips' component={Tips}/>
+                    <Route path='/origin' component={Origin}/>
+                    <Route path='/play' component={Play}/>
+                    <Route path='/contact' component={Contact}/>
+                    <Route path='/authenticationCallback' component={AuthenticationCallback}/>
+                    <Route path='*' component={Home}/>
                   </Switch>
               </div>
             </main>
