@@ -53,27 +53,27 @@ const backupData = async () => {
 };
 
 const loadGames = () => {
-  const weekNumber = 16;
-  const seasonNumber = 2;
-  const dayNumber = 4; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
-  const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
+  // const weekNumber = 16;
+  // const seasonNumber = 2;
+  // const dayNumber = 4; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
   
-  try {
-    loadAmericanFootballGames({
-      year: 2023, 
-      message: 'loadNflGames', 
-      leagueId: '59723313734d1d6202a85f10', 
-      url,
-      teams: nflTeams, 
-      root: 'Scoreboard__Row__Main',
-      nameSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
-      spreadSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
-      startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
-      startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
-    });
-  } catch (error) {
-    console.log('loadAmericanFootballGames error', error);
-  }
+  // try {
+  //   loadAmericanFootballGames({
+  //     year: 2023, 
+  //     message: 'loadNflGames', 
+  //     leagueId: '59723313734d1d6202a85f10', 
+  //     url,
+  //     teams: nflTeams, 
+  //     root: 'Scoreboard__Row__Main',
+  //     nameSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
+  //     spreadSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph4.mv4.Scoreboard__Column--2 > div > div.flex.flex-row.justify-between > div',
+  //     startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+  //     startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
+  //   });
+  // } catch (error) {
+  //   console.log('loadAmericanFootballGames error', error);
+  // }
 };
 
 const setAmericanFootballPlays = (game) => {
