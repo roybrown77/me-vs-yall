@@ -6,7 +6,8 @@ const teamStatTemplate = {
     gamesPlayed: {
       name: "Games Played",
       value: 0,
-      displayStat: true
+      displayStat: true,
+      list: []
     },
   
     wins: {
@@ -242,6 +243,12 @@ const getAllTeamStats = (gamesWholeYear) => {
         }
   
         teamStats[game.competitors[i]._id].gamesPlayed.value += 1;
+        const competitor = nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase()).shortLocation;
+        const winStatus = game.competitors[i].score >= game.competitors[1-i].score ? 'W' : 'L';
+        const locationStatus = i === 0 ? '@' : 'vs';
+        const result = `${winStatus} ${game.competitors[i].score || 0}-${game.competitors[1-i].score || 0} ${locationStatus} ${competitor}`;
+        teamStats[game.competitors[i]._id].gamesPlayed.list = [...teamStats[game.competitors[i]._id].gamesPlayed.list, result];
+
         teamStats[game.competitors[i]._id].wins.value += (game.competitors[i].score || 0) > (game.competitors[1-i].score || 0) ? 1 : 0;
         teamStats[game.competitors[i]._id].losses.value += (game.competitors[i].score || 0) < (game.competitors[1-i].score || 0) ? 1 : 0;
         teamStats[game.competitors[i]._id].ties.value += (game.competitors[i].score || 0) === (game.competitors[1-i].score || 0) ? 1 : 0;
@@ -357,18 +364,19 @@ const getGameStats = (game, teamStats) => {
   
         const stat = {
           name: value.name,
-          header: value.header,
           awayTeam:  {
             id: game.competitors[0]._id.toString().toLowerCase(),
             name: game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10' ? nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name : 
             game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f15' ? ncaaTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase()).name : null,
-            value: awayTeamStats[key].value
+            value: awayTeamStats[key].value,
+            list: awayTeamStats[key].list
           },
           homeTeam: {
             id: game.competitors[1]._id.toString().toLowerCase(),
             name: game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10' ? nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name : 
             game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f15' ? ncaaTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()).name : null,
-            value: homeTeamStats[key].value
+            value: homeTeamStats[key].value,
+            list: homeTeamStats[key].list
           }
         };
   

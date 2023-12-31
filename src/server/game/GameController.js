@@ -388,7 +388,7 @@ router.get('/games', async function (req, res) {
       year: year,
       startDateTime: {
         $gt: new Date(moment(year + '0901')),
-        $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')).add('-7','days') : moment())
+        $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')).add('-6','days') : moment())
       },
       isGameOver: true
     };
@@ -413,7 +413,7 @@ router.get('/games', async function (req, res) {
     console.log("time3: ", moment().format());
 
     const teamStats = getAllTeamStats(gamesWholeYear);
-    //console.log("teamStats: ", JSON.stringify(teamStats));
+    // console.log("teamStats: ", JSON.stringify(teamStats));
 
     gamesThisRange.forEach(game=>{
       setAmericanFootballPlays(game);

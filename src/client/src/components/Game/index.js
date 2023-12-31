@@ -306,6 +306,7 @@ class Game extends Component {
 
     return (
       <div id={"game-" + game._id} key={game._id} className={classes.game}>
+        {/* Game Container */}
         <div
           style={{
             zIndex: 3,
@@ -314,6 +315,7 @@ class Game extends Component {
             paddingBottom: "20px",
           }}
         >
+          {/* Game */}
           <Grid key={game._id + "-gridlist"} container className={classes.root}>
             {game.competitors.map((competitor) => (
               <Grid
@@ -332,8 +334,8 @@ class Game extends Component {
               >
                 <Grow in={true} timeout={500}>
                   <Paper className={classNames(classes.paper)}>
-                    {spreadMode && (
-                      <CompetitorHeader {...{ ...props, competitor }} />
+                    {spreadMode 
+                      && (<CompetitorHeader {...{ ...props, competitor }} />
                     )}
                     <Competitor {...{ ...props, competitor }} />
                   </Paper>
@@ -341,6 +343,7 @@ class Game extends Component {
               </Grid>
             ))}
           </Grid>
+          {/* Tie button */}
           {
             isAuthenticated &&
             !hasGameStarted(game.startDateTime) &&
@@ -354,6 +357,7 @@ class Game extends Component {
             !spreadMode &&
             !disableTie && <TieButton {...props} />
           }
+          {/* Field */}
           <div>
             {
               ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(get(game, "leagueId")) &&
@@ -372,8 +376,10 @@ class Game extends Component {
               />
             }
           </div>
+          {/* Footer */}
           <GameFooter {...props} />
         </div>
+        {/* Tabs */}
         <GamePlayTabs {...props} />
       </div>
     );

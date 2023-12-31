@@ -67,7 +67,7 @@ router.get('/picks/', async function (req, res) {
                 year: year,
                 startDateTime: {
                     $gt: new Date(moment(year + '0901')),
-                    $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')).add('-7','days') : moment())
+                    $lt: new Date(get(req, 'query.endDateTime') ? moment(get(req, 'query.endDateTime')).add('-6','days') : moment())
                 },
                 isGameOver: true
             };
