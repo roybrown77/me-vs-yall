@@ -900,7 +900,7 @@ const nflTeams = [
         color: "#A71930",
         stadiumName: "Mercedes-Benz Stadium",
         stadiumCity: "Atlanta, GA",
-        emojis: ["🦅"]
+        emojis: ["🦅","🅰️"]
     },
     {
         _id: "19823783734d1d04a1b39004",
@@ -1168,7 +1168,7 @@ const nflTeams = [
         color: "#003D79",
         stadiumName: "Lucas Oil Stadium",
         stadiumCity: "Indianapolis, IN",
-        emojis: ["🐎"]
+        emojis: ["🐎","🏎"]
     },
     {
         _id: "19823783734d1d04a1b3901f",
