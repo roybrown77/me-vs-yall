@@ -54,8 +54,8 @@ const stats = [
     content: `Me vs Yall allows you to practice betting without losing money.  If you can't win here don't bet real money over there.`
   },
   {
-    title: 'MATH STUDENTS',
-    content: `Pick games are an engaging way to teach students about math, probability and money.`
+    title: 'NFL',
+    content: `Games are added Wednesday morning eastern time zone.`
   },
   {
     title: 'LEADERS',
@@ -64,10 +64,6 @@ const stats = [
   {
     title: 'PICKS',
     content: `You can view another person's picks by tapping their name on Leaders page after game starts.  You can also change your pick until game starts.`
-  },
-  {
-    title: 'NFL',
-    content: `Home teams (team on right) win more than away teams.`
   },
   {
     title: `FILM DON'T LIE`,
@@ -107,12 +103,8 @@ const stats = [
     content: `If picks don't work, check your internet connection.  This is required to save your selection.`
   },
   {
-    title: 'TAP TO VIEW PRIZE AND RULES',
-    content: `If you don't see 'tap to view prize and rules' then there is no prize for that sport that week.`
-  },
-  {
-    title: 'PRIZE POCKETS',
-    content: `Weekly prize amounts depend on what's in our pockets at the time.  Prizes will be sent promptly.`
+    title: 'MATH STUDENTS',
+    content: `Pick games are an engaging way to teach students about math, probability and money.`
   },
   {
     title: 'NO GAME NO PROBLEM',
