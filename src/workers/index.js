@@ -155,16 +155,14 @@ const updateGames = async () => {
     // const weekNumber = regularSeasonWeek < 0 ? 5+regularSeasonWeek : regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
     // const seasonNumber = regularSeasonWeek < 0 ? 1 : regularSeasonWeek <= 18 ? 2 : 3;
 
-    const weekNumber = 17;
+    const weekNumber = 18;
     const seasonNumber = 2;
     const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
 
-    let dayIndex = 1;
+    let dayIndex;
 
     if (eastCoastHour === 9 && minutes > 0 && minutes < 15) {
       dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
-    } else {
-      dayIndex = 1;
     }
 
     if (!dayIndex) {
