@@ -163,6 +163,8 @@ const updateGames = async () => {
 
     if (eastCoastHour === 9 && minutes > 0 && minutes < 15) {
       dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
+    } else {
+      dayIndex = 1;
     }
 
     if (!dayIndex) {
