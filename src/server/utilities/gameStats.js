@@ -249,7 +249,6 @@ const getAllTeamStats = (gamesWholeYear) => {
         const competitor = nflTeams.find(x=>x._id.toString().toLowerCase() === game.competitors[1-i]._id.toString().toLowerCase()).shortLocation;
         const isSpreadValueNegative = game.competitors[1-i]._id.toString().toLowerCase() === game.spread?.teamId?.toString();
         const spread = game.spread?.amount ? (isSpreadValueNegative ? game.spread?.amount : -1*game.spread?.amount) : null;
-        console.log('spread', game.spread?.amount, spread, isSpreadValueNegative);
         const result = `${winStatus} ${game.competitors[i].score || 0}-${game.competitors[1-i].score || 0} ${locationStatus} ${competitor} ${isSpreadValueNegative ? '' : '+'}${spread}`;
     
         teamStats[game.competitors[i]._id].gamesPlayed.list = [...teamStats[game.competitors[i]._id].gamesPlayed.list, result];
