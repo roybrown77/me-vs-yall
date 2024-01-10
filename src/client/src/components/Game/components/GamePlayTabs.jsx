@@ -138,7 +138,7 @@ const GamePlayTabs = (props) => {
             <div style={{ padding: "0.625rem" }}>
               <div style={{ display: "flex" }}>
                 <div style={{ height: "1.5rem" }}></div>
-                <div style={{ position: "absolute", right: "7.25rem" }}>
+                <div style={{ position: "absolute", right: "9.25rem" }}>
                   {game.stats[0].awayTeam.name}
                 </div>
                 <div style={{ position: "absolute", right: "0.625rem" }}>
@@ -149,7 +149,7 @@ const GamePlayTabs = (props) => {
                 <div key={game._id + '-' + stat.name} style={{ height: stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] && stat.homeTeam?.list?.length > 0 ? `${stat.homeTeam.list.length*.9 + 2}rem` : '' }}>
                   <div style={{ display: "flex" }}>
                     <div style={{ cursor: 'pointer', height: '100%' }} onClick={() => stat.name === 'Games Played' ? handleShowGamesPlayedDetail(game._id) : null}>{stat.name} {stat.name === 'Games Played' ? showGamesPlayedDetail?.[game._id] ? '-' : '+' : ''}</div>
-                    <div style={{ position: "absolute", right: "7.25rem" }}>
+                    <div style={{ position: "absolute", right: "9.25rem" }}>
                       <div style={{ textAlign: 'right' }}>{stat.awayTeam.value}</div>
                       {
                         stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] &&
