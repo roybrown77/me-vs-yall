@@ -146,7 +146,7 @@ const GamePlayTabs = (props) => {
                 </div>
               </div>
               {(game.stats || []).map((stat) => (
-                <div key={game._id + '-' + stat.name} style={{ height: stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] && stat.homeTeam?.list?.length > 0 ? `${stat.homeTeam.list.length*1 + 2}rem` : '' }}>
+                <div key={game._id + '-' + stat.name} style={{ height: stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] && stat.homeTeam?.list?.length > 0 ? `${stat.homeTeam.list.length*.9 + 2}rem` : '' }}>
                   <div style={{ display: "flex" }}>
                     <div style={{ cursor: 'pointer', height: '100%' }} onClick={() => stat.name === 'Games Played' ? handleShowGamesPlayedDetail(game._id) : null}>{stat.name} {stat.name === 'Games Played' ? showGamesPlayedDetail?.[game._id] ? '-' : '+' : ''}</div>
                     <div style={{ position: "absolute", right: "7.25rem" }}>
