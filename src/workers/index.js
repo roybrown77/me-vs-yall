@@ -155,9 +155,10 @@ const updateGames = async () => {
     // const weekNumber = regularSeasonWeek < 0 ? 5+regularSeasonWeek : regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
     // const seasonNumber = regularSeasonWeek < 0 ? 1 : regularSeasonWeek <= 18 ? 2 : 3;
 
-    const weekNumber = 1;
+    const year = 2023;
     const seasonNumber = 3;
-    const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
+    const weekNumber = 1;
+    const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonNumber}`;
 
     let dayIndex;
 
@@ -176,7 +177,7 @@ const updateGames = async () => {
 
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10', 
-      year: 2023, 
+      year, 
       message: 'updateNflScores',
       url: url, 
       teams: nflTeams,
@@ -203,7 +204,7 @@ const updateGames = async () => {
       finalScoreSelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
     });
   } else if (games.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19')) {
-    updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year:  2023, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
+    updateBasketballScores({leagueId: '59723313734d1d6202a85f19', year, message: 'updateNbaGames', url: 'http://www.espn.com/nba/scoreboard/_/date/', teams: nbaTeams});
   } else if (games.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21')) {
     updateMlbScores({leagueId: '59723313734d1d6202a85f21', year:  parseInt(moment().format('YYYY')), message: 'updateMlbGames', url: 'http://www.espn.com/mlb/scoreboard/_/date/', teams: mlbTeams});
   } else {

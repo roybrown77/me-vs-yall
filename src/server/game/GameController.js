@@ -53,14 +53,15 @@ const backupData = async () => {
 };
 
 const loadGames = () => {
-  // const weekNumber = 1;
+  // const year = 2023;
   // const seasonNumber = 3;
+  // const weekNumber = 2;
   // const dayNumber = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/2023/seasontype/${seasonNumber}`;
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonNumber}`;
   
   // try {
   //   loadAmericanFootballGames({
-  //     year: 2023, 
+  //     year,
   //     message: 'loadNflGames', 
   //     leagueId: '59723313734d1d6202a85f10', 
   //     url,
