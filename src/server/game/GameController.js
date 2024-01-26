@@ -54,10 +54,10 @@ const backupData = async () => {
 
 const loadGames = () => {
   // const year = 2023;
-  // const seasonNumber = 3;
-  // const weekNumber = 2;
+  // const seasonType = 3;
+  // const weekNumber = 3;
   // const dayNumber = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonNumber}`;
+  // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonType}`;
   
   // try {
   //   loadAmericanFootballGames({
