@@ -32,6 +32,6 @@
     "prod-worker": "node --expose-gc --inspect --optimize_for_size --max_old_space_size=460 --gc_interval=100 src/workers",
     "client": "nodemon start-client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
-    "heroku-postbuild": "cd src/client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "npm install react-scripts && cd src/client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   }
 }
