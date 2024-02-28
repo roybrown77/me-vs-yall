@@ -157,7 +157,7 @@ const updateGames = async () => {
 
     const year = 2023;
     const seasonType = 3;
-    const weekNumber = 3;
+    const weekNumber = 5;
     const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonType}`;
 
     let dayIndex;
