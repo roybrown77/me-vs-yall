@@ -19,9 +19,6 @@
     "concurrently": "7.3.0",
     "nodemon": "2.0.19"
   },
-  "engines": {
-    "node": ">=16.20.2"
-  },
   "scripts": {
     "start_local": "concurrently \"npm run local-server\" \"npm run client\"",
     "local-server": "node --expose-gc --inspect --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config src/server",
