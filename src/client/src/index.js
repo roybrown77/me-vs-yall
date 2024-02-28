@@ -5,7 +5,6 @@ import { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Immutable from 'immutable';
@@ -13,7 +12,6 @@ import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 
 import httpClient from './middleware/httpClient';
 import rootReducer from './reducers';
-import {isProduction} from './config';
 
 import Home from './pages/Home';
 import Scoreboard from './pages/Scoreboard';
@@ -28,12 +26,10 @@ import AuthenticationCallback from './pages/AuthenticationCallback';
 
 const initialState = Immutable.Map();
 
-const composeAll = isProduction ? compose : composeWithDevTools;
-
 const store = createStore(
   rootReducer,
   initialState,
-  composeAll(
+  compose(
     applyMiddleware(
       thunkMiddleware,
       httpClient
