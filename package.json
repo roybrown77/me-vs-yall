@@ -16,7 +16,7 @@
     "puppeteer-core": "^16.2.0"
   },
   "devDependencies": {
-    "concurrently": "7.3.0",
+    "concurrently": "8.2.2",
     "nodemon": "2.0.22"
   },
   "engines": {
