@@ -214,6 +214,7 @@ const getGames = async ({
       pipe: true,
       ignoreHTTPSErrors: true,
       executablePath: revisionInfo.executablePath,
+      headless: false,
     });
 
     page = await browser.newPage();
