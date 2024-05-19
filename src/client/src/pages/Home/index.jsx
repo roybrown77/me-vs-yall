@@ -12,10 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
 import LightOff from '@material-ui/icons/EmojiObjects';
 
-import { loadGamesInProgress } from '../../actions';
 import Typer from './Typer';
-
-import { getAreAnyGamesInProgress } from '../../utilities';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import { isConfirmedAuthentication, googleLogin } from '../../middleware/authenticationClient';
@@ -66,11 +63,6 @@ const styles = {
   }
 };
 
-const gamesInProgress = (games, leagueId) => {
-  const filteredGames = games.filter(x=>x.leagueId===leagueId);
-  return getAreAnyGamesInProgress(filteredGames);
-};
-
 const tagLines = [
   `"the ultimate sports pick'em game"`,
   `"your mission, should you choose to accept it, is to pick the perfect week.  correctly pick the winner of every game this week and you will succeed.  it's one of the toughest things to do in the universe.  this message will self destruct."`
@@ -86,7 +78,6 @@ class Home extends Component {
 
     componentDidMount() {
       window.scrollTo(0, 0);
-      this.props.loadGamesInProgress();
     }
 
     gram = () => {
@@ -217,8 +208,7 @@ const mapStateToProps = (state, ownProps) => {
 Home.propTypes = {
     classes: PropTypes.object.isRequired,
     games: PropTypes.array,
-    isAuthenticated: PropTypes.bool.isRequired,
-    loadGamesInProgress: PropTypes.func.isRequired
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
-export default connect(mapStateToProps, {loadGamesInProgress})(withStyles(styles, { withTheme: true })(Home));
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(Home));

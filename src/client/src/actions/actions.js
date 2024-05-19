@@ -17,14 +17,6 @@ export const ActionTypes = {
   GAMESINPROGRESS_FAILURE: 'GAMESINPROGRESS_FAILURE',
 };
 
-const fetchGamesInProgress = () => ({
-  [CALL_API]: {
-    types: [ ActionTypes.GAMESINPROGRESS_REQUEST, ActionTypes.GAMESINPROGRESS_SUCCESS, ActionTypes.GAMESINPROGRESS_FAILURE ],
-    endpoint: `/api/gamemanagement/gamesInProgress`,
-    schema: Schemas.GAME_ARRAY
-  }
-});
-
 const fetchArticles = query => ({
   [CALL_API]: {
     types: [ ActionTypes.ARTICLES_REQUEST, ActionTypes.ARTICLES_SUCCESS, ActionTypes.ARTICLES_FAILURE ],
@@ -53,10 +45,6 @@ export const loadUser = () => (dispatch, getState) => {
     dispatch({type: 'LOGIN_SUCCESS', user: profile});
     refreshHistory.push('/scoreboards/' + leagueName);
   });
-};
-
-export const loadGamesInProgress = () => (dispatch, getState) => {
-  dispatch(fetchGamesInProgress());
 };
 
 export const loadArticles = (query, requiredFields = []) => (dispatch, getState) => {
