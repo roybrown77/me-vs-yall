@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import moment from 'moment-timezone';
-import PropTypes from 'prop-types';
 import {createBrowserHistory} from 'history';
 
-import get from 'lodash/get';
-
-import { withStyles } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
 import LightOff from '@material-ui/icons/EmojiObjects';
@@ -15,7 +10,7 @@ import LightOff from '@material-ui/icons/EmojiObjects';
 import Typer from './Typer';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
-import { isConfirmedAuthentication, googleLogin } from '../../middleware/authenticationClient';
+import { googleLogin } from '../../middleware/authenticationClient';
 
 const history = createBrowserHistory({forceRefresh: true});
 
@@ -99,7 +94,6 @@ class Home extends Component {
     }
 
     render() {
-      const { games } = this.props;
       const { showInfo } = this.state;
 
       const year = moment().format('YYYY');
@@ -194,21 +188,4 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const homePageDomain = state.get('homePageDomain').toJS();
-    const games = get(homePageDomain, 'games', []);
-    const isAuthenticated = isConfirmedAuthentication();
-
-    return {
-      isAuthenticated,
-      games
-    }
-};
-
-Home.propTypes = {
-    classes: PropTypes.object.isRequired,
-    games: PropTypes.array,
-    isAuthenticated: PropTypes.bool.isRequired
-};
-
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(Home));
+export default Home;

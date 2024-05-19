@@ -6,11 +6,9 @@ import {
   lookup,
 } from './reducers';
 
-import { homePageDomain } from './homePage';
 import { authenticationDomain } from './authentication';
 
 const rootReducer = combineReducers({
-  homePageDomain,
   authenticationDomain,
   articleDomain,
   ui,
