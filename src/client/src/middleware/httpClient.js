@@ -2,7 +2,7 @@ import { getAccessToken } from './authenticationClient';
 import { schema } from 'normalizr';
 import axios from 'axios';
 
-const callApi = ({endpoint, method, body, schema}) => {  
+const callApi = ({endpoint, method, body}) => {  
   return axios({
         url: endpoint,
         headers: {
@@ -33,13 +33,13 @@ export const Schemas = {
 export const CALL_API = 'Call API';
 
 const NEXT_ACTION = store => next => action => {
-  const callAPI = action[CALL_API];
-  if (typeof callAPI === 'undefined') {
+  const callAPIAction = action[CALL_API];
+  if (typeof callAPIAction === 'undefined') {
     return next(action);
   }
 
-  let { endpoint } = callAPI;
-  const { method, body, schema, types } = callAPI;
+  let { endpoint } = callAPIAction;
+  const { method, body, schema, types } = callAPIAction;
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState());
@@ -67,7 +67,7 @@ const NEXT_ACTION = store => next => action => {
   const [ requestType, successType, failureType ] = types;
   next(actionWith({ type: requestType }));
 
-  return callApi({endpoint, method, body, schema}).then(
+  return callApi({endpoint, method, body}).then(
     response => next(actionWith({
       response,
       type: successType
