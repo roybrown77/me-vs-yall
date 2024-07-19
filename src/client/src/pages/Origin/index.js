@@ -29,9 +29,6 @@ const Origin = () => {
             <div style={{textAlign: 'left', padding: '12px'}}>
                 {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
             </div>
-            <div style={{marginTop:'24px'}}>
-                <iframe style={{borderStyle:'none'}} width="320" height="215" title="Los D Baya" src={videoUrl} />
-            </div>
         </PageContainer>
     );
 };
