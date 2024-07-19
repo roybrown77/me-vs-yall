@@ -65,12 +65,6 @@ export const isLoggedIn = () => {
   return result;
 };
 
-export const requireAuth = (nextState, replace) => {
-  if (!isLoggedIn()) {
-    replace({pathname: '/'});
-  }
-};
-
 export const setConfirmedContinueAuthentication = (value) => {
   return localStorage.setItem('confirmedContinueAuthentication', value ? '1' : '0');
 };
