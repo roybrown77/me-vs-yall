@@ -534,7 +534,7 @@ const getScoreSetItem = async ({
     pregameNameSelector,
     recordSelector,
     liveQuarterSelector,
-    liveTotalSelector,
+    liveScoreSelector,
     liveNameSelector,
     livePlaySelector,
     liveCurrentTimeSelector,
@@ -681,7 +681,7 @@ const getScoreSetItem = async ({
         } else {
           return element ? element.innerHTML : null;
         }
-      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
 
       const awayInProgressNamePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
@@ -726,7 +726,7 @@ const getScoreSetItem = async ({
         } else {
           return element ? element.innerHTML : null;
         }
-      }, liveTotalSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
 
       const homeInProgressNamePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
@@ -848,7 +848,7 @@ const getScores = async ({
     spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
     pregameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
-    liveTotalSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
+    liveScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
     liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
     liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
     liveDownSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down',
@@ -954,7 +954,7 @@ const getScores = async ({
       spreadSelector,
       pregameNameSelector,
       liveQuarterSelector,
-      liveTotalSelector,
+      liveScoreSelector,
       liveNameSelector,
       livePlaySelector,
       liveCurrentTimeSelector,
