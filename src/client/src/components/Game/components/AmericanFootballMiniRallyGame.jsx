@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import AmericanFootballField from "./Fields/AmericanFootballField";
 
-const MiniRallyGame = (props) => {
+const AmericanFootballMiniRallyGame = (props) => {
   const [awayScore, setAwayScore] = useState(
     props.game.competitors[0].score || 0
   );
@@ -86,4 +86,4 @@ const MiniRallyGame = (props) => {
   );
 };
 
-export default MiniRallyGame;
+export default AmericanFootballMiniRallyGame;
