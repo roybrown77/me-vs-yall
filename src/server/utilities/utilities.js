@@ -836,10 +836,6 @@ const getScores = async ({
 };
 
 const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []}) => {
-    const multiplePreGames = [];
-    const multipleFinalGames = [];
-  
-
     scoreSet.forEach(scores=>{
       const sortedScores = scores.reverse();
 
@@ -848,8 +844,6 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           const awayShortLocation = leagueId === '59723313734d1d6202a85f10' ? get(awayTeam,'alternateName') || get(awayTeam,'name') : get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
           const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
           const homeShortLocation = leagueId === '59723313734d1d6202a85f10' ? get(homeTeam,'alternateName') || get(homeTeam,'name') : get(homeTeam,'alternateName') || get(homeTeam,'shortLocation');
-
-          let preGameScore = 0;
 
           console.log(`${message} awayShortLocation: ${JSON.stringify(awayShortLocation)}`);
           console.log(`${message} homeShortLocation: ${JSON.stringify(homeShortLocation)}`);
