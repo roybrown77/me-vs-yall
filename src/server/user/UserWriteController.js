@@ -24,8 +24,6 @@ router.post('/users/', function (req, res) {
             picture: get(user, 'picture'),
         };
 
-    // console.log('userToUpsert: ' + JSON.stringify(userToUpsert));
-
     userRepository.findOneAndUpdate({authServiceId: userToUpsert.authServiceId}, userToUpsert, {upsert: true}, (err, user) => {
         if (err) return res.status(500).send("There was a problem upserting the user to the database.");
         console.log('user: ' + JSON.stringify(user));
@@ -41,10 +39,6 @@ router.put('/users/:id', function (req, res) {
 });
 
 router.delete('/users/:id', function (req, res) {
-    // userRepository.findByIdAndUpdate(req.params.id, req.body, {}, function (err, user) {
-    //     if (err) return res.status(500).send("There was a problem deleting the user.");
-    //     res.status(200).send(user);
-    // });
 });
 
 module.exports = router;

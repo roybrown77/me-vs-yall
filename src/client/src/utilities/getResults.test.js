@@ -1,5 +1,3 @@
-//import {getResults} from "./index";
-
 describe("Get Results", () => {
 	it('when no games selected', () => {
 		expect(1).toEqual(1);

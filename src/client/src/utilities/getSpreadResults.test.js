@@ -1,5 +1,3 @@
-//import {getSpreadResults} from "./index";
-
 describe("Get Spread Results", () => {
 	it('when no games selected', () => {
 		expect(1).toEqual(1);

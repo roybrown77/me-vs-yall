@@ -45,12 +45,8 @@ const loadMlbGames = async ({dayCount, shouldLimit, leagueId, year, message, bas
     isUpdateMlbScoresRunning = false;
     return;
   }
-
-  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = await formatGames({games, leagueId, year, teams, dayCount, shouldLimit});
-
-  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 
@@ -89,14 +85,6 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     const timezoneOffset = moment().utcOffset()/60;
     const hoursOffset = hours+(-1*timezoneOffset);
     const eastCoastHour = hours + (-4 - timezoneOffset);
-
-    // console.log('monthDay: ' + monthDay);
-    // console.log('currentWeekDay: ' + currentWeekDay);
-    // console.log('hours: ' + hours);
-    // console.log('minutes: ' + minutes);
-    // console.log('timezoneOffset: ' + timezoneOffset);
-    // console.log('hoursOffset: ' + hoursOffset);
-    // console.log('eastCoastHour: ' + eastCoastHour);
 
     if (eastCoastHour === 7 && minutes > 20 && minutes < 25) {
       const search = {
@@ -139,9 +127,6 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     isUpdateMlbScoresRunning = false;
     return;
   }
-
-  //console.log(`${message} games: ${JSON.stringify(games)}`);
-  //console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
 
   await updateGames({
     message,

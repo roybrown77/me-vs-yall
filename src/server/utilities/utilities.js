@@ -23,11 +23,8 @@ const getVideoStreamUrl = (game) => {
     game.isGameOver ||
     !['59723313734d1d6202a85f10',
       '59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
-      //console.log("invalid url scenario");
       return null;
   }
-
-  //console.log("url 1");
 
   let leagueName = "";
   let teams = [];
@@ -75,13 +72,6 @@ const getVideoStreamUrl = (game) => {
 };
 
 const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
-  //console.log(`${message} playHistory: ${JSON.stringify(playHistory)}`);
-  //console.log(`${message} lastPlay: ${JSON.stringify(lastPlay)}`);
-  //console.log(`${message} currentTime: ${JSON.stringify(currentTime)}`);
-  //console.log(`${message} leagueId: ${JSON.stringify(leagueId)}`);
-
-  //console.log("lastPlay 1: " + lastPlay);
-
   if (leagueId === '59723313734d1d6202a85f21') {
     const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
@@ -139,19 +129,6 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
     return playHistory;
   }
 
-  // const lastPlayHalf = lastPlay.slice(0,(lastPlay.length%2 ? lastPlay.length-1/2 : lastPlay.length/2));
-
-  // const checkLastPlayHalf = playHistory.find(x=>get(x,'lastPlay',"").includes(lastPlayHalf));
-
-  // if (get(checkLastPlayHalf,'quarter') === currentTime) {
-  //     console.log(`${message} getPlayHistory: duplicate found 3`);
-  //     return playHistory;
-  // }
-
-  // console.log("quarter: " + quarter);
-  // console.log("time: " + time);
-  // console.log("lastPlay 2: " + lastPlay);
-
   const newPlayHistory = orderBy([
     ...playHistory,
     {
@@ -160,13 +137,6 @@ const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", cur
       lastPlay
     }
   ], ['quarter', 'time'], ['desc', 'asc']);
-
-  // if (newPlayHistory.length >= 2) {
-  //   if (newPlayHistory[0].lastPlay.toLowerCase() === newPlayHistory[1].lastPlay.toLowerCase()) {
-  //     console.log(`${message} getPlayHistory: duplicate found 4`);
-  //     return playHistory;
-  //   }
-  // }
   
   return newPlayHistory;
 };
@@ -175,7 +145,6 @@ const hasGameStarted = (dateTime) => {
     const gameStartDateTime = moment(new Date(dateTime));
     const currentDateTime = moment(new Date());
     const difference = gameStartDateTime.diff(currentDateTime,'seconds');
-    //console.log("start time difference: " + difference);
     return difference < 5;
 };
 
@@ -205,11 +174,6 @@ const getGames = async ({
     const revisionInfo = await browserFetcher.download(1022525);
 
     browser = await puppeteer.launch({
-      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      // defaultViewport: {
-      //   width: 1500,
-      //   height: 1000
-      // },
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
@@ -230,8 +194,6 @@ const getGames = async ({
 
     await page.goto(url, { waitUntil: 'networkidle2' });
 
-    // await page.waitForSelector('#events'/*,{visible: true}*/);
-
     const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
     }, root);
@@ -239,17 +201,6 @@ const getGames = async ({
     console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
-      // try {
-      //   if (page !== null) {
-      //     const pageCloseResult = await page.close();
-      //     console.log(`pageCloseResult 1: ${JSON.stringify(pageCloseResult)}`);
-      //     console.log(`${message} page finally 1: ${err.message}`);
-      //     page = null;
-      //   }
-      // } catch (error) {
-      //   console.log(`pageCloseResult finally error 1: `, error);
-      // }
-  
       try {
         if (!!browser) {
           const browserCloseResult = await browser.close();
@@ -358,16 +309,6 @@ const getGames = async ({
   } catch (err) {
     console.log(`${message} getGames browser error 2: `, err);
   } finally {
-    // try {
-    //   if (page !== null) {
-    //     const pageCloseResult = await page.close();
-    //     console.log(`pageCloseResult 2: ${JSON.stringify(pageCloseResult)}`);
-    //     page = null;
-    //   }
-    // } catch (error) {
-    //   console.log(`pageCloseResult finally error 2: `, error);
-    // }
-
     try {
       if (!!browser) {
         const browserCloseResult = await browser.close();
@@ -378,8 +319,6 @@ const getGames = async ({
       console.log(`browser finally error 2: `, error);
     } 
   }
-
-  //console.log("games: " + JSON.stringify(games));
   
   return games;
 };
@@ -392,9 +331,6 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
     teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
     const homeTeam = leagueId === '59723313734d1d6202a85f10' ? teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.name === game.homeTeam) : 
     teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
-    
-    //console.log("awayTeam: " + JSON.stringify(awayTeam));
-    //console.log("homeTeam: " + JSON.stringify(homeTeam));
 
     if (!awayTeam || !homeTeam) {
         console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
@@ -409,13 +345,7 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
           ];
 
           const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'));
-
-          //console.log(`${message} formatGames game: ${JSON.stringify(game)}`);
-          //console.log(`${message} formatGames spreadTeam: ${JSON.stringify(spreadTeam)}`);
-
           const amount = (get(game,'spread.amount') || 0);
-          
-          //console.log(`${message} formatGames away/home found: ${JSON.stringify(game)}`);
 
           formattedGames.push({
             leagueId: mongoose.Types.ObjectId(leagueId),
@@ -434,53 +364,6 @@ const formatGames = async ({message, games, leagueId, year, teams, dayCount, sho
     }
   });
 
-  // if (shouldLimit && formattedGames.length > 0) {
-  //   const searchGamesWithinRange = {
-  //     leagueId: mongoose.Types.ObjectId(leagueId),
-  //     startDateTime: {
-  //       $gte: new Date(moment().add(-1 * (6-dayCount),'days')),
-  //       $lte: new Date(moment().add(dayCount,'days'))
-  //     },
-  //     year: year
-  //   };
-
-  //   const gamesForTeamsToSkip = await gameRepository.find(searchGamesWithinRange);
-
-  //   let teamsToSkip = new Set();
-
-  //   for (let i = 0; i < gamesForTeamsToSkip.length; i++) {
-  //     teamsToSkip.add(gamesForTeamsToSkip[i].competitors[0]._id);
-  //     teamsToSkip.add(gamesForTeamsToSkip[i].competitors[1]._id);
-  //   }
-
-  //   const maxLength = 3;
-  //   let count = 0;
-    
-  //   for (let i = 0; i < formattedGames.length; i++) {
-  //     if (formattedGames[i].isHidden === false) {
-  //       count += 1;
-  //     } else {
-  //       if (!(!teamsToSkip.has(formattedGames[i].competitors[0]._id) || 
-  //         !teamsToSkip.has(formattedGames[i].competitors[1]._id))) {
-  //         formattedGames[i].isHidden = false;
-  //         count += 1;
-  //       } else {
-  //         formattedGames[i].isHidden = true;
-  //       }
-  //     }
-
-  //     if (count === maxLength) {
-  //       break;
-  //     }
-  //   }
-
-  //   if (count < maxLength) {
-  //     for (let k = 0; k < maxLength-count; k++) {
-  //       formattedGames[k].isHidden = false;
-  //     }
-  //   }
-  // }
-
   return formattedGames;
 };
 
@@ -494,8 +377,6 @@ const getCompetitorHash = (competitors) => {
 };
 
 const createGames = ({message, games}) => {
-  //console.log(`${message} createGames games: ${JSON.stringify(games)}`);
-
   for (let i = 0; i < games.length; i++) {
     const game = games[i];
     const gameFind = {
@@ -835,8 +716,6 @@ const getScoreSetItem = async ({
   } catch (err) {
     console.log(`${message} browser error 2: `, err);
   }
-
-  // console.log(`scores: ${JSON.stringify(scores)}`);
   return scores;
 };
 
@@ -882,12 +761,6 @@ const getScores = async ({
     const revisionInfo = await browserFetcher.download(1022525);
 
     browser = await puppeteer.launch({
-      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      // defaultViewport: {
-      //   width: 1500,
-      //   height: 1000
-      // },
-      // timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
       executablePath: revisionInfo.executablePath,
@@ -895,24 +768,11 @@ const getScores = async ({
 
     page = await browser.newPage();
 
-    //await page.setDefaultNavigationTimeout(20000);
-
-    // await page.setRequestInterception(true);
-
-    // page.on('request', interceptedRequest => {
-    //   if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-    //     interceptedRequest.abort();
-    //   else
-    //     interceptedRequest.continue();
-    // });
-
     /* 
       Make first call to get scores
     */
 
-    //await page.goto(url , { waitUntil: ["networkidle2"] });
     await page.goto(url , { waitUntil: 'networkidle2' });
-    //await page.waitForSelector('#events');
 
     listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
@@ -923,17 +783,6 @@ const getScores = async ({
     if (listLength === 0) {
       console.log(`${message} no games found`);
 
-      // try {
-      //   if (page !== null) {
-      //     const pageCloseResult = await page.close();
-      //     console.log(`pageCloseResult 3: ${JSON.stringify(pageCloseResult)}`);
-      //     console.log(`${message} page finally 3: ${err.message}`);
-      //     page = null;
-      //   }
-      // } catch (error) {
-      //   console.log(`pageCloseResult finally error 3: `, error);
-      // }
-  
       try {
         if (!!browser) {
           const browserCloseResult = await browser.close();
@@ -972,16 +821,6 @@ const getScores = async ({
   } catch (err) {
     console.log(`${message} getGames browser error 6: `, err);
   } finally {
-    // try {
-    //   if (page !== null) {
-    //     const pageCloseResult = await page.close();
-    //     console.log(`pageCloseResult 4: ${JSON.stringify(pageCloseResult)}`);
-    //     page = null;
-    //   }
-    // } catch (error) {
-    //   console.log(`pageCloseResult finally error 4: `, error);
-    // }
-
     try {
       if (!!browser) {
         const browserCloseResult = await browser.close();
@@ -993,25 +832,18 @@ const getScores = async ({
     } 
   }
 
-  // console.log(`scoreSet: ${JSON.stringify(scoreSet)}`);
-
   return scoreSet;
 };
 
 const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []}) => {
     const multiplePreGames = [];
     const multipleFinalGames = [];
-    
-    // console.log(`${message} scoreSet: ${JSON.stringify(scoreSet)}`);
+  
 
     scoreSet.forEach(scores=>{
       const sortedScores = scores.reverse();
 
-      // console.log(`${message} sortedScores: ${JSON.stringify(sortedScores)}`);
-
       games.forEach(game=>{
-          // console.log(`${message} game: ${JSON.stringify(game)}`);
-
           const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
           const awayShortLocation = leagueId === '59723313734d1d6202a85f10' ? get(awayTeam,'alternateName') || get(awayTeam,'name') : get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
           const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
@@ -1043,27 +875,9 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
             finalScoreIndex > -1 ? finalScoreIndex : scoreByHomeTeamIndex;
 
           console.log(`${message} scoreIndex: ${scoreIndex}`);
-
           const score = sortedScores[scoreIndex];
-
-          //console.log(`${message} score: ${JSON.stringify(score)}`);
-
           const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','').toLowerCase());
-
-          //console.log(`${message} spreadTeam: ${JSON.stringify(spreadTeam)}`);
-
           const playHistory = get(game,'playHistory',[]);
-          
-          //console.log(`${message} currentTime: ${JSON.stringify(get(score,'currentTime'))}`);
-          // console.log("lastPlay2: " + get(score,'lastPlay2'));
-          // console.log("lastPlay3: " + get(score,'lastPlay3'));
-          // console.log("lastPlay4: " + get(score,'lastPlay4'));
-          // console.log("lastPlay5: " + get(score,'lastPlay5'));
-          // console.log("lastPlay6: " + get(score,'lastPlay6'));
-          // console.log("lastPlay7: " + get(score,'lastPlay7'));
-          // console.log("down: " + get(score,'down'));
-          // console.log("currentTime: " + get(score,'currentTime'));
-
           const runnersClass = get(score,'lastPlay7','').replace("base-","").split(' ');
           const runnersOnBase = runnersClass.length === 2 ? runnersClass[1].split('-') : [];
           const runnersOnBaseString = runnersOnBase.length === 0  || runnersOnBase.join("") === "000" ? 
@@ -1072,18 +886,11 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           + (get(runnersOnBase,'[1]') === '1' ? " 2nd" : "") 
           + (get(runnersOnBase,'[2]') === '1' ? " 3rd" : "");
 
-          //console.log("runnersOnBaseString: " + runnersOnBaseString);
-
           const newPlayHistory = getPlayHistory({message, leagueId, playHistory, lastPlay: get(score,'lastPlay'), currentTime: get(score,'currentTime')});
-          
-          // const isPastEndOfGame = moment().diff(moment(game.endDateTime),'minutes') > 5;
-          // console.log(`${message} isPastEndOfGame: ${JSON.stringify(isPastEndOfGame)}`);
 
           const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 2;
           const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
           !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || moment().diff(moment(game.startDateTime),'hours') > 7;;
-
-          // console.log(`${message} isGameOver: ${isGameOver}`);
 
           const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
             (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
@@ -1099,9 +906,6 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
 
           const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
               : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
-
-
-          //console.log(`${message} currentTimeFormatted: ${currentTimeFormatted}`);
 
           const updatedGame = {
             competitors: [...get(game,'competitors',[])],
@@ -1133,8 +937,6 @@ const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []})
           }
           
           console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
-
-          // console.log(`${message} updateGames updatedGame: ${JSON.stringify(updatedGame)}`);
 
           gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
       });

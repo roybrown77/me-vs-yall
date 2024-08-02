@@ -187,13 +187,8 @@ const setAmericanFootballPlays = (game) => {
           }
         }
       } catch (error) {
-        // console.log("Error getting plays greater than or equal to 15 yards");
+        console.log("Error getting plays greater than or equal to 15 yards: ", lastPlay);
       }
-
-      // if (lastTime !== lastPlay.slice(0,7)) {
-      //   lastTime = lastPlay.slice(0,7);
-      //   playHistory.push(game.playHistory[i]);
-      // }
 
       playHistory.push(game.playHistory[i]);
     }
@@ -414,7 +409,6 @@ router.get('/games', async function (req, res) {
     console.log("time3: ", moment().format());
 
     const teamStats = getAllTeamStats(gamesWholeYear);
-    // console.log("teamStats: ", JSON.stringify(teamStats));
 
     gamesThisRange.forEach(game=>{
       setAmericanFootballPlays(game);
@@ -424,18 +418,6 @@ router.get('/games', async function (req, res) {
       game.hashCompetitors = null;
       game.playHistory = game.playHistory.slice(0,playHistoryCount);
       game.stats = getGameStats(game, teamStats);
-
-      // game.serverLiveVideoUrl = "https://www.youtube.com/embed/tgbNymZ7vqY" // getVideoStreamUrl(game);
-      // game.isWatchable = [
-      // '59723313734d1d6202a85f10',
-      // '59723313734d1d6202a85f15',
-      // '59723313734d1d6202a85f19',
-      // '59723313734d1d6202a85f25',
-      // '59723313734d1d6202a85f27'
-      // ].includes(game.leagueId.toString().toLowerCase());
-      // game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
-      // game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
-      // console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
     });
 
     console.log("time4: ", moment().format());
