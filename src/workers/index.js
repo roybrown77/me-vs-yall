@@ -191,7 +191,7 @@ const updateGames = async () => {
       liveDownSelector:        'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__DownAndDistance',
       spreadSelector:          'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
       livePlaySelector: [
-                               'section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
+                               'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
                                'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
                                'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
                                'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
