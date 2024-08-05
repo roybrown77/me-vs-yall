@@ -120,7 +120,7 @@ const stats = [
   },
   {
     title: 'TAGS',
-    content: `#football #soccer #basketball #boxing #mma #bmx #skate #surf #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #mackandbeezie #lockoftheweek #statoftheweek #oftheweek #mevsyall #mevsyallengineering #sports #fun #crazy #facts #prizes #fans #love #vegas #showmethemoney #litty #merch #thatway #art #picks #free`
+    content: `#football #soccer #basketball #boxing #mma #bmx #skate #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #mackandbeezie #lockoftheweek #statoftheweek #oftheweek #mevsyall #mevsyallengineering #sports #fun #crazy #facts #prizes #fans #love #vegas #showmethemoney #litty #merch #thatway #art #picks #free`
   }
 ];
 
