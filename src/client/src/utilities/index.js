@@ -584,10 +584,6 @@ const getLeagueStartDateTime = (leagueId, games) => {
   const year = moment().format("YYYY");
   const nextYear = parseInt(year) + 1;
 
-  // if (leagueId === '59723313734d1d6202a85f10' && (monthDay > 208 && monthDay < 801)) {
-  //    return moment(`${year}0801`).toISOString();
-  // }
-
   if (
     leagueId === "59723313734d1d6202a85f15" &&
     monthDay > 108 &&
@@ -741,12 +737,6 @@ const leagues = [
     description: "ncaam",
     years: [2019],
   },
-  // {
-  //     id: '59723313734d1d6202a85f23',
-  //     name: 'xgames',
-  //     description: 'x games',
-  //     years: [2019]
-  // }
 ];
 
 const getStartDateTime = (games) => {

@@ -10,8 +10,9 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import green from "@material-ui/core/colors/green";
 
+import BaseballField from "./components/Fields/BaseballField";
 import BasketballCourt from "./components/Fields/BasketballCourt";
-import MiniRallyGame from "./components/MiniRallyGame";
+import AmericanFootballMiniRallyGame from "./components/AmericanFootballMiniRallyGame";
 import GamePlayTabs from "./components/GamePlayTabs";
 import TieButton from "./components/TieButton";
 import CompetitorHeader from "./components/CompetitorHeader";
@@ -361,7 +362,7 @@ class Game extends Component {
           <div>
             {
               ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(get(game, "leagueId")) &&
-              <MiniRallyGame {...{ game, classes }} />
+              <AmericanFootballMiniRallyGame {...{ game, classes }} />
             }
             {
               ["59723313734d1d6202a85f19", "59723313734d1d6202a85f31", "59723313734d1d6202a85f33", "59723313734d1d6202a85f35", "59723313734d1d6202a85f37"].includes(get(game, "leagueId")) &&

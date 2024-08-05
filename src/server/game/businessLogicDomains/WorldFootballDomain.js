@@ -28,7 +28,6 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
   const date = moment().add(dayCount, 'days').format('YYYYMMDD');
   
   console.log(`${message} date: ${date}`);
-  //console.log(`${message} get games`);
 
   const url = `${baseUrl}${date}`;
   const root = 'scoreboard soccer';
@@ -49,12 +48,8 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
     console.log(`${message} no games`);
     return;
   }
-
-  //console.log(`${message} formatting: ${JSON.stringify(games)}`);
   
   const mvyGames = await formatGames({message, games, leagueId, year, teams});
-
-  //console.log(`${message} mvyGames: ${JSON.stringify(mvyGames)}`);
 
   await createGames({message, games: mvyGames});
 };
@@ -107,11 +102,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     const revisionInfo = await browserFetcher.download(1022525);
     
     browser = await puppeteer.launch({
-      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      // defaultViewport: {
-      //   width: 1500,
-      //   height: 1000
-      // },
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
@@ -119,15 +109,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     });
 
     page = await browser.newPage();
-
-    // await page.setRequestInterception(true);
-
-    // page.on('request', interceptedRequest => {
-    //   if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-    //     interceptedRequest.abort();
-    //   else
-    //     interceptedRequest.continue();
-    // });
 
     const url = `${baseUrl}${date}`;
 
@@ -153,17 +134,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       isUpdateWorldFootballScoresRunning = false;
 
       console.log(`${message} no games found`);
-
-      // try {
-      //   if (page !== null) {
-      //     const pageCloseResult = await page.close();
-      //     console.log(`pageCloseResult 7: ${JSON.stringify(pageCloseResult)}`);
-      //     console.log(`${message} page finally 7: ${err.message}`);
-      //     page = null;
-      //   }
-      // } catch (error) {
-      //   console.log(`pageCloseResult finally error 7: `, error);
-      // }
   
       try {
         if (!!browser) {
@@ -238,17 +208,6 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   } catch (err) {
     console.log(`${message} getGames browser error 5: `, err);
   } finally {
-    // try {
-    //   if (page !== null) {
-    //     const pageCloseResult = await page.close();
-    //     console.log(`pageCloseResult 5: ${JSON.stringify(pageCloseResult)}`);
-    //     console.log(`${message} page finally 5: ${err.message}`);
-    //     page = null;
-    //   }
-    // } catch (error) {
-    //   console.log(`pageCloseResult finally error 5: `, error);
-    // }
-
     try {
       if (!!browser) {
         const browserCloseResult = await browser.close();

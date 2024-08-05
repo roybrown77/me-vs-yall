@@ -67,10 +67,10 @@ const loadGames = () => {
   //     url,
   //     teams: nflTeams, 
   //     root: 'Scoreboard__Row__Main',
-  //     nameSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div', 
-  //     spreadSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
-  //     startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
   //     startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
+  //     startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+  //     nameSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+  //     spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
   //   });
   // } catch (error) {
   //   console.log('loadAmericanFootballGames error', error);
@@ -187,13 +187,8 @@ const setAmericanFootballPlays = (game) => {
           }
         }
       } catch (error) {
-        // console.log("Error getting plays greater than or equal to 15 yards");
+        console.log("Error getting plays greater than or equal to 15 yards:", lastPlay);
       }
-
-      // if (lastTime !== lastPlay.slice(0,7)) {
-      //   lastTime = lastPlay.slice(0,7);
-      //   playHistory.push(game.playHistory[i]);
-      // }
 
       playHistory.push(game.playHistory[i]);
     }
@@ -414,7 +409,6 @@ router.get('/games', async function (req, res) {
     console.log("time3: ", moment().format());
 
     const teamStats = getAllTeamStats(gamesWholeYear);
-    // console.log("teamStats: ", JSON.stringify(teamStats));
 
     gamesThisRange.forEach(game=>{
       setAmericanFootballPlays(game);
@@ -424,18 +418,6 @@ router.get('/games', async function (req, res) {
       game.hashCompetitors = null;
       game.playHistory = game.playHistory.slice(0,playHistoryCount);
       game.stats = getGameStats(game, teamStats);
-
-      // game.serverLiveVideoUrl = "https://www.youtube.com/embed/tgbNymZ7vqY" // getVideoStreamUrl(game);
-      // game.isWatchable = [
-      // '59723313734d1d6202a85f10',
-      // '59723313734d1d6202a85f15',
-      // '59723313734d1d6202a85f19',
-      // '59723313734d1d6202a85f25',
-      // '59723313734d1d6202a85f27'
-      // ].includes(game.leagueId.toString().toLowerCase());
-      // game.highlightVideoUrl = (game.highlightVideoUrl || "").length > 0 ? game.highlightVideoUrl : 
-      // game.isWatchable ? "https://www.youtube.com/embed/tgbNymZ7vqY" : game.highlightVideoUrl;
-      // console.log("game.serverLiveVideoUrl: ", JSON.stringify(game.serverLiveVideoUrl));
     });
 
     console.log("time4: ", moment().format());
