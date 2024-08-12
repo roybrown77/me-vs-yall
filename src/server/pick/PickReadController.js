@@ -116,7 +116,7 @@ router.get('/picks/', async function (req, res) {
                 let mvyRoadHomePicks = {};
                 let mvyRoadHomeXPicks = {}
                 let mvyDayPicks = {};
-                let mvyDonDoItShark = {};
+                let mvySharp = {};
                 let mvySundayPicks = {};
                 let mvySundayXPicks = {};
                 let mvyMultiVegasPicks = {};
@@ -224,9 +224,9 @@ router.get('/picks/', async function (req, res) {
                         };
                     }
 
-                    mvyDonDoItShark = {
+                    mvySharp = {
                         _id: mongoose.Types.ObjectId().toString(),
-                        userId: 10, // King Don Do it Shark; Points Scored
+                        userId: 10, // King Sharp; Points Scored
                         gameId: game._id,
                         pickId: game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
                         leagueId: game.leagueId
@@ -235,7 +235,7 @@ router.get('/picks/', async function (req, res) {
                     console.log("PickReadController user picks error", error);
                 }
 
-                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvySundayPicks, mvySundayXPicks, mvyMultiVegasPicks, mvyDonDoItShark];
+                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvySundayPicks, mvySundayXPicks, mvyMultiVegasPicks, mvySharp];
             });
         }
 
