@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import get from 'lodash/get';
 
 import { ActionTypes } from '../actions';
-import { getUser, isLoggedIn } from '../middleware/authenticationClient';
+import { getUser, isLoggedIn } from '../utilities/authenticationClient';
 
 export const authenticationDomain = (
   state = Map({ 

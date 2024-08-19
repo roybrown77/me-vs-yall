@@ -10,7 +10,7 @@ import LightOff from '@material-ui/icons/EmojiObjects';
 import Typer from './Typer';
 
 import mvy from '../../styles/images/mvy-balls-cut.png';
-import { googleLogin } from '../../middleware/authenticationClient';
+import { googleLogin } from '../../utilities/authenticationClient';
 
 const history = createBrowserHistory({forceRefresh: true});
 

@@ -10,7 +10,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Immutable from 'immutable';
 import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 
-import httpClient from './middleware/httpClient';
+import httpClient from './utilities/httpClient';
 import rootReducer from './reducers';
 
 import Home from './pages/Home';

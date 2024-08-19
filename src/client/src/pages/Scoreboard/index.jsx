@@ -29,14 +29,13 @@ import Popover from "../../components/Popover";
 import TinyScoreboard from "../../components/TinyScoreboard";
 import Alert from '../../components/Alert';
 
-import { getPicksNotSelected, getCopiedGamesToShare } from "./utilities";
+import { getPicksNotSelected, getCopiedGamesToShare, getGroupedGames } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
 import {
     formatWeeks,
     hasGameStarted,
     getAreAllGamesOver,
-    getGroupedGames,
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
     leagues,
@@ -45,7 +44,7 @@ import {
   googleLogin,
   isConfirmedAuthentication,
   getUser,
-} from "../../middleware/authenticationClient";
+} from "../../utilities/authenticationClient";
 
 import styles from "./styles";
 

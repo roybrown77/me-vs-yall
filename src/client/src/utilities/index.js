@@ -11,115 +11,6 @@ import gold from "../styles/images/gold.png";
 import silver from "../styles/images/silver.png";
 import bronze from "../styles/images/bronze.png";
 
-// *** scoreboard
-
-const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false}) => {
-  const formattedGames = games.map((game) => {
-    const displayDateTime = moment(new Date(game.startDateTime));
-    const away = teams.find((x) => x._id === game.competitors[0]._id);
-    const home = teams.find((x) => x._id === game.competitors[1]._id);
-    const gameName =
-      game?.gameName?.trim()?.length > 0
-        ? game.gameName
-        : `${
-            away?.emojis?.[
-              getRandomIntInclusive(0, away?.emojis?.length - 1)
-            ] || away?.name
-          } 🆚 ${
-            home?.emojis?.[
-              getRandomIntInclusive(0, home?.emojis?.length - 1)
-            ] || home?.name
-          }`;
-    if (spreadMode) {
-      return {
-        ...game,
-        startDateTimeDisplay: displayDateTime.format("dddd MMM D YYYY h:mm a"),
-        gameName,
-        competitors: game.competitors.map((competitor, index) => {
-          const team = teams.find((x) => x._id === competitor._id);
-          const index1 = index;
-          const index2 = index === 0 ? 1 : 0;
-          const teamAPick = picks.find(
-            (pick) => pick.pickId === competitor._id && pick.gameId === game._id
-          );
-          const selectedWinner =
-            get(game, "spread.teamId") &&
-            ((game.competitors[index1].score > game.competitors[index2].score &&
-              teamAPick &&
-              game.spread.teamId === game.competitors[index1]._id &&
-              game.competitors[index1].score - game.competitors[index2].score >=
-                getSpreadAmount(game.spread.amount)) ||
-              (game.competitors[index1].score >=
-                game.competitors[index2].score &&
-                teamAPick &&
-                game.spread.teamId === game.competitors[index2]._id) ||
-              (game.competitors[index2].score >
-                game.competitors[index1].score &&
-                teamAPick &&
-                game.spread.teamId === game.competitors[index2]._id &&
-                game.competitors[index2].score -
-                  game.competitors[index1].score <
-                  getSpreadAmount(game.spread.amount)));
-          return {
-            ...competitor,
-            shortLocation: team.shortLocation,
-            location: team.location,
-            name: team.name || team.location,
-            color: team.color,
-            record: competitor.finalRecord || competitor.record,
-            country: team.country,
-            selectedWinner,
-            selected: !!teamAPick,
-          };
-        }),
-      };
-    }
-
-    return {
-      ...game,
-      startDateTimeDisplay: displayDateTime.format("dddd MMM D YYYY h:mm a"),
-      winner:
-        game.competitors[0].score === game.competitors[1].score
-          ? "000000000000000000000000"
-          : game.competitors[0].score > game.competitors[1].score
-          ? game.competitors[0]._id
-          : game.competitors[1]._id,
-      gameName,
-      competitors: game.competitors.map((competitor) => {
-        const team = teams.find((x) => x._id === competitor._id);
-        return {
-          ...competitor,
-          shortLocation: team.shortLocation,
-          name: team.name || team.location,
-          location: team.location,
-          color: team.color,
-          record: competitor.finalRecord || competitor.record,
-          country: team.country,
-          selected: picks.find(
-            (x) =>
-              x.gameId === game._id &&
-              (x.pickId === competitor._id ||
-                x.pickId === "000000000000000000000000")
-          )
-            ? true
-            : false,
-        };
-      }),
-    };
-  });
-
-  return {
-    notCompleted: orderBy(
-      formattedGames.filter((x) => !x.isGameOver),
-      ["_id"]
-    ).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
-    completed: orderBy(
-      formattedGames.filter((x) => x.isGameOver),
-      ["_id"]
-    ).sort((a, b) => new Date(b.startDateTime) - new Date(a.startDateTime)),
-  };
-};
-
 // *** leaders
 
 const getLeaders = ({
@@ -643,27 +534,6 @@ const getRandomIntInclusive = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 };
 
-const basketBallImages = [];
-
-const images = {
-  "59723313734d1d6202a85f10": [],
-  "59723313734d1d6202a85f15": [],
-  "59723313734d1d6202a85f17": [],
-  "59723313734d1d6202a85f19": basketBallImages,
-  "59723313734d1d6202a85f35": basketBallImages,
-  "59723313734d1d6202a85f25": [],
-  "59723313734d1d6202a85f37": [],
-  "59723313734d1d6202a85f27": [],
-  "59723313734d1d6202a85f29": [],
-  "59723313734d1d6202a85f21": [],
-};
-
-const getImage = (leagueId) => {
-  return images[leagueId] && images[leagueId].length > 0
-    ? images[leagueId][getRandomIntInclusive(0, images[leagueId].length - 1)]
-    : null;
-};
-
 const leagues = [
   {
     id: "59723313734d1d6202a85f10",
@@ -771,13 +641,11 @@ export {
   hasGameStarted,
   getAreAllGamesOver,
   getLeaders,
-  getGroupedGames,
   getAreAnyGamesInProgress,
   leagues,
   getNextGameStartDateTime,
   getStartDateTime,
   getLeaderIndicator,
   getLeagueStartDateTime,
-  getImage,
   getRandomIntInclusive,
 };

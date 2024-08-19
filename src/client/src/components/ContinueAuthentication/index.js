@@ -12,7 +12,7 @@ import {
     waitForAuth, 
     isConfirmedAuthentication,
     getUser 
-} from '../../middleware/authenticationClient';
+} from '../../utilities/authenticationClient';
 
 const ContinueAuthentication = (props) => {
     const [open, setOpen] = React.useState(true);
