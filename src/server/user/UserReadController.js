@@ -52,7 +52,7 @@ const mvySaturday = {
 
 const mvyRandomSunday = {
     authServiceId: 10,
-    firstName: 'King Don Do it Shark'
+    firstName: 'King Sharp'
 };
 
 const mvySundaySingle = {

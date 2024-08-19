@@ -2,8 +2,8 @@ import { createBrowserHistory } from 'history';
 
 import get from 'lodash/get';
 
-import { CALL_API, Schemas } from '../middleware/httpClient';
-import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../middleware/authenticationClient';
+import { CALL_API, Schemas } from '../utilities/httpClient';
+import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../utilities/authenticationClient';
 
 const refreshHistory = createBrowserHistory({forceRefresh: true});
 

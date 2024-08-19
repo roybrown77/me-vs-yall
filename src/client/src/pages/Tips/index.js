@@ -46,8 +46,8 @@ const stats = [
     content: `Pick winners.  Every week.  Against others around the world.  For free.`
   },
   {
-    title: 'SHARK TANK',
-    content: `Me vs Yall.  Home of your future Vegas sharks.`
+    title: 'SHARP TANK',
+    content: `Me vs Yall.  Home of your future Vegas sharps.`
   },
   {
     title: 'FACTS',

@@ -1,21 +1,5 @@
-import { getAccessToken } from './authenticationClient';
+import { callApi } from './http';
 import { schema } from 'normalizr';
-import axios from 'axios';
-
-const callApi = ({endpoint, method, body}) => {  
-  return axios({
-        url: endpoint,
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${getAccessToken()}`
-        },
-        method: !method ? 'get' : method,
-        data: body
-    })
-    .then(function(response) {
-      return response.data;
-    });
-};
 
 const gameSchema = new schema.Entity('games', {}, {
   idAttribute: game => game._id
@@ -67,7 +51,7 @@ const NEXT_ACTION = store => next => action => {
   const [ requestType, successType, failureType ] = types;
   next(actionWith({ type: requestType }));
 
-  return callApi({endpoint, method, body}).then(
+  return callApi({ method, endpoint, body }).then(
     response => next(actionWith({
       response,
       type: successType

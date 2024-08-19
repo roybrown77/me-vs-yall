@@ -39,7 +39,7 @@ import {
 import {
   googleLogin,
   isConfirmedAuthentication,
-} from "../../middleware/authenticationClient";
+} from "../../utilities/authenticationClient";
 
 import styles from "./styles";
 

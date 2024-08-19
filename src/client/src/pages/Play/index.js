@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import Slide from '@material-ui/core/Slide';
 
-import { isLoggedIn, googleLogin } from '../../middleware/authenticationClient';
+import { isLoggedIn, googleLogin } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy.png';
 
 const Play = () => {

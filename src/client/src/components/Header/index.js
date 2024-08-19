@@ -13,7 +13,7 @@ import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToApp from '@material-ui/icons/ExitToAppOutlined';
 
-import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../middleware/authenticationClient';
+import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
 const profileStyles = makeStyles((theme) => ({
