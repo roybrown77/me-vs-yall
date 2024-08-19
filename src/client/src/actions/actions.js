@@ -2,28 +2,15 @@ import { createBrowserHistory } from 'history';
 
 import get from 'lodash/get';
 
-import { CALL_API, Schemas } from '../utilities/httpClient';
 import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../utilities/authenticationClient';
 
 const refreshHistory = createBrowserHistory({forceRefresh: true});
 
 export const ActionTypes = {
-  ARTICLES_REQUEST: 'ARTICLES_REQUEST',
-  ARTICLES_SUCCESS: 'ARTICLES_SUCCESS',
-  ARTICLES_FAILURE: 'ARTICLES_FAILURE',
-
   GAMESINPROGRESS_REQUEST: 'GAMESINPROGRESS_REQUEST',
   GAMESINPROGRESS_SUCCESS: 'GAMESINPROGRESS_SUCCESS',
   GAMESINPROGRESS_FAILURE: 'GAMESINPROGRESS_FAILURE',
 };
-
-const fetchArticles = query => ({
-  [CALL_API]: {
-    types: [ ActionTypes.ARTICLES_REQUEST, ActionTypes.ARTICLES_SUCCESS, ActionTypes.ARTICLES_FAILURE ],
-    endpoint: `/api/articlemanagement/articles`,
-    schema: Schemas.ARTICLE_ARRAY
-  }
-});
 
 export const loadUser = () => (dispatch, getState) => {
   const state = getState();
@@ -45,8 +32,4 @@ export const loadUser = () => (dispatch, getState) => {
     dispatch({type: 'LOGIN_SUCCESS', user: profile});
     refreshHistory.push('/scoreboards/' + leagueName);
   });
-};
-
-export const loadArticles = (query, requiredFields = []) => (dispatch, getState) => {
-  dispatch(fetchArticles());
 };
