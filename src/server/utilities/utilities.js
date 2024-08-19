@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -6,72 +6,13 @@ const get = require('lodash/get');
 const set = require('lodash/set');
 const orderBy = require('lodash/orderBy');
 const isNaN = require('lodash/isNaN');
-const sample = require('lodash/sample');
 const pick = require('lodash/pick');
 
 const gameRepository = require('../game/databaseRepositories/GameRepository');
-const {
-    nbaTeams,
-    nflTeams,
-    ncaaTeams
-} = require('./teams');
 
 const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
-const getVideoStreamUrl = (game) => {
-  if (!hasGameStarted(game.startDateTime) || 
-    game.isGameOver ||
-    !['59723313734d1d6202a85f10',
-      '59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
-      return null;
-  }
-
-  let leagueName = "";
-  let teams = [];
-
-  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f10") {
-    leagueName = "nfl";
-    teams = nflTeams;
-  }
-
-  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f15") {
-    leagueName = "cfb";
-    teams = ncaaTeams;
-  }
-
-  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f19") {
-    leagueName = "nba";
-    teams = nbaTeams;
-  }
-
-  const awayTeam = teams.find(x=>x._id.toString().toLowerCase() === game.competitors[0]._id.toString().toLowerCase());
-  const homeTeam = teams.find(x=>x._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase());
-
-  if (!awayTeam || !homeTeam || leagueName === "") {
-    console.log("No data for video url");
-    return null;
-  }
-
-  let gameName = "";
-
-  if (game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f19") {
-    gameName = homeTeam.location.split(" ").join("-") + "-" + homeTeam.name.split(" ").join("-") + "-" +
-    awayTeam.location.split(" ").join("-") + "-" + awayTeam.name.split(" ").join("-");
-  } else {
-    gameName = game.leagueId.toString().toLowerCase() === "59723313734d1d6202a85f15" ?
-    awayTeam.location.split(" ").join("-") + "-" + homeTeam.location.split(" ").join("-") : 
-    (awayTeam.location.split(" ").join("-") + "-" + awayTeam.name.split(" ").join("-") + "-" +
-    homeTeam.location.split(" ").join("-") + "-" + homeTeam.name.split(" ").join("-"));
-  }
-
-  const url = (leagueName + "/" + gameName + "/").toLowerCase();
-
-  console.log("url: " + url);
-
-  return "https://www.streameast.io/" + url;
-};
-
-const getPlayHistory = ({message, leagueId, playHistory = [], lastPlay = "", currentTime = ""}) => {
+const getPlayHistory = ({ message, leagueId, playHistory = [], lastPlay = "", currentTime = "" }) => {
   if (leagueId === '59723313734d1d6202a85f21') {
     const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
 
@@ -150,7 +91,6 @@ const hasGameStarted = (dateTime) => {
 
 const getGames = async ({
     leagueId,
-    year,
     message,
     url,
     root,
@@ -170,14 +110,10 @@ const getGames = async ({
   let page;
   
   try {
-    const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download(1022525);
-
     browser = await puppeteer.launch({
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
-      executablePath: revisionInfo.executablePath,
       headless: false,
     });
 
@@ -323,7 +259,7 @@ const getGames = async ({
   return games;
 };
 
-const formatGames = async ({message, games, leagueId, year, teams, dayCount, shouldLimit = false}) => {
+const formatGames = async ({ message, games, leagueId, year, teams }) => {
   let formattedGames = [];
 
   games.forEach(game=>{
@@ -376,7 +312,7 @@ const getCompetitorHash = (competitors) => {
   return JSON.stringify(filteredCompetitors);
 };
 
-const createGames = ({message, games}) => {
+const createGames = ({ message, games }) => {
   for (let i = 0; i < games.length; i++) {
     const game = games[i];
     const gameFind = {
@@ -408,13 +344,8 @@ const createGames = ({message, games}) => {
 const getScoreSetItem = async ({
     leagueId,
     message,
-    root,
-    gameNameSelector,
     spreadSelector,
-    startDateTimeSelector,
     pregameNameSelector,
-    recordSelector,
-    liveQuarterSelector,
     liveScoreSelector,
     liveNameSelector,
     livePlaySelector,
@@ -757,13 +688,9 @@ const getScores = async ({
   let page;
 
   try {
-    const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download(1022525);
-
     browser = await puppeteer.launch({
       pipe: true,
       ignoreHTTPSErrors: true,
-      executablePath: revisionInfo.executablePath,
     });
 
     page = await browser.newPage();
@@ -835,7 +762,7 @@ const getScores = async ({
   return scoreSet;
 };
 
-const updateGames = ({message, leagueId, games = [], scoreSet = [], teams = []}) => {
+const updateGames = ({ message, leagueId, games = [], scoreSet = [], teams = [] }) => {
     scoreSet.forEach(scores=>{
       const sortedScores = scores.reverse();
 
@@ -945,5 +872,4 @@ module.exports = {
     createGames,
     getScores,
     updateGames,
-    getVideoStreamUrl
 };
