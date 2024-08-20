@@ -5,9 +5,6 @@ node_modules
 node_modules-branch
 node_modules-master
 
-# testing
-coverage
-
 # production
 build
 
