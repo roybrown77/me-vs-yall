@@ -55,10 +55,10 @@ const backupData = async () => {
 const loadGames = () => {
   // const year = 2024;
   // const seasonType = 1; // preseason 1, regular 2, playoffs 3
-  // const weekNumber = 3;
-  // const dayNumber = 1; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
+  // const weekNumber = 4;
+  // const dayNumber = 3; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
   // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonType}`;
-  
+
   // try {
   //   loadAmericanFootballGames({
   //     year,
@@ -179,7 +179,7 @@ const setAmericanFootballPlays = (game) => {
       try {
         const yardArray = /for([^yards]+)yards/.exec(lastPlay);
         if (Array(yardArray).length > 0) {
-          const yardString = yardArray[1]?.replace("' '", "").replace(",", "");
+          const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
           const yardNumber = parseInt(yardString);
 
           if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
