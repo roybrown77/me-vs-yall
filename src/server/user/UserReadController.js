@@ -32,7 +32,7 @@ const mvyKingDefense = {
 
 const mvyKingRoadHome = {
     authServiceId: 5,
-    firstName: 'King Road vs Homer'
+    firstName: 'King Z'
 };
 
 const mvyMonday = {
@@ -77,7 +77,7 @@ const mvyKingDefenseHomer = {
 
 const mvyKingDefenseRoadie = {
     authServiceId: 17,
-    firstName: 'King Road vs Homer X'
+    firstName: 'King ZX'
 };
 
 router.get('/users', function (req, res) {
