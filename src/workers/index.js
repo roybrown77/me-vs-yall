@@ -90,25 +90,21 @@ const moment = require('moment-timezone');
 const {
   nbaTeams,
   nflTeams,
-  ncaaTeams, 
   mlbTeams,
-  boxingCompetitors,
-  ufcCompetitors,
 } = require('../server/utilities/teams');
+
+const { getNflGameDataSource } = require('../server/utilities/getGameDataSource');
 
 const { 
   updateAmericanFootballScores,
-  loadAmericanFootballGames
 } = require('../server/game/businessLogicDomains/AmericanFootballDomain');
 
 const {
   updateBasketballScores,
-  loadBasketballGames
 } = require('../server/game/businessLogicDomains/BasketballDomain');
 
 const { 
   updateMlbScores,
-  loadMlbGames
 } = require('../server/game/businessLogicDomains/MLBDomain');
 
 const gameRepository = require('../server/game/databaseRepositories/GameRepository');
@@ -155,10 +151,7 @@ const updateGames = async () => {
     // const weekNumber = regularSeasonWeek < 0 ? 5+regularSeasonWeek : regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
     // const seasonType = regularSeasonWeek < 0 ? 1 : regularSeasonWeek <= 18 ? 2 : 3;
 
-    const year = 2024;
-    const seasonType = 1;
-    const weekNumber = 4;
-    const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonType}`;
+    const { year, url } = getNflGameDataSource();
 
     let dayIndex;
 
@@ -192,12 +185,11 @@ const updateGames = async () => {
       spreadSelector:          'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
       livePlaySelector: [
                                'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div.DriveChart2D__PlayTextContainer > p',
-                               'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
-                               'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
-                               'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
-                               'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(2) > span.description',
-                               'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
-                               'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
+                               'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--3 > div:nth-child(2) > div > div > a > div > div.Athlete__PlayerWrapper.flex.justify-center.flex-column.flex-expand > h3 > span.Athlete__PlayerName',
+                               'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--3 > div:nth-child(4) > div > div > a > div > div.Athlete__PlayerWrapper.flex.justify-center.flex-column.flex-expand > h3 > span.Athlete__PlayerName',
+                               'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div.balls',
+                               'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div.strikes',
+                               'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div.outs',
       ],
       finalNameSelector:       'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
       finalGameOverSelector:   'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
