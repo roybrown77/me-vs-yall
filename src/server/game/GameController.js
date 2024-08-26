@@ -11,13 +11,13 @@ const gameWeekRepository = require('./databaseRepositories/GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 
-const { 
-  loadAmericanFootballGames
-} = require('./businessLogicDomains/AmericanFootballDomain');
+const { loadAmericanFootballGames } = require('./businessLogicDomains/AmericanFootballDomain');
 
-const { shouldUpdateGames, playHistoryCount } = require('../../../config');
+const { shouldLoadGames, playHistoryCount } = require('../../../config');
 
 const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
+
+const { getNflGameDataSource } = require('../utilities/getGameDataSource');
 
 const {
   nbaTeams,
@@ -53,28 +53,24 @@ const backupData = async () => {
 };
 
 const loadGames = () => {
-  // const year = 2024;
-  // const seasonType = 1; // preseason 1, regular 2, playoffs 3
-  // const weekNumber = 4;
-  // const dayNumber = 3; // thursday 1 (first in list on espn), sunday 2, monday 3; games could be on other days so will affect which number module
-  // const url = `https://www.espn.com/nfl/scoreboard/_/week/${weekNumber}/year/${year}/seasontype/${seasonType}`;
+  const { year, dayNumber, url } = getNflGameDataSource();
 
-  // try {
-  //   loadAmericanFootballGames({
-  //     year,
-  //     message: 'loadNflGames', 
-  //     leagueId: '59723313734d1d6202a85f10', 
-  //     url,
-  //     teams: nflTeams, 
-  //     root: 'Scoreboard__Row__Main',
-  //     startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
-  //     startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
-  //     nameSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
-  //     spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
-  //   });
-  // } catch (error) {
-  //   console.log('loadAmericanFootballGames error', error);
-  // }
+  try {
+    loadAmericanFootballGames({
+      year,
+      message: 'loadNflGames', 
+      leagueId: '59723313734d1d6202a85f10', 
+      url,
+      teams: nflTeams, 
+      root: 'Scoreboard__Row__Main',
+      startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
+      startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+      nameSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2 > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h5 > a > div',
+      spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
+    });
+  } catch (error) {
+    console.log('loadAmericanFootballGames error', error);
+  }
 };
 
 const setAmericanFootballPlays = (game) => {
@@ -348,7 +344,7 @@ router.get('/games', async function (req, res) {
   const leagueId = get(req, 'query.leagueId');
   const year = get(req, 'query.year');
 
-  if (shouldUpdateGames) {
+  if (shouldLoadGames) {
     loadGames(leagueId);
   }
 
