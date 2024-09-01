@@ -114,7 +114,6 @@ const getGames = async ({
       timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
-      headless: false,
     });
 
     page = await browser.newPage();
