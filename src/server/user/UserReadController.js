@@ -60,7 +60,7 @@ const mvySundaySingle = {
     firstName: 'King Sunday'
 };
 
-const mvyMultiVegas= {
+const mvyKang = {
     authServiceId: 12,
     firstName: 'King Kang'
 };
@@ -104,7 +104,7 @@ router.get('/users', function (req, res) {
             mvySaturday, 
             mvyRandomSunday,
             mvySundaySingle,
-            mvyMultiVegas,
+            mvyKang,
             mvyRoadie,
             mvyKingDefenseHomer,
             mvyKingDefenseRoadie

@@ -91,7 +91,7 @@ router.get('/picks/', async function (req, res) {
             const sortedGamesThisRange = sortBy(gamesThisRange, ['startDateTime']);
             const sortedGamesWholeYear = sortBy(gamesWholeYear, ['startDateTime']);
             
-            for(let gameIndex = 0; gameIndex < sortedGamesThisRange.length -1; gameIndex++) {
+            for(let gameIndex = 0; gameIndex < sortedGamesThisRange.length; gameIndex++) {
                 const game = sortedGamesThisRange[gameIndex];
                 const sortedGamesWholeYearUpUntilGameDateTime = sortedGamesWholeYear.filter(x => x.startDateTime < game.startDateTime);
                 const teamStats = getAllTeamStats(sortedGamesWholeYearUpUntilGameDateTime);
@@ -111,16 +111,23 @@ router.get('/picks/', async function (req, res) {
                     pickId: game.competitors[0]._id,
                     leagueId: game.leagueId
                 };
+
+                const mvySharp = {
+                    _id: mongoose.Types.ObjectId().toString(),
+                    userId: 10, // King Sharp; Goes against the spread
+                    gameId: game._id,
+                    pickId: game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
+                    leagueId: game.leagueId
+                };
                 
                 let mvyDefensePicks = {};
                 let mvyOffensePicks = {};
                 let mvyRoadHomePicks = {};
                 let mvyRoadHomeXPicks = {}
                 let mvyDayPicks = {};
-                let mvySharp = {};
                 let mvySundayPicks = {};
                 let mvySundayXPicks = {};
-                let mvyMultiVegasPicks = {};
+                let mvyKangPicks = {};
 
                 const endOfCurrentWeek1 = '2024-09-09';
                 const currentYear = 2024;
@@ -220,7 +227,7 @@ router.get('/picks/', async function (req, res) {
     
                         if (((roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0 && game.spread.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
                             (!(roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) && game.spread.teamId === game.competitors[0]._id.toString().toLowerCase()))) {
-                            mvyMultiVegasPicks = {
+                            mvyKangPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
                                 userId: 12, // Kang; Points Scored for Dogs
                                 gameId: game._id,
@@ -231,20 +238,12 @@ router.get('/picks/', async function (req, res) {
                                 leagueId: game.leagueId
                             };
                         }
-    
-                        mvySharp = {
-                            _id: mongoose.Types.ObjectId().toString(),
-                            userId: 10, // King Sharp; Points Scored
-                            gameId: game._id,
-                            pickId: game.spread.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
-                            leagueId: game.leagueId
-                        };
                     } catch (error) {
                         console.log("PickReadController user picks error", error);
                     }
                 }
 
-                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvySundayPicks, mvySundayXPicks, mvyMultiVegasPicks, mvySharp];
+                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvySundayPicks, mvySundayXPicks, mvyKangPicks, mvySharp];
             };
         }
 
