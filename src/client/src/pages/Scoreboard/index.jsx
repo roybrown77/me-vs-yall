@@ -260,7 +260,7 @@ class Scoreboard extends Component {
     const leagueId = leagueSelected;
     const leagueFound = leagues.find((league) => league.id === leagueId);
 
-    history.push("/leaders/" + leagueFound.name);
+    history.push("/scoreboards/" + leagueFound.name);
 
     const years = get(leagueFound, "years", []);
     const year = last(years);
