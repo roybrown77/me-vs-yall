@@ -32,6 +32,7 @@ import Alert from '../../components/Alert';
 import { getPicksNotSelected, getCopiedGamesToShare, getGroupedGames } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
+import { getLeagueName } from '../../utilities/getLeagueName';
 import {
     formatWeeks,
     hasGameStarted,
@@ -59,15 +60,11 @@ let gameDate;
 class Scoreboard extends Component {
   constructor(props) {
     super(props);
-    const { leagueName } = this.props.match.params;
-    const league = leagues.find(
-      (league) =>
-        get(league, "name", "nfl").toLowerCase() ===
-        (leagueName || "").toLowerCase()
-    );
-    const leagueId = league.id;
-    const year = last(league.years);
 
+    const league = leagues.find((league) => league.name === getLeagueName()) || leagues[0];
+    const leagueId = league?.id;
+    const year = last(league?.years);
+    
     this.state = {
       dataLoading: true,
 
@@ -92,7 +89,6 @@ class Scoreboard extends Component {
 
   async componentDidMount() {
     window.scrollTo(0, 0);
-
     const { leagueId, year } = this.state;
 
     const weeks = await this.loadGameWeeks({ leagueId, year: year });

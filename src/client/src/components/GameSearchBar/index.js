@@ -101,4 +101,4 @@ GameSearchBar.defaultProps = {
   loading: false,
 };
 
-export default (withStyles(styles, { withTheme: true })(GameSearchBar));
+export default withStyles(styles, { withTheme: true })(GameSearchBar);

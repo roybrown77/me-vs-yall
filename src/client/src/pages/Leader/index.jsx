@@ -28,6 +28,7 @@ import Popover from "../../components/Popover";
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
+import { getLeagueName } from '../../utilities/getLeagueName';
 import {
   formatWeeks,
   getAreAllGamesOver,
@@ -53,14 +54,9 @@ class Leader extends Component {
   constructor(props) {
     super(props);
 
-    const { leagueName } = this.props.match.params;
-    const league = leagues.find(
-      (league) =>
-        get(league, "name", "nfl").toLowerCase() ===
-        (leagueName || "").toLowerCase()
-    );
-    const leagueId = league.id;
-    const year = last(league.years);
+    const league = leagues.find((league) => league.name === getLeagueName()) || leagues[0];
+    const leagueId = league?.id;
+    const year = last(league?.years);
 
     this.state = {
       dataLoading: true,

@@ -1,10 +1,8 @@
-import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import get from 'lodash/get';
-
 import BottomNavigation from '@material-ui/core/BottomNavigation';
+
+import { getLeagueName } from '../../utilities/getLeagueName';
 
 const styles = {
   root: {
@@ -25,10 +23,11 @@ const styles = {
   }
 };
 
-const Footer = ({ leagueName }) => {
-    const selected = window.location.pathname.includes('scoreboards') ? 'scoreboards' : 
-    window.location.pathname.includes('leaders') ? 'leaders' : 
-    window.location.pathname.includes('oftheweek') ? 'oftheweek' : 'MvY';
+const Footer = () => {
+    const leagueName = getLeagueName();
+    const selected = window?.location?.pathname?.includes('scoreboards') ? 'scoreboards' : 
+    window?.location?.pathname?.includes('leaders') ? 'leaders' : 
+    window?.location?.pathname?.includes('oftheweek') ? 'oftheweek' : 'MvY';
 
     return (
         <BottomNavigation style={styles.root}>
@@ -59,24 +58,8 @@ const Footer = ({ leagueName }) => {
     );
 };
 
-const mapStateToProps = (state, ownProps) => {
-    const ui = state.get('ui').toJS();
-    const request = get(ui,'request');
-
-    const lookup = state.get('lookup').toJS();
-    const leagues = get(lookup, 'leagues', []);
-    const leagueId = get(request, 'leagueId');
-    const league = leagues.find(x=>x.id === leagueId);
-
-    const leagueName = get(league,'name');
-
-    return {
-        leagueName
-    }
-};
-
 Footer.propTypes = {
     leagueName: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(Footer);
+export default Footer;

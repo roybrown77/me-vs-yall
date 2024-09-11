@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from "react-router-dom";
@@ -131,7 +130,9 @@ const Profile = (props) => {
 
 
 const Header = (props) => {
-  const { classes, children, user, isAuthenticated } = props;
+  const isAuthenticated = isConfirmedAuthentication();
+  const user = getUser();
+  const { classes, children } = props;
   const picture = get(user,'picture');
 
   return (
@@ -189,16 +190,6 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = () => {
-    const isAuthenticated = isConfirmedAuthentication();
-    const user = getUser();
-
-    return {
-        isAuthenticated,
-        user
-    }
-};
-
 Header.propTypes = {
     isAuthenticated: PropTypes.bool,
     classes: PropTypes.object.isRequired,
@@ -207,4 +198,4 @@ Header.propTypes = {
     user: PropTypes.object
 };
 
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(Header));
+export default withStyles(styles, { withTheme: true })(Header);
