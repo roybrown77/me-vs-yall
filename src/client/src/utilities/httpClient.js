@@ -5,13 +5,8 @@ const gameSchema = new schema.Entity('games', {}, {
   idAttribute: game => game._id
 });
 
-const articleSchema = new schema.Entity('articles', {}, {
-  idAttribute: article => article._id
-});
-
 export const Schemas = {
   GAME_ARRAY: [gameSchema],
-  ARTICLE_ARRAY: [articleSchema]
 };
 
 export const CALL_API = 'Call API';

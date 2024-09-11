@@ -184,8 +184,7 @@ const GamePlayTabs = (props) => {
         {
           (game.stats || []).length === 0 &&
           <div>
-            No stats available. Please check last season stats by selecting year
-            above.
+            Stats are not available until after the first game of the season.
           </div>
         }
       </TabPanel>
