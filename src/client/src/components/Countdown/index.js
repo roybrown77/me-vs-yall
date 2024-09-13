@@ -1,143 +1,99 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const styles = {
   countDown: {
-    fontFamily:'monospace',
+    fontFamily: 'monospace',
     fontSize: '17px',
-    color: 'deeppink'
-  }
+    color: 'deeppink',
+  },
 };
 
-class Countdown extends Component {
-  constructor(props) {
-    super(props);
+const Countdown = ({ date, styles: customStyles }) => {
+  const [timeLeft, setTimeLeft] = useState(calculateCountdown(date));
 
-    this.state = {
-      days: 0,
-      hours: 0,
-      min: 0,
-      sec: 0,
-    }
-  }
-
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      const date = this.calculateCountdown(this.props.date);
-      date ? this.setState(date) : this.stop();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatedTime = calculateCountdown(date);
+      if (!updatedTime) {
+        clearInterval(interval);
+      } else {
+        setTimeLeft(updatedTime);
+      }
     }, 1000);
-  }
 
-  componentWillUnmount() {
-    this.stop();
-  }
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [date]);
 
-  calculateCountdown(endDate) {
-    let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date())) / 1000;
+  const addLeadingZeros = (value) => {
+    return String(value).padStart(2, '0');
+  };
 
-    // clear countdown when date is reached
-    if (diff <= 0) return false;
-
-    const timeLeft = {
-      years: 0,
-      days: 0,
-      hours: 0,
-      min: 0,
-      sec: 0,
-      millisec: 0,
-    };
-
-    // calculate time difference between now and expected date
-    if (diff >= (365.25 * 86400)) { // 365.25 * 24 * 60 * 60
-      timeLeft.years = Math.floor(diff / (365.25 * 86400));
-      diff -= timeLeft.years * 365.25 * 86400;
-    }
-    if (diff >= 86400) { // 24 * 60 * 60
-      timeLeft.days = Math.floor(diff / 86400);
-      diff -= timeLeft.days * 86400;
-    }
-    if (diff >= 3600) { // 60 * 60
-      timeLeft.hours = Math.floor(diff / 3600);
-      diff -= timeLeft.hours * 3600;
-    }
-    if (diff >= 60) {
-      timeLeft.min = Math.floor(diff / 60);
-      diff -= timeLeft.min * 60;
-    }
-    timeLeft.sec = diff;
-
-    return timeLeft;
-  }
-
-  stop() {
-    clearInterval(this.interval);
-  }
-
-  addLeadingZeros(value) {
-    value = String(value);
-    while (value.length < 2) {
-      value = '0' + value;
-    }
-    return value;
-  }
-
-  render() {
-    const countDown = this.state;
-
-    return (
-      <div style={{...styles.countDown,...this.props.styles}}>
-        <div>
-        {
-          countDown.days > 0 && 
+  return (
+    <div style={{ ...styles.countDown, ...customStyles }}>
+      <div>
+        {timeLeft.days > 0 && (
           <span className="Countdown-col">
             <span className="Countdown-col-element">
-              <strong>{this.addLeadingZeros(countDown.days)}</strong>
-              <span> {countDown.days === 1 ? 'Day' : 'Days'} </span>
+              <strong>{addLeadingZeros(timeLeft.days)}</strong>
+              <span> {timeLeft.days === 1 ? 'Day' : 'Days'} </span>
             </span>
           </span>
-        }
-        {
-          countDown.hours > 0 && 
+        )}
+        {timeLeft.hours > 0 && (
           <span className="Countdown-col">
             <span className="Countdown-col-element">
-              <strong>{this.addLeadingZeros(countDown.hours)}</strong>
+              <strong>{addLeadingZeros(timeLeft.hours)}</strong>
               <span> Hours </span>
             </span>
           </span>
-        }
-        </div>
-        <div>
-        {
-          countDown.min > 0 && 
+        )}
+      </div>
+      <div>
+        {timeLeft.min > 0 && (
           <span className="Countdown-col">
             <span className="Countdown-col-element">
-              <strong>{this.addLeadingZeros(countDown.min)}</strong>
+              <strong>{addLeadingZeros(timeLeft.min)}</strong>
               <span> Min </span>
             </span>
           </span>
-        }
-        {
-          countDown.sec > 0 && 
+        )}
+        {timeLeft.sec > 0 && (
           <span className="Countdown-col">
             <span className="Countdown-col-element">
-              <strong>{this.addLeadingZeros(countDown.sec)}</strong>
+              <strong>{addLeadingZeros(timeLeft.sec)}</strong>
               <span> Sec </span>
             </span>
           </span>
-        }
-        </div>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+const calculateCountdown = (endDate) => {
+  let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date())) / 1000;
+
+  // Return false if countdown is over
+  if (diff <= 0) return false;
+
+  const timeLeft = {
+    days: Math.floor(diff / 86400),
+    hours: Math.floor((diff % 86400) / 3600),
+    min: Math.floor((diff % 3600) / 60),
+    sec: Math.floor(diff % 60),
+  };
+
+  return timeLeft;
+};
 
 Countdown.propTypes = {
-  date: PropTypes.string,
-  styles: PropTypes.object
+  date: PropTypes.string.isRequired,
+  styles: PropTypes.object,
 };
 
 Countdown.defaultProps = {
-  date: new Date()
+  date: new Date().toString(),
 };
 
 export default Countdown;
