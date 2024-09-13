@@ -1,23 +1,21 @@
-import { Component } from 'react';
-import { connect } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { loadUser } from '../../actions';
 
-class AuthenticationCallback extends Component {
-  componentDidMount() {
-    this.props.loadUser();
-  }
+const AuthenticationCallback = () => {
+  const dispatch = useDispatch();
 
-  render() {
-    return null;
-  }
-}
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
 
-AuthenticationCallback.propTypes = {
-    loadUser: PropTypes.func.isRequired
+  return null;
 };
 
-export default connect(undefined, {
-  loadUser
-})(AuthenticationCallback);
+AuthenticationCallback.propTypes = {
+  loadUser: PropTypes.func.isRequired
+};
+
+export default AuthenticationCallback;
