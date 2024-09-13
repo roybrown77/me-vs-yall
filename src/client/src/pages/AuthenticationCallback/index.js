@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
-import { createBrowserHistory } from 'history';
 
 import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../../utilities/authenticationClient';
-
-const history = createBrowserHistory({ forceRefresh: true });
 
 const AuthenticationCallback = () => {
   useEffect(() => {
@@ -20,7 +17,7 @@ const AuthenticationCallback = () => {
           localStorage.setItem('user', JSON.stringify(profile));
 
           // Remove '/authenticationCallback' from the URL and redirect
-          history.push(`/scoreboards/nfl`);
+          window.location.href = '/scoreboards/nfl`';
         } else {
           console.error('Error loading user profile:', err);
         }

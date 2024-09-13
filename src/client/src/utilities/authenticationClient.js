@@ -55,7 +55,7 @@ export const serverLogout = () => {
 
 export const logout = () => {
   localStorage.clear();
-  history.push('/');
+  window.location.href = '/';
 };
 
 export const isLoggedIn = () => {
