@@ -3,7 +3,7 @@ import { createBrowserHistory } from 'history';
 
 import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../../utilities/authenticationClient';
 
-const refreshHistory = createBrowserHistory({ forceRefresh: true });
+const history = createBrowserHistory({ forceRefresh: true });
 
 const AuthenticationCallback = () => {
   useEffect(() => {
@@ -20,7 +20,7 @@ const AuthenticationCallback = () => {
           localStorage.setItem('user', JSON.stringify(profile));
 
           // Remove '/authenticationCallback' from the URL and redirect
-          refreshHistory.push(`/scoreboards/nfl`);
+          history.push(`/scoreboards/nfl`);
         } else {
           console.error('Error loading user profile:', err);
         }
