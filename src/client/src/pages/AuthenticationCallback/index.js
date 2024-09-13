@@ -1,21 +1,37 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { createBrowserHistory } from 'history';
 
-import { loadUser } from '../../actions';
+import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../../utilities/authenticationClient';
+
+const refreshHistory = createBrowserHistory({ forceRefresh: true });
 
 const AuthenticationCallback = () => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+    const loadUser = () => {
+      // Set tokens and expiration
+      setAccessToken();
+      setIdToken();
+      setExpiration();
+
+      // Fetch user profile
+      getUserProfile((err, profile) => {
+        if (!err && profile) {
+          // Store the user profile in local storage
+          localStorage.setItem('user', JSON.stringify(profile));
+
+          // Remove '/authenticationCallback' from the URL and redirect
+          refreshHistory.push(`/scoreboards/nfl`);
+        } else {
+          console.error('Error loading user profile:', err);
+        }
+      });
+    };
+
+    // Call loadUser when the component mounts
+    loadUser();
+  }, []);
 
   return null;
-};
-
-AuthenticationCallback.propTypes = {
-  loadUser: PropTypes.func.isRequired
 };
 
 export default AuthenticationCallback;
