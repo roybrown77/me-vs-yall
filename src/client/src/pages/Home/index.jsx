@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
 
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +12,7 @@ import Typer from './Typer';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import { googleLogin } from '../../utilities/authenticationClient';
 
-const history = createBrowserHistory({forceRefresh: true});
+const history = createBrowserHistory({ forceRefresh: true });
 
 const styles = {
   inProgress: {
@@ -20,7 +20,7 @@ const styles = {
     width: '10px',
     backgroundColor: 'red',
     position: 'absolute',
-    margin: '15px 0 0 10px'
+    margin: '15px 0 0 10px',
   },
   signIn: {
     margin: '50px auto 25px auto',
@@ -31,17 +31,17 @@ const styles = {
     fontWeight: 'bold',
     cursor: 'pointer',
     color: '#000',
-    width: '175px'
+    width: '175px',
   },
   selections: {
     marginTop: '4rem',
     fontSize: '15px',
     gap: '1rem',
-    display: 'grid'
+    display: 'grid',
   },
   footerLinks: {
-    padding:'20px',
-    display:'flex',
+    padding: '20px',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -50,142 +50,176 @@ const styles = {
   },
   toggleOn: {
     color: '#fff',
-    fontSize: '5em'
+    fontSize: '5em',
   },
   toggleOff: {
     color: '#000',
-    fontSize: '5em'
-  }
+    fontSize: '5em',
+  },
 };
 
 const tagLines = [
   `"the ultimate sports pick'em game"`,
-  `"your mission, should you choose to accept it, is to pick the perfect week.  correctly pick the winner of every game this week and you will succeed.  it's one of the toughest things to do in the universe.  this message will self destruct."`
+  `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct."`,
 ];
 
-class Home extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        showInfo: false
-      };
-    }
+const Home = () => {
+  const [showInfo, setShowInfo] = useState(false);
 
-    componentDidMount() {
-      window.scrollTo(0, 0);
-    }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    gram = () => {
-      window.location = "https://www.instagram.com/_mevsyall";
-    };
+  const gram = () => {
+    window.location = 'https://www.instagram.com/_mevsyall';
+  };
 
-    tube = () => {
-      window.location = "https://www.youtube.com/channel/UC3BFY6ohNlayFkPVnlPKqww";
-    };
+  const tube = () => {
+    window.location = 'https://www.youtube.com/channel/UC3BFY6ohNlayFkPVnlPKqww';
+  };
 
-    navigateTo = (route) => {
-      history.push(route);
-    };
+  const navigateTo = (route) => {
+    history.push(route);
+  };
 
-    handleToggleShowInfo = () => {
-        this.setState((state) => ({
-          showInfo: !state.showInfo
-        }));
-    }
+  const handleToggleShowInfo = () => {
+    setShowInfo((prevShowInfo) => !prevShowInfo);
+  };
 
-    render() {
-      const { showInfo } = this.state;
+  const year = moment().format('YYYY');
 
-      const year = moment().format('YYYY');
-
-      return (
-        <div style={{ backgroundColor: 'transparent', fontFamily: 'monospace' }} className="fade-in">
-          <div style={{ backgroundColor:"transparent", position: "absolute", width:"100%", height:"100%", zIndex:"1" }}>
-            <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
-              <div style={{ marginTop: '2em' }}>
-                <img style={{ height:'137px', width:'275px' }} src={mvy} alt=""/>
-              </div>
-            </Slide>
+  return (
+    <div style={{ backgroundColor: 'transparent', fontFamily: 'monospace' }} className="fade-in">
+      <div
+        style={{
+          backgroundColor: 'transparent',
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          zIndex: '1',
+        }}
+      >
+        <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
+          <div style={{ marginTop: '2em' }}>
+            <img style={{ height: '137px', width: '275px' }} src={mvy} alt="" />
           </div>
-          <div style={{
-            bottom: "0",
-            right: "0", 
-            position: "fixed",
-            zIndex:"777"
-          }}>
-            <IconButton style={{ fontSize: '10px' }} aria-label="show info" onClick={this.handleToggleShowInfo}>
-              <LightOff style={styles.toggleOff}/>
-            </IconButton>
-          </div>
-          <div style={{
-            color: "#fff",
-            padding: "16px",
-            fontSize: "25px",
-            top: "3em",
-            position: "relative",
-            left: "0", 
-            zIndex:"2",
-            paddingTop: "5em"
-          }}>
-            <div style={{ color: '#000', fontSize: '15px' }}>
-              sports x fun x friends x vegas
-            </div>
-            <div style={{ marginTop: '1.5rem', color: '#000', fontSize: '15px' }}>
-              <Typer
-                dataText={tagLines} 
-              />
-            </div>
-            <div style={styles.selections}>
-              <div>
-                <Link className="link-group" to={()=>{}} onClick={googleLogin}>
-                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text-main">Sign In</span>
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group" to={"/scoreboards/nfl"}>
-                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text-main">View Games</span>
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group" to={"/leaders/nfl"}>
-                  <span style={{ marginRight: '.5rem' }}>{">"}</span><span className="link-text-main">View Leaderboard</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-          {showInfo && <div style={{
-            color: "#fff",
-            padding: "10px",
-            fontSize: "10px",
-            bottom: "0",
-            position: "fixed",
-            right: "4rem", 
-            zIndex:"2"
-          }}>
-            <div className="link-group" style={{...styles.footerLinks, color:'#000'}}>
-              <div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/tips'}>Tips</Link></div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/shop'}>Shop</Link></div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/play'}>Play</Link></div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={''} onClick={this.tube}>Tube</Link></div>
-              </div>
-              <div style={{ paddingLeft:'50px' }}>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/origin'}>Origin</Link></div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/contact'}>Contact</Link></div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={'/oftheweek'}>#$%@ of the Week</Link></div>
-                <div><Link className="link-group link-text" style={{...styles.link,color:'#000'}} to={''} onClick={this.gram}>Gram</Link></div>
-              </div>
-            </div>
-            <div style={{ color: '#000' }}>
-              <div>© 2017-{year} Me vs Yall</div>
-              <div>
-                {moment().tz("America/New_York").format('MM/DD/YYYY hh:mm a')}{" ATL"}
-              </div>
-            </div>
-          </div>}
+        </Slide>
+      </div>
+      <div
+        style={{
+          bottom: '0',
+          right: '0',
+          position: 'fixed',
+          zIndex: '777',
+        }}
+      >
+        <IconButton style={{ fontSize: '10px' }} aria-label="show info" onClick={handleToggleShowInfo}>
+          <LightOff style={styles.toggleOff} />
+        </IconButton>
+      </div>
+      <div
+        style={{
+          color: '#fff',
+          padding: '16px',
+          fontSize: '25px',
+          top: '3em',
+          position: 'relative',
+          left: '0',
+          zIndex: '2',
+          paddingTop: '5em',
+        }}
+      >
+        <div style={{ color: '#000', fontSize: '15px' }}>sports x fun x friends x vegas</div>
+        <div style={{ marginTop: '1.5rem', color: '#000', fontSize: '15px' }}>
+          <Typer dataText={tagLines} />
         </div>
-      );
-    }
-}
+        <div style={styles.selections}>
+          <div>
+            <Link className="link-group" to={() => {}} onClick={googleLogin}>
+              <span style={{ marginRight: '.5rem' }}>{'>'}</span>
+              <span className="link-text-main">Sign In</span>
+            </Link>
+          </div>
+          <div>
+            <Link className="link-group" to="/scoreboards/nfl">
+              <span style={{ marginRight: '.5rem' }}>{'>'}</span>
+              <span className="link-text-main">View Games</span>
+            </Link>
+          </div>
+          <div>
+            <Link className="link-group" to="/leaders/nfl">
+              <span style={{ marginRight: '.5rem' }}>{'>'}</span>
+              <span className="link-text-main">View Leaderboard</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+      {showInfo && (
+        <div
+          style={{
+            color: '#fff',
+            padding: '10px',
+            fontSize: '10px',
+            bottom: '0',
+            position: 'fixed',
+            right: '4rem',
+            zIndex: '2',
+          }}
+        >
+          <div className="link-group" style={{ ...styles.footerLinks, color: '#000' }}>
+            <div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/tips">
+                  Tips
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/shop">
+                  Shop
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/play">
+                  Play
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={tube}>
+                  Tube
+                </Link>
+              </div>
+            </div>
+            <div style={{ paddingLeft: '50px' }}>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/origin">
+                  Origin
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/contact">
+                  Contact
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/oftheweek">
+                  #$%@ of the Week
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={gram}>
+                  Gram
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div style={{ color: '#000' }}>
+            <div>© 2017-{year} Me vs Yall</div>
+            <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Home;
