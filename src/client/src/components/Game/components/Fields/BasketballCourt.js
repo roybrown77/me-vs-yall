@@ -1,5 +1,3 @@
-import React from 'react';
-
 const BasketballCourt = (props) => {
   return (
     <svg id="shotChart-02-svg" style={{paddingTop: '32px', height: '100%', maxWidth:'500px', width:'90%', overflow: 'visible'}} preserveAspectRatio="xMinYMax meet" viewBox="0 0 590 120">

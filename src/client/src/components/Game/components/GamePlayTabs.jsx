@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from 'react';
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
@@ -16,8 +16,8 @@ import GameEditor from "./GameEditor";
 const GamePlayTabs = (props) => {
   const { game, classes, isAuthenticated, userId } = props;
 
-  const [value, setValue] = React.useState(game.isGameOver ? 1 : 0);
-  const [showGamesPlayedDetail, setShowGamesPlayedDetail] = React.useState({});
+  const [value, setValue] = useState(game.isGameOver ? 1 : 0);
+  const [showGamesPlayedDetail, setShowGamesPlayedDetail] = useState({});
 
   const handleShowGamesPlayedDetail = (id) => {
     setShowGamesPlayedDetail({...showGamesPlayedDetail, [id]: !showGamesPlayedDetail?.[id]});

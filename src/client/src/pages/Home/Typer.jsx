@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 
 import { getRandomIntInclusive } from '../../utilities';
 
@@ -6,12 +6,15 @@ const TYPING_SPEED = 70;
 const DELETING_SPEED = 30;
 const WAIT_BEFORE_DELETING_SECONDS = 3;
 
-class Typer extends React.Component {
-  state = {
-    text: '',
-    isDeleting: false,
-    loopNum: getRandomIntInclusive(0,this.props.dataText.length-1),
-    typingSpeed: TYPING_SPEED
+class Typer extends Component {
+  constructor(props) {
+    super(props);
+      this.state = {
+      text: '',
+      isDeleting: false,
+      loopNum: getRandomIntInclusive(0,this.props.dataText.length-1),
+      typingSpeed: TYPING_SPEED
+    }
   }
 
   componentDidMount() {

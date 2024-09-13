@@ -1,8 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import Popover from '@material-ui/core/Popover';
 
 const SimplePopover = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

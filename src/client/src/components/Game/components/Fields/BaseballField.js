@@ -1,5 +1,3 @@
-import React from 'react';
-
 const BaseballField = (props) => {
   return(<svg id="mlb-gamecast__view--field" className="mlb-gamecast__view--field mlb-gamecast__view--venue-89" viewBox="0 0 390 188">
     <g transform="matrix(1,0,0,1,-129,-118)" className="base base__0">

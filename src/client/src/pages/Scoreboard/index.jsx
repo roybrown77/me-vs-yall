@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component } from 'react';
 import classNames from "classnames";
 import get from "lodash/get";
 import last from "lodash/last";

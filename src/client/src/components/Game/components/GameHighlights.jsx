@@ -1,7 +1,7 @@
-import React from "react";
+import { useState } from 'react';
 
 const GameHighlights = (props) => {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
 
   const handleChange = (event) => {
     setShow(!show);

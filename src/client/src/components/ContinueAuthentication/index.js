@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
@@ -14,9 +14,9 @@ import {
     getUser 
 } from '../../utilities/authenticationClient';
 
-const ContinueAuthentication = (props) => {
-    const [open, setOpen] = React.useState(true);
-    const [user] = React.useState(getUser());
+const ContinueAuthentication = () => {
+    const [open, setOpen] = useState(true);
+    const [user] = useState(getUser());
 
     const handleClose = () => {
         setOpen(false);

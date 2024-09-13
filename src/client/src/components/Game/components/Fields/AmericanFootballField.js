@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState, useRef } from 'react';
 
 const AmericanFootballField = (props) => {
-  const [isHeartedLeft, setIsHeartedLeft] = React.useState(true);
-  const [isHeartedRight, setIsHeartedRight] = React.useState(true);
+  const [isHeartedLeft, setIsHeartedLeft] = useState(true);
+  const [isHeartedRight, setIsHeartedRight] = useState(true);
 
-  const [isThrowingRight, setIsThrowingRight] = React.useState(false);
-  const [isThrowingLeft, setIsThrowingLeft] = React.useState(false);
-  const hideXO = React.useRef(false);
+  const [isThrowingRight, setIsThrowingRight] = useState(false);
+  const [isThrowingLeft, setIsThrowingLeft] = useState(false);
+  const hideXO = useRef(false);
 
   const awayScoreMade = () => {
     setIsThrowingRight(false);
