@@ -5,7 +5,6 @@ import last from "lodash/last";
 import moment from "moment-timezone";
 import { createBrowserHistory } from "history";
 import queryString from "query-string";
-import URLSearchParams from 'url-search-params';
 
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -337,9 +336,7 @@ class Scoreboard extends Component {
     const upsertPick = async (id, pick) => {
       this.setState(() => ({ updatingPick: true }));
   
-      const pickParams = new URLSearchParams();
-      pickParams.set('gameId', pick.gameId);
-      pickParams.set('pickId', pick.pickId);
+      const pickParams = queryString.stringify({ gameId:pick.gameId, pickId: pick.pickId });
   
       await callApi({
         method: id ? 'PUT' : 'POST',
@@ -380,23 +377,24 @@ class Scoreboard extends Component {
     if (!isAuthenticated) return;
 
     const updateGame = async (game) => {
-      const gameParams = new URLSearchParams();
-      gameParams.set('id', game.id);
-      gameParams.set('awayScore', game.awayScore);
-      gameParams.set('homeScore', game.homeScore);
-      gameParams.set('awayRank', game.awayRank);
-      gameParams.set('homeRank', game.homeRank);
-      gameParams.set('awayRecord', game.awayRecord);
-      gameParams.set('homeRecord', game.homeRecord);
-      gameParams.set('awaySpread', game.awaySpread);
-      gameParams.set('homeSpread', game.homeSpread);
-      gameParams.set('gameName', game.gameName);
-      gameParams.set('isGameOver', game.isGameOver);
-      gameParams.set('currentTime', game.currentTime);
-      gameParams.set('gameTime', game.gameTime);
-      gameParams.set('liveVideoUrl', game.liveVideoUrl);
-      gameParams.set('highlightVideoUrl', game.highlightVideoUrl);
-      gameParams.set('isHidden', game.isHidden);
+      const gameParams = {
+        id: game.id,
+        awayScore: game.awayScore,
+        homeScore: game.homeScore,
+        awayRank: game.awayRank,
+        homeRank: game.homeRank,
+        awayRecord: game.awayRecord,
+        homeRecord: game.homeRecord,
+        awaySpread: game.awaySpread,
+        homeSpread: game.homeSpread,
+        gameName: game.gameName,
+        isGameOver: game.isGameOver,
+        currentTime: game.currentTime,
+        gameTime: game.gameTime,
+        liveVideoUrl: game.liveVideoUrl,
+        highlightVideoUrl: game.highlightVideoUrl,
+        isHidden: game.isHidden
+      };
   
       await callApi({
         method: "PUT",

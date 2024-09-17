@@ -23,9 +23,6 @@
     "node": "20.10.0"
   },
   "scripts": {
-    "start_local": "concurrently \"npm run local-server\" \"npm run client\"",
-    "local-server": "node --expose-gc --inspect --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config src/server",
-    "local-worker": "node --expose-gc --inspect --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config src/workers",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon src/server",
     "prod-server": "node --expose-gc --inspect --optimize_for_size --max_old_space_size=460 --gc_interval=100 src/server",
