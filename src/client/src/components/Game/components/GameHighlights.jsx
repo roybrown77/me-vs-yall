@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
 const GameHighlights = (props) => {
+  const { game } = props;
+
   const [show, setShow] = useState(false);
+
+  let quarter;
 
   const handleChange = (event) => {
     setShow(!show);
   };
 
-  let quarter;
-
-  const { game } = props;
-
   return (
-    <div className="game-highlight">
+    <>
       <div style={{ margin: "4px 0", display: "flex" }}>
         <div
           style={{
@@ -166,13 +166,14 @@ const GameHighlights = (props) => {
             padding: "2px",
             border: "3px solid rgba(0,0,0,0.87)",
             borderRadius: "8px",
+            cursor: 'pointer',
           }}
           onClick={handleChange}
         >
           {show ? "show less -" : "show more +"}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

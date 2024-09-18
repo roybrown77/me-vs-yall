@@ -56,6 +56,11 @@ const styles = () => ({
     fontWeight: "bold",
     color: "rgba(0,0,0,.87)",
   },
+  stats: {
+    fontSize: "12px",
+    fontWeight: "bold",
+    color: "rgba(0,0,0,.87)",
+  },
   tieButton: {
     fontWeight: "700",
     marginTop: "10px",

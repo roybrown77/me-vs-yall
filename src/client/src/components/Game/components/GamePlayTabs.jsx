@@ -8,24 +8,42 @@ import a11yProps from "../../../utilities/a11yProps";
 import { watchLiveGames } from "../../../config";
 import { hasGameStarted } from "../../../utilities";
 
+
 import GamePlayHistory from "./GamePlayHistory";
 import WorldFootballGamePlayHistory from "./WorldFootballGamePlayHistory";
 import GameHighlights from "./GameHighlights";
+import GameStats from "./GameStats";
 import GameEditor from "./GameEditor";
+
+const TabState = {
+  PLAY_HISTORY: 0,
+  HIGHLIGHTS: 1,
+  STATS: 2,
+  EDIT: 3
+};
+
+const getInitialTabValue = (game) => {
+  if (!hasGameStarted(game.startDateTime)) {
+      // If the game hasn't started yet
+      return (game.stats || []).length > 0 ? TabState.STATS : TabState.PLAY_HISTORY;
+  }
+  
+  if (game.isGameOver) {
+      // If the game is over
+      if ((game.highlights || []).length > 0) {
+          return TabState.HIGHLIGHTS;
+      }
+      return (game.stats || []).length > 0 ? TabState.STATS : TabState.HIGHLIGHTS;
+  }
+  
+  // Default case when the game has started but is not over
+  return TabState.PLAY_HISTORY;
+};
 
 const GamePlayTabs = (props) => {
   const { game, classes, isAuthenticated, userId } = props;
 
-  const [value, setValue] = useState(game.isGameOver ? 1 : 0);
-  const [showGamesPlayedDetail, setShowGamesPlayedDetail] = useState({});
-
-  const handleShowGamesPlayedDetail = (id) => {
-    setShowGamesPlayedDetail({...showGamesPlayedDetail, [id]: !showGamesPlayedDetail?.[id]});
-  };
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [tabValue, setTabValue] = useState(getInitialTabValue(game));
 
   const enableWatchLiveGames = watchLiveGames &&
   ([
@@ -37,6 +55,10 @@ const GamePlayTabs = (props) => {
     (game.highlightVideoUrl && game.highlightVideoUrl !== ""));
 
   const enableGameEditor = isAuthenticated && userId === "google-oauth2|114172296334563495985";
+
+  const handleTabChange = (event, newTabValue) => {
+    setTabValue(newTabValue);
+  };
 
   return (
     <Box
@@ -56,8 +78,8 @@ const GamePlayTabs = (props) => {
         }}
       >
         <Tabs
-          value={value}
-          onChange={handleChange}
+          value={tabValue}
+          onChange={handleTabChange}
           aria-label="game play tabs"
           style={{
             paddingBottom: "1.25rem",
@@ -85,7 +107,7 @@ const GamePlayTabs = (props) => {
         </Tabs>
       </Box>
       {/* Play History */}
-      <TabPanel value={value} index={0}>
+      <TabPanel value={tabValue} index={TabState.PLAY_HISTORY}>
         {hasGameStarted(game.startDateTime) &&
           (game.playHistory || []).length > 0 &&
           ["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
@@ -105,11 +127,11 @@ const GamePlayTabs = (props) => {
         )}
         {hasGameStarted(game.startDateTime) &&
           game.playHistory.length === 0 && (
-            <div>No play history available.</div>
+            <div>Play history is not available.</div>
           )}
       </TabPanel>
       {/* MvY Highlights */}
-      <TabPanel value={value} index={1}>
+      <TabPanel value={tabValue} index={TabState.HIGHLIGHTS}>
         {hasGameStarted(game.startDateTime) &&
           (game.highlights || []).length > 0 &&
           !["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
@@ -128,70 +150,19 @@ const GamePlayTabs = (props) => {
           <div>Please wait for game to start to see highlights.</div>
         )}
         {hasGameStarted(game.startDateTime) && game.highlights.length === 0 && (
-          <div>No highlights available.</div>
+          <div>Highlights are not available.</div>
         )}
       </TabPanel>
       {/* Stats */}
-      <TabPanel value={value} index={2}>
-        {(game.stats || []).length > 0 && (
-          <div style={{ fontSize: "0.7rem", fontFamily: "monospace" }}>
-            <div style={{ padding: "0.625rem" }}>
-              <div style={{ display: "flex" }}>
-                <div style={{ height: "1.5rem" }}></div>
-                <div style={{ position: "absolute", right: "9.25rem" }}>
-                  {game.stats[0].awayTeam.name}
-                </div>
-                <div style={{ position: "absolute", right: "0.625rem" }}>
-                  {game.stats[1].homeTeam.name}
-                </div>
-              </div>
-              {(game.stats || []).map((stat) => (
-                <div key={game._id + '-' + stat.name} style={{ height: stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] && stat.homeTeam?.list?.length > 0 ? `${stat.homeTeam.list.length*.9 + 2}rem` : '' }}>
-                  <div style={{ display: "flex" }}>
-                    <div style={{ cursor: 'pointer', height: '100%' }} onClick={() => stat.name === 'Games Played' ? handleShowGamesPlayedDetail(game._id) : null}>{stat.name} {stat.name === 'Games Played' ? showGamesPlayedDetail?.[game._id] ? '-' : '+' : ''}</div>
-                    <div style={{ position: "absolute", right: "9.25rem" }}>
-                      <div style={{ textAlign: 'right' }}>{stat.awayTeam.value}</div>
-                      {
-                        stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] &&
-                        <div style={{ textAlign: 'left', marginTop: '1rem' }}>
-                          {
-                            stat.awayTeam.list?.map(gamePlayed => (
-                              <div style={{ fontWeight: '700', color: gamePlayed[0] === 'W' ? 'darkgreen' : '' }}>{gamePlayed}</div>
-                            ))
-                          }
-                        </div>
-                      }
-                      </div>
-                    <div style={{ position: "absolute", right: "0.625rem" }}>
-                      <div style={{ textAlign: 'right' }}>{stat.homeTeam.value}</div>
-                      {
-                        stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] &&
-                        <div style={{ textAlign: 'left', marginTop: '1rem' }}>
-                          {
-                            stat.homeTeam.list?.map(gamePlayed => (
-                              <div style={{ fontWeight: '700', color: gamePlayed[0] === 'W' ? 'darkgreen' : '' }}>{gamePlayed}</div>
-                            ))
-                          }
-                        </div>
-                      }
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        {
-          (game.stats || []).length === 0 &&
-          <div>
-            Stats are not available until after the first game of the season.
-          </div>
-        }
+      <TabPanel value={tabValue} index={TabState.STATS}>
+        <div className={classes.stats}>
+          <GameStats {...props} />
+        </div>
       </TabPanel>
       {/* Watch Live Games */}
       {
         enableWatchLiveGames &&
-        <TabPanel value={value} index={3}>
+        <TabPanel value={tabValue} index={TabState.EDIT}>
           {hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
             ([
@@ -253,7 +224,7 @@ const GamePlayTabs = (props) => {
       {/* Game Editor */}
       {
         enableGameEditor &&
-        <TabPanel value={value} index={3}>
+        <TabPanel value={tabValue} index={TabState.EDIT}>
           <GameEditor {...props} />
         </TabPanel>
       }

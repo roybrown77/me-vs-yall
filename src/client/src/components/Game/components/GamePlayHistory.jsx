@@ -1,16 +1,29 @@
 import { useState } from 'react';
 
 const GamePlayHistory = (props) => {
+  const { game } = props;
+
   const [show, setShow] = useState(false);
 
   const handleChange = (event) => {
     setShow(!show);
   };
 
-  const { game } = props;
-
   return (
-    <div className="play-history">
+    <>
+      <div style={{ margin: "4px 0", display: "flex" }}>
+        <div
+          style={{
+            minWidth: "40px",
+            padding: "4px",
+            backgroundColor: "rgb(45, 232, 149)",
+            color: "rgba(0,0,0,0.87)",
+            marginRight: "4px",
+          }}
+        >
+          MvY Plays
+        </div>
+      </div>
       {!show &&
         (game.playHistory || []).slice(0, 5).map((play, playIndex) => {
           return (
@@ -65,7 +78,8 @@ const GamePlayHistory = (props) => {
               <div style={{ textAlign: "left" }}>{play.lastPlay}</div>
             </div>
           );
-        })}
+        })
+      }
       {show &&
         (game.playHistory || []).map((play, playIndex) => {
           return (
@@ -108,7 +122,8 @@ const GamePlayHistory = (props) => {
               <div style={{ textAlign: "left" }}>{play.lastPlay}</div>
             </div>
           );
-        })}
+        })
+      }
       {(game.playHistory || []).length > 5 && (
         <div
           style={{
@@ -118,13 +133,14 @@ const GamePlayHistory = (props) => {
             padding: "2px",
             border: "3px solid rgba(0,0,0,0.87)",
             borderRadius: "8px",
+            cursor: 'pointer',
           }}
           onClick={handleChange}
         >
           {show ? "show less -" : "show more +"}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
