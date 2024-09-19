@@ -107,7 +107,20 @@ const GamePlayTabs = (props) => {
         </Tabs>
       </Box>
       {/* Play History */}
-      <TabPanel value={tabValue} index={TabState.PLAY_HISTORY}>
+      <TabPanel className={classes.lastPlay} value={tabValue} index={TabState.PLAY_HISTORY}>
+        <div style={{ margin: "4px 0", display: "flex" }}>
+          <div
+            style={{
+              minWidth: "40px",
+              padding: "4px",
+              backgroundColor: "rgb(45, 232, 149)",
+              color: "rgba(0,0,0,0.87)",
+              marginRight: "4px",
+            }}
+          >
+            MvY Plays
+          </div>
+        </div>
         {hasGameStarted(game.startDateTime) &&
           (game.playHistory || []).length > 0 &&
           ["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
@@ -118,9 +131,7 @@ const GamePlayTabs = (props) => {
           !["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
             game?.leagueId
           ) && (
-            <div className={classes.lastPlay}>
-              {<GamePlayHistory {...props} />}
-            </div>
+            <GamePlayHistory {...props} />
           )}
         {!hasGameStarted(game.startDateTime) && (
           <div>Please wait for game to start to see play history.</div>
@@ -131,15 +142,27 @@ const GamePlayTabs = (props) => {
           )}
       </TabPanel>
       {/* MvY Highlights */}
-      <TabPanel value={tabValue} index={TabState.HIGHLIGHTS}>
+      <TabPanel className={classes.lastPlay} value={tabValue} index={TabState.HIGHLIGHTS}>
+        <div style={{ margin: "4px 0", display: "flex" }}>
+          <div
+            style={{
+              minWidth: "40px",
+              padding: "4px",
+              backgroundColor: "#1e90ff",
+              color: "#fff",
+              marginRight: "4px",
+            }}
+          >
+            MvY Highlights
+          </div>
+        </div>
         {hasGameStarted(game.startDateTime) &&
           (game.highlights || []).length > 0 &&
           !["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
             game?.leagueId
           ) && (
-            <div className={classes.lastPlay}>
-              {hasGameStarted(game.startDateTime) &&
-                (game.highlights || []).length > 0 &&
+            <div>
+              {(game.highlights || []).length > 0 &&
                 ![
                   "59723313734d1d6202a85f17",
                   "59723313734d1d6202a85f29",

@@ -13,19 +13,6 @@ const GameHighlights = (props) => {
 
   return (
     <>
-      <div style={{ margin: "4px 0", display: "flex" }}>
-        <div
-          style={{
-            minWidth: "40px",
-            padding: "4px",
-            backgroundColor: "#1e90ff",
-            color: "#fff",
-            marginRight: "4px",
-          }}
-        >
-          MvY Highlights
-        </div>
-      </div>
       {!show &&
         (game.highlights || []).slice(0, 5).map((play, playIndex) => {
           return (

@@ -11,19 +11,6 @@ const GamePlayHistory = (props) => {
 
   return (
     <>
-      <div style={{ margin: "4px 0", display: "flex" }}>
-        <div
-          style={{
-            minWidth: "40px",
-            padding: "4px",
-            backgroundColor: "rgb(45, 232, 149)",
-            color: "rgba(0,0,0,0.87)",
-            marginRight: "4px",
-          }}
-        >
-          MvY Plays
-        </div>
-      </div>
       {!show &&
         (game.playHistory || []).slice(0, 5).map((play, playIndex) => {
           return (
