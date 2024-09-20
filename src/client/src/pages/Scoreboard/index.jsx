@@ -16,7 +16,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Skeleton from "@material-ui/lab/Skeleton";
 import ToggleOn from "@material-ui/icons/ToggleOn";
 import ToggleOff from "@material-ui/icons/ToggleOff";
-import Share from '@material-ui/icons/ReplyOutlined';
+import Send from '@material-ui/icons/Send';
+import Calendar from '@material-ui/icons/CalendarToday';
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import PageContainer from "../../components/PageContainer";
@@ -28,7 +29,7 @@ import Popover from "../../components/Popover";
 import TinyScoreboard from "../../components/TinyScoreboard";
 import Alert from '../../components/Alert';
 
-import { getPicksNotSelected, getCopiedGamesToShare, getGroupedGames } from "./utilities";
+import { getPicksNotSelected, getGroupedGames } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
 import { getLeagueName } from '../../utilities/getLeagueName';
@@ -39,6 +40,7 @@ import {
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
     leagues,
+    getCopiedGamesToShare,
   } from "../../utilities";
 import {
   googleLogin,
@@ -407,9 +409,9 @@ class Scoreboard extends Component {
   };
 
   handleShareGames = () => {
-    const { games, picks, teams } = this.state;
+    const { games, picks, teams, userId } = this.state;
 
-    const gamesToShare = getCopiedGamesToShare(games, picks, teams);
+    const gamesToShare = getCopiedGamesToShare(games, picks, teams, isAuthenticated, userId);
 
     // Create a temporary text area element
     const textArea = document.createElement('textarea');
@@ -629,12 +631,30 @@ class Scoreboard extends Component {
             </div>
           )}
           <div style={{ display: 'flex' }}>
+            <div
+              onClick={this.handleSpreadToggle}
+              style={{
+                marginTop: "25px",
+                marginLeft: "auto",
+                padding: "10px",
+                backgroundColor: "#fff",
+              }}
+            >
+              <div style={{ fontSize: "9px" }}>Add Reminder</div>
+              <div>
+                <IconButton
+                  className={classes.toggleButtonOn}
+                  aria-label="Add Calendar Reminder"
+                >
+                  <Calendar onClick={this.handleShareGames}/>
+                </IconButton>
+              </div>
+            </div>
             {
               document.queryCommandSupported('copy') && 
               <div
                 style={{
                   marginTop: "25px",
-                  marginLeft: "auto",
                   padding: "10px",
                   backgroundColor: "#fff",
                 }}
@@ -645,7 +665,7 @@ class Scoreboard extends Component {
                     className={classes.toggleButtonOn}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >
-                    <Share onClick={this.handleShareGames} style={{ '-webkit-transform': 'scaleX(-1)', transform: 'scaleX(-1)' }}/>
+                    <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
                   <Snackbar open={openGamesCopiedAlert}>
                     <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
