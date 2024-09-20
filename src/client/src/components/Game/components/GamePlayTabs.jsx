@@ -134,11 +134,11 @@ const GamePlayTabs = (props) => {
             <GamePlayHistory {...props} />
           )}
         {!hasGameStarted(game.startDateTime) && (
-          <div>Please wait for game to start to see play history.</div>
+          <div style={{ marginTop: '1.25rem' }}>Please wait for game to start to see play history.</div>
         )}
         {hasGameStarted(game.startDateTime) &&
           game.playHistory.length === 0 && (
-            <div>Play history is not available.</div>
+            <div style={{ marginTop: '1.25rem' }}>Play history is not available.</div>
           )}
       </TabPanel>
       {/* MvY Highlights */}
@@ -170,10 +170,10 @@ const GamePlayTabs = (props) => {
             </div>
           )}
         {!hasGameStarted(game.startDateTime) && (
-          <div>Please wait for game to start to see highlights.</div>
+          <div style={{ marginTop: '1.25rem' }}>Please wait for game to start to see highlights.</div>
         )}
         {hasGameStarted(game.startDateTime) && game.highlights.length === 0 && (
-          <div>Highlights are not available.</div>
+          <div style={{ marginTop: '1.25rem' }}>Highlights are not available.</div>
         )}
       </TabPanel>
       {/* Stats */}
@@ -232,10 +232,10 @@ const GamePlayTabs = (props) => {
               </div>
             )}
           {!hasGameStarted(game.startDateTime) && (
-            <div>Please wait for game to start to watch live.</div>
+            <div style={{ marginTop: '1.25rem' }}>Please wait for game to start to watch live.</div>
           )}
           {hasGameStarted(game.startDateTime) && game.isGameOver && (
-            <div>Please come back next time before game ends.</div>
+            <div style={{ marginTop: '1.25rem' }}>Please come back next time before game ends.</div>
           )}
           {hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&

@@ -106,7 +106,7 @@ const GamePlayHistory = (props) => {
       )}
       {
         (game.stats || []).length === 0 &&
-        <div>
+        <div style={{ marginTop: '1.25rem' }}>
           Stats are not available.
         </div>
       }
