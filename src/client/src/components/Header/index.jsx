@@ -128,21 +128,20 @@ const Profile = (props) => {
   );
 };
 
-
 const Header = (props) => {
+  const { classes, children, disableTopBanner} = props;
   const isAuthenticated = isConfirmedAuthentication();
   const user = getUser();
-  const { classes, children } = props;
   const picture = get(user,'picture');
 
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <AppBar className={classNames(classes.appBar)}>
+        <AppBar style={disableTopBanner ? { backgroundColor: 'transparent '} : {}} className={classNames(classes.appBar)}>
           <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
-          <Link to="/">
+          {!disableTopBanner && <Link to="/">
             <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
-          </Link>
+          </Link>}
           </Typography>
           {
             isAuthenticated && picture &&
@@ -195,7 +194,8 @@ Header.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    disableTopBanner: PropTypes.bool,
 };
 
 export default withStyles(styles, { withTheme: true })(Header);
