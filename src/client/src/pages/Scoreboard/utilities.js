@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import orderBy from "lodash/orderBy";
 import get from "lodash/get";
 
-import { getRandomIntInclusive } from '../../utilities';
+import { getRandomIntInclusive, getSpreadAmount } from '../../utilities';
 
 const getPicksNotSelected = (games = [], picks = []) => {
     let count = 0;

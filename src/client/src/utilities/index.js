@@ -648,4 +648,5 @@ export {
   getLeaderIndicator,
   getLeagueStartDateTime,
   getRandomIntInclusive,
+  getSpreadAmount,
 };
