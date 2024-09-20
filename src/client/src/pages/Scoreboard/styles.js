@@ -8,10 +8,6 @@ const styles = {
     input: {
       display: 'none',
     },
-    pickResultContainer: {
-      margin: '0 15% 6px 15%',
-      backgroundColor: '#fff'
-    },
     banner: {
       marginBottom: '10px'
     },

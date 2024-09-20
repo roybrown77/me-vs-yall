@@ -517,7 +517,7 @@ class Scoreboard extends Component {
             </Button>
           )}
           {isAuthenticated && (
-            <div className={classNames(classes.pickResultContainer)}>
+            <div>
               <PickResult
                 loading={isLoading}
                 spreadMode={spreadMode}
