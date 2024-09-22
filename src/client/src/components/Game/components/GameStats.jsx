@@ -90,7 +90,7 @@ const GamePlayHistory = (props) => {
                 style={{
                   color: "rgba(0,0,0,0.87)",
                   fontSize: "15px",
-                  margin: "4px 17%",
+                  margin: "1rem 17% .25rem 17%",
                   padding: "2px",
                   border: "3px solid rgba(0,0,0,0.87)",
                   borderRadius: "8px",
