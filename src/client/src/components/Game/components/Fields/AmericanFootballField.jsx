@@ -6,12 +6,11 @@ const AmericanFootballField = (props) => {
 
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
-  const hideXO = useRef(false);
+  const hideXO = useRef(false);;
 
   const awayScoreMade = () => {
     setIsThrowingRight(false);
     props.awayScoreHandler();
-    
   };
 
   const homeScoreMade = () => {
