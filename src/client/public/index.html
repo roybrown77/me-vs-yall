@@ -1,18 +1,76 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    
+    <!-- PWA settings -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#536878">
+    
+    <!-- Apple PWA icons -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icons/apple-icon-180.png">
+    <link rel="icon" sizes="192x192" href="%PUBLIC_URL%/icons/android-icon-192.png">
+    
+    <!-- Define splash screens for iOS -->
+    <link rel="apple-touch-startup-image" href="%PUBLIC_URL%/splash/launch-640x1136.png" media="(device-width: 320px)">
+    <link rel="apple-touch-startup-image" href="%PUBLIC_URL%/splash/launch-750x1334.png" media="(device-width: 375px)">
+    <link rel="apple-touch-startup-image" href="%PUBLIC_URL%/splash/launch-1125x2436.png" media="(device-width: 375px) and (device-height: 812px)">
+    <link rel="apple-touch-startup-image" href="%PUBLIC_URL%/splash/launch-1242x2208.png" media="(device-width: 414px)">
+    
+    <!-- Preload fonts for better performance -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- PWA name -->
+    <meta name="application-name" content="Me vs Yall">
+    <meta name="apple-mobile-web-app-title" content="Me vs Yall">
+
+    <!-- SEO meta tags -->
     <meta
-      name="description"
-      content="The ultimate sports pick'em game.  Me vs Yall is a fun and entertaining way to analyze teams and players in the pursuit of correctly guessing who will win.  
-      It will help you outwit others around the world and beat vegas for money."
-    />
+    name="description"
+    content="The ultimate sports pick'em game.  Me vs Yall is a fun and entertaining way to analyze teams and players in the pursuit of correctly guessing who will win.  
+    It will help you outwit others around the world and beat vegas for money."
+  />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    
     <title>Me vs Yall</title>
   </head>
+  
   <body>
+    <!-- Root div for React app -->
     <div id="root"></div>
+
+    <!-- Register Service Worker for PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }).catch(err => {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    </script>
+
+    <!-- App shell caching strategy -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then((registration) => {
+          console.log('Service worker ready:', registration);
+          return registration;
+        });
+      }
+    </script>
   </body>
 </html>
-
