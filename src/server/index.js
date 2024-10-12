@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const jwks = require('jwks-rsa');
 const { expressjwt: jwt } = require('express-jwt');
 const path = require('path');
+const cors = require('cors');
 
 // Validate environment variables
 validateEnvironmentVariables();
@@ -87,6 +88,14 @@ function initializeExpressApp() {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.set('port', httpPort || 3001);
+
+  const corsOptions = {
+    origin: ['https://www.mevsyall.com', 'http://localhost:3000'],
+    methods: 'GET,HEAD,PUT,PATCH,POST',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allows cookies and credentials to be sent
+  };
+  app.use(cors(corsOptions)); // Enable all CORS requests
 
   app.use((req, res, next) => {
     req.headers['content-type'] = 'application/json; charset=UTF-8';
