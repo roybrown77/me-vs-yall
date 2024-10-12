@@ -144,6 +144,8 @@ function registerApiRoutes(app, authCheck) {
  * @param {object} app - The Express application instance
  */
 function serveStaticAssets(app) {
+  const compression = require('compression');
+  app.use(compression()); // Enable compression for faster asset delivery
   app.use(express.static(path.resolve(__dirname, '../client/build')));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
