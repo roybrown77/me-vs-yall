@@ -132,7 +132,7 @@ router.get('/picks/', async function (req, res) {
                 const currentYear = 2024;
 
                 const daysSinceEndOfWeek1 = moment().diff(moment(endOfCurrentWeek1), 'days');
-                const isReadyForTheKings = year < currentYear || daysSinceEndOfWeek1 > (6*7); // Week 1 plus 6 more weeks is end of Week 7
+                const isReadyForTheKings = year < currentYear || daysSinceEndOfWeek1 > (6*7 + 2); // End of week 1 plus 6 more weeks + 2 is start of Week 8
 
                 if (isReadyForTheKings) {
                     try {
