@@ -169,7 +169,7 @@ router.get('/picks/', async function (req, res) {
     
                         mvyRoadHomePicks = {
                             _id: mongoose.Types.ObjectId().toString(),
-                            userId: 5, // King Z; Points Scored & Allowed
+                            userId: 5, // King Doom; Points Scored & Allowed
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                             : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
@@ -181,7 +181,7 @@ router.get('/picks/', async function (req, res) {
                             (roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0)) {
                             mvyRoadHomeXPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 17, // King ZX; Points Scored & Allowed, Road Only
+                                userId: 17, // King Thanos; Points Scored & Allowed, Road Only
                                 gameId: game._id,
                                 pickId: game.competitors[0]._id,
                                 leagueId: game.leagueId
@@ -215,7 +215,7 @@ router.get('/picks/', async function (req, res) {
                         if (weekday === 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) {
                             mvySundayXPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
-                                userId: 15, // King Sunday X; Points Scored, Road only
+                                userId: 15, // King Magneto; Points Scored, Road only
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
