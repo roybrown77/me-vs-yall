@@ -569,6 +569,16 @@ class Leader extends Component {
                                 )}
                               {leader.picture && (
                                 <div style={{ margin: "auto" }}>
+                                  {index === 0 && <div style={{
+                                    fontSize: '2rem',
+                                    position: 'absolute',
+                                    top: '-10px',
+                                    transform: 'rotate(-30deg)',
+                                    left: '55px',
+                                  }}
+                                  >
+                                    👑
+                                  </div>}
                                   <img
                                     className={classes.userPicture}
                                     src={leader.picture}
