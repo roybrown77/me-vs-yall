@@ -20,13 +20,14 @@ const options = {
   autoIndex: false, // Don't build indexes
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  family: 4 // Use IPv4, skip trying IPv6
+  family: 4, // Use IPv4, skip trying IPv6,
+  // poolSize: 10 // Adjust pool size as needed
 };
 
 const cronJobs = [
   { 
     name: "Cron process",
-    cronTime: '*/10 * * * * *',
+    cronTime: '*/1 * * * * *',
     repeat: true
   }
 ];

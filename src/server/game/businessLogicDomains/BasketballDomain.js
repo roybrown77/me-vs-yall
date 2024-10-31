@@ -107,9 +107,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
 
   const root = 'scoreboard basketball';
 
-  const date = moment(new Date()).format('YYYYMMDD');
-
-  const scoreSet = await getScores({
+  const scores = await getScores({
     message, 
     root,
     url: `${url}`,
@@ -124,8 +122,8 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
     ]
   });
   
-  if (scoreSet.length === 0) {
-    console.log(`${message} no scoreSet.`);
+  if (scores.length === 0) {
+    console.log(`${message} no scores.`);
     isUpdateBasketballScoresRunning = false;
     return;
   }
@@ -134,7 +132,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
     message,
     leagueId,
     games,
-    scoreSet,
+    scores,
     teams
   });
 

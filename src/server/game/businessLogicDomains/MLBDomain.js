@@ -107,7 +107,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
 
   const root = 'scoreboard baseball';
 
-  const scoreSet = await getScores({
+  const scores = await getScores({
     message, 
     root,
     url,
@@ -122,8 +122,8 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     ],
   });
   
-  if (scoreSet.length === 0) {
-    console.log(`${message} no scoreSet.`);
+  if (scores.length === 0) {
+    console.log(`${message} no scores.`);
     isUpdateMlbScoresRunning = false;
     return;
   }
@@ -132,7 +132,7 @@ const updateMlbScores = async ({leagueId, year, message, url, teams}) => {
     message,
     leagueId,
     games,
-    scoreSet,
+    scores,
     teams
   });
 

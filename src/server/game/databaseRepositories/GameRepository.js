@@ -24,6 +24,8 @@ const GameSchema = new mongoose.Schema({
     isHidden: Boolean
 });
 
-GameSchema.index({"playHistory.$**": "text"});
+// GameSchema.index({"playHistory.$**": "text"});
+
+GameSchema.index({ leagueId: 1, isGameOver: 1, startDateTime: 1, year: 1 });
 
 module.exports = mongoose.model('Game', GameSchema);

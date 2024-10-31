@@ -11,7 +11,7 @@ const {
   updateGames
 } = require('../../utilities/utilities');
 
-let isUpdateAmericanFootballScoresRunning = false;
+let lastRunTime = 0; // Track the last run time
 
 const loadAmericanFootballGames = async ({
   leagueId, 
@@ -25,13 +25,6 @@ const loadAmericanFootballGames = async ({
   startTimeSelector,
   startDateSelector
 }) => {
-  if (isUpdateAmericanFootballScoresRunning) {
-    console.log(`${message} already running.`)
-    return;
-  }
-
-  isUpdateAmericanFootballScoresRunning = true;
-
   let games = await getGames({
     leagueId,
     message,
@@ -45,15 +38,12 @@ const loadAmericanFootballGames = async ({
   
   if ((games || []).length === 0) {
     console.log(`${message} no games`);
-    isUpdateAmericanFootballScoresRunning = false;
     return;
   }
   
-  let mvyGames = await formatGames({message, games, leagueId, year, teams});
+  let mvyGames = formatGames({message, games, leagueId, year, teams});
 
-  await createGames({message, games: mvyGames});
-
-  isUpdateAmericanFootballScoresRunning = false;
+  createGames({message, games: mvyGames});
 };
 
 const updateAmericanFootballScores = async ({
@@ -78,89 +68,86 @@ const updateAmericanFootballScores = async ({
 }) => {
   console.log(`*** update leagueId: ${leagueId}`);
 
-  if (isUpdateAmericanFootballScoresRunning) {
-    console.log(`${message} already running.`)
+  const now = Date.now();
+
+  const updateGameIntervalSeconds = 10;
+
+  if (now - lastRunTime < (updateGameIntervalSeconds * 1000)) {
+    console.log(`${message} update skipped; last update was within ${10} seconds.`);
     return;
   }
 
-  isUpdateAmericanFootballScoresRunning = true;
+  lastRunTime = now;
 
-  const search = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
-    isGameOver: {
-      $ne: true
-    },
-    startDateTime: {
-      $lte: new Date(moment().add(30, 'minutes'))
-    },
-    year: year
-  };
-
-  let games = await gameRepository.find(search);
-
-  if ((games || []).length === 0) {
-    console.log(`${message} all scores have been updated or games are not close to starting.`);
-
-    const hours = parseInt(moment().format('HH'));
-    const minutes = parseInt(moment().format('mm'));
-    const timezoneOffset = moment().utcOffset()/60;
-    const eastCoastHour = hours + (-4 - timezoneOffset);
-
-    if ((eastCoastHour === 2 && minutes > 0 && minutes < 15) || (eastCoastHour === 14 && minutes > 0 && minutes < 15)) {
-      const search = {
+  try {
+    const search = {
       leagueId: mongoose.Types.ObjectId(leagueId),
-        isGameOver: {
-          $ne: true
-        },
-        year: year
-      };
+      isGameOver: { $ne: true },
+      startDateTime: { $lte: new Date(moment().add(30, 'minutes')) },
+      year
+    };
 
-      games = await gameRepository.find(search);
-    }
+    let games = await gameRepository.find(search);
 
     if ((games || []).length === 0) {
-      console.log(`${message} not time to update spread.`);
-      isUpdateAmericanFootballScoresRunning = false;
+      console.log(`${message} all scores have been updated or games are not close to starting.`);
+
+      const hours = parseInt(moment().format('HH'));
+      const minutes = parseInt(moment().format('mm'));
+      const timezoneOffset = moment().utcOffset() / 60;
+      const eastCoastHour = hours + (-4 - timezoneOffset);
+
+      if ((eastCoastHour === 2 && minutes > 0 && minutes < 15) || (eastCoastHour === 14 && minutes > 0 && minutes < 15)) {
+        games = await gameRepository.find({
+          leagueId: mongoose.Types.ObjectId(leagueId),
+          isGameOver: { $ne: true },
+          year
+        });
+      }
+
+      if ((games || []).length === 0) {
+        console.log(`${message} not time to update spread.`);
+        return;
+      }
+    }
+
+    console.log(`${message} getting scores.`);
+
+    const scores = await getScores({
+      leagueId,
+      message, 
+      url,
+      root,
+      pregameNameSelector,
+      spreadSelector,
+      liveQuarterSelector,
+      liveScoreSelector,
+      liveNameSelector,
+      liveCurrentTimeSelector,
+      liveDownSelector,
+      livePossession,
+      livePlaySelector,
+      finalNameSelector,
+      finalGameOverSelector,
+      finalScoreSelector
+    });
+
+    if (scores.length === 0) {
+      console.log(`${message} no scores.`);
       return;
     }
+
+    updateGames({
+      leagueId, 
+      message,
+      games,
+      scores,
+      teams
+    });
+
+  } catch (error) {
+    console.error(`${message} updateAmericanFootballScores error:`, error);
   }
-
-  console.log(`${message} getting scores.`);
-
-  const scoreSet = await getScores({
-    leagueId,
-    message, 
-    url,
-    root,
-    pregameNameSelector,
-    spreadSelector,
-    liveQuarterSelector,
-    liveScoreSelector,
-    liveNameSelector,
-    liveCurrentTimeSelector,
-    liveDownSelector,
-    livePossession,
-    livePlaySelector,
-    finalNameSelector,
-    finalGameOverSelector,
-    finalScoreSelector
-  });
-  
-  if (scoreSet.length === 0) {
-    console.log(`${message} no scoreSet.`);
-    isUpdateAmericanFootballScoresRunning = false;
-    return;
-  }
-
-  await updateGames({
-    leagueId, 
-    message,
-    games,
-    scoreSet,
-    teams
-  });
-
-  isUpdateAmericanFootballScoresRunning = false;
 };
 
 const domain = { 
