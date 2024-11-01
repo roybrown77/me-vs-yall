@@ -408,10 +408,10 @@ const getScores = async ({
     }
 
     const evaluateSelector = async (listIndex, selector, contentType = 'innerText') => 
-      page.evaluate((sel, type) => {
+      page.evaluate((sel) => {
         const element = document.querySelector(sel);
         if (!element) return null;
-        return type === 'innerHTML' ? element.innerHTML : element.innerText;
+        return element.innerText;
       }, selector.replace('INDEX', listIndex), contentType);
 
     for (let listIndex = 1; listIndex <= listLength; listIndex++) {
