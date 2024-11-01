@@ -572,7 +572,7 @@ class Leader extends Component {
                                   {index === 0 && <div style={{
                                     fontSize: '2rem',
                                     position: 'absolute',
-                                    top: '-10px',
+                                    top: '-11px',
                                     transform: 'rotate(-30deg)',
                                     left: '55px',
                                   }}
