@@ -379,40 +379,43 @@ const getScores = async ({
 
   try {
     browser = await puppeteer.launch({
-      timeout: 10000,
+      // timeout: 10000,
       pipe: true,
       ignoreHTTPSErrors: true,
       // headless: false,
     });
 
     const page = await browser.newPage();
-    await page.setRequestInterception(true);
+    // await page.setRequestInterception(true);
 
-    page.on('request', req => {
-      const resourceType = req.resourceType();
-      if (['image', 'stylesheet', 'font'].includes(resourceType)) {
-        req.abort(); // Abort images, stylesheets, and fonts
-      } else {
-        req.continue();
-      }
-    });
+    // page.on('request', req => {
+    //   const resourceType = req.resourceType();
+    //   if (['image', 'stylesheet', 'font'].includes(resourceType)) {
+    //     req.abort(); // Abort images, stylesheets, and fonts
+    //   } else {
+    //     req.continue();
+    //   }
+    // });
 
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 10000 });
+    await page.goto(url, { waitUntil: 'networkidle2' });
 
     const listLength = await page.evaluate(sel => document.getElementsByClassName(sel).length, root);
     console.log(`${message} listLength: ${listLength}`, url);
 
     if (listLength === 0) {
       console.log(`${message} no games found`);
+      if (browser) {
+        await browser.close();
+      }
       return scores;
     }
 
-    const evaluateSelector = async (listIndex, selector, contentType = 'innerText') => 
-      page.evaluate((sel) => {
+    const evaluateSelector = (listIndex, selector) => {
+      return page.evaluate((sel) => {
         const element = document.querySelector(sel);
-        if (!element) return null;
-        return element.innerText;
-      }, selector.replace('INDEX', listIndex), contentType);
+        return element ? element.innerText : null;
+      }, selector.replace('INDEX', listIndex));
+    };
 
     for (let listIndex = 1; listIndex <= listLength; listIndex++) {
       const [
@@ -522,9 +525,9 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
       console.log(`${message} awayShortLocation: ${JSON.stringify(awayShortLocation)}`);
       console.log(`${message} homeShortLocation: ${JSON.stringify(homeShortLocation)}`);
 
-      preGameScoreIndex = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
+      const preGameScoreIndex = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
-      console.log(`${message} preGameScoreIndex: ${JSON.stringify(preGameScoreIndex)}`);
+      // console.log(`${message} preGameScoreIndex: ${JSON.stringify(preGameScoreIndex)}`);
 
       const inProgressScoreIndex = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
 
@@ -603,7 +606,7 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
       if (isGameOver && !game.endDateTime) {
         set(updatedGame,'endDateTime', moment().toISOString());
       }
-      
+
       console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
 
       gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
