@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import AmericanFootballField from "./Fields/AmericanFootballField";
+import PixelFootballPlayer from "./PixelFootballPlayer";
 
 const AmericanFootballMiniRallyGame = (props) => {
   const [awayScore, setAwayScore] = useState(
@@ -71,6 +72,8 @@ const AmericanFootballMiniRallyGame = (props) => {
           homeScoreHandler,
         }}
       />
+      <PixelFootballPlayer playerStyles={{teamColor: props.game.competitors[0].color }} />
+      <PixelFootballPlayer playerStyles={{ grid: { left: '11rem' }, teamColor: props.game.competitors[0].color }} />
       {false && (
         <div>
           <Button
