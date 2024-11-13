@@ -494,11 +494,10 @@ class Leader extends Component {
             </div>
           )}
           <div style={{ display: 'flex' }}>
-            <div
+            {false && <div
               onClick={this.handleSpreadToggle}
               style={{
                 marginTop: "25px",
-                marginLeft: "auto",
                 padding: "10px",
                 backgroundColor: "#fff",
               }}
@@ -513,12 +512,13 @@ class Leader extends Component {
                   <Calendar onClick={this.handleShareGames}/>
                 </IconButton>
               </div>
-            </div>
+            </div>}
             {
               document.queryCommandSupported('copy') && 
               <div
                 style={{
                   marginTop: "25px",
+                  marginLeft: "auto",
                   padding: "10px",
                   backgroundColor: "#fff",
                 }}

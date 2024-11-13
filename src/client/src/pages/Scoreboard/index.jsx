@@ -631,11 +631,10 @@ class Scoreboard extends Component {
             </div>
           )}
           <div style={{ display: 'flex', color: '#000' }}>
-            <div
+          {false && <div
               onClick={this.handleSpreadToggle}
               style={{
                 marginTop: "25px",
-                marginLeft: "auto",
                 padding: "10px",
                 backgroundColor: "#fff",
               }}
@@ -650,12 +649,13 @@ class Scoreboard extends Component {
                   <Calendar onClick={this.handleShareGames}/>
                 </IconButton>
               </div>
-            </div>
+            </div>}
             {
               document.queryCommandSupported('copy') && 
               <div
                 style={{
                   marginTop: "25px",
+                  marginLeft: "auto",
                   padding: "10px",
                   backgroundColor: "#fff",
                 }}
