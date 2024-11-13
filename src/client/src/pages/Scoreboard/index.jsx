@@ -641,7 +641,7 @@ class Scoreboard extends Component {
               }}
             >
               <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
-              <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
+              <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className="small-vertical-bounce"
                   style={{...styles.toggleButtonOn}}
@@ -661,7 +661,7 @@ class Scoreboard extends Component {
                 }}
               >
                 <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
-                <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
+                <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
                   <IconButton
                     className="small-vertical-bounce"
                     style={{...styles.toggleButtonOn}}
@@ -687,7 +687,7 @@ class Scoreboard extends Component {
               }}
             >
               <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
-              <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
+              <div style={{ background: '#e0e0e0', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className={
                     spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
