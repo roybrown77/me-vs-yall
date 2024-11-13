@@ -64,6 +64,23 @@ body {
   }
 }
 
+.small-vertical-bounce {
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+/* Keyframes for bounce */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(-7px);
+  }
+  60% {
+      transform: translateY(-5px);
+  }
+}
+
 /* --- loader animation start --- */
 
 .loader {
@@ -400,11 +417,6 @@ body {
   height: 100px;
   border-radius: 50%;
   background-color: #FF5722;
-
-  /* animation: bounce 0.5s;
-  animation-direction: alternate;
-  animation-timing-function: cubic-bezier(.5,0.05,1,.5);
-  animation-iteration-count: infinite; */
 }
 
 .throwBallRight.ball {
@@ -444,25 +456,6 @@ body {
     transform: translateX(-1900px);
   }
 }
-
-/* @keyframes bounce {
-  from { transform: translate3d(0, 0, 0);     }
-  to   { transform: translate3d(0, 200px, 0); }
-} */
-
-/* Prefix Support */
-/* ball {
-  -webkit-animation-name: bounce;
-  -webkit-animation-duration: 0.5s;
-  -webkit-animation-direction: alternate;
-  -webkit-animation-timing-function: cubic-bezier(.5,0.05,1,.5);
-  -webkit-animation-iteration-count: infinite;
-} */
-
-/* @-webkit-keyframes bounce {
-  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
-  to   { -webkit-transform: translate3d(0, 200px, 0); transform: translate3d(0, 200px, 0); }
-} */
 
 /* --- mini game animation end --- */
 

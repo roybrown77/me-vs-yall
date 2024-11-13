@@ -643,7 +643,8 @@ class Scoreboard extends Component {
               <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
               <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
                 <IconButton
-                  className={classes.toggleButtonOn}
+                  className="small-vertical-bounce"
+                  style={{...styles.toggleButtonOn}}
                   aria-label="Add Calendar Reminder"
                 >
                   <Calendar onClick={this.handleShareGames}/>
@@ -662,7 +663,8 @@ class Scoreboard extends Component {
                 <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
                 <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
                   <IconButton
-                    className={classes.toggleButtonOn}
+                    className="small-vertical-bounce"
+                    style={{...styles.toggleButtonOn}}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
