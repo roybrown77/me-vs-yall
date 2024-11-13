@@ -644,7 +644,7 @@ class Scoreboard extends Component {
               <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className="small-vertical-bounce"
-                  style={{...styles.toggleButtonOn}}
+                  style={{color: 'black'}}
                   aria-label="Add Calendar Reminder"
                 >
                   <Calendar onClick={this.handleShareGames}/>
@@ -664,7 +664,7 @@ class Scoreboard extends Component {
                 <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
                   <IconButton
                     className="small-vertical-bounce"
-                    style={{...styles.toggleButtonOn}}
+                    style={{color: 'black'}}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
@@ -687,7 +687,7 @@ class Scoreboard extends Component {
               }}
             >
               <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
-              <div style={{ background: '#e0e0e0', margin: '5px', borderRadius: '8px' }}>
+              <div style={{ background: '#FCE385', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className={
                     spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
