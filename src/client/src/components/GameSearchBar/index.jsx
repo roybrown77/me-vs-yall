@@ -34,7 +34,8 @@ const GameSearchBar = ({ classes, leagueId, leagues, weekId, yearSelected, weeks
   const yearsToDisplay = leagueId && leagueSelected.years.map((year) => <MenuItem key={year} value={year}>{year}</MenuItem>);
   const isYearFound = leagueId && yearsToDisplay.findIndex(x=>x.key === yearSelected.toString()) !== -1;
 
-  const weekIndexSelected = leagueId && weeks.findIndex(x=>x._id === weekId);
+  const currentWeekIndex = weeks.findIndex(x=>x._id === weekId);
+  const weekIndexSelected = leagueId && (weeks.findIndex(x=>x.description?.includes('Week')) || weeks.findIndex(x=>x.description?.includes('Playoffs'))) && false ? currentWeekIndex : weeks.findIndex(x=>x.description?.includes('Entire'));
   const weeksToDisplay = leagueId && weeks.map((week, index) => <MenuItem key={index} value={index}>{week.displayName}</MenuItem>);
 
   return (
