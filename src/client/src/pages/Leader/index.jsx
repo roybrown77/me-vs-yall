@@ -232,6 +232,15 @@ class Leader extends Component {
     });
   };
 
+  handleIconClick = (event) => {
+    event.stopPropagation(); // Prevent the click event from propagating to the AccordionSummary
+  };
+
+  handleAccordionSummaryClick = (event) => {
+    event.stopPropagation(); // Prevent the click from triggering the expand behavior
+    event.preventDefault();  // Stop default expand behavior
+  };
+
   handleFilterLeague = async (event) => {
     const leagueSelected = event.target.value;
     const leagueId = leagueSelected;
@@ -629,8 +638,8 @@ class Leader extends Component {
                         >
                           <AccordionSummary
                             className={classes.expansionSummary}
-                            expandIcon={<ExpandMoreIcon />}
-                            styles={{ }}
+                            expandIcon={<ExpandMoreIcon onClick={() => handleIconClick()} />}
+                            onClick={() => handleAccordionSummaryClick()}
                           >                     
                             <div style={{ display: "flex", paddingBottom: `${leaderSummaryPadding + (leader.percentage ? 1 : 0)}rem` }}>
                               {leader.medal && (
