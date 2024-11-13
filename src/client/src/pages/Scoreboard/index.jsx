@@ -640,8 +640,8 @@ class Scoreboard extends Component {
                 backgroundColor: "#fff",
               }}
             >
-              <div style={{ fontSize: "9px" }}>Add Reminder</div>
-              <div>
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
+              <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className={classes.toggleButtonOn}
                   aria-label="Add Calendar Reminder"
@@ -659,8 +659,8 @@ class Scoreboard extends Component {
                   backgroundColor: "#fff",
                 }}
               >
-                <div style={{ fontSize: "9px" }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
-                <div>
+                <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
+                <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
                   <IconButton
                     className={classes.toggleButtonOn}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
@@ -684,8 +684,8 @@ class Scoreboard extends Component {
                 marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined
               }}
             >
-              <div style={{ fontSize: "9px" }}>vs Spread</div>
-              <div>
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
+              <div style={{ background: '#'+Math.floor(Math.random()*16777215).toString(16), margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className={
                     spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
