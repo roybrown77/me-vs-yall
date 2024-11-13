@@ -630,7 +630,7 @@ class Scoreboard extends Component {
               **
             </div>
           )}
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', color: '#000' }}>
             <div
               onClick={this.handleSpreadToggle}
               style={{

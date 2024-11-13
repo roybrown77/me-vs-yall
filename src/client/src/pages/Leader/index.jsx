@@ -503,10 +503,11 @@ class Leader extends Component {
                 backgroundColor: "#fff",
               }}
             >
-              <div style={{ fontSize: "9px" }}>Add Reminder</div>
-              <div>
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
+              <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
-                  className={classes.toggleButtonOn}
+                  className="small-vertical-bounce"
+                  style={{...styles.toggleButtonOn}}
                   aria-label="Add Calendar Reminder"
                 >
                   <Calendar onClick={this.handleShareGames}/>
@@ -522,10 +523,11 @@ class Leader extends Component {
                   backgroundColor: "#fff",
                 }}
               >
-                <div style={{ fontSize: "9px" }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
-                <div>
+                <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
+                <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
                   <IconButton
-                    className={classes.toggleButtonOn}
+                    className="small-vertical-bounce"
+                    style={{...styles.toggleButtonOn}}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
@@ -547,8 +549,8 @@ class Leader extends Component {
                 marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined
               }}
             >
-              <div style={{ fontSize: "9px" }}>vs Spread</div>
-              <div>
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
+              <div style={{ background: '#e0e0e0', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className={
                     spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
@@ -660,6 +662,7 @@ class Leader extends Component {
                                     top: '-11px',
                                     transform: 'rotate(-30deg)',
                                     left: '55px',
+                                    zIndex: '777'
                                   }}
                                   >
                                     👑
