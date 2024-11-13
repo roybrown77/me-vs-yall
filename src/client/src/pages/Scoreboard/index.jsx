@@ -16,7 +16,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Skeleton from "@material-ui/lab/Skeleton";
 import ToggleOn from "@material-ui/icons/ToggleOn";
 import ToggleOff from "@material-ui/icons/ToggleOff";
-import Share from '@material-ui/icons/ReplyOutlined';
+import Send from '@material-ui/icons/Send';
+import Calendar from '@material-ui/icons/CalendarToday';
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import PageContainer from "../../components/PageContainer";
@@ -28,7 +29,7 @@ import Popover from "../../components/Popover";
 import TinyScoreboard from "../../components/TinyScoreboard";
 import Alert from '../../components/Alert';
 
-import { getPicksNotSelected, getCopiedGamesToShare, getGroupedGames } from "./utilities";
+import { getPicksNotSelected, getGroupedGames } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
 import { getLeagueName } from '../../utilities/getLeagueName';
@@ -39,6 +40,7 @@ import {
     getAreAnyGamesInProgress,
     getLeagueStartDateTime,
     leagues,
+    getCopiedGamesToShare,
   } from "../../utilities";
 import {
   googleLogin,
@@ -407,9 +409,9 @@ class Scoreboard extends Component {
   };
 
   handleShareGames = () => {
-    const { games, picks, teams } = this.state;
+    const { games, picks, teams, userId } = this.state;
 
-    const gamesToShare = getCopiedGamesToShare(games, picks, teams);
+    const gamesToShare = getCopiedGamesToShare(games, picks, teams, isAuthenticated, userId);
 
     // Create a temporary text area element
     const textArea = document.createElement('textarea');
@@ -628,7 +630,26 @@ class Scoreboard extends Component {
               **
             </div>
           )}
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', color: '#000' }}>
+          {false && <div
+              onClick={this.handleSpreadToggle}
+              style={{
+                marginTop: "25px",
+                padding: "10px",
+                backgroundColor: "#fff",
+              }}
+            >
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
+              <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
+                <IconButton
+                  className="small-vertical-bounce"
+                  style={{color: 'black'}}
+                  aria-label="Add Calendar Reminder"
+                >
+                  <Calendar onClick={this.handleShareGames}/>
+                </IconButton>
+              </div>
+            </div>}
             {
               document.queryCommandSupported('copy') && 
               <div
@@ -639,13 +660,14 @@ class Scoreboard extends Component {
                   backgroundColor: "#fff",
                 }}
               >
-                <div style={{ fontSize: "9px" }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
-                <div>
+                <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
+                <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
                   <IconButton
-                    className={classes.toggleButtonOn}
+                    className="small-vertical-bounce"
+                    style={{color: 'black'}}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >
-                    <Share onClick={this.handleShareGames} style={{ '-webkit-transform': 'scaleX(-1)', transform: 'scaleX(-1)' }}/>
+                    <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
                   <Snackbar open={openGamesCopiedAlert}>
                     <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
@@ -664,8 +686,8 @@ class Scoreboard extends Component {
                 marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined
               }}
             >
-              <div style={{ fontSize: "9px" }}>vs Spread</div>
-              <div>
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
+              <div style={{ background: '#FCE385', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
                   className={
                     spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff

@@ -16,15 +16,19 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Skeleton from "@material-ui/lab/Skeleton";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Snackbar from '@material-ui/core/Snackbar';
+import Send from '@material-ui/icons/Send';
+import Calendar from '@material-ui/icons/CalendarToday';
 import ToggleOn from "@material-ui/icons/ToggleOn";
 import ToggleOff from "@material-ui/icons/ToggleOff";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import VegasWinCalculationPopup from "./VegasWinCalculationPopup";
 import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import Countdown from "../../components/Countdown";
 import Popover from "../../components/Popover";
+import Alert from '../../components/Alert';
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
@@ -36,10 +40,12 @@ import {
   getLeagueStartDateTime,
   getLeaders,
   leagues,
+  getCopiedGamesToShare,
 } from "../../utilities";
 import {
   googleLogin,
   isConfirmedAuthentication,
+  getUser,
 } from "../../utilities/authenticationClient";
 
 import styles from "./styles";
@@ -74,6 +80,8 @@ class Leader extends Component {
       endDateTime: null,
 
       leaders: [],
+
+      openGamesCopiedAlert: false
     };
   }
 
@@ -303,6 +311,36 @@ class Leader extends Component {
     this.setState({ leaders: spreadToggleLeaders });
   };
 
+  handleShareGames = () => {
+    const { games, picks, teams } = this.state;
+
+    const user = getUser();
+    const userId = get(user, "sub");
+
+    const gamesToShare = getCopiedGamesToShare(games, picks, teams, isAuthenticated, userId);
+
+    // Create a temporary text area element
+    const textArea = document.createElement('textarea');
+    textArea.value = gamesToShare;
+
+    // Append the text area to the document
+    document.body.appendChild(textArea);
+
+    // Select the text in the text area
+    textArea.select();
+    textArea.setSelectionRange(0, textArea.value.length);
+
+    // Copy the selected text to the clipboard
+    document.execCommand('copy');
+
+    // Remove the temporary text area
+    document.body.removeChild(textArea);
+
+    this.setState(() => ({
+      openGamesCopiedAlert: true
+    }));
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -316,6 +354,8 @@ class Leader extends Component {
       weekId,
 
       leaders,
+
+      openGamesCopiedAlert,
     } = this.state;
     const spreadMode = getSpreadMode() === "1";
     const currentWeek = weeks.find((x) => x._id === weekId);
@@ -453,26 +493,73 @@ class Leader extends Component {
               **
             </div>
           )}
-          <div
-            onClick={this.handleSpreadToggle}
-            style={{
-              marginTop: "25px",
-              padding: "10px",
-              marginLeft: "auto",
-              backgroundColor: "#fff",
-              width: "57px",
-            }}
-          >
-            <div style={{ fontSize: "9px" }}>vs Spread</div>
-            <div>
-              <IconButton
-                className={
-                  spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
-                }
-                aria-label="spreadModeToggle"
+          <div style={{ display: 'flex' }}>
+            {false && <div
+              onClick={this.handleSpreadToggle}
+              style={{
+                marginTop: "25px",
+                padding: "10px",
+                backgroundColor: "#fff",
+              }}
+            >
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
+              <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
+                <IconButton
+                  className="small-vertical-bounce"
+                  style={{color: 'black'}}
+                  aria-label="Add Calendar Reminder"
+                >
+                  <Calendar onClick={this.handleShareGames}/>
+                </IconButton>
+              </div>
+            </div>}
+            {
+              document.queryCommandSupported('copy') && 
+              <div
+                style={{
+                  marginTop: "25px",
+                  marginLeft: "auto",
+                  padding: "10px",
+                  backgroundColor: "#fff",
+                }}
               >
-                {spreadMode ? <ToggleOn /> : <ToggleOff />}
-              </IconButton>
+                <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
+                <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
+                  <IconButton
+                    className="small-vertical-bounce"
+                    style={{color: 'black'}}
+                    aria-label={isAuthenticated ? 'share picks': 'share games'}
+                  >
+                    <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
+                  </IconButton>
+                  <Snackbar open={openGamesCopiedAlert}>
+                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
+                      {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
+                    </Alert>
+                  </Snackbar>
+                </div>
+              </div>
+            }
+            <div
+              onClick={this.handleSpreadToggle}
+              style={{
+                marginTop: "25px",
+                padding: "10px",
+                backgroundColor: "#fff",
+                marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined
+              }}
+            >
+              <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
+              <div style={{ background: '#FCE385', margin: '5px', borderRadius: '8px' }}>
+                <IconButton
+                  className={
+                    spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
+                  }
+                  aria-label="toggle spread mode"
+                >
+                  {spreadMode ? <ToggleOn /> : <ToggleOff />}
+                </IconButton>
+              </div>
             </div>
           </div>
           {
@@ -575,6 +662,7 @@ class Leader extends Component {
                                     top: '-11px',
                                     transform: 'rotate(-30deg)',
                                     left: '55px',
+                                    zIndex: '777'
                                   }}
                                   >
                                     👑
