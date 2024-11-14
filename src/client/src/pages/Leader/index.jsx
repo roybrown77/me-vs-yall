@@ -509,7 +509,7 @@ class Leader extends Component {
                   style={{color: 'black'}}
                   aria-label="Add Calendar Reminder"
                 >
-                  <Calendar onClick={this.handleShareGames}/>
+                  <Calendar onClick={() => {}}/>
                 </IconButton>
               </div>
             </div>}
@@ -526,7 +526,7 @@ class Leader extends Component {
                 <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
                 <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
                   <IconButton
-                    className="small-vertical-bounce"
+                    className="fly-plane"
                     style={{color: 'black'}}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >

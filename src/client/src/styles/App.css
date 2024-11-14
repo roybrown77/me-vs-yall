@@ -102,6 +102,31 @@ body {
   }
 }
 
+.fly-plane {
+  animation: planeAnimation 5s infinite ease-in-out;
+}
+
+@keyframes planeAnimation {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-10px, 10px);
+  }
+  50% {
+    transform: translate(150px, -150px) scale(1.2);
+    opacity: 0;
+  }
+  75% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
 /* --- loader animation start --- */
 
 .loader {
