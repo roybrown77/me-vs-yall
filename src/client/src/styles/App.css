@@ -103,14 +103,14 @@ body {
 }
 
 .fly-plane {
-  animation: planeAnimation 5s infinite ease-in-out;
+  animation: planeAnimation 3s infinite ease-in-out;
 }
 
 @keyframes planeAnimation {
   0% {
     transform: translate(0, 0);
   }
-  25% {
+  20% {
     transform: translate(-10px, 10px);
   }
   50% {
