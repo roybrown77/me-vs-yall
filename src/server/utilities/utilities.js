@@ -94,16 +94,10 @@ const getGames = async ({
     message,
     url,
     root,
-    nameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    recordSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.HOMEAWAY > div.sb-meta > div > p',
-    startDateTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > thead > tr.sb-linescore > th.date-time',
-    startDateSelector = '',
-    startTimeSelector = '',
-    spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
-    gameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-notes > p',
-    rankSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.sb-score > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > span',
-    away = 'away',
-    home = 'home'
+    nameSelector,
+    startDateSelector,
+    startTimeSelector,
+    spreadSelector,
 }) => {
   let games = [];
   let browser;
@@ -155,90 +149,37 @@ const getGames = async ({
     for (let i = 1; i <= listLength; i++) {
       const awayTeam = await page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
-
-      const awayRecord = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,away));
-
-      const awayRank = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, rankSelector.replace("INDEX", i).replace("HOMEAWAY", away));
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const homeTeam = await page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerText : null;
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
-      const homeRecord = await page.evaluate((sel) => {
+      startDate = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, recordSelector.replace("INDEX", i).replace(/HOMEAWAY/g,home));
+      }, startDateSelector.replace("INDEX", i));
 
-      const homeRank = await page.evaluate((sel) => {
+      startTime = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, rankSelector.replace("INDEX", i).replace("HOMEAWAY", home));
-
-      const startDateTime = await page.evaluate((sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return document.querySelector(sel).getAttribute('data-date');
-        }
-      }, startDateTimeSelector.replace("INDEX", i), leagueId);
-
-      if (leagueId === '59723313734d1d6202a85f10') {
-        startDate = await page.evaluate((sel) => {
-          const element = document.querySelector(sel);
-          return element ? element.innerText : null;
-        }, startDateSelector.replace("INDEX", i));
-      }
-
-      if (leagueId === '59723313734d1d6202a85f10') {
-        startTime = await page.evaluate((sel) => {
-          const element = document.querySelector(sel);
-          return element ? element.innerText : null;
-        }, startTimeSelector.replace("INDEX", i));
-      }
+      }, startTimeSelector.replace("INDEX", i));
 
       const spread = await page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
       }, spreadSelector.replace("INDEX", i));
 
-      const gameName = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, gameNameSelector.replace("INDEX", i));
-
       games.push({
-          startDateTime: startDateTime ? startDateTime : 
-          (startDate + startTime) ? moment(new Date(startDate + " " + startTime)).toISOString() : 
-          moment().add(2, 'days').startOf('day').toISOString(),
+          startDateTime: moment(new Date(startDate + " " + startTime)).toISOString(),
           spread: {
            team: (spread || "").replace('Line: ','').replace('Line : ','').split(' ')[0],
            amount: parseFloat((spread || "").replace('Line: ','').replace('Line : ','').split(' ')[1]),
            spreadDateTime: moment().toISOString()
           },
-          gameName: gameName,
           awayTeam: (awayTeam || '').trim(),
-          awayRecord: awayRecord,
-          awayRank: parseInt(awayRank).toString() === 'NaN' ? null : parseInt(awayRank),
           homeTeam: (homeTeam || '').trim(),
-          homeRecord: homeRecord,
-          homeRank: parseInt(homeRank).toString() === 'NaN' ? null : parseInt(homeRank)
       });
     }
   } catch (err) {
@@ -347,15 +288,13 @@ const getScoreSetItem = async ({
     pregameNameSelector,
     liveScoreSelector,
     liveNameSelector,
-    livePlaySelector,
+    liveCurrentPlaySelector,
     liveCurrentTimeSelector,
     liveDownSelector,
     livePossession,
     finalNameSelector,
     finalGameOverSelector,
     finalScoreSelector,
-    away,
-    home,
     page,
     listLength
   }) => {
@@ -365,197 +304,83 @@ const getScoreSetItem = async ({
     for (let i = 1; i <= listLength; i++) {
       const currentTimePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
+        return element ? element.innerText : null;
       }, liveCurrentTimeSelector.replace("INDEX", i), leagueId);
 
       const lastPlayPromise = page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, livePlaySelector[0].replace("INDEX", i));
-
-      const lastPlay2Promise = page.evaluate((sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePlaySelector[1].replace("INDEX", i), leagueId);
-
-      const lastPlay3Promise = page.evaluate((sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePlaySelector[2].replace("INDEX", i), leagueId);
-
-      const lastPlay4Promise = page.evaluate((sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePlaySelector[3].replace("INDEX", i), leagueId);
-
-      const lastPlay5Promise = page.evaluate((sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePlaySelector[4].replace("INDEX", i), leagueId);
-
-      const lastPlay6Promise = page.evaluate((sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePlaySelector[5].replace("INDEX", i), leagueId);
-
-      const lastPlay7Promise = page.evaluate(async (sel, leagueId) => {
-        const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePlaySelector[6].replace("INDEX", i), leagueId);
+      }, liveCurrentPlaySelector.replace("INDEX", i));
 
       const gameOverTextPromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
+        return element ? element.innerText : null;
       }, finalGameOverSelector.replace("INDEX", i), leagueId);
 
       const downPromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
+        return element ? element.innerText : null;
       }, liveDownSelector.replace("INDEX", i), leagueId);
 
       const possessionHomePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerHTML : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePossession.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerHTML : null;
+      }, livePossession.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
       const possessionAwayPromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerHTML : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, livePossession.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+        return element ? element.innerText : null;
+      }, livePossession.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const awayTeamPromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+        return element ? element.innerText : null;
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const awayTeamPregamePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, pregameNameSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+        return element ? element.innerText : null;
+      }, pregameNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const awayInProgressScorePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+        return element ? element.innerText : null;
+      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const awayInProgressNamePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+        return element ? element.innerText : null;
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const awayScorePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",away), leagueId);
+        return element ? element.innerText : null;
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
 
       const homeTeamPromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerText : null;
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
       const homeTeamPregamePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, pregameNameSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerText : null;
+      }, pregameNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
       const homeInProgressScorePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerText : null;
+      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
       const homeInProgressNamePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerText : null;
+      }, liveNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
       const homeScorePromise = page.evaluate((sel, leagueId) => {
         const element = document.querySelector(sel);
-        if (leagueId === '59723313734d1d6202a85f10') {
-          return element ? element.innerText : null;
-        } else {
-          return element ? element.innerHTML : null;
-        }
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY",home), leagueId);
+        return element ? element.innerText : null;
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
 
       const spreadPromise = page.evaluate((sel) => {
         return document.querySelector(sel) ? document.querySelector(sel).innerText : 'Line: 0';
@@ -564,12 +389,6 @@ const getScoreSetItem = async ({
       const [
         currentTime, 
         lastPlay,
-        lastPlay2,
-        lastPlay3,
-        lastPlay4,
-        lastPlay5,
-        lastPlay6,
-        lastPlay7,
         gameOverText,
         down,
         possessionHome,
@@ -588,12 +407,6 @@ const getScoreSetItem = async ({
       ] = await Promise.all([
         currentTimePromise, 
         lastPlayPromise,
-        lastPlay2Promise,
-        lastPlay3Promise,
-        lastPlay4Promise,
-        lastPlay5Promise,
-        lastPlay6Promise,
-        lastPlay7Promise,
         gameOverTextPromise,
         downPromise,
         possessionHomePromise,
@@ -632,12 +445,6 @@ const getScoreSetItem = async ({
         homeInProgressScore: parseInt((homeInProgressScore || '').trim()),
         homeScore: parseInt((homeScore || '').trim()),
         lastPlay: (lastPlay || '').replace('Last Play: ','').trim(),
-        lastPlay2: (lastPlay2 || '').trim(),
-        lastPlay3: (lastPlay3 || '').trim(),
-        lastPlay4: (lastPlay4 || '').trim(),
-        lastPlay5: (lastPlay5 || '').trim(),
-        lastPlay6: (lastPlay6 || '').trim(),
-        lastPlay7: (lastPlay7 || '').trim(),
         currentTime: currentTime,
         down: (down || '').trim(),
         possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : "")
@@ -654,28 +461,18 @@ const getScores = async ({
     message,
     url,
     root,
-    spreadSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div.stat > div',
-    pregameNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.pregame > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    liveQuarterSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td:nth-of-type(SCORE_NUMBER)',
-    liveScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
-    liveNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    liveCurrentTimeSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div > table > thead > tr > th.date-time',
-    liveDownSelector = 'div#events > article:nth-of-type(INDEX) > div > div > div > section.sb-detail > div > div.down',
-    livePossession = 'div#events > article:nth-of-type(INDEX) > div > div > section.live > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2.icon-possession-football-after',
-    livePlaySelector = [
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div > p > span.text',
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(1) > span:nth-child(2)',
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.atBat > p:nth-child(2) > span:nth-child(2)',
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(1) > span.description',
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(2) > span.description',
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.baseballDetails > div.circleGraphs > div:nth-child(3) > span.description',
-      'div#events > article:nth-of-type(INDEX) > div > div > div:nth-child(2) > section > div.play-by-play > div.mlb-icons > div.status',
-    ],
-    finalNameSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td > div.sb-meta > h2 > a > span.sb-team-abbrev',
-    finalGameOverSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > thead > tr > th.date-time',
-    finalScoreSelector = 'div#events > article:nth-of-type(INDEX) > div > div > section.final > div.sb-content > table > tbody#teams > tr.HOMEAWAY > td.total > span',
-    away ='away',
-    home ='home'
+    spreadSelector,
+    pregameNameSelector,
+    liveQuarterSelector,
+    liveScoreSelector,
+    liveNameSelector,
+    liveCurrentTimeSelector,
+    liveDownSelector,
+    livePossession,
+    liveCurrentPlaySelector,
+    finalNameSelector,
+    finalGameOverSelector,
+    finalScoreSelector,
 }) => {
   console.log(`*** getScores leagueId: ${leagueId}`);
 
@@ -731,7 +528,7 @@ const getScores = async ({
       liveQuarterSelector,
       liveScoreSelector,
       liveNameSelector,
-      livePlaySelector,
+      liveCurrentPlaySelector,
       liveCurrentTimeSelector,
       liveDownSelector,
       livePossession,
