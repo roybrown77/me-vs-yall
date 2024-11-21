@@ -41,7 +41,6 @@ import {
   getLeaders,
   leagues,
   getCopiedGamesToShare,
-  hasGameStarted,
 } from "../../utilities";
 import {
   googleLogin,
@@ -780,14 +779,14 @@ class Leader extends Component {
                                         )}
                                         <tr>
                                           <td align="center">
-                                            {hasGameStarted(game.startDateTime) && <div
+                                            <div
                                               style={{
                                                 width: "24px",
                                                 height: "24px",
                                                 backgroundColor:
                                                   game.awayIndicator,
                                               }}
-                                            />}
+                                            />
                                           </td>
                                           {
                                             <td align="center">
@@ -805,14 +804,14 @@ class Leader extends Component {
                                             </td>
                                           }
                                           <td align="center">
-                                            {hasGameStarted(game.startDateTime) && <div
+                                            <div
                                               style={{
                                                 width: "24px",
                                                 height: "24px",
                                                 backgroundColor:
                                                   game.homeIndicator,
                                               }}
-                                            />}
+                                            />
                                           </td>
                                         </tr>
                                       </tbody>
