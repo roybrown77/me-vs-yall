@@ -644,15 +644,26 @@ class Scoreboard extends Component {
             >
               <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
               <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
-                <IconButton
+                {/* <IconButton
                   className="small-vertical-bounce"
                   style={{color: 'black'}}
                   aria-label="Add Calendar Reminder"
                 >
                   <Calendar onClick={this.handleShareGames}/>
-                </IconButton>
-                <add-to-calendar-button name="test" options='Google' startDate="2024-12-23"></add-to-calendar-button>
+                </IconButton> */}
               </div>
+              <add-to-calendar-button
+                  name="[Reminder] Make the Me vs Yall picks"
+                  startDate="2024-11-22"
+                  startTime="10:15"
+                  endTime="23:30"
+                  timeZone="America/Los_Angeles"
+                  location="World Wide Web"
+                  description="Make the [url]https://www.mevsyall.com | Me vs Yall picks[/url]"
+                  options="'Apple','Google'"
+                  lightMode="bodyScheme"
+                >
+                </add-to-calendar-button>
             </div>
             {
               document.queryCommandSupported('copy') && 
