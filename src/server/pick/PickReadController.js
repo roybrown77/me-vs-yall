@@ -103,29 +103,29 @@ router.get('/picks/', async function (req, res) {
                     leagueId: game.leagueId
                 };
 
-                const mvyRoadPicks = {
-                    _id: mongoose.Types.ObjectId().toString(),
-                    userId: 14, // King Roadie
-                    gameId: game._id,
-                    pickId: game.competitors[0]._id,
-                    leagueId: game.leagueId
-                };
+                // const mvyRoadPicks = {
+                //     _id: mongoose.Types.ObjectId().toString(),
+                //     userId: 14, // King Roadie
+                //     gameId: game._id,
+                //     pickId: game.competitors[0]._id,
+                //     leagueId: game.leagueId
+                // };
 
-                const mvySharp = {
-                    _id: mongoose.Types.ObjectId().toString(),
-                    userId: 10, // King Sharp; Goes against the spread
-                    gameId: game._id,
-                    pickId: game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
-                    leagueId: game.leagueId
-                };
+                // const mvySharp = {
+                //     _id: mongoose.Types.ObjectId().toString(),
+                //     userId: 10, // King Sharp; Goes against the spread
+                //     gameId: game._id,
+                //     pickId: game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
+                //     leagueId: game.leagueId
+                // };
                 
                 let mvyDefensePicks = {};
                 let mvyOffensePicks = {};
-                let mvyRoadHomePicks = {};
-                let mvyRoadHomeXPicks = {}
-                let mvyDayPicks = {};
-                let mvySundayPicks = {};
-                let mvySundayXPicks = {};
+                let mvyDoomPicks = {};
+                let mvyThanosPicks = {}
+                // let mvyDayPicks = {};
+                // let mvySundayPicks = {};
+                let mvyMagnetoPicks = {};
                 let mvyKangPicks = {};
 
                 const endOfCurrentWeek1 = '2024-09-09';
@@ -167,7 +167,7 @@ router.get('/picks/', async function (req, res) {
                             leagueId: game.leagueId
                         };
     
-                        mvyRoadHomePicks = {
+                        mvyDoomPicks = {
                             _id: mongoose.Types.ObjectId().toString(),
                             userId: 5, // King Doom; Points Scored & Allowed
                             gameId: game._id,
@@ -179,7 +179,7 @@ router.get('/picks/', async function (req, res) {
     
                         if (((game.gameName || '').startsWith('Super Bowl') && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0)) ||
                             (roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0)) {
-                            mvyRoadHomeXPicks = {
+                            mvyThanosPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
                                 userId: 17, // King Thanos; Points Scored & Allowed, Road Only
                                 gameId: game._id,
@@ -188,32 +188,32 @@ router.get('/picks/', async function (req, res) {
                             };
                         }
         
-                        if (weekday === 1 || weekday === 4 || weekday === 6) {
-                            mvyDayPicks = {
-                                _id: mongoose.Types.ObjectId().toString(),
-                                userId: weekday === 1 ? 7 : weekday === 4 ? 8 : 9, // King Monday, Thursday, Saturday; Points Scored & Allowed
-                                gameId: game._id,
-                                pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                                : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
-                                ? game.competitors[0]._id : game.competitors[1]._id,
-                                leagueId: game.leagueId
-                            };
-                        }
+                        // if (weekday === 1 || weekday === 4 || weekday === 6) {
+                        //     mvyDayPicks = {
+                        //         _id: mongoose.Types.ObjectId().toString(),
+                        //         userId: weekday === 1 ? 7 : weekday === 4 ? 8 : 9, // King Monday, Thursday, Saturday; Points Scored & Allowed
+                        //         gameId: game._id,
+                        //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                        //         : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
+                        //         ? game.competitors[0]._id : game.competitors[1]._id,
+                        //         leagueId: game.leagueId
+                        //     };
+                        // }
     
-                        if (weekday === 0) {
-                            mvySundayPicks = {
-                                _id: mongoose.Types.ObjectId().toString(),
-                                userId: 11, // King Sunday; Points Scored
-                                gameId: game._id,
-                                pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
-                                : roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
-                                ? game.competitors[0]._id : game.competitors[1]._id,
-                                leagueId: game.leagueId
-                            };
-                        }
+                        // if (weekday === 0) {
+                        //     mvySundayPicks = {
+                        //         _id: mongoose.Types.ObjectId().toString(),
+                        //         userId: 11, // King Sunday; Points Scored
+                        //         gameId: game._id,
+                        //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                        //         : roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
+                        //         ? game.competitors[0]._id : game.competitors[1]._id,
+                        //         leagueId: game.leagueId
+                        //     };
+                        // }
     
                         if (weekday === 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) {
-                            mvySundayXPicks = {
+                            mvyMagnetoPicks = {
                                 _id: mongoose.Types.ObjectId().toString(),
                                 userId: 15, // King Magneto; Points Scored, Road only
                                 gameId: game._id,
@@ -242,7 +242,7 @@ router.get('/picks/', async function (req, res) {
                     }
                 }
 
-                picks = [...picks, mvyHomePicks, mvyRoadPicks, mvyOffensePicks, mvyDefensePicks, mvyRoadHomePicks, mvyRoadHomeXPicks, mvyDayPicks, mvySundayPicks, mvySundayXPicks, mvyKangPicks, mvySharp];
+                picks = [...picks, mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyDoomPicks, mvyThanosPicks, mvyMagnetoPicks, mvyKangPicks];
             };
         }
 
