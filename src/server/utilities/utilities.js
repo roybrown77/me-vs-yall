@@ -535,8 +535,6 @@ const getScores = async ({
       finalNameSelector,
       finalGameOverSelector,
       finalScoreSelector,
-      away,
-      home,
       page,
       listLength
     });

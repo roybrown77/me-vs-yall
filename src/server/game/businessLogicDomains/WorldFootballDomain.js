@@ -40,8 +40,6 @@ const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, yea
     root,
     nameSelector,
     startDateTimeSelector,
-    away: 'a',
-    home: 'b'
   });
 
   if ((games || []).length === 0) {
