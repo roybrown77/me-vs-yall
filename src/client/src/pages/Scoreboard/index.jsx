@@ -653,13 +653,13 @@ class Scoreboard extends Component {
                 </IconButton> */}
               </div>
               <add-to-calendar-button
-                  name="[Reminder] Make the Me vs Yall picks"
+                  name="[Reminder] Me vs Yall sports picks"
                   startDate="2024-11-22"
                   startTime="10:15"
                   endTime="23:30"
                   timeZone="America/Los_Angeles"
                   location="World Wide Web"
-                  description="Make the [url]https://www.mevsyall.com | Me vs Yall picks[/url]"
+                  description="Don't forget to make your picks at [url]https://www.mevsyall.com[/url]"
                   options="'Apple','Google'"
                   lightMode="bodyScheme"
                 >
