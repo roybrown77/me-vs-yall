@@ -6,6 +6,8 @@ import moment from "moment-timezone";
 import { createBrowserHistory } from "history";
 import queryString from "query-string";
 
+import 'add-to-calendar-button';
+
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -631,10 +633,11 @@ class Scoreboard extends Component {
             </div>
           )}
           <div style={{ display: 'flex', color: '#000' }}>
-          {false && <div
+          <div
               onClick={this.handleSpreadToggle}
               style={{
                 marginTop: "25px",
+                marginLeft: "auto",
                 padding: "10px",
                 backgroundColor: "#fff",
               }}
@@ -648,14 +651,14 @@ class Scoreboard extends Component {
                 >
                   <Calendar onClick={this.handleShareGames}/>
                 </IconButton>
+                <add-to-calendar-button name="test" options='Google' startDate="2024-12-23"></add-to-calendar-button>
               </div>
-            </div>}
+            </div>
             {
               document.queryCommandSupported('copy') && 
               <div
                 style={{
                   marginTop: "25px",
-                  marginLeft: "auto",
                   padding: "10px",
                   backgroundColor: "#fff",
                 }}

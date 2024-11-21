@@ -8,6 +8,7 @@
     "@material-ui/icons": "4.11.3",
     "@material-ui/lab": "4.0.0-alpha.60",
     "@vitejs/plugin-react": "^4.3.2",
+    "add-to-calendar-button": "^2.7.3",
     "auth0-js": "9.26.1",
     "axios": "1.7.2",
     "classnames": "2.5.1",
