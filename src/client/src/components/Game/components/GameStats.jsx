@@ -52,7 +52,7 @@ const GamePlayHistory = (props) => {
                 style={{ 
                   opacity: !show && statIndex > 6 && statsToShow.length > 5 ? ".1" : "1",
                   height: stat.name === 'Games Played' && showGamesPlayedDetail?.[game._id] && stat.homeTeam?.list?.length > 0 ? `${stat.homeTeam.list.length*.9 + 2}rem` : '',
-                  background: statIndex%2=== 0 && statIndex !== 0 ? '#a0e0e0' : '',
+                  background: statIndex%2=== 0 && statIndex !== 0 ? '#f0f0f0' : '',
                 }}
               >
                 <div style={{ display: "flex" }}>
@@ -64,7 +64,7 @@ const GamePlayHistory = (props) => {
                       <div style={{ textAlign: 'left', marginTop: '1rem' }}>
                         {
                           stat.awayTeam.list?.map((gamePlayed, gamePlayedIndex) => (
-                            <div key={gamePlayed + statIndex + stat.awayTeam.value} style={{ background: gamePlayedIndex%2=== 0 ? '#e0e0e0' : '', fontWeight: '700', color: gamePlayed[0] === 'W' ? 'darkgreen' : '' }}>{gamePlayed}</div>
+                            <div key={gamePlayed + statIndex + stat.awayTeam.value} style={{ background: gamePlayedIndex%2=== 0 ? '#f0f0f0' : '', fontWeight: '700', color: gamePlayed[0] === 'W' ? 'darkgreen' : '' }}>{gamePlayed}</div>
                           ))
                         }
                       </div>
@@ -77,7 +77,7 @@ const GamePlayHistory = (props) => {
                       <div style={{ textAlign: 'left', marginTop: '1rem' }}>
                         {
                           stat.homeTeam.list?.map((gamePlayed, gamePlayedIndex) => (
-                            <div key={gamePlayed + statIndex + stat.homeTeam.value} style={{ background: gamePlayedIndex%2=== 0 ? '#e0e0e0' : '', fontWeight: '700', color: gamePlayed[0] === 'W' ? 'darkgreen' : '' }}>{gamePlayed}</div>
+                            <div key={gamePlayed + statIndex + stat.homeTeam.value} style={{ background: gamePlayedIndex%2=== 0 ? '#f0f0f0' : '', fontWeight: '700', color: gamePlayed[0] === 'W' ? 'darkgreen' : '' }}>{gamePlayed}</div>
                           ))
                         }
                       </div>
