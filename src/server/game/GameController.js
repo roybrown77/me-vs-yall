@@ -94,7 +94,7 @@ const setAmericanFootballPlays = (game) => {
 
       if ((lastPlay || "").toLowerCase().includes('touchdown') || 
         (lastPlay || "").toLowerCase().includes('td')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎄" : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
       }
 
       if ((lastPlay || "").toLowerCase().includes('safety')) {
@@ -103,11 +103,11 @@ const setAmericanFootballPlays = (game) => {
 
       if ((lastPlay || "").toLowerCase().includes('field goal') || 
         (lastPlay || "").toLowerCase().includes('fg')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🥶" : monthDay >= 1024 && monthDay <= 1031 ? " 🧟‍♂️" : " 🥶");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎁" : monthDay >= 1001 && monthDay <= 1031 ? " 🧟‍♂️" : " 🥶");
       }
 
       if ((lastPlay || "").toLowerCase().includes('sacked')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " ⚡️🦖" : monthDay >= 1024 && monthDay <= 1031 ? " 🧟‍♂️" : " ⚡️🦖");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " 🧟‍♂️" : " ⚡️🦖");
       }
 
       if ((lastPlay || "").toLowerCase().includes('pass deep') || 
@@ -231,7 +231,7 @@ const setBasketballPlays = (game) => {
 
       if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('dunk') ||
         (game.playHistory[i].lastPlay || "").toLowerCase().includes('buzzer')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎄" : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
       }
 
       if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('make') && 
@@ -302,7 +302,7 @@ const setBaseballPlays = (game) => {
         (game.playHistory[i].lastPlay || "").toLowerCase().includes('home run') ||
         (game.playHistory[i].lastPlay || "").toLowerCase().includes('homerun') ||
         (game.playHistory[i].lastPlay || "").toLowerCase().includes('homered')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1218 && monthDay <= 1225 ? " 🎄" : monthDay >= 1024 && monthDay <= 1031 ? " 👻" : " 🤩");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎄" : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
       }
 
       if ((game.playHistory[i].lastPlay || "").toLowerCase().includes('steal') ||
