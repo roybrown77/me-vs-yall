@@ -726,7 +726,7 @@ class Leader extends Component {
                                 >
                                   {`${
                                     leader.winsInARow > leader.lossesInARow
-                                      ? "😅"
+                                      ? (leader.wins >= 7 && leader.losses === 0 ? "🤩" : "😅")
                                       : "🥶"
                                   }x${
                                     leader.winsInARow || leader.lossesInARow
