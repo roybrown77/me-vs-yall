@@ -133,7 +133,7 @@ const setAmericanFootballPlays = (game) => {
         (lastPlay || "").toLowerCase().includes('reverse') || 
         (lastPlay || "").toLowerCase().includes('intercept') || 
         (lastPlay || "").toLowerCase().includes('fumble')) {
-        game.playHistory[i].lastPlay = lastPlay + " 😳";
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎅🏿" : monthDay >= 1001 && monthDay <= 1031 ? " 😳" : " 😳");
       }
 
       if ((lastPlay || "").toLowerCase().includes('dance') ||
