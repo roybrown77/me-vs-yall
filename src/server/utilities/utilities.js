@@ -186,6 +186,11 @@ const getGames = async ({
     console.log(`${message} getGames browser error 2: `, err);
   } finally {
     try {
+      if (!!page) {
+        const pageCloseResult = await page.close();
+        console.log(`page finally 2: ${JSON.stringify(pageCloseResult)}`);
+        page = null;
+      }
       if (!!browser) {
         const browserCloseResult = await browser.close();
         console.log(`browser finally 2: ${JSON.stringify(browserCloseResult)}`);
@@ -199,7 +204,7 @@ const getGames = async ({
   return games;
 };
 
-const formatGames = async ({ message, games, leagueId, year, teams }) => {
+const formatGames = ({ message, games, leagueId, year, teams }) => {
   let formattedGames = [];
 
   games.forEach(game=>{
@@ -543,9 +548,14 @@ const getScores = async ({
     console.log(`${message} getGames browser error 6: `, err);
   } finally {
     try {
+      if (!!page) {
+        const pageCloseResult = await page.close();
+        console.log(`page finally 2: ${JSON.stringify(pageCloseResult)}`);
+        page = null;
+      }
       if (!!browser) {
         const browserCloseResult = await browser.close();
-        console.log(`browser finally 4: ${JSON.stringify(browserCloseResult)}`);
+        console.log(`browser finally 2: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
       }
     } catch (error) {
