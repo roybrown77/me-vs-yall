@@ -115,7 +115,6 @@ const updateAmericanFootballScores = async ({
 
       if ((games || []).length === 0) {
         console.log(`${message} not time to update spread.`);
-        isUpdateAmericanFootballScoresRunning = false;
         return;
       }
     }
