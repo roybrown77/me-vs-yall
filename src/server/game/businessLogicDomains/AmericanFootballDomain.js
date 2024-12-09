@@ -11,7 +11,7 @@ const {
   updateGames
 } = require('../../utilities/utilities');
 
-let lastRunTime = 0; // Track the last run time
+let lastRunTime = 0;
 
 const loadAmericanFootballGames = async ({
   leagueId, 
@@ -53,18 +53,17 @@ const updateAmericanFootballScores = async ({
   url, 
   teams,
   root,
-  pregameNameSelector,
-  spreadSelector,
-  liveQuarterSelector,
-  liveScoreSelector,
-  liveNameSelector,
   liveCurrentTimeSelector,
   liveDownSelector,
   livePossession,
   liveCurrentPlaySelector,
-  finalNameSelector,
+  spreadSelector,
   finalGameOverSelector,
-  finalScoreSelector
+  pregameNameSelector,
+  liveNameSelector,
+  finalNameSelector,
+  liveScoreSelector,
+  finalScoreSelector,
 }) => {
   console.log(`*** update leagueId: ${leagueId}`);
 
@@ -126,18 +125,17 @@ const updateAmericanFootballScores = async ({
       message, 
       url,
       root,
-      pregameNameSelector,
-      spreadSelector,
-      liveQuarterSelector,
-      liveScoreSelector,
-      liveNameSelector,
       liveCurrentTimeSelector,
       liveDownSelector,
       livePossession,
       liveCurrentPlaySelector,
-      finalNameSelector,
+      spreadSelector,
       finalGameOverSelector,
-      finalScoreSelector
+      pregameNameSelector,
+      liveNameSelector,
+      finalNameSelector,
+      liveScoreSelector,
+      finalScoreSelector,
     });
     
     if (scores.length === 0) {
@@ -149,7 +147,7 @@ const updateAmericanFootballScores = async ({
       leagueId, 
       message,
       games,
-      scoreSet: scores,
+      scores,
       teams
     });
   } catch (error) {
