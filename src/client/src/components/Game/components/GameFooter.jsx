@@ -2,7 +2,6 @@ import { hasGameStarted } from "../../../utilities";
 
 const getFontSize = (gameName) => {
   const length = gameName.length;
-  console.log('gameName.length', length);
   if (length <= 10) return "2rem"; // 32px
   return "1rem"; // 16px
 };
