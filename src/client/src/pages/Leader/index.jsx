@@ -721,7 +721,7 @@ class Leader extends Component {
                                 <div
                                   style={{
                                     fontWeight: "700",
-                                    fontSize: "15px",
+                                    fontSize: "1.25rem",
                                   }}
                                 >
                                   {`${

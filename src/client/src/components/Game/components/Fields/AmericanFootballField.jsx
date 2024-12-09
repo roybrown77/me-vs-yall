@@ -65,7 +65,7 @@ const AmericanFootballField = (props) => {
       <defs style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}></defs>
       {!isHeartedLeft && (
         <svg
-            onClick={() => setIsHeartedLeft(true)}
+            onClick={() => {}}
             style={{ cursor: 'pointer', background: 'transparent' }}
             aria-label="Love Road"
             color="#262626"
@@ -73,18 +73,18 @@ const AmericanFootballField = (props) => {
             height="15"
             role="img"
             viewBox="0 0 48 48"
-            width="15"
+            width="35"
             y="78"
         >
             <rect x="0" y="0" width="100%" height="100%" fill="transparent" />
             <path className="heart-pulse" d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path>
         </svg>
       )}
-      {isHeartedLeft && <svg onClick={() => setIsHeartedLeft(false)} style={{ cursor: 'pointer' }} aria-label="UnLove Road" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="15" y="73"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>}
-      <text className="field-text-team" x="20" y="86.814" textAnchor="start" fontFamily="BentonSans, Arial, Helvetica, sans-serif" fontSize="12px" stroke="none" fill="#000000" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', textAnchor: 'start', fontFamily: 'BentonSans, Arial, Helvetica, sans-serif', fontSize: '12px'}} strokeWidth="1">
+      {isHeartedLeft && <svg onClick={() => {}} style={{ cursor: 'pointer' }} aria-label="UnLove Road" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>}
+      <text className="field-text-team" x="35" y="86.814" textAnchor="start" fontFamily="BentonSans, Arial, Helvetica, sans-serif" fontSize="12px" stroke="none" fill="#000000" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', textAnchor: 'start', fontFamily: 'BentonSans, Arial, Helvetica, sans-serif', fontSize: '12px'}} strokeWidth="1">
           <tspan dy="3.493687499999993" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}>{props.away}</tspan>
       </text>
-      <text className="field-text-team" x="350" y="86.814" textAnchor="end" fontFamily="BentonSans, Arial, Helvetica, sans-serif" fontSize="12px" stroke="none" fill="#000000" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', textAnchor: 'end', fontFamily: 'BentonSans, Arial, Helvetica, sans-serif', fontSize: '12px'}} strokeWidth="1">
+      <text className="field-text-team" x="335" y="86.814" textAnchor="end" fontFamily="BentonSans, Arial, Helvetica, sans-serif" fontSize="12px" stroke="none" fill="#000000" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', textAnchor: 'end', fontFamily: 'BentonSans, Arial, Helvetica, sans-serif', fontSize: '12px'}} strokeWidth="1">
           <tspan dy="3.493687499999993" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}>{props.home}</tspan>
       </text>
       {!isHeartedRight && (
@@ -97,15 +97,15 @@ const AmericanFootballField = (props) => {
             height="15"
             role="img"
             viewBox="0 0 48 48"
-            width="15"
+            width="35"
             y="78"
-            x="355"
+            x="335"
         >
             <rect x="0" y="0" width="100%" height="100%" fill="transparent" />
             <path className="heart-pulse" d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path>
         </svg>
       )}
-      {isHeartedRight && <svg onClick={() => setIsHeartedRight(false)} style={{ cursor: 'pointer' }} aria-label="UnLove Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="15" y="73" x="355"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>}
+      {isHeartedRight && <svg onClick={() => setIsHeartedRight(false)} style={{ cursor: 'pointer' }} aria-label="UnLove Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73" x="335"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>}
       <text className="field-number" x="186.00000000000000" y="87.814" textAnchor="middle" fontFamily="BentonSans, Arial, Helvetica, sans-serif" fontSize="12px" stroke="none" fill="#333333" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', textAnchor: 'middle', fontFamily: 'BentonSans, Arial, Helvetica, sans-serif', fontSize: '12px'}} strokeWidth="1">
           <tspan dy="3.493687499999993" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}>50</tspan>
       </text>
@@ -127,10 +127,10 @@ const AmericanFootballField = (props) => {
       <path className="goal-post-left" fill="#818181" stroke="#000000" d="M363.967,54.432L362.957,53.236L362.957,44.868L363.967,46.064Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <g>
         <g onClick={throwBallRight} className={`small-vertical-bounce ball ${isThrowingRight ? "throwBallRight" : ""}`}>
-          <text x="35" y="25" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
+          <text x="35" y="15" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
         </g>
         <g onClick={throwBallLeft} className={`small-vertical-bounce ball ${isThrowingLeft ? "throwBallLeft" : ""}`}>
-          <text x="315" y="25" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
+          <text x="305" y="15" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
         </g>
         {!hideXO.current && <svg viewBox="135 65 100 100">
           <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
