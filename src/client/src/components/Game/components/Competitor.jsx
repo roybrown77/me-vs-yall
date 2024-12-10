@@ -22,7 +22,7 @@ const GamePredictionStatusIcon = (props) => {
             get(pick, "pickId") === competitor._id) ||
             (game.winner !== "000000000000000000000000" &&
               get(pick, "pickId") === "000000000000000000000000")))) && (
-        <Cancel style={{ color: "red" }} />
+        <Cancel style={{ color: "red", fontSize: '3rem' }} />
       )}
       {((spreadMode &&
         get(game, "isGameOver") &&
@@ -35,7 +35,7 @@ const GamePredictionStatusIcon = (props) => {
             get(pick, "pickId") === competitor._id) ||
             (game.winner === "000000000000000000000000" &&
               get(pick, "pickId") === "000000000000000000000000")))) && (
-        <CheckCircle style={{ color: "green" }} />
+        <CheckCircle style={{ color: "green", fontSize: '3rem' }} />
       )}
     </div>
   );
