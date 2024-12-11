@@ -107,7 +107,7 @@ const getGames = async ({
     browser = await puppeteer.launch({
       pipe: true,
       ignoreHTTPSErrors: true,
-      headless: false,
+      // headless: false,
     });
 
     page = await browser.newPage();
@@ -300,15 +300,17 @@ const getScores = async ({
   console.log(`*** getScores leagueId: ${leagueId}`);
   
   let browser;
+  let page;
   let scores = [];
 
   try {
     browser = await puppeteer.launch({
       pipe: true,
       ignoreHTTPSErrors: true,
+      // headless: false,
     });
 
-    const page = await browser.newPage();
+    page = await browser.newPage();
 
     await page.setViewport({
       width: 2000,

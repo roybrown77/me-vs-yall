@@ -132,16 +132,16 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       try {
         if (!!page) {
           const pageCloseResult = await page.close();
-          console.log(`page close 4: ${JSON.stringify(pageCloseResult)}`);
+          console.log(`page close 7: ${JSON.stringify(pageCloseResult)}`);
           page = null;
         }
         if (!!browser) {
           const browserCloseResult = await browser.close();
-          console.log(`browser close 4: ${JSON.stringify(browserCloseResult)}`);
+          console.log(`browser close 7: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
         }
       } catch (error) {
-        console.log(`browser close error 4: `, error);
+        console.log(`browser close error 7: `, error);
       }
 
       return;

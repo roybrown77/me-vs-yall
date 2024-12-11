@@ -110,7 +110,7 @@ router.get('/users', async function (req, res) {
         ]);
     } catch (error) {
         console.log("Get users error: ", error);
-        return res.status(500).send("There was a problem fetching users.");
+        return res.status(500).send("There was a problem fetching users");
     }
 });
 

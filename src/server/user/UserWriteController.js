@@ -33,7 +33,7 @@ router.post('/users/', async function (req, res) {
         res.status(200).send(user);
     } catch (error) {
         console.error("Upserting user error:", error);
-        res.status(500).send("There was a problem upserting the user");
+        res.status(500).send("There was a problem upserting user");
     }
 });
 
@@ -51,7 +51,7 @@ router.put('/users/:id', async function (req, res) {
         res.status(200).send(user);
     } catch (error) {
         console.error("Updating user error:", error);
-        res.status(500).send("There was a problem updating the user");
+        res.status(500).send("There was a problem updating user");
     }
 });
 

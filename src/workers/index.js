@@ -57,27 +57,59 @@ try {
   Start Scheduler
 */
 
-const CronJob = require('cron').CronJob;
-
 const startCronProcess = (jobs) => {
   console.log('startCronProcess fire!');
 
   if (jobs && jobs.length) {
     jobs.forEach(job => {
-      let j = new CronJob({
-        cronTime: job.cronTime ? job.cronTime : new Date(job.dateTime),
-        onTick: () => {
-          console.log('startCronProcess - onTick');
+      try {
+        // Validate and parse job data
+        const interval = job.cronTime ? parseCronTime(job.cronTime) : null;
+
+        if (!interval) {
+          console.error(`Invalid cronTime for job: ${JSON.stringify(job)}`);
+          return; // Skip this job
+        }
+
+        const executeJob = () => {
+          console.log(`Executing job: ${job.name}`);
           updateGames();
-          if (!job.repeat) j.stop();
-        },
-        onComplete: () => {
-          console.log('startCronProcess - onComplete');
-        },  
-        timeZone: 'US/Eastern',
-        start: true
-      });
+
+          if (!job.repeat) {
+            console.log(`Stopping job: ${job.name}`);
+            clearInterval(jobInterval);
+          }
+        };
+
+        // Set interval for the job
+        const jobInterval = setInterval(executeJob, interval);
+
+        console.log(`Job ${job.name} scheduled every ${interval / 1000} seconds.`);
+      } catch (error) {
+        console.error(`Error scheduling job: ${JSON.stringify(job)}`, error);
+      }
     });
+  }
+};
+
+// Helper function to parse cron-like time to milliseconds
+const parseCronTime = (cronTime) => {
+  try {
+    const parts = cronTime.split(' ');
+    if (parts.length !== 6) {
+      throw new Error('Invalid cron format');
+    }
+
+    // Only supporting seconds for simplicity
+    const seconds = parseInt(parts[0].split('/')[1], 10);
+    if (isNaN(seconds) || seconds < 0 || seconds > 59) {
+      throw new Error('Invalid seconds value in cronTime');
+    }
+
+    return seconds * 1000; // Convert seconds to milliseconds
+  } catch (error) {
+    console.error(`Error parsing cronTime: ${cronTime}`, error);
+    return null;
   }
 };
 
