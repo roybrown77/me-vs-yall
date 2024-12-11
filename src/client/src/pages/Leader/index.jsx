@@ -29,6 +29,7 @@ import GameSearchBar from "../../components/GameSearchBar";
 import Countdown from "../../components/Countdown";
 import Popover from "../../components/Popover";
 import Alert from '../../components/Alert';
+import CalendarReminder from '../../components/CalendarReminder';
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
@@ -494,31 +495,12 @@ class Leader extends Component {
             </div>
           )}
           <div style={{ display: 'flex' }}>
-            {false && <div
-              onClick={this.handleSpreadToggle}
-              style={{
-                marginTop: "25px",
-                padding: "10px",
-                backgroundColor: "#fff",
-              }}
-            >
-              <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
-              <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
-                <IconButton
-                  className="small-vertical-bounce"
-                  style={{color: 'black'}}
-                  aria-label="Add Calendar Reminder"
-                >
-                  <Calendar onClick={() => {}}/>
-                </IconButton>
-              </div>
-            </div>}
+            <CalendarReminder />
             {
               document.queryCommandSupported('copy') && 
               <div
                 style={{
                   marginTop: "25px",
-                  marginLeft: "auto",
                   padding: "10px",
                   backgroundColor: "#fff",
                 }}
