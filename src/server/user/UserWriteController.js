@@ -6,7 +6,7 @@ const userRepository = require('./UserRepository');
 
 const get = require('lodash/get');
 
-router.post('/users/', function (req, res) {
+router.post('/users/', async function (req, res) {
     const user = req.body;
 
     if (get(req, 'auth.sub') !== get(user, 'sub')) {
@@ -23,18 +23,36 @@ router.post('/users/', function (req, res) {
             picture: get(user, 'picture'),
         };
 
-    userRepository.findOneAndUpdate({authServiceId: userToUpsert.authServiceId}, userToUpsert, {upsert: true}, (error, user) => {
-        if (error) return res.status(500).send("There was a problem upserting user");
-        console.log('user: ' + JSON.stringify(user));
+    try {
+        const user = await userRepository.findOneAndUpdate(
+            { authServiceId: userToUpsert.authServiceId }, // Query filter
+            userToUpsert,                                  // Update object
+            { upsert: true, new: true }                    // Options: upsert and return updated/created document
+        );
+        console.log('User upserted:', JSON.stringify(user));
         res.status(200).send(user);
-    });
+    } catch (error) {
+        console.error("Upserting user error:", error);
+        res.status(500).send("There was a problem upserting the user");
+    }
 });
 
-router.put('/users/:id', function (req, res) {
-    userRepository.findByIdAndUpdate(req.params.id, req.body, {}, function (error, user) {
-        if (error) return res.status(500).send("There was a problem updating user");
+router.put('/users/:id', async function (req, res) {
+    try {
+        const user = await userRepository.findByIdAndUpdate(
+            req.params.id,   // ID of the document
+            req.body,        // Update object
+            { new: true }    // Return the updated document
+        );
+        if (!user) {
+            console.error("User not found");
+            return res.status(404).send("User not found");
+        }
         res.status(200).send(user);
-    });
+    } catch (error) {
+        console.error("Updating user error:", error);
+        res.status(500).send("There was a problem updating the user");
+    }
 });
 
 router.delete('/users/:id', function (req, res) {

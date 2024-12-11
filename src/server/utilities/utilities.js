@@ -105,20 +105,16 @@ const getGames = async ({
   
   try {
     browser = await puppeteer.launch({
-      timeout: 15000,
       pipe: true,
       ignoreHTTPSErrors: true,
+      headless: false,
     });
 
     page = await browser.newPage();
 
-    await page.setRequestInterception(true);
-
-    page.on('request', interceptedRequest => {
-      if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-        interceptedRequest.abort();
-      else
-        interceptedRequest.continue();
+    await page.setViewport({
+      width: 2000,
+      height: 500,
     });
 
     await page.goto(url, { waitUntil: 'networkidle2' });
@@ -266,25 +262,15 @@ const createGames = async ({ message, games }) => {
       hashCompetitors: getCompetitorHash(game.competitors)
     };
     
-    console.log(`${message} createGames game: ${JSON.stringify(game)}`);
-
-    console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
-
     try {
       const gamesFound = await gameRepository.find(gameFind);
       if ((gamesFound || []).length > 0) {
         console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
       } else {
-        gameRepository.create(game, function (error, gameCreated) {
-          if (error) {
-            console.log(`${message} createGames there was a problem adding game to the database:  ${error.message}`);
-          } else {
-            console.log(`${message} createGames success creating game: ${gameCreated._id}`);
-          }
-        });
+        await gameRepository.create(game);
       }
     } catch (error) {
-      console.log(`${message} createGames error: ${error.message}`);
+      console.log(`${message} create game error: ${error}`);
     }
   }
 };
@@ -318,6 +304,11 @@ const getScores = async ({
     });
 
     const page = await browser.newPage();
+
+    await page.setViewport({
+      width: 2000,
+      height: 500,
+    });
 
     await page.goto(url, { waitUntil: 'networkidle2' });
 
@@ -513,7 +504,11 @@ const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] })
 
       console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
 
-      gameRepository.findByIdAndUpdate(new mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      gameRepository.findByIdAndUpdate(
+        game._id,  // The ID of the document
+        { score: 100 }, // The update object
+        { new: true } // Options (no need for `useFindAndModify`)
+      );
 
       // return { 
       //   replaceOne: {

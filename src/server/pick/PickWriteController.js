@@ -5,10 +5,6 @@ const moment = require('moment-timezone');
 let router = express.Router();
 
 const pickDomain = require('./PickDomain');
-const pickRepository = require('./PickRepository');
-
-const omit = require('lodash/omit');
-const get = require('lodash/get');
 
 const ids = [
     'google-oauth2|106585827534408667194',
