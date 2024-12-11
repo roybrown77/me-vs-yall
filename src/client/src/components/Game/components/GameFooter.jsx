@@ -1,8 +1,16 @@
 import { hasGameStarted } from "../../../utilities";
 
+const isAllEmojis = (input) => {
+  // Define regex pattern for emojis
+  const emojiPattern = 
+    /^(?:[\u203C-\u3299\uD83C\uD83D\uD83E][\u0020-\uFE0F]*|[\uD83C-\uDBFF][\uDC00-\uDFFF])+$/;
+
+  // Test if the input matches the pattern
+  return emojiPattern.test(input);
+};
+
 const getFontSize = (gameName) => {
-  const length = gameName.length;
-  if (length <= 20) return "2rem"; // 32px
+  if (isAllEmojis(gameName)) return "2rem"; // 32px
   return "1rem"; // 16px
 };
 
