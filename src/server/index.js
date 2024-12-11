@@ -177,15 +177,15 @@ function startWebServer(app) {
  * @param {object} server - The server instance
  */
 function setupGracefulShutdownHandlers(server) {
-  const gracefulExit = (signal) => {
+  const gracefulExit = async (signal) => {
     console.info(`${signal} signal received.`);
     server.close(() => {
       console.log(`[WEB_SERVER] - closed through app termination ${signal}.`);
     });
 
-    mongoose.connection.close(() => {
-      console.log(`[MONGODB] - disconnected through app termination ${signal}.`);
-    });
+    await mongoose.connection.close();
+
+    console.log(`[MONGODB] - disconnected through app termination ${signal}.`);
   };
 
   process.on('SIGINT', () => gracefulExit('SIGINT'));
