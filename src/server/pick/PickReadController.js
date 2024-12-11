@@ -252,15 +252,15 @@ router.get('/picks/', async function (req, res) {
     }
 });
 
-router.get('/picks/:id', function (req, res) {
-    pickRepository.findById(req.params.id, function (error, pick) {
-        if (error) {
-            console.log("Get pick error: ", error);
-            return res.status(500).send("There was a problem fetching pick");
-        }
-        if (!pick) return res.status(404).send("No pick found.");
+router.get('/picks/:id', async function (req, res) {
+    try {
+        const pick = await pickRepository.findById(req.params.id);
+        if (!pick) return res.status(404).send("No pick found");
         res.status(200).send(pick);
-    });
+    } catch (error) {
+        console.log("Get pick error: ", error);
+        return res.status(500).send("There was a problem fetching pick");
+    }
 });
 
 module.exports = router;

@@ -114,15 +114,18 @@ router.get('/users', async function (req, res) {
     }
 });
 
-router.get('/users/:id', function (req, res) {
-    userRepository.findById(req.params.id, function (error, user) {
-        if (error) return res.status(500).send("There was a problem fetching user.");
-        if (!user) return res.status(404).send("No user found.");
+router.get('/users/:id', async function (req, res) {
+    try {
+        const user = await userRepository.findById(req.params.id);
+        if (!user) return res.status(404).send("User not found");
         user.email = undefined;
         user.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
         user.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
         res.status(200).send(user);
-    });
+    } catch (error) {
+        console.log("Get user error: ", error);
+        return res.status(500).send("There was a problem fetching user");
+    }
 });
 
 module.exports = router;

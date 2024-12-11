@@ -130,13 +130,18 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       console.log(`${message} no games found`);
   
       try {
+        if (!!page) {
+          const pageCloseResult = await page.close();
+          console.log(`page close 4: ${JSON.stringify(pageCloseResult)}`);
+          page = null;
+        }
         if (!!browser) {
           const browserCloseResult = await browser.close();
-          console.log(`browser finally 7: ${JSON.stringify(browserCloseResult)}`);
+          console.log(`browser close 4: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
         }
       } catch (error) {
-        console.log(`browser finally error 7: `, error);
+        console.log(`browser close error 4: `, error);
       }
 
       return;
@@ -203,14 +208,19 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     console.log(`${message} getGames browser error 5: `, error);
   } finally {
     try {
+      if (!!page) {
+        const pageCloseResult = await page.close();
+        console.log(`page close 5: ${JSON.stringify(pageCloseResult)}`);
+        page = null;
+      }
       if (!!browser) {
         const browserCloseResult = await browser.close();
-        console.log(`browser finally 5: ${JSON.stringify(browserCloseResult)}`);
+        console.log(`browser close 5: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
       }
     } catch (error) {
-      console.log(`browser finally error 5: `, error);
-    } 
+      console.log(`browser close error 5: `, error);
+    }
   }
 
   if (get({scores:scores},'scores',[]).length === 0) {

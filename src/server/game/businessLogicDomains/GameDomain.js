@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const gameRepository = require('../databaseRepositories/GameRepository');
@@ -6,13 +5,15 @@ const gameRepository = require('../databaseRepositories/GameRepository');
 const get = require('lodash/get');
 const set = require('lodash/set');
 
-function update(game, cb) {
-    gameRepository.findById(game.id, function (error, gameFound) {
-        if (!isValid(error, game)) {
-            return cb(new Error('Invalid Game.'));
-        }
+const update = async (game, cb) => {
+    console.log(`game user: ${game.userId}`);
 
-        console.log(`game user: ${game.userId}`);
+    try {
+        const gameFound = await gameRepository.findById(game.id);
+
+        if (!isValid(game)) {
+            return cb(new Error('Invalid Game'));
+        }
 
         const updatedGame = {
           id: game.id,
@@ -94,34 +95,31 @@ function update(game, cb) {
 
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
 
-        return gameRepository.findOneAndUpdate(
-            {
-                _id: updatedGame.id
-            },
-            updatedGame, 
-            cb
+        const game = await gameRepository.findOneAndUpdate(
+            { _id: updatedGame.id }, // Query filter
+            updatedGame,             // Update object
+            { new: true }            // Options: return the updated document
         );
-    });
-}
-
-function isValid(error, game) {
-	if (error) {
-        console.log('Finding game id ' + game.id + ' - ' + error.message);
-        return false;
+        return cb(null, game); // Return the updated game
+    } catch (error) {
+        console.log('Updating game error: ', error);
+        return cb(new Error('Invalid Game'));
     }
+};
 
+const isValid = (game) => {
     if (!get(game,'id')) {
-        console.log('Game id is required.');
+        console.log('Game id is required');
         return false;
     }
 
     if (get(game,'userId') !== 'google-oauth2|114172296334563495985') {
-        console.log('User is required.');
+        console.log('User is required');
         return false;
     }
 
 	return true;
-}
+};
 
 const domain = { update };
 

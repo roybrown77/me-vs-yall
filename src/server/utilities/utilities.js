@@ -127,13 +127,18 @@ const getGames = async ({
 
     if (listLength === 0) {
       try {
+        if (!!page) {
+          const pageCloseResult = await page.close();
+          console.log(`page close 1: ${JSON.stringify(pageCloseResult)}`);
+          page = null;
+        }
         if (!!browser) {
           const browserCloseResult = await browser.close();
-          console.log(`browser finally 1: ${JSON.stringify(browserCloseResult)}`);
+          console.log(`browser close 1: ${JSON.stringify(browserCloseResult)}`);
           browser = null;
         }
       } catch (error) {
-        console.log(`browser finally error 1: `, error.message);
+        console.log(`browser close error 1: `, error.message);
       }
 
       return [];
@@ -184,16 +189,16 @@ const getGames = async ({
     try {
       if (!!page) {
         const pageCloseResult = await page.close();
-        console.log(`page finally 2: ${JSON.stringify(pageCloseResult)}`);
+        console.log(`page close 2: ${JSON.stringify(pageCloseResult)}`);
         page = null;
       }
       if (!!browser) {
         const browserCloseResult = await browser.close();
-        console.log(`browser finally 2: ${JSON.stringify(browserCloseResult)}`);
+        console.log(`browser close 2: ${JSON.stringify(browserCloseResult)}`);
         browser = null;
       }
     } catch (error) {
-      console.log(`browser finally error 2: `, error);
+      console.log(`browser close error 2: `, error);
     } 
   }
   
@@ -317,8 +322,19 @@ const getScores = async ({
 
     if (listLength === 0) {
       console.log(`${message} no games found`);
-      if (browser) {
-        await browser.close();
+      try {
+        if (!!page) {
+          const pageCloseResult = await page.close();
+          console.log(`page close 3: ${JSON.stringify(pageCloseResult)}`);
+          page = null;
+        }
+        if (!!browser) {
+          const browserCloseResult = await browser.close();
+          console.log(`browser close 3: ${JSON.stringify(browserCloseResult)}`);
+          browser = null;
+        }
+      } catch (error) {
+        console.log(`browser close error 3: `, error);
       }
       return scores;
     }
@@ -395,12 +411,19 @@ const getScores = async ({
   } catch (error) {
     console.error(`${message} getScores error: `, error);
   } finally {
-    if (browser) {
-      try {
-        await browser.close();
-      } catch (error) {
-        console.error(`Failed to close browser: `, error);
+    try {
+      if (!!page) {
+        const pageCloseResult = await page.close();
+        console.log(`page close 4: ${JSON.stringify(pageCloseResult)}`);
+        page = null;
       }
+      if (!!browser) {
+        const browserCloseResult = await browser.close();
+        console.log(`browser close 4: ${JSON.stringify(browserCloseResult)}`);
+        browser = null;
+      }
+    } catch (error) {
+      console.log(`browser close error 4: `, error);
     }
   }
 
