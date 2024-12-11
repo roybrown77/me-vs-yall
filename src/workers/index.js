@@ -227,20 +227,20 @@ const updateGames = async () => {
   Handle events gracefully
 */
 
-const gracefulExitSIGINT = () => {
+const gracefulExitSIGINT = async () => {
   console.info(`SIGINT signal received.`);
 
-  mongoose.connection.close(function () {
-    console.log('[MONGODB] - disconnected through app termination SIGINT.');
-  });
+  await mongoose.connection.close();
+
+  console.log('[MONGODB] - disconnected through app termination SIGINT.');
 };
 
-const gracefulExitSIGTERM = () => {
+const gracefulExitSIGTERM = async () => {
   console.info(`SIGTERM signal received.`);
 
-  mongoose.connection.close(function () {
-    console.log('[MONGODB] - disconnected through app termination SIGTERM.');
-  });
+  await mongoose.connection.close();
+
+  console.log('[MONGODB] - disconnected through app termination SIGTERM.');
 };
 
 process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
