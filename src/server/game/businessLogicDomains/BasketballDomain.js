@@ -62,7 +62,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
   isUpdateBasketballScoresRunning = true;
 
   const search = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
+    leagueId: new mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
@@ -88,7 +88,7 @@ const updateBasketballScores = async ({leagueId, year, message, url, teams}) => 
 
     if (eastCoastHour === 7 && minutes > 10 && minutes < 15) {
       const search = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
+      leagueId: new mongoose.Types.ObjectId(leagueId),
         isGameOver: {
           $ne: true
         },

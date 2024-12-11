@@ -63,8 +63,8 @@ function setupDatabaseConnection() {
     console.log('[MONGODB] - Connected!');
   });
 
-  mongoose.connection.on('error', (err) => {
-    console.error('[MONGODB] - failed to connect on startup: ', err);
+  mongoose.connection.on('error', (error) => {
+    console.error('[MONGODB] - failed to connect on startup: ', error);
   });
 
   mongoose.connection.on('disconnected', () => {
@@ -74,8 +74,8 @@ function setupDatabaseConnection() {
   try {
     console.log('[MONGODB] - Connecting...');
     mongoose.connect(dbConnectionString, options);
-  } catch (err) {
-    console.log('[MONGODB] - initialization failed: ', err);
+  } catch (error) {
+    console.log('[MONGODB] - initialization failed: ', error);
   }
 }
 
@@ -200,8 +200,8 @@ function setupErrorHandlers() {
     console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);
   });
 
-  process.on('uncaughtException', (err) => {
-    console.error(`Process uncaughtException error: ${JSON.stringify(err)}`);
+  process.on('uncaughtException', (error) => {
+    console.error(`Process uncaughtException error: ${JSON.stringify(error)}`);
   });
 
   process.on('multipleResolves', (type, promise, reason) => {

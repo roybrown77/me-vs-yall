@@ -7,8 +7,8 @@ const get = require('lodash/get');
 const set = require('lodash/set');
 
 function update(game, cb) {
-    gameRepository.findById(game.id, function (err, gameFound) {
-        if (!isValid(err, game)) {
+    gameRepository.findById(game.id, function (error, gameFound) {
+        if (!isValid(error, game)) {
             return cb(new Error('Invalid Game.'));
         }
 
@@ -104,9 +104,9 @@ function update(game, cb) {
     });
 }
 
-function isValid(err, game) {
-	if (err) {
-        console.log('Finding game id ' + game.id + ' - ' + err.message);
+function isValid(error, game) {
+	if (error) {
+        console.log('Finding game id ' + game.id + ' - ' + error.message);
         return false;
     }
 

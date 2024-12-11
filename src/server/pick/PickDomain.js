@@ -7,8 +7,8 @@ const gameRepository = require('../game/databaseRepositories/GameRepository');
 const get = require('lodash/get');
 
 function upsert(pick, cb) {
-    gameRepository.findById(pick.gameId, function (err, game) {
-        if (!isValid(err, game, pick)) {
+    gameRepository.findById(pick.gameId, function (error, game) {
+        if (!isValid(error, game, pick)) {
             return cb(new Error('Invalid pick.'));
         }
 
@@ -33,9 +33,9 @@ function upsert(pick, cb) {
     });
 }
 
-function isValid(err, game, pick) {
-	if (err) {
-        console.log('Finding game id ' + pick.gameId + ' - ' + err.message);
+function isValid(error, game, pick) {
+	if (error) {
+        console.log('Finding game id ' + pick.gameId + ' - ' + error.message);
         return false;
     }
 

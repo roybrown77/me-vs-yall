@@ -19,7 +19,7 @@ router.get('/picks/', async function (req, res) {
     const includeStrategies = get(req,'query.includeStrategies') === 'true';
 
     const search = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
+        leagueId: new mongoose.Types.ObjectId(leagueId),
         userId: req.query.userId,
         year: year,
         gameType: gameType === "1" ? 1 : { $ne: 1 },
@@ -36,14 +36,13 @@ router.get('/picks/', async function (req, res) {
         ]
     );
 
-    pickRepository.find(finalSearch, async (err, picks) => {
-        if (err) return res.status(500).send("There was a problem finding the picks.");
-
+    try {
+        let picks = await pickRepository.find(finalSearch);
         if (includeStrategies) {
             console.log('include strategies');
 
             const gameSearch = {
-                leagueId: mongoose.Types.ObjectId(mongoose.Types.ObjectId(leagueId)),
+                leagueId: new mongoose.Types.ObjectId(leagueId),
                 year: year,
                 startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
                   $gt: new Date(moment(get(req, 'query.beginDateTime'))),
@@ -62,7 +61,7 @@ router.get('/picks/', async function (req, res) {
             );
         
             const wholeYearSearch = {
-                leagueId: mongoose.Types.ObjectId(leagueId),
+                leagueId: new mongoose.Types.ObjectId(leagueId),
                 year: year,
                 startDateTime: {
                     $gt: new Date(moment(year + '0901')),
@@ -81,10 +80,10 @@ router.get('/picks/', async function (req, res) {
                 hashCompetitors: 1, 
                 currentTime: 1
               };
-        
+
             const [gamesThisRange, gamesWholeYear] = await Promise.all([
-                gameRepository.find(thisRangeSearch, fields, {}), 
-                gameRepository.find(wholeYearSearch, fields, {}), 
+                gameRepository.find(thisRangeSearch, fields).exec(),
+                gameRepository.find(wholeYearSearch, fields).exec(),
             ]);
         
             const sortedGamesThisRange = sortBy(gamesThisRange, ['startDateTime']);
@@ -96,7 +95,7 @@ router.get('/picks/', async function (req, res) {
                 const teamStats = getAllTeamStats(sortedGamesWholeYearUpUntilGameDateTime);
 
                 const mvyHomePicks = {
-                    _id: mongoose.Types.ObjectId().toString(),
+                    _id: new mongoose.Types.ObjectId().toString(),
                     userId: 2, // King Homer
                     gameId: game._id,
                     pickId: game.competitors[1]._id,
@@ -104,7 +103,7 @@ router.get('/picks/', async function (req, res) {
                 };
 
                 // const mvyRoadPicks = {
-                //     _id: mongoose.Types.ObjectId().toString(),
+                //     _id: new mongoose.Types.ObjectId().toString(),
                 //     userId: 14, // King Roadie
                 //     gameId: game._id,
                 //     pickId: game.competitors[0]._id,
@@ -112,7 +111,7 @@ router.get('/picks/', async function (req, res) {
                 // };
 
                 // const mvySharp = {
-                //     _id: mongoose.Types.ObjectId().toString(),
+                //     _id: new mongoose.Types.ObjectId().toString(),
                 //     userId: 10, // King Sharp; Goes against the spread
                 //     gameId: game._id,
                 //     pickId: game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? game.competitors[0]._id : game.competitors[1]._id,
@@ -149,7 +148,7 @@ router.get('/picks/', async function (req, res) {
                         const weekday = date.getDay();
     
                         mvyOffensePicks = {
-                            _id: mongoose.Types.ObjectId().toString(),
+                            _id: new mongoose.Types.ObjectId().toString(),
                             userId: 3, // King Offense; Points Scored
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
@@ -159,7 +158,7 @@ router.get('/picks/', async function (req, res) {
                         };
     
                         mvyDefensePicks = {
-                            _id: mongoose.Types.ObjectId().toString(),
+                            _id: new mongoose.Types.ObjectId().toString(),
                             userId: 4, // King Defense; Points Allowed
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 ? game.competitors[0]._id : game.competitors[1]._id)
@@ -168,7 +167,7 @@ router.get('/picks/', async function (req, res) {
                         };
     
                         mvyDoomPicks = {
-                            _id: mongoose.Types.ObjectId().toString(),
+                            _id: new mongoose.Types.ObjectId().toString(),
                             userId: 5, // King Doom; Points Scored & Allowed
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
@@ -180,7 +179,7 @@ router.get('/picks/', async function (req, res) {
                         if (((game.gameName || '').startsWith('Super Bowl') && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0)) ||
                             (roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0)) {
                             mvyThanosPicks = {
-                                _id: mongoose.Types.ObjectId().toString(),
+                                _id: new mongoose.Types.ObjectId().toString(),
                                 userId: 17, // King Thanos; Points Scored & Allowed, Road Only
                                 gameId: game._id,
                                 pickId: game.competitors[0]._id,
@@ -190,7 +189,7 @@ router.get('/picks/', async function (req, res) {
         
                         // if (weekday === 1 || weekday === 4 || weekday === 6) {
                         //     mvyDayPicks = {
-                        //         _id: mongoose.Types.ObjectId().toString(),
+                        //         _id: new mongoose.Types.ObjectId().toString(),
                         //         userId: weekday === 1 ? 7 : weekday === 4 ? 8 : 9, // King Monday, Thursday, Saturday; Points Scored & Allowed
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
@@ -202,7 +201,7 @@ router.get('/picks/', async function (req, res) {
     
                         // if (weekday === 0) {
                         //     mvySundayPicks = {
-                        //         _id: mongoose.Types.ObjectId().toString(),
+                        //         _id: new mongoose.Types.ObjectId().toString(),
                         //         userId: 11, // King Sunday; Points Scored
                         //         gameId: game._id,
                         //         pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
@@ -214,7 +213,7 @@ router.get('/picks/', async function (req, res) {
     
                         if (weekday === 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) {
                             mvyMagnetoPicks = {
-                                _id: mongoose.Types.ObjectId().toString(),
+                                _id: new mongoose.Types.ObjectId().toString(),
                                 userId: 15, // King Magneto; Points Scored, Road only
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 3 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
@@ -227,7 +226,7 @@ router.get('/picks/', async function (req, res) {
                         if (((roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
                             (!(roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()))) {
                             mvyKangPicks = {
-                                _id: mongoose.Types.ObjectId().toString(),
+                                _id: new mongoose.Types.ObjectId().toString(),
                                 userId: 12, // Kang; Points Scored for Dogs
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? 
@@ -238,7 +237,7 @@ router.get('/picks/', async function (req, res) {
                             };
                         }
                     } catch (error) {
-                        console.log("PickReadController user picks error", error);
+                        console.log("Generate King picks error: ", error);
                     }
                 }
 
@@ -247,12 +246,18 @@ router.get('/picks/', async function (req, res) {
         }
 
         res.status(200).send(picks);
-    });
+    } catch (error) {
+        console.log("Get picks error: ", error);
+        return res.status(500).send("There was a problem fetching picks");
+    }
 });
 
 router.get('/picks/:id', function (req, res) {
-    pickRepository.findById(req.params.id, function (err, pick) {
-        if (err) return res.status(500).send("There was a problem finding the pick.: " + err.message);
+    pickRepository.findById(req.params.id, function (error, pick) {
+        if (error) {
+            console.log("Get pick error: ", error);
+            return res.status(500).send("There was a problem fetching pick");
+        }
         if (!pick) return res.status(404).send("No pick found.");
         res.status(200).send(pick);
     });

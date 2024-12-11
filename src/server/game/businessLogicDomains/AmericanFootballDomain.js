@@ -80,7 +80,7 @@ const updateAmericanFootballScores = async ({
 
   try {
     const search = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
+      leagueId: new mongoose.Types.ObjectId(leagueId),
       isGameOver: {
         $ne: true
       },
@@ -102,7 +102,7 @@ const updateAmericanFootballScores = async ({
 
       if ((eastCoastHour === 2 && minutes > 0 && minutes < 15) || (eastCoastHour === 14 && minutes > 0 && minutes < 15)) {
         const search = {
-        leagueId: mongoose.Types.ObjectId(leagueId),
+        leagueId: new mongoose.Types.ObjectId(leagueId),
           isGameOver: {
             $ne: true
           },

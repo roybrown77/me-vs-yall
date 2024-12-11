@@ -182,8 +182,8 @@ const getGames = async ({
           homeTeam: (homeTeam || '').trim(),
       });
     }
-  } catch (err) {
-    console.log(`${message} getGames browser error 2: `, err);
+  } catch (error) {
+    console.log(`${message} getGames browser error 2: `, error);
   } finally {
     try {
       if (!!page) {
@@ -221,15 +221,15 @@ const formatGames = ({ message, games, leagueId, year, teams }) => {
           console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
       } else {
           const competitors = [
-              {_id: mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
-              {_id: mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
+              {_id: new mongoose.Types.ObjectId(awayTeam._id), name: awayTeam.location + ' ' + awayTeam.name, record: get(game,'awayRecord'), rank: get(game,'awayRank'), startDateTime: game.startDateTime},
+              {_id: new mongoose.Types.ObjectId(homeTeam._id), name: homeTeam.location + ' ' + homeTeam.name, record: get(game,'homeRecord'), rank: get(game,'homeRank'), startDateTime: game.startDateTime}
           ];
 
           const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'));
           const amount = (get(game,'spread.amount') || 0);
 
           formattedGames.push({
-            leagueId: mongoose.Types.ObjectId(leagueId),
+            leagueId: new mongoose.Types.ObjectId(leagueId),
             year: year,
             startDateTime: game.startDateTime,
             gameName: (get(game,'gameName') || "").split(",")[0],
@@ -257,7 +257,7 @@ const getCompetitorHash = (competitors) => {
   return JSON.stringify(filteredCompetitors);
 };
 
-const createGames = ({ message, games }) => {
+const createGames = async ({ message, games }) => {
   for (let i = 0; i < games.length; i++) {
     const game = games[i];
     const gameFind = {
@@ -270,19 +270,22 @@ const createGames = ({ message, games }) => {
 
     console.log(`${message} createGames gameFind: ${JSON.stringify(gameFind)}`);
 
-    gameRepository.find(gameFind, function (err, gamesFound) {
+    try {
+      const gamesFound = await gameRepository.find(gameFind);
       if ((gamesFound || []).length > 0) {
         console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
       } else {
-        gameRepository.create(game, function (err, gameCreated) {
-          if (err) {
-            console.log(`${message} createGames there was a problem adding game to the database:  ${err.message}`);
+        gameRepository.create(game, function (error, gameCreated) {
+          if (error) {
+            console.log(`${message} createGames there was a problem adding game to the database:  ${error.message}`);
           } else {
             console.log(`${message} createGames success creating game: ${gameCreated._id}`);
           }
         });
       }
-    });
+    } catch (error) {
+      console.log(`${message} createGames error: ${error.message}`);
+    }
   }
 };
 
@@ -398,8 +401,8 @@ const getScores = async ({
         },
       });
     }
-  } catch (err) {
-    console.error(`${message} getScores error: `, err);
+  } catch (error) {
+    console.error(`${message} getScores error: `, error);
   } finally {
     if (browser) {
       try {
@@ -510,7 +513,7 @@ const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] })
 
       console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
 
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      gameRepository.findByIdAndUpdate(new mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
 
       // return { 
       //   replaceOne: {

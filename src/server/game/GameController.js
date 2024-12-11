@@ -355,7 +355,7 @@ router.get('/games', async function (req, res) {
 
   try {
     const search = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
+      leagueId: new mongoose.Types.ObjectId(leagueId),
       year: year,
       startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
         $gt: new Date(moment(get(req, 'query.beginDateTime'))),
@@ -376,7 +376,7 @@ router.get('/games', async function (req, res) {
     console.log('thisRangeSearch: ' + JSON.stringify(thisRangeSearch));
 
     const wholeYearSearch = {
-      leagueId: mongoose.Types.ObjectId(leagueId),
+      leagueId: new mongoose.Types.ObjectId(leagueId),
       year: year,
       startDateTime: {
         $gt: new Date(moment(year + '0901')),
@@ -398,9 +398,9 @@ router.get('/games', async function (req, res) {
     };
 
     const [gamesThisRange, gamesWholeYear] = await Promise.all([
-      gameRepository.find(thisRangeSearch, {}, {}), 
-      gameRepository.find(wholeYearSearch, wholeYearFields, {}), 
-    ]);
+      gameRepository.find(thisRangeSearch, {}, {}).exec(),
+      gameRepository.find(wholeYearSearch, wholeYearFields, {}).exec(),
+  ]);
 
     console.log("time3: ", moment().format());
 
@@ -420,13 +420,14 @@ router.get('/games', async function (req, res) {
 
     res.status(200).send(gamesThisRange);
   } catch (error) {
-    return res.status(500).send("There was a problem finding the games: ", error);
+    console.log("Get Games Error: ", error);
+    return res.status(500).send("There was a problem fetching games");
   }
 });
 
-router.get('/gameweeks', function (req, res) {
+router.get('/gameweeks', async function (req, res) {
   const search = {
-    leagueId: mongoose.Types.ObjectId(req.query.leagueId),
+    leagueId: new mongoose.Types.ObjectId(req.query.leagueId),
     year: req.query.year
   };
 
@@ -437,28 +438,31 @@ router.get('/gameweeks', function (req, res) {
     ]
   );
   
-  gameWeekRepository.find(finalSearch, function (err, gameWeeks) {
-      if (err) return res.status(500).send("There was a problem finding the game weeks: " + err.message);
-
-      const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
-        if (x.description === 'Whole Year') {
-          x.sortOrder = 1;
-        } else {
-          x.sortOrder = 2;
-        }
-
-        total.push(x);
-        
-        return total;
-      }, []);
-
-      const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'beginDateTime']);
-
-      res.status(200).send(weeks);
-  });
+  try {
+    const gameWeeks = await gameWeekRepository.find(finalSearch);
+  
+    const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
+      if (x.description === 'Whole Year') {
+        x.sortOrder = 1;
+      } else {
+        x.sortOrder = 2;
+      }
+  
+      total.push(x);
+      
+      return total;
+    }, []);
+  
+    const weeks = sortBy(viewableGameWeeks, ['sortOrder', 'beginDateTime']);
+  
+    res.status(200).send(weeks);
+  } catch (error) {
+    console.log("Get Game Weeks Error: ", error);
+    return res.status(500).send("There was a problem fetching game weeks");
+  }
 });
 
-router.get('/gamesInProgress', function (req, res) {
+router.get('/gamesInProgress', async function (req, res) {
   const search = {
     isGameOver: {
       $ne: true
@@ -468,10 +472,13 @@ router.get('/gamesInProgress', function (req, res) {
     }
   };
   
-  gameRepository.find(search, function (err, games) {
-    if (err) return res.status(500).send("There was a problem finding the games: " + err.message);
+  try {
+    const games = await gameRepository.find(search);
     res.status(200).send(games);
-  });
+  } catch (error) {
+    console.log("Get Games In Progress Error: ", error);
+    return res.status(500).send("There was a problem fetching games");
+  }
 });
 
 router.get('/teams', function (req, res) {

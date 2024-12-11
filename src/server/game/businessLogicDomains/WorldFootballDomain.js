@@ -63,7 +63,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
   }
 
   const search = {
-    leagueId: mongoose.Types.ObjectId(leagueId),
+    leagueId: new mongoose.Types.ObjectId(leagueId),
     isGameOver: {
       $ne: true
     },
@@ -199,8 +199,8 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
         startDateTime: startDateTime
       });
     }
-  } catch (err) {
-    console.log(`${message} getGames browser error 5: `, err);
+  } catch (error) {
+    console.log(`${message} getGames browser error 5: `, error);
   } finally {
     try {
       if (!!browser) {
@@ -268,7 +268,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       
       console.log(`${message} updating game: ${JSON.stringify(updatedGame)}`);
 
-      gameRepository.findByIdAndUpdate(mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      gameRepository.findByIdAndUpdate(new mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
     }
   });
 
