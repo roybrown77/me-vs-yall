@@ -229,7 +229,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     return;
   }
 
-  games.forEach(game=>{
+  games.forEach(game => async () => {
     const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
     const awayShortLocation = get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
     const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
@@ -278,7 +278,7 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
       
       console.log(`${message} updating game: ${JSON.stringify(updatedGame)}`);
 
-      gameRepository.findByIdAndUpdate(new mongoose.Types.ObjectId(game._id.toString()), updatedGame, {}, x=>()=>{});
+      await gameRepository.findByIdAndUpdate(new mongoose.Types.ObjectId(game._id.toString()), updatedGame, { new: true });
     }
   });
 

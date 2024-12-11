@@ -434,7 +434,7 @@ const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] })
   const sortedScores = scores.reverse();
 
   // gameRepository.bulkWrite(
-    games.forEach(game => {
+    games.forEach(game => async () => {
       const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
       const awayShortLocation = leagueId === '59723313734d1d6202a85f10' ? get(awayTeam,'alternateName') || get(awayTeam,'name') : get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
       const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
@@ -527,9 +527,9 @@ const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] })
 
       console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
 
-      gameRepository.findByIdAndUpdate(
+      await gameRepository.findByIdAndUpdate(
         game._id,  // The ID of the document
-        { score: 100 }, // The update object
+        score, // The update object
         { new: true } // Options (no need for `useFindAndModify`)
       );
 
