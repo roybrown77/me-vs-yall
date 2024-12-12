@@ -200,7 +200,7 @@ const updateGames = async () => {
 
     console.log(`dayIndex: ${dayIndex}`);
 
-    // copy full xpath along with selector to get the right path of piece of data
+    // copy full xpath along with selector to get the right path of each piece of data
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10',
       year: year,
@@ -230,7 +230,7 @@ const updateGames = async () => {
 const gracefulExitSIGINT = async () => {
   console.info(`SIGINT signal received.`);
 
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 
   console.log('[MONGODB] - disconnected through app termination SIGINT.');
 };
@@ -238,7 +238,7 @@ const gracefulExitSIGINT = async () => {
 const gracefulExitSIGTERM = async () => {
   console.info(`SIGTERM signal received.`);
 
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 
   console.log('[MONGODB] - disconnected through app termination SIGTERM.');
 };
