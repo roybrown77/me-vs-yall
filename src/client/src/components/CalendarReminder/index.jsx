@@ -64,7 +64,7 @@ const CalendarReminder = (props) => {
                 >
                     <div>1. Open your calendar app</div>
                     <div>2. Create Me vs Yall reminder with link <a href="https://www.mevsyall.com">https://www.mevsyall.com</a></div>
-                    <div>3. Set reminder for 7 pm every night to avoid missing picks.</div>
+                    <div>3. Set reminder for 7 pm every night to avoid missing picks 😎🏈⚽️🏀🥇🏆👑✌🏿</div>
                 </div>
             }
         </>
