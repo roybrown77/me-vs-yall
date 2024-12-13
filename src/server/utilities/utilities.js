@@ -432,11 +432,12 @@ const getScores = async ({
   return scores;
 };
 
-const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] }) => {
+const updateGames = async ({ message, leagueId, games = [], scores = [], teams = [] }) => {
   const sortedScores = scores.reverse();
 
   // gameRepository.bulkWrite(
-    games.forEach(game => async () => {
+    for (let i = 0; i < games.length; i++) {
+      const game = games[i];
       const awayTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.0._id','').toString());
       const awayShortLocation = leagueId === '59723313734d1d6202a85f10' ? get(awayTeam,'alternateName') || get(awayTeam,'name') : get(awayTeam,'alternateName') || get(awayTeam,'shortLocation');
       const homeTeam = teams.find(x=>get(x,'_id','').toString() === get(game,'competitors.1._id','').toString());
@@ -527,13 +528,15 @@ const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] })
         set(updatedGame,'endDateTime', moment().toISOString());
       }
 
-      console.log(`${message} updateGames score: ${JSON.stringify(score)}`);
+      console.log(`${message} updateGames score: ${JSON.stringify(updatedGame)}`);
 
-      await gameRepository.findByIdAndUpdate(
-        game._id,  // The ID of the document
-        score, // The update object
-        { new: true } // Options (no need for `useFindAndModify`)
+      const gameUpdated = await gameRepository.findByIdAndUpdate(
+        game._id,  // The ID of the document (String or ObjectId)
+        { $set: updatedGame }, // The update object, wrapped in `$set` for safety
+        { new: true } // Return the updated document
       );
+
+      console.log(`${message} updateGames updatedGame: ${JSON.stringify(gameUpdated)}`);
 
       // return { 
       //   replaceOne: {
@@ -541,7 +544,7 @@ const updateGames = ({ message, leagueId, games = [], scores = [], teams = [] })
       //     replacement: updatedGame // This will replace the entire document with the new game object
       //   }
       // }
-    })
+    }
   // );
 };
 
