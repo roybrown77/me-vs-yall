@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
-import { createBrowserHistory } from 'history';
 
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,8 +11,6 @@ import Typer from './Typer';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import { googleLogin, isConfirmedAuthentication } from '../../utilities/authenticationClient';
 import Header from '../../components/Header';
-
-const history = createBrowserHistory({ forceRefresh: true });
 
 const styles = {
   inProgress: {
@@ -77,10 +74,6 @@ const Home = () => {
 
   const tube = () => {
     window.location = 'https://www.youtube.com/channel/UC3BFY6ohNlayFkPVnlPKqww';
-  };
-
-  const navigateTo = (route) => {
-    history.push(route);
   };
 
   const handleToggleShowInfo = () => {
