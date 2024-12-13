@@ -148,15 +148,15 @@ const getGames = async ({
     let startTime;
 
     for (let i = 1; i <= listLength; i++) {
-      const awayTeam = await page.evaluate((sel, leagueId) => {
+      const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'), leagueId);
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
 
-      const homeTeam = await page.evaluate((sel, leagueId) => {
+      const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'), leagueId);
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
 
       startDate = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
