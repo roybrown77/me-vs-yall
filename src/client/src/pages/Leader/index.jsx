@@ -435,44 +435,6 @@ class Leader extends Component {
               </div>
             </div>
           )}
-          {get(currentWeek, "prize") && (
-            <Popover
-              borderStyle={{
-                margin: "4px 14%",
-                border: "4px solid lightgreen",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-              titleStyle={{
-                color: "darkgreen",
-                fontSize: "17px",
-                borderBottom: "3px solid lightgreen",
-                padding: "4px",
-              }}
-              subTitleStyle={{
-                color: "darkgreen",
-                fontSize: "17px",
-                borderTop: "3px solid lightgreen",
-                padding: "4px",
-              }}
-              title={"player with the most correct wins!"}
-              subTitle={"tap to view rules."}
-              segments={get(currentWeek, "prizes")}
-            >
-              {
-                <div style={{ padding: "16px" }}>
-                  <div style={{ paddingBottom: "12px" }}>
-                    {get(currentWeek, "prize.message")}
-                  </div>
-                  {get(currentWeek, "prize.rules", []).map(
-                    (rule, ruleIndex) => {
-                      return <div key={ruleIndex}>{rule}</div>;
-                    }
-                  )}
-                </div>
-              }
-            </Popover>
-          )}
           {!isAuthenticated && (
             <div
               style={{
