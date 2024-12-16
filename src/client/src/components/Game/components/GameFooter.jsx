@@ -6,7 +6,7 @@ const isAllEmojis = (input) => {
     /^(?:[\u203C-\u3299\uD83C\uD83D\uD83E][\u0020-\uFE0F]*|[\uD83C-\uDBFF][\uDC00-\uDFFF])+$/;
 
   // Test if the input matches the pattern
-  return emojiPattern.test(input);
+  return emojiPattern.test(input) && input.length < 15;
 };
 
 const getFontSize = (gameName) => {
