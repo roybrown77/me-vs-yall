@@ -6,11 +6,11 @@ const isAllEmojis = (input) => {
     /^(?:[\u203C-\u3299\uD83C\uD83D\uD83E][\u0020-\uFE0F]*|[\uD83C-\uDBFF][\uDC00-\uDFFF])+$/;
 
   // Test if the input matches the pattern
-  return emojiPattern.test(input) && input.length < 15;
+  return emojiPattern.test(input);
 };
 
-const getFontSize = (gameName) => {
-  if (isAllEmojis(gameName)) return "2rem"; // 32px
+const getFontSize = (game) => {
+  if (isAllEmojis(game.gameName) && game.leagueId.toLowerCase() === "59723313734d1d6202a85f10") return "2rem"; // 32px
   return "1rem"; // 16px
 };
 
@@ -23,7 +23,7 @@ const GameFooter = (props) => {
       className={"game-footer " + classes.startDateTime}
     >
       {game.gameName && (
-        <div style={{ marginTop: "5px", fontSize: getFontSize(game.gameName) }}>
+        <div style={{ marginTop: "5px", fontSize: getFontSize(game) }}>
           {game.gameName}
         </div>
       )}
