@@ -90,7 +90,6 @@ const hasGameStarted = (dateTime) => {
 };
 
 const getGames = async ({
-    leagueId,
     message,
     url,
     root,
@@ -214,10 +213,7 @@ const formatGames = ({ message, games, leagueId, year, teams }) => {
     const homeTeam = leagueId === '59723313734d1d6202a85f10' ? teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.name === game.homeTeam) : 
     teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
 
-    if (!awayTeam || !homeTeam) {
-        console.log(`${message} formatGames game not valid: ${JSON.stringify(game)}`);
-        console.log(`${message} formatGames teams not valid: ${JSON.stringify(awayTeam)} ${JSON.stringify(homeTeam)}`);
-    } else {
+    if (awayTeam && homeTeam) {
       if (leagueId === "59723313734d1d6202a85f15" && !(allowedConferences.includes(awayTeam.conference) && allowedConferences.includes(homeTeam.conference))) {
           console.log(`${message} formatGames teams are not in allowed conferences: ${JSON.stringify(game)}`);
       } else {
@@ -272,6 +268,7 @@ const createGames = async ({ message, games }) => {
       if ((gamesFound || []).length > 0) {
         console.log(`${message} createGames games already exists: ${JSON.stringify(game)}`);
       } else {
+        console.log(`${message} createGames game: ${JSON.stringify(game)}`);
         await gameRepository.create(game);
       }
     } catch (error) {

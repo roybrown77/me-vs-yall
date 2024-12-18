@@ -131,14 +131,6 @@ const {
   updateAmericanFootballScores,
 } = require('../server/game/businessLogicDomains/AmericanFootballDomain');
 
-const {
-  updateBasketballScores,
-} = require('../server/game/businessLogicDomains/BasketballDomain');
-
-const { 
-  updateMlbScores,
-} = require('../server/game/businessLogicDomains/MLBDomain');
-
 const gameRepository = require('../server/game/databaseRepositories/GameRepository');
 const sortBy = require('lodash/sortBy');
 
