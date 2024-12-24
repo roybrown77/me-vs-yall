@@ -1,4 +1,6 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -9,6 +11,8 @@ const isNaN = require('lodash/isNaN');
 const pick = require('lodash/pick');
 
 const gameRepository = require('../game/databaseRepositories/GameRepository');
+
+puppeteer.use(StealthPlugin());
 
 const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
@@ -106,6 +110,7 @@ const getGames = async ({
     browser = await puppeteer.launch({
       pipe: true,
       ignoreHTTPSErrors: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Sandbox settings
       // headless: false,
     });
 
@@ -115,6 +120,10 @@ const getGames = async ({
       width: 2000,
       height: 500,
     });
+
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    );
 
     await page.goto(url, { waitUntil: 'networkidle2' });
 
@@ -304,6 +313,7 @@ const getScores = async ({
     browser = await puppeteer.launch({
       pipe: true,
       ignoreHTTPSErrors: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Sandbox settings
       // headless: false,
     });
 
@@ -313,6 +323,10 @@ const getScores = async ({
       width: 2000,
       height: 500,
     });
+
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    );
 
     await page.goto(url, { waitUntil: 'networkidle2' });
 

@@ -1,4 +1,6 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
@@ -21,7 +23,9 @@ const {
   updateGames,
   hasGameStarted
 } = require('../../utilities/utilities');
-    
+
+puppeteer.use(StealthPlugin());
+
 let isUpdateWorldFootballScoresRunning = false;
 
 const loadWorldFootballGames = async ({message, baseUrl, dayCount, leagueId, year, teams}) => {
@@ -103,6 +107,10 @@ const updateWorldFootballScores = async ({message, baseUrl, leagueId, year, team
     });
 
     page = await browser.newPage();
+
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    );
 
     const url = `${baseUrl}${date}`;
 
