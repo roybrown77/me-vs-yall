@@ -1,29 +1,26 @@
 const mongoose = require('mongoose');
 
 const GameSchema = new mongoose.Schema({
-	leagueId: mongoose.Schema.Types.ObjectId,
-    startDateTime: 'date',
-    endDateTime: 'date',
-    station: String,
+	leagueId: { type: mongoose.Schema.Types.ObjectId, index: true },
+    year: { type: Number, index: true },
+    startDateTime: { type: 'date', index: true },
+    isHidden: { type: Boolean, index: true },
+    playHistory: Array,
     isGameOver: mongoose.Schema.Types.Boolean,
     competitors: Array,
-    year: Number,
     spread: mongoose.Schema.Types.Mixed,
-    possession: String,
     down: String,
-    playHistory: Array,
-    highlights: Array,
     currentTime: String,
     gameName: String,
     hashCompetitors: String,
+    stats: Array,
+    highlights: Array,
     liveVideoUrl: String,
     highlightVideoUrl: String,
-    stats: Array,
     serverLiveVideoUrl: String,
     isWatchable: Boolean,
-    isHidden: Boolean
+    possession: String,
+    station: String,
 });
-
-GameSchema.index({"playHistory.$**": "text"});
 
 module.exports = mongoose.model('Game', GameSchema);

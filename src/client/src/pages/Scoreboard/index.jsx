@@ -480,6 +480,10 @@ class Scoreboard extends Component {
 
     const isLoading = dataLoading && !areAnyGamesInProgress;
 
+    const filteredWeeks = weeks.filter(
+      (item) => !item.description.toLowerCase().includes("entire")
+    );
+
     return (
       <div>
         <PageContainer>
@@ -502,7 +506,7 @@ class Scoreboard extends Component {
             leagues={leagues}
             yearSelected={year}
             weekId={weekId}
-            weeks={weeks}
+            weeks={filteredWeeks}
             loading={isLoading}
             onFilterLeague={this.handleFilterLeague}
             onFilterYear={this.handleFilterYear}

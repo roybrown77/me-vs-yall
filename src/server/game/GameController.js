@@ -343,6 +343,7 @@ router.get('/games', async function (req, res) {
 
   const leagueId = get(req, 'query.leagueId');
   const year = get(req, 'query.year');
+  const includeStrategies = get(req,'query.includeStrategies') === 'true';
 
   if (shouldLoadGames) {
     loadGames(leagueId);
@@ -357,13 +358,13 @@ router.get('/games', async function (req, res) {
     const search = {
       leagueId: new mongoose.Types.ObjectId(leagueId),
       year: year,
-      startDateTime: get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') ? {
-        $gt: new Date(moment(get(req, 'query.beginDateTime'))),
-        $lt: new Date(moment(get(req, 'query.endDateTime')))
-      } : undefined,
-      isHidden: {
-        $ne: true
-      }
+      ...(get(req, 'query.beginDateTime') && get(req, 'query.endDateTime') && {
+        startDateTime: {
+          $gt: new Date(moment(get(req, 'query.beginDateTime'))),
+          $lt: new Date(moment(get(req, 'query.endDateTime'))),
+        },
+      }),
+      isHidden: { $ne: true },
     };
 
     const thisRangeSearch = omit(search, 
@@ -398,7 +399,7 @@ router.get('/games', async function (req, res) {
     };
 
     const [gamesThisRange, gamesWholeYear] = await Promise.all([
-      gameRepository.find(thisRangeSearch, {}, {}).exec(),
+      gameRepository.find(thisRangeSearch, includeStrategies ? wholeYearFields : {}, {}).exec(),
       gameRepository.find(wholeYearSearch, wholeYearFields, {}).exec(),
   ]);
 
@@ -406,15 +407,17 @@ router.get('/games', async function (req, res) {
 
     const teamStats = getAllTeamStats(gamesWholeYear);
 
-    gamesThisRange.forEach(game=>{
-      setAmericanFootballPlays(game);
-      setBasketballPlays(game);
-      setBaseballPlays(game);
+    if (!includeStrategies) {
+      gamesThisRange.forEach(game=>{
+        setAmericanFootballPlays(game);
+        setBasketballPlays(game);
+        setBaseballPlays(game);
 
-      game.hashCompetitors = null;
-      game.playHistory = game.playHistory.slice(0,playHistoryCount);
-      game.stats = getGameStats(game, teamStats);
-    });
+        game.hashCompetitors = null;
+        game.playHistory = game.playHistory.slice(0,playHistoryCount);
+        game.stats = getGameStats(game, teamStats);
+      });
+    }
 
     console.log("time4: ", moment().format());
 

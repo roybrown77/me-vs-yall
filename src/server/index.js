@@ -51,9 +51,8 @@ function validateEnvironmentVariables() {
  */
 function setupDatabaseConnection() {
   const options = {
-    useNewUrlParser: true,
     useUnifiedTopology: true,
-    autoIndex: false,
+    autoIndex: true,
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 45000,
     family: 4,
