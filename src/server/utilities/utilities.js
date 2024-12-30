@@ -539,15 +539,13 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
         set(updatedGame,'endDateTime', moment().toISOString());
       }
 
-      console.log(`${message} updateGames score: ${JSON.stringify(updatedGame)}`);
-
-      const gameUpdated = await gameRepository.findByIdAndUpdate(
+      await gameRepository.findByIdAndUpdate(
         game._id,  // The ID of the document (String or ObjectId)
         { $set: updatedGame }, // The update object, wrapped in `$set` for safety
         { new: true } // Return the updated document
       );
 
-      console.log(`${message} updateGames updatedGame: ${JSON.stringify(gameUpdated)}`);
+      console.log(`${message} updateGames updatedGame: ${JSON.stringify(get(score,'lastPlay'))}`);
 
       // return { 
       //   replaceOne: {
