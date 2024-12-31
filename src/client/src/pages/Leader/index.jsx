@@ -359,13 +359,10 @@ class Leader extends Component {
       openGamesCopiedAlert,
     } = this.state;
     const spreadMode = getSpreadMode() === "1";
-    const currentWeek = weeks.find((x) => x._id === weekId);
     const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
     const areAllGamesOver = getAreAllGamesOver(games);
     const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
-
     const leaderSummaryPadding = (areAnyGamesInProgress ? .5 : 0) + (spreadMode ? .5 : 0);
-
     const isLoading = dataLoading && !areAnyGamesInProgress;
 
     return (
