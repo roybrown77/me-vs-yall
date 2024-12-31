@@ -166,7 +166,7 @@ const getPickStrategies = async (req) => {
                             ((game.gameName || '').startsWith('Super Bowl') && roadPointsAllowed?.homeTeam?.value - roadPointsAllowed?.awayTeam?.value < 0 && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                                 mvyMagnetoPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
-                                userId: 15, // Mageneto; Points Scored for Dogs if Points Allowed is less
+                                userId: 15, // King Magneto; Points Scored for Dogs if Points Allowed is less
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
                                     game.competitors[0]._id : game.competitors[1]._id)
@@ -182,7 +182,7 @@ const getPickStrategies = async (req) => {
                             ((game.gameName || '').startsWith('Super Bowl') && (roadPointsScored?.homeTeam?.value - roadPointsScored?.awayTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                             mvyKangPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
-                                userId: 12, // Kang; Points Scored for Dogs if Points Scored is greater
+                                userId: 12, // King Kang; Points Scored for Dogs if Points Scored is greater
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()? 
                                     game.competitors[0]._id : game.competitors[1]._id)
