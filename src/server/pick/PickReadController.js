@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const omit = require('lodash/omit');
-const get = require('lodash/get');
 const sortBy = require('lodash/sortBy');
 
 const pickRepository = require('./PickRepository');
@@ -13,9 +12,9 @@ const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
 let router = express.Router();
 
 const getPickStrategies = async (req) => {
-    const leagueId = get(req, 'query.leagueId');
-    const year = get(req, 'query.year');
-    const includeStrategies = get(req, 'query.includeStrategies') === 'true';
+    const leagueId = req.query?.leagueId;
+    const year = req.query?.year;
+    const includeStrategies = req.query?.includeStrategies === 'true';
   
     let picks = [];
   
@@ -26,18 +25,18 @@ const getPickStrategies = async (req) => {
             leagueId: new mongoose.Types.ObjectId(leagueId),
             year: year,
             startDateTime:
-            get(req, 'query.beginDateTime') && get(req, 'query.endDateTime')
+            req.query?.beginDateTime && req.query?.endDateTime
                 ? {
-                    $gt: new Date(moment(get(req, 'query.beginDateTime'))),
-                    $lt: new Date(moment(get(req, 'query.endDateTime'))),
+                    $gt: new Date(moment(req.query?.beginDateTime)),
+                    $lt: new Date(moment(req.query?.endDateTime)),
                 }
                 : undefined,
             isHidden: { $ne: true },
         };
     
         const thisRangeSearch = omit(gameSearch, [
-            get(req, 'query.year', 'year'),
-            !get(req, 'query.beginDateTime') || get(req, 'query.beginDateTime') === '-1'
+            req.query?.year ?? 'year',
+            !req.query?.beginDateTime || req.query?.beginDateTime === '-1'
             ? 'startDateTime'
             : undefined,
         ]);
@@ -48,8 +47,8 @@ const getPickStrategies = async (req) => {
             startDateTime: {
             $gt: new Date(moment(year + '0901')),
             $lt: new Date(
-                get(req, 'query.endDateTime')
-                ? moment(get(req, 'query.endDateTime')).add('-6', 'days')
+                req.query?.endDateTime
+                ? moment(req.query?.endDateTime).add('-6', 'days')
                 : moment()
             ),
             },
@@ -213,25 +212,25 @@ const getPickStrategies = async (req) => {
 };
 
 const getPicks = async (req) => {
-    const gameType = req.query.gameType;
-    const leagueId = get(req, 'query.leagueId');
-    const year = get(req, 'query.year');
+    const gameType = req.query?.gameType;
+    const leagueId = req.query?.leagueId;
+    const year = req.query?.year;
     
     const search = {
         leagueId: new mongoose.Types.ObjectId(leagueId),
-        userId: req.query.userId,
+        userId: req.query?.userId,
         year: year,
         gameType: gameType === "1" ? 1 : { $ne: 1 },
         createDateTime: {
-          $gte: new Date(moment(get(req, 'query.beginDateTime'))),
-          $lte: new Date(moment(get(req, 'query.endDateTime')))
+          $gte: new Date(moment(req.query?.beginDateTime)),
+          $lte: new Date(moment(req.query?.endDateTime))
         }
       };
         
     const finalSearch = omit(search, 
         [
-            get(req,'query.userId','userId'), 
-            !(get(req, 'query.beginDateTime') && get(req, 'query.endDateTime')) || get(req,'query.beginDateTime') === '-1' ? 'createDateTime' : undefined
+            req.query?.userId ?? 'userId', 
+            !(req.query?.beginDateTime && req.query?.endDateTime) || req.query?.beginDateTime === '-1' ? 'createDateTime' : undefined
         ]
     );
 
