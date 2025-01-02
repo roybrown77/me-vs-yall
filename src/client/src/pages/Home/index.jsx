@@ -102,7 +102,7 @@ const Home = () => {
             </div>
           </Slide>
         </div>
-        <div
+        {isConfirmedAuthentication() && <div
           style={{
             bottom: '0',
             right: '0',
@@ -113,7 +113,7 @@ const Home = () => {
           <IconButton style={{ fontSize: '10px' }} aria-label="show info" onClick={handleToggleShowInfo}>
             <LightOff style={styles.toggleOff} />
           </IconButton>
-        </div>
+        </div>}
         <div
           style={{
             color: '#fff',
@@ -131,27 +131,31 @@ const Home = () => {
             <Typer dataText={tagLines} />
           </div>
           <div style={styles.selections}>
-            {!isConfirmedAuthentication() && <div>
+            {!isConfirmedAuthentication() && 
+            <div>
               <Link className="link-group" to={() => {}} onClick={googleLogin}>
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
-                <span className="link-text-main">Sign In</span>
+                <span className="link-text-main">Sign In (Invite Only Access)</span>
               </Link>
+              <div style={{ color: '#000', marginTop: '3rem', fontSize: '10px' }}>
+                If you wish to inquire about access, please contact us at info@mevsyall.com
+              </div>
             </div>}
-            <div>
+            {isConfirmedAuthentication() && <div>
               <Link className="link-group" to="/scoreboards/nfl">
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
                 <span className="link-text-main">View Games</span>
               </Link>
-            </div>
-            <div>
+            </div>}
+            {isConfirmedAuthentication() && <div>
               <Link className="link-group" to="/leaders/nfl">
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
                 <span className="link-text-main">View Leaderboard</span>
               </Link>
-            </div>
+            </div>}
           </div>
         </div>
-        {showInfo && (
+        {isConfirmedAuthentication() && showInfo && (
           <div
             style={{
               color: '#fff',

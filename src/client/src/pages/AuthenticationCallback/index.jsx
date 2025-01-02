@@ -17,9 +17,10 @@ const AuthenticationCallback = () => {
           localStorage.setItem('user', JSON.stringify(profile));
 
           // Remove '/authenticationCallback' from the URL and redirect
-          window.location.href = '/scoreboards/nfl`';
+          window.location.href = '/scoreboards/nfl';
         } else {
           console.error('Error loading user profile:', err);
+          window.location.href = '/';
         }
       });
     };
