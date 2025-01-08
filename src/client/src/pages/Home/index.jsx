@@ -127,7 +127,7 @@ const Home = () => {
           }}
         >
           <div style={{ fontSize: '15px' }}>sports x fun x friends x vegas</div>
-          <div style={{ marginTop: '1.5rem', fontSize: '17px', fontFamily: 'fantasy' }}>
+          <div style={{ marginTop: '1.5rem', fontSize: '15px' }}>
             <Typer dataText={tagLines} />
           </div>
           <div style={styles.selections}>
@@ -135,9 +135,9 @@ const Home = () => {
             <div>
               <Link className="link-group" to={() => {}} onClick={googleLogin}>
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
-                <span className="link-text-main" style={{fontFamily: 'fantasy', fontSize: '17px'}} >Sign In (Invitation Only)</span>
+                <span className="link-text-main">Sign In (Invitation Only)</span>
               </Link>
-              <div style={{ marginTop: '3rem', fontSize: '14px', fontFamily: 'fantasy' }}>
+              <div style={{ marginTop: '3rem', fontSize: '14px' }}>
                 <div style={{ marginTop: '1rem' }}>
                   If you wish to inquire about access, please contact us at info@mevsyall.com
                 </div>
@@ -156,7 +156,7 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div style={{ marginTop: '3rem', fontSize: '17px', fontFamily: 'fantasy' }}>
+          <div style={{ marginTop: '3rem', fontSize: '15px' }}>
             <div style={{ marginTop: '1rem' }}>An Exclusive Sports Experience Awaits You</div>
           </div>
         </div>
