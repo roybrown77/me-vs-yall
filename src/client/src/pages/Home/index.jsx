@@ -58,8 +58,9 @@ const styles = {
 };
 
 const tagLines = [
-  `"the ultimate sports pick'em game"`,
-  `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct."`,
+  "the ultimate sports pick'em game",
+  "your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct.",
+  "an exclusive sports experience awaits you",  
 ];
 
 const Home = () => {
@@ -136,6 +137,9 @@ const Home = () => {
               <Link className="link-group" to={() => {}} onClick={googleLogin}>
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
                 <span className="link-text-main">Sign In (Invitation Only)</span>
+                <div style={{ marginTop: '3rem', fontSize: '15px' }}>
+                  <div style={{ marginTop: '1rem' }}>An Exclusive Sports Experience Awaits You</div>
+                </div>
               </Link>
               <div style={{ marginTop: '3rem', fontSize: '14px' }}>
                 <div style={{ marginTop: '1rem' }}>
@@ -155,9 +159,6 @@ const Home = () => {
                 <span className="link-text-main">View Leaderboard</span>
               </Link>
             </div>
-          </div>
-          <div style={{ marginTop: '3rem', fontSize: '15px' }}>
-            <div style={{ marginTop: '1rem' }}>An Exclusive Sports Experience Awaits You</div>
           </div>
         </div>
         {showInfo && (
