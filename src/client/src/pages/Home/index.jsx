@@ -102,7 +102,7 @@ const Home = () => {
             </div>
           </Slide>
         </div>
-        {isConfirmedAuthentication() && <div
+        <div
           style={{
             bottom: '0',
             right: '0',
@@ -113,10 +113,10 @@ const Home = () => {
           <IconButton style={{ fontSize: '10px' }} aria-label="show info" onClick={handleToggleShowInfo}>
             <LightOff style={styles.toggleOff} />
           </IconButton>
-        </div>}
+        </div>
         <div
           style={{
-            color: '#fff',
+            color: '#000',
             padding: '16px',
             fontSize: '25px',
             top: '3em',
@@ -126,36 +126,41 @@ const Home = () => {
             paddingTop: '5em',
           }}
         >
-          <div style={{ color: '#000', fontSize: '15px' }}>sports x fun x friends x vegas</div>
-          <div style={{ marginTop: '1.5rem', color: '#000', fontSize: '15px' }}>
+          <div style={{ fontSize: '15px' }}>sports x fun x friends x vegas</div>
+          <div style={{ marginTop: '1.5rem', fontSize: '17px', fontFamily: 'fantasy' }}>
             <Typer dataText={tagLines} />
           </div>
           <div style={styles.selections}>
-            {!isConfirmedAuthentication() && 
+            {false && !isConfirmedAuthentication() && 
             <div>
               <Link className="link-group" to={() => {}} onClick={googleLogin}>
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
-                <span className="link-text-main">Sign In (Invite Only Access)</span>
+                <span className="link-text-main" style={{fontFamily: 'fantasy', fontSize: '17px'}} >Sign In (Invitation Only)</span>
               </Link>
-              <div style={{ color: '#000', marginTop: '3rem', fontSize: '10px' }}>
-                If you wish to inquire about access, please contact us at info@mevsyall.com
+              <div style={{ marginTop: '3rem', fontSize: '14px', fontFamily: 'fantasy' }}>
+                <div style={{ marginTop: '1rem' }}>
+                  If you wish to inquire about access, please contact us at info@mevsyall.com
+                </div>
               </div>
             </div>}
-            {isConfirmedAuthentication() && <div>
+            <div>
               <Link className="link-group" to="/scoreboards/nfl">
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
                 <span className="link-text-main">View Games</span>
               </Link>
-            </div>}
-            {isConfirmedAuthentication() && <div>
+            </div>
+            <div>
               <Link className="link-group" to="/leaders/nfl">
                 <span style={{ marginRight: '.5rem' }}>{'>'}</span>
                 <span className="link-text-main">View Leaderboard</span>
               </Link>
-            </div>}
+            </div>
+          </div>
+          <div style={{ marginTop: '3rem', fontSize: '17px', fontFamily: 'fantasy' }}>
+            <div style={{ marginTop: '1rem' }}>An Exclusive Sports Experience Awaits You</div>
           </div>
         </div>
-        {isConfirmedAuthentication() && showInfo && (
+        {showInfo && (
           <div
             style={{
               color: '#fff',
@@ -214,6 +219,23 @@ const Home = () => {
               </div>
             </div>
             <div style={{ color: '#000' }}>
+              <div>© 2017-{year} Me vs Yall</div>
+              <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
+            </div>
+          </div>
+        )}
+        {false && !isConfirmedAuthentication() && (
+          <div
+            style={{
+              color: '#fff',
+              fontSize: '10px',
+              marginTop: '5rem',
+            }}
+          >
+            <Link className="link-text" style={{ ...styles.link, cursor: 'pointer' }} to="/origin">
+              Origin
+            </Link>
+            <div style={{ color: '#000', marginTop: '1rem' }}>
               <div>© 2017-{year} Me vs Yall</div>
               <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
             </div>

@@ -6,10 +6,10 @@ import Footer from '../Footer';
 import { isConfirmedAuthentication } from '../../utilities/authenticationClient';
 
 const PageContainer = (props) => {
-    if (!isConfirmedAuthentication()) {
-        window.location.href = '/';
-        return null;
-    }
+    // if (!isConfirmedAuthentication()) {
+    //     window.location.href = '/';
+    //     return null;
+    // }
 
     return (
         <div>
