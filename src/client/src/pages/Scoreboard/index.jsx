@@ -84,7 +84,7 @@ class Scoreboard extends Component {
 
       updatingPick: false,
 
-      openGamesCopiedAlert: false
+      isShareClicked: false,
     };
   }
 
@@ -431,13 +431,19 @@ class Scoreboard extends Component {
     document.body.removeChild(textArea);
 
     this.setState(() => ({
-      openGamesCopiedAlert: true
+      isShareClicked: true
     }));
+
+    setTimeout(() => {
+      this.setState(() => ({
+      isShareClicked: false
+      }));
+    }, 3000);
   };
 
   handleGamesCopiedAlertClose = () => {
     this.setState(() => ({
-      openGamesCopiedAlert: false
+      isShareClicked: false
     }));
   };
 
@@ -461,7 +467,7 @@ class Scoreboard extends Component {
 
       updatingPick,
 
-      openGamesCopiedAlert,
+      isShareClicked,
     } = this.state;
 
     const spreadMode = getSpreadMode() === "1";
@@ -610,13 +616,13 @@ class Scoreboard extends Component {
                 <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
                 <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
                   <IconButton
-                    className="fly-plane"
+                    className={isShareClicked ? "fly-plane" : "" }
                     style={{color: 'black'}}
                     aria-label={isAuthenticated ? 'share picks': 'share games'}
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
-                  <Snackbar open={openGamesCopiedAlert}>
+                  <Snackbar open={isShareClicked}>
                     <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
                       {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
                     </Alert>
