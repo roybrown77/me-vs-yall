@@ -140,7 +140,7 @@ const getPickStrategies = async (req) => {
 
                         mvyDoomPicks = {
                             _id: new mongoose.Types.ObjectId().toString(),
-                            userId: 5, // King Doom; Points Scored & Allowed
+                            userId: 5, // King Doom; Road if Points Scored & Allowed are better otherwise Home
                             gameId: game._id,
                             pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                             : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
@@ -152,7 +152,7 @@ const getPickStrategies = async (req) => {
                         ((game.gameName || '').startsWith('Super Bowl') && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0))) {
                             mvyThanosPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
-                                userId: 17, // King Thanos; Points Scored & Allowed, Road Only if Road Points Allowed is less and Road Points scores is greater
+                                userId: 17, // King Thanos; Road Only if Points Allowed & Scored are better
                                 gameId: game._id,
                                 pickId: game.competitors[0]._id,
                                 leagueId: game.leagueId
@@ -165,7 +165,7 @@ const getPickStrategies = async (req) => {
                             ((game.gameName || '').startsWith('Super Bowl') && roadPointsAllowed?.homeTeam?.value - roadPointsAllowed?.awayTeam?.value < 0 && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                                 mvyMagnetoPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
-                                userId: 15, // King Magneto; Points Scored for Dogs if Points Allowed is less
+                                userId: 15, // King Magneto; Dogs if Points Allowed is better
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
                                     game.competitors[0]._id : game.competitors[1]._id)
@@ -181,7 +181,7 @@ const getPickStrategies = async (req) => {
                             ((game.gameName || '').startsWith('Super Bowl') && (roadPointsScored?.homeTeam?.value - roadPointsScored?.awayTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                             mvyKangPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
-                                userId: 12, // King Kang; Points Scored for Dogs if Points Scored is greater
+                                userId: 12, // King Kang; Dogs if Points Scored is better
                                 gameId: game._id,
                                 pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()? 
                                     game.competitors[0]._id : game.competitors[1]._id)
