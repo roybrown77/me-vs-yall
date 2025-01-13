@@ -18,7 +18,7 @@ const getPickStrategies = async (req) => {
   
     let picks = [];
   
-    if (includeStrategies) {
+    if (includeStrategies && leagueId === '59723313734d1d6202a85f10') {
         console.log('include strategies');
     
         const gameSearch = {
