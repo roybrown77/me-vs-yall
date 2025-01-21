@@ -34,6 +34,34 @@ const {
 
 let router = express.Router();
 
+const teams = {
+  '59723313734d1d6202a85f10': nflTeams,
+  '59723313734d1d6202a85f15': ncaaTeams,
+  '59723313734d1d6202a85f17': premierLeagueTeams,
+  '59723313734d1d6202a85f29': mlsTeams,
+  '59723313734d1d6202a85f27': ufcCompetitors,
+  '59723313734d1d6202a85f25': boxingCompetitors,
+  '59723313734d1d6202a85f21': mlbTeams,
+  '59723313734d1d6202a85f19': nbaTeams,
+  '59723313734d1d6202a85f37': wnbaTeams,
+  '59723313734d1d6202a85f33': ncaaTeams,
+  '59723313734d1d6202a85f31': ncaaTeams,
+  '59723313734d1d6202a85f35': nba2kCompetitors,
+};
+
+const allTeams = [
+  ...nflTeams,
+  ...premierLeagueTeams,
+  ...nbaTeams,
+  ...mlbTeams,
+  ...ncaaTeams,
+  ...boxingCompetitors,
+  ...ufcCompetitors,
+  ...mlsTeams,
+  ...nba2kCompetitors,
+  ...wnbaTeams
+];
+
 const getEmailAddresses = async () => {
   const users = await userRepository.find({deleted: {$ne: true}});
   const emailList = [...users.map(user=>{return user.email})];
@@ -485,37 +513,7 @@ router.get('/gamesInProgress', async function (req, res) {
 });
 
 router.get('/teams', function (req, res) {
-  const teams = [
-    ...nflTeams,
-    ...premierLeagueTeams,
-    ...nbaTeams,
-    ...mlbTeams,
-    ...ncaaTeams,
-    ...boxingCompetitors,
-    ...ufcCompetitors,
-    ...mlsTeams,
-    ...nba2kCompetitors,
-    ...wnbaTeams
-  ];
-
-  res.status(200).send(teams);
-});
-
-router.get('/teams:id', function (req, res) {
-  const teams = {
-    '': nflTeams,
-    '': premierLeagueTeams,
-    '': nbaTeams,
-    '': mlbTeams,
-    '': ncaaTeams,
-    '': boxingCompetitors,
-    '': ufcCompetitors,
-    '': mlsTeams,
-    '': nba2kCompetitors,
-    '': wnbaTeams
-  };
-
-  res.status(200).send(teams[req.params.id.toString().toLowerCase()]);
+  res.status(200).send(req.query?.leagueId ? teams[req.query.leagueId.toString().toLowerCase()] : allTeams);
 });
 
 module.exports = router;

@@ -182,7 +182,7 @@ class Scoreboard extends Component {
             )}`,
           })
         : undefined,
-      callApi({ method: "GET", endpoint: `/api/gamemanagement/teams` }),
+      callApi({ method: "GET", endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}` }),
     ]);
 
     const groupedGames = getGroupedGames({

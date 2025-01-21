@@ -162,7 +162,7 @@ class Leader extends Component {
         method: "GET",
         endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
       }),
-      callApi({ method: "GET", endpoint: `/api/gamemanagement/teams` }),
+      callApi({ method: "GET", endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}` }),
     ]);
 
     const leaders = getLeaders({
