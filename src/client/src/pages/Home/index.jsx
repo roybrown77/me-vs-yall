@@ -12,6 +12,7 @@ import mvy from '../../styles/images/mvy-balls-cut.png';
 import { googleLogin, isConfirmedAuthentication } from '../../utilities/authenticationClient';
 import Header from '../../components/Header';
 import useSyncServiceWorker from './useSyncServiceWorker';
+import useGoogleAnalytics from '../../utilities/useGoogleAnalytics';
 
 const styles = {
   inProgress: {
@@ -65,6 +66,8 @@ const tagLines = [
 
 const Home = () => {
   useSyncServiceWorker();
+  useGoogleAnalytics();
+
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {

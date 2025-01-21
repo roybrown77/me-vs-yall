@@ -4,12 +4,15 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 import { isConfirmedAuthentication } from '../../utilities/authenticationClient';
+import useGoogleAnalytics from '../../utilities/useGoogleAnalytics';
 
 const PageContainer = (props) => {
-    // if (!isConfirmedAuthentication()) {
-    //     window.location.href = '/';
-    //     return null;
-    // }
+    useGoogleAnalytics();
+
+    if (false && !isConfirmedAuthentication()) {
+        window.location.href = '/';
+        return null;
+    }
 
     return (
         <div>
