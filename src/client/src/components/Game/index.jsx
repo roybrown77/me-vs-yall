@@ -52,7 +52,7 @@ const styles = () => ({
     marginTop: "5px",
   },
   lastPlay: {
-    fontSize: "12px",
+    fontSize: "1.25rem",
     fontWeight: "bold",
     color: "rgba(0,0,0,.87)",
   },
