@@ -880,7 +880,7 @@ const nflTeams = [
         color: "#CA2430",
         stadiumName: "Arrowhead Stadium",
         stadiumCity: "Kansas City, MO",
-        emojis: ["🧑🏽‍🍳"]
+        emojis: ["👨🏾‍🚒","👨🏼‍🚒"]
     },
     {
         _id: "19823783734d1d04a1b39002",
