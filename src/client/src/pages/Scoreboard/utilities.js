@@ -19,10 +19,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
       const displayDateTime = moment(new Date(game.startDateTime));
       const away = teams.find((x) => x._id === game.competitors[0]._id);
       const home = teams.find((x) => x._id === game.competitors[1]._id);
-      const gameName =
-        game?.gameName?.trim()?.length > 0
-          ? game.gameName
-          : `${
+      const emojis = `${
               away?.emojis?.[
                 getRandomIntInclusive(0, away?.emojis?.length - 1)
               ] || away?.name
@@ -31,6 +28,10 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
                 getRandomIntInclusive(0, home?.emojis?.length - 1)
               ] || home?.name
             }`;
+      const gameName =
+        game?.gameName?.trim()?.length > 0
+          ? (emojis ? `${game.gameName} *** ${emojis}` : game.gameName)
+          : emojis;
       if (spreadMode) {
         return {
           ...game,
