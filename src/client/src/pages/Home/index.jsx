@@ -61,7 +61,6 @@ const styles = {
 const tagLines = [
   `"the ultimate sports pick'em game"`,
   `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct."`,
-  `"an exclusive sports experience awaits you"`,  
 ];
 
 const Home = () => {
