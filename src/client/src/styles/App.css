@@ -535,3 +535,13 @@ body {
 }
 
 /* --- one tap sign in end --- */
+
+@keyframes nudgeSun {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(45deg); } /* Small clockwise nudge */
+  100% { transform: rotate(0deg); } /* Return to original position */
+}
+
+.sun-nudge {
+  animation: nudgeSun 3s ease-in-out infinite;
+}

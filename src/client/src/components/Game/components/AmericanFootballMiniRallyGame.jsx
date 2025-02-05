@@ -26,8 +26,25 @@ const AmericanFootballMiniRallyGame = (props) => {
     setHomeScore(homeScore + 7);
   };
 
+  const getAstroPositionAndEmoji = () => {
+    const now = new Date();
+    const hours = now.getHours();
+    const percentageOfDay = (hours - 6) / 12; // Assuming sun moves from 6 AM to 6 PM
+    const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75); // Clamp between -75 and 75
+    const emoji = (hours >= 6 && hours < 18) ? '☀️' : '🌙'; // Sun for day, moon for night
+    return { position, emoji };
+  };
+
+  const { position: astroPosition, emoji: astroEmoji } = getAstroPositionAndEmoji();
+
   return (
     <div style={{ marginTop: "10px" }}>
+      <div
+        className='sun-nudge'
+        style={{ margin: '1rem 0', marginLeft: `${astroPosition}%`}}
+      >
+        {astroEmoji}
+      </div>
       <div
         style={showScoreboard ? {
           display: "inline-flex",
@@ -35,7 +52,7 @@ const AmericanFootballMiniRallyGame = (props) => {
           padding: "3px",
           backgroundColor: "#000",
           borderRadius: "4px",
-        }: { margin: '5rem 0' }
+        } : { margin: '1rem 0' }
       }
       >
         {
