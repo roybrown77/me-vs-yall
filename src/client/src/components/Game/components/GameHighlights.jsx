@@ -30,7 +30,7 @@ const GameHighlights = (props) => {
               <div
                 style={{
                   minWidth: "40px",
-                  padding: "4px 1rem 4px .5rem",
+                  padding: "4px",
                   backgroundColor: "#1e90ff",
                   color: "#fff",
                   marginRight: "4px",
@@ -106,7 +106,7 @@ const GameHighlights = (props) => {
                 <div
                   style={{
                     minWidth: "40px",
-                    padding: "4px 1rem 4px .5rem",
+                    padding: "4px",
                     backgroundColor: "#1e90ff",
                     color: "#fff",
                     marginRight: "4px",

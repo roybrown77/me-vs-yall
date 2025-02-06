@@ -30,7 +30,7 @@ const GamePlayHistory = (props) => {
               <div
                 style={{
                   minWidth: "40px",
-                  padding: "4px 1rem 4px .5rem",
+                  padding: "4px",
                   backgroundColor: "rgb(45, 232, 149)",
                   marginRight: "4px",
                   textAlign: "left",
@@ -75,7 +75,7 @@ const GamePlayHistory = (props) => {
               <div
                 style={{
                   minWidth: "40px",
-                  padding: "4px 1rem 4px .5rem",
+                  padding: "4px",
                   backgroundColor: "rgb(45, 232, 149)",
                   marginRight: "4px",
                   textAlign: "left",
