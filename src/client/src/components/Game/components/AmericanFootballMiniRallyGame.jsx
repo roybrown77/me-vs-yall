@@ -65,16 +65,16 @@ const AmericanFootballMiniRallyGame = (props) => {
               style={{
                 width: "100%",
                 border: "5px dotted yellow",
-                margin: "2px",
+                margin: "5px",
                 display: "inline-flex",
                 padding: "5px",
               }}
             >
-              <div style={{ margin: "auto", width: "25%" }}>
+              <div style={{ margin: "auto" }}>
                 <div style={{ color: "#fff", marginBottom: "5px" }}>
                   {props.game.competitors[0].shortLocation}
                 </div>
-                <div style={{ backgroundColor: "#fff", fontSize: "20px" }}>
+                <div style={{ backgroundColor: "#fff", fontSize: "20px", width: '2rem' }}>
                   {awayScore}
                 </div>
               </div>
@@ -100,16 +100,16 @@ const AmericanFootballMiniRallyGame = (props) => {
               style={{
                 width: "100%",
                 border: "5px dotted yellow",
-                margin: "2px",
+                margin: "5px",
                 display: "inline-flex",
                 padding: "5px",
               }}
             >
-              <div style={{ margin: "auto", width: "25%" }}>
+              <div style={{ margin: "auto" }}>
                 <div style={{ color: "#fff", marginBottom: "5px" }}>
                   {props.game.competitors[1].shortLocation}
                 </div>
-                <div style={{ backgroundColor: "#fff", fontSize: "20px" }}>
+                <div style={{ backgroundColor: "#fff", fontSize: "20px", width: '2rem' }}>
                   {homeScore}
                 </div>
               </div>
