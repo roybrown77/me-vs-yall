@@ -487,7 +487,7 @@ class Scoreboard extends Component {
     const isLoading = dataLoading && !areAnyGamesInProgress;
 
     const filteredWeeks = weeks.filter(
-      (item) => !item.description.toLowerCase().includes("entire")
+      (item) => !item.description?.toLowerCase().includes("entire")
     );
 
     return (
