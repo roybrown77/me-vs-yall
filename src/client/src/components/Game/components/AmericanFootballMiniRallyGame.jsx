@@ -45,46 +45,78 @@ const AmericanFootballMiniRallyGame = (props) => {
       >
         {astroEmoji}
       </div>
-      <div
-        style={showScoreboard ? {
-          display: "inline-flex",
-          width: "50%",
-          padding: "3px",
-          backgroundColor: "#000",
-          borderRadius: "4px",
-        } : { margin: '1rem 0' }
-      }
-      >
-        {
-          showScoreboard &&
-          <div
-            style={{
-              width: "100%",
-              border: "5px dotted yellow",
-              margin: "2px",
-              display: "inline-flex",
-              padding: "5px",
-            }}
-          >
-            <div style={{ margin: "auto", width: "25%" }}>
-              <div style={{ color: "#fff", marginBottom: "5px" }}>
-                {props.game.competitors[0].shortLocation}
-              </div>
-              <div style={{ backgroundColor: "#fff", fontSize: "20px" }}>
-                {awayScore}
-              </div>
-            </div>
-            <div style={{ margin: "auto", width: "25%" }}>
-              <div style={{ color: "#fff", marginBottom: "5px" }}>
-                {props.game.competitors[1].shortLocation}
-              </div>
-              <div style={{ backgroundColor: "#fff", fontSize: "20px" }}>
-                {homeScore}
-              </div>
-            </div>
-          </div>
+      <>
+        <div
+          style={showScoreboard ? {
+            display: "inline-flex",
+            width: "23%",
+            padding: "3px",
+            backgroundColor: "#000",
+            borderRadius: "4px",
+            marginRight: "20%",
+            marginBottom: "1rem",
+            transform: "perspective(70px) rotateY(20deg)"
+          } : { margin: '1rem 0' }
         }
-      </div>
+        >
+          {
+            showScoreboard &&
+            <div
+              style={{
+                width: "100%",
+                border: "5px dotted yellow",
+                margin: "2px",
+                display: "inline-flex",
+                padding: "5px",
+              }}
+            >
+              <div style={{ margin: "auto", width: "25%" }}>
+                <div style={{ color: "#fff", marginBottom: "5px" }}>
+                  {props.game.competitors[0].shortLocation}
+                </div>
+                <div style={{ backgroundColor: "#fff", fontSize: "20px" }}>
+                  {awayScore}
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <div
+          style={showScoreboard ? {
+            display: "inline-flex",
+            width: "23%",
+            padding: "3px",
+            backgroundColor: "#000",
+            borderRadius: "4px",
+            marginLeft: "20%",
+            marginBottom: "1rem",
+            transform: "perspective(70px) rotateY(-20deg)"
+          } : { margin: '1rem 0' }
+        }
+        >
+          {
+            showScoreboard &&
+            <div
+              style={{
+                width: "100%",
+                border: "5px dotted yellow",
+                margin: "2px",
+                display: "inline-flex",
+                padding: "5px",
+              }}
+            >
+              <div style={{ margin: "auto", width: "25%" }}>
+                <div style={{ color: "#fff", marginBottom: "5px" }}>
+                  {props.game.competitors[1].shortLocation}
+                </div>
+                <div style={{ backgroundColor: "#fff", fontSize: "20px" }}>
+                  {homeScore}
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </>
       <AmericanFootballField
         {...{
           away: props.game.competitors[0].shortLocation,
