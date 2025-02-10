@@ -6,7 +6,7 @@ const AmericanFootballField = (props) => {
 
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
-  const hideXO = useRef(false);;
+  const hideXO = useRef(false);
 
   const awayScoreMade = () => {
     setIsThrowingRight(false);
@@ -143,9 +143,9 @@ const AmericanFootballField = (props) => {
           <line x1="35" x2="45" y1="45" y2="50" stroke="black" strokeWidth="3" strokeOpacity="1" />
         </svg>}
 
-        <svg viewBox="-75 -25 100 100">
+        {!hideXO.current && <svg viewBox="-75 -25 100 100">
             <line x1="15" x2="20" y1="30" y2="70" stroke="yellow" strokeWidth="4" strokeOpacity="1" />
-        </svg>
+        </svg>}
       </g>
       <rect className="goal-post-left" x="363.967" y="46.064" width="2.02" height="8.367" rx="0" ry="0" fill="#2a443b" stroke="#000" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></rect>
       <path className="goal-post-left" fill="#989898" stroke="#000000" d="M364.977,44.869L362.957,44.869L363.967,46.063L365.987,46.063Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
