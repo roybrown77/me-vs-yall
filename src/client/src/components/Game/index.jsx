@@ -20,6 +20,7 @@ import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
 
 import { hasGameStarted } from "../../utilities";
+import WorldFootballField from "./components/Fields/WorldFootballField";
 
 const styles = () => ({
   root: {
@@ -368,6 +369,18 @@ class Game extends Component {
             {
               ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(get(game, "leagueId")) &&
               <AmericanFootballMiniRallyGame {...{ game, classes }} />
+            }
+            {
+              ["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(get(game, "leagueId")) &&
+              <WorldFootballField
+                {...{
+                  away: game.competitors[0].shortLocation,
+                  awayColor: game.competitors[0].color,
+                  home: game.competitors[1].shortLocation,
+                  homeColor: game.competitors[1].color,
+                  style: { paddingTop: "16px" },
+                }}
+              />
             }
             {
               ["59723313734d1d6202a85f19", "59723313734d1d6202a85f31", "59723313734d1d6202a85f33", "59723313734d1d6202a85f35", "59723313734d1d6202a85f37"].includes(get(game, "leagueId")) &&

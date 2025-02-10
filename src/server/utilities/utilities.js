@@ -493,7 +493,7 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
       const isPastGracePeriod = moment().diff(moment(game.startDateTime),'hours') > 2;
       const isGameOver = (((get(score,'gameOverText') !== null && get(score,'gameOverText') !== 'HT' && isPastGracePeriod)) && 
-      !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || moment().diff(moment(game.startDateTime),'hours') > 7;;
+      !((get(score,'awayScore') || 0) === 0 && (get(score,'homeScore') || 0) === 0)) || moment().diff(moment(game.startDateTime),'hours') > 7;
 
       const currentTimeFormatted = get(newPlayHistory,'0.time',0) > 59 ? 
         (get(newPlayHistory,'0.time')/100).toFixed(2).toString().replace('.',':') : ':' + get(newPlayHistory,'0.time');
