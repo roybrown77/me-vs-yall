@@ -84,26 +84,31 @@ const getPickStrategies = async (req) => {
             let mvyPicks = {};
     
             try {
-                const mvyHomePicks = {
-                    _id: new mongoose.Types.ObjectId().toString(),
-                    userId: 2, // King Homer
-                    gameId: game._id,
-                    pickId: game.competitors[1]._id,
-                    leagueId: game.leagueId,
-                };
+                const currentYear = 2024;
+                const endOfCurrentWeek1 = '2024-09-09';
                 
+                const daysSinceEndOfWeek1 = moment().diff(moment(endOfCurrentWeek1), 'days');
+                const isReadyForTheKings = year < currentYear || daysSinceEndOfWeek1 > (6*7 + 2); // End of week 1 plus 6 more weeks + 2 is start of Week 8
+
+                let mvyHomePicks = {};
                 let mvyDefensePicks = {};
                 let mvyOffensePicks = {};
                 let mvyDoomPicks = {};
                 let mvyThanosPicks = {}
                 let mvyMagnetoPicks = {};
                 let mvyKangPicks = {};
+                const isSuperBowlGame = 
+                game.startDateTime.getMonth() === 1
 
-                const currentYear = 2024;
-                const endOfCurrentWeek1 = '2024-09-09';
-                
-                const daysSinceEndOfWeek1 = moment().diff(moment(endOfCurrentWeek1), 'days');
-                const isReadyForTheKings = year < currentYear || daysSinceEndOfWeek1 > (6*7 + 2); // End of week 1 plus 6 more weeks + 2 is start of Week 8
+                if (!isSuperBowlGame) {
+                    mvyHomePicks = {
+                        _id: new mongoose.Types.ObjectId().toString(),
+                        userId: 2, // King Homer
+                        gameId: game._id,
+                        pickId: game.competitors[1]._id,
+                        leagueId: game.leagueId,
+                    };
+                }
 
                 if (isReadyForTheKings) {
                     try {
@@ -115,15 +120,11 @@ const getPickStrategies = async (req) => {
                         const roadPointsScored = gameStats.find(x=>x.name === 'Road Pnts Scrd Avg');
                         const homePointsScored = gameStats.find(x=>x.name === 'Home Pnts Scrd Avg');
 
-                        const date = new Date(game.startDateTime);
-                        date.setMinutes(date.getMinutes() - 300);
-                        const weekday = date.getDay();
-
                         mvyOffensePicks = {
                             _id: new mongoose.Types.ObjectId().toString(),
                             userId: 3, // King Offense; Points Scored
                             gameId: game._id,
-                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            pickId: isSuperBowlGame ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                             : roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
                             ? game.competitors[0]._id : game.competitors[1]._id,
                             leagueId: game.leagueId
@@ -133,7 +134,7 @@ const getPickStrategies = async (req) => {
                             _id: new mongoose.Types.ObjectId().toString(),
                             userId: 4, // King Defense; Points Allowed
                             gameId: game._id,
-                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            pickId: isSuperBowlGame ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 ? game.competitors[0]._id : game.competitors[1]._id)
                             : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 ? game.competitors[0]._id : game.competitors[1]._id,
                             leagueId: game.leagueId
                         };
@@ -142,14 +143,14 @@ const getPickStrategies = async (req) => {
                             _id: new mongoose.Types.ObjectId().toString(),
                             userId: 5, // King Doom; Road if Points Scored & Allowed are better otherwise Home
                             gameId: game._id,
-                            pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
+                            pickId: isSuperBowlGame ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 ? game.competitors[0]._id : game.competitors[1]._id)
                             : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0
                             ? game.competitors[0]._id : game.competitors[1]._id,
                             leagueId: game.leagueId
                         };
 
                         if ((roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) ||
-                        ((game.gameName || '').startsWith('Super Bowl') && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0))) {
+                        (isSuperBowlGame && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0))) {
                             mvyThanosPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
                                 userId: 17, // King Thanos; Road Only if Points Allowed & Scored are better
@@ -161,13 +162,13 @@ const getPickStrategies = async (req) => {
 
                         if ((roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
                             (!(homePointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()) ||
-                            ((game.gameName || '').startsWith('Super Bowl') && roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
-                            ((game.gameName || '').startsWith('Super Bowl') && roadPointsAllowed?.homeTeam?.value - roadPointsAllowed?.awayTeam?.value < 0 && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
+                            (isSuperBowlGame && roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
+                            (isSuperBowlGame && roadPointsAllowed?.homeTeam?.value - roadPointsAllowed?.awayTeam?.value < 0 && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                                 mvyMagnetoPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
                                 userId: 15, // King Magneto; Dogs if Points Allowed is better
                                 gameId: game._id,
-                                pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
+                                pickId: isSuperBowlGame ? (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
                                     game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
                                 game.competitors[0]._id : game.competitors[1]._id,
@@ -177,13 +178,13 @@ const getPickStrategies = async (req) => {
 
                         if ((roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
                             (!(homePointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()) ||
-                            ((game.gameName || '').startsWith('Super Bowl') && (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
-                            ((game.gameName || '').startsWith('Super Bowl') && (roadPointsScored?.homeTeam?.value - roadPointsScored?.awayTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
+                            (isSuperBowlGame && (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
+                            (isSuperBowlGame && (roadPointsScored?.homeTeam?.value - roadPointsScored?.awayTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                             mvyKangPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
                                 userId: 12, // King Kang; Dogs if Points Scored is better
                                 gameId: game._id,
-                                pickId: (game.gameName || '').startsWith('Super Bowl') ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()? 
+                                pickId: isSuperBowlGame ? (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()? 
                                     game.competitors[0]._id : game.competitors[1]._id)
                                 : roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase() ? 
                                 game.competitors[0]._id : game.competitors[1]._id,
