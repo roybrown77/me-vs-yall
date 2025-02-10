@@ -88,10 +88,10 @@ const BasketballCourt = (props) => {
       <path d="M 4.8,18 1.4,21.1 6.3,15.4 23.8,18.1 23.8,21.4 23.8,19.5   z" fill="#e6e6e5" style={{strokeWidth: '0px'}}></path>
       <path d="M 1.4,24.2 1.4,21.1 4.8,18 23.8,19.5 23.8,21.4 7,21.9 4.9,21.9   z" fill="#cdcccc" style={{strokeWidth: '0px'}}></path></g>
       
-      <ellipse cx="50" cy="0" rx="5" ry="5" id="bball-1" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
+      <text x="150" y="30" id="bball-1" fill="#cf5300" style={{ fontSize: '3rem' }} className="shot away make" fontSize="10" textAnchor="middle">🏀</text>
       <ellipse cx="90" cy="50" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot home miss"></ellipse>
       <ellipse cx="200" cy="90" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>
-      <ellipse cx="530" cy="0" rx="5" ry="5" id="bball-2" fill="#cf5300" stroke="#cf5300" style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
+      <text x="430" y="10" id="bball-2" fill="#cf5300" style={{ fontSize: '3rem' }} className="shot away make" fontSize="10" textAnchor="middle">🏀</text>
       <ellipse cx="450" cy="25" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot away make"></ellipse>
       <ellipse cx="375" cy="55" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
       
