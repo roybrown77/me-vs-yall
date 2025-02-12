@@ -121,11 +121,12 @@ const getAstroPositionAndEmoji = () => {
   const hours = now.getHours();
   const percentageOfDay = (hours - 6) / 12; // Assuming sun moves from 6 AM to 6 PM
   const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75); // Clamp between -75 and 75
-  const emoji = (hours >= 6 && hours < 18) ? '☀️' : '🌙'; // Sun for day, moon for night
-  return { position, emoji };
+  const isDayTime = (hours >= 6 && hours < 18);
+  const emoji = isDayTime ? '☀️' : '🌙'; // Sun for day, moon for night
+  return { position, emoji, isDayTime };
 };
 
-const { position: astroPosition, emoji: astroEmoji } = getAstroPositionAndEmoji();
+const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
 class Game extends Component {
   constructor(props) {
@@ -378,11 +379,20 @@ class Game extends Component {
           <div style={{ marginTop: "1rem" }}>
             {
               ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15", "59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(get(game, "leagueId")) &&
-              <div
-                className='sun-nudge'
-                style={{ margin: '1rem 0', marginLeft: `${astroPosition}%`}}
-              >
-                {astroEmoji}
+              <div style={{ display: isDayTime ? 'inline-flex' : '' }}>
+                <div
+                  className='sun-nudge'
+                  style={{ margin: '1rem 0', marginLeft: `${astroPosition}%`}}
+                >
+                  {astroEmoji}
+                </div>
+                {
+                  isDayTime &&
+                  <div className='clouds' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginLeft: '2rem' }}>
+                    <div className='cloud' style={{ fontSize: '2.5rem', animation: 'moveClouds 5s linear infinite' }}>☁️</div>
+                    <div className='cloud' style={{ fontSize: '2rem', animation: ' moveClouds 7s linear infinite' }}>☁️</div>
+                  </div>
+                }
               </div>
             }
             {
