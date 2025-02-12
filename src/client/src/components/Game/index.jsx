@@ -10,8 +10,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import green from "@material-ui/core/colors/green";
 
-import BaseballField from "./components/Fields/BaseballField";
 import BasketballCourt from "./components/Fields/BasketballCourt";
+import WorldFootballField from "./components/Fields/WorldFootballField";
 import AmericanFootballMiniRallyGame from "./components/AmericanFootballMiniRallyGame";
 import GamePlayTabs from "./components/GamePlayTabs";
 import TieButton from "./components/TieButton";
@@ -20,7 +20,6 @@ import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
 
 import { hasGameStarted } from "../../utilities";
-import WorldFootballField from "./components/Fields/WorldFootballField";
 
 const styles = () => ({
   root: {
