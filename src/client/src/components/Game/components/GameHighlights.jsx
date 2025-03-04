@@ -110,7 +110,6 @@ const GameHighlights = (props) => {
                     backgroundColor: "#1e90ff",
                     color: "#fff",
                     marginRight: "4px",
-                    textAlign: "left",
                   }}
                 >
                   <div>

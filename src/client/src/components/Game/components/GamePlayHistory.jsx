@@ -33,7 +33,6 @@ const GamePlayHistory = (props) => {
                   padding: "4px",
                   backgroundColor: "rgb(45, 232, 149)",
                   marginRight: "4px",
-                  textAlign: "left",
                 }}
               >
                 <div>
@@ -78,7 +77,6 @@ const GamePlayHistory = (props) => {
                   padding: "4px",
                   backgroundColor: "rgb(45, 232, 149)",
                   marginRight: "4px",
-                  textAlign: "left",
                 }}
               >
                 <div>
