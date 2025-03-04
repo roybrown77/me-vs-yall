@@ -344,8 +344,8 @@ class Game extends Component {
                 className={updatingPick ? "fast-flash" : ""}
                 style={{
                   border: competitor.selected
-                    ? "17px dashed #3772FA"
-                    : "17px dashed #E7E7E7",
+                    ? "1.5rem dashed #3772FA"
+                    : "1.5rem dashed #E7E7E7",
                   padding: "10px",
                   cursor: "pointer",
                 }}
