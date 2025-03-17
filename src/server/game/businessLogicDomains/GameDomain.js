@@ -2,7 +2,6 @@ const moment = require('moment-timezone');
 
 const gameRepository = require('../databaseRepositories/GameRepository');
 
-const get = require('lodash/get');
 const set = require('lodash/set');
 
 const update = async (game, cb) => {
@@ -22,85 +21,85 @@ const update = async (game, cb) => {
           isGameOver: gameFound.isGameOver
         };
 
-        if (get(game,'awayScore','null').trim() !== "null") {
+        if (game?.awayScore) {
             set(updatedGame,'competitors.0.score',parseInt(game.awayScore));
         }
 
-        if (get(game,'awayRank','null').trim() !== "null") {
+        if (game?.awayRank) {
             set(updatedGame,'competitors.0.rank',game.awayRank);
         }
 
-        if (get(game,'awayRecord','null').trim() !== "null") {
+        if (game?.awayRecord) {
             set(updatedGame,'competitors.0.record',game.awayRecord);
         }
 
-        if (get(game,'awaySpread','null').trim() !== "null") {
+        if (game?.awaySpread) {
             const spread = {
-              teamId: get(gameFound,'competitors.0._id'),
-              amount: get(game,'awaySpread'),
+              teamId: gameFound.competitors[0]._id,
+              amount: game.awaySpread,
               spreadDateTime: moment().toISOString()
             };
             set(updatedGame,'spread',spread);
         }
 
-        if (get(game,'homeScore','null').trim() !== "null" ) {
+        if (game?.homeScore) {
             set(updatedGame,'competitors.1.score',parseInt(game.homeScore));
         }
 
-        if (get(game,'homeRank','null').trim() !== "null" ) {
+        if (game?.homeRank) {
             set(updatedGame,'competitors.1.rank',game.homeRank);
         }
 
-        if (get(game,'homeRecord','null').trim() !== "null") {
+        if (game?.homeRecord) {
             set(updatedGame,'competitors.1.record',game.homeRecord);
         }
 
-        if (get(game,'homeSpread','null').trim() !== "null" ) {
+        if (game?.homeSpread) {
             const spread = {
-              teamId: get(gameFound,'competitors.1._id'),
-              amount: get(game,'homeSpread'),
+              teamId: gameFound.competitors[1]._id,
+              amount: game.homeSpread,
               spreadDateTime: moment().toISOString()
             };
             set(updatedGame,'spread',spread);
         }
 
-        if (get(game,'gameName','null').trim() !== "null") {
+        if (game?.gameName) {
             set(updatedGame,'gameName',game.gameName);
         }
 
-        if (get(game,'isGameOver','null') !== "null") {
+        if (game?.isGameOver) {
             set(updatedGame,'isGameOver',game.isGameOver);
         }
 
-        if (get(game,'currentTime','null') !== "null") {
+        if (game?.currentTime) {
             set(updatedGame,'currentTime',game.currentTime);
         }
 
-        if (get(game,'gameTime','null') !== "null") {
+        if (game?.gameTime) {
             const newYork = moment.tz(game.gameTime, "America/New_York");
             set(updatedGame,'startDateTime', newYork.format());
         }
 
-        if (get(game,'liveVideoUrl','null').trim() !== "null") {
+        if (game?.liveVideoUrl) {
             set(updatedGame,'liveVideoUrl',game.liveVideoUrl);
         }
 
-        if (get(game,'highlightVideoUrl','null').trim() !== "null") {
+        if (game?.highlightVideoUrl) {
             set(updatedGame,'highlightVideoUrl',game.highlightVideoUrl);
         }
 
-        if (get(game,'isHidden','null') !== "null") {
+        if (game?.isHidden) {
             set(updatedGame,'isHidden',game.isHidden);
         }
 
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
 
-        const game = await gameRepository.findOneAndUpdate(
+        const gameUpdated = await gameRepository.findOneAndUpdate(
             { _id: updatedGame.id }, // Query filter
             updatedGame,             // Update object
             { new: true }            // Options: return the updated document
         );
-        return cb(null, game); // Return the updated game
+        return cb(null, gameUpdated); // Return the updated game
     } catch (error) {
         console.log('Updating game error: ', error);
         return cb(new Error('Invalid Game'));
@@ -108,12 +107,12 @@ const update = async (game, cb) => {
 };
 
 const isValid = (game) => {
-    if (!get(game,'id')) {
+    if (!game?.id) {
         console.log('Game id is required');
         return false;
     }
 
-    if (get(game,'userId') !== 'google-oauth2|114172296334563495985') {
+    if (game?.userId !== 'google-oauth2|114172296334563495985') {
         console.log('User is required');
         return false;
     }
