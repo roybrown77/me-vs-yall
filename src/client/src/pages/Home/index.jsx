@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 
 import Slide from '@material-ui/core/Slide';
-import IconButton from '@material-ui/core/IconButton';
-import LightOff from '@material-ui/icons/EmojiObjects';
 
 import Typer from './Typer';
 
@@ -67,8 +65,6 @@ const Home = () => {
   useSyncServiceWorker();
   useGoogleAnalytics();
 
-  const [showInfo, setShowInfo] = useState(false);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -79,10 +75,6 @@ const Home = () => {
 
   const tube = () => {
     window.location = 'https://www.youtube.com/channel/UC3BFY6ohNlayFkPVnlPKqww';
-  };
-
-  const handleToggleShowInfo = () => {
-    setShowInfo((prevShowInfo) => !prevShowInfo);
   };
 
   const year = moment().format('YYYY');
@@ -104,18 +96,6 @@ const Home = () => {
               <img style={{ height: '137px', width: '275px' }} src={mvy} alt="" />
             </div>
           </Slide>
-        </div>
-        <div
-          style={{
-            bottom: '0',
-            right: '0',
-            position: 'fixed',
-            zIndex: '777',
-          }}
-        >
-          <IconButton style={{ fontSize: '10px' }} aria-label="show info" onClick={handleToggleShowInfo}>
-            <LightOff style={styles.toggleOff} />
-          </IconButton>
         </div>
         <div
           style={{
@@ -163,70 +143,68 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {showInfo && (
           <div
             style={{
               color: '#fff',
-              padding: '10px',
               fontSize: '10px',
-              bottom: '0',
               position: 'fixed',
-              right: '4rem',
+              left: '50%',
+              bottom: '1rem',
+              transform: 'translateX(-50%)',
               zIndex: '2',
             }}
           >
-            <div className="link-group" style={{ ...styles.footerLinks, color: '#000' }}>
+          <div className="link-group" style={{ ...styles.footerLinks, color: '#000' }}>
+            <div>
               <div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/tips">
-                    Tips
-                  </Link>
-                </div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/shop">
-                    Shop
-                  </Link>
-                </div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/play">
-                    Play
-                  </Link>
-                </div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={tube}>
-                    Tube
-                  </Link>
-                </div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/tips">
+                  Tips
+                </Link>
               </div>
-              <div style={{ paddingLeft: '50px' }}>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/origin">
-                    Origin
-                  </Link>
-                </div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/contact">
-                    Contact
-                  </Link>
-                </div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/oftheweek">
-                    #$%@ of the Week
-                  </Link>
-                </div>
-                <div>
-                  <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={gram}>
-                    Gram
-                  </Link>
-                </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/shop">
+                  Shop
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/play">
+                  Play
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={tube}>
+                  Tube
+                </Link>
               </div>
             </div>
-            <div style={{ color: '#000' }}>
-              <div>© 2017-{year} Me vs Yall</div>
-              <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
+            <div style={{ paddingLeft: '50px' }}>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/origin">
+                  Origin
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/contact">
+                  Contact
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/oftheweek">
+                  #$%@ of the Week
+                </Link>
+              </div>
+              <div>
+                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={gram}>
+                  Gram
+                </Link>
+              </div>
             </div>
           </div>
-        )}
+          <div style={{ color: '#000' }}>
+            <div>© 2017-{year} Me vs Yall</div>
+            <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
+          </div>
+        </div>
         {false && !isConfirmedAuthentication() && (
           <div
             style={{
