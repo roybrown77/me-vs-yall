@@ -490,6 +490,16 @@ body {
   z-index: 10000;
 }
 
+.throwBaseBallRight.ball {
+  width: 25%;
+  top: 2rem;
+  position: absolute;
+  display: block;
+  animation: 10s linear 1 throw-ball-left-to-right;
+  animation-fill-mode: forwards;
+  z-index: 10000;
+}
+
 @keyframes throw-ball-right-to-left {
   0%{
     transform: translateX(0px);
