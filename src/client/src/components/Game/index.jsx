@@ -13,6 +13,8 @@ import green from "@material-ui/core/colors/green";
 import BasketballCourt from "./components/Fields/BasketballCourt";
 import WorldFootballField from "./components/Fields/WorldFootballField";
 import AmericanFootballMiniRallyGame from "./components/AmericanFootballMiniRallyGame";
+import BaseballField from "./components/Fields/BaseballField";
+
 import GamePlayTabs from "./components/GamePlayTabs";
 import TieButton from "./components/TieButton";
 import CompetitorHeader from "./components/CompetitorHeader";
@@ -377,24 +379,21 @@ class Game extends Component {
           }
           {/* Field */}
           <div style={{ marginTop: "1rem" }}>
-            {
-              ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15", "59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(get(game, "leagueId")) &&
-              <div style={{ display: isDayTime ? 'inline-flex' : '' }}>
-                <div
-                  className='sun-nudge'
-                  style={{ margin: '1rem 0', marginLeft: `${astroPosition}%`}}
-                >
-                  {astroEmoji}
-                </div>
-                {
-                  isDayTime &&
-                  <div className='clouds' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginLeft: '2rem' }}>
-                    <div className='cloud' style={{ fontSize: '2.5rem', animation: 'moveClouds 5s linear infinite' }}>☁️</div>
-                    <div className='cloud' style={{ fontSize: '2rem', animation: ' moveClouds 7s linear infinite' }}>☁️</div>
-                  </div>
-                }
+            <div style={{ display: isDayTime ? 'inline-flex' : '' }}>
+              <div
+                className='sun-nudge'
+                style={{ margin: '1rem 0', marginLeft: `${astroPosition}%`}}
+              >
+                {astroEmoji}
               </div>
-            }
+              {
+                isDayTime &&
+                <div className='clouds' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginLeft: '2rem' }}>
+                  <div className='cloud' style={{ fontSize: '2.5rem', animation: 'moveClouds 5s linear infinite' }}>☁️</div>
+                  <div className='cloud' style={{ fontSize: '2rem', animation: ' moveClouds 7s linear infinite' }}>☁️</div>
+                </div>
+              }
+            </div>
             {
               ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(get(game, "leagueId")) &&
               <AmericanFootballMiniRallyGame {...{ game, classes }} />
@@ -422,6 +421,12 @@ class Game extends Component {
                   style: { paddingTop: "16px" },
                 }}
               />
+            }
+            {
+              ["59723313734d1d6202a85f21"].includes(get(game, "leagueId")) &&
+              <>
+                <BaseballField {...{ game, classes }} />
+              </>
             }
           </div>
           {/* Footer */}
