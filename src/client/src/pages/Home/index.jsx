@@ -146,12 +146,10 @@ const Home = () => {
           <div
             style={{
               color: '#fff',
-              fontSize: '10px',
+              fontSize: '9px',
               position: 'fixed',
-              left: '50%',
+              right: '0',
               bottom: '1rem',
-              transform: 'translateX(-50%)',
-              zIndex: '2',
             }}
           >
           <div className="link-group" style={{ ...styles.footerLinks, color: '#000' }}>
