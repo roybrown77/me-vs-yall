@@ -166,6 +166,7 @@ const BaseballBat = () => {
         alignmentBaseline="middle"
         fontFamily="monospace"
         fontSize="11px"
+        fontWeight="bold"
         radius="8px"
       >
         torpedo bat
