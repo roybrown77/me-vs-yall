@@ -117,8 +117,8 @@ const BaseballBat = () => {
   const batGroupTransform = `translate(${Bat.Position.x}, ${Bat.Position.y}) rotate(${angleDeg})`;
 
   // Define the comic bubble dimensions and position (above the bat).
-  const bubbleWidth = 70;
-  const bubbleHeight = 15;
+  const bubbleWidth = 90;
+  const bubbleHeight = 17;
   const bubbleX = Bat.Position.x - bubbleWidth / 2;
   const bubbleY = Bat.Position.y - 20 - bubbleHeight; // 20 units above the bat
 
@@ -147,7 +147,7 @@ const BaseballBat = () => {
         {/* barrel */}
         <rect x={-5} y={-14} width={10} height={32} fill="#D2B48C" />
       </g>
-      {/* Render the comic text bubble */}
+      {/* Render text bubble */}
       <rect
         x={bubbleX}
         y={bubbleY}
@@ -164,7 +164,7 @@ const BaseballBat = () => {
         y={bubbleY + bubbleHeight / 2}
         textAnchor="middle"
         alignmentBaseline="middle"
-        fontFamily="Comic Sans MS, cursive, sans-serif"
+        fontFamily="monospace"
         fontSize="11px"
         radius="8px"
       >
