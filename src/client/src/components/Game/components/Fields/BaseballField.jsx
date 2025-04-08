@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import BaseballBat from './BaseballBat';
 
 const BaseballField = (props) => {
@@ -6,21 +6,12 @@ const BaseballField = (props) => {
   const [isHeartedRight, setIsHeartedRight] = useState(true);
 
   const [isThrowingRight, setIsThrowingRight] = useState(false);
-  const [isThrowingLeft, setIsThrowingLeft] = useState(false);
-  const hideXO = useRef(false);
 
   const pitchComplete = () => {
     setIsThrowingRight(false);
-    props.awayScoreHandler();
-  };
-
-  const homeScoreMade = () => {
-    setIsThrowingLeft(false);
-    props.homeScoreHandler();
   };
 
   const throwBallRight = () => {
-    hideXO.current = true;
     setIsThrowingRight(true);
     setTimeout(() => {pitchComplete()}, 1000);
   };
