@@ -12,72 +12,62 @@ const BaseballBat = () => {
   });
   // A state variable that forces a re-render each frame.
   const [tick, setTick] = useState(0);
+
+  const [isSwinging, setIsSwinging] = useState(false);
+
   // A ref for the SVG element.
   const svgRef = useRef(null);
 
-  useEffect(() => {
-    let animationFrameId;
-    const HALF_PI = Math.PI / 2;
-    const THREE_HALVES_PI = Math.PI * 1.5;
+  // useEffect(() => {
+  //   let animationFrameId;
+  //   const HALF_PI = Math.PI / 2;
+  //   const THREE_HALVES_PI = Math.PI * 1.5;
 
-    // Update the bat's physics.
-    const BatSwingChange = () => {
-      const Bat = batRef.current;
-      // Move toward the target
-      Bat.Speed.x = (Bat.Target.x - Bat.Position.x) * 0.2;
-      Bat.Speed.y = (Bat.Target.y - Bat.Position.y) * 0.2;
-      Bat.Position.x += Bat.Speed.x;
-      Bat.Position.y += Bat.Speed.y;
+  //   // Update the bat's physics.
+  //   const BatSwingChange = () => {
+  //     const Bat = batRef.current;
+  //     // Move toward the target
+  //     Bat.Speed.x = (Bat.Target.x - Bat.Position.x) * 0.2;
+  //     Bat.Speed.y = (Bat.Target.y - Bat.Position.y) * 0.2;
+  //     Bat.Position.x += Bat.Speed.x;
+  //     Bat.Position.y += Bat.Speed.y;
 
-      let TargetAngle;
-      if (
-        Math.abs(Bat.Speed.x) < 0.2 &&
-        Math.abs(Bat.Speed.y) < 0.2
-      ) {
-        TargetAngle = 0;
-        if (Bat.Track.length > 0) Bat.Track.shift();
-      } else {
-        TargetAngle =
-          Bat.Speed.x >= 0
-            ? Math.atan(Bat.Speed.y / Bat.Speed.x) + HALF_PI
-            : THREE_HALVES_PI + Math.atan(Bat.Speed.y / Bat.Speed.x);
-        Bat.Track.push({
-          Position: { x: Bat.Position.x, y: Bat.Position.y },
-          Angle: Bat.Angle,
-        });
-        if (Bat.Track.length > 20) Bat.Track.shift();
-      }
-      let Delta_Angle = TargetAngle - Bat.Angle;
-      if (Delta_Angle > Math.PI) Delta_Angle -= Math.PI * 2;
-      if (Delta_Angle < -Math.PI) Delta_Angle += Math.PI * 2;
-      Bat.Angle += Delta_Angle * 0.2;
-    };
+  //     let TargetAngle;
+  //     if (
+  //       Math.abs(Bat.Speed.x) < 0.2 &&
+  //       Math.abs(Bat.Speed.y) < 0.2
+  //     ) {
+  //       TargetAngle = 0;
+  //       if (Bat.Track.length > 0) Bat.Track.shift();
+  //     } else {
+  //       TargetAngle =
+  //         Bat.Speed.x >= 0
+  //           ? Math.atan(Bat.Speed.y / Bat.Speed.x) + HALF_PI
+  //           : THREE_HALVES_PI + Math.atan(Bat.Speed.y / Bat.Speed.x);
+  //       Bat.Track.push({
+  //         Position: { x: Bat.Position.x, y: Bat.Position.y },
+  //         Angle: Bat.Angle,
+  //       });
+  //       if (Bat.Track.length > 20) Bat.Track.shift();
+  //     }
+  //     let Delta_Angle = TargetAngle - Bat.Angle;
+  //     if (Delta_Angle > Math.PI) Delta_Angle -= Math.PI * 2;
+  //     if (Delta_Angle < -Math.PI) Delta_Angle += Math.PI * 2;
+  //     Bat.Angle += Delta_Angle * 0.2;
+  //   };
 
-    // The animation loop
-    const BatSwingCycle = () => {
-      BatSwingChange();
-      // Force a re-render by updating tick.
-      setTick((t) => t + 1);
-      animationFrameId = requestAnimationFrame(BatSwingCycle);
-    };
+  //   // The animation loop
+  //   const BatSwingCycle = () => {
+  //     BatSwingChange();
+  //     // Force a re-render by updating tick.
+  //     setTick((t) => t + 1);
+  //     animationFrameId = requestAnimationFrame(BatSwingCycle);
+  //   };
 
-    animationFrameId = requestAnimationFrame(BatSwingCycle);
+  //   animationFrameId = requestAnimationFrame(BatSwingCycle);
 
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  // Use React’s built-in event handling on the SVG element.
-  const handlePointerMove = (e) => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    // Get the bounding rectangle and convert pointer coordinates into our normalized 0–100 viewBox.
-    const rect = svg.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-    const newX = (offsetX / rect.width) * 100;
-    const newY = (offsetY / rect.height) * 100;
-    batRef.current.Target = { x: newX, y: newY };
-  };
+  //   return () => cancelAnimationFrame(animationFrameId);
+  // }, []);
 
   // Extract the current bat state.
   const Bat = batRef.current;
@@ -117,43 +107,52 @@ const BaseballBat = () => {
   const batGroupTransform = `translate(${Bat.Position.x}, ${Bat.Position.y}) rotate(${angleDeg})`;
 
   // Define the comic bubble dimensions and position (above the bat).
-  const bubbleWidth = 90;
-  const bubbleHeight = 17;
-  const bubbleX = Bat.Position.x - bubbleWidth / 2;
-  const bubbleY = Bat.Position.y - 20 - bubbleHeight; // 20 units above the bat
+  const bubbleWidth = 200;
+  const bubbleHeight = 30;
+  const bubbleX = (Bat.Position.x - bubbleWidth / 2) - 50;
+  const bubbleY = Bat.Position.y - 60 - bubbleHeight; // 20 units above the bat
 
   return (
     <svg
+      onClick={() => { 
+        setIsSwinging(true);
+        setTimeout(() => setIsSwinging(false), 250);
+      }} 
       className="baseball-bat"
       ref={svgRef}
-      viewBox="30 10 100 100"
-      style={{ width: '100%', height: '100%' }}
+      viewBox="-20 -90 100 200"
+      style={{ width: '100%', height: '100%', cursor: 'pointer' }}
       x="170"
       y="0"
-      onMouseMove={handlePointerMove}
-      onTouchMove={(e) => {
-        if (e.touches.length > 0) {
-          // For touch events, convert the first touch.
-          handlePointerMove(e.touches[0]);
-        }
-      }}
     >
-      {/* Render the track segments */}
       {trackPolygons}
-      {/* Render the bat */}
-      <g transform={batGroupTransform}>
-        {/* handle */}
-        <rect x={-2} y={17} width={4} height={27} fill="#333" />
+      <g
+          transform="translate(30, 59)" // Move the rotation point to the bottom of the handle
+          style={{
+          animation: isSwinging
+        ? 'rotate .5s linear'
+        : 'wiggle 0.2s ease-in-out infinite alternate',
+        }}
+      >
         {/* barrel */}
-        <rect x={-5} y={-14} width={10} height={32} fill="#D2B48C" />
+        <rect x={-5} y={-57} width={30} height={70} fill="#D2B48C" />
+        {/* handle */}
+        <rect x={2} y={10} width={15} height={57} fill="#333" />
       </g>
-      {/* Render text bubble */}
+      <style>
+        {`
+          @keyframes wiggle {
+          0% { transform: rotate(-40deg); }
+          100% { transform: rotate(-45deg); }
+          }
+        `}
+      </style>
       <rect
         x={bubbleX}
         y={bubbleY}
         width={bubbleWidth}
         height={bubbleHeight}
-        rx={5}
+        rx={0}
         ry={5}
         fill="white"
         stroke="black"
@@ -165,7 +164,7 @@ const BaseballBat = () => {
         textAnchor="middle"
         alignmentBaseline="middle"
         fontFamily="monospace"
-        fontSize="11px"
+        fontSize="1rem"
         fontWeight="bold"
         radius="8px"
       >

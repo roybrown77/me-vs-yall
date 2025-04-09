@@ -495,7 +495,7 @@ body {
   top: 2rem;
   position: absolute;
   display: block;
-  animation: 10s linear 1 throw-ball-left-to-right;
+  animation: 7s linear 1 throw-ball-left-to-right;
   animation-fill-mode: forwards;
   z-index: 10000;
 }
