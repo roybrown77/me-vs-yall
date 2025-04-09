@@ -1,14 +1,11 @@
 import { Component } from 'react';
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import moment from "moment-timezone";
 import get from "lodash/get";
 
-import { withStyles } from "@material-ui/core/styles";
-import Grow from "@material-ui/core/Grow";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import green from "@material-ui/core/colors/green";
+import Grow from "@mui/material/Grow";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
 import BasketballCourt from "./components/Fields/BasketballCourt";
 import WorldFootballField from "./components/Fields/WorldFootballField";
@@ -23,7 +20,7 @@ import GameFooter from "./components/GameFooter";
 
 import { hasGameStarted } from "../../utilities";
 
-const styles = () => ({
+const styles = {
   root: {
     flexGrow: 1,
     height: "fit-content",
@@ -41,9 +38,9 @@ const styles = () => ({
     padding: "32px",
   },
   checkBox: {
-    color: green[600],
+    color: '#E7E7E7',
     "&$checked": {
-      color: green[500],
+      color: '#3772FA',
     },
   },
   checked: {},
@@ -116,7 +113,7 @@ const styles = () => ({
   competitorHeader: {
     minHeight: "32px",
   },
-});
+};
 
 const getAstroPositionAndEmoji = () => {
   const now = new Date();
@@ -269,7 +266,7 @@ class Game extends Component {
   };
 
   render() {
-    const { classes, game, pick, isAuthenticated, userId, disableTie, updatingPick } =
+    const { game, pick, isAuthenticated, userId, disableTie, updatingPick } =
       this.props;
 
     const {
@@ -294,7 +291,6 @@ class Game extends Component {
     const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
 
     const props = {
-      classes,
       game,
       pick,
       isAuthenticated,
@@ -325,7 +321,7 @@ class Game extends Component {
     };
 
     return (
-      <div id={"game-" + game._id} key={game._id} className={classes.game}>
+      <div id={"game-" + game._id} key={game._id} style={styles.game}>
         {/* Game Container */}
         <div
           style={{
@@ -336,7 +332,7 @@ class Game extends Component {
           }}
         >
           {/* Game */}
-          <Grid key={game._id + "-gridlist"} container className={classes.root}>
+          <Grid key={game._id + "-gridlist"} container style={styles.root}>
             {game.competitors.map((competitor) => (
               <Grid
                 key={game._id + "." + competitor._id}
@@ -345,6 +341,7 @@ class Game extends Component {
                 onClick={() => this.handleMakePick(game._id, competitor._id)}
                 className={updatingPick ? "fast-flash" : ""}
                 style={{
+                  width: "50%",
                   border: competitor.selected
                     ? "1.5rem dashed #3772FA"
                     : "1.5rem dashed #E7E7E7",
@@ -353,7 +350,7 @@ class Game extends Component {
                 }}
               >
                 <Grow in={true} timeout={500}>
-                  <Paper className={classNames(classes.paper)}>
+                  <Paper style={styles.paper}>
                     {spreadMode 
                       && (<CompetitorHeader {...{ ...props, competitor }} />
                     )}
@@ -396,7 +393,7 @@ class Game extends Component {
             </div>
             {
               ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(get(game, "leagueId")) &&
-              <AmericanFootballMiniRallyGame {...{ game, classes }} />
+              <AmericanFootballMiniRallyGame {...{ game }} />
             }
             {
               ["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(get(game, "leagueId")) &&
@@ -425,7 +422,7 @@ class Game extends Component {
             {
               ["59723313734d1d6202a85f21"].includes(get(game, "leagueId")) &&
               <>
-                <BaseballField {...{ game, classes }} />
+                <BaseballField {...{ game }} />
               </>
             }
           </div>
@@ -450,4 +447,4 @@ Game.propTypes = {
   updatingPick: PropTypes.bool,
 };
 
-export default withStyles(styles, { withTheme: true })(Game);
+export default Game;

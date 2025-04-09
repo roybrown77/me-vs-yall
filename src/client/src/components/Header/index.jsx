@@ -1,33 +1,16 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { Link } from "react-router-dom";
 
 import get from 'lodash/get';
 
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
-import Popover from '@material-ui/core/Popover';
-import { makeStyles } from '@material-ui/core/styles';
-import ExitToApp from '@material-ui/icons/ExitToAppOutlined';
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
+import Popover from '@mui/material/Popover';
+import ExitToApp from '@mui/icons-material/ExitToAppOutlined';
 
 import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
-
-const profileStyles = makeStyles((theme) => ({
-  popover: {
-  },
-  paper: {
-    padding: theme.spacing(1),
-    borderRadius: '4px',
-    margin: '8px',
-    position: 'fixed',
-    left: 'unset !important',
-    right: '0',
-    top: '0 !important'
-  },
-}));
 
 const styles = {
   root: {
@@ -67,7 +50,8 @@ const styles = {
     margin: '8px',
     position: 'fixed',
     right: '0',
-    top: '0'
+    top: '0',
+    cursor: 'pointer',
   },
   userDefaultPicture: {
     height: '40px',
@@ -84,24 +68,22 @@ const styles = {
 };
 
 const Profile = (props) => {
-  const classes = profileStyles();
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () =>{
+  const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const open = !!anchorEl ? Boolean(anchorEl) : false;
+  const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
   return (
     <div>
-      <div onClick={handleClick} style={{cursor:'pointer'}}>
+      <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         {props.mainElement}
       </div>
       <Popover
@@ -109,14 +91,7 @@ const Profile = (props) => {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
-        className={classes.popover}
-        classes={{
-          paper: classes.paper,
-        }}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
+        style={{ left: 'unset', right: '0' }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'center',
@@ -129,24 +104,27 @@ const Profile = (props) => {
 };
 
 const Header = (props) => {
-  const { classes, children, disableTopBanner} = props;
+  const { children, disableTopBanner} = props;
   const isAuthenticated = isConfirmedAuthentication();
   const user = getUser();
   const picture = get(user,'picture');
 
   return (
-    <div className={classes.root}>
-      <div className={classes.appFrame}>
-        <AppBar style={disableTopBanner ? { backgroundColor: 'transparent '} : {}} className={classNames(classes.appBar)}>
-          <Typography variant="h6" color="inherit" className={classes.title} style={{margin: 'auto'}}>
+    <div style={styles.root}>
+      <div style={styles.appFrame}>
+        <AppBar style={{
+          ...styles.appBar,
+          ...disableTopBanner ? { backgroundColor: 'transparent '} : {}
+        }}>
+          <Typography variant="h6" color="inherit" style={{...styles.title, margin: 'auto'}}>
           {!disableTopBanner && <Link to="/">
             <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
           </Link>}
           </Typography>
           {
             isAuthenticated && picture &&
-            <Profile mainElement={(<img className={classes.userPicture} src={picture} alt=""/>)}>
-              <div style={{display:'flex', padding: '8px', cursor: 'pointer'}} onClick={logout}>
+            <Profile mainElement={(<img style={styles.userPicture} src={picture} alt=""/>)}>
+              <div onClick={logout} style={{display:'flex', padding: '8px', cursor: 'pointer', position: 'fixed', right: '0', backgroundColor: '#fff', borderRadius: '4px', border: '2px solid darkorange'}}>
                 <div>
                   <ExitToApp/>
                 </div>
@@ -158,7 +136,7 @@ const Header = (props) => {
           }
           {
             isAuthenticated && !picture &&
-            <div className={classes.userDefaultPicture}>
+            <div style={styles.userDefaultPicture}>
               <div style={{margin: '8px 0'}}>{user.name[0]}</div>
             </div>
           }
@@ -191,11 +169,9 @@ const Header = (props) => {
 
 Header.propTypes = {
     isAuthenticated: PropTypes.bool,
-    classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     user: PropTypes.object,
     disableTopBanner: PropTypes.bool,
 };
 
-export default withStyles(styles, { withTheme: true })(Header);
+export default Header;

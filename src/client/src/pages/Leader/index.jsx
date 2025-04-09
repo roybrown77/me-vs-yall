@@ -1,33 +1,29 @@
 import { Component } from 'react';
-import classNames from "classnames";
 import get from "lodash/get";
 import last from "lodash/last";
 import { createBrowserHistory } from "history";
 import queryString from "query-string";
 
-import { withStyles } from "@material-ui/core/styles";
-import Slide from "@material-ui/core/Slide";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
-import Skeleton from "@material-ui/lab/Skeleton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Snackbar from '@material-ui/core/Snackbar';
-import Send from '@material-ui/icons/Send';
-import Calendar from '@material-ui/icons/CalendarToday';
-import ToggleOn from "@material-ui/icons/ToggleOn";
-import ToggleOff from "@material-ui/icons/ToggleOff";
+import Slide from "@mui/material/Slide";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Snackbar from '@mui/material/Snackbar';
+import Send from '@mui/icons-material/Send';
+import ToggleOn from "@mui/icons-material/ToggleOn";
+import ToggleOff from "@mui/icons-material/ToggleOff";
 
 import VegasWinCalculationPopup from "./VegasWinCalculationPopup";
 import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import Countdown from "../../components/Countdown";
-import Popover from "../../components/Popover";
 import Alert from '../../components/Alert';
 import CalendarReminder from '../../components/CalendarReminder';
 
@@ -349,7 +345,6 @@ class Leader extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const {
       dataLoading,
 
@@ -389,7 +384,7 @@ class Leader extends Component {
           {!isAuthenticated && (
             <Button
               variant="contained"
-              className={classNames(classes.button)}
+              style={styles.button}
               onClick={googleLogin}
             >
               Make Your Picks
@@ -479,11 +474,11 @@ class Leader extends Component {
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
-                  <Snackbar open={isShareClicked}>
+                  {/* <Snackbar open={isShareClicked}>
                     <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
                       {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
                     </Alert>
-                  </Snackbar>
+                  </Snackbar> */}
                 </div>
               </div>
             }
@@ -499,8 +494,8 @@ class Leader extends Component {
               <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
               <div style={{ background: '#FCE385', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
-                  className={
-                    spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
+                  style={
+                    spreadMode ? styles.toggleButtonOn : styles.toggleButtonOff
                   }
                   aria-label="toggle spread mode"
                 >
@@ -535,7 +530,7 @@ class Leader extends Component {
                     margin: "auto",
                   }}
                 >
-                  <Tab label="Leaders" {...a11yProps(0)} />
+                  <Tab style={{ color: '#000' }} label="Leaders" {...a11yProps(0)} />
                 </Tabs>
               </Box>
               <Slide
@@ -545,7 +540,7 @@ class Leader extends Component {
                 unmountOnExit
                 timeout={250}
               >
-                <div className={classes.root}>
+                <div style={styles.root}>
                   {isLoading && (
                     <div style={{ margin: "10px 0" }}>
                       <Skeleton
@@ -570,12 +565,12 @@ class Leader extends Component {
                   )}
                   {!isLoading &&
                     leaders.map((leader, index) => (
-                      <div className={classes.container} key={leader.id}>
+                      <div style={styles.container} key={leader.id}>
                         <Accordion
                           style={{ borderRadius: "8px", boxShadow: "none" }}
                         >
                           <AccordionSummary
-                            className={classes.expansionSummary}
+                            style={styles.expansionSummary}
                             expandIcon={<ExpandMoreIcon />}
                             styles={{ }}
                           >                     
@@ -615,7 +610,7 @@ class Leader extends Component {
                                     👑
                                   </div>}
                                   <img
-                                    className={classes.userPicture}
+                                    style={styles.userPicture}
                                     src={leader.picture}
                                     alt=""
                                   />
@@ -623,10 +618,8 @@ class Leader extends Component {
                               )}
                               {!leader.picture && (
                                 <div
-                                  className={
-                                    classes.userDefaultPictureContainer
-                                  }
                                   style={{
+                                    ...styles.userDefaultPictureContainer,
                                     backgroundColor:
                                       "#" +
                                       Math.floor(
@@ -639,7 +632,7 @@ class Leader extends Component {
                                   </div>
                                 </div>
                               )}
-                              <div className={classes.userName}>
+                              <div style={styles.userName}>
                                 {leader.userName}
                               </div>
                             </div>
@@ -683,7 +676,7 @@ class Leader extends Component {
                             </div>
                           </AccordionSummary>
                           <AccordionDetails
-                            className={classes.expansionPanelDetails}
+                            style={styles.expansionPanelDetails}
                           >
                             <div style={{ margin: "12px auto" }}>
                               {spreadMode && (
@@ -781,4 +774,4 @@ class Leader extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Leader);
+export default Leader;

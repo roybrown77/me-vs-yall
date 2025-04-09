@@ -1,6 +1,6 @@
-import Grid from "@material-ui/core/Grid";
-import CheckCircle from "@material-ui/icons/CheckCircle";
-import Cancel from "@material-ui/icons/Cancel";
+import Grid from "@mui/material/Grid";
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import Cancel from "@mui/icons-material/Cancel";
 import get from "lodash/get";
 
 import getFlag from "../getFlag";
@@ -46,7 +46,7 @@ const Competitor = (props) => {
 
   return (
     <Grid className="detail-competitor" item xs={12} sm container>
-      <Grid item xs>
+      <Grid item xs style={{ flexGrow: '1' }}>
         <Grid item>
           <div>
             {!["59723313734d1d6202a85f25", "59723313734d1d6202a85f27"].includes(

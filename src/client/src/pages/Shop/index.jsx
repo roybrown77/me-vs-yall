@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import PageContainer from '../../components/PageContainer';
 

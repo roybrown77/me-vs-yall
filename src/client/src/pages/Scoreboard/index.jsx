@@ -1,22 +1,20 @@
 import { Component } from 'react';
-import classNames from "classnames";
 import get from "lodash/get";
 import last from "lodash/last";
 import moment from "moment-timezone";
 import { createBrowserHistory } from "history";
 import queryString from "query-string";
 
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
-import Snackbar from '@material-ui/core/Snackbar';
-import Skeleton from "@material-ui/lab/Skeleton";
-import ToggleOn from "@material-ui/icons/ToggleOn";
-import ToggleOff from "@material-ui/icons/ToggleOff";
-import Send from '@material-ui/icons/Send';
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Snackbar from '@mui/material/Snackbar';
+import Skeleton from "@mui/material/Skeleton";
+import ToggleOn from "@mui/icons-material/ToggleOn";
+import ToggleOff from "@mui/icons-material/ToggleOff";
+import Send from '@mui/icons-material/Send';
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import PageContainer from "../../components/PageContainer";
@@ -448,8 +446,6 @@ class Scoreboard extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-
     const {
       dataLoading,
 
@@ -522,7 +518,7 @@ class Scoreboard extends Component {
           {!isAuthenticated && (
             <Button
               variant="contained"
-              className={classNames(classes.button)}
+              style={styles.button}
               onClick={googleLogin}
             >
               Make Your Picks
@@ -622,11 +618,11 @@ class Scoreboard extends Component {
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
-                  <Snackbar open={isShareClicked}>
+                  {/* <Snackbar open={isShareClicked}>
                     <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
                       {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
                     </Alert>
-                  </Snackbar>
+                  </Snackbar> */}
                 </div>
               </div>
             }
@@ -642,8 +638,8 @@ class Scoreboard extends Component {
               <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
               <div style={{ background: '#FCE385', margin: '5px', borderRadius: '8px' }}>
                 <IconButton
-                  className={
-                    spreadMode ? classes.toggleButtonOn : classes.toggleButtonOff
+                  style={
+                    spreadMode ? styles.toggleButtonOn : styles.toggleButtonOff
                   }
                   aria-label="toggle spread mode"
                 >
@@ -678,10 +674,10 @@ class Scoreboard extends Component {
                     margin: "auto",
                   }}
                 >
-                  <Tab label="Scores" {...a11yProps(0)} />
+                  <Tab style={{ color: '#000' }} label="Scores" {...a11yProps(0)} />
                 </Tabs>
               </Box>
-              <div className={classes.root}>
+              <div style={styles.root}>
                 {isLoading && (
                   <div style={{ margin: "10px 0" }}>
                     <Skeleton animation="pulse" height="5em" variant="rect" />
@@ -833,4 +829,4 @@ class Scoreboard extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Scoreboard);
+export default Scoreboard;

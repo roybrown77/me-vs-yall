@@ -1,9 +1,13 @@
 
 const WorldFootballGamePlayHistory = (props) => {
-  const { classes, game } = props;
+  const { game } = props;
 
   return (
-    <div className={"play-history " + classes.lastPlay}>
+    <div className={"play-history"} style={{
+      fontSize: "1rem",
+      fontWeight: "bold",
+      color: "rgba(0,0,0,.87)",
+    }}>
       {(game.playHistory || []).map((play, playIndex) => (
         <div key={playIndex} style={{ margin: "4px 0", display: "flex" }}>
           <div

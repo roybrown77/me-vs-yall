@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 
-import Slide from '@material-ui/core/Slide';
+import Slide from '@mui/material/Slide';
 
 import Typer from './Typer';
 

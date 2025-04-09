@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigation from '@mui/material/BottomNavigation';
 
 import { getLeagueName } from '../../utilities/getLeagueName';
 

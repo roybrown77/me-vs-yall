@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import Calendar from '@material-ui/icons/CalendarToday';
-import IconButton from "@material-ui/core/IconButton";
+import Calendar from '@mui/icons-material/CalendarToday';
+import IconButton from "@mui/material/IconButton";
 
 const CalendarReminder = (props) => {
     const [showCalendarDescription, setShowCalendarDescription] = useState(false);

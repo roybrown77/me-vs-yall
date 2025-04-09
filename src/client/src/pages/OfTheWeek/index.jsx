@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import parser from 'html-react-parser';
 
-import Skeleton from "@material-ui/lab/Skeleton";
-import Divider from '@material-ui/core/Divider';
+import Skeleton from "@mui/material/Skeleton";
+import Divider from '@mui/material/Divider';
 
 import PageContainer from '../../components/PageContainer';
 

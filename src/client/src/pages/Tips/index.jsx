@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
 import PageContainer from '../../components/PageContainer';
 

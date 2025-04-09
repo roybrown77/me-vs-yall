@@ -1,11 +1,11 @@
-const styles = theme => ({
+const styles = {
     root: {
       width: '100%',
       paddingBottom: '12px'
     },
     heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
+      fontSize: '1.5rem',
+      fontWeight: '700',
     },
     googleLogin: {
       width: '250px',
@@ -71,6 +71,6 @@ const styles = theme => ({
     toggleButtonOff: {
       color: 'gray'
     }
-  });
+  };
 
   export default styles;

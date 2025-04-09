@@ -115,7 +115,7 @@ const AmericanFootballMiniRallyGame = (props) => {
         <div>
           <Button
             size="small"
-            className={props.classes.gamePlayMessage}
+            styles={styles.gamePlayMessage}
             onClick={() => {}}
           >
             Let's Ball!

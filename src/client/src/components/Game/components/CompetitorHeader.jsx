@@ -1,11 +1,10 @@
-import Grid from "@material-ui/core/Grid";
-import classNames from "classnames";
+import Grid from "@mui/material/Grid";
 
 const CompetitorHeader = (props) => {
-  const { classes, game, competitor } = props;
+  const { game, competitor } = props;
 
   return (
-    <Grid item className={classNames(classes.competitorHeader)}>
+    <Grid item style={{ minHeight: "32px" }}>
       <div
         style={{
           fontSize: "17px",

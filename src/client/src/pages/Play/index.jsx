@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import Slide from '@material-ui/core/Slide';
+import Slide from '@mui/material/Slide';
 
 import { isLoggedIn, googleLogin } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy.png';

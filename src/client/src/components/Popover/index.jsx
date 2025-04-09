@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 
 const SimplePopover = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);

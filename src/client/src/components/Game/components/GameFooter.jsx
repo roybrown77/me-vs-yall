@@ -15,12 +15,17 @@ const getFontSize = (game) => {
 };
 
 const GameFooter = (props) => {
-  const { classes, game, isAuthenticated, userId } = props;
+  const { game, isAuthenticated, userId } = props;
 
   return (
     <div
-      style={{ marginTop: "10px" }}
-      className={"game-footer " + classes.startDateTime}
+      style={{
+        color: "rgba(0, 0, 0, .87)",
+        fontSize: "14px",
+        marginTop: "5px",
+        fontWeight: "bold",
+       }}
+      className={"game-footer "}
     >
       {game.gameName && (
         <div style={{ marginTop: "5px", fontSize: getFontSize(game) }}>
@@ -41,7 +46,7 @@ const GameFooter = (props) => {
         </div>
       )}
       {hasGameStarted(game.startDateTime) && !game?.isGameOver && (
-        <div className={classes.startDateTime}>
+        <div>
           {game.possession} {game.down}
         </div>
       )}

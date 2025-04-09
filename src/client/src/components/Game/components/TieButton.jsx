@@ -1,13 +1,13 @@
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 const TieButton = (props) => {
-  const { classes, game, handleTie } = props;
+  const { game, handleTie } = props;
   return (
     <div>
       <Button
         size="small"
-        className={classes.tieButton}
+        style={styles.tieButton}
         onClick={() => handleTie(game._id)}
       >
         {[

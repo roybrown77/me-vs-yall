@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 import TabPanel from "../../TabPanel";
 import a11yProps from "../../../utilities/a11yProps";
@@ -41,7 +41,7 @@ const getInitialTabValue = (game) => {
 };
 
 const GamePlayTabs = (props) => {
-  const { game, classes, isAuthenticated, userId } = props;
+  const { game, isAuthenticated, userId } = props;
 
   const [tabValue, setTabValue] = useState(getInitialTabValue(game));
 
@@ -107,7 +107,7 @@ const GamePlayTabs = (props) => {
         </Tabs>
       </Box>
       {/* Play History */}
-      <TabPanel className={classes.lastPlay} value={tabValue} index={TabState.PLAY_HISTORY}>
+      <TabPanel value={tabValue} index={TabState.PLAY_HISTORY}>
         <div style={{ margin: "4px 0", display: "flex" }}>
           <div
             style={{
@@ -142,7 +142,7 @@ const GamePlayTabs = (props) => {
           )}
       </TabPanel>
       {/* MvY Highlights */}
-      <TabPanel className={classes.lastPlay} value={tabValue} index={TabState.HIGHLIGHTS}>
+      <TabPanel value={tabValue} index={TabState.HIGHLIGHTS}>
         <div style={{ margin: "4px 0", display: "flex" }}>
           <div
             style={{
@@ -178,7 +178,7 @@ const GamePlayTabs = (props) => {
       </TabPanel>
       {/* Stats */}
       <TabPanel value={tabValue} index={TabState.STATS}>
-        <div className={classes.stats}>
+        <div>
           <GameStats {...props} />
         </div>
       </TabPanel>

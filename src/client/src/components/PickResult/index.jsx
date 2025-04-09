@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import Skeleton from '@material-ui/lab/Skeleton';
-import Button from "@material-ui/core/Button";
+import Skeleton from '@mui/material/Skeleton';
+import Button from "@mui/material/Button";
 
 import { getResults, areAnyGamesOver } from '../../utilities';
 

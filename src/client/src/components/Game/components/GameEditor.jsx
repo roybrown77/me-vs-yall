@@ -1,10 +1,9 @@
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
 
 const GameEditor = (props) => {
     const {
-      classes,
       game,
       awayScore,
       homeScore,
@@ -257,7 +256,18 @@ const GameEditor = (props) => {
         <div style={{ marginTop: "10px" }}>
           <Button
             size="small"
-            className={classes.saveButton}
+            style={{
+              fontWeight: "700",
+              width: "25%",
+              backgroundColor: "#3772FA",
+              color: "#FFFFFF",
+              borderColor: "#3772FA",
+              "&:hover": {
+                backgroundColor: "#3772FA",
+                color: "#FFFFFF",
+                borderColor: "#3772FA",
+              },
+            }}
             onClick={() => handleSaveGame(game._id)}
           >
             Save

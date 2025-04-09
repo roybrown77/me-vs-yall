@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
+    const { children, value, index } = props;
 
     return (
         <div
@@ -10,8 +10,11 @@ const TabPanel = (props) => {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
-        {...other}
-        >
+        style={{
+            color: "rgba(0, 0, 0, .87)",
+            fontSize: "1rem",
+            fontWeight: "bold",
+        }}>
         {value === index && (
             <Box sx={{ p: 3, padding: 0 }}>
             {children}
