@@ -124,7 +124,7 @@ const Header = (props) => {
           {
             isAuthenticated && picture &&
             <Profile mainElement={(<img style={styles.userPicture} src={picture} alt=""/>)}>
-              <div onClick={logout} style={{display:'flex', padding: '8px', cursor: 'pointer', position: 'fixed', right: '0', backgroundColor: '#fff', borderRadius: '4px', border: '2px solid darkorange'}}>
+              <div onClick={logout} style={{display:'flex', padding: '8px', cursor: 'pointer', position: 'fixed', right: '0', backgroundColor: '#fff', borderRadius: '4px', border: '2px solid #3772FA'}}>
                 <div>
                   <ExitToApp/>
                 </div>
