@@ -7,7 +7,19 @@ const TieButton = (props) => {
     <div>
       <Button
         size="small"
-        style={styles.tieButton}
+        style={{
+          fontWeight: "700",
+          marginTop: "10px",
+          width: "25%",
+          backgroundColor: "#3772FA",
+          color: "#FFFFFF",
+          borderColor: "#3772FA",
+          "&:hover": {
+            backgroundColor: "#3772FA",
+            color: "#FFFFFF",
+            borderColor: "#3772FA",
+          },
+        }}
         onClick={() => handleTie(game._id)}
       >
         {[

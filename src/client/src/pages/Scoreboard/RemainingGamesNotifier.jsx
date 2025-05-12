@@ -8,7 +8,11 @@ const RemainingGamesNotifier = ({isAuthenticated, picksNotSelected}) => {
     }
 
     return (
-        <Snackbar className="remaining-games-notifier" open={true}>
+        <Snackbar
+            className="remaining-games-notifier"
+            open={true}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
             <Alert severity="error">
                 {`${picksNotSelected} Remaining Pick(s)`}
             </Alert>
