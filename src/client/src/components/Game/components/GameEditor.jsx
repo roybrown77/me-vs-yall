@@ -192,6 +192,7 @@ const GameEditor = (props) => {
             }}
             onChange={handleInputChange}
             variant="outlined"
+            fullWidth
           />
         </div>
         <div style={{ marginTop: "16px" }}>
@@ -206,6 +207,7 @@ const GameEditor = (props) => {
             }}
             onChange={handleInputChange}
             variant="outlined"
+            fullWidth
           />
         </div>
         <div style={{ marginTop: "16px" }}>
