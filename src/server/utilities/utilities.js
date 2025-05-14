@@ -16,82 +16,7 @@ puppeteer.use(StealthPlugin());
 
 const allowedConferences = ["sec","acc","big10","big12","pac12"];
 
-const getPlayHistory = ({ message, leagueId, playHistory = [], lastPlay = "", currentTime = "" }) => {
-  if (leagueId === '59723313734d1d6202a85f21') {
-    const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
-
-    if (get(checkLastPlay,'quarter') === currentTime) {
-        console.log(`${message} getPlayHistory: no valid play 1`);
-        return playHistory;
-    }
-
-    if (!currentTime || lastPlay.trim() === "") {
-        console.log(`${message} getPlayHistory: no valid play 2`);
-        return playHistory;
-      }
-
-      const newPlayHistory = [
-        {
-          quarter: currentTime,
-          lastPlay: lastPlay
-        },
-        ...playHistory
-      ];
-      
-      return newPlayHistory;
-  }
-
-  const currenTimeSplit = (currentTime || "").split(' ');
-
-  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
-  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
-  const overTime = currentTimeQuarter.includes('OT') ? 
-    (currentTimeQuarter.replace('OT','') === '' ? 5 : parseInt(currentTimeQuarter.replace('OT','')) + 4) : undefined;
-
-  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
-  const currenTimeNumber = parseFloat(currentTimeString);
-
-  const lastPlaySplit = (lastPlay || "").split(' ');
-  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
-  const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
-  const badPlays = lastPlay.toLowerCase().includes('end of') || lastPlay.toLowerCase().includes('end game');
-  
-  const time = badPlays && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
-  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
-
-  const quarter = badPlays && playHistory.length > 0 ? 
-  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
-
-  const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
-
-  if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.slice(0,9).find(x=>get(x,'lastPlay')===lastPlay))) {
-    console.log(`${message} getPlayHistory: no valid play 3.`);
-    return playHistory;
-  }
-
-  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || badPlays || lastPlay.trim() === "") {
-    console.log(`${message} getPlayHistory: no valid play 4.`);
-    return playHistory;
-  }
-
-  const newPlayHistory = orderBy([
-    ...playHistory,
-    {
-      quarter,
-      time,
-      lastPlay
-    }
-  ], ['quarter', 'time'], ['desc', 'asc']);
-  
-  return newPlayHistory;
-};
-
-const hasGameStarted = (dateTime) => {
-    const gameStartDateTime = moment(new Date(dateTime));
-    const currentDateTime = moment(new Date());
-    const difference = gameStartDateTime.diff(currentDateTime,'seconds');
-    return difference < 5;
-};
+/* create games */
 
 const getGames = async ({
     message,
@@ -284,6 +209,85 @@ const createGames = async ({ message, games }) => {
       console.log(`${message} create game error: ${error}`);
     }
   }
+};
+
+/* update games */
+
+const hasGameStarted = (dateTime) => {
+  const gameStartDateTime = moment(new Date(dateTime));
+  const currentDateTime = moment(new Date());
+  const difference = gameStartDateTime.diff(currentDateTime,'seconds');
+  return difference < 5;
+};
+
+const getPlayHistory = ({ message, leagueId, playHistory = [], lastPlay = "", currentTime = "" }) => {
+  if (leagueId === '59723313734d1d6202a85f21') {
+    const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
+
+    if (get(checkLastPlay,'quarter') === currentTime) {
+        console.log(`${message} getPlayHistory: no valid play 1`);
+        return playHistory;
+    }
+
+    if (!currentTime || lastPlay.trim() === "") {
+        console.log(`${message} getPlayHistory: no valid play 2`);
+        return playHistory;
+      }
+
+      const newPlayHistory = [
+        {
+          quarter: currentTime,
+          lastPlay: lastPlay
+        },
+        ...playHistory
+      ];
+      
+      return newPlayHistory;
+  }
+
+  const currenTimeSplit = (currentTime || "").split(' ');
+
+  const currentTimeQuarter = currenTimeSplit[currenTimeSplit.length-1];
+  const currentTimeQuarterNumber = parseInt(currentTimeQuarter[0]);
+  const overTime = currentTimeQuarter.includes('OT') ? 
+    (currentTimeQuarter.replace('OT','') === '' ? 5 : parseInt(currentTimeQuarter.replace('OT','')) + 4) : undefined;
+
+  const currentTimeString = get(currenTimeSplit,'0','').replace(':','');
+  const currenTimeNumber = parseFloat(currentTimeString);
+
+  const lastPlaySplit = (lastPlay || "").split(' ');
+  const lastPlayCurrentTimeString = lastPlaySplit[0].replace('(','').replace(':','').replace(')','');
+  const lastPlayTimeNumber = parseFloat(lastPlayCurrentTimeString);
+  const badPlays = lastPlay.toLowerCase().includes('end of') || lastPlay.toLowerCase().includes('end game');
+  
+  const time = badPlays && playHistory.length > 0 ? get(playHistory,'0.time')-1 : 
+  isNaN(lastPlayTimeNumber) ? currenTimeNumber : lastPlayTimeNumber;
+
+  const quarter = badPlays && playHistory.length > 0 ? 
+  get(playHistory,'0.quarter') : (overTime || currentTimeQuarterNumber);
+
+  const checkLastPlay = playHistory.find(x=>get(x,'lastPlay')===lastPlay);
+
+  if ((get(checkLastPlay,'time') === time && get(checkLastPlay,'quarter') === quarter) || (playHistory.slice(0,9).find(x=>get(x,'lastPlay')===lastPlay))) {
+    console.log(`${message} getPlayHistory: no valid play 3.`);
+    return playHistory;
+  }
+
+  if (!quarter || (!time && time !== 0) || (time > 59 && time < 100) || badPlays || lastPlay.trim() === "") {
+    console.log(`${message} getPlayHistory: no valid play 4.`);
+    return playHistory;
+  }
+
+  const newPlayHistory = orderBy([
+    ...playHistory,
+    {
+      quarter,
+      time,
+      lastPlay
+    }
+  ], ['quarter', 'time'], ['desc', 'asc']);
+  
+  return newPlayHistory;
 };
 
 const getScores = async ({
