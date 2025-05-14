@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from "prop-types";
 import moment from "moment-timezone";
 import get from "lodash/get";
@@ -34,158 +34,69 @@ const styles = {
     borderRadius: "8px",
     boxShadow: "none",
   },
-  control: {
-    padding: "32px",
-  },
-  checkBox: {
-    color: '#E7E7E7',
-    "&$checked": {
-      color: '#3772FA',
-    },
-  },
-  checked: {},
-  startDateTime: {
-    fontSize: "14px",
-    fontWeight: "bold",
-    color: "rgba(0,0,0,.87)",
-    marginTop: "5px",
-  },
-  lastPlay: {
-    fontSize: "1rem",
-    fontWeight: "bold",
-    color: "rgba(0,0,0,.87)",
-  },
-  stats: {
-    fontSize: "12px",
-    fontWeight: "bold",
-    color: "rgba(0,0,0,.87)",
-  },
-  tieButton: {
-    fontWeight: "700",
-    marginTop: "10px",
-    width: "25%",
-    backgroundColor: "#3772FA",
-    color: "#FFFFFF",
-    borderColor: "#3772FA",
-    "&:hover": {
-      backgroundColor: "#3772FA",
-      color: "#FFFFFF",
-      borderColor: "#3772FA",
-    },
-  },
-  gamePlayMessage: {
-    fontWeight: "700",
-    marginTop: "10px",
-    backgroundColor: "#3772FA",
-    color: "#FFFFFF",
-    borderColor: "#3772FA",
-    "&:hover": {
-      backgroundColor: "#3772FA",
-      color: "#FFFFFF",
-      borderColor: "#3772FA",
-    },
-  },
-  gameStats: {
-    fontWeight: "700",
-    marginTop: "10px",
-    width: "25%",
-    backgroundColor: "#5aa17f",
-    color: "#FFFFFF",
-    borderColor: "#5aa17f",
-    "&:hover": {
-      backgroundColor: "#5aa17f",
-      color: "#FFFFFF",
-      borderColor: "#5aa17f",
-    },
-  },
-  saveButton: {
-    fontWeight: "700",
-    width: "25%",
-    backgroundColor: "#3772FA",
-    color: "#FFFFFF",
-    borderColor: "#3772FA",
-    "&:hover": {
-      backgroundColor: "#3772FA",
-      color: "#FFFFFF",
-      borderColor: "#3772FA",
-    },
-  },
-  competitorHeader: {
-    minHeight: "32px",
-  },
+  // Other styles...
 };
 
 const getAstroPositionAndEmoji = () => {
   const now = new Date();
   const hours = now.getHours();
-  const percentageOfDay = (hours - 6) / 12; // Assuming sun moves from 6 AM to 6 PM
-  const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75); // Clamp between -75 and 75
-  const isDayTime = (hours >= 6 && hours < 18);
-  const emoji = isDayTime ? '☀️' : '🌙'; // Sun for day, moon for night
+  const percentageOfDay = (hours - 6) / 12;
+  const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75);
+  const isDayTime = hours >= 6 && hours < 18;
+  const emoji = isDayTime ? '☀️' : '🌙';
   return { position, emoji, isDayTime };
 };
 
-const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
+const Game = (props) => {
+  const [state, setState] = useState({
+    awayScore: null,
+    homeScore: null,
+    awayRank: null,
+    homeRank: null,
+    awayRecord: null,
+    homeRecord: null,
+    awaySpread: null,
+    homeSpread: null,
+    gameName: null,
+    isGameOver: null,
+    currentTime: null,
+    gameTime: null,
+    gameDate: null,
+    liveVideoUrl: null,
+    highlightVideoUrl: null,
+    isHidden: null,
+  });
 
-class Game extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      awayScore: null,
-      homeScore: null,
-      awayRank: null,
-      homeRank: null,
-      awayRecord: null,
-      homeRecord: null,
-      awaySpread: null,
-      homeSpread: null,
-      gameName: null,
-      isGameOver: null,
-      currentTime: null,
-      gameTime: null,
-      gameDate: null,
-      liveVideoUrl: null,
-      highlightVideoUrl: null,
-      isHidden: null,
-    };
-  }
+  const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
-  handleMakePick = (gameId, pickId) => {
+  const handleMakePick = (gameId, pickId) => {
     if (
-      get(this.props, "pick.pickId") === pickId ||
-      this.props?.updatingPick ||
-      hasGameStarted(this.props.game.startDateTime)
+      get(props, "pick.pickId") === pickId ||
+      props?.updatingPick ||
+      hasGameStarted(props.game.startDateTime)
     ) {
       return;
     }
 
-    const pick = {
-      gameId: gameId,
-      pickId: pickId,
-    };
-
-    this.props.handleMakePick(pick);
+    const pick = { gameId, pickId };
+    props.handleMakePick(pick);
   };
 
-  handleTie = (gameId) => {
+  const handleTie = (gameId) => {
     if (
-      get(this.props, "pick.pickId") === "000000000000000000000000" ||
-      this.props?.updatingPick ||
-      hasGameStarted(this.props.game.startDateTime)
+      get(props, "pick.pickId") === "000000000000000000000000" ||
+      props?.updatingPick ||
+      hasGameStarted(props.game.startDateTime)
     ) {
       return;
     }
 
-    const pick = {
-      gameId: gameId,
-      pickId: "000000000000000000000000",
-    };
-
-    this.props.handleMakePick(pick);
+    const pick = { gameId, pickId: "000000000000000000000000" };
+    props.handleMakePick(pick);
   };
 
-  handleClearInput = () => {
-    this.setState({
+  const handleClearInput = () => {
+    setState({
       awayScore: null,
       homeScore: null,
       awayRank: null,
@@ -205,18 +116,16 @@ class Game extends Component {
     });
   };
 
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value,
-    });
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
-  handleSaveGame = (gameId) => {
-    if (get(this.props, "userId") !== "google-oauth2|114172296334563495985") {
+  const handleSaveGame = (gameId) => {
+    if (get(props, "userId") !== "google-oauth2|114172296334563495985") {
       return;
     }
 
@@ -237,7 +146,7 @@ class Game extends Component {
       gameTime,
       liveVideoUrl,
       highlightVideoUrl,
-    } = this.state;
+    } = state;
 
     const gameTimeFormatted = gameTime
       ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime
@@ -262,179 +171,165 @@ class Game extends Component {
       isHidden,
     };
 
-    this.props.handleUpdateGame(game);
+    props.handleUpdateGame(game);
   };
 
-  render() {
-    const { game, pick, isAuthenticated, userId, disableTie, updatingPick } =
-      this.props;
+  const {
+    game,
+    pick,
+    isAuthenticated,
+    userId,
+    disableTie,
+    updatingPick,
+  } = props;
 
-    const {
-      awayScore,
-      homeScore,
-      awayRank,
-      homeRank,
-      awayRecord,
-      homeRecord,
-      awaySpread,
-      isHidden,
-      homeSpread,
-      gameName,
-      isGameOver,
-      currentTime,
-      gameDate,
-      gameTime,
-      liveVideoUrl,
-      highlightVideoUrl,
-    } = this.state;
+  const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
 
-    const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
+  const componentProps = {
+    ...props,
+    ...state,
+    spreadMode,
+    handleMakePick,
+    handleTie,
+    handleClearInput,
+    handleInputChange,
+    handleSaveGame,
+  };
 
-    const props = {
-      game,
-      pick,
-      isAuthenticated,
-      userId,
-      disableTie,
-      awayScore,
-      homeScore,
-      awayRank,
-      homeRank,
-      awayRecord,
-      homeRecord,
-      awaySpread,
-      isHidden,
-      homeSpread,
-      gameName,
-      isGameOver,
-      currentTime,
-      gameDate,
-      gameTime,
-      liveVideoUrl,
-      highlightVideoUrl,
-      spreadMode,
-      handleMakePick: this.handleMakePick,
-      handleTie: this.handleTie,
-      handleClearInput: this.handleClearInput,
-      handleInputChange: this.handleInputChange,
-      handleSaveGame: this.handleSaveGame,
-    };
-
-    return (
-      <div id={"game-" + game._id} key={game._id} style={styles.game}>
-        {/* Game Container */}
-        <div
-          style={{
-            zIndex: 3,
-            position: "relative",
-            backgroundColor: "#fff",
-            paddingBottom: "20px",
-          }}
-        >
-          {/* Game */}
-          <Grid key={game._id + "-gridlist"} container style={styles.root}>
-            {game.competitors.map((competitor) => (
-              <Grid
-                key={game._id + "." + competitor._id}
-                item
-                xs={6}
-                onClick={() => this.handleMakePick(game._id, competitor._id)}
-                className={updatingPick ? "fast-flash" : ""}
-                style={{
-                  width: "50%",
-                  border: competitor.selected
-                    ? "1.5rem dashed #3772FA"
-                    : "1.5rem dashed #E7E7E7",
-                  padding: "10px",
-                  cursor: "pointer",
-                }}
-              >
-                <Grow in={true} timeout={500}>
-                  <Paper style={styles.paper}>
-                    {spreadMode 
-                      && (<CompetitorHeader {...{ ...props, competitor }} />
-                    )}
-                    <Competitor {...{ ...props, competitor }} />
-                  </Paper>
-                </Grow>
-              </Grid>
-            ))}
-          </Grid>
-          {/* Tie button */}
-          {
-            isAuthenticated &&
-            !hasGameStarted(game.startDateTime) &&
-            [
-              "59723313734d1d6202a85f10",
-              "59723313734d1d6202a85f17",
-              "59723313734d1d6202a85f25",
-              "59723313734d1d6202a85f27",
-              "59723313734d1d6202a85f29",
-            ].includes(get(game, "leagueId")) &&
-            !spreadMode &&
-            !disableTie && <TieButton {...props} />
-          }
-          {/* Field */}
-          <div style={{ marginTop: "1rem" }}>
-            <div style={{ display: isDayTime ? 'inline-flex' : '' }}>
-              <div
-                className='sun-nudge'
-                style={{ margin: '1rem 0', marginLeft: `${astroPosition}%`}}
-              >
-                {astroEmoji}
-              </div>
-              {
-                isDayTime &&
-                <div className='clouds' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginLeft: '2rem' }}>
-                  <div className='cloud' style={{ fontSize: '2.5rem', animation: 'moveClouds 5s linear infinite' }}>☁️</div>
-                  <div className='cloud' style={{ fontSize: '2rem', animation: ' moveClouds 7s linear infinite' }}>☁️</div>
-                </div>
-              }
+  return (
+    <div id={"game-" + game._id} key={game._id} style={styles.game}>
+      <div
+        style={{
+          zIndex: 3,
+          position: "relative",
+          backgroundColor: "#fff",
+          paddingBottom: "20px",
+        }}
+      >
+        <Grid key={game._id + "-gridlist"} container style={styles.root}>
+          {game.competitors.map((competitor) => (
+            <Grid
+              key={game._id + "." + competitor._id}
+              item
+              xs={6}
+              onClick={() => handleMakePick(game._id, competitor._id)}
+              className={updatingPick ? "fast-flash" : ""}
+              style={{
+                width: "50%",
+                border: competitor.selected
+                  ? "1.5rem dashed #3772FA"
+                  : "1.5rem dashed #E7E7E7",
+                padding: "10px",
+                cursor: "pointer",
+              }}
+            >
+              <Grow in={true} timeout={500}>
+                <Paper style={styles.paper}>
+                  {spreadMode && (
+                    <CompetitorHeader {...{ ...componentProps, competitor }} />
+                  )}
+                  <Competitor {...{ ...componentProps, competitor }} />
+                </Paper>
+              </Grow>
+            </Grid>
+          ))}
+        </Grid>
+        {isAuthenticated &&
+          !hasGameStarted(game.startDateTime) &&
+          [
+            "59723313734d1d6202a85f10",
+            "59723313734d1d6202a85f17",
+            "59723313734d1d6202a85f25",
+            "59723313734d1d6202a85f27",
+            "59723313734d1d6202a85f29",
+          ].includes(get(game, "leagueId")) &&
+          !spreadMode &&
+          !disableTie && <TieButton {...componentProps} />}
+        <div style={{ marginTop: "1rem" }}>
+          <div style={{ display: isDayTime ? "inline-flex" : "" }}>
+            <div
+              className="sun-nudge"
+              style={{ margin: "1rem 0", marginLeft: `${astroPosition}%` }}
+            >
+              {astroEmoji}
             </div>
-            {
-              ["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(get(game, "leagueId")) &&
-              <AmericanFootballMiniRallyGame {...{ game }} />
-            }
-            {
-              ["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(get(game, "leagueId")) &&
-              <WorldFootballField
-                {...{
-                  away: game.competitors[0].shortLocation,
-                  awayColor: game.competitors[0].color,
-                  home: game.competitors[1].shortLocation,
-                  homeColor: game.competitors[1].color,
-                  style: { paddingTop: "16px" },
+            {isDayTime && (
+              <div
+                className="clouds"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "1rem",
+                  marginLeft: "2rem",
                 }}
-              />
-            }
-            {
-              ["59723313734d1d6202a85f19", "59723313734d1d6202a85f31", "59723313734d1d6202a85f33", "59723313734d1d6202a85f35", "59723313734d1d6202a85f37"].includes(get(game, "leagueId")) &&
-              <BasketballCourt
-                {...{
-                  away: game.competitors[0].shortLocation,
-                  awayColor: game.competitors[0].color,
-                  home: game.competitors[1].shortLocation,
-                  homeColor: game.competitors[1].color,
-                  style: { paddingTop: "16px" },
-                }}
-              />
-            }
-            {
-              ["59723313734d1d6202a85f21"].includes(get(game, "leagueId")) &&
-              <>
-                <BaseballField {...{ game }} />
-              </>
-            }
+              >
+                <div
+                  className="cloud"
+                  style={{
+                    fontSize: "2.5rem",
+                    animation: "moveClouds 5s linear infinite",
+                  }}
+                >
+                  ☁️
+                </div>
+                <div
+                  className="cloud"
+                  style={{
+                    fontSize: "2rem",
+                    animation: " moveClouds 7s linear infinite",
+                  }}
+                >
+                  ☁️
+                </div>
+              </div>
+            )}
           </div>
-          {/* Footer */}
-          <GameFooter {...props} />
+          {["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(
+            get(game, "leagueId")
+          ) && <AmericanFootballMiniRallyGame {...{ game }} />}
+          {["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
+            get(game, "leagueId")
+          ) && (
+            <WorldFootballField
+              {...{
+                away: game.competitors[0].shortLocation,
+                awayColor: game.competitors[0].color,
+                home: game.competitors[1].shortLocation,
+                homeColor: game.competitors[1].color,
+                style: { paddingTop: "16px" },
+              }}
+            />
+          )}
+          {[
+            "59723313734d1d6202a85f19",
+            "59723313734d1d6202a85f31",
+            "59723313734d1d6202a85f33",
+            "59723313734d1d6202a85f35",
+            "59723313734d1d6202a85f37",
+          ].includes(get(game, "leagueId")) && (
+            <BasketballCourt
+              {...{
+                away: game.competitors[0].shortLocation,
+                awayColor: game.competitors[0].color,
+                home: game.competitors[1].shortLocation,
+                homeColor: game.competitors[1].color,
+                style: { paddingTop: "16px" },
+              }}
+            />
+          )}
+          {["59723313734d1d6202a85f21"].includes(get(game, "leagueId")) && (
+            <>
+              <BaseballField {...{ game }} />
+            </>
+          )}
         </div>
-        {/* Tabs */}
-        <GamePlayTabs {...props} />
+        <GameFooter {...componentProps} />
       </div>
-    );
-  }
-}
+      <GamePlayTabs {...componentProps} />
+    </div>
+  );
+};
 
 Game.propTypes = {
   game: PropTypes.object,
