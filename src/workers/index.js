@@ -169,12 +169,6 @@ const updateGames = async () => {
   const sortedGames = sortBy(games, ['startDateTime']);
 
   if (sortedGames.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10')) {
-    // const preseasonStartDate = "2024-08-01"; // Tuesday prior to start of preseason, first Tuesday in August
-    // const weeksSinceStart = moment().diff(moment(preseasonStartDate),'weeks');
-    // const regularSeasonWeek = weeksSinceStart-4;
-    // const weekNumber = regularSeasonWeek < 0 ? 5+regularSeasonWeek : regularSeasonWeek <= 18 ? regularSeasonWeek : (regularSeasonWeek-19+1 < 4 ? regularSeasonWeek-19+1 : 5);
-    // const seasonType = regularSeasonWeek < 0 ? 1 : regularSeasonWeek <= 18 ? 2 : 3;
-
     const { year, url } = getNflGameDataSource();
 
     let dayIndex;
