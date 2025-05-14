@@ -117,10 +117,10 @@ const BasketballCourt = (props) => {
       
       <g className="indicator-wrapper" style={{display: 'none'}}></g>
       {/* balls */}
-      <text x="150" y="30" id="bball-1" fill="#cf5300" style={{ fontSize: '3rem' }} className="shot away make" fontSize="10" textAnchor="middle">🏀</text>
+      <text x="150" y="30" id="bball-1" fill="#cf5300" style={{ fontSize: '3rem' }} className="small-vertical-bounce shot away make" fontSize="10" textAnchor="middle">🏀</text>
       <ellipse cx="90" cy="50" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot home miss"></ellipse>
       <ellipse cx="200" cy="90" rx="10" ry="5" id="shot-401236318321" fill={props.homeColor} stroke={props.homeColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot home miss"></ellipse>
-      <text x="430" y="10" id="bball-2" fill="#cf5300" style={{ fontSize: '3rem' }} className="shot away make" fontSize="10" textAnchor="middle">🏀</text>
+      <text x="430" y="10" id="bball-2" fill="#cf5300" style={{ fontSize: '3rem' }} className="small-vertical-bounce shot away make" fontSize="10" textAnchor="middle">🏀</text>
       <ellipse cx="450" cy="25" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: .25, strokeWidth: 1}} className="shot away make"></ellipse>
       <ellipse cx="375" cy="55" rx="10" ry="5" id="shot-401236318352" fill={props.awayColor} stroke={props.awayColor} style={{fillOpacity: 1, strokeWidth: 1}} className="shot away make"></ellipse>
 
