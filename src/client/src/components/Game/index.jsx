@@ -43,7 +43,7 @@ const getAstroPositionAndEmoji = () => {
   const percentageOfDay = (hours - 6) / 12;
   const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75);
   const isDayTime = hours >= 6 && hours < 18;
-  const emoji = isDayTime ? '☀️' : '🌙';
+  const emoji = isDayTime ? '☀️' : '🌑✨';
   return { position, emoji, isDayTime };
 };
 
@@ -248,7 +248,7 @@ const Game = (props) => {
         <div style={{ marginTop: "1rem" }}>
           <div style={{ display: isDayTime ? "inline-flex" : "" }}>
             <div
-              className="sun-nudge"
+              className={isDayTime ? "sun-nudge" : ""}
               style={{ margin: "1rem 0", marginLeft: `${astroPosition}%` }}
             >
               {astroEmoji}
