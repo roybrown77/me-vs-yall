@@ -53,6 +53,29 @@ const history = createBrowserHistory({ forceRefresh: false });
 
 const getSpreadMode = () => localStorage.getItem("spreadModeToggle", "0");
 
+const leaderBackgroundColor = [
+  "#CC8E91",
+  "#CCB08E",
+  "#CCCB8E",
+  "#8ECC9E",
+  "#8EB5CC",
+  "#B08EB8",
+  "#9A7FCC",
+  "#8EC1CC",
+  "#C2C191",
+  "#C99E89",
+  "#7FC3C1",
+  "#90C6A2",
+  "#C9B496",
+  "#CC9EB1",
+  "#A19FCC",
+  "#B2C79D",
+  "#CCC78E",
+  "#A89ECC",
+  "#CCB27F",
+  "#9CCEAF"
+];
+
 class Leader extends Component {
   constructor(props) {
     super(props);
@@ -620,11 +643,7 @@ class Leader extends Component {
                                 <div
                                   style={{
                                     ...styles.userDefaultPictureContainer,
-                                    backgroundColor:
-                                      "#" +
-                                      Math.floor(
-                                        Math.random() * 16777215
-                                      ).toString(16),
+                                    backgroundColor: leaderBackgroundColor[Math.floor(Math.random() * leaderBackgroundColor.length)],
                                   }}
                                 >
                                   <div style={{ margin: "10px 15px" }}>
