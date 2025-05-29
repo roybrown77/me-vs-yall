@@ -113,11 +113,11 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
     return {
       notCompleted: orderBy(
         formattedGames.filter((x) => !x.isGameOver),
-        ["_id"]
+        ["_id"], ["desc"],
       ).sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)),
       completed: orderBy(
         formattedGames.filter((x) => x.isGameOver),
-        ["_id"]
+        ["_id"], ["desc"],
       ).sort((a, b) => new Date(b.startDateTime) - new Date(a.startDateTime)),
     };
   };
