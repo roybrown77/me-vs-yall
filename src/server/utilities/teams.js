@@ -873,6 +873,16 @@ const nba2kCompetitors = [
 
 const nflTeams = [
     {
+        _id: "19823783734d1d04a1b39000",
+        location: 'Los Angeles',
+        shortLocation: "LAC",
+        name: "Chargers",
+        color: "#2072BA",
+        stadiumName: "Los Angeles Stadium",
+        stadiumCity: "Inglewood, CA",
+        emojis: ["🌩️","⚡️"]
+    },
+    {
         _id: "19823783734d1d04a1b39001",
         location: 'Kansas City',
         shortLocation: "KC",
@@ -1180,16 +1190,6 @@ const nflTeams = [
         stadiumCity: "Seattle, WA",
         emojis: ["🌊🦅","🎸"]
     },
-    {
-        _id: "19823783734d1d04a1b39000",
-        location: 'Los Angeles',
-        shortLocation: "LAC",
-        name: "Chargers",
-        color: "#2072BA",
-        stadiumName: "Los Angeles Stadium",
-        stadiumCity: "Inglewood, CA",
-        emojis: ["🌩️","⚡️"]
-    }
 ];
 
 const ncaaTeams = [
