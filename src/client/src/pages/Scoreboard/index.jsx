@@ -128,7 +128,7 @@ class Scoreboard extends Component {
   }
 
   loadGameWeeks = async ({ leagueId, year }) => {
-    const gameWeeksQuery = { leagueId, year };
+    const gameWeeksQuery = { leagueId, year, skipEntireWeek: true };
 
     const weeks = await callApi({
       method: "GET",
@@ -482,10 +482,6 @@ class Scoreboard extends Component {
 
     const isLoading = dataLoading && !areAnyGamesInProgress;
 
-    const filteredWeeks = weeks.filter(
-      (item) => !item.description?.toLowerCase().includes("entire")
-    );
-
     return (
       <div>
         <PageContainer>
@@ -508,7 +504,7 @@ class Scoreboard extends Component {
             leagues={leagues}
             yearSelected={year}
             weekId={weekId}
-            weeks={filteredWeeks}
+            weeks={weeks}
             loading={isLoading}
             onFilterLeague={this.handleFilterLeague}
             onFilterYear={this.handleFilterYear}

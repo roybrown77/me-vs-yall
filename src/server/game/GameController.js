@@ -472,15 +472,17 @@ router.get('/gameweeks', async function (req, res) {
   try {
     const gameWeeks = await gameWeekRepository.find(finalSearch);
   
-    const viewableGameWeeks = gameWeeks.reduce((total,x)=>{
-      if (x.description === 'Whole Year') {
+    const viewableGameWeeks = gameWeeks.reduce((total,x)=>{  
+      if (req.query.skipEntireWeek === 'true' && x.description.toLowerCase().includes('entire')) {
+        return total;
+      }
+
+      if (x.description.toLowerCase().includes('entire')) {
         x.sortOrder = 1;
       } else {
         x.sortOrder = 2;
       }
-  
       total.push(x);
-      
       return total;
     }, []);
   
