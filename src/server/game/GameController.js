@@ -433,8 +433,6 @@ router.get('/games', async function (req, res) {
 
     console.log("time3: ", moment().format());
 
-    const teamStats = getAllTeamStats(gamesWholeYear);
-
     if (!includeStrategies) {
       gamesThisRange.forEach(game=>{
         setAmericanFootballPlays(game);
@@ -443,6 +441,7 @@ router.get('/games', async function (req, res) {
 
         game.hashCompetitors = null;
         game.playHistory = game.playHistory.slice(0,playHistoryCount);
+        const teamStats = getAllTeamStats(gamesWholeYear);
         game.stats = getGameStats(game, teamStats);
       });
     }
