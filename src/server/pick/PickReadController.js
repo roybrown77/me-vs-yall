@@ -97,6 +97,8 @@ const getPickStrategies = async (req) => {
                 let mvyThanosPicks = {}
                 let mvyMagnetoPicks = {};
                 let mvyKangPicks = {};
+                let mvyRoguePicks = {};
+                let mvyStormPicks = {};
                 const isSuperBowlGame = 
                 game.startDateTime.getMonth() === 1
 
@@ -149,6 +151,26 @@ const getPickStrategies = async (req) => {
                             leagueId: game.leagueId
                         };
 
+                        if ((homePointsScored?.homeTeam?.value - roadPointsScored?.awayTeam?.value > 0) && !isSuperBowlGame) {
+                            mvyRoguePicks = {
+                                _id: new mongoose.Types.ObjectId().toString(),
+                                userId: 18, // Queen Rogue; Home if Points Scored is better
+                                gameId: game._id,
+                                pickId: game.competitors[1]._id,
+                                leagueId: game.leagueId
+                            };
+                        }
+
+                        if ((roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) && !isSuperBowlGame) {
+                            mvyStormPicks = {
+                                _id: new mongoose.Types.ObjectId().toString(),
+                                userId: 19, // Queen Storm; Home if Road Points Scored is better
+                                gameId: game._id,
+                                pickId: game.competitors[1]._id,
+                                leagueId: game.leagueId
+                            };
+                        }
+
                         if ((roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) ||
                         (isSuperBowlGame && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0))) {
                             mvyThanosPicks = {
@@ -196,7 +218,7 @@ const getPickStrategies = async (req) => {
                     }
                 }
     
-                mvyPicks = [mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyDoomPicks, mvyThanosPicks, mvyMagnetoPicks, mvyKangPicks];
+                mvyPicks = [mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyDoomPicks, mvyThanosPicks, mvyMagnetoPicks, mvyKangPicks, mvyRoguePicks, mvyStormPicks];
             } catch (error) {
                 console.log('generate King picks error 2: ', error);
             }

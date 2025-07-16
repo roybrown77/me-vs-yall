@@ -79,6 +79,16 @@ const mvyKingDefenseRoadie = {
     firstName: 'King Thanos'
 };
 
+const mvyQueenRogue = {
+    authServiceId: 18,
+    firstName: 'Queen Rogue'
+};
+
+const mvyQueenStorm = {
+    authServiceId: 19,
+    firstName: 'Queen Storm'
+};
+
 router.get('/users', async function (req, res) {
     try {
         const users = await userRepository.find({});
@@ -106,7 +116,9 @@ router.get('/users', async function (req, res) {
             mvyKang,
             mvyRoadie,
             mvyKingDefenseHomer,
-            mvyKingDefenseRoadie
+            mvyKingDefenseRoadie,
+            mvyQueenRogue,
+            mvyQueenStorm,
         ]);
     } catch (error) {
         console.log("Get users error: ", error);
