@@ -118,10 +118,6 @@ const stats = [
     title: 'NEW FEATURES',
     content: `Sign in again or clear browser cache to get new features or if problems arise.`
   },
-  {
-    title: 'TAGS',
-    content: `#football #soccer #basketball #boxing #mma #bmx #skate #nfl #premierleague #nba #ufc #premierboxingchampions #xgames #mackandbeezie #lockoftheweek #statoftheweek #oftheweek #mevsyall #mevsyallengineering #sports #fun #crazy #facts #prizes #fans #love #vegas #showmethemoney #litty #merch #thatway #art #picks #free`
-  }
 ];
 
 const Tips = () => {

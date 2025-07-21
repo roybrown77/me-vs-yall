@@ -6,8 +6,6 @@ const GameWeekSchema = new mongoose.Schema({
     beginDateTime: 'date',
     endDateTime: 'date',
     description: String,
-    prize: mongoose.Schema.Types.Mixed,
-    prizes: Array,
     isRollup: mongoose.Schema.Types.Boolean
 });
 
