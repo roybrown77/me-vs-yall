@@ -186,7 +186,8 @@ const updateGames = async () => {
 
     console.log(`dayIndex: ${dayIndex}`);
 
-    // copy full xpath along with selector to get the right path of each piece of data
+    // copy selector and full xpath along with selector to get the right path of each piece of data
+    
     updateAmericanFootballScores({
       leagueId: '59723313734d1d6202a85f10',
       year: year,
