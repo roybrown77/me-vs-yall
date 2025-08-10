@@ -569,7 +569,7 @@ const leagues = [
     id: "59723313734d1d6202a85f25",
     name: "boxing",
     description: "boxing",
-    years: [2019, 2020, 2021],
+    years: [2019, 2020, 2021, 2025],
   },
   {
     id: "59723313734d1d6202a85f21",
