@@ -142,9 +142,9 @@ const formatGames = ({ message, games, leagueId, year, teams }) => {
   let formattedGames = [];
 
   games.forEach(game=>{
-    const awayTeam = leagueId === '59723313734d1d6202a85f10' ? teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.name === game.awayTeam) : 
+    const awayTeam = leagueId ? teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.name === game.awayTeam) : 
     teams.find(x=>x.alternateName === game.awayTeam) || teams.find(x=>x.shortLocation === game.awayTeam);
-    const homeTeam = leagueId === '59723313734d1d6202a85f10' ? teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.name === game.homeTeam) : 
+    const homeTeam = leagueId ? teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.name === game.homeTeam) : 
     teams.find(x=>x.alternateName === game.homeTeam) || teams.find(x=>x.shortLocation === game.homeTeam);
 
     if (awayTeam && homeTeam) {
