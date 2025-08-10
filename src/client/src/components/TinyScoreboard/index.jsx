@@ -80,7 +80,7 @@ const TinyScoreboard = ({loading, title, games}) => {
                                             </div>
                                             <div style={{marginRight:'5px', textAlign: 'left'}}>
                                                 <div style={{height:'14px'}}>
-                                                    {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? (game.currentTime?.toLowerCase() === 'halftime' ? 'HT' : formatTime(get(game,'playHistory[0].time'))) : ''}
+                                                    {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? (game.currentTime?.toLowerCase() === 'halftime' ? 'HT' : formatTime(get(game,'playHistory[0].time')) === ':0' ? '' : formatTime(get(game,'playHistory[0].time'))) : ''}
                                                 </div>
                                                 <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[0]._id ? get(game, 'spread.amount') : ''}</div>
                                                 <div style={{height:'14px'}}>{get(game, 'spread.teamId') === game.competitors[1]._id ? get(game, 'spread.amount') : ''}</div>
