@@ -82,7 +82,7 @@ const backupData = async () => {
 
 const loadMlbGames = () => {
   const year = 2025;
-  const url = "https://www.espn.com/mlb/scoreboard";
+  const url = "https://www.espn.com/mlb/scoreboard/_/date/20250817";
   const dayNumber = 1;
   
   try {
