@@ -11,6 +11,7 @@ import BasketballCourt from "./components/Fields/BasketballCourt";
 import WorldFootballField from "./components/Fields/WorldFootballField";
 import AmericanFootballMiniRallyGame from "./components/AmericanFootballMiniRallyGame";
 import BaseballField from "./components/Fields/BaseballField";
+import BoxingRing from "../../styles/images/boxing_ring.png";
 
 import GamePlayTabs from "./components/GamePlayTabs";
 import TieButton from "./components/TieButton";
@@ -46,6 +47,8 @@ const getAstroPositionAndEmoji = () => {
   const emoji = isDayTime ? '☀️' : '🌑✨';
   return { position, emoji, isDayTime };
 };
+
+const hypeText = "Let's Get Ready to Rumble!";
 
 const Game = (props) => {
   const [state, setState] = useState({
@@ -322,6 +325,66 @@ const Game = (props) => {
             <>
               <BaseballField {...{ game }} />
             </>
+          )}
+          {["59723313734d1d6202a85f25"].includes(get(game, "leagueId")) && (
+            <div
+              style={{
+                backgroundImage: `url(${BoxingRing})`,
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                height: "20em",
+                marginTop: "1rem",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: "20em",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  fontSize: `${(game.competitors[0].name.length + game.competitors[1].name.length) * .01}em`,
+                  color: "#fff",
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
+                  fontFamily: "monospace",
+                  fontWeight: "bold",
+                  color: "#FFD700",
+                }}
+              >
+                <div>
+                  {game.competitors[0].name}
+                </div>
+                <div> vs </div>
+                <div>
+                  {game.competitors[1].name}
+                </div>
+                <div style={{ fontSize: "5em", marginTop: "1em" }}>
+                  {hypeText}
+                </div>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "35%",
+                  fontSize: "3rem",
+                  transform: "rotate(180deg) scaleY(-1)",
+                }}
+              >
+                🥊
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  right: "35%",
+                  fontSize: "3rem",
+                }}
+              >
+                🥊
+              </div>
+            </div>
           )}
         </div>
         <GameFooter {...componentProps} />
