@@ -42,7 +42,7 @@ const getAstroPositionAndEmoji = () => {
   const hours = now.getHours();
   const percentageOfDay = (hours - 6) / 12;
   const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75);
-  const isDayTime = hours >= 6 && hours < 18;
+  const isDayTime = true; // hours >= 6 && hours < 18;
   const emoji = isDayTime ? '☀️' : '🌑✨';
   return { position, emoji, isDayTime };
 };
