@@ -65,7 +65,8 @@ const Competitor = (props) => {
             )}
             <div
               style={{
-                fontSize: competitor.shortLocation.length + competitor.rank?.length > 10 ? "1.5em" : competitor.shortLocation.length + competitor.rank?.length > 5 ? "2.15em" : "1.75em",
+                fontSize: competitor.shortLocation.length > 8 ? "1.5em" : 
+                (competitor.shortLocation.length > 3 ? "1.75em" : "2.5em"),
                 marginTop: competitor.country ? "-10px" : "0",
                 fontWeight: "600",
                 color: competitor.color,
