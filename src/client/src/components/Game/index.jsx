@@ -341,10 +341,9 @@ const Game = (props) => {
               <div
                 style={{
                   position: "absolute",
-                  top: "20em",
+                  marginTop: "15%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  fontSize: `${(game.competitors[0].name.length + game.competitors[1].name.length) * .01}em`,
                   color: "#fff",
                   textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
                   fontFamily: "monospace",
@@ -352,14 +351,16 @@ const Game = (props) => {
                   color: "#FFD700",
                 }}
               >
-                <div>
-                  {game.competitors[0].name}
+                <div style={{ fontSize: ".5em" }}>
+                  <div>
+                    {game.competitors[0].name}
+                  </div>
+                  <div> vs </div>
+                  <div>
+                    {game.competitors[1].name}
+                  </div>
                 </div>
-                <div> vs </div>
-                <div>
-                  {game.competitors[1].name}
-                </div>
-                <div style={{ fontSize: "5em", marginTop: "1em" }}>
+                <div style={{ fontSize: "1em", marginTop: "1em" }}>
                   {hypeText}
                 </div>
               </div>
