@@ -344,7 +344,6 @@ const Game = (props) => {
                   marginTop: "15%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  color: "#fff",
                   textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
                   fontFamily: "monospace",
                   fontWeight: "bold",
