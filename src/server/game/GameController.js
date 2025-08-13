@@ -80,6 +80,27 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
+const loadNflGames = () => {
+  const { year, dayNumber, url } = getNflGameDataSource();
+
+  try {
+    loadAmericanFootballGames({
+      year,
+      message: 'loadNflGames',
+      leagueId: '59723313734d1d6202a85f10',
+      url,
+      teams: nflTeams,
+      root: 'Scoreboard__Row__Main',
+      startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
+      startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
+      nameSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
+      spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
+    });
+  } catch (error) {
+    console.log('loadAmericanFootballGames error', error);
+  }
+};
+
 const loadMlbGames = () => {
   const year = 2025;
   const url = "https://www.espn.com/mlb/scoreboard/_/date/20250817";
@@ -100,27 +121,6 @@ const loadMlbGames = () => {
     });
   } catch (error) {
     console.log('loadMlbGames error', error);
-  }
-};
-
-const loadNflGames = () => {
-  const { year, dayNumber, url } = getNflGameDataSource();
-
-  try {
-    loadAmericanFootballGames({
-      year,
-      message: 'loadNflGames',
-      leagueId: '59723313734d1d6202a85f10',
-      url,
-      teams: nflTeams,
-      root: 'Scoreboard__Row__Main',
-      startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
-      startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
-      nameSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
-      spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
-    });
-  } catch (error) {
-    console.log('loadAmericanFootballGames error', error);
   }
 };
 
@@ -397,7 +397,7 @@ router.get('/games', async function (req, res) {
   const includeStrategies = get(req,'query.includeStrategies') === 'true';
 
   if (shouldLoadGames) {
-    // loadNflGames(leagueId);
+    // loadNflGames();
     // loadMlbGames()
   }
 
