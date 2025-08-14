@@ -554,12 +554,6 @@ const leagues = [
     years: [2018, 2019, 2020],
   },
   {
-    id: "59723313734d1d6202a85f29",
-    name: "mls",
-    description: "mls",
-    years: [2019],
-  },
-  {
     id: "59723313734d1d6202a85f27",
     name: "mma",
     description: "mma",
