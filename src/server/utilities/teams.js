@@ -158,9 +158,9 @@ const boxingCompetitors = [
     },
     {
         _id: "19823783734d1d04a1b3100c",
-        location: 'Canelo Alvarez',
-        shortLocation: "Canelo",
-        name: "Alvarez",
+        location: 'Saul Alvarez',
+        shortLocation: "Saul",
+        name: "Canelo Alvarez",
         country: "MEXICO"
     },
     {
@@ -781,6 +781,20 @@ const ufcCompetitors = [
         shortLocation: "Colby",
         name: "Chaos Covington",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b32038",
+        location: 'Dricus Du Plessis',
+        shortLocation: "Dricus",
+        name: "Stillknocks Du Plessis",
+        country: "SOUTH AFRICA"
+    },
+    {
+        _id: "19823783734d1d04a1b32039",
+        location: 'Khamzat Chimaev',
+        shortLocation: "Khamzat",
+        name: "Borz Chimaev",
+        country: "RUSSIA"
     }
 ];
 

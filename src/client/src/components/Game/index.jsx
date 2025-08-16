@@ -12,6 +12,7 @@ import WorldFootballField from "./components/Fields/WorldFootballField";
 import AmericanFootballMiniRallyGame from "./components/AmericanFootballMiniRallyGame";
 import BaseballField from "./components/Fields/BaseballField";
 import BoxingRing from "../../styles/images/boxing_ring.png";
+import MMARing from "../../styles/images/mma_ring.png";
 
 import GamePlayTabs from "./components/GamePlayTabs";
 import TieButton from "./components/TieButton";
@@ -20,6 +21,7 @@ import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
 
 import { hasGameStarted } from "../../utilities";
+import MMAGlove from "./components/MMAGlove";
 
 const styles = {
   root: {
@@ -48,7 +50,8 @@ const getAstroPositionAndEmoji = () => {
   return { position, emoji, isDayTime };
 };
 
-const hypeText = "Let's Get Ready to Rumble!";
+const boxingHypeText = "Let's Get Ready to Rumble!";
+const mmaHypeText = "It's Time!";
 
 const Game = (props) => {
   const [state, setState] = useState({
@@ -329,7 +332,7 @@ const Game = (props) => {
           {["59723313734d1d6202a85f25"].includes(get(game, "leagueId")) && (
             <div
               style={{
-                backgroundImage: `url(${BoxingRing})`,
+                backgroundImage: `url(${BoxingRing })`,
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -360,7 +363,7 @@ const Game = (props) => {
                   </div>
                 </div>
                 <div style={{ fontSize: "1em", marginTop: "1em" }}>
-                  {hypeText}
+                  {boxingHypeText}
                 </div>
               </div>
               <div
@@ -372,7 +375,7 @@ const Game = (props) => {
                   transform: "rotate(180deg) scaleY(-1)",
                 }}
               >
-                🥊
+                {"🥊"}
               </div>
               <div
                 style={{
@@ -382,7 +385,68 @@ const Game = (props) => {
                   fontSize: "3rem",
                 }}
               >
-                🥊
+                {"🥊"}
+              </div>
+            </div>
+          )}
+          {["59723313734d1d6202a85f27"].includes(get(game, "leagueId")) && (
+            <div
+              style={{
+                backgroundImage: `url(${MMARing})`,
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                height: "20em",
+                marginTop: "1rem",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  marginTop: "15%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
+                  fontFamily: "monospace",
+                  fontWeight: "bold",
+                  color: "#FFD700",
+                }}
+              >
+                <div style={{ fontSize: ".5em" }}>
+                  <div>
+                    {game.competitors[0].name}
+                  </div>
+                  <div> vs </div>
+                  <div>
+                    {game.competitors[1].name}
+                  </div>
+                </div>
+                <div style={{ fontSize: "1em", marginTop: "1em" }}>
+                  {mmaHypeText}
+                </div>
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                  top: "2.8em",
+                  left: "-.75em",
+                  fontSize: "3rem",
+                  transform: " rotate(90deg)",
+                }}
+              >
+                <MMAGlove style={{ height: 75 }} />
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                  top: "1em",
+                  right: "-.75em",
+                  fontSize: "3rem",
+                  transform: " rotate(90deg) scaleY(-1)",
+                }}
+              >
+                <MMAGlove style={{ height: 75 }} />
               </div>
             </div>
           )}

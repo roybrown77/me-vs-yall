@@ -46,6 +46,8 @@ const getFlag = (country) => {
       return "🇳🇮";
     case "JAMAICA":
       return "🇯🇲";
+    case "SOUTH AFRICA":
+      return "🇿🇦";
     default:
       return "🇺🇸";
   }
