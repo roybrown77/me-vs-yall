@@ -397,7 +397,7 @@ router.get('/games', async function (req, res) {
   const includeStrategies = get(req,'query.includeStrategies') === 'true';
 
   if (shouldLoadGames) {
-    // loadNflGames();
+    loadNflGames();
     // loadMlbGames()
   }
 
