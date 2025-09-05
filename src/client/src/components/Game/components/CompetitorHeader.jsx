@@ -1,10 +1,10 @@
 import Grid from "@mui/material/Grid";
 
 const CompetitorHeader = (props) => {
-  const { game, competitor } = props;
+  const { game, competitor, spreadMode } = props;
 
   return (
-    <Grid item style={{ minHeight: "32px" }}>
+    <Grid item style={{ minHeight: "20px" }}>
       <div
         style={{
           fontSize: "17px",
@@ -13,7 +13,7 @@ const CompetitorHeader = (props) => {
           textAlign: "right",
         }}
       >
-        {game?.spread?.amount}
+        {spreadMode && <span>{game?.spread?.amount}</span>}
       </div>
     </Grid>
   );

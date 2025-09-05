@@ -231,9 +231,7 @@ const Game = (props) => {
             >
               <Grow in={true} timeout={500}>
                 <Paper style={styles.paper}>
-                  {spreadMode && (
-                    <CompetitorHeader {...{ ...componentProps, competitor }} />
-                  )}
+                  <CompetitorHeader {...{ ...componentProps, competitor }} />
                   <Competitor {...{ ...componentProps, competitor }} />
                 </Paper>
               </Grow>
