@@ -431,12 +431,6 @@ class Scoreboard extends Component {
     this.setState(() => ({
       isShareClicked: true
     }));
-
-    setTimeout(() => {
-      this.setState(() => ({
-      isShareClicked: false
-      }));
-    }, 3000);
   };
 
   handleGamesCopiedAlertClose = () => {
@@ -614,11 +608,11 @@ class Scoreboard extends Component {
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
-                  {/* <Snackbar open={isShareClicked}>
-                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose}>
-                      {isAuthenticated ? 'Picks copied!' : 'Games copied!'}
+                  <Snackbar open={isShareClicked} style={{ color: '#FFD700'}} autoHideDuration={7000} onClose={this.handleGamesCopiedAlertClose}>
+                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose} style={{ backgroundColor: '#B3E6CA', color: '#000000', font: 'bold 14px monospace' }}>
+                      {isAuthenticated ? 'picks are copied ready to share with your friends around the world!' : 'Games are copied ready to share with your friends around the world!'}
                     </Alert>
-                  </Snackbar> */}
+                  </Snackbar>
                 </div>
               </div>
             }
