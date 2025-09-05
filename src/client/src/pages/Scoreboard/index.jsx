@@ -610,7 +610,7 @@ class Scoreboard extends Component {
                   </IconButton>
                   <Snackbar open={isShareClicked} style={{ color: '#FFD700'}} autoHideDuration={7000} onClose={this.handleGamesCopiedAlertClose}>
                     <Alert severity="success" onClose={this.handleGamesCopiedAlertClose} style={{ backgroundColor: '#B3E6CA', color: '#000000', font: 'bold 14px monospace' }}>
-                      {isAuthenticated ? 'picks are copied ready to share with your friends around the world!' : 'Games are copied ready to share with your friends around the world!'}
+                      {isAuthenticated ? 'Picks are copied and ready to share with your friends around the world!' : 'Games are copied and ready to share with your friends around the world!'}
                     </Alert>
                   </Snackbar>
                 </div>
