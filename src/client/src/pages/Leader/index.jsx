@@ -664,7 +664,7 @@ class Leader extends Component {
                                   fontSize: "14px",
                                 }}
                               >
-                                {areAnyGamesInProgress && (
+                                {false && areAnyGamesInProgress && (
                                   <div style={{ color: "gray" }}>
                                     {leader.winsBeforeGameOver} -{" "}
                                     {leader.lossesBeforeGameOver}
