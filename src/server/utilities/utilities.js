@@ -356,73 +356,115 @@ const getScores = async ({
       return scores;
     }
 
-    const evaluateSelector = (listIndex, selector) => {
-      return page.evaluate((sel) => {
+    // const evaluateSelector = (listIndex, selector) => {
+    //   return page.evaluate((sel) => {
+    //     const element = document.querySelector(sel);
+    //     return element ? element.innerText : null;
+    //   }, selector.replace('INDEX', listIndex));
+    // };
+
+    // for (let listIndex = 1; listIndex <= listLength; listIndex++) {
+    //   const [
+    //     currentTime, 
+    //     lastPlay,
+    //     gameOverText,
+    //     down,
+    //     possessionHome,
+    //     possessionAway,
+    //     awayTeam,
+    //     awayTeamPregame,
+    //     awayInProgressScore, 
+    //     awayInProgressName,
+    //     awayScore,
+    //     homeTeam,
+    //     homeTeamPregame,
+    //     homeInProgressScore,
+    //     homeInProgressName,
+    //     homeScore,
+    //     spread
+    //   ] = await Promise.all([
+    //     evaluateSelector(listIndex, liveCurrentTimeSelector),
+    //     evaluateSelector(listIndex, liveCurrentPlaySelector),
+    //     evaluateSelector(listIndex, finalGameOverSelector),
+    //     evaluateSelector(listIndex, liveDownSelector),
+    //     evaluateSelector(listIndex, livePossession.replace('HOMEAWAY', 'home')),
+    //     evaluateSelector(listIndex, livePossession.replace('HOMEAWAY', 'away')),
+    //     evaluateSelector(listIndex, finalNameSelector.replace('HOMEAWAY', 'away')),
+    //     evaluateSelector(listIndex, pregameNameSelector.replace('HOMEAWAY', 'away')),
+    //     evaluateSelector(listIndex, liveScoreSelector.replace('HOMEAWAY', 'away')),
+    //     evaluateSelector(listIndex, liveNameSelector.replace('HOMEAWAY', 'away')),
+    //     evaluateSelector(listIndex, finalScoreSelector.replace('HOMEAWAY', 'away')),
+    //     evaluateSelector(listIndex, finalNameSelector.replace('HOMEAWAY', 'home')),
+    //     evaluateSelector(listIndex, pregameNameSelector.replace('HOMEAWAY', 'home')),
+    //     evaluateSelector(listIndex, liveScoreSelector.replace('HOMEAWAY', 'home')),
+    //     evaluateSelector(listIndex, liveNameSelector.replace('HOMEAWAY', 'home')),
+    //     evaluateSelector(listIndex, finalScoreSelector.replace('HOMEAWAY', 'home')),
+    //     evaluateSelector(listIndex, spreadSelector),
+    //   ]);
+    // }
+
+    for (let i = 1; i <= listLength; i++) {
+      const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, selector.replace('INDEX', listIndex));
-    };
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
 
-    for (let listIndex = 1; listIndex <= listLength; listIndex++) {
-      const [
-        currentTime, 
-        lastPlay,
-        gameOverText,
-        down,
-        possessionHome,
-        possessionAway,
-        awayTeam,
-        awayTeamPregame,
-        awayInProgressScore, 
-        awayInProgressName,
-        awayScore,
-        homeTeam,
-        homeTeamPregame,
-        homeInProgressScore,
-        homeInProgressName,
-        homeScore,
-        spread
-      ] = await Promise.all([
-        evaluateSelector(listIndex, liveCurrentTimeSelector),
-        evaluateSelector(listIndex, liveCurrentPlaySelector),
-        evaluateSelector(listIndex, finalGameOverSelector),
-        evaluateSelector(listIndex, liveDownSelector),
-        evaluateSelector(listIndex, livePossession.replace('HOMEAWAY', 'home')),
-        evaluateSelector(listIndex, livePossession.replace('HOMEAWAY', 'away')),
-        evaluateSelector(listIndex, finalNameSelector.replace('HOMEAWAY', 'away')),
-        evaluateSelector(listIndex, pregameNameSelector.replace('HOMEAWAY', 'away')),
-        evaluateSelector(listIndex, liveScoreSelector.replace('HOMEAWAY', 'away')),
-        evaluateSelector(listIndex, liveNameSelector.replace('HOMEAWAY', 'away')),
-        evaluateSelector(listIndex, finalScoreSelector.replace('HOMEAWAY', 'away')),
-        evaluateSelector(listIndex, finalNameSelector.replace('HOMEAWAY', 'home')),
-        evaluateSelector(listIndex, pregameNameSelector.replace('HOMEAWAY', 'home')),
-        evaluateSelector(listIndex, liveScoreSelector.replace('HOMEAWAY', 'home')),
-        evaluateSelector(listIndex, liveNameSelector.replace('HOMEAWAY', 'home')),
-        evaluateSelector(listIndex, finalScoreSelector.replace('HOMEAWAY', 'home')),
-        evaluateSelector(listIndex, spreadSelector),
-      ]);
+      const homeTeam = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+
+      const awayScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
+
+      const homeScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+
+      const awayInProgressScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
+
+      const homeInProgressScore = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+
+      const lastPlay = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveCurrentPlaySelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+
+      const currentTime = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveCurrentTimeSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+
+      const spread = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, spreadSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+
+      // console.log('*** spread', spread);
 
       scores.push({
-        currentTime,
-        lastPlay: (lastPlay || '').replace('Last Play: ','').trim(),
-        gameOverText,
-        down: down ? down.trim() : '',
-        possession: !!possessionHome ? homeInProgressName : (!!possessionAway ? awayInProgressName : ""),
-        awayTeam: (awayTeam || '').trim().replace(/,\s*$/, ''),
-        awayTeamPregame: (awayTeamPregame || '').trim().replace(/,\s*$/, ''),
-        awayTeamInProgress: (awayInProgressName || '').trim().replace(/,\s*$/, ''),
-        awayInProgressScore: parseInt((awayInProgressScore || '').trim()),
-        awayScore: parseInt((awayScore || '').trim()),
-        homeTeam: (homeTeam || '').trim().replace(/,\s*$/, ''),
-        homeTeamPregame: (homeTeamPregame || '').trim().replace(/,\s*$/, ''),
-        homeTeamInProgress: (homeInProgressName || '').trim().replace(/,\s*$/, ''),
-        homeInProgressScore: parseInt((homeInProgressScore || '').trim()),
-        homeScore: parseInt((homeScore || '').trim()),
-        spread: {
-          team: (spread || "").replace('Line: ','').replace('Line : ','').split(' ')[0],
-          amount: parseFloat((spread || "").replace('Line: ','').replace('Line : ','').split(' ')[1]),
-          spreadDateTime: moment().toISOString()
-        },
+          awayTeam: (awayTeam || '').trim(),
+          homeTeam: (homeTeam || '').trim(),
+          awayScore,
+          homeScore,
+          awayInProgressScore,
+          homeInProgressScore,
+          lastPlay: lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '',
+          currentTime,
+          spread: {
+            team: (spread || "").replace('Line: ','').replace('Line : ','').split(' ')[0],
+            amount: parseFloat((spread || "").replace('Line: ','').replace('Line : ','').split(' ')[1]),
+            spreadDateTime: moment().toISOString()
+          },
       });
     }
   } catch (error) {
@@ -448,6 +490,8 @@ const getScores = async ({
 };
 
 const updateGames = async ({ message, leagueId, games = [], scores = [], teams = [] }) => {
+  // console.log('*** games', JSON.stringify(scores));
+  
   const sortedScores = scores.reverse();
 
   // gameRepository.bulkWrite(
@@ -526,8 +570,8 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
         possession: get(score,'possession')
       };
 
-      set(updatedGame,'competitors.0.score', awayScore);
-      set(updatedGame,'competitors.1.score', homeScore);
+      set(updatedGame,'competitors.0.score', score.awayScore);
+      set(updatedGame,'competitors.1.score', score.homeScore);
       
       if (!hasGameStarted(game.startDateTime)) {
         const amount = get(score,'spread.amount', 0);
@@ -543,13 +587,17 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
         set(updatedGame,'endDateTime', moment().toISOString());
       }
 
+      // console.log(`*** ${message} score: ${JSON.stringify(score)}`);
+
+      console.log(`*** ${message} updatedGame: ${JSON.stringify(updatedGame)}`);
+
+      // console.log('*** newPlayHistory', newPlayHistory);
+
       await gameRepository.findByIdAndUpdate(
         game._id,  // The ID of the document (String or ObjectId)
         { $set: updatedGame }, // The update object, wrapped in `$set` for safety
         { new: true } // Return the updated document
       );
-
-      console.log(`${message} updateGames updatedGame: ${JSON.stringify(get(score,'lastPlay'))}`);
 
       // return { 
       //   replaceOne: {

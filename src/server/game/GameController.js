@@ -137,7 +137,7 @@ const setAmericanFootballPlays = (game) => {
     let lastTime;
 
     for (let i = 0; i < game.playHistory.length; i++) {
-      lastPlay = game.playHistory[i].lastPlay;
+      lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
 
       if ((lastPlay || "").toLowerCase().includes('punt')) {
         game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES TURNOVER ON DOWNS 🚧";
