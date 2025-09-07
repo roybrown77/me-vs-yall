@@ -161,7 +161,7 @@ const formatGames = ({ message, games, leagueId, year, teams }) => {
           ];
 
           const spreadTeam = teams.find(x=>x.alternateName === get(game,'spread.team')) || teams.find(x=>x.shortLocation === get(game,'spread.team'));
-          const amount = (get(game,'spread.amount') || 0);
+          const spreadAmount = (get(game,'spread.amount') || 0);
 
           formattedGames.push({
             leagueId: new mongoose.Types.ObjectId(leagueId),
@@ -172,7 +172,7 @@ const formatGames = ({ message, games, leagueId, year, teams }) => {
             hashCompetitors: getCompetitorHash(competitors),
             spread: spreadTeam ? {
               teamId: get(spreadTeam,'_id'),
-              amount: -1 * amount,
+              amount: -1 * parseFloat(spreadAmount),
               spreadDateTime: get(game,'spread.spreadDateTime')
             } : null
           });
@@ -426,17 +426,17 @@ const getScores = async ({
       scores.push({
           awayTeam: (awayTeam || '').trim(),
           homeTeam: (homeTeam || '').trim(),
-          awayScore,
-          homeScore,
-          awayInProgressScore,
-          homeInProgressScore,
+          awayScore: parseInt(awayScore) || 0,
+          homeScore: parseInt(homeScore) || 0,
+          awayInProgressScore: parseInt(awayInProgressScore) || 0,
+          homeInProgressScore: parseInt(homeInProgressScore) || 0,
           lastPlay: lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '',
           currentTime,
           down,
           gameOverText,
           spread: {
             team: spreadTeam,
-            amount: spreadAmount,
+            amount: -1 * parseFloat(spreadAmount),
             spreadDateTime: moment().toISOString()
           },
       });
@@ -550,7 +550,7 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
     if (!hasGameStarted(game.startDateTime)) {
       set(updatedGame,'spread', !get(spreadTeam,'_id') ? get(game,'spread') : {
           teamId: get(spreadTeam,'_id'),
-          amount: -1 * get(score,'spread.amount', 0),
+          amount: get(score,'spread.amount', 0),
           spreadDateTime: get(score,'spread.spreadDateTime')
       });
     }
