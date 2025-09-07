@@ -17,12 +17,10 @@ const AmericanFootballMiniRallyGame = (props) => {
   }, [props.game.competitors]);
 
   const awayScoreHandler = () => {
-    setShowScoreboard(true);
     setAwayScore(awayScore + 7);
   };
 
   const homeScoreHandler = () => {
-    setShowScoreboard(true);
     setHomeScore(homeScore + 7);
   };
 
