@@ -411,6 +411,12 @@ const getScores = async ({
         return element ? element.innerText : null;
       }, liveDownSelector.replace("INDEX", i));
 
+
+      const gameOverText = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, finalGameOverSelector.replace("INDEX", i));
+
       const spreadTeam = (spread || "").includes('Spread:') 
         ? (spread?.match(/Spread:\s*([A-Z]+)\s*-/) || [])[1] 
         : null;
@@ -427,6 +433,7 @@ const getScores = async ({
           lastPlay: lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '',
           currentTime,
           down,
+          gameOverText,
           spread: {
             team: spreadTeam,
             amount: spreadAmount,
@@ -525,7 +532,7 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
-      isGameOver: isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7,
+      sGameOver: isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7,
       playHistory: newPlayHistory,
       currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
       down: leagueId === '59723313734d1d6202a85f21' ? 
@@ -555,6 +562,8 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
     // console.log(`*** ${message} score: ${JSON.stringify(score)}`);
 
     console.log(`*** ${message} updatedGame: ${JSON.stringify(updatedGame)}`);
+
+    console.log('*** isGameOver', isGameOver);
 
     // console.log('*** newPlayHistory', newPlayHistory);
 
