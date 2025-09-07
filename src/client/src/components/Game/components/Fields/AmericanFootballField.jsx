@@ -1,9 +1,7 @@
 import { useState, useRef } from 'react';
 
 const AmericanFootballField = (props) => {
-  const [isHeartedLeft, setIsHeartedLeft] = useState(true);
-  const [isHeartedRight, setIsHeartedRight] = useState(true);
-
+  const [heartCounts, setHeartCounts] = useState({ left: 0, right: 0 });
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
   const hideXO = useRef(false);
@@ -30,8 +28,73 @@ const AmericanFootballField = (props) => {
     setTimeout(() => {homeScoreMade()}, 700);
   };
 
+  const generateFloatingHearts = (side) => {
+    console.log('generateFloatingHearts', side);
+    const heartCount = heartCounts[side];
+    if (heartCount >= 99) return; // Limit to 99 hearts
+    setHeartCounts(prevCounts => ({ ...prevCounts, [side]: prevCounts[side] + 1 }));
+
+    const container = document.querySelector('.floating-hearts-container');
+    const heart = document.getElementById(`${side}-heart-floating`);
+    const clonedHeart = heart.cloneNode(true);
+
+    if (side === 'left') {
+      clonedHeart.setAttribute("class", `heart ${side}`);
+      clonedHeart.setAttribute("style", `
+      position: absolute;
+      animation: floatUp .5s ease-in-out forwards;
+      left: 15px; /* Adjust position for left side */
+      `);
+    } else if (side === 'right') {
+      const uniqueId = `heart-${side}-${Date.now()}`;
+      clonedHeart.setAttribute("id", uniqueId);
+      clonedHeart.setAttribute("class", `heart ${side}`);
+      clonedHeart.setAttribute("style", `
+      position: absolute;
+      animation: floatUp .5s ease-in-out forwards;
+      left: 335px; /* Adjust position for right side */
+      `);
+    }
+
+    container.appendChild(clonedHeart);
+    setTimeout(() => {
+      container.removeChild(clonedHeart);
+    }, 500);
+  };
+
+  const formatHeartCount = (count) => {
+    if (count === 0) return "";
+    return `${count}`;
+  };
+
   return (
-  <svg id="drivechart-mobile" style={{...props.style, height:'100%', maxWidth:'500px', width:'90%', overflow: 'hidden', position: 'relative'}} className="mobile-svg mobile-only" height="105" version="1.1" width="372" xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 372 72" preserveAspectRatio="xMinYMin">
+    <svg id="drivechart-mobile" style={{...props.style, height:'100%', maxWidth:'500px', width:'90%', overflow: 'hidden', position: 'relative'}} className="mobile-svg mobile-only" height="120" version="1.1" width="372" xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 372 72" preserveAspectRatio="xMinYMin">
+      <style>
+        {`
+          @keyframes floatUp {
+            0% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 1;
+            }
+            25% {
+              transform: translateY(-25px) translateX(-5px) rotate(-5deg);
+              opacity: 0.8;
+            }
+            50% {
+              transform: translateY(-50px) translateX(5px) rotate(5deg);
+              opacity: 0.6;
+            }
+            75% {
+              transform: translateY(-75px) translateX(-5px) rotate(-5deg);
+              opacity: 0.4;
+            }
+            100% {
+              transform: translateY(-100px) rotate(0deg);
+              opacity: 0;
+            }
+          }
+        `}
+      </style>
       {/* field bottom */}
       <rect className="field-bottom" x="185.468" y="67.814" width="1.055" height="4.043" rx="0" ry="0" fill="#2c7b3d" stroke="#000" strokeWidth="0" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}} strokeOpacity="1"></rect>
       <path className="field-bottom" fill="#356732" stroke="#000000" d="M216.127,67.814L216.086,71.857L186.523,71.857L186.523,67.814Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
@@ -101,43 +164,12 @@ const AmericanFootballField = (props) => {
           <tspan dy="3.493687499999993" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}>{props.home}</tspan>
       </text>
       {/* hearts */}
-      {!isHeartedLeft && (
-        <svg
-            onClick={() => {}}
-            style={{ cursor: 'pointer', background: 'transparent' }}
-            aria-label="Love Road"
-            color="#262626"
-            fill="#262626"
-            height="15"
-            role="img"
-            viewBox="0 0 48 48"
-            width="35"
-            y="78"
-        >
-            <rect x="0" y="0" width="100%" height="100%" fill="transparent" />
-            <path className="heart-pulse" d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path>
-        </svg>
-      )}
-      {isHeartedLeft && <svg onClick={() => {}} style={{ cursor: 'pointer' }} aria-label="UnLove Road" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>}
-      {!isHeartedRight && (
-        <svg
-            onClick={() => {}}
-            style={{ cursor: 'pointer', background: 'transparent' }}
-            aria-label="Love Home"
-            color="#262626"
-            fill="#262626"
-            height="15"
-            role="img"
-            viewBox="0 0 48 48"
-            width="35"
-            y="78"
-            x="335"
-        >
-            <rect x="0" y="0" width="100%" height="100%" fill="transparent" />
-            <path className="heart-pulse" d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path>
-        </svg>
-      )}
-      {isHeartedRight && <svg onClick={() => {}} style={{ cursor: 'pointer' }} aria-label="UnLove Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73" x="335"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>}
+      <g className="floating-hearts-container">
+        <svg id="left-heart-floating" onClick={() => { generateFloatingHearts('left'); }} style={{ cursor: 'pointer' }} aria-label="Love Road" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+        <text x="15" y="110" fontSize="12" fill="#000">{formatHeartCount(heartCounts.left)}</text>
+        <svg id="right-heart-floating" onClick={() => { generateFloatingHearts('right'); }} style={{ cursor: 'pointer' }} aria-label="Love Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73" x="335"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+        <text x="350" y="110" fontSize="12" fill="#000">{formatHeartCount(heartCounts.right)}</text>
+      </g>
       {/* balls */}
       <g>
         <g onClick={throwBallRight} className={`small-vertical-bounce ball ${isThrowingRight ? "throwBallRight" : ""}`}>
@@ -161,7 +193,8 @@ const AmericanFootballField = (props) => {
             <line x1="15" x2="20" y1="30" y2="70" stroke="yellow" strokeWidth="4" strokeOpacity="1" />
         </svg>}
       </g>
-  </svg>);
+    </svg>
+  );
 };
 
 export default AmericanFootballField;

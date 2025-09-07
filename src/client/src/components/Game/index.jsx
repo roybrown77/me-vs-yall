@@ -281,7 +281,7 @@ const Game = (props) => {
                   className="cloud"
                   style={{
                     fontSize: "2rem",
-                    animation: " moveClouds 7s linear infinite",
+                    animation: "moveClouds 7s linear infinite",
                   }}
                 >
                   ☁️
