@@ -94,7 +94,7 @@ const loadNflGames = () => {
       startDateSelector: 'section:nth-of-type(' + dayNumber + ') > header > div.Card__Header__Title__Wrapper > h3',
       startTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-03',
       nameSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
-      spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div > div.OddsStripWrapper.flex.flex-row.justify-between > a > div > div > ul > li:nth-child(1) > span:nth-child(2)',
+      spreadSelector:    'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2',
     });
   } catch (error) {
     console.log('loadAmericanFootballGames error', error);

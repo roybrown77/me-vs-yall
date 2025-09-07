@@ -171,20 +171,20 @@ const updateGames = async () => {
   if (sortedGames.find(x=>x.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f10')) {
     const { year, url } = getNflGameDataSource();
 
-    let dayIndex;
+    let dayNumber;
 
     if (eastCoastHour === 9 && minutes > 0 && minutes < 15) {
-      dayIndex = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
+      dayNumber = minutes <= 3 ? 1 : minutes > 3 && minutes <= 6 ? 2 : minutes > 6 && minutes <= 9 ? 3 : minutes > 9 && minutes <= 12 ? 4 : 5;
     } else {
-      dayIndex = 1;
+      dayNumber = 1;
     }
 
-    if (!dayIndex) {
+    if (!dayNumber) {
       console.log(`All games are completed`);
       return;
     }
 
-    console.log(`dayIndex: ${dayIndex}`);
+    console.log(`dayIndex: ${dayNumber}`);
 
     // copy selector and full xpath along with selector to get the right path of each piece of data
     
@@ -195,18 +195,17 @@ const updateGames = async () => {
       url: url,
       teams: nflTeams,
       root: 'Scoreboard__Row__Main',
-      livePossession:          'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY.ScoreboardScoreCell__Item--poss > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > svg',
-      liveCurrentTimeSelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
-      liveDownSelector:        'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > section > div.DriveChart2D__DownAndDistance',
-      liveCurrentPlaySelector: 'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > section > div.DriveChart2D__PlayTextContainer > p', // current play
-      finalGameOverSelector:   'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
-      // #\34 01772830 > div.Scoreboard__RowContainer.flex.flex-column.flex-auto > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div > div.OddsStripWrapper > div > div > ul > li:nth-child(1) > span.rIczU.iygLn                                                                                                                                      
-      spreadSelector:          'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div.Scoreboard__RowContainer.flex.flex-column.flex-auto > div > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > div > div.OddsStripWrapper > div > div > ul > li:nth-child(1) > span.rIczU.iygLn',
-      pregameNameSelector:     'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
-      liveNameSelector:        'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',                                                                                                                                 
-      finalNameSelector:       'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score.Scoreboard__Column--Score--football > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
-      liveScoreSelector:       'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score.Scoreboard__Column--Score--football > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',                                                                                                                                
-      finalScoreSelector:      'section:nth-of-type(' + dayIndex + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score.Scoreboard__Column--Score--football > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
+      livePossession:          'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY.ScoreboardScoreCell__Item--poss > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > svg',
+      liveCurrentTimeSelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div.ScoreboardScoreCell__Overview.flex.pb3.w-100 > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative',
+      liveDownSelector:        'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > section > div.DriveChart2D__DownAndDistance',
+      liveCurrentPlaySelector: 'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2 > section > section > div.DriveChart2D__PlayTextContainer > p', // current play
+      finalGameOverSelector:   'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > div > div.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01',
+      spreadSelector:          'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.ph3.mv4.Scoreboard__Column--2',
+      pregameNameSelector:     'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
+      liveNameSelector:        'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1 > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',                                                                                                                                 
+      finalNameSelector:       'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score.Scoreboard__Column--Score--football > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Team.ScoreCell__Team--scoreboard.flex-column.pr2.ScoreCell__Team--football > div.ScoreCell__Truncate.clr-gray-01.ScoreCell__Truncate--scoreboard.flex.items-center.h7.h5 > a > div',
+      liveScoreSelector:       'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score.Scoreboard__Column--Score--football > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',                                                                                                                                
+      finalScoreSelector:      'section:nth-of-type(' + dayNumber + ') > div > section:nth-of-type(INDEX) > div > div:nth-of-type(1) > div.Scoreboard__Column.flex-auto.Scoreboard__Column--1.Scoreboard__Column--Score.Scoreboard__Column--Score--football > section > div > div > ul > li.ScoreboardScoreCell__Item.flex.items-center.relative.pb2.ScoreboardScoreCell__Item--HOMEAWAY > div.ScoreCell__Score.h4.clr-gray-01.fw-heavy.tar.ScoreCell_Score--scoreboard.pl2',
     });
   }
 };
