@@ -406,6 +406,11 @@ const getScores = async ({
         return element ? element.innerText : null;
       }, spreadSelector.replace("INDEX", i));
 
+      const down = await page.evaluate((sel) => {
+        const element = document.querySelector(sel);
+        return element ? element.innerText : null;
+      }, liveDownSelector.replace("INDEX", i));
+
       const spreadTeam = (spread || "").includes('Spread:') 
         ? (spread?.match(/Spread:\s*([A-Z]+)\s*-/) || [])[1] 
         : null;
@@ -421,6 +426,7 @@ const getScores = async ({
           homeInProgressScore,
           lastPlay: lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '',
           currentTime,
+          down,
           spread: {
             team: spreadTeam,
             amount: spreadAmount,
