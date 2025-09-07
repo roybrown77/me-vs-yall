@@ -430,9 +430,9 @@ const getResults = (games = [], picks = [], spreadMode = false) => {
               winsInARow++;
             } else {
               if (hasGameStarted(game.startDateTime)) {
-                // total["winsBeforeGameOver"]++;
-                // lossesInARow = 0;
-                // winsInARow++;
+                total["winsBeforeGameOver"]++;
+                lossesInARow = 0;
+                winsInARow++;
               }
             }
           } else {
