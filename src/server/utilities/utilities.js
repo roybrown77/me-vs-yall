@@ -532,7 +532,7 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
-      sGameOver: isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7,
+      isGameOver: isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7,
       playHistory: newPlayHistory,
       currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
       down: leagueId === '59723313734d1d6202a85f21' ? 
