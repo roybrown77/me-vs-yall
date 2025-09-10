@@ -43,7 +43,7 @@ const getGames = async ({
 
     await page.setViewport({
       width: 2000,
-      height: 500,
+      height: 1000,
     });
 
     await page.setUserAgent(
@@ -410,7 +410,6 @@ const getScores = async ({
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
       }, liveDownSelector.replace("INDEX", i));
-
 
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
