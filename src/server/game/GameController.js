@@ -496,7 +496,9 @@ router.get('/gameweeks', async function (req, res) {
     const gameWeeks = await gameWeekRepository.find(finalSearch);
   
     const viewableGameWeeks = gameWeeks.reduce((total,x)=>{  
-      if (req.query.skipEntireWeek === 'true' && x.description.toLowerCase().includes('entire')) {
+      if (req.query.skipEntireWeek === 'true' && 
+          (x.description.toLowerCase().includes('entire') || 
+           /week \d{1,2}-\d{1,2}/i.test(x.description.toLowerCase()))) {
         return total;
       }
 
