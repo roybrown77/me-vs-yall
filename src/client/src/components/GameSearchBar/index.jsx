@@ -40,42 +40,44 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
     <div style={styles.container}>
         <Grid item xs={12} justifyContent="center" sm container>
             <FormControl style={styles.formControl}>
-            {leagueId && <Select
+              <Select
                   value={leagueId}
                   onChange={onFilterLeague}
                   displayEmpty
                   name='league'
                   style={styles.select}
+                  disabled={loading || !leagueId}
                   >
                   {leaguesToDisplay}
-              </Select>}
+              </Select>
               {!leagueId && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
             </FormControl> 
             <FormControl style={styles.formControl}>
-              {isYearFound && <Select
+               <Select
                   value={yearSelected}
                   onChange={onFilterYear}
                   displayEmpty
                   name='year'
                   style={styles.select}
+                  disabled={loading || !isYearFound}
                   >
                   {yearsToDisplay}
-              </Select>}
+              </Select>
               {!isYearFound && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
             </FormControl>  
         </Grid>
         <Grid item xs={12} justifyContent="center" sm container>
           <FormControl style={styles.formControl}>
-            {!loading && <Select
+            <Select
                 value={weekIndexSelected}
                 onChange={onFilterWeek}
                 displayEmpty
                 name='week'
                 style={styles.select}
+                disabled={loading}
                 >
                 {weeksToDisplay}
-            </Select>}
-            {loading && <Skeleton animation="pulse" height='40px' variant="rect"/>}
+            </Select>
           </FormControl>
         </Grid>
     </div>
