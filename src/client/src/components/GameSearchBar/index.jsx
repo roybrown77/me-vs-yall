@@ -69,14 +69,14 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
         <Grid item xs={12} justifyContent="center" sm container>
           <FormControl style={styles.formControl}>
             <Select
-                value={loading ? 0 : weekIndexSelected}
+                value={weekIndexSelected === -1 ? 0 : weekIndexSelected}
                 onChange={onFilterWeek}
                 displayEmpty
                 name='week'
                 style={styles.select}
                 disabled={loading}
                 >
-                {loading ? <MenuItem key={0} value={0}>Loading weeks...</MenuItem> : weeksToDisplay}
+                {weekIndexSelected === -1 ? <MenuItem key={0} value={0}>Loading weeks...</MenuItem> : weeksToDisplay}
             </Select>
           </FormControl>
         </Grid>
