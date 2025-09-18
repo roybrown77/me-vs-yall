@@ -63,7 +63,6 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
                   >
                   {yearsToDisplay}
               </Select>
-              {!isYearFound && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
             </FormControl>  
         </Grid>
         <Grid item xs={12} justifyContent="center" sm container>
