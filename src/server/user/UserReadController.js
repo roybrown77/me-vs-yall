@@ -100,11 +100,8 @@ router.get('/users', async function (req, res) {
             x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
             goodUsers.push(x);
         });
-        
-        res.status(200).send([
-            ...goodUsers, 
-            vegas, 
-            mvyKingHomer, 
+
+        const kingsAndQueens = [ 
             mvyKingRoad, 
             mvyKingDefense, 
             mvyKingRoadHome, 
@@ -119,6 +116,15 @@ router.get('/users', async function (req, res) {
             mvyKingDefenseRoadie,
             mvyQueenRogue,
             mvyQueenStorm,
+        ];
+
+        console.log('Request by:', req.query?.authId);
+
+        res.status(200).send([
+            ...goodUsers, 
+            vegas,
+            mvyKingHomer,
+            ...(req.query?.authId === 'google-oauth2|114172296334563495985' ? kingsAndQueens : []),
         ]);
     } catch (error) {
         console.log("Get users error: ", error);

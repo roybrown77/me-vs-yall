@@ -159,6 +159,7 @@ class Leader extends Component {
     }
 
     const query = {
+      authId: isAuthenticated ? get(getUser(), "sub") : null,
       leagueId,
       year,
       weekId,
