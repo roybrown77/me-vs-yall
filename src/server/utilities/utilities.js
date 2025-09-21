@@ -499,6 +499,11 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
     // console.log(`${message} scoreIndex: ${scoreIndex}`);
     const score = sortedScores[scoreIndex];
+
+    if (!score) {
+      console.log(`${message} no score found for game: ${JSON.stringify(game)}`);
+      continue;
+    }
     const playHistory = get(game,'playHistory',[]);
     const runnersClass = get(score,'lastPlay7','').replace("base-","").split(' ');
     const runnersOnBase = runnersClass.length === 2 ? runnersClass[1].split('-') : [];
