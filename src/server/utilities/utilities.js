@@ -62,12 +62,12 @@ const getGames = async ({
       try {
         if (!!page) {
           const pageCloseResult = await page.close();
-          console.log(`page close 1: ${JSON.stringify(pageCloseResult)}`);
+          console.log('page close 1');
           page = null;
         }
         if (!!browser) {
           const browserCloseResult = await browser.close();
-          console.log(`browser close 1: ${JSON.stringify(browserCloseResult)}`);
+          console.log('browser close 1');
           browser = null;
         }
       } catch (error) {
@@ -126,12 +126,12 @@ const getGames = async ({
     try {
       if (!!page) {
         const pageCloseResult = await page.close();
-        console.log(`page close 2: ${JSON.stringify(pageCloseResult)}`);
+        console.log('page close 2');
         page = null;
       }
       if (!!browser) {
         const browserCloseResult = await browser.close();
-        console.log(`browser close 2: ${JSON.stringify(browserCloseResult)}`);
+        console.log('browser close 2');
         browser = null;
       }
     } catch (error) {
@@ -311,8 +311,6 @@ const getScores = async ({
     liveScoreSelector,
     finalScoreSelector,
 }) => {
-  console.log(`*** getScores leagueId: ${leagueId}`);
-  
   let browser;
   let page;
   let scores = [];
@@ -346,12 +344,12 @@ const getScores = async ({
       try {
         if (!!page) {
           const pageCloseResult = await page.close();
-          console.log(`page close 3: ${JSON.stringify(pageCloseResult)}`);
+          console.log('page close 3');
           page = null;
         }
         if (!!browser) {
           const browserCloseResult = await browser.close();
-          console.log(`browser close 3: ${JSON.stringify(browserCloseResult)}`);
+          console.log('browser close 3');
           browser = null;
         }
       } catch (error) {
@@ -446,12 +444,12 @@ const getScores = async ({
     try {
       if (!!page) {
         const pageCloseResult = await page.close();
-        console.log(`page close 4: ${JSON.stringify(pageCloseResult)}`);
+        console.log('page close 4');
         page = null;
       }
       if (!!browser) {
         const browserCloseResult = await browser.close();
-        console.log(`browser close 4: ${JSON.stringify(browserCloseResult)}`);
+        console.log('browser close 4');
         browser = null;
       }
     } catch (error) {
@@ -463,8 +461,6 @@ const getScores = async ({
 };
 
 const updateGames = async ({ message, leagueId, games = [], scores = [], teams = [] }) => {
-  // console.log('*** games', JSON.stringify(scores));
-  
   const sortedScores = scores.reverse();
 
   for (let i = 0; i < games.length; i++) {
@@ -479,25 +475,16 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
     const preGameScoreIndex = sortedScores.findIndex(x=>x.awayTeamPregame === awayShortLocation && x.homeTeamPregame === homeShortLocation);
 
-    // console.log(`${message} preGameScoreIndex: ${JSON.stringify(preGameScoreIndex)}`);
-
     const inProgressScoreIndex = sortedScores.findIndex(x=>x.awayTeamInProgress === awayShortLocation && x.homeTeamInProgress === homeShortLocation);
-
-    // console.log(`${message} inProgressScoreIndex: ${JSON.stringify(inProgressScoreIndex)}`);
 
     let finalScoreIndex = sortedScores.findIndex(x=>x.awayTeam === awayShortLocation && x.homeTeam === homeShortLocation);
 
-    // console.log(`${message} finalScoreIndex: ${JSON.stringify(finalScoreIndex)}`);
-
     let scoreByHomeTeamIndex = sortedScores.findIndex(x => x.homeTeam === homeShortLocation);
-
-    // console.log(`${message} scoreByHomeTeamIndex: ${JSON.stringify(scoreByHomeTeamIndex)}`);
 
     const scoreIndex = preGameScoreIndex > -1 ? preGameScoreIndex : 
       inProgressScoreIndex > -1 ? inProgressScoreIndex : 
       finalScoreIndex > -1 ? finalScoreIndex : scoreByHomeTeamIndex;
 
-    // console.log(`${message} scoreIndex: ${scoreIndex}`);
     const score = sortedScores[scoreIndex];
 
     if (!score) {
@@ -563,13 +550,7 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
       set(updatedGame,'endDateTime', moment().toISOString());
     }
 
-    // console.log(`*** ${message} score: ${JSON.stringify(score)}`);
-
-    console.log(`*** ${message} updatedGame: ${JSON.stringify(updatedGame)}`);
-
-    console.log('*** isGameOver', isGameOver);
-
-    // console.log('*** newPlayHistory', newPlayHistory);
+    console.log(`${message} updatedGame: ${JSON.stringify(updatedGame)}`);
 
     await gameRepository.findByIdAndUpdate(
       game._id,  // The ID of the document (String or ObjectId)

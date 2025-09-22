@@ -65,8 +65,6 @@ const updateAmericanFootballScores = async ({
   liveScoreSelector,
   finalScoreSelector,
 }) => {
-  console.log(`*** update leagueId: ${leagueId}`);
-
   const now = Date.now();
 
   const updateGameIntervalSeconds = 10;
