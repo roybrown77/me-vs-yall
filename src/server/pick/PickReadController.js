@@ -112,7 +112,7 @@ const getPickStrategies = async (req) => {
                     };
                 }
 
-                if (isReadyForTheKings) {
+                // if (isReadyForTheKings) {
                     try {
                         const gameStats = getGameStats(game, teamStats);
 
@@ -216,7 +216,7 @@ const getPickStrategies = async (req) => {
                     } catch (error) {
                         console.log("generate King picks error 1: ", error);
                     }
-                }
+                // }
     
                 mvyPicks = [mvyHomePicks, mvyOffensePicks, mvyDefensePicks, mvyDoomPicks, mvyThanosPicks, mvyMagnetoPicks, mvyKangPicks, mvyRoguePicks, mvyStormPicks];
             } catch (error) {
