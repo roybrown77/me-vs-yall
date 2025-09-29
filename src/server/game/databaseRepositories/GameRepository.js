@@ -21,6 +21,7 @@ const GameSchema = new mongoose.Schema({
     isWatchable: Boolean,
     possession: String,
     station: String,
+    endDateTime: { type: 'date', index: true },
 });
 
 module.exports = mongoose.model('Game', GameSchema);

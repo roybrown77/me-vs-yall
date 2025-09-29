@@ -523,7 +523,6 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
-      isGameOver: isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7,
       playHistory: newPlayHistory,
       currentTime: leagueId === '59723313734d1d6202a85f21' ? get(score,'currentTime') : shouldSetCurrentTime && currentTimeFormatted && currentTimeFormatted !== ":undefined" ? currentTimeFormatted + " - " + quarter : quarter,
       down: leagueId === '59723313734d1d6202a85f21' ? 
@@ -548,6 +547,10 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
 
     if (isGameOver && !game.endDateTime) {
       set(updatedGame,'endDateTime', moment().toISOString());
+    }
+
+    if ((isGameOver || moment().diff(moment(game.startDateTime),'hours') > 7) && game.endDateTime) {
+      set(updatedGame,'isGameOver', true);
     }
 
     console.log(`${message} updatedGame: ${JSON.stringify(updatedGame)}`);
