@@ -8,6 +8,10 @@ const get = require('lodash/get');
 
 const censoredIds = ['google-oauth2|105396867324708249567'];
 const excludedIds = [];
+const adminUsers = [
+    'google-oauth2|114172296334563495985', // me
+    'google-oauth2|105181436400264546077', // me vs yall
+];
 
 const vegas = {
     authServiceId: 1,
@@ -124,7 +128,7 @@ router.get('/users', async function (req, res) {
             ...goodUsers, 
             vegas,
             mvyKingHomer,
-            ...(req.query?.authId === 'google-oauth2|114172296334563495985' ? kingsAndQueens : []),
+            ...(adminUsers.includes(req.query?.authId) ? kingsAndQueens : []),
         ]);
     } catch (error) {
         console.log("Get users error: ", error);
