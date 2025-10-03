@@ -140,7 +140,7 @@ const setAmericanFootballPlays = (game) => {
       lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
 
       if ((lastPlay || "").toLowerCase().includes('punt')) {
-        game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES TURNOVER ON DOWNS 🚧";
+        game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
       }
 
       if ((lastPlay || "").toLowerCase().includes('touchdown') || 
@@ -154,11 +154,11 @@ const setAmericanFootballPlays = (game) => {
 
       if ((lastPlay || "").toLowerCase().includes('field goal') || 
         (lastPlay || "").toLowerCase().includes('fg')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎁" : monthDay >= 1001 && monthDay <= 1031 ? " 🧟‍♂️" : " 🥶");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎁" : " 🥶");
       }
 
       if ((lastPlay || "").toLowerCase().includes('sacked')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " 🧟‍♂️" : " ⚡️🦖");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " ⚡️🧟‍♂️" : " ⚡️🦖");
       }
 
       if ((lastPlay || "").toLowerCase().includes('pass deep') || 
@@ -184,7 +184,7 @@ const setAmericanFootballPlays = (game) => {
         (lastPlay || "").toLowerCase().includes('reverse') || 
         (lastPlay || "").toLowerCase().includes('intercept') || 
         (lastPlay || "").toLowerCase().includes('fumble')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎅🏿" : monthDay >= 1001 && monthDay <= 1031 ? " 😳" : " 😳");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎅🏿" : " 😳");
       }
 
       if ((lastPlay || "").toLowerCase().includes('dance') ||
