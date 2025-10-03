@@ -140,7 +140,7 @@ const setAmericanFootballPlays = (game) => {
       lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
 
       if ((lastPlay || "").toLowerCase().includes('punt')) {
-        game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
+        game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
       }
 
       if ((lastPlay || "").toLowerCase().includes('touchdown') || 
