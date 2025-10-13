@@ -114,50 +114,72 @@ const Header = (props) => {
       <div style={styles.appFrame}>
         <AppBar style={{
           ...styles.appBar,
-          ...disableTopBanner ? { backgroundColor: 'transparent '} : {}
+          ...disableTopBanner ? { backgroundColor: 'transparent' } : {}
         }}>
-          <Typography variant="h6" color="inherit" style={{...styles.title, margin: 'auto'}}>
-          {!disableTopBanner && <Link to="/">
-            <img style={{height:'45px', width:'90px'}} src={mvy} alt=""/>
-          </Link>}
+          <Typography variant="h6" color="inherit" style={{ ...styles.title, margin: 'auto' }}>
+            {!disableTopBanner && (
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                <img style={{ height: '45px', width: '90px' }} src={mvy} alt="Logo" />
+              </Link>
+            )}
           </Typography>
-          {
-            isAuthenticated && picture &&
-            <Profile mainElement={(<img style={styles.userPicture} src={picture} alt=""/>)}>
-              <div onClick={logout} style={{display:'flex', padding: '8px', cursor: 'pointer', position: 'fixed', right: '0', backgroundColor: '#fff', borderRadius: '4px', border: '2px solid #3772FA'}}>
-                <div>
-                  <ExitToApp/>
-                </div>
-                <div style={{padding: '3px 0 0 10px'}}>
+          {isAuthenticated && picture && (
+            <Profile mainElement={(<img style={styles.userPicture} src={picture} alt="User Profile" />)}>
+              <div
+                onClick={logout}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '8px',
+                  cursor: 'pointer',
+                  position: 'fixed',
+                  right: '0',
+                  backgroundColor: '#fff',
+                  borderRadius: '4px',
+                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
+                }}
+              >
+                <ExitToApp />
+                <div style={{ padding: '3px 0 0 10px' }}>
                   Sign out
                 </div>
               </div>
             </Profile>
-          }
-          {
-            isAuthenticated && !picture &&
-            <div style={styles.userDefaultPicture}>
-              <div style={{margin: '8px 0'}}>{user.name[0]}</div>
+          )}
+          {isAuthenticated && !picture && (
+            <div style={styles.userDefaultPicture} title="User Profile">
+              <div style={{ margin: '8px 0' }}>{user.name[0]}</div>
             </div>
-          }
-          {
-            !isAuthenticated &&
-            <div style={{
-              position: 'fixed',
-              left: 'unset !important',
-              right: '0',
-              top: '0 !important',
-              margin: '5px',
-              padding: '5px',
-              borderRadius: '4px',
-              border: '3px solid #000',
-              fontFamily: 'monospace',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }} onClick={googleLogin}>
+          )}
+          {!isAuthenticated && (
+            <div
+              style={{
+                position: 'fixed',
+                right: '0',
+                top: '0',
+                margin: '5px',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                backgroundColor: '#fff',
+                fontFamily: 'monospace',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+                transition: 'background-color 0.3s, color 0.3s'
+              }}
+              onClick={googleLogin}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#3772FA';
+                e.target.style.color = '#fff';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#fff';
+                e.target.style.color = '#000';
+              }}
+            >
               SIGN IN
             </div>
-          }
+          )}
         </AppBar>
         <main>
           {children}
