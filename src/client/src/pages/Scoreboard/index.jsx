@@ -22,7 +22,6 @@ import GameSearchBar from "../../components/GameSearchBar";
 import PickResult from "../../components/PickResult";
 import Game from "../../components/Game";
 import Countdown from "../../components/Countdown";
-import Popover from "../../components/Popover";
 import TinyScoreboard from "../../components/TinyScoreboard";
 import Alert from '../../components/Alert';
 import CalendarReminder from '../../components/CalendarReminder';

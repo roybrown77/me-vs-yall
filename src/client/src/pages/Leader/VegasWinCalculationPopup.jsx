@@ -1,4 +1,4 @@
-import Popover from '../../components/Popover';
+import SimplePopover from '../../components/SimplePopover';
 
 const VegasWinCalculationPopup = (props) => {
     const { leader, title='', showInfo=false } = props;
@@ -12,7 +12,7 @@ const VegasWinCalculationPopup = (props) => {
     }
 
     return (
-        <Popover 
+        <SimplePopover 
             title={`${title}${leader.vegasWinnings}`}
             titleStyle={{color: leader.positiveWinnings ? '#009933' : 'red', textDecoration:'underline', fontWeight: '700', cursor: 'pointer'}}
         >
@@ -22,7 +22,7 @@ const VegasWinCalculationPopup = (props) => {
                 <div style={{paddingTop:'16px'}}>${leader.wins * 100 + leader.wins * 110} payout = initial bets + profit</div>
                 <div style={{paddingTop:'16px', fontStyle: 'italic'}}>Wins are determined against the spread</div>
             </div>
-        </Popover>
+        </SimplePopover>
     );
 };
 

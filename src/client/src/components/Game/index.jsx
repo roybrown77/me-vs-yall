@@ -19,8 +19,12 @@ import TieButton from "./components/TieButton";
 import CompetitorHeader from "./components/CompetitorHeader";
 import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
+import SimplePopover from "../SimplePopover";
 
 import { hasGameStarted } from "../../utilities";
+import {
+  isConfirmedAuthentication,
+} from "../../utilities/authenticationClient";
 import MMAGlove from "./components/MMAGlove";
 
 const styles = {
@@ -71,11 +75,38 @@ const Game = (props) => {
     liveVideoUrl: null,
     highlightVideoUrl: null,
     isHidden: null,
+    popoverOpen: false,
+    popoverMessage: '',
   });
 
   const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
-  const handleMakePick = (gameId, pickId) => {
+  const handleMakePick = (game, pickId) => {
+    const isAuthenticated = isConfirmedAuthentication();
+
+    if (!isAuthenticated || game.isGameOver) {
+      if (!isAuthenticated) {
+        setState({
+          popoverOpen: true,
+          popoverMessage: 'Please sign in to make your picks',
+        });
+      }
+      if (game.isGameOver) {
+        setState({
+          popoverOpen: true,
+          popoverMessage: 'Game is over',
+        });
+      }
+
+      setTimeout(() => {
+        setState({
+          popoverOpen: false,
+          popoverMessage: '',
+        });
+      }, 3000);
+      return;
+    }
+
     if (
       get(props, "pick.pickId") === pickId ||
       props?.updatingPick ||
@@ -84,7 +115,7 @@ const Game = (props) => {
       return;
     }
 
-    const pick = { gameId, pickId };
+    const pick = { gameId: game._id, pickId };
     props.handleMakePick(pick);
   };
 
@@ -218,7 +249,7 @@ const Game = (props) => {
               key={game._id + "." + competitor._id}
               item
               xs={6}
-              onClick={() => handleMakePick(game._id, competitor._id)}
+              onClick={() => handleMakePick(game, competitor._id)}
               className={updatingPick ? "fast-flash" : ""}
               style={{
                 width: "50%",
@@ -237,6 +268,24 @@ const Game = (props) => {
               </Grow>
             </Grid>
           ))}
+          {state.popoverOpen && (
+            <div
+              style={{
+                position: "absolute",
+                top: 100,
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                color: "#fff",
+                padding: "1rem",
+                borderRadius: "8px",
+                zIndex: 10,
+                animation: "fadeOut 5s forwards",
+              }}
+            >
+              {state.popoverMessage}
+            </div>
+          )}
         </Grid>
         {isAuthenticated &&
           !hasGameStarted(game.startDateTime) &&
