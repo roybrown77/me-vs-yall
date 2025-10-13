@@ -140,7 +140,7 @@ const Header = (props) => {
                 }}
               >
                 <ExitToApp />
-                <div style={{ padding: '3px 0 0 10px' }}>
+                <div style={{ margin: 'auto 10px' }}>
                   Sign out
                 </div>
               </div>
