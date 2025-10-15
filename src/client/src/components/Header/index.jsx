@@ -130,7 +130,7 @@ const Header = (props) => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '8px',
+                  padding: '12px',
                   cursor: 'pointer',
                   position: 'fixed',
                   right: '0',
@@ -158,7 +158,7 @@ const Header = (props) => {
                 right: '0',
                 top: '0',
                 margin: '5px',
-                padding: '8px 12px',
+                padding: '12px',
                 borderRadius: '4px',
                 backgroundColor: '#fff',
                 fontFamily: 'monospace',
