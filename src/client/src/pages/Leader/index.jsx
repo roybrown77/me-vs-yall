@@ -498,8 +498,8 @@ class Leader extends Component {
                   >
                     <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
                   </IconButton>
-                  <Snackbar open={isShareClicked} style={{ color: '#FFD700'}} autoHideDuration={7000} onClose={this.handleGamesCopiedAlertClose}>
-                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose} style={{ backgroundColor: '#B3E6CA', color: '#000000', font: 'bold 14px monospace' }}>
+                  <Snackbar open={isShareClicked} style={{ color: '#FFD700'}} autoHideDuration={7000} onClose={this.handleGamesCopiedAlertClose} anchorOrigin={{ vertical: 'center', horizontal: 'center' }}>
+                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose} style={{ textAlign: 'center', backgroundColor: '#B3E6CA', color: '#000000', font: 'bold 14px monospace' }}>
                       {isAuthenticated ? 'Picks are copied and ready to share with your friends around the world!' : 'Games are copied and ready to share with your friends around the world!'}
                     </Alert>
                   </Snackbar>
