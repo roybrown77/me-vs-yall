@@ -61,7 +61,7 @@ const styles = {
     position: 'fixed',
     right: '0',
     top: '0',
-    backgroundColor: '#3772FA',
+    backgroundColor: '#FF00FF',
     color: '#fff',
     fontSize: '1.25rem'
   } 
@@ -139,9 +139,8 @@ const Header = (props) => {
                   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
                 }}
               >
-                <ExitToApp />
                 <div style={{ margin: 'auto 10px' }}>
-                  Sign out
+                  <span style={{ fontSize: '.7rem' }}>📱</span> Sign out
                 </div>
               </div>
             </Profile>
@@ -169,7 +168,7 @@ const Header = (props) => {
               }}
               onClick={googleLogin}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#3772FA';
+                e.target.style.backgroundColor = '#FF00FF';
                 e.target.style.color = '#fff';
               }}
               onMouseLeave={(e) => {
@@ -177,7 +176,7 @@ const Header = (props) => {
                 e.target.style.color = '#000';
               }}
             >
-              SIGN IN
+              <span style={{ fontSize: '.7rem' }}>📱</span> SIGN IN
             </div>
           )}
         </AppBar>
