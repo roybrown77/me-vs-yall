@@ -84,17 +84,23 @@ const Game = (props) => {
   const handleMakePick = (game, pickId) => {
     const isAuthenticated = isConfirmedAuthentication();
 
-    if (!isAuthenticated || game.isGameOver) {
-      if (!isAuthenticated) {
+    if (!isAuthenticated || hasGameStarted(game.startDateTime) || game.isGameOver) {
+      if (hasGameStarted(game.startDateTime) && !game.isGameOver) {
         setState({
           popoverOpen: true,
-          popoverMessage: 'Please sign in to make your picks',
+          popoverMessage: 'Game is in progress',
         });
       }
       if (game.isGameOver) {
         setState({
           popoverOpen: true,
           popoverMessage: 'Game is over',
+        });
+      }
+      if (!isAuthenticated) {
+        setState({
+          popoverOpen: true,
+          popoverMessage: 'Please sign in to make your picks',
         });
       }
 
