@@ -2,16 +2,14 @@ import moment from 'moment-timezone';
 import orderBy from "lodash/orderBy";
 import get from "lodash/get";
 
-import { getRandomIntInclusive, getSpreadAmount } from '../../utilities';
+import { getRandomIntInclusive, getSpreadAmount, hasGameStarted } from '../../utilities';
 
 const getPicksNotSelected = (games = [], picks = []) => {
-    let count = 0;
-    games.forEach(game=>{
-        if (!picks.find(x=>x.gameId === game._id) && !game.isGameOver) {
-            count++;
-        }
-    });
-    return count;
+    return games.reduce((count, game) => {
+      const isPickMissing = !picks.some(pick => pick.gameId === game._id);
+      const isGameNotStarted = !hasGameStarted(game.startDateTime);
+      return isPickMissing && isGameNotStarted ? count + 1 : count;
+    }, 0);
 };
 
 const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false}) => {

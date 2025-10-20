@@ -14,7 +14,7 @@ const RemainingGamesNotifier = ({isAuthenticated, picksNotSelected}) => {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
             <Alert severity="error" style={{ fontWeight: 'bold' }}>
-                {`${picksNotSelected} Remaining Pick(s) 🤩`}
+                <span className="flash">{`${picksNotSelected} Remaining Pick(s) 🤩`}</span>
             </Alert>
         </Snackbar>
     );
