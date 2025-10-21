@@ -61,7 +61,7 @@ const styles = {
     position: 'fixed',
     right: '0',
     top: '0',
-    backgroundColor: '#FF00FF',
+    backgroundColor: '#707070',
     color: '#fff',
     fontSize: '1.25rem'
   } 
@@ -168,7 +168,7 @@ const Header = (props) => {
               }}
               onClick={googleLogin}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#FF00FF';
+                e.target.style.backgroundColor = '#fb8239';
                 e.target.style.color = '#fff';
               }}
               onMouseLeave={(e) => {
