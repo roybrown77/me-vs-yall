@@ -19,7 +19,6 @@ import TieButton from "./components/TieButton";
 import CompetitorHeader from "./components/CompetitorHeader";
 import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
-import SimplePopover from "../SimplePopover";
 
 import { hasGameStarted } from "../../utilities";
 import {
@@ -88,19 +87,19 @@ const Game = (props) => {
       if (hasGameStarted(game.startDateTime) && !game.isGameOver) {
         setState({
           popoverOpen: true,
-          popoverMessage: 'Game is in progress',
+          popoverMessage: 'Game is in progress.  Get your popcorn and chill.',
         });
       }
       if (game.isGameOver) {
         setState({
           popoverOpen: true,
-          popoverMessage: 'Game is over',
+          popoverMessage: 'The game is over.  Set your alarm earlier next time.',
         });
       }
       if (!isAuthenticated) {
         setState({
           popoverOpen: true,
-          popoverMessage: 'Please sign in to make your picks',
+          popoverMessage: 'Please sign in to make your picks.  Otherwise, how will we know it\'s you?',
         });
       }
 
@@ -219,9 +218,7 @@ const Game = (props) => {
 
   const {
     game,
-    pick,
     isAuthenticated,
-    userId,
     disableTie,
     updatingPick,
   } = props;
