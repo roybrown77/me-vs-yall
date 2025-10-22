@@ -107,6 +107,7 @@ const AmericanFootballMiniRallyGame = (props) => {
           homeColor: props.game.competitors[1].color,
           awayScoreHandler,
           homeScoreHandler,
+          selectionMade: props.selectionMade,
         }}
       />
       {false && (

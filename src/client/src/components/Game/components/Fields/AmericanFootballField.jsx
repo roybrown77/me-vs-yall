@@ -1,10 +1,23 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import PropTypes from "prop-types";
 
 const AmericanFootballField = (props) => {
   const [heartCounts, setHeartCounts] = useState({ left: 0, right: 0 });
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
   const hideXO = useRef(false);
+
+  useEffect(() => {
+    if (props.selectionMade === 'left') {
+      setHeartCounts(prevCounts => ({ ...prevCounts, left: prevCounts.left + 1 }));
+      throwBallRight();
+    }
+
+   if (props.selectionMade === 'right') {
+      setHeartCounts(prevCounts => ({ ...prevCounts, right: prevCounts.right + 1 }));
+      throwBallLeft();
+    }
+  }, [props.selectionMade]);
 
   const awayScoreMade = () => {
     setIsThrowingRight(false);
@@ -28,38 +41,37 @@ const AmericanFootballField = (props) => {
     setTimeout(() => {homeScoreMade()}, 700);
   };
 
-  const generateFloatingHearts = (side) => {
-    console.log('generateFloatingHearts', side);
+  const handleHearts = (side) => {
     const heartCount = heartCounts[side];
     if (heartCount >= 99) return; // Limit to 99 hearts
     setHeartCounts(prevCounts => ({ ...prevCounts, [side]: prevCounts[side] + 1 }));
 
-    const container = document.querySelector('.floating-hearts-container');
-    const heart = document.getElementById(`${side}-heart-floating`);
-    const clonedHeart = heart.cloneNode(true);
+    // const container = document.querySelector('.floating-hearts-container');
+    // const heart = document.getElementById(`${side}-heart-floating`);
+    // const clonedHeart = heart.cloneNode(true);
 
-    if (side === 'left') {
-      clonedHeart.setAttribute("class", `heart ${side}`);
-      // clonedHeart.setAttribute("style", `
-      // position: absolute;
-      // animation: floatUp .5s ease-in-out forwards;
-      // left: 15px; /* Adjust position for left side */
-      // `);
-    } else if (side === 'right') {
-      const uniqueId = `heart-${side}-${Date.now()}`;
-      clonedHeart.setAttribute("id", uniqueId);
-      clonedHeart.setAttribute("class", `heart ${side}`);
-      // clonedHeart.setAttribute("style", `
-      // position: absolute;
-      // animation: floatUp .5s ease-in-out forwards;
-      // left: 335px; /* Adjust position for right side */
-      // `);
-    }
+    // if (side === 'left') {
+    //   clonedHeart.setAttribute("class", `heart ${side}`);
+    //   clonedHeart.setAttribute("style", `
+    //   position: absolute;
+    //   animation: floatUp .5s ease-in-out forwards;
+    //   left: 15px; /* Adjust position for left side */
+    //   `);
+    // } else if (side === 'right') {
+    //   const uniqueId = `heart-${side}-${Date.now()}`;
+    //   clonedHeart.setAttribute("id", uniqueId);
+    //   clonedHeart.setAttribute("class", `heart ${side}`);
+    //   clonedHeart.setAttribute("style", `
+    //   position: absolute;
+    //   animation: floatUp .5s ease-in-out forwards;
+    //   left: 335px; /* Adjust position for right side */
+    //   `);
+    // }
 
-    container.appendChild(clonedHeart);
-    setTimeout(() => {
-      container.removeChild(clonedHeart);
-    }, 500);
+    // container.appendChild(clonedHeart);
+    // setTimeout(() => {
+    //   container.removeChild(clonedHeart);
+    // }, 500);
   };
 
   const formatHeartCount = (count) => {
@@ -164,10 +176,10 @@ const AmericanFootballField = (props) => {
           <tspan dy="3.493687499999993" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}>{props.home}</tspan>
       </text>
       {/* hearts */}
-      <g className="floating-hearts-container">
-        <svg id="left-heart-floating" onClick={() => { generateFloatingHearts('left'); }} style={{ cursor: 'pointer' }} aria-label="Love Road" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+      <g className="hearts-container">
+        <svg id="left-heart" onClick={() => { handleHearts('left'); }} style={{ cursor: 'pointer' }} aria-label="Love Road" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
         <text x="15" y="110" fontSize="12" fill="#000">{formatHeartCount(heartCounts.left)}</text>
-        <svg id="right-heart-floating" onClick={() => { generateFloatingHearts('right'); }} style={{ cursor: 'pointer' }} aria-label="Love Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73" x="335"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
+        <svg id="right-heart" onClick={() => { handleHearts('right'); }} style={{ cursor: 'pointer' }} aria-label="Love Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73" x="335"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
         <text x="350" y="110" fontSize="12" fill="#000">{formatHeartCount(heartCounts.right)}</text>
       </g>
       {/* balls */}
@@ -195,6 +207,10 @@ const AmericanFootballField = (props) => {
       </g>
     </svg>
   );
+};
+
+AmericanFootballField.propTypes = {
+  selectionMade: PropTypes.string,
 };
 
 export default AmericanFootballField;

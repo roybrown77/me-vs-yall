@@ -76,38 +76,48 @@ const Game = (props) => {
     isHidden: null,
     popoverOpen: false,
     popoverMessage: '',
+    selectionMade: null,
   });
 
   const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
-  const handleMakePick = (game, pickId) => {
+  const handleMakePick = (game, pickId, competitorIndex) => {
+    setState((prevState) => ({
+      ...prevState,
+      selectionMade: competitorIndex === 0 ? 'left' : competitorIndex === 1 ? 'right' : 'left',
+    }));
+
     const isAuthenticated = isConfirmedAuthentication();
 
     if (!isAuthenticated || hasGameStarted(game.startDateTime) || game.isGameOver) {
       if (hasGameStarted(game.startDateTime) && !game.isGameOver) {
-        setState({
+        setState((prevState) => ({
+          ...prevState,
           popoverOpen: true,
           popoverMessage: 'Game is in progress.  Get your popcorn and chill.',
-        });
+        }));
       }
       if (game.isGameOver) {
-        setState({
+        setState((prevState) => ({
+          ...prevState,
           popoverOpen: true,
           popoverMessage: 'The game is over.  Set your alarm earlier next time.',
-        });
+        }));
       }
       if (!isAuthenticated) {
-        setState({
+        setState((prevState) => ({
+          ...prevState,
           popoverOpen: true,
           popoverMessage: 'Please sign in to make your picks.  Otherwise, how will we know it\'s you?',
-        });
+        }));
       }
 
       setTimeout(() => {
-        setState({
+        setState((prevState) => ({
+          ...prevState,
           popoverOpen: false,
           popoverMessage: '',
-        });
+        }));
       }, 3000);
       return;
     }
@@ -138,7 +148,8 @@ const Game = (props) => {
   };
 
   const handleClearInput = () => {
-    setState({
+    setState((prevState) => ({
+      ...prevState,
       awayScore: null,
       homeScore: null,
       awayRank: null,
@@ -155,7 +166,7 @@ const Game = (props) => {
       liveVideoUrl: null,
       highlightVideoUrl: null,
       isHidden: null,
-    });
+    }));
   };
 
   const handleInputChange = (event) => {
@@ -247,12 +258,12 @@ const Game = (props) => {
         }}
       >
         <Grid key={game._id + "-gridlist"} container style={styles.root}>
-          {game.competitors.map((competitor) => (
+          {game.competitors.map((competitor, competitorIndex) => (
             <Grid
               key={game._id + "." + competitor._id}
               item
               xs={6}
-              onClick={() => handleMakePick(game, competitor._id)}
+              onClick={() => handleMakePick(game, competitor._id, competitorIndex)}
               className={updatingPick ? "fast-flash" : ""}
               style={{
                 width: "50%",
@@ -290,7 +301,8 @@ const Game = (props) => {
             </div>
           )}
         </Grid>
-        {isAuthenticated &&
+        {
+          isAuthenticated &&
           !hasGameStarted(game.startDateTime) &&
           [
             "59723313734d1d6202a85f10",
@@ -300,7 +312,8 @@ const Game = (props) => {
             "59723313734d1d6202a85f29",
           ].includes(get(game, "leagueId")) &&
           !spreadMode &&
-          !disableTie && <TieButton {...componentProps} />}
+          !disableTie && <TieButton {...componentProps} />
+        }
         <div style={{ marginTop: "1rem" }}>
           <div style={{ display: isDayTime ? "inline-flex" : "" }}>
             <div
@@ -343,7 +356,7 @@ const Game = (props) => {
           </div>
           {["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(
             get(game, "leagueId")
-          ) && <AmericanFootballMiniRallyGame {...{ game }} />}
+          ) && <AmericanFootballMiniRallyGame {...{ game }} selectionMade={state.selectionMade} />}
           {["59723313734d1d6202a85f17", "59723313734d1d6202a85f29"].includes(
             get(game, "leagueId")
           ) && (
