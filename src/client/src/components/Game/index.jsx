@@ -94,21 +94,21 @@ const Game = (props) => {
         setState((prevState) => ({
           ...prevState,
           popoverOpen: true,
-          popoverMessage: 'Game is in progress.  Get your popcorn and chill.',
+          popoverMessage: 'Game is in progress.  Get your popcorn and chill. 🍿',
         }));
       }
       if (game.isGameOver) {
         setState((prevState) => ({
           ...prevState,
           popoverOpen: true,
-          popoverMessage: 'The game is over.  Set your alarm earlier next time.',
+          popoverMessage: 'The game is over.  Set your alarm earlier next time. ⏰',
         }));
       }
       if (!isAuthenticated) {
         setState((prevState) => ({
           ...prevState,
           popoverOpen: true,
-          popoverMessage: 'Please sign in to make your picks.  Otherwise, how will we know it\'s you?',
+          popoverMessage: '🚨 Please sign in to make your picks. You got this! 🚀',
         }));
       }
 

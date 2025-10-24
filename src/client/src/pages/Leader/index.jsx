@@ -76,6 +76,39 @@ const leaderBackgroundColor = [
   "#9CCEAF"
 ];
 
+const getGameStreakEmoji = (winsInARow, lossesInARow) => {
+  let emoji = "😅"; // neutral / balanced
+
+  if (winsInARow > lossesInARow) {
+    const w = winsInARow;
+
+    if (w >= 16) emoji = "⭐👑🔥🔥";             // max power – star king
+    else if (w >= 15) emoji = "⭐👑🔥";          // near-invincible
+    else if (w >= 14) emoji = "⭐👑";            // crowned star
+    else if (w >= 13) emoji = "⭐🍄👑";           // full power-up combo
+    else if (w >= 12) emoji = "⭐🍄🔥";           // star + fire flower
+    else if (w >= 11) emoji = "🍄🍄⭐";           // double mushroom + star
+    else if (w >= 10) emoji = "🔥🔥👑";           // on fire + crowned
+    else if (w >= 9) emoji = "🔥🍄";              // fire + mushroom
+    else if (w >= 8) emoji = "🍄🍄";              // double mushroom
+    else if (w >= 7) emoji = "🍄⭐";              // mushroom + star
+    else if (w >= 6) emoji = "🍄🔥";              // mushroom + fire
+    else if (w >= 5) emoji = "🍄";                // first power-up
+    else if (w >= 4) emoji = "😎🍄";              // confident mushroom
+    else if (w >= 3) emoji = "😁🎶";              // feeling good
+    else if (w >= 2) emoji = "🙂🍄";              // small streak, first boost
+    else emoji = "🙂";                            // single win
+  } else if (lossesInARow > winsInARow) {
+    const l = lossesInARow;
+
+    if (l >= 4) emoji = "💀🥶";       // frozen, dead streak
+    else if (l >= 3) emoji = "🥶";    // struggling
+    else if (l >= 2) emoji = "😬";    // cold spell
+    else emoji = "😕";                // slightly cold
+  }
+
+  return emoji;
+};
 class Leader extends Component {
   constructor(props) {
     super(props);
@@ -685,9 +718,7 @@ class Leader extends Component {
                                   }}
                                 >
                                   {`${
-                                    leader.winsInARow > leader.lossesInARow
-                                      ? (leader.wins >= 7 && leader.losses === 0 ? "🤩" : "😅")
-                                      : "🥶"
+                                    getGameStreakEmoji(leader.winsInARow, leader.lossesInARow)
                                   }x${
                                     leader.winsInARow || leader.lossesInARow
                                   }`}
