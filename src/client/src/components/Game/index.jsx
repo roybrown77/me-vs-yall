@@ -108,7 +108,7 @@ const Game = (props) => {
         setState((prevState) => ({
           ...prevState,
           popoverOpen: true,
-          popoverMessage: '🚨 Please sign in to make your picks. You got this! 🚀',
+          popoverMessage: 'Please sign in to make your picks. You got this! 🚀',
         }));
       }
 
