@@ -80,7 +80,7 @@ const getGameStreakEmoji = (wins, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
   if (wins > 0 && wins < 17) {
-    emoji = "😎☘️";
+    emoji = "☘️";
     if (wins >= 2) emoji += "🌵";
     if (wins >= 3) emoji += "🌳";
     if (wins >= 4) emoji += "🍄";
@@ -98,14 +98,14 @@ const getGameStreakEmoji = (wins, winsInARow, lossesInARow) => {
     if (wins >= 16) emoji += "🛥️"; 
   }
 
-  if (winsInARow > 1) {
-    emoji += "🔥";
+  if (wins > 1 && winsInARow > 1) {
+    emoji += "😎🔥";
   }
   
   if (lossesInARow > 0) {
-    emoji += "🥶";
     if (lossesInARow >= 2) emoji += "😬🧊";
     if (lossesInARow >= 3) emoji += "💀";
+    emoji += "🥶";
   }
 
   return emoji;
@@ -630,7 +630,7 @@ class Leader extends Component {
                           <AccordionSummary
                             style={styles.expansionSummary}
                             expandIcon={<ExpandMoreIcon />}
-                            sx={{ "&.MuiAccordionSummary-root": { paddingBottom: "1rem" } }}
+                            sx={{ "&.MuiAccordionSummary-root": { paddingBottom: "1.5rem" } }}
                           >                     
                             <div style={{ display: "flex", paddingBottom: `${leaderSummaryPadding + (leader.percentage ? 1 : 0)}rem` }}>
                               {leader.medal && (
@@ -716,7 +716,7 @@ class Leader extends Component {
                                   style={{
                                     fontWeight: "700",
                                     fontSize: "1rem",
-                                    width: "11rem",
+                                    width: "12rem",
                                   }}
                                 >
                                   {`${
