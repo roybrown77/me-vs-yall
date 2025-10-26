@@ -630,7 +630,7 @@ class Leader extends Component {
                           <AccordionSummary
                             style={styles.expansionSummary}
                             expandIcon={<ExpandMoreIcon />}
-                            sx={{ "&.MuiAccordionSummary-root": { paddingBottom: ".5rem" } }}
+                            sx={{ "&.MuiAccordionSummary-root": { paddingBottom: "1rem" } }}
                           >                     
                             <div style={{ display: "flex", paddingBottom: `${leaderSummaryPadding + (leader.percentage ? 1 : 0)}rem` }}>
                               {leader.medal && (
