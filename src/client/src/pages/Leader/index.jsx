@@ -76,35 +76,36 @@ const leaderBackgroundColor = [
   "#9CCEAF"
 ];
 
-const getGameStreakEmoji = (winsInARow, lossesInARow) => {
+const getGameStreakEmoji = (wins, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
-  if (winsInARow > lossesInARow) {
-    const w = winsInARow;
+  if (wins > 0 && wins < 17) {
+    emoji = "😎☘️";
+    if (wins >= 2) emoji += "🌵";
+    if (wins >= 3) emoji += "🌳";
+    if (wins >= 4) emoji += "🍄";
+    if (wins >= 5) emoji += "🌶️";
+    if (wins >= 6) emoji += "🥦";
+    if (wins >= 7) emoji += "🥑";
+    if (wins >= 8) emoji += "🍒";
+    if (wins >= 9) emoji += "🍑";
+    if (wins >= 10) emoji += "🍿";
+    if (wins >= 11) emoji += "🚀";
+    if (wins >= 12) emoji += "⭐";
+    if (wins >= 13) emoji += "🎶";
+    if (wins >= 14) emoji += "🎸";
+    if (wins >= 15) emoji += "🥁";
+    if (wins >= 16) emoji += "🛥️"; 
+  }
 
-    if (w >= 16) emoji = "⭐👑🔥🔥";             // max power – star king
-    else if (w >= 15) emoji = "⭐👑🔥";          // near-invincible
-    else if (w >= 14) emoji = "⭐👑";            // crowned star
-    else if (w >= 13) emoji = "⭐🍄👑";           // full power-up combo
-    else if (w >= 12) emoji = "⭐🍄🔥";           // star + fire flower
-    else if (w >= 11) emoji = "🍄🍄⭐";           // double mushroom + star
-    else if (w >= 10) emoji = "🔥🔥👑";           // on fire + crowned
-    else if (w >= 9) emoji = "🔥🍄";              // fire + mushroom
-    else if (w >= 8) emoji = "🍄🍄";              // double mushroom
-    else if (w >= 7) emoji = "🍄⭐";              // mushroom + star
-    else if (w >= 6) emoji = "🍄🔥";              // mushroom + fire
-    else if (w >= 5) emoji = "🍄";                // first power-up
-    else if (w >= 4) emoji = "😎🍄";              // confident mushroom
-    else if (w >= 3) emoji = "😁🎶";              // feeling good
-    else if (w >= 2) emoji = "🙂🍄";              // small streak, first boost
-    else emoji = "🙂";                            // single win
-  } else if (lossesInARow > winsInARow) {
-    const l = lossesInARow;
-
-    if (l >= 4) emoji = "💀🥶";       // frozen, dead streak
-    else if (l >= 3) emoji = "🥶";    // struggling
-    else if (l >= 2) emoji = "😬";    // cold spell
-    else emoji = "😕";                // slightly cold
+  if (winsInARow > 1) {
+    emoji += "🔥";
+  }
+  
+  if (lossesInARow > 0) {
+    emoji += "🥶";
+    if (lossesInARow >= 2) emoji += "😬🧊";
+    if (lossesInARow >= 3) emoji += "💀";
   }
 
   return emoji;
@@ -629,7 +630,7 @@ class Leader extends Component {
                           <AccordionSummary
                             style={styles.expansionSummary}
                             expandIcon={<ExpandMoreIcon />}
-                            styles={{ }}
+                            sx={{ "&.MuiAccordionSummary-root": { paddingBottom: ".5rem" } }}
                           >                     
                             <div style={{ display: "flex", paddingBottom: `${leaderSummaryPadding + (leader.percentage ? 1 : 0)}rem` }}>
                               {leader.medal && (
@@ -715,10 +716,11 @@ class Leader extends Component {
                                   style={{
                                     fontWeight: "700",
                                     fontSize: "1rem",
+                                    width: "10rem",
                                   }}
                                 >
                                   {`${
-                                    getGameStreakEmoji(leader.winsInARow, leader.lossesInARow)
+                                    getGameStreakEmoji(leader.winsBeforeGameOver, leader.winsInARow, leader.lossesInARow)
                                   }x${
                                     leader.winsInARow || leader.lossesInARow
                                   }`}
