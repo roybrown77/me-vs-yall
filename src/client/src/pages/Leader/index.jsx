@@ -76,26 +76,17 @@ const leaderBackgroundColor = [
   "#9CCEAF"
 ];
 
-const getGameStreakEmoji = (wins, winsInARow, lossesInARow) => {
+const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
-  if (wins > 0 && wins < 17) {
+  if (wins > 0 && (wins + losses) < 17) {
     emoji = "☘️";
-    if (wins >= 2) emoji += "🌵";
     if (wins >= 3) emoji += "🌳";
-    if (wins >= 4) emoji += "🍄";
-    if (wins >= 5) emoji += "🌶️";
-    if (wins >= 6) emoji += "🥦";
-    if (wins >= 7) emoji += "🥑";
-    if (wins >= 8) emoji += "🍒";
-    if (wins >= 9) emoji += "🍑";
-    if (wins >= 10) emoji += "🍿";
-    if (wins >= 11) emoji += "🚀";
-    if (wins >= 12) emoji += "⭐";
-    if (wins >= 13) emoji += "🎶";
-    if (wins >= 14) emoji += "🎸";
-    if (wins >= 15) emoji += "🥁";
-    if (wins >= 16) emoji += "🛥️"; 
+    if (wins >= 5) emoji += "🍄";
+    if (wins >= 7) emoji += "🥦";
+    if (wins >= 11) emoji += "🍄";
+    if (wins >= 13) emoji += "🥑";
+    if (wins >= 16) emoji += "⭐"; 
   }
 
   if (wins > 1 && winsInARow > 1) {
@@ -103,8 +94,8 @@ const getGameStreakEmoji = (wins, winsInARow, lossesInARow) => {
   }
   
   if (lossesInARow > 0) {
-    if (lossesInARow >= 2) emoji += "😬🧊";
-    if (lossesInARow >= 3) emoji += "💀";
+    if (lossesInARow >= 2) emoji += "😬";
+    if (lossesInARow >= 3) emoji += "🧊";
     emoji += "🥶";
   }
 
@@ -716,11 +707,11 @@ class Leader extends Component {
                                   style={{
                                     fontWeight: "700",
                                     fontSize: "1rem",
-                                    width: "12rem",
+                                    width: "7rem",
                                   }}
                                 >
                                   {`${
-                                    getGameStreakEmoji(leader.winsBeforeGameOver, leader.winsInARow, leader.lossesInARow)
+                                    getGameStreakEmoji(leader.winsBeforeGameOver, leader.losses, leader.winsInARow, leader.lossesInARow)
                                   }x${
                                     leader.winsInARow || leader.lossesInARow
                                   }`}
