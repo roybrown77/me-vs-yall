@@ -201,7 +201,8 @@ const Home = () => {
           </div>
           <div style={{ color: '#000' }}>
             <div>© 2017-{year} Me vs Yall</div>
-            <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
+            <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')}</div>
+            <div>ATL via BOS via HOU via SUN</div>
           </div>
         </div>
         {false && !isConfirmedAuthentication() && (
@@ -217,7 +218,8 @@ const Home = () => {
             </Link>
             <div style={{ color: '#000', marginTop: '1rem' }}>
               <div>© 2017-{year} Me vs Yall</div>
-              <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')} ATL</div>
+              <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')}</div>
+              <div>ATL via BOS via HOU via SUN</div>
             </div>
           </div>
         )}
