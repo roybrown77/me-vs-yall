@@ -79,24 +79,31 @@ const leaderBackgroundColor = [
 const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
-  if (wins > 0 && (wins + losses) < 17) {
+  if (wins >= 0 && (wins + losses) < 17) {
     emoji = "☘️";
     if (wins >= 3) emoji += "🌳";
     if (wins >= 5) emoji += "🍄";
-    if (wins >= 7) emoji += "🥦";
-    if (wins >= 11) emoji += "🍄";
+    if (wins >= 7) emoji += "🍇";
+    if (wins >= 9) emoji += "🥦";
+    if (wins >= 11) emoji += "🍎";
     if (wins >= 13) emoji += "🥑";
-    if (wins >= 16) emoji += "⭐"; 
-  }
-
-  if (wins > 1 && winsInARow > 1) {
-    emoji += "😎🔥";
+    if (wins >= 14) emoji += "🍑";
+    if (wins >= 15) emoji += "🫐";
+    if (wins >= 16) emoji += "🍿"; 
   }
   
   if (lossesInARow > 0) {
     if (lossesInARow >= 2) emoji += "😬";
     if (lossesInARow >= 3) emoji += "🧊";
     emoji += "🥶";
+  } else {
+    if (wins > 0 && emoji.length > 1) {
+      emoji += "😎";
+    }
+
+    if (wins > 1 && winsInARow > 1) {
+      emoji += "🔥";
+    }
   }
 
   return emoji;
@@ -707,7 +714,7 @@ class Leader extends Component {
                                   style={{
                                     fontWeight: "700",
                                     fontSize: "1rem",
-                                    width: "7rem",
+                                    width: "9rem",
                                   }}
                                 >
                                   {`${
