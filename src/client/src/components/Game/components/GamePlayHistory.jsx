@@ -113,7 +113,7 @@ const GamePlayHistory = (props) => {
       }
       {(game.playHistory || []).length > 5 && (
         <div class="center-box" onClick={handleChange}>
-          <div class="animated-border-box">
+          <div className="animated-border-box">
             {show ? "show less -" : "show more +"}
           </div>
         </div>

@@ -9,23 +9,17 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Snackbar from '@mui/material/Snackbar';
-import Send from '@mui/icons-material/Send';
-import ToggleOn from "@mui/icons-material/ToggleOn";
-import ToggleOff from "@mui/icons-material/ToggleOff";
 
 import VegasWinCalculationPopup from "./VegasWinCalculationPopup";
 import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import Countdown from "../../components/Countdown";
-import Alert from '../../components/Alert';
-import CalendarReminder from '../../components/CalendarReminder';
+import GameEngagementBar from "../../components/GameEngagementBar";
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
@@ -37,7 +31,6 @@ import {
   getLeagueStartDateTime,
   getLeaders,
   leagues,
-  getCopiedGamesToShare,
 } from "../../utilities";
 import {
   googleLogin,
@@ -132,8 +125,6 @@ class Leader extends Component {
       endDateTime: null,
 
       leaders: [],
-
-      isShareClicked: false
     };
   }
 
@@ -350,10 +341,10 @@ class Leader extends Component {
     this.loadData(request);
   };
 
-  handleSpreadToggle = () => {
-    const value = getSpreadMode() === "1" ? "0" : "1";
+  handleSpreadToggleOn = () => {
+    const value = "1";
     localStorage.setItem("spreadModeToggle", value);
-    const { games, picks, users, teams } = this.state;
+    const { games, picks, teams, users } = this.state;
     const spreadToggleLeaders = getLeaders({
       games,
       picks,
@@ -364,40 +355,18 @@ class Leader extends Component {
     this.setState({ leaders: spreadToggleLeaders });
   };
 
-  handleShareGames = () => {
-    const { games, picks, teams } = this.state;
-
-    const user = getUser();
-    const userId = get(user, "sub");
-
-    const gamesToShare = getCopiedGamesToShare(games, picks, teams, isAuthenticated, userId);
-
-    // Create a temporary text area element
-    const textArea = document.createElement('textarea');
-    textArea.value = gamesToShare;
-
-    // Append the text area to the document
-    document.body.appendChild(textArea);
-
-    // Select the text in the text area
-    textArea.select();
-    textArea.setSelectionRange(0, textArea.value.length);
-
-    // Copy the selected text to the clipboard
-    document.execCommand('copy');
-
-    // Remove the temporary text area
-    document.body.removeChild(textArea);
-
-    this.setState(() => ({
-      isShareClicked: true
-    }));
-  };
-
-  handleGamesCopiedAlertClose = () => {
-    this.setState(() => ({
-      isShareClicked: false
-    }));
+  handleSpreadToggleOff = () => {
+    const value = "0";
+    localStorage.setItem("spreadModeToggle", value);
+    const { games, picks, teams, users } = this.state;
+    const spreadToggleLeaders = getLeaders({
+      games,
+      picks,
+      users,
+      teams,
+      spreadMode: value === "1",
+    });
+    this.setState({ leaders: spreadToggleLeaders });
   };
 
   render() {
@@ -406,14 +375,14 @@ class Leader extends Component {
 
       weeks,
       games,
+      picks,
+      teams,
 
       leagueId,
       year,
       weekId,
 
       leaders,
-
-      isShareClicked,
     } = this.state;
     const spreadMode = getSpreadMode() === "1";
     const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
@@ -421,6 +390,8 @@ class Leader extends Component {
     const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
     const leaderSummaryPadding = (areAnyGamesInProgress ? .5 : 0) + (spreadMode ? .5 : 0);
     const isLoading = dataLoading && !areAnyGamesInProgress;
+    const user = getUser();
+    const userId = get(user, "sub");
 
     return (
       <div>
@@ -510,56 +481,15 @@ class Leader extends Component {
               **
             </div>
           )}
-          <div style={{ display: 'flex' }}>
-            <CalendarReminder />
-            {
-              document.queryCommandSupported('copy') && 
-              <div
-                style={{
-                  marginTop: "25px",
-                  padding: "10px",
-                  backgroundColor: "#fff",
-                }}
-              >
-                <div style={{ fontSize: "9px", fontWeight: 700 }}>Share {isAuthenticated ? 'Picks': 'Games'}</div>
-                <div style={{ background: '#B3E6CA', margin: '5px', borderRadius: '8px' }}>
-                  <IconButton
-                    className={isShareClicked ? "fly-plane" : "" }
-                    style={{color: 'black'}}
-                    aria-label={isAuthenticated ? 'share picks': 'share games'}
-                  >
-                    <Send onClick={this.handleShareGames} style={{ WebkitTransform: 'rotate(-45deg)', transform: 'rotate(-45deg)' }}/>
-                  </IconButton>
-                  <Snackbar open={isShareClicked} style={{ color: '#FFD700'}} autoHideDuration={7000} onClose={this.handleGamesCopiedAlertClose} anchorOrigin={{ vertical: 'center', horizontal: 'center' }}>
-                    <Alert severity="success" onClose={this.handleGamesCopiedAlertClose} style={{ textAlign: 'center', backgroundColor: '#B3E6CA', color: '#000000', font: 'bold 14px monospace' }}>
-                      {isAuthenticated ? 'Picks are copied and ready to share with your friends around the world! 🌎🌍🌏' : 'Games are copied and ready to share with your friends around the world! 🌎🌍🌏'}
-                    </Alert>
-                  </Snackbar>
-                </div>
-              </div>
-            }
-            <div
-              onClick={this.handleSpreadToggle}
-              style={{
-                marginTop: "25px",
-                padding: "10px",
-                backgroundColor: "#fff",
-                marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined
-              }}
-            >
-              <div style={{ fontSize: "9px", fontWeight: 700 }}>vs Spread</div>
-              <div style={{ background: '#FCE385', margin: '5px', borderRadius: '8px' }}>
-                <IconButton
-                  style={
-                    spreadMode ? styles.toggleButtonOn : styles.toggleButtonOff
-                  }
-                  aria-label="toggle spread mode"
-                >
-                  {spreadMode ? <ToggleOn /> : <ToggleOff />}
-                </IconButton>
-              </div>
-            </div>
-          </div>
+          <GameEngagementBar
+            handleSpreadToggleOn={this.handleSpreadToggleOn}
+            handleSpreadToggleOff={this.handleSpreadToggleOff}
+            games={games}
+            picks={picks}
+            teams={teams}
+            isAuthenticated={isAuthenticated}
+            userId={userId}
+          />
           {
             <Box
               sx={{

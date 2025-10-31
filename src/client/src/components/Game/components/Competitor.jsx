@@ -52,7 +52,17 @@ const Competitor = (props) => {
             {!["59723313734d1d6202a85f25", "59723313734d1d6202a85f27"].includes(
               get(game, "leagueId")
             ) && (
-              <div style={{ fontSize: "25px", color: competitor.color }}>
+              <div style={{ 
+                color: competitor.color,
+                fontSize: "1.5rem",
+                color: "#ffffff",
+                padding: "4px",
+                backgroundColor: hasGameStarted(game.startDateTime) || game.isGameOver ? competitor.color : "transparent",
+                width: "3rem",
+                margin: "0 auto",
+                borderRadius: "4px",
+                fontWeight: "bold", 
+              }}>
                 {hasGameStarted(game.startDateTime) || game.isGameOver
                   ? get(competitor, "score") || 0
                   : undefined}
@@ -70,6 +80,8 @@ const Competitor = (props) => {
                 marginTop: competitor.country ? "-10px" : "0",
                 fontWeight: "600",
                 color: competitor.color,
+                borderBottom: `1rem solid ${competitor.color2}`,
+                margin: "0 auto",
               }}
             >
               <span

@@ -66,6 +66,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
               location: team.location,
               name: team.name || team.location,
               color: team.color,
+              color2: team.color2,
               record: competitor.finalRecord || competitor.record,
               country: team.country,
               selectedWinner,
@@ -93,6 +94,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
             name: team.name || team.location,
             location: team.location,
             color: team.color,
+            color2: team.color2,
             record: competitor.finalRecord || competitor.record,
             country: team.country,
             selected: picks.find(

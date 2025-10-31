@@ -1,6 +1,8 @@
 const get = require('lodash/get');
 
-const { nflTeams, ncaaTeams } = require('./teams');
+const { ncaaTeams } = require('./teams');
+
+const { nflTeams } = require('../utilities/teams/nfl');
 
 const teamStatTemplate = {
     gamesPlayed: {

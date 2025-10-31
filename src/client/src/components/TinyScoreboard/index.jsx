@@ -92,10 +92,10 @@ const TinyScoreboard = ({loading, title, games}) => {
                                                 <div style={{height:'14px'}}>
                                                     {game.isGameOver ? '' : hasGameStarted(game.startDateTime) ? formatQuarter(get(game,'playHistory[0].quarter')) : ''}
                                                 </div>
-                                                <div style={{height:'14px', color: game.competitors[0].score >= game.competitors[1].score ? 'darkgoldenrod' : ''}}>
+                                                <div style={{height:'14px', ...(game.competitors[0].score >= game.competitors[1].score && hasGameStarted(game.startDateTime) ? {borderRight: "8px solid #FCE385", paddingRight: "4px"} : {}) }}>
                                                     {hasGameStarted(game.startDateTime) ? game.competitors[0].score || 0 : null}
                                                 </div>
-                                                <div style={{height:'14px', color: game.competitors[1].score >= game.competitors[0].score ? 'darkgoldenrod' : ''}}>
+                                                <div style={{height:'14px', ...(game.competitors[1].score >= game.competitors[0].score && hasGameStarted(game.startDateTime) ? {borderRight: "8px solid #FCE385", paddingRight: "4px"} : {}) }}>
                                                     {hasGameStarted(game.startDateTime) ? game.competitors[1].score || 0 : null}
                                                 </div>
                                                 <div style={{height:'14px', width:'35px'}}>

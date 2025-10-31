@@ -21,7 +21,6 @@ const { getNflGameDataSource } = require('../utilities/getGameDataSource');
 
 const {
   nbaTeams,
-  nflTeams,
   premierLeagueTeams, 
   ncaaTeams, 
   mlbTeams,
@@ -31,6 +30,8 @@ const {
   nba2kCompetitors,
   wnbaTeams
 } = require('../utilities/teams');
+
+const { nflTeams } = require('../utilities/teams/nfl');
 
 let router = express.Router();
 
