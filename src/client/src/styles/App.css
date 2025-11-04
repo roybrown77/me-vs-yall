@@ -128,7 +128,7 @@ body {
   animation: planeAnimation 3s ease-in-out;
 }
 
-/* --- loader animation start --- */
+/* --- loader animation --- */
 
 .loader {
   margin-left: 50%;
@@ -192,9 +192,7 @@ body {
           animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite;
 }
 
-/* --- loade ranimation end --- */
-
-/* --- flash animation start --- */
+/* --- flash animation --- */
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes flash-keyframe {
@@ -228,9 +226,7 @@ body {
   animation-iteration-count:infinite;
 }
 
-/* --- flash animation end --- */
-
-/* --- fade animation start --- */
+/* --- fade animation --- */
 
 /* make keyframes that tell the start state and the end state of our object */
 
@@ -253,9 +249,7 @@ body {
   animation-duration:1s;
 }
 
-/* --- fade animation end --- */
-
-/* --- splash page start --- */
+/* --- splash page --- */
 
 @media screen and (min-width: 1000px) {
   #home {
@@ -281,9 +275,7 @@ body {
   font-weight: bold;
 }
 
-/* --- splash page end --- */
-
-/* --- header & side bar start --- */
+/* --- header & side bar --- */
 
 #app-bar {
   background-color: transparent !important;
@@ -297,9 +289,7 @@ body {
   font-weight: bold;
 }
 
-/* --- header & side bar end --- */
-
-/* --- leagues page start --- */
+/* --- leagues page --- */
 
 .list {
   padding: 0;
@@ -333,8 +323,6 @@ body {
   cursor: pointer;
 }
 
-/* --- leagues page end --- */
-
 /* --- login start--- */
 
 #login-container {
@@ -367,9 +355,7 @@ body {
   padding: 65px 20px;
 }
 
-/* --- login end --- */
-
-/* --- game start --- */
+/* --- game --- */
 
 .game-check {
   position: sticky;
@@ -409,9 +395,7 @@ body {
   z-index: 1;
 }
 
-/* --- game end --- */
-
-/* --- leaders page start --- */
+/* --- leaders page --- */
 
 .leader-win-loss-tie-header {
   font-weight: bold;
@@ -430,9 +414,7 @@ body {
   font: 1.4rem/1 sans-serif;
 }
 
-/* --- leaders page end --- */
-
-/* --- video stream start --- */
+/* --- video stream --- */
 
 .video-stream {
   display: none;
@@ -444,9 +426,7 @@ body {
   }
 }
 
-/* --- video stream end --- */
-
-/* --- text type animation start --- */
+/* --- text type animation --- */
 
 .typer-cursor {
   -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
@@ -459,9 +439,7 @@ body {
   margin-left: 10px;
 }
 
-/* --- text type animation end --- */
-
-/* --- mini game animation start --- */
+/* --- mini game animation --- */
 
 .ball {
   width: 100px;
@@ -519,17 +497,13 @@ body {
   z-index: 10000;
 }
 
-/* --- mini game animation end --- */
-
-/* --- remaining games toast popup start --- */
+/* --- remaining games toast popup --- */
 
 .remaining-games-notifier {
   bottom: 50px !important;
 }
 
-/* --- remaining games toast popup end --- */
-
-/* --- one tap sign in start --- */
+/* --- one tap sign in --- */
 
 .one-tap-sign-in {
   left: 0 !important;
@@ -543,8 +517,6 @@ body {
     width: 50%;
   }
 }
-
-/* --- one tap sign in end --- */
 
 @keyframes nudgeSun {
   0% { transform: rotate(0deg); }
@@ -560,4 +532,68 @@ body {
   0% { transform: translateX(0); }
   50% { transform: translateX(10px); }
   100% { transform: translateX(0); }
+}
+
+/* animated-border-box */
+
+.center-box {
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animated-border-box {
+  height: 2rem;
+  width: 10rem;
+  position: absolute;
+  overflow: hidden; 
+  z-index: 0;
+  /* Border Radius */
+	border-radius: 10px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1rem;
+  padding-top: .75rem;
+  cursor: pointer;
+}
+
+.animated-border-box:before {
+  content: '';
+  z-index: -2;
+  text-align: center;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(0deg);
+  position: absolute;
+	width: 99999px;
+	height: 99999px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+  /*border color, change middle color*/
+	background-image: conic-gradient(rgba(0,0,0,0), #1976ed, rgba(0,0,0,0) 25%);
+  /* change speed here */
+	animation: rotate 2s linear infinite;
+}
+
+.animated-border-box:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+  /* border width */
+	left: 5px;
+	top: 5px;
+  /* double the px from the border width left */
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+  /*bg color*/
+	background: #292a2e;
+  /*box border radius*/
+	border-radius: 7px;
+}
+
+@keyframes rotate {
+	100% {
+		transform: translate(-50%, -50%) rotate(1turn);
+	}
 }

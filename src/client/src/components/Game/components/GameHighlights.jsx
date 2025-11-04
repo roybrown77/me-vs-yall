@@ -145,19 +145,10 @@ const GameHighlights = (props) => {
           );
         })}
       {(game.highlights || []).length > 5 && (
-        <div
-          style={{
-            color: "rgba(0,0,0,0.87)",
-            fontSize: "15px",
-            margin: "1rem 17% .25rem 17%",
-            padding: "2px",
-            border: "3px solid rgba(0,0,0,0.87)",
-            borderRadius: "8px",
-            cursor: 'pointer',
-          }}
-          onClick={handleChange}
-        >
-          {show ? "show less -" : "show more +"}
+        <div class="center-box" onClick={handleChange}>
+          <div class="animated-border-box">
+            {show ? "show less -" : "show more +"}
+          </div>
         </div>
       )}
     </>
