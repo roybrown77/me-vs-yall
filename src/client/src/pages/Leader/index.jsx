@@ -713,13 +713,13 @@ class Leader extends Component {
                                 <div
                                   style={{
                                     fontWeight: "700",
-                                    fontSize: "1rem",
+                                    fontSize: "1.25rem",
                                     width: "9rem",
                                   }}
                                 >
                                   {`${
                                     getGameStreakEmoji(leader.winsBeforeGameOver, leader.losses, leader.winsInARow, leader.lossesInARow)
-                                  }x${
+                                  } x${
                                     leader.winsInARow || leader.lossesInARow
                                   }`}
                                 </div>
