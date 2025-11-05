@@ -79,7 +79,7 @@ const leaderBackgroundColor = [
 const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
-  if (wins >= 0 && (wins + losses) < 17) {
+  if (wins > 0 && (wins + losses) < 17) {
     emoji = "☘️";
     if (wins >= 3) emoji += "🌳";
     if (wins >= 5) emoji += "🍄";
