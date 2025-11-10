@@ -70,8 +70,8 @@ const nflTeams = [
         location: 'Cincinnati',
         shortLocation: "CIN",
         name: "Bengals",
-        color: "#1A1A1A",
-        color2: "#FF6A1A",
+        color2: "#1A1A1A",
+        color: "#FF6A1A",
         stadiumName: "Paul Brown Stadium",
         stadiumCity: "Cincinnati, OH",
         emojis: ["🐯"]
