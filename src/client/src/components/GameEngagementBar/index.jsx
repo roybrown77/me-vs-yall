@@ -104,7 +104,7 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                             anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
                         >
                             <Alert
-                                severity="success"
+                                severity="none"
                                 onClose={handleGamesCopiedAlertClose}
                                 style={{
                                     textAlign: 'center',
@@ -163,7 +163,7 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                             }}
                         >
                             {'Spread mode activated!'}
-                            <span style={{ marginLeft: '4px', fontSize: '20px' }}>🐣</span>
+                            <span style={{ marginLeft: '4px', fontSize: '2rem' }}>🐣</span>
                         </Alert>
                     </Snackbar>
                 </div>
