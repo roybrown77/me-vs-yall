@@ -56,12 +56,12 @@ const Competitor = (props) => {
                 color: competitor.color,
                 fontSize: "1.5rem",
                 color: "#ffffff",
-                padding: "4px",
+                padding: hasGameStarted(game.startDateTime) ? "4px" : "0",
                 backgroundColor: hasGameStarted(game.startDateTime) || game.isGameOver ? competitor.color : "transparent",
                 width: "3rem",
-                margin: "0 auto",
-                marginBottom: ".5rem",
-                borderRadius: "4px",
+                margin: hasGameStarted(game.startDateTime) ? "0 auto" : "0",
+                marginBottom: hasGameStarted(game.startDateTime) ? ".5rem" : "0",
+                borderRadius: hasGameStarted(game.startDateTime) ? "4px" : "0",
                 fontWeight: "bold", 
               }}>
                 {hasGameStarted(game.startDateTime) || game.isGameOver
