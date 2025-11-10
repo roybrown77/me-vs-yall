@@ -162,7 +162,8 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                                 font: 'bold 14px monospace',
                             }}
                         >
-                            {'Spread mode activated! 🐣'}
+                            {'Spread mode activated!'}
+                            <span style={{ marginLeft: '4px', fontSize: '20px' }}>🐣</span>
                         </Alert>
                     </Snackbar>
                 </div>
