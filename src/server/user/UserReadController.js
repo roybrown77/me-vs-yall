@@ -101,26 +101,26 @@ const mvyQueenStorm = {
 router.get('/users', async function (req, res) {
     try {
         const gameType = req.query?.gameType;
-            const leagueId = req.query?.leagueId;
-            const year = req.query?.year;
+        const leagueId = req.query?.leagueId;
+        const year = req.query?.year;
+        
+        const search = {
+            leagueId: new mongoose.Types.ObjectId(leagueId),
+            userId: req.query?.userId,
+            year: year,
+            gameType: gameType === "1" ? 1 : { $ne: 1 },
+            createDateTime: {
+                $gte: new Date(moment(req.query?.beginDateTime)),
+                $lte: new Date(moment(req.query?.endDateTime))
+            }
+            };
             
-            const search = {
-                leagueId: new mongoose.Types.ObjectId(leagueId),
-                userId: req.query?.userId,
-                year: year,
-                gameType: gameType === "1" ? 1 : { $ne: 1 },
-                createDateTime: {
-                  $gte: new Date(moment(req.query?.beginDateTime)),
-                  $lte: new Date(moment(req.query?.endDateTime))
-                }
-              };
-                
-            const finalSearch = omit(search, 
-                [
-                    req.query?.userId ?? 'userId', 
-                    !(req.query?.beginDateTime && req.query?.endDateTime) || req.query?.beginDateTime === '-1' ? 'createDateTime' : undefined
-                ]
-            );
+        const finalSearch = omit(search, 
+            [
+                req.query?.userId ?? 'userId', 
+                !(req.query?.beginDateTime && req.query?.endDateTime) || req.query?.beginDateTime === '-1' ? 'createDateTime' : undefined
+            ]
+        );
 
         const picks = await pickRepository.find(finalSearch);
 
