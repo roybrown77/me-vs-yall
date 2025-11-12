@@ -1,8 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const moment = require('moment-timezone');
+
+const omit = require('lodash/omit');
+
+const pickRepository = require('../pick/PickRepository');
+const userRepository = require('./UserRepository');
 
 let router = express.Router();
-
-const userRepository = require('./UserRepository');
 
 const get = require('lodash/get');
 
@@ -95,14 +100,41 @@ const mvyQueenStorm = {
 
 router.get('/users', async function (req, res) {
     try {
+        const gameType = req.query?.gameType;
+            const leagueId = req.query?.leagueId;
+            const year = req.query?.year;
+            
+            const search = {
+                leagueId: new mongoose.Types.ObjectId(leagueId),
+                userId: req.query?.userId,
+                year: year,
+                gameType: gameType === "1" ? 1 : { $ne: 1 },
+                createDateTime: {
+                  $gte: new Date(moment(req.query?.beginDateTime)),
+                  $lte: new Date(moment(req.query?.endDateTime))
+                }
+              };
+                
+            const finalSearch = omit(search, 
+                [
+                    req.query?.userId ?? 'userId', 
+                    !(req.query?.beginDateTime && req.query?.endDateTime) || req.query?.beginDateTime === '-1' ? 'createDateTime' : undefined
+                ]
+            );
+
+        const picks = await pickRepository.find(finalSearch);
+
         const users = await userRepository.find({});
-        const goodUsers = [];
-        users.forEach(user=>{
+        const filteredUsers = users.filter(user => 
+            picks.some(pick => pick.userId === user.authServiceId || !isNaN(pick.userId))
+        );
+        const finalUsers = [];
+        filteredUsers.forEach(user=>{
             const x = user;
             x.email = undefined;
             x.picture = censoredIds.includes(x.authServiceId) ? null : x.picture;
             x.lastName = !!get(user,'lastName') ? (get(user,'lastName')[0] + '.' + (excludedIds.includes(user.authServiceId) ? ' - excluded' : '')) : '';
-            goodUsers.push(x);
+            finalUsers.push(x);
         });
 
         const kingsAndQueens = [ 
@@ -125,7 +157,7 @@ router.get('/users', async function (req, res) {
         console.log('Request by:', req.query?.authId);
 
         res.status(200).send([
-            ...goodUsers, 
+            ...finalUsers, 
             vegas,
             mvyKingHomer,
             ...(adminUsers.includes(req.query?.authId) ? kingsAndQueens : []),
