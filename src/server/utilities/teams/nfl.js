@@ -312,8 +312,8 @@ const nflTeams = [
         location: 'Seattle',
         shortLocation: "SEA",
         name: "Seahawks",
-        color2: "#0033AA",
-        color: "#7AFF5A",
+        color: "#0033AA",
+        color2: "#7AFF5A",
         stadiumName: "Lumen Field",
         stadiumCity: "Seattle, WA",
         emojis: ["🌊🦅","🎸"]
