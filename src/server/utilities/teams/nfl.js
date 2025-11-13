@@ -5,8 +5,8 @@ const nflTeams = [
         shortLocation: "ARI",
         name: "Cardinals",
         color: "#FF5A6E",
-        color2: "#1A1A1A",
-        stadiumName: "University of Phoenix Stadium",
+        color2: "#535353",
+        stadiumName: "State Farm Stadium",
         stadiumCity: "Glendale, AZ",
         emojis: ["🐦"]
     },
@@ -16,7 +16,7 @@ const nflTeams = [
         shortLocation: "ATL",
         name: "Falcons",
         color: "#FF4A5E",
-        color2: "#1A1A1A",
+        color2: "#535353",
         stadiumName: "Mercedes-Benz Stadium",
         stadiumCity: "Atlanta, GA",
         emojis: ["🦅","🅰️"]
@@ -27,7 +27,7 @@ const nflTeams = [
         shortLocation: "BAL",
         name: "Ravens",
         color: "#5A2BFF",
-        color2: "#1A1A1A",
+        color2: "#535353",
         stadiumName: "M&T Bank Stadium",
         stadiumCity: "Baltimore, MD",
         emojis: ["🦅"]
@@ -39,7 +39,7 @@ const nflTeams = [
         name: "Bills",
         color: "#0055FF",
         color2: "#FF3344",
-        stadiumName: "New Era Field",
+        stadiumName: "Highmark Stadium",
         stadiumCity: "Orchard Park, NY",
         emojis: ["🦬","🐃"]
     },
@@ -49,7 +49,7 @@ const nflTeams = [
         shortLocation: "CAR",
         name: "Panthers",
         color: "#00CFFF",
-        color2: "#1A1A1A",
+        color2: "#535353",
         stadiumName: "Bank of America Stadium",
         stadiumCity: "Charlotte, NC",
         emojis: ["🐆"]
@@ -70,9 +70,9 @@ const nflTeams = [
         location: 'Cincinnati',
         shortLocation: "CIN",
         name: "Bengals",
-        color2: "#1A1A1A",
+        color2: "#535353",
         color: "#FF6A1A",
-        stadiumName: "Paul Brown Stadium",
+        stadiumName: "Paycor Stadium",
         stadiumCity: "Cincinnati, OH",
         emojis: ["🐯"]
     },
@@ -83,7 +83,7 @@ const nflTeams = [
         name: "Browns",
         color2: "#5A2B00",
         color: "#FF5A00",
-        stadiumName: "FirstEnergy Stadium",
+        stadiumName: "Cleveland Browns Stadium",
         stadiumCity: "Cleveland, OH",
         emojis: ["🐕"]
     },
@@ -105,7 +105,7 @@ const nflTeams = [
         name: "Broncos",
         color: "#FF6A1A",
         color2: "#0033AA",
-        stadiumName: "Sports Authority Field",
+        stadiumName: "Empower Field at Mile High",
         stadiumCity: "Denver, CO",
         emojis: ["🐎"]
     },
@@ -160,7 +160,7 @@ const nflTeams = [
         name: "Jaguars",
         color: "#00AFAF",
         color2: "#DFAF5A",
-        stadiumName: "EverBank Field",
+        stadiumName: "EverBank Stadium",
         stadiumCity: "Jacksonville, FL",
         emojis: ["🐆"]
     },
@@ -171,7 +171,7 @@ const nflTeams = [
         name: "Chiefs",
         color: "#FF3344",
         color2: "#FFD144",
-        stadiumName: "Arrowhead Stadium",
+        stadiumName: "GEHA Field at Arrowhead Stadium",
         stadiumCity: "Kansas City, MO",
         emojis: ["👨🏾‍🚒","👨🏼‍🚒"]
     },
@@ -180,8 +180,10 @@ const nflTeams = [
         location: 'Las Vegas',
         shortLocation: "LV",
         name: "Raiders",
-        color2: "#1A1A1A",
+        color2: "#535353",
         color: "#C5D5DF",
+        stadiumName: "Allegiant Stadium",
+        stadiumCity: "Paradise, NV",
         emojis: ["🏴‍☠️","🎰","🎲"]
     },
     {
@@ -191,7 +193,7 @@ const nflTeams = [
         name: "Chargers",
         color: "#00AFFF",
         color2: "#FFD144",
-        stadiumName: "Los Angeles Stadium",
+        stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, CA",
         emojis: ["🌩️","⚡️"]
     },
@@ -202,7 +204,7 @@ const nflTeams = [
         name: "Rams",
         color: "#0055FF",
         color2: "#FFE144",
-        stadiumName: "Los Angeles Stadium",
+        stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, CA",
         emojis: ["🐏"]
     },
@@ -214,7 +216,7 @@ const nflTeams = [
         color: "#00DFFF",
         color2: "#FF6A1A",
         stadiumName: "Hard Rock Stadium",
-        stadiumCity: "Miami, FL",
+        stadiumCity: "Miami Gardens, FL",
         emojis: ["🐬"]
     },
     {
@@ -245,8 +247,8 @@ const nflTeams = [
         shortLocation: "NO",
         name: "Saints",
         color: "#FFDDAA",
-        color2: "#1A1A1A",
-        stadiumName: "Mercedes-Benz Superdome",
+        color2: "#535353",
+        stadiumName: "Caesars Superdome",
         stadiumCity: "New Orleans, LA",
         emojis: ["😇"]
     },
@@ -267,7 +269,7 @@ const nflTeams = [
         shortLocation: "NYJ",
         name: "Jets",
         color: "#1A9F5A",
-        color2: "#1A1A1A",
+        color2: "#535353",
         stadiumName: "MetLife Stadium",
         stadiumCity: "East Rutherford, NJ",
         emojis: ["🛩️"]
@@ -289,8 +291,8 @@ const nflTeams = [
         shortLocation: "PIT",
         name: "Steelers",
         color: "#FFD144",
-        color2: "#1A1A1A",
-        stadiumName: "Heinz Field",
+        color2: "#535353",
+        stadiumName: "Acrisure Stadium",
         stadiumCity: "Pittsburgh, PA",
         emojis: ["🛠️","⚔️","⚒️"]
     },
@@ -312,7 +314,7 @@ const nflTeams = [
         name: "Seahawks",
         color2: "#0033AA",
         color: "#7AFF5A",
-        stadiumName: "CenturyLink Field",
+        stadiumName: "Lumen Field",
         stadiumCity: "Seattle, WA",
         emojis: ["🌊🦅","🎸"]
     },

@@ -53,16 +53,15 @@ const Competitor = (props) => {
               get(game, "leagueId")
             ) && (
               <div style={{ 
-                color: competitor.color,
                 fontSize: "1.5rem",
-                color: "#ffffff",
-                padding: hasGameStarted(game.startDateTime) ? "4px" : "0",
-                backgroundColor: hasGameStarted(game.startDateTime) || game.isGameOver ? competitor.color : "transparent",
+                fontWeight: "bold",
                 width: "3rem",
+                color: "#ffffff",
+                backgroundColor: hasGameStarted(game.startDateTime) || game.isGameOver ? competitor.color : "transparent",
+                borderRadius: hasGameStarted(game.startDateTime) ? "4px" : "0",
+                padding: hasGameStarted(game.startDateTime) ? "4px" : "0",
                 margin: hasGameStarted(game.startDateTime) ? "0 auto" : "0",
                 marginBottom: hasGameStarted(game.startDateTime) ? ".5rem" : "0",
-                borderRadius: hasGameStarted(game.startDateTime) ? "4px" : "0",
-                fontWeight: "bold", 
               }}>
                 {hasGameStarted(game.startDateTime) || game.isGameOver
                   ? get(competitor, "score") || 0
