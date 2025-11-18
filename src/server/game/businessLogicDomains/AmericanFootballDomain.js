@@ -58,12 +58,9 @@ const updateAmericanFootballScores = async ({
   livePossession,
   liveCurrentPlaySelector,
   spreadSelector,
-  finalGameOverSelector,
-  pregameNameSelector,
-  liveNameSelector,
-  finalNameSelector,
-  liveScoreSelector,
-  finalScoreSelector,
+  gameOverSelector,
+  nameSelector,
+  scoreSelector,
 }) => {
   const now = Date.now();
 
@@ -128,12 +125,9 @@ const updateAmericanFootballScores = async ({
       livePossession,
       liveCurrentPlaySelector,
       spreadSelector,
-      finalGameOverSelector,
-      pregameNameSelector,
-      liveNameSelector,
-      finalNameSelector,
-      liveScoreSelector,
-      finalScoreSelector,
+      gameOverSelector,
+      nameSelector,
+      scoreSelector,
     });
     
     if (scores.length === 0) {

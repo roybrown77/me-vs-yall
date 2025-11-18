@@ -299,17 +299,14 @@ const getScores = async ({
     message,
     url,
     root,
+    livePossession,
     liveCurrentTimeSelector,
     liveDownSelector,
-    livePossession,
     liveCurrentPlaySelector,
     spreadSelector,
-    finalGameOverSelector,
-    pregameNameSelector,
-    liveNameSelector,
-    finalNameSelector,
-    liveScoreSelector,
-    finalScoreSelector,
+    nameSelector,
+    scoreSelector,
+    gameOverSelector,
 }) => {
   let browser;
   let page;
@@ -362,32 +359,22 @@ const getScores = async ({
       const awayTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
 
       const homeTeam = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, finalNameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+      }, nameSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
 
       const awayScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
+      }, scoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
 
       const homeScore = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, finalScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
-
-      const awayInProgressScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'away'));
-
-      const homeInProgressScore = await page.evaluate((sel) => {
-        const element = document.querySelector(sel);
-        return element ? element.innerText : null;
-      }, liveScoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
+      }, scoreSelector.replace("INDEX", i).replace("HOMEAWAY", 'home'));
 
       const lastPlay = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
@@ -412,7 +399,7 @@ const getScores = async ({
       const gameOverText = await page.evaluate((sel) => {
         const element = document.querySelector(sel);
         return element ? element.innerText : null;
-      }, finalGameOverSelector.replace("INDEX", i));
+      }, gameOverSelector.replace("INDEX", i));
 
       const spreadTeam = (spread || "").includes('Spread:') 
         ? (spread?.match(/Spread:\s*([A-Z]+)\s*-/) || [])[1] 
@@ -425,8 +412,6 @@ const getScores = async ({
           homeTeam: (homeTeam || '').trim(),
           awayScore: parseInt(awayScore) || 0,
           homeScore: parseInt(homeScore) || 0,
-          awayInProgressScore: parseInt(awayInProgressScore) || 0,
-          homeInProgressScore: parseInt(homeInProgressScore) || 0,
           lastPlay: lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '',
           currentTime,
           down,
@@ -515,11 +500,8 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
     const endQuarter = get(newPlayHistory,'0.lastPlay','').toLowerCase().includes('end of');
     const shouldSetCurrentTime = (quarter && quarter !== 'Halftime' && !endQuarter) && currentTimeFormatted !== null;
 
-    const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore'))
-        : ((get(score,'awayInProgressScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayInProgressScore'));
-
-    const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore'))
-        : ((get(score,'homeInProgressScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeInProgressScore'));
+    const awayScore = isGameOver ? ((get(score,'awayScore') || 0) <= (get(game,'competitors.0.score') || 0) ? get(game,'competitors.0.score') : get(score,'awayScore')) : 0;
+    const homeScore = isGameOver ? ((get(score,'homeScore') || 0) <= (get(game,'competitors.1.score') || 0) ? get(game,'competitors.1.score') : get(score,'homeScore')) : 0;
 
     const updatedGame = {
       competitors: [...get(game,'competitors',[])],
@@ -532,8 +514,8 @@ const updateGames = async ({ message, leagueId, games = [], scores = [], teams =
       possession: get(score,'possession')
     };
 
-    set(updatedGame,'competitors.0.score', score.awayScore);
-    set(updatedGame,'competitors.1.score', score.homeScore);
+    set(updatedGame,'competitors.0.score', awayScore);
+    set(updatedGame,'competitors.1.score', homeScore);
     
     const spreadTeam = teams.find(x=>x.shortLocation.toLowerCase() === get(score,'spread.team','')?.toLowerCase());
 
