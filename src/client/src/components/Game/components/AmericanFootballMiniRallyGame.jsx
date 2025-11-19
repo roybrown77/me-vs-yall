@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Button from "@mui/material/Button";
 
 import AmericanFootballField from "./Fields/AmericanFootballField";
 
@@ -110,17 +111,11 @@ const AmericanFootballMiniRallyGame = (props) => {
           selectionMade: props.selectionMade,
         }}
       />
-      {false && (
-        <div>
-          <Button
-            size="small"
-            styles={styles.gamePlayMessage}
-            onClick={() => {}}
-          >
-            Let's Ball!
-          </Button>
-        </div>
-      )}
+      <div style={{ fontFamily: 'monospace', fontSize: "10px", color: "black", fontWeight: "600", marginTop: "-15px" }}>
+        <div>{props.game.competitors[1].stadiumName}</div>
+        <div>{props.game.competitors[1].stadiumLocation}</div>
+        <div>{props.game.competitors[1].stadiumCity}</div>
+      </div>
     </div>
   );
 };

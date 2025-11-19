@@ -62,15 +62,11 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
                     getSpreadAmount(game.spread.amount)));
             return {
               ...competitor,
-              shortLocation: team.shortLocation,
-              location: team.location,
-              name: team.name || team.location,
-              color: team.color,
-              color2: team.color2,
+              ...team,
               record: competitor.finalRecord || competitor.record,
-              country: team.country,
               selectedWinner,
               selected: !!teamAPick,
+              name: team.name || team.location,
             };
           }),
         };
@@ -90,13 +86,8 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
           const team = teams.find((x) => x._id === competitor._id);
           return {
             ...competitor,
-            shortLocation: team.shortLocation,
-            name: team.name || team.location,
-            location: team.location,
-            color: team.color,
-            color2: team.color2,
+            ...team,
             record: competitor.finalRecord || competitor.record,
-            country: team.country,
             selected: picks.find(
               (x) =>
                 x.gameId === game._id &&
@@ -105,6 +96,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
             )
               ? true
               : false,
+            name: team.name || team.location,
           };
         }),
       };
