@@ -264,15 +264,15 @@ body {
 
 .link-text:hover {
   color: dodgerblue !important;
-  border-bottom: 1px solid dodgerblue !important;
-  font-weight: bold;
+  font-weight: bold !important;
+  font-size: 10px !important;
 }
 
 .link-text-main:hover {
   color: dodgerblue !important;
-  border: .5rem solid dodgerblue !important;
   padding: .25rem;
   font-weight: bold;
+  font-size: 17px;
 }
 
 /* --- header & side bar --- */
