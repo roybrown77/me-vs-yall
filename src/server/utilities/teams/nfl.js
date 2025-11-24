@@ -8,7 +8,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "State Farm Stadium",
         stadiumCity: "Glendale, Arizona",
-        stadiumLocation: ["Sunny desert west of Phoenix"],
+        stadiumLocation: ["Sunny desert west of Phoenix", "A coliseum rising from the sun-scorched desert west of Phoenix"],
         emojis: ["🐦"]
     },
     {
@@ -20,7 +20,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "Mercedes-Benz Stadium",
         stadiumCity: "Atlanta, Georgia",
-        stadiumLocation: ["Heart of the Peach State"],
+        stadiumLocation: ["Heart of the Peach State", "A futuristic fortress in the heart of the Peach State"],
         emojis: ["🦅","🅰️"]
     },
     {
@@ -32,7 +32,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "M&T Bank Stadium",
         stadiumCity: "Baltimore, Maryland",
-        stadiumLocation: ["Charming downtown by the Inner Harbor"],
+        stadiumLocation: ["Charming downtown by the Inner Harbor", "A charming downtown stronghold by the Inner Harbor"],
         emojis: ["🦅"]
     },
     {
@@ -44,7 +44,7 @@ const nflTeams = [
         color2: "#FF3344",
         stadiumName: "Highmark Stadium",
         stadiumCity: "Orchard Park, New York",
-        stadiumLocation: ["Brisk Bills mafia territory south of Buffalo"],
+        stadiumLocation: ["Brisk Bills mafia territory south of Buffalo", "A frozen fortress where the Bills Mafia reigns supreme"],
         emojis: ["🦬","🐃"]
     },
     {
@@ -56,7 +56,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "Bank of America Stadium",
         stadiumCity: "Charlotte, North Carolina",
-        stadiumLocation: ["Vibrant downtown with Southern charm"],
+        stadiumLocation: ["Vibrant downtown with Southern charm", "A roaring downtown jungle in the heart of the Queen City"],
         emojis: ["🐆"]
     },
     {
@@ -68,7 +68,7 @@ const nflTeams = [
         color2: "#FF5A1A",
         stadiumName: "Soldier Field",
         stadiumCity: "Chicago, Illinois",
-        stadiumLocation: ["Windy city lakeside downtown"],
+        stadiumLocation: ["Windy city lakeside downtown", "A legendary battleground on the shores of Lake Michigan"],
         emojis: ["🐻"]
     },
     {
@@ -80,7 +80,7 @@ const nflTeams = [
         color: "#FF6A1A",
         stadiumName: "Paycor Stadium",
         stadiumCity: "Cincinnati, Ohio",
-        stadiumLocation: ["Roaring downtown by the river"],
+        stadiumLocation: ["Roaring downtown by the river", "A jungle of stripes roaring by the Ohio River"],
         emojis: ["🐯"]
     },
     {
@@ -92,7 +92,7 @@ const nflTeams = [
         color: "#FF5A00",
         stadiumName: "Huntington Bank Field",
         stadiumCity: "Cleveland, Ohio",
-        stadiumLocation: ["Breezy Lake Erie waterfront"],
+        stadiumLocation: ["Breezy Lake Erie waterfront", "A gridiron fortress on the shores of Lake Erie"],
         emojis: ["🐕"]
     },
     {
@@ -104,7 +104,7 @@ const nflTeams = [
         color2: "#A8C4C4",
         stadiumName: "AT&T Stadium",
         stadiumCity: "Arlington, Texas",
-        stadiumLocation: ["Big Texan vibes between Dallas and Fort Worth"],
+        stadiumLocation: ["Big Texan vibes between Dallas and Fort Worth", "A grand cathedral of football deep in the heart of Texas between Dallas and Fort Worth"],
         emojis: ["🤠"]
     },
     {
@@ -116,7 +116,7 @@ const nflTeams = [
         color2: "#0033AA",
         stadiumName: "Empower Field at Mile High",
         stadiumCity: "Denver, Colorado",
-        stadiumLocation: ["Mile-high downtown with mountain views"],
+        stadiumLocation: ["Mile-high downtown with mountain views", "A mile-high coliseum with the Rockies as its backdrop"],
         emojis: ["🐎"]
     },
     {
@@ -128,7 +128,7 @@ const nflTeams = [
         color2: "#D0D7DC",
         stadiumName: "Ford Field",
         stadiumCity: "Detroit, Michigan",
-        stadiumLocation: ["Motor City downtown"],
+        stadiumLocation: ["Motor City downtown", "A Motor City den where lions roar"],
         emojis: ["🦁"]
     },
     {
@@ -140,7 +140,7 @@ const nflTeams = [
         color2: "#FFDD44",
         stadiumName: "Lambeau Field",
         stadiumCity: "Green Bay, Wisconsin",
-        stadiumLocation: ["Cheesehead central in a cozy neighborhood"],
+        stadiumLocation: ["Cheesehead central in a cozy neighborhood", "A frozen tundra where legends are born"],
         emojis: ["🧀"]
     },
     {
@@ -152,7 +152,7 @@ const nflTeams = [
         color2: "#FF4A5E",
         stadiumName: "NRG Stadium",
         stadiumCity: "Houston, Texas",
-        stadiumLocation: ["Lone Star pride in a bustling metropolis"],
+        stadiumLocation: ["Lone Star pride in a bustling metropolis", "A Lone Star coliseum brimming with Texas pride"],
         emojis: ["🤠"]
     },
     {
@@ -164,7 +164,7 @@ const nflTeams = [
         color2: "#C2D2D5",
         stadiumName: "Lucas Oil Stadium",
         stadiumCity: "Indianapolis, Indiana",
-        stadiumLocation: ["Racing downtown with Midwestern hospitality"],
+        stadiumLocation: ["Racing downtown with Midwestern hospitality", "A racing coliseum in the heart of the Midwest"],
         emojis: ["🐎","🏎"]
     },
     {
@@ -176,7 +176,7 @@ const nflTeams = [
         color2: "#DFAF5A",
         stadiumName: "EverBank Stadium",
         stadiumCity: "Jacksonville, Florida",
-        stadiumLocation: ["Sunny downtown by the St. Johns River"],
+        stadiumLocation: ["Sunny downtown by the St. Johns River", "A jungle lair by the St. Johns River"],
         emojis: ["🐆"]
     },
     {
@@ -188,7 +188,7 @@ const nflTeams = [
         color2: "#FFD144",
         stadiumName: "GEHA Field at Arrowhead Stadium",
         stadiumCity: "Kansas City, Missouri",
-        stadiumLocation: ["Barbecue capital at the Truman Sports Complex"],
+        stadiumLocation: ["Barbecue capital at the Truman Sports Complex", "Chief's kingdom in the heart of barbecue country"],
         emojis: ["👨🏾‍🚒","👨🏼‍🚒"]
     },
     {
@@ -200,7 +200,7 @@ const nflTeams = [
         color: "#C5D5DF",
         stadiumName: "Allegiant Stadium",
         stadiumCity: "Paradise, Nevada",
-        stadiumLocation: ["Fabulous Las Vegas Strip vicinity"],
+        stadiumLocation: ["Fabulous Las Vegas Strip vicinity", "A pirate's haven in the neon glow of the Vegas Strip"],
         emojis: ["🏴‍☠️","🎰","🎲"]
     },
     {
@@ -212,7 +212,7 @@ const nflTeams = [
         color2: "#FFD144",
         stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, California",
-        stadiumLocation: ["Electrifying LA suburb"],
+        stadiumLocation: ["Electrifying LA suburb", "An electrifying arena in the City of Angels"],
         emojis: ["🌩️","⚡️"]
     },
     {
@@ -224,7 +224,7 @@ const nflTeams = [
         color2: "#FFE144",
         stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, California",
-        stadiumLocation: ["Dazzling Lalaland suburb"],
+        stadiumLocation: ["Dazzling Lalaland suburb", "A dazzling coliseum in the heart of Hollywood dreams"],
         emojis: ["🐏"]
     },
     {
@@ -236,7 +236,7 @@ const nflTeams = [
         color2: "#FF6A1A",
         stadiumName: "Hard Rock Stadium",
         stadiumCity: "Miami Gardens, Florida",
-        stadiumLocation: ["Tropical paradise north of Miami"],
+        stadiumLocation: ["Tropical paradise north of Miami", "A tropical fortress where the sun meets the sea"],
         emojis: ["🐬"]
     },
     {
@@ -248,7 +248,7 @@ const nflTeams = [
         color2: "#FFD144",
         stadiumName: "U.S. Bank Stadium",
         stadiumCity: "Minneapolis, Minnesota",
-        stadiumLocation: ["Downtown with Viking spirit"],
+        stadiumLocation: ["Downtown with Viking spirit", "A Nordic stronghold in the land of 10,000 lakes"],
         emojis: ["🔱","🎸"]
     },
     {
@@ -260,7 +260,7 @@ const nflTeams = [
         color: "#0D3F5F",
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxborough, Massachusetts",
-        stadiumLocation: ["Historic region 25 miles southwest of Boston"],
+        stadiumLocation: ["Historic region 25 miles southwest of Boston", "A bastion of history and grit in the heart of New England"],
         emojis: ["🦞"]
     },
     {
@@ -272,7 +272,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "Caesars Superdome",
         stadiumCity: "New Orleans, Louisiana",
-        stadiumLocation: ["Jazz-filled French Quarter vibes"],
+        stadiumLocation: ["Jazz-filled French Quarter vibes", "A cathedral of football in the jazz-filled Big Easy"],
         emojis: ["😇"]
     },
     {
@@ -284,7 +284,7 @@ const nflTeams = [
         color2: "#FF3344",
         stadiumName: "MetLife Stadium",
         stadiumCity: "East Rutherford, New Jersey",
-        stadiumLocation: ["Big Apple vibes in the Meadowlands"],
+        stadiumLocation: ["Big Apple vibes in the Meadowlands", "A towering colossus in the shadow of the Big Apple"],
         emojis: ["🗽"]
     },
     {
@@ -296,7 +296,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "MetLife Stadium",
         stadiumCity: "East Rutherford, New Jersey",
-        stadiumLocation: ["Sky-high energy in the Meadowlands"],
+        stadiumLocation: ["Sky-high energy in the Meadowlands", "A sky-high arena where dreams take flight"],
         emojis: ["🛩️"]
     },
     {
@@ -308,7 +308,7 @@ const nflTeams = [
         color2: "#C5D5DF",
         stadiumName: "Lincoln Financial Field",
         stadiumCity: "Philadelphia, Pennsylvania",
-        stadiumLocation: ["Historic South Philly Sports Complex"],
+        stadiumLocation: ["Historic South Philly Sports Complex", "A battlefield of champions in the City of Brotherly Love"],
         emojis: ["🦅"]
     },
     {
@@ -320,7 +320,7 @@ const nflTeams = [
         color2: "#535353",
         stadiumName: "Acrisure Stadium",
         stadiumCity: "Pittsburgh, Pennsylvania",
-        stadiumLocation: ["Steel City North Shore"],
+        stadiumLocation: ["Steel City North Shore", "A steel fortress on the banks of the Three Rivers"],
         emojis: ["🛠️","⚔️","⚒️"]
     },
     {
@@ -332,7 +332,7 @@ const nflTeams = [
         color2: "#DFAF5A",
         stadiumName: "Levi's Stadium",
         stadiumCity: "Santa Clara, California",
-        stadiumLocation: ["Golden vibes 45 miles south of San Francisco"],
+        stadiumLocation: ["Golden vibes 45 miles south of San Francisco", "A golden arena where legends strike gold"],
         emojis: ["🧑🏼‍🚒"]
     },
     {
@@ -344,7 +344,7 @@ const nflTeams = [
         color2: "#7AFF5A",
         stadiumName: "Lumen Field",
         stadiumCity: "Seattle, Washington",
-        stadiumLocation: ["Rainy SoDo district with coffee aroma"],
+        stadiumLocation: ["Rainy SoDo district with coffee aroma", "A roaring fortress in the rainy SoDo district"],
         emojis: ["🌊🦅","🎸"]
     },
     {
@@ -356,7 +356,7 @@ const nflTeams = [
         color2: "#5A5A5A",
         stadiumName: "Raymond James Stadium",
         stadiumCity: "Tampa, Florida",
-        stadiumLocation: ["Pirate haven near the airport and Gulf Coast"],
+        stadiumLocation: ["Pirate haven near the airport and Gulf Coast", "A pirate's stronghold on the Gulf Coast"],
         emojis: ["🏴‍☠️"]
     },
     {
@@ -368,7 +368,7 @@ const nflTeams = [
         color2: "#5AAFFF",
         stadiumName: "Nissan Stadium",
         stadiumCity: "Nashville, Tennessee",
-        stadiumLocation: ["Music-filled East Bank of Cumberland River"],
+        stadiumLocation: ["Music-filled East Bank of Cumberland River", "A coliseum of music and might on the Cumberland River"],
         emojis: ["🔱","🥁",]
     },
     {
@@ -380,7 +380,7 @@ const nflTeams = [
         color2: "#FFD144",
         stadiumName: "Northwest Stadium",
         stadiumCity: "Landover, Maryland",
-        stadiumLocation: ["Historic outskirts of D.C. in Prince George's County"],
+        stadiumLocation: ["Historic outskirts of D.C. in Prince George's County", "A bastion of power on the historic outskirts of the nation's capital"],
         emojis: ["🧑🏾‍🚀","🧑‍🚀"]
     },
 ];
