@@ -9,6 +9,7 @@ const GameSchema = new mongoose.Schema({
     competitors: Array,
     hashCompetitors: String,
     spread: mongoose.Schema.Types.Mixed,
+    overUnder: Number,
     currentTime: String,
     down: String,
     playHistory: Array,
