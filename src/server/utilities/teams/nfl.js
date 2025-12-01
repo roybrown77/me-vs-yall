@@ -68,7 +68,7 @@ const nflTeams = [
         color2: "#FF5A1A",
         stadiumName: "Soldier Field",
         stadiumCity: "Chicago, Illinois",
-        stadiumLocation: ["Historic site by Lake Michigan", "A legendary venue in the Windy City"],
+        stadiumLocation: ["Bear cladded site by Lake Michigan", "A legendary venue in the Windy City"],
         emojis: ["🐻"]
     },
     {
@@ -140,7 +140,7 @@ const nflTeams = [
         color2: "#FFDD44",
         stadiumName: "Lambeau Field",
         stadiumCity: "Green Bay, Wisconsin",
-        stadiumLocation: ["Cozy neighborhood stadium with history", "A legendary tundra for Cheesehead fans"],
+        stadiumLocation: ["Cozy neighborhood stadium for Cheeseheads", "A legendary tundra for Cheesehead fans"],
         emojis: ["🧀"]
     },
     {
@@ -260,7 +260,7 @@ const nflTeams = [
         color: "#0D3F5F",
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxborough, Massachusetts",
-        stadiumLocation: ["Historic venue 25 miles southwest of Boston", "A bastion of grit in New England"],
+        stadiumLocation: ["Majestic venue 25 miles southwest of Boston", "A bastion of grit in New England"],
         emojis: ["🦞"]
     },
     {
@@ -308,7 +308,7 @@ const nflTeams = [
         color2: "#C5D5DF",
         stadiumName: "Lincoln Financial Field",
         stadiumCity: "Philadelphia, Pennsylvania",
-        stadiumLocation: ["Historic venue in South Philly", "A battleground of champions in the City of Brotherly Love"],
+        stadiumLocation: ["Iconic venue in South Philly", "A battleground of champions in the City of Brotherly Love"],
         emojis: ["🦅"]
     },
     {
@@ -380,7 +380,7 @@ const nflTeams = [
         color2: "#FFD144",
         stadiumName: "Northwest Stadium",
         stadiumCity: "Landover, Maryland",
-        stadiumLocation: ["Historic venue near the nation's capital", "A bastion of power in Prince George's County"],
+        stadiumLocation: ["Historic venue near the nation's capital", "Historic outskirts of D.C. in Prince George's County"],
         emojis: ["🧑🏾‍🚀","🧑‍🚀"]
     },
 ];
