@@ -13,15 +13,6 @@ if (!dbConnectionString) {
     process.exit(1);
 }
 
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    autoIndex: false,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-    family: 4,
-};
-
 mongoose.connection.on("connected", function(ref) {
     console.log("[MONGODB] - Connected!");
 });
@@ -36,13 +27,21 @@ mongoose.connection.on('disconnected', function () {
 
 try {
     console.log('[MONGODB] - Connecting...');
+    const options = {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        autoIndex: false,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+        family: 4,
+    };
     mongoose.connect(dbConnectionString, options);
 } catch (err) {
     console.log("[MONGODB] - initialization failed: ", err.message);
 }
 
 /*
-    Update games information every 10 seconds
+    Update game information every 10 seconds
 */
 
 const url = 'https://www.espn.com/nfl/scoreboard';
@@ -56,26 +55,14 @@ setInterval(async () => {
     const memoryUsage = process.memoryUsage();
     const memoryStatus = (() => {
         const usedMemoryMB = memoryUsage.heapUsed / 1024 / 1024;
-        if (usedMemoryMB < 200) return 'good';
-        if (usedMemoryMB < 400) return 'ok';
-        if (usedMemoryMB < 600) return 'poor';
-        return 'bad';
+        if (usedMemoryMB < 200) return 'Great!';
+        if (usedMemoryMB < 400) return 'Suspect';
+        if (usedMemoryMB < 600) return 'Poor';
+        return 'Bad';
     })();
 
     console.log(`Memory Usage: ${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`);
     console.log(`Memory Status: ${memoryStatus}`);
-
-    // Scrape game information from URL
-    const results = await scrapeGameInformation(url);
-
-    const mergedResults = results.map((result) => {
-        const updatedGames = result.game.map((game) => {
-            const teamData = nflTeams.find((team) => team.shortLocation === game.initial);
-            return teamData ? { ...game, teamDetails: teamData } : null;
-        }).filter(Boolean);
-
-        return updatedGames.length > 0 ? { ...result, game: updatedGames } : null;
-    }).filter(Boolean);
 
     // Find games to update
     const search = {
@@ -110,9 +97,11 @@ setInterval(async () => {
             return;
         }
 
+        const results = await scrapeGameInformation(url);
+
         // Update spreads only
         for (const game of games) {
-            const mergedGame = mergedResults.find((result) =>
+            const mergedGame = results.find((result) =>
                 result.game.some((team) =>
                     team.teamDetails._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()
                 )
@@ -142,8 +131,10 @@ setInterval(async () => {
     }
 
     // Update game scores and spreads
+    const results = await scrapeGameInformation(url);
+
     for (const game of games) {
-        const mergedGame = mergedResults.find((result) =>
+        const mergedGame = results.find((result) =>
             result.game.some((team) =>
                 team.teamDetails._id.toString().toLowerCase() === game.competitors[1]._id.toString().toLowerCase()
             )
@@ -183,7 +174,13 @@ setInterval(async () => {
 
                 await gameRepository.updateOne(
                     { _id: game._id },
-                    { $set: { competitors: updatedCompetitors, isGameOver: mergedGame.isGameOver } }
+                    { $set: { 
+                            competitors: updatedCompetitors,
+                            down: mergedGame.down,
+                            currentTime: mergedGame.currentTime,
+                            isGameOver: mergedGame.isGameOver 
+                        } 
+                    }
                 );
             }
         }
@@ -268,8 +265,8 @@ async function scrapeGameInformation(url) {
                     const isGameOverEl = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01');
                     const isGameOver = isGameOverEl ? !!isGameOverEl.textContent : false;
 
-                    const gameTimeEl = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative');
-                    const gameTime = gameTimeEl ? gameTimeEl.textContent.trim() : null;
+                    const currentTimeEl = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative');
+                    const currentTime = currentTimeEl ? currentTimeEl.textContent.trim() : null;
 
                     const downAndDistanceEl = gameElement.querySelector('.DriveChart2D__DownAndDistance');
                     const down = downAndDistanceEl ? downAndDistanceEl.textContent.trim() : null;
@@ -288,13 +285,13 @@ async function scrapeGameInformation(url) {
                         results.push({
                             card: cardHeader,
                             game: gameScores,
-                            lastPlay: lastPlay,
                             spread: spread,
                             total: total,
-                            isGameOver: isGameOver,
-                            gameTime: gameTime,
+                            currentTime: currentTime,
+                            lastPlay: lastPlay,
                             down: down,
-                            possession: possession
+                            possession: possession,
+                            isGameOver: isGameOver,
                         });
                     }
 
@@ -310,7 +307,14 @@ async function scrapeGameInformation(url) {
             return results;
         });
 
-        return results;
+        return results.map((result) => {
+                    const updatedGames = result.game.map((game) => {
+                        const teamData = nflTeams.find((team) => team.shortLocation === game.initial);
+                        return teamData ? { ...game, teamDetails: teamData } : null;
+                    }).filter(Boolean);
+
+                        return updatedGames.length > 0 ? { ...result, game: updatedGames } : null;
+                    }).filter(Boolean);
     } catch (error) {
         console.error('Error fetching the URL:', error.message);
         return [];
