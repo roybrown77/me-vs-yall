@@ -135,7 +135,6 @@ const setAmericanFootballPlays = (game) => {
     let lastHighlightTime;
 
     let playHistory = [];
-    let lastTime;
 
     for (let i = 0; i < game.playHistory.length; i++) {
       lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
