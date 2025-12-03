@@ -155,7 +155,9 @@ const setAmericanFootballPlays = (game) => {
 
       if ((lastPlay || "").toLowerCase().includes('field goal') || 
         (lastPlay || "").toLowerCase().includes('fg')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎁" : " 🥶");
+        const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄"];
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
       }
 
       if ((lastPlay || "").toLowerCase().includes('sacked')) {
@@ -185,7 +187,7 @@ const setAmericanFootballPlays = (game) => {
         (lastPlay || "").toLowerCase().includes('reverse') || 
         (lastPlay || "").toLowerCase().includes('intercept') || 
         (lastPlay || "").toLowerCase().includes('fumble')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎅🏿" : " 😳");
+        game.playHistory[i].lastPlay = lastPlay + " 😳";
       }
 
       if ((lastPlay || "").toLowerCase().includes('dance') ||
