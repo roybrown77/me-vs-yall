@@ -247,6 +247,64 @@ const setAmericanFootballPlays = (game) => {
   }
 }
 
+const setAmericanFootballDown = (game) => {
+  if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
+    const monthDay = parseInt(moment().format('MMDD'));
+
+    let downPlay = game.down?.replace('Last Play: ','').replace('Last play: ','') || '';
+
+    if ((downPlay || "").toLowerCase().includes('punt')) {
+      game.down = downPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
+    }
+
+    if ((downPlay || "").toLowerCase().includes('touchdown') || 
+      (downPlay || "").toLowerCase().includes('td')) {
+      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎄" : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
+    }
+
+    if ((downPlay || "").toLowerCase().includes('safety')) {
+      game.down = downPlay + " 🥳";
+    }
+
+    if ((downPlay || "").toLowerCase().includes('field goal') || 
+      (downPlay || "").toLowerCase().includes('fg')) {
+      const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄"];
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
+    }
+
+    if ((downPlay || "").toLowerCase().includes('sacked')) {
+      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " ⚡️🧟‍♂️" : " ⚡️🦖");
+    }
+
+    if ((downPlay || "").toLowerCase().includes('pass deep') || 
+      (downPlay || "").toLowerCase().includes('flea flicker') || 
+      (downPlay || "").toLowerCase().includes('hail mary') || 
+      (downPlay || "").toLowerCase().includes('statue of liberty') || 
+      (downPlay || "").toLowerCase().includes('philly special')) {
+      game.down = downPlay + " 🏈";
+    }
+
+    if ((downPlay || "").toLowerCase().includes('scramble')) {
+      game.down = downPlay + " 🚛";
+    }
+
+    if ((downPlay || "").toLowerCase().includes('unsportsmanlike') || 
+      (downPlay || "").toLowerCase().includes('play under review') || 
+      (downPlay || "").toLowerCase().includes('interference') || 
+      (downPlay || "").toLowerCase().includes('missed') || 
+      (downPlay || "").toLowerCase().includes('no good') || 
+      (downPlay || "").toLowerCase().includes('onside') || 
+      (downPlay || "").toLowerCase().includes('challenge') || 
+      (downPlay || "").toLowerCase().includes('upheld') ||
+      (downPlay || "").toLowerCase().includes('reverse') || 
+      (downPlay || "").toLowerCase().includes('intercept') || 
+      (downPlay || "").toLowerCase().includes('fumble')) {
+      game.down = downPlay + " 😳";
+    }
+  }
+}
+
 const setBasketballPlays = (game) => {
   if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
     const monthDay = parseInt(moment().format('MMDD'));
@@ -462,6 +520,7 @@ router.get('/games', async function (req, res) {
     if (!includeStrategies) {
       gamesThisRange.forEach(game=>{
         setAmericanFootballPlays(game);
+        setAmericanFootballDown(game);
         setBasketballPlays(game);
         setBaseballPlays(game);
 
