@@ -245,7 +245,7 @@ const setAmericanFootballPlays = (game) => {
     game.playHistory = [...new Set(playHistory)];
     game.highlights = [...new Set(highlights)];
   }
-}
+};
 
 const setAmericanFootballDown = (game) => {
   if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
@@ -303,7 +303,7 @@ const setAmericanFootballDown = (game) => {
       game.down = downPlay + " 😳";
     }
   }
-}
+};
 
 const setBasketballPlays = (game) => {
   if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
@@ -356,7 +356,7 @@ const setBasketballPlays = (game) => {
     game.playHistory = playHistory;
     game.highlights = highlights;
   }
-}
+};
 
 const setBaseballPlays = (game) => {
   if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
@@ -432,7 +432,7 @@ const setBaseballPlays = (game) => {
     game.playHistory = playHistory;
     game.highlights = highlights;
   }
-}
+};
 
 router.get('/games', async function (req, res) {
   console.log("time1: ", moment().format());
