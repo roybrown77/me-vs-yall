@@ -55,10 +55,10 @@ setInterval(async () => {
     const memoryUsage = process.memoryUsage();
     const memoryStatus = (() => {
         const usedMemoryMB = memoryUsage.heapUsed / 1024 / 1024;
-        if (usedMemoryMB < 200) return 'Great!';
-        if (usedMemoryMB < 400) return 'Suspect';
-        if (usedMemoryMB < 600) return 'Poor';
-        return 'Bad';
+        if (usedMemoryMB < 200) return 'Great! 🌞';
+        if (usedMemoryMB < 400) return 'Suspect 😐';
+        if (usedMemoryMB < 600) return 'Poor 😟';
+        return 'Bad 😞';
     })();
 
     console.log(`Memory Usage: ${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`);
@@ -176,7 +176,7 @@ setInterval(async () => {
                     { _id: game._id },
                     { $set: { 
                             competitors: updatedCompetitors,
-                            down: mergedGame.down,
+                            down: `${mergedGame.down} - last play: ${mergedGame.lastPlay}`,
                             currentTime: mergedGame.currentTime,
                             isGameOver: mergedGame.isGameOver 
                         } 
@@ -339,3 +339,4 @@ const calculateSpread = (mergedGame) => {
 
     return spread;
 };
+
