@@ -113,7 +113,7 @@ const AmericanFootballMiniRallyGame = (props) => {
       />
       <div style={{ fontFamily: 'monospace', fontSize: "10px", color: "black", fontWeight: "600", marginTop: "-15px" }}>
         <div>{props.game.competitors[1].stadiumName}</div>
-        <div>{props.game.competitors[1].stadiumLocation[Math.floor(Math.random() * props.game.competitors[1].stadiumLocation.length)]}</div>
+        <div>{props.game.competitors[1].stadiumLocation ? props.game.competitors[1].stadiumLocation[Math.floor(Math.random() * props.game.competitors[1].stadiumLocation.length)] : null}</div>
         <div>{props.game.competitors[1].stadiumCity}</div>
       </div>
     </div>
