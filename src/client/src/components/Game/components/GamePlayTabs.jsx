@@ -24,20 +24,21 @@ const TabState = {
 
 const getInitialTabValue = (game) => {
   if (!hasGameStarted(game.startDateTime)) {
-      // If the game hasn't started yet
       return (game.stats || []).length > 0 ? TabState.STATS : TabState.PLAY_HISTORY;
   }
   
   if (game.isGameOver) {
-      // If the game is over
       if ((game.highlights || []).length > 0) {
           return TabState.HIGHLIGHTS;
       }
       return (game.stats || []).length > 0 ? TabState.STATS : TabState.HIGHLIGHTS;
   }
-  
-  // Default case when the game has started but is not over
-  return TabState.PLAY_HISTORY;
+
+  if ((game.playHistory || []).length > 0) {
+      return TabState.PLAY_HISTORY;
+  }
+
+  return TabState.STATS;
 };
 
 const GamePlayTabs = (props) => {
