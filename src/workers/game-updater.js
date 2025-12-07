@@ -176,7 +176,7 @@ setInterval(async () => {
                     { _id: game._id },
                     { $set: { 
                             competitors: updatedCompetitors,
-                            down: `${mergedGame.down} - last play: ${mergedGame.lastPlay}`,
+                            down: `${mergedGame.down} - POSS: ${mergedGame.possession} - last play: ${mergedGame.lastPlay}`,
                             currentTime: mergedGame.currentTime,
                             isGameOver: mergedGame.isGameOver 
                         } 
