@@ -139,6 +139,8 @@ const setAmericanFootballPlays = (game) => {
     for (let i = 0; i < game.playHistory.length; i++) {
       lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
 
+      game.playHistory[i].lastPlay = lastPlay + ' 🎯🤩';
+
       if ((lastPlay || "").toLowerCase().includes('punt')) {
         game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
       }
@@ -253,13 +255,18 @@ const setAmericanFootballDown = (game) => {
 
     let downPlay = game.down?.replace('Last Play: ','').replace('Last play: ','') || '';
 
+    game.down = downPlay + ' 🎯🤩';
+
     if ((downPlay || "").toLowerCase().includes('punt')) {
       game.down = downPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
     }
 
+    const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄", "🤶🏾"];
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
     if ((downPlay || "").toLowerCase().includes('touchdown') || 
       (downPlay || "").toLowerCase().includes('td')) {
-      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎄" : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
+      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
     }
 
     if ((downPlay || "").toLowerCase().includes('safety')) {
@@ -267,9 +274,7 @@ const setAmericanFootballDown = (game) => {
     }
 
     if ((downPlay || "").toLowerCase().includes('field goal') || 
-      (downPlay || "").toLowerCase().includes('fg')) {
-      const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄"];
-      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        (downPlay || "").toLowerCase().includes('fg')) {
       game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
     }
 
@@ -302,6 +307,38 @@ const setAmericanFootballDown = (game) => {
       (downPlay || "").toLowerCase().includes('fumble')) {
       game.down = downPlay + " 😳";
     }
+
+    if ((downPlay || "").toLowerCase().includes('two-point conversion')) {
+      const skinTones = ["✌🏼", "✌🏾", "✌🏿"];
+      const randomSkinTone = skinTones[Math.floor(Math.random() * skinTones.length)];
+      game.down = downPlay + ` ${randomSkinTone}`;
+    }
+
+    if ((downPlay || "").toLowerCase().includes('timeout')) {
+      game.down = downPlay + " ⏱️";
+    }
+
+    if ((downPlay || "").toLowerCase().includes('sneak')) {
+      game.down = downPlay + " 🤫";
+    }
+
+    if ((downPlay || "").toLowerCase().includes('kickoff')) {
+      game.down = downPlay + " 🚀";
+    }
+
+    try {
+        const yardArray = /for([^yards]+)yards/.exec(downPlay);
+        if (Array(yardArray).length > 0) {
+          const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
+          const yardNumber = parseInt(yardString);
+
+          if (yardNumber >= 10 && !(downPlay || "").toLowerCase().includes('kick')) {
+            game.down = downPlay + " 🤩";
+          }
+        }
+      } catch (error) {
+        console.log("Error getting plays greater than or equal to 15 yards:", downPlay);
+      }
   }
 };
 
