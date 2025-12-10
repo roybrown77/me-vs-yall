@@ -212,7 +212,7 @@ const nflTeams = [
         color2: "#FFD144",
         stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, California",
-        stadiumLocation: ["Electrifying venue in LA", "A state-of-the-art arena in the City of Angels"],
+        stadiumLocation: ["Electrifying venue in Lalaland", "A state-of-the-art arena in the City of Angels"],
         emojis: ["🌩️","⚡️"]
     },
     {
