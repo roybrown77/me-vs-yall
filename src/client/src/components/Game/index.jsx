@@ -48,8 +48,8 @@ const getAstroPositionAndEmoji = () => {
   const hours = now.getHours();
   const percentageOfDay = (hours - 6) / 12;
   const position = Math.min(Math.max(percentageOfDay * 150 - 75, -75), 75);
-  const isDayTime = true; // hours >= 6 && hours < 18;
-  const emoji = isDayTime ? '☀️' : '🌑✨';
+  const isDayTime = hours >= 7 && hours < 19;
+  const emoji = isDayTime ? '☀️' : '🌕';
   return { position, emoji, isDayTime };
 };
 
@@ -315,44 +315,42 @@ const Game = (props) => {
           !disableTie && <TieButton {...componentProps} />
         }
         <div style={{ marginTop: "1rem" }}>
-          <div style={{ display: isDayTime ? "inline-flex" : "" }}>
+          <div style={{ display: "inline-flex" }}>
             <div
-              className={isDayTime ? "sun-nudge" : ""}
+              className={"celestial-nudge"}
               style={{ margin: "1rem 0", marginLeft: `${astroPosition}%` }}
             >
               {astroEmoji}
             </div>
-            {isDayTime && (
+            <div
+              className="clouds"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem",
+                marginLeft: "2rem",
+              }}
+            >
               <div
-                className="clouds"
+                className="cloud"
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "1rem",
-                  marginLeft: "2rem",
+                  fontSize: "2.5rem",
+                  animation: "moveClouds 5s linear infinite",
                 }}
               >
-                <div
-                  className="cloud"
-                  style={{
-                    fontSize: "2.5rem",
-                    animation: "moveClouds 5s linear infinite",
-                  }}
-                >
-                  ☁️
-                </div>
-                <div
-                  className="cloud"
-                  style={{
-                    fontSize: "2rem",
-                    animation: "moveClouds 7s linear infinite",
-                  }}
-                >
-                  ☁️
-                </div>
+                ☁️
               </div>
-            )}
+              <div
+                className="cloud"
+                style={{
+                  fontSize: "2rem",
+                  animation: "moveClouds 7s linear infinite",
+                }}
+              >
+                ☁️
+              </div>
+            </div>
           </div>
           {["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(
             get(game, "leagueId")

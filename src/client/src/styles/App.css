@@ -524,7 +524,7 @@ body {
   100% { transform: rotate(0deg); } /* Return to original position */
 }
 
-.sun-nudge {
+.celestial-nudge {
   animation: nudgeSun 3s ease-in-out infinite;
 }
 
