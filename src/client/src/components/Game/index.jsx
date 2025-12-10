@@ -40,7 +40,6 @@ const styles = {
     borderRadius: "8px",
     boxShadow: "none",
   },
-  // Other styles...
 };
 
 const getAstroPositionAndEmoji = () => {
