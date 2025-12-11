@@ -139,15 +139,18 @@ const setAmericanFootballPlays = (game) => {
     for (let i = 0; i < game.playHistory.length; i++) {
       lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
 
-      game.playHistory[i].lastPlay = lastPlay + ' 🎯🤩';
+      game.playHistory[i].lastPlay = lastPlay;
 
       if ((lastPlay || "").toLowerCase().includes('punt')) {
         game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
       }
 
+      const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄", "🤶🏾"];
+     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
       if ((lastPlay || "").toLowerCase().includes('touchdown') || 
         (lastPlay || "").toLowerCase().includes('td')) {
-        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " 🎄" : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
+        game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? `${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
       }
 
       if ((lastPlay || "").toLowerCase().includes('safety')) {
@@ -156,8 +159,6 @@ const setAmericanFootballPlays = (game) => {
 
       if ((lastPlay || "").toLowerCase().includes('field goal') || 
         (lastPlay || "").toLowerCase().includes('fg')) {
-        const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄"];
-        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
         game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
       }
 
@@ -191,6 +192,12 @@ const setAmericanFootballPlays = (game) => {
         game.playHistory[i].lastPlay = lastPlay + " 😳";
       }
 
+      if ((lastPlay || "").toLowerCase().includes('two-point conversion')) {
+        const skinTones = ["✌🏼", "✌🏾", "✌🏿"];
+        const randomSkinTone = skinTones[Math.floor(Math.random() * skinTones.length)];
+        game.playHistory[i].lastPlay = lastPlay + ` ${randomSkinTone}`;
+      }
+
       if ((lastPlay || "").toLowerCase().includes('dance') ||
         (lastPlay || "").toLowerCase().includes('fight') || 
         
@@ -219,6 +226,7 @@ const setAmericanFootballPlays = (game) => {
         (lastPlay || "").toLowerCase().includes('upheld') ||
         (lastPlay || "").toLowerCase().includes('reverse') || 
         (lastPlay || "").toLowerCase().includes('intercept') || 
+        (lastPlay || "").toLowerCase().includes('incomplete') || 
         (lastPlay || "").toLowerCase().includes('fumble')) {
 
         if (lastHighlightTime !== lastPlay.slice(0,7)) {
@@ -233,7 +241,8 @@ const setAmericanFootballPlays = (game) => {
           const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
           const yardNumber = parseInt(yardString);
 
-          if (yardNumber >= 15 && !(lastPlay || "").toLowerCase().includes('kick')) {
+          if (yardNumber >= 10 && !(lastPlay || "").toLowerCase().includes('kick')) {
+            game.playHistory[i].lastPlay = lastPlay + " 🎯🤩";
             highlights.push(game.playHistory[i]);
           }
         }
@@ -255,7 +264,7 @@ const setAmericanFootballDown = (game) => {
 
     let downPlay = game.down?.replace('Last Play: ','').replace('Last play: ','') || '';
 
-    game.down = downPlay + ' 🎯🤩';
+    game.down = downPlay;
 
     if ((downPlay || "").toLowerCase().includes('punt')) {
       game.down = downPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
@@ -303,7 +312,8 @@ const setAmericanFootballDown = (game) => {
       (downPlay || "").toLowerCase().includes('challenge') || 
       (downPlay || "").toLowerCase().includes('upheld') ||
       (downPlay || "").toLowerCase().includes('reverse') || 
-      (downPlay || "").toLowerCase().includes('intercept') || 
+      (downPlay || "").toLowerCase().includes('intercept') ||
+      (downPlay || "").toLowerCase().includes('incomplete') || 
       (downPlay || "").toLowerCase().includes('fumble')) {
       game.down = downPlay + " 😳";
     }
@@ -333,7 +343,7 @@ const setAmericanFootballDown = (game) => {
           const yardNumber = parseInt(yardString);
 
           if (yardNumber >= 10 && !(downPlay || "").toLowerCase().includes('kick')) {
-            game.down = downPlay + " 🤩";
+            game.down = downPlay + " 🎯🤩";
           }
         }
       } catch (error) {
