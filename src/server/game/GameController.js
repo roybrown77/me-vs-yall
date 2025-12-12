@@ -188,7 +188,8 @@ const setAmericanFootballPlays = (game) => {
         lastPlay.toLowerCase().includes('upheld') ||
         lastPlay.toLowerCase().includes('reverse') || 
         lastPlay.toLowerCase().includes('intercept') || 
-        lastPlay.toLowerCase().includes('fumble')) {
+        lastPlay.toLowerCase().includes('fumble') ||
+        lastPlay.toLowerCase().includes('incomplete')) {
         game.playHistory[i].lastPlay = lastPlay + " 😳";
       }
 
