@@ -137,97 +137,97 @@ const setAmericanFootballPlays = (game) => {
     let playHistory = [];
 
     for (let i = 0; i < game.playHistory.length; i++) {
-      lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','').replace('Last play: ','') || '';
+      lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','')?.replace('Last play: ','') || '';
 
       game.playHistory[i].lastPlay = lastPlay;
 
-      if ((lastPlay || "").toLowerCase().includes('punt')) {
+      if (lastPlay.toLowerCase().includes('punt')) {
         game.playHistory[i].lastPlay = lastPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
       }
 
       const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄", "🤶🏾"];
      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
-      if ((lastPlay || "").toLowerCase().includes('touchdown') || 
-        (lastPlay || "").toLowerCase().includes('td')) {
+      if (lastPlay.toLowerCase().includes('touchdown') || 
+        lastPlay.toLowerCase().includes('td')) {
         game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? `${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
       }
 
-      if ((lastPlay || "").toLowerCase().includes('safety')) {
+      if (lastPlay.toLowerCase().includes('safety')) {
         game.playHistory[i].lastPlay = lastPlay + " 🥳";
       }
 
-      if ((lastPlay || "").toLowerCase().includes('field goal') || 
-        (lastPlay || "").toLowerCase().includes('fg')) {
+      if (lastPlay.toLowerCase().includes('field goal') || 
+        lastPlay.toLowerCase().includes('fg')) {
         game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
       }
 
-      if ((lastPlay || "").toLowerCase().includes('sacked')) {
+      if (lastPlay.toLowerCase().includes('sacked')) {
         game.playHistory[i].lastPlay = lastPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " ⚡️🧟‍♂️" : " ⚡️🦖");
       }
 
-      if ((lastPlay || "").toLowerCase().includes('pass deep') || 
-        (lastPlay || "").toLowerCase().includes('flea flicker') || 
-        (lastPlay || "").toLowerCase().includes('hail mary') || 
-        (lastPlay || "").toLowerCase().includes('statue of liberty') || 
-        (lastPlay || "").toLowerCase().includes('philly special')) {
+      if (lastPlay.toLowerCase().includes('pass deep') || 
+        lastPlay.toLowerCase().includes('flea flicker') || 
+        lastPlay.toLowerCase().includes('hail mary') || 
+        lastPlay.toLowerCase().includes('statue of liberty') || 
+        lastPlay.toLowerCase().includes('philly special')) {
         game.playHistory[i].lastPlay = lastPlay + " 🏈";
       }
 
-      if ((lastPlay || "").toLowerCase().includes('scramble')) {
+      if (lastPlay.toLowerCase().includes('scramble')) {
         game.playHistory[i].lastPlay = lastPlay + " 🚛";
       }
 
-      if ((lastPlay || "").toLowerCase().includes('unsportsmanlike') || 
-        (lastPlay || "").toLowerCase().includes('play under review') || 
-        (lastPlay || "").toLowerCase().includes('interference') || 
-        (lastPlay || "").toLowerCase().includes('missed') || 
-        (lastPlay || "").toLowerCase().includes('no good') || 
-        (lastPlay || "").toLowerCase().includes('onside') || 
-        (lastPlay || "").toLowerCase().includes('challenge') || 
-        (lastPlay || "").toLowerCase().includes('upheld') ||
-        (lastPlay || "").toLowerCase().includes('reverse') || 
-        (lastPlay || "").toLowerCase().includes('intercept') || 
-        (lastPlay || "").toLowerCase().includes('fumble')) {
+      if (lastPlay.toLowerCase().includes('unsportsmanlike') || 
+        lastPlay.toLowerCase().includes('play under review') || 
+        lastPlay.toLowerCase().includes('interference') || 
+        lastPlay.toLowerCase().includes('missed') || 
+        lastPlay.toLowerCase().includes('no good') || 
+        lastPlay.toLowerCase().includes('onside') || 
+        lastPlay.toLowerCase().includes('challenge') || 
+        lastPlay.toLowerCase().includes('upheld') ||
+        lastPlay.toLowerCase().includes('reverse') || 
+        lastPlay.toLowerCase().includes('intercept') || 
+        lastPlay.toLowerCase().includes('fumble')) {
         game.playHistory[i].lastPlay = lastPlay + " 😳";
       }
 
-      if ((lastPlay || "").toLowerCase().includes('two-point conversion')) {
+      if (lastPlay.toLowerCase().includes('two')) {
         const skinTones = ["✌🏼", "✌🏾", "✌🏿"];
         const randomSkinTone = skinTones[Math.floor(Math.random() * skinTones.length)];
         game.playHistory[i].lastPlay = lastPlay + ` ${randomSkinTone}`;
       }
 
-      if ((lastPlay || "").toLowerCase().includes('dance') ||
-        (lastPlay || "").toLowerCase().includes('fight') || 
+      if (lastPlay.toLowerCase().includes('dance') ||
+        lastPlay.toLowerCase().includes('fight') || 
         
-        (lastPlay || "").toLowerCase().includes('pass deep') ||
-        (lastPlay || "").toLowerCase().includes('scramble') || 
+        lastPlay.toLowerCase().includes('pass deep') ||
+        lastPlay.toLowerCase().includes('scramble') || 
         
-        (lastPlay || "").toLowerCase().includes('touchdown') || 
-        (lastPlay || "").toLowerCase().includes('field goal') || 
-        (lastPlay || "").toLowerCase().includes('td') || 
-        (lastPlay || "").toLowerCase().includes('fg') || 
-        (lastPlay || "").toLowerCase().includes('safety') || 
+        lastPlay.toLowerCase().includes('touchdown') || 
+        lastPlay.toLowerCase().includes('field goal') || 
+        lastPlay.toLowerCase().includes('td') || 
+        lastPlay.toLowerCase().includes('fg') || 
+        lastPlay.toLowerCase().includes('safety') || 
 
-        (lastPlay || "").toLowerCase().includes('missed') || 
-        (lastPlay || "").toLowerCase().includes('no good') || 
+        lastPlay.toLowerCase().includes('missed') || 
+        lastPlay.toLowerCase().includes('no good') || 
         
-        (lastPlay || "").toLowerCase().includes('sacked') || 
-        (lastPlay || "").toLowerCase().includes('deflect') || 
-        (lastPlay || "").toLowerCase().includes('tipped') ||
+        lastPlay.toLowerCase().includes('sacked') || 
+        lastPlay.toLowerCase().includes('deflect') || 
+        lastPlay.toLowerCase().includes('tipped') ||
 
-        (lastPlay || "").toLowerCase().includes('punt') || 
-        (lastPlay || "").toLowerCase().includes('onside') || 
+        lastPlay.toLowerCase().includes('punt') || 
+        lastPlay.toLowerCase().includes('onside') || 
 
-        (lastPlay || "").toLowerCase().includes('injur') || 
+        lastPlay.toLowerCase().includes('injur') || 
 
-        (lastPlay || "").toLowerCase().includes('challenge') || 
-        (lastPlay || "").toLowerCase().includes('upheld') ||
-        (lastPlay || "").toLowerCase().includes('reverse') || 
-        (lastPlay || "").toLowerCase().includes('intercept') || 
-        (lastPlay || "").toLowerCase().includes('incomplete') || 
-        (lastPlay || "").toLowerCase().includes('fumble')) {
+        lastPlay.toLowerCase().includes('challenge') || 
+        lastPlay.toLowerCase().includes('upheld') ||
+        lastPlay.toLowerCase().includes('reverse') || 
+        lastPlay.toLowerCase().includes('intercept') || 
+        lastPlay.toLowerCase().includes('incomplete') || 
+        lastPlay.toLowerCase().includes('fumble')) {
 
         if (lastHighlightTime !== lastPlay.slice(0,7)) {
           lastHighlightTime = lastPlay.slice(0,7);
@@ -241,7 +241,9 @@ const setAmericanFootballPlays = (game) => {
           const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
           const yardNumber = parseInt(yardString);
 
-          if (yardNumber >= 10 && !(lastPlay || "").toLowerCase().includes('kick')) {
+          if (yardNumber >= 10 && 
+            !lastPlay.toLowerCase().includes('kick') &&
+            !lastPlay.toLowerCase().includes('injur')) {
             game.playHistory[i].lastPlay = lastPlay + " 🎯🤩";
             highlights.push(game.playHistory[i]);
           }
@@ -262,77 +264,77 @@ const setAmericanFootballDown = (game) => {
   if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
     const monthDay = parseInt(moment().format('MMDD'));
 
-    let downPlay = game.down?.replace('Last Play: ','').replace('Last play: ','') || '';
+    let downPlay = game.down?.replace('Last Play: ','')?.replace('Last play: ','') || '';
 
     game.down = downPlay;
 
-    if ((downPlay || "").toLowerCase().includes('punt')) {
+    if (downPlay.toLowerCase().includes('punt')) {
       game.down = downPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
     }
 
     const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄", "🤶🏾"];
     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
-    if ((downPlay || "").toLowerCase().includes('touchdown') || 
-      (downPlay || "").toLowerCase().includes('td')) {
+    if (downPlay.toLowerCase().includes('touchdown') || 
+      downPlay.toLowerCase().includes('td')) {
       game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
     }
 
-    if ((downPlay || "").toLowerCase().includes('safety')) {
+    if (downPlay.toLowerCase().includes('safety')) {
       game.down = downPlay + " 🥳";
     }
 
-    if ((downPlay || "").toLowerCase().includes('field goal') || 
-        (downPlay || "").toLowerCase().includes('fg')) {
+    if (downPlay.toLowerCase().includes('field goal') || 
+        downPlay.toLowerCase().includes('fg')) {
       game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
     }
 
-    if ((downPlay || "").toLowerCase().includes('sacked')) {
+    if (downPlay.toLowerCase().includes('sacked')) {
       game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " ⚡️🧟‍♂️" : " ⚡️🦖");
     }
 
-    if ((downPlay || "").toLowerCase().includes('pass deep') || 
-      (downPlay || "").toLowerCase().includes('flea flicker') || 
-      (downPlay || "").toLowerCase().includes('hail mary') || 
-      (downPlay || "").toLowerCase().includes('statue of liberty') || 
-      (downPlay || "").toLowerCase().includes('philly special')) {
+    if (downPlay.toLowerCase().includes('pass deep') || 
+      downPlay.toLowerCase().includes('flea flicker') || 
+      downPlay.toLowerCase().includes('hail mary') || 
+      downPlay.toLowerCase().includes('statue of liberty') || 
+      downPlay.toLowerCase().includes('philly special')) {
       game.down = downPlay + " 🏈";
     }
 
-    if ((downPlay || "").toLowerCase().includes('scramble')) {
+    if (downPlay.toLowerCase().includes('scramble')) {
       game.down = downPlay + " 🚛";
     }
 
-    if ((downPlay || "").toLowerCase().includes('unsportsmanlike') || 
-      (downPlay || "").toLowerCase().includes('play under review') || 
-      (downPlay || "").toLowerCase().includes('interference') || 
-      (downPlay || "").toLowerCase().includes('missed') || 
-      (downPlay || "").toLowerCase().includes('no good') || 
-      (downPlay || "").toLowerCase().includes('onside') || 
-      (downPlay || "").toLowerCase().includes('challenge') || 
-      (downPlay || "").toLowerCase().includes('upheld') ||
-      (downPlay || "").toLowerCase().includes('reverse') || 
-      (downPlay || "").toLowerCase().includes('intercept') ||
-      (downPlay || "").toLowerCase().includes('incomplete') || 
-      (downPlay || "").toLowerCase().includes('fumble')) {
+    if (downPlay.toLowerCase().includes('unsportsmanlike') || 
+      downPlay.toLowerCase().includes('play under review') || 
+      downPlay.toLowerCase().includes('interference') || 
+      downPlay.toLowerCase().includes('missed') || 
+      downPlay.toLowerCase().includes('no good') || 
+      downPlay.toLowerCase().includes('onside') || 
+      downPlay.toLowerCase().includes('challenge') || 
+      downPlay.toLowerCase().includes('upheld') ||
+      downPlay.toLowerCase().includes('reverse') || 
+      downPlay.toLowerCase().includes('intercept') ||
+      downPlay.toLowerCase().includes('incomplete') || 
+      downPlay.toLowerCase().includes('fumble')) {
       game.down = downPlay + " 😳";
     }
 
-    if ((downPlay || "").toLowerCase().includes('two-point conversion')) {
+    if (downPlay.toLowerCase().includes('two')) {
       const skinTones = ["✌🏼", "✌🏾", "✌🏿"];
       const randomSkinTone = skinTones[Math.floor(Math.random() * skinTones.length)];
       game.down = downPlay + ` ${randomSkinTone}`;
     }
 
-    if ((downPlay || "").toLowerCase().includes('timeout')) {
+    if (downPlay.toLowerCase().includes('timeout')) {
       game.down = downPlay + " ⏱️";
     }
 
-    if ((downPlay || "").toLowerCase().includes('sneak')) {
+    if (downPlay.toLowerCase().includes('sneak')) {
       game.down = downPlay + " 🤫";
     }
 
-    if ((downPlay || "").toLowerCase().includes('kickoff')) {
+    if (downPlay.toLowerCase().includes('kickoff')) {
       game.down = downPlay + " 🚀";
     }
 
@@ -342,7 +344,9 @@ const setAmericanFootballDown = (game) => {
           const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
           const yardNumber = parseInt(yardString);
 
-          if (yardNumber >= 10 && !(downPlay || "").toLowerCase().includes('kick')) {
+          if (yardNumber >= 10 && 
+            !downPlay.toLowerCase().includes('kick') && 
+            !downPlay.toLowerCase().includes('injur')) {
             game.down = downPlay + " 🎯🤩";
           }
         }
@@ -363,8 +367,8 @@ const setBasketballPlays = (game) => {
     for (let i = 0; i < game.playHistory.length; i++) {
       lastPlay = game.playHistory[i].lastPlay;
 
-      if ((lastPlay || "").toLowerCase().includes('free throw') ||  
-        (lastPlay || "").toLowerCase().includes('foul')) {
+      if (lastPlay.toLowerCase().includes('free throw') ||  
+        lastPlay.toLowerCase().includes('foul')) {
         game.playHistory[i].lastPlay = lastPlay + " 🥶";
       }
 
@@ -383,7 +387,7 @@ const setBasketballPlays = (game) => {
         game.playHistory[i].lastPlay = lastPlay + " 😳";
       }
 
-      if ((lastPlay || "").toLowerCase().includes('block')) {
+      if (lastPlay.toLowerCase().includes('block')) {
         game.playHistory[i].lastPlay = lastPlay + " ⚡️🦖";
       }
 
@@ -416,9 +420,9 @@ const setBaseballPlays = (game) => {
     for (let i = 0; i < game.playHistory.length; i++) {
       lastPlay = game.playHistory[i].lastPlay;
 
-      if ((lastPlay || "").toLowerCase().includes('foul') || 
-        (lastPlay || "").toLowerCase().includes('swinging') || 
-        (lastPlay || "").toLowerCase().includes('looking')) {
+      if (lastPlay.toLowerCase().includes('foul') || 
+        lastPlay.toLowerCase().includes('swinging') || 
+        lastPlay.toLowerCase().includes('looking')) {
         game.playHistory[i].lastPlay = lastPlay + " 🥶";
       }
 
