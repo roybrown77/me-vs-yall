@@ -79,14 +79,14 @@ setInterval(async () => {
             console.log(`All scores updated or no games close to starting.`);
 
             const now = new Date();
-            const hours = now.getUTCHours();
-            const minutes = now.getUTCMinutes();
-            const timezoneOffset = now.getTimezoneOffset() / 60;
-            const eastCoastHour = hours + (-4 - timezoneOffset);
+            // Get current time in US Eastern Time (handles DST automatically)
+            const eastCoastDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+            const eastCoastHour = eastCoastDate.getHours();
+            const minutes = eastCoastDate.getMinutes();
 
             console.log('Current East Coast Hour:', eastCoastHour);
 
-            if ((eastCoastHour === 22 && minutes < 15) || (eastCoastHour === 10 && minutes < 15)) {
+            if ((eastCoastHour === 2 && minutes < 15) || (eastCoastHour === 14 && minutes < 15)) {
                 games = await gameRepository.find({
                     leagueId: new mongoose.Types.ObjectId(leagueId),
                     isGameOver: { $ne: true },
