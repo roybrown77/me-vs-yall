@@ -1,3 +1,5 @@
+throw new Error('This file is deprecated.  Please run src/workers/game-updater.js instead.');
+
 /*
   Get environment variables
 */
