@@ -87,9 +87,10 @@ const Competitor = (props) => {
             >
               <span
                 style={{
-                  color: "lightgray",
+                  color: "#555555",
                   fontSize: "17px",
-                  paddingRight: competitor.rank ? "8px" : "0",
+                  fontWeight: "bold",
+                  marginRight: competitor.rank ? "10px" : "0",
                 }}
               >
                 {competitor.rank}

@@ -9,7 +9,9 @@ const nflTeams = [
         stadiumName: "State Farm Stadium",
         stadiumCity: "Glendale, Arizona",
         stadiumLocation: ["Sunny desert oasis west of Phoenix", "A striking venue in the sunlit Arizona desert"],
-        emojis: ["🐦"]
+        emojis: ["🐦"],
+        conference: "NFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b39003",
@@ -21,7 +23,9 @@ const nflTeams = [
         stadiumName: "Mercedes-Benz Stadium",
         stadiumCity: "Atlanta, Georgia",
         stadiumLocation: ["Modern marvel in the Peach State", "A cutting-edge arena in the heart of Georgia"],
-        emojis: ["🦅","🅰️"]
+        emojis: ["🦅","🅰️"],
+        conference: "NFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b3900d",
@@ -33,7 +37,9 @@ const nflTeams = [
         stadiumName: "M&T Bank Stadium",
         stadiumCity: "Baltimore, Maryland",
         stadiumLocation: ["Inner Harbor's vibrant core", "A fortress of football in downtown Baltimore"],
-        emojis: ["🦅"]
+        emojis: ["🦅"],
+        conference: "AFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b3900b",
@@ -48,6 +54,7 @@ const nflTeams = [
         emojis: ["🦬","🐃"],
         rank: 6,
         conference: "AFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b39008",
@@ -62,6 +69,7 @@ const nflTeams = [
         emojis: ["🐆"],
         rank: 4,
         conference: "NFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b39004",
@@ -76,6 +84,7 @@ const nflTeams = [
         emojis: ["🐻"],
         rank: 2,
         conference: "NFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39017",
@@ -87,7 +96,9 @@ const nflTeams = [
         stadiumName: "Paycor Stadium",
         stadiumCity: "Cincinnati, Ohio",
         stadiumLocation: ["Riverfront stadium with energy", "A jungle-inspired arena by the Ohio River"],
-        emojis: ["🐯"]
+        emojis: ["🐯"],
+        conference: "AFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39010",
@@ -99,7 +110,9 @@ const nflTeams = [
         stadiumName: "Huntington Bank Field",
         stadiumCity: "Cleveland, Ohio",
         stadiumLocation: ["Lake Erie shoreline venue", "A gridiron stronghold in Cleveland"],
-        emojis: ["🐕"]
+        emojis: ["🐕"],
+        conference: "AFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39006",
@@ -111,7 +124,9 @@ const nflTeams = [
         stadiumName: "AT&T Stadium",
         stadiumCity: "Arlington, Texas",
         stadiumLocation: ["Iconic stadium in North Texas", "A grand venue deep in the heart of Texas between Dallas and Fort Worth"],
-        emojis: ["🤠"]
+        emojis: ["🤠"],
+        conference: "NFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b39013",
@@ -126,6 +141,7 @@ const nflTeams = [
         emojis: ["🐎"],
         rank: 1,
         conference: "AFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b3901d",
@@ -137,7 +153,9 @@ const nflTeams = [
         stadiumName: "Ford Field",
         stadiumCity: "Detroit, Michigan",
         stadiumLocation: ["Downtown Motor City venue", "A modern den for Detroit's pride"],
-        emojis: ["🦁"]
+        emojis: ["🦁"],
+        conference: "NFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39012",
@@ -152,6 +170,7 @@ const nflTeams = [
         emojis: ["🧀"],
         rank: 7,
         conference: "NFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39007",
@@ -166,6 +185,7 @@ const nflTeams = [
         emojis: ["🤠"],
         rank: 5,
         conference: "AFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b3901e",
@@ -177,7 +197,9 @@ const nflTeams = [
         stadiumName: "Lucas Oil Stadium",
         stadiumCity: "Indianapolis, Indiana",
         stadiumLocation: ["Downtown stadium with racing spirit", "A Midwestern venue with a nod to speed"],
-        emojis: ["🐎","🏎"]
+        emojis: ["🐎","🏎"],
+        conference: "AFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b3900e",
@@ -192,6 +214,7 @@ const nflTeams = [
         emojis: ["🐆"],
         rank: 3,
         conference: "AFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b39001",
@@ -203,7 +226,9 @@ const nflTeams = [
         stadiumName: "GEHA Field at Arrowhead Stadium",
         stadiumCity: "Kansas City, Missouri",
         stadiumLocation: ["Barbecue capital's iconic venue", "A kingdom of football in the Midwest"],
-        emojis: ["👨🏾‍🚒","👨🏼‍🚒"]
+        emojis: ["👨🏾‍🚒","👨🏼‍🚒"],
+        conference: "AFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b3901c",
@@ -215,7 +240,9 @@ const nflTeams = [
         stadiumName: "Allegiant Stadium",
         stadiumCity: "Paradise, Nevada",
         stadiumLocation: ["Glamorous venue near the Vegas Strip", "A pirate's haven in the entertainment capital"],
-        emojis: ["🏴‍☠️","🎰","🎲"]
+        emojis: ["🏴‍☠️","🎰","🎲"],
+        conference: "AFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b39000",
@@ -230,6 +257,7 @@ const nflTeams = [
         emojis: ["🌩️","⚡️"],
         rank: 7,
         conference: "AFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b3901b",
@@ -244,6 +272,7 @@ const nflTeams = [
         emojis: ["🐏"],
         rank: 5,
         conference: "NFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b39009",
@@ -255,7 +284,9 @@ const nflTeams = [
         stadiumName: "Hard Rock Stadium",
         stadiumCity: "Miami Gardens, Florida",
         stadiumLocation: ["Tropical venue near the coast", "A vibrant arena where the sun meets the sea"],
-        emojis: ["🐬"]
+        emojis: ["🐬"],
+        conference: "AFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b3900a",
@@ -267,7 +298,9 @@ const nflTeams = [
         stadiumName: "U.S. Bank Stadium",
         stadiumCity: "Minneapolis, Minnesota",
         stadiumLocation: ["Modern venue with Nordic flair", "A bold arena in the land of 10,000 lakes"],
-        emojis: ["🔱","🎸"]
+        emojis: ["🔱","🎸"],
+        conference: "NFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39002",
@@ -282,6 +315,7 @@ const nflTeams = [
         emojis: ["🦞"],
         rank: 2,
         conference: "AFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b3900f",
@@ -293,7 +327,9 @@ const nflTeams = [
         stadiumName: "Caesars Superdome",
         stadiumCity: "New Orleans, Louisiana",
         stadiumLocation: ["Jazz-filled venue in the Big Easy", "A cathedral of football in New Orleans"],
-        emojis: ["😇"]
+        emojis: ["😇"],
+        conference: "NFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b39015",
@@ -305,7 +341,9 @@ const nflTeams = [
         stadiumName: "MetLife Stadium",
         stadiumCity: "East Rutherford, New Jersey",
         stadiumLocation: ["Iconic venue near the Big Apple", "A towering arena in the Meadowlands"],
-        emojis: ["🗽"]
+        emojis: ["🗽"],
+        conference: "NFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b3901a",
@@ -317,7 +355,9 @@ const nflTeams = [
         stadiumName: "MetLife Stadium",
         stadiumCity: "East Rutherford, New Jersey",
         stadiumLocation: ["Dynamic venue in the Meadowlands", "A high-energy arena for New York fans"],
-        emojis: ["🛩️"]
+        emojis: ["🛩️"],
+        conference: "AFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b39011",
@@ -332,6 +372,7 @@ const nflTeams = [
         emojis: ["🦅"],
         rank: 3,
         conference: "NFC",
+        division: "East",
     },
     {
         _id: "19823783734d1d04a1b39014",
@@ -346,6 +387,7 @@ const nflTeams = [
         emojis: ["🛠️","⚔️","⚒️"],
         rank: 4,
         conference: "AFC",
+        division: "North",
     },
     {
         _id: "19823783734d1d04a1b39018",
@@ -360,6 +402,7 @@ const nflTeams = [
         emojis: ["🧑🏼‍🚒"],
         rank: 6,
         conference: "NFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b3901f",
@@ -374,6 +417,7 @@ const nflTeams = [
         emojis: ["🌊🦅","🎸"],
         rank: 1,
         conference: "NFC",
+        division: "West",
     },
     {
         _id: "19823783734d1d04a1b39016",
@@ -385,7 +429,9 @@ const nflTeams = [
         stadiumName: "Raymond James Stadium",
         stadiumCity: "Tampa, Florida",
         stadiumLocation: ["Coastal venue with pirate flair", "A Gulf Coast stronghold for football fans"],
-        emojis: ["🏴‍☠️"]
+        emojis: ["🏴‍☠️"],
+        conference: "NFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b39019",
@@ -397,7 +443,9 @@ const nflTeams = [
         stadiumName: "Nissan Stadium",
         stadiumCity: "Nashville, Tennessee",
         stadiumLocation: ["Music City venue by the Cumberland River", "A coliseum of strength and melody"],
-        emojis: ["🔱","🥁"]
+        emojis: ["🔱","🥁"],
+        conference: "AFC",
+        division: "South",
     },
     {
         _id: "19823783734d1d04a1b3900c",
@@ -409,7 +457,9 @@ const nflTeams = [
         stadiumName: "Northwest Stadium",
         stadiumCity: "Landover, Maryland",
         stadiumLocation: ["Historic venue near the nation's capital", "Historic outskirts of D.C. in Prince George's County"],
-        emojis: ["🧑🏾‍🚀","🧑‍🚀"]
+        emojis: ["🧑🏾‍🚀","🧑‍🚀"],
+        conference: "NFC",
+        division: "East",
     },
 ];
 
