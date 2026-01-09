@@ -1,8 +1,6 @@
 const CompetitorHeader = (props) => {
   const { game, competitor, spreadMode } = props;
 
-  console.log('competitor', competitor);
-
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "2rem", width: "100%" }}>
       {/* Left: Conference */}
