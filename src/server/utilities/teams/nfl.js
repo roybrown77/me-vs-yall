@@ -45,7 +45,9 @@ const nflTeams = [
         stadiumName: "Highmark Stadium",
         stadiumCity: "Orchard Park, New York",
         stadiumLocation: ["Snowy stronghold south of Buffalo", "A winter haven for the Bills Mafia"],
-        emojis: ["🦬","🐃"]
+        emojis: ["🦬","🐃"],
+        rank: 6,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b39008",
@@ -57,7 +59,9 @@ const nflTeams = [
         stadiumName: "Bank of America Stadium",
         stadiumCity: "Charlotte, North Carolina",
         stadiumLocation: ["Downtown hub with Southern charm", "A lively arena in the Queen City"],
-        emojis: ["🐆"]
+        emojis: ["🐆"],
+        rank: 4,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b39004",
@@ -69,7 +73,9 @@ const nflTeams = [
         stadiumName: "Soldier Field",
         stadiumCity: "Chicago, Illinois",
         stadiumLocation: ["Bear cladded site by Lake Michigan", "A legendary venue in the Windy City"],
-        emojis: ["🐻"]
+        emojis: ["🐻"],
+        rank: 2,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b39017",
@@ -117,7 +123,9 @@ const nflTeams = [
         stadiumName: "Empower Field at Mile High",
         stadiumCity: "Denver, Colorado",
         stadiumLocation: ["Elevated stadium with mountain views", "A high-altitude arena with the Rockies as a backdrop"],
-        emojis: ["🐎"]
+        emojis: ["🐎"],
+        rank: 1,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b3901d",
@@ -141,7 +149,9 @@ const nflTeams = [
         stadiumName: "Lambeau Field",
         stadiumCity: "Green Bay, Wisconsin",
         stadiumLocation: ["Cozy neighborhood stadium for Cheeseheads", "A legendary tundra for Cheesehead fans"],
-        emojis: ["🧀"]
+        emojis: ["🧀"],
+        rank: 7,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b39007",
@@ -153,7 +163,9 @@ const nflTeams = [
         stadiumName: "NRG Stadium",
         stadiumCity: "Houston, Texas",
         stadiumLocation: ["Vibrant venue in a bustling city", "A Lone Star arena with Texas pride"],
-        emojis: ["🤠"]
+        emojis: ["🤠"],
+        rank: 5,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b3901e",
@@ -177,7 +189,9 @@ const nflTeams = [
         stadiumName: "EverBank Stadium",
         stadiumCity: "Jacksonville, Florida",
         stadiumLocation: ["Riverfront stadium with tropical vibes", "A jungle-inspired venue by the St. Johns River"],
-        emojis: ["🐆"]
+        emojis: ["🐆"],
+        rank: 3,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b39001",
@@ -213,7 +227,9 @@ const nflTeams = [
         stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, California",
         stadiumLocation: ["Electrifying venue in Lalaland", "A state-of-the-art arena in the City of Angels"],
-        emojis: ["🌩️","⚡️"]
+        emojis: ["🌩️","⚡️"],
+        rank: 7,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b3901b",
@@ -225,7 +241,9 @@ const nflTeams = [
         stadiumName: "SoFi Stadium",
         stadiumCity: "Inglewood, California",
         stadiumLocation: ["Dazzling Lalaland suburb", "A dazzling arena in the heart of LA"],
-        emojis: ["🐏"]
+        emojis: ["🐏"],
+        rank: 5,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b39009",
@@ -261,7 +279,9 @@ const nflTeams = [
         stadiumName: "Gillette Stadium",
         stadiumCity: "Foxborough, Massachusetts",
         stadiumLocation: ["Majestic venue 25 miles southwest of Boston", "A bastion of grit in New England"],
-        emojis: ["🦞"]
+        emojis: ["🦞"],
+        rank: 2,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b3900f",
@@ -309,7 +329,9 @@ const nflTeams = [
         stadiumName: "Lincoln Financial Field",
         stadiumCity: "Philadelphia, Pennsylvania",
         stadiumLocation: ["Iconic venue in South Philly", "A battleground of champions in the City of Brotherly Love"],
-        emojis: ["🦅"]
+        emojis: ["🦅"],
+        rank: 3,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b39014",
@@ -321,7 +343,9 @@ const nflTeams = [
         stadiumName: "Acrisure Stadium",
         stadiumCity: "Pittsburgh, Pennsylvania",
         stadiumLocation: ["Steel City landmark", "A fortress on the banks of the Three Rivers"],
-        emojis: ["🛠️","⚔️","⚒️"]
+        emojis: ["🛠️","⚔️","⚒️"],
+        rank: 4,
+        conference: "AFC",
     },
     {
         _id: "19823783734d1d04a1b39018",
@@ -333,7 +357,9 @@ const nflTeams = [
         stadiumName: "Levi's Stadium",
         stadiumCity: "Santa Clara, California",
         stadiumLocation: ["Golden vibes south of San Francisco", "A legendary arena in the Bay Area"],
-        emojis: ["🧑🏼‍🚒"]
+        emojis: ["🧑🏼‍🚒"],
+        rank: 6,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b3901f",
@@ -345,7 +371,9 @@ const nflTeams = [
         stadiumName: "Lumen Field",
         stadiumCity: "Seattle, Washington",
         stadiumLocation: ["Rainy venue in SoDo district with coffee aroma", "A roaring stadium in the Pacific Northwest"],
-        emojis: ["🌊🦅","🎸"]
+        emojis: ["🌊🦅","🎸"],
+        rank: 1,
+        conference: "NFC",
     },
     {
         _id: "19823783734d1d04a1b39016",
