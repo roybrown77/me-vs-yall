@@ -165,31 +165,11 @@ const Home = () => {
                   Shop
                 </Link>
               </div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/play">
-                  Play
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={tube}>
-                  Tube
-                </Link>
-              </div>
             </div>
             <div style={{ paddingLeft: '50px' }}>
               <div>
                 <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/origin">
                   Origin
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/contact">
-                  Contact
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/oftheweek">
-                  #$%@ of the Week
                 </Link>
               </div>
               <div>
