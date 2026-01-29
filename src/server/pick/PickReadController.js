@@ -171,7 +171,7 @@ const getPickStrategies = async (req) => {
                             };
                         }
 
-                        if ((roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) ||
+                        if ((!isSuperBowlGame && roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0) ||
                         (isSuperBowlGame && (roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0))) {
                             mvyThanosPicks = {
                                 _id: new mongoose.Types.ObjectId().toString(),
@@ -182,8 +182,8 @@ const getPickStrategies = async (req) => {
                             };
                         }
 
-                        if ((roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
-                            (!(homePointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()) ||
+                        if ((!isSuperBowlGame && roadPointsAllowed?.awayTeam?.value - homePointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
+                            (!isSuperBowlGame && !(homePointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()) ||
                             (isSuperBowlGame && roadPointsAllowed?.awayTeam?.value - roadPointsAllowed?.homeTeam?.value < 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
                             (isSuperBowlGame && roadPointsAllowed?.homeTeam?.value - roadPointsAllowed?.awayTeam?.value < 0 && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                                 mvyMagnetoPicks = {
@@ -198,8 +198,8 @@ const getPickStrategies = async (req) => {
                             };
                         }
 
-                        if ((roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
-                            (!(homePointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()) ||
+                        if ((!isSuperBowlGame && roadPointsScored?.awayTeam?.value - homePointsScored?.homeTeam?.value > 0 && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
+                            (!isSuperBowlGame && !(homePointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase()) ||
                             (isSuperBowlGame && (roadPointsScored?.awayTeam?.value - roadPointsScored?.homeTeam?.value > 0) && game.spread?.teamId === game.competitors[1]._id.toString().toLowerCase()) ||
                             (isSuperBowlGame && (roadPointsScored?.homeTeam?.value - roadPointsScored?.awayTeam?.value > 0) && game.spread?.teamId === game.competitors[0]._id.toString().toLowerCase())) {
                             mvyKangPicks = {
