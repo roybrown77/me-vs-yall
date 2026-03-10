@@ -496,6 +496,7 @@ const ArcadeHud = ({
           <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Leader Board</div>
           <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>
             {areLeadersCollapsed ? "Top 3" : "All"}
+            {!!leaderboardRows.length ? ` (${leaderboardRows.length})` : ""}
           </div>
 
           <button

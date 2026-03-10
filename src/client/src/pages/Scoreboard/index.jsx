@@ -177,6 +177,7 @@ class Scoreboard extends Component {
   }) => {
     const user = getUser();
     const userId = get(user, "sub");
+    const authId = get(getUser(), "sub") || null;
 
     if (showLoader) {
       this.setState({
@@ -194,7 +195,7 @@ class Scoreboard extends Component {
     };
 
     const leaderboardQuery = {
-      authId: isAuthenticated ? get(getUser(), "sub") : null,
+      authId,
       leagueId,
       year,
       weekId,
@@ -399,7 +400,7 @@ class Scoreboard extends Component {
       };
 
       const leaderboardQuery = {
-        authId: isAuthenticated ? get(getUser(), "sub") : null,
+        authId: get(getUser(), "sub") || null,
         leagueId: this.state.leagueId,
         year: this.state.year,
         weekId: this.state.weekId,
