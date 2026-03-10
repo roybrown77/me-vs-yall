@@ -767,6 +767,8 @@ const ArcadeMode = ({
   updatingPick,
   onMakePick,
 }) => {
+  const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
+
   const allGames = [
     ...(groupedGames?.notCompleted || []),
     ...(groupedGames?.completed || []),
@@ -793,6 +795,8 @@ const ArcadeMode = ({
     handler({ target: { value } });
   };
 
+  const filterPanelId = "arcade-scoreboard-filters";
+
   return (
     <div>
       <div style={{ position: "fixed", top: "12px", right: "12px", zIndex: 7 }}>
@@ -813,8 +817,29 @@ const ArcadeMode = ({
             maxWidth: "75vw",
           }}
         >
-          <div style={{ fontSize: "11px", fontWeight: 800 }}>
-            🎟️ {leagueLabel || ""}{year ? ` • ${year}` : ""}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ fontSize: "11px", fontWeight: 800, flex: 1 }}>
+              🎟️ {leagueLabel || ""}{year ? ` • ${year}` : ""}
+            </div>
+
+            <button
+              type="button"
+              aria-controls={filterPanelId}
+              aria-expanded={!areFiltersCollapsed}
+              disabled={!!dataLoading}
+              onClick={() => setAreFiltersCollapsed((v) => !v)}
+              style={{
+                fontSize: "11px",
+                fontWeight: 800,
+                border: "1px solid #E7E7E7",
+                backgroundColor: "#fff",
+                borderRadius: "10px",
+                padding: "6px 10px",
+                cursor: dataLoading ? "not-allowed" : "pointer",
+              }}
+            >
+              {areFiltersCollapsed ? "Change" : "Done"}
+            </button>
           </div>
           {!!weekLabel && (
             <div style={{ marginTop: "4px", fontSize: "12px", fontWeight: 650 }}>
@@ -822,49 +847,51 @@ const ArcadeMode = ({
             </div>
           )}
 
-          <div style={{ marginTop: "10px", display: "grid", gap: "8px" }}>
-            <select
-              aria-label="League"
-              style={selectStyle}
-              value={leagueId || ""}
-              disabled={!!dataLoading || !(leagues || []).length}
-              onChange={(e) => dispatchChange(onFilterLeague, e.target.value)}
-            >
-              {(leagues || []).map((l) => (
-                <option key={l.id} value={l.id}>
-                  {String(l.description || l.name || "").toUpperCase()}
-                </option>
-              ))}
-            </select>
+          {!areFiltersCollapsed && (
+            <div id={filterPanelId} style={{ marginTop: "10px", display: "grid", gap: "8px" }}>
+              <select
+                aria-label="League"
+                style={selectStyle}
+                value={leagueId || ""}
+                disabled={!!dataLoading || !(leagues || []).length}
+                onChange={(e) => dispatchChange(onFilterLeague, e.target.value)}
+              >
+                {(leagues || []).map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {String(l.description || l.name || "").toUpperCase()}
+                  </option>
+                ))}
+              </select>
 
-            <select
-              aria-label="Year"
-              style={selectStyle}
-              value={year ?? ""}
-              disabled={!!dataLoading || !years.length}
-              onChange={(e) => dispatchChange(onFilterYear, Number(e.target.value))}
-            >
-              {years.map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
+              <select
+                aria-label="Year"
+                style={selectStyle}
+                value={year ?? ""}
+                disabled={!!dataLoading || !years.length}
+                onChange={(e) => dispatchChange(onFilterYear, Number(e.target.value))}
+              >
+                {years.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
 
-            <select
-              aria-label="Week"
-              style={selectStyle}
-              value={weekIndexValue}
-              disabled={!!dataLoading || !(weeks || []).length}
-              onChange={(e) => dispatchChange(onFilterWeek, Number(e.target.value))}
-            >
-              {(weeks || []).map((w, idx) => (
-                <option key={w?._id || idx} value={idx}>
-                  {w?.displayName || w?.description || `Week ${idx + 1}`}
-                </option>
-              ))}
-            </select>
-          </div>
+              <select
+                aria-label="Week"
+                style={selectStyle}
+                value={weekIndexValue}
+                disabled={!!dataLoading || !(weeks || []).length}
+                onChange={(e) => dispatchChange(onFilterWeek, Number(e.target.value))}
+              >
+                {(weeks || []).map((w, idx) => (
+                  <option key={w?._id || idx} value={idx}>
+                    {w?.displayName || w?.description || `Week ${idx + 1}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
 
