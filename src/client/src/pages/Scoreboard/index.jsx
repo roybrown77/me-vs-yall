@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
+import ArcadeMode, { ArcadeModeToggle } from "./ArcadeMode";
 import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import PickResult from "../../components/PickResult";
@@ -46,6 +47,12 @@ const history = createBrowserHistory({ forceRefresh: false });
 
 const getSpreadMode = () => localStorage.getItem("spreadModeToggle", "0");
 
+const SCOREBOARD_VIEW_MODE_KEY = "scoreboardViewMode";
+const getScoreboardViewMode = () =>
+  localStorage.getItem(SCOREBOARD_VIEW_MODE_KEY) || "classic";
+const setScoreboardViewMode = (mode) =>
+  localStorage.setItem(SCOREBOARD_VIEW_MODE_KEY, mode);
+
 let gameDate;
 
 class Scoreboard extends Component {
@@ -77,11 +84,12 @@ class Scoreboard extends Component {
       isShareClicked: false,
 
       isSpreadModeAlertOpen: false,
+
+      isArcadeMode: getScoreboardViewMode() === "arcade",
     };
   }
 
-  async componentDidMount() {
-    window.scrollTo(0, 0);
+  initializeClassicScoreboard = async () => {
     const { leagueId, year } = this.state;
 
     const weeks = await this.loadGameWeeks({ leagueId, year: year });
@@ -96,6 +104,14 @@ class Scoreboard extends Component {
         beginDateTime: currentWeek.beginDateTime,
         endDateTime: currentWeek.endDateTime,
       });
+    }
+  };
+
+  async componentDidMount() {
+    window.scrollTo(0, 0);
+
+    if (!this.state.isArcadeMode) {
+      await this.initializeClassicScoreboard();
     }
 
     if (isAuthenticated) {
@@ -120,6 +136,21 @@ class Scoreboard extends Component {
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
+
+  handleArcadeModeOn = () => {
+    setScoreboardViewMode("arcade");
+    clearInterval(this.timerID);
+    this.setState(() => ({ isArcadeMode: true }));
+  };
+
+  handleArcadeModeOff = async () => {
+    setScoreboardViewMode("classic");
+    this.setState(() => ({ isArcadeMode: false, dataLoading: true }));
+
+    if (!this.state.weeks?.length) {
+      await this.initializeClassicScoreboard();
+    }
+  };
 
   loadGameWeeks = async ({ leagueId, year }) => {
     const gameWeeksQuery = { leagueId, year, skipEntireWeek: true };
@@ -436,7 +467,19 @@ class Scoreboard extends Component {
       groupedGames,
 
       updatingPick,
+
+      isArcadeMode,
     } = this.state;
+
+    if (isArcadeMode) {
+      return (
+        <ArcadeMode
+          isArcadeMode={isArcadeMode}
+          onArcadeModeOn={this.handleArcadeModeOn}
+          onArcadeModeOff={this.handleArcadeModeOff}
+        />
+      );
+    }
 
     const spreadMode = getSpreadMode() === "1";
     const currentWeek = weeks.find((x) => x._id === weekId);
@@ -457,6 +500,11 @@ class Scoreboard extends Component {
     return (
       <div>
         <PageContainer>
+          <ArcadeModeToggle
+            isArcadeMode={isArcadeMode}
+            onArcadeModeOn={this.handleArcadeModeOn}
+            onArcadeModeOff={this.handleArcadeModeOff}
+          />
           <TinyScoreboard
             {...{
               title: `Let's Go!!!`,
