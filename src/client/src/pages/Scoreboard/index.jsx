@@ -49,7 +49,7 @@ const getSpreadMode = () => localStorage.getItem("spreadModeToggle", "0");
 
 const SCOREBOARD_VIEW_MODE_KEY = "scoreboardViewMode";
 const getScoreboardViewMode = () =>
-  localStorage.getItem(SCOREBOARD_VIEW_MODE_KEY) || "classic";
+  localStorage.getItem(SCOREBOARD_VIEW_MODE_KEY) || "arcade";
 const setScoreboardViewMode = (mode) =>
   localStorage.setItem(SCOREBOARD_VIEW_MODE_KEY, mode);
 
