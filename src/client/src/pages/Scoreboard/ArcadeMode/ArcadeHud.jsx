@@ -31,6 +31,7 @@ const ArcadeHud = ({
   const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
   const [areGamesCollapsed, setAreGamesCollapsed] = useState(true);
   const [areLeadersCollapsed, setAreLeadersCollapsed] = useState(true);
+  const [areHowToCollapsed, setAreHowToCollapsed] = useState(true);
 
   const leagueSelected = (leagues || []).find((l) => l.id === leagueId);
   const years = leagueSelected?.years || [];
@@ -56,6 +57,7 @@ const ArcadeHud = ({
   const filterPanelId = "arcade-scoreboard-filters";
   const gamesPanelId = "arcade-scoreboard-games";
   const leadersPanelId = "arcade-scoreboard-leaders";
+  const howToPanelId = "arcade-scoreboard-howto";
 
   const gameList = useMemo(() => {
     return (allGames || []).map((game) => {
@@ -561,6 +563,71 @@ const ArcadeHud = ({
                 <div style={{ fontWeight: 800, opacity: 0.85 }}>{row.record}</div>
               </div>
             ))}
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid #E7E7E7",
+          borderRadius: "14px",
+          padding: "10px 12px",
+          width: "100%",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>How to Play</div>
+          <button
+            type="button"
+            aria-controls={howToPanelId}
+            aria-expanded={!areHowToCollapsed}
+            onClick={() => setAreHowToCollapsed((v) => !v)}
+            style={{
+              fontSize: "11px",
+              fontWeight: 800,
+              border: "1px solid #E7E7E7",
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              padding: "6px 10px",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {areHowToCollapsed ? "Show" : "Hide"}
+          </button>
+        </div>
+
+        {!areHowToCollapsed && (
+          <div
+            id={howToPanelId}
+            style={{
+              marginTop: "8px",
+              display: "grid",
+              gap: "6px",
+              fontSize: "11px",
+              fontWeight: 650,
+              lineHeight: 1.25,
+            }}
+          >
+            {!isAuthenticated ? (
+              <div style={{ fontWeight: 800 }}>0) Sign in to make picks and appear on the leaderboard.</div>
+            ) : (
+              <div style={{ fontWeight: 800 }}>0) You’re signed in — your picks count.</div>
+            )}
+            <div>1) Pick your League/Year/Week in the top card.</div>
+            <div>2) Tap a game card to jump to it on the map.</div>
+            <div>3) Make a pick: choose Away or Home before kickoff.</div>
+            <div>4) Live/Final games lock automatically — no rage-clicking.</div>
+            <div>5) Zoom tip: hold Ctrl/Cmd while using the scroll wheel.</div>
+            <div>6) Optional: hit “Stop Cars” if you want it chill.</div>
+            <div>7) Check the Leader Board card to see who’s up.</div>
+          </div>
+        )}
+
+        {areHowToCollapsed && (
+          <div style={{ marginTop: "6px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>
+            Pick winners • watch the map • climb the ranks
           </div>
         )}
       </div>
