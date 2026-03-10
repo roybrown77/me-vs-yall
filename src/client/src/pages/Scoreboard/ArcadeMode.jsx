@@ -64,6 +64,19 @@ const getTeamLabel = (competitor = {}) => {
   );
 };
 
+const getTeamTinyLabel = (competitor = {}) => {
+  const label =
+    competitor.abbreviation ||
+    competitor.shortLocation ||
+    competitor.shortName ||
+    competitor.location ||
+    competitor.name ||
+    "Team";
+  const text = String(label || "Team");
+  if (text.length <= 12) return text;
+  return `${text.slice(0, 12)}…`;
+};
+
 const USA_BOUNDS = L.latLngBounds(
   L.latLng(24.396308, -125.0),
   L.latLng(49.384358, -66.93457)
@@ -1026,77 +1039,123 @@ const ArcadeMode = ({
             </button>
           </div>
 
-          {!areGamesCollapsed && (
-            <div id={gamesPanelId} style={{ overflowY: "auto", maxHeight: "100%", paddingRight: "2px" }}>
-            {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
-              const title = getGameLabelWithScore(game, away, home);
-              const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
+          {areGamesCollapsed ? (
+            <div
+              id={gamesPanelId}
+              style={{
+                display: "flex",
+                gap: "8px",
+                overflowX: "auto",
+                overflowY: "hidden",
+                paddingBottom: "2px",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {gameList.map(({ game, away, home, isOver, isStarted, awaySelected, homeSelected }) => {
+                const awayTiny = getTeamTinyLabel(away);
+                const homeTiny = getTeamTinyLabel(home);
+                const scoreText = getScoreText(game);
+                const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
+                const isSelected = awaySelected || homeSelected;
 
-              const pickBtnStyle = (selected) => ({
-                flex: 1,
-                padding: "7px 8px",
-                borderRadius: "10px",
-                border: "1px solid #E7E7E7",
-                backgroundColor: selected ? "#B3E6CA" : "#fff",
-                fontWeight: selected ? 750 : 650,
-                fontSize: "11px",
-                cursor: canPick ? "pointer" : "default",
-                opacity: canPick ? 1 : 0.6,
-              });
-
-              return (
-                <div
-                  key={game._id}
-                  style={{
-                    border: "1px solid #E7E7E7",
-                    borderRadius: "12px",
-                    padding: "9px 10px",
-                    marginBottom: "8px",
-                  }}
-                >
+                return (
                   <button
+                    key={game._id}
                     type="button"
                     onClick={() => mapApi?.openGamePopup?.(game._id)}
                     style={{
-                      width: "100%",
+                      flex: "0 0 auto",
                       textAlign: "left",
-                      border: "none",
-                      background: "transparent",
-                      padding: 0,
+                      border: isSelected ? "2px solid #3772FA" : "1px solid #E7E7E7",
+                      background: "#fff",
+                      borderRadius: "12px",
+                      padding: "6px 8px",
+                      minWidth: "160px",
                       cursor: "pointer",
                     }}
+                    aria-label={`Open ${awayTiny} ${scoreText} ${homeTiny}`}
                   >
-                    <div style={{ fontSize: "12px", fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
-                    <div style={{ marginTop: "4px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>{status}</div>
+                    <div style={{ fontSize: "10px", fontWeight: 900, lineHeight: 1.2 }}>
+                      {awayTiny} {scoreText} {homeTiny}
+                    </div>
+                    <div style={{ marginTop: "2px", fontSize: "9px", fontWeight: 700, opacity: 0.7 }}>
+                      {status}
+                    </div>
                   </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div id={gamesPanelId} style={{ overflowY: "auto", maxHeight: "100%", paddingRight: "2px" }}>
+              {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
+                const title = getGameLabelWithScore(game, away, home);
+                const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
 
-                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                const pickBtnStyle = (selected) => ({
+                  flex: 1,
+                  padding: "7px 8px",
+                  borderRadius: "10px",
+                  border: "1px solid #E7E7E7",
+                  backgroundColor: selected ? "#B3E6CA" : "#fff",
+                  fontWeight: selected ? 750 : 650,
+                  fontSize: "11px",
+                  cursor: canPick ? "pointer" : "default",
+                  opacity: canPick ? 1 : 0.6,
+                });
+
+                return (
+                  <div
+                    key={game._id}
+                    style={{
+                      border: "1px solid #E7E7E7",
+                      borderRadius: "12px",
+                      padding: "9px 10px",
+                      marginBottom: "8px",
+                    }}
+                  >
                     <button
                       type="button"
-                      disabled={!canPick}
-                      onClick={() => {
-                        if (!canPick) return;
-                        onMakePick({ gameId: game._id, pickId: away?._id });
+                      onClick={() => mapApi?.openGamePopup?.(game._id)}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        border: "none",
+                        background: "transparent",
+                        padding: 0,
+                        cursor: "pointer",
                       }}
-                      style={pickBtnStyle(awaySelected)}
                     >
-                      Pick {getTeamLabel(away)}
+                      <div style={{ fontSize: "12px", fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
+                      <div style={{ marginTop: "4px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>{status}</div>
                     </button>
-                    <button
-                      type="button"
-                      disabled={!canPick}
-                      onClick={() => {
-                        if (!canPick) return;
-                        onMakePick({ gameId: game._id, pickId: home?._id });
-                      }}
-                      style={pickBtnStyle(homeSelected)}
-                    >
-                      Pick {getTeamLabel(home)}
-                    </button>
+
+                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                      <button
+                        type="button"
+                        disabled={!canPick}
+                        onClick={() => {
+                          if (!canPick) return;
+                          onMakePick({ gameId: game._id, pickId: away?._id });
+                        }}
+                        style={pickBtnStyle(awaySelected)}
+                      >
+                        Pick {getTeamLabel(away)}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={!canPick}
+                        onClick={() => {
+                          if (!canPick) return;
+                          onMakePick({ gameId: game._id, pickId: home?._id });
+                        }}
+                        style={pickBtnStyle(homeSelected)}
+                      >
+                        Pick {getTeamLabel(home)}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
             </div>
           )}
         </div>
