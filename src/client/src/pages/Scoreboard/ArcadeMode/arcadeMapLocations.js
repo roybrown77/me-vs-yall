@@ -14,7 +14,33 @@ const USA_BOUNDS = L.latLngBounds(
   L.latLng(49.384358, -66.93457)
 );
 
+// Expanded play bounds: includes the Caribbean down to Trinidad.
+// (Used for panning/zoom limits + for validating jittered marker locations.)
+const ARCADE_BOUNDS = L.latLngBounds(
+  L.latLng(9.5, -125.0),
+  L.latLng(49.384358, -55.0)
+);
+
 const USA_CENTER = [39.5, -98.35];
+
+// Simple island "dots" (arcade-style) so the Caribbean appears on the map.
+// Radius is in meters.
+const CARIBBEAN_ISLANDS = [
+  { name: "Bahamas", latLng: [24.3, -76.0], radius: 70000 },
+  { name: "Cuba", latLng: [21.8, -79.5], radius: 110000 },
+  { name: "Jamaica", latLng: [18.1, -77.3], radius: 60000 },
+  { name: "Hispaniola", latLng: [19.0, -70.7], radius: 90000 },
+  { name: "Puerto Rico", latLng: [18.2, -66.4], radius: 55000 },
+  // Lesser Antilles chain down to Trinidad.
+  { name: "Antigua", latLng: [17.1, -61.8], radius: 28000 },
+  { name: "Guadeloupe", latLng: [16.2, -61.6], radius: 30000 },
+  { name: "Dominica", latLng: [15.4, -61.3], radius: 24000 },
+  { name: "Martinique", latLng: [14.6, -61.0], radius: 26000 },
+  { name: "St Lucia", latLng: [13.9, -60.98], radius: 24000 },
+  { name: "St Vincent", latLng: [13.25, -61.2], radius: 23000 },
+  { name: "Grenada", latLng: [12.1, -61.7], radius: 23000 },
+  { name: "Trinidad", latLng: [10.65, -61.35], radius: 50000 },
+];
 
 // Rough polygon for the contiguous US (coarse on purpose, "arcade" style).
 // This is not a traced outline; it's a simplified shape to read like the US.
@@ -229,7 +255,7 @@ const getLatLngForGame = (game, index, stadiumCity) => {
     const lat = mapped[0] + jitterLat;
     const lng = mapped[1] + jitterLng;
     // If somehow outside our play bounds, fall back.
-    if (USA_BOUNDS.contains(L.latLng(lat, lng))) return [lat, lng];
+    if (ARCADE_BOUNDS.contains(L.latLng(lat, lng))) return [lat, lng];
   }
 
   const base = MARKER_ANCHORS[seed % MARKER_ANCHORS.length];
@@ -238,4 +264,12 @@ const getLatLngForGame = (game, index, stadiumCity) => {
   return [base[0] + jitterLat, base[1] + jitterLng];
 };
 
-export { USA_BOUNDS, USA_CENTER, USA_POLYGON, getLatLngForGame, hashStringToInt };
+export {
+  USA_BOUNDS,
+  ARCADE_BOUNDS,
+  USA_CENTER,
+  USA_POLYGON,
+  CARIBBEAN_ISLANDS,
+  getLatLngForGame,
+  hashStringToInt,
+};

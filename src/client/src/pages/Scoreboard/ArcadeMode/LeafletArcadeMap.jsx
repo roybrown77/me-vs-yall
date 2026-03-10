@@ -11,8 +11,10 @@ import { getGameLabelWithScore, getTeamLabel } from "./arcadeGameText";
 import { getPickOutcome } from "./arcadePickUtils";
 import {
   USA_BOUNDS,
+  ARCADE_BOUNDS,
   USA_CENTER,
   USA_POLYGON,
+  CARIBBEAN_ISLANDS,
   getLatLngForGame,
   hashStringToInt,
 } from "./arcadeMapLocations";
@@ -190,7 +192,7 @@ const LeafletArcadeMap = ({
     });
 
     map.setView(USA_CENTER, 4.6);
-    map.setMaxBounds(USA_BOUNDS);
+    map.setMaxBounds(ARCADE_BOUNDS);
     map.options.maxBoundsViscosity = 1.0;
 
     // Zoom in/out buttons (kept away from the top HUD).
@@ -240,8 +242,22 @@ const LeafletArcadeMap = ({
     });
     usPolygon.addTo(map);
 
-    // Ensure the map fits the US bounds nicely
-    map.fitBounds(USA_BOUNDS, { padding: [10, 10], animate: false });
+    // Caribbean islands (arcade-style dots)
+    (CARIBBEAN_ISLANDS || []).forEach((island) => {
+      const latLng = island?.latLng;
+      if (!Array.isArray(latLng) || latLng.length !== 2) return;
+      L.circle(latLng, {
+        radius: island?.radius || 25000,
+        color: "#000",
+        weight: 1,
+        fillColor: "#B3E6CA",
+        fillOpacity: 1,
+        interactive: false,
+      }).addTo(map);
+    });
+
+    // Ensure the map fits the expanded play bounds (includes Caribbean)
+    map.fitBounds(ARCADE_BOUNDS, { padding: [10, 10], animate: false });
 
     gamesLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
