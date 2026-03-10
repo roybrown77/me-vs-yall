@@ -324,10 +324,17 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       map.invalidateSize();
     };
     window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+
+    // Give the browser a tick to lay out the fixed container.
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 0);
 
     // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
       map.remove();
       mapRef.current = null;
       gamesLayerRef.current = null;
@@ -502,6 +509,9 @@ const ArcadeMode = ({
   isArcadeMode,
   onArcadeModeOn,
   onArcadeModeOff,
+  leagueLabel,
+  year,
+  weekLabel,
   groupedGames,
   picks,
   updatingPick,
@@ -521,6 +531,28 @@ const ArcadeMode = ({
           onArcadeModeOff={onArcadeModeOff}
         />
       </div>
+
+      <div style={{ position: "fixed", left: "12px", top: "12px", zIndex: 7 }}>
+        <div
+          style={{
+            backgroundColor: "#fff",
+            border: "1px solid #E7E7E7",
+            borderRadius: "14px",
+            padding: "10px 12px",
+            maxWidth: "75vw",
+          }}
+        >
+          <div style={{ fontSize: "11px", fontWeight: 800 }}>
+            🎟️ {leagueLabel || ""}{year ? ` • ${year}` : ""}
+          </div>
+          {!!weekLabel && (
+            <div style={{ marginTop: "4px", fontSize: "12px", fontWeight: 650 }}>
+              {weekLabel}
+            </div>
+          )}
+        </div>
+      </div>
+
       <LeafletArcadeMap
         allGames={allGames}
         picks={picks}
@@ -535,6 +567,9 @@ ArcadeMode.propTypes = {
   isArcadeMode: PropTypes.bool.isRequired,
   onArcadeModeOn: PropTypes.func.isRequired,
   onArcadeModeOff: PropTypes.func.isRequired,
+  leagueLabel: PropTypes.string,
+  year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  weekLabel: PropTypes.string,
   groupedGames: PropTypes.shape({
     notCompleted: PropTypes.array,
     completed: PropTypes.array,

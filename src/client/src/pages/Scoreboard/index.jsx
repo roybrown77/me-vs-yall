@@ -469,11 +469,20 @@ class Scoreboard extends Component {
     } = this.state;
 
     if (isArcadeMode) {
+      const leagueLabelRaw =
+        leagues.find((l) => l.id === leagueId)?.description || getLeagueName() || "";
+      const leagueLabel = String(leagueLabelRaw).toUpperCase();
+      const currentWeek = weeks.find((x) => x._id === weekId);
+      const weekLabel = currentWeek?.displayName || currentWeek?.description || "";
+
       return (
         <ArcadeMode
           isArcadeMode={isArcadeMode}
           onArcadeModeOn={this.handleArcadeModeOn}
           onArcadeModeOff={this.handleArcadeModeOff}
+          leagueLabel={leagueLabel}
+          year={year}
+          weekLabel={weekLabel}
           games={games}
           picks={picks}
           teams={this.state.teams}
