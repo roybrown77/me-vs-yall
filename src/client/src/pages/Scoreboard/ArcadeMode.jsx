@@ -132,14 +132,148 @@ const MARKER_ANCHORS = [
   [42.36, -71.06],
 ];
 
-const getLatLngForGame = (game, index) => {
+const STATE_NAME_TO_ABBREV = {
+  Alabama: "AL",
+  Alaska: "AK",
+  Arizona: "AZ",
+  Arkansas: "AR",
+  California: "CA",
+  Colorado: "CO",
+  Connecticut: "CT",
+  Delaware: "DE",
+  Florida: "FL",
+  Georgia: "GA",
+  Hawaii: "HI",
+  Idaho: "ID",
+  Illinois: "IL",
+  Indiana: "IN",
+  Iowa: "IA",
+  Kansas: "KS",
+  Kentucky: "KY",
+  Louisiana: "LA",
+  Maine: "ME",
+  Maryland: "MD",
+  Massachusetts: "MA",
+  Michigan: "MI",
+  Minnesota: "MN",
+  Mississippi: "MS",
+  Missouri: "MO",
+  Montana: "MT",
+  Nebraska: "NE",
+  Nevada: "NV",
+  "New Hampshire": "NH",
+  "New Jersey": "NJ",
+  "New Mexico": "NM",
+  "New York": "NY",
+  "North Carolina": "NC",
+  "North Dakota": "ND",
+  Ohio: "OH",
+  Oklahoma: "OK",
+  Oregon: "OR",
+  Pennsylvania: "PA",
+  "Rhode Island": "RI",
+  "South Carolina": "SC",
+  "South Dakota": "SD",
+  Tennessee: "TN",
+  Texas: "TX",
+  Utah: "UT",
+  Vermont: "VT",
+  Virginia: "VA",
+  Washington: "WA",
+  "West Virginia": "WV",
+  Wisconsin: "WI",
+  Wyoming: "WY",
+  "District of Columbia": "DC",
+};
+
+// Key format: "city,st" lowercased with spaces normalized.
+const toCityKey = (value = "") => {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  const parts = raw.split(",").map((p) => p.trim()).filter(Boolean);
+  const city = (parts[0] || "").toLowerCase().replace(/\s+/g, " ");
+  const stateRaw = parts[1] || "";
+  const stateAbbrev =
+    STATE_NAME_TO_ABBREV[stateRaw] ||
+    STATE_NAME_TO_ABBREV[stateRaw.replace(/\s+/g, " ")] ||
+    stateRaw.toUpperCase();
+  const state = stateAbbrev ? stateAbbrev.toLowerCase() : "";
+  return state ? `${city},${state}` : city;
+};
+
+// Approx city centers for NFL stadium cities.
+// Falls back to deterministic anchors if unknown.
+const CITY_KEY_TO_LATLNG = {
+  "glendale,az": [33.5387, -112.186],
+  "atlanta,ga": [33.749, -84.388],
+  "baltimore,md": [39.2904, -76.6122],
+  "orchard park,ny": [42.7676, -78.7443],
+  "charlotte,nc": [35.2271, -80.8431],
+  "chicago,il": [41.8781, -87.6298],
+  "cincinnati,oh": [39.1031, -84.512],
+  "cleveland,oh": [41.4993, -81.6944],
+  "arlington,tx": [32.7357, -97.1081],
+  "denver,co": [39.7392, -104.9903],
+  "detroit,mi": [42.3314, -83.0458],
+  "green bay,wi": [44.5133, -88.0133],
+  "houston,tx": [29.7604, -95.3698],
+  "indianapolis,in": [39.7684, -86.1581],
+  "jacksonville,fl": [30.3322, -81.6557],
+  "kansas city,mo": [39.0997, -94.5786],
+  "paradise,nv": [36.0972, -115.1467],
+  "inglewood,ca": [33.9617, -118.3531],
+  "miami gardens,fl": [25.942, -80.2456],
+  "minneapolis,mn": [44.9778, -93.265],
+  "foxborough,ma": [42.0654, -71.2478],
+  "new orleans,la": [29.9511, -90.0715],
+  "east rutherford,nj": [40.833, -74.097],
+  "philadelphia,pa": [39.9526, -75.1652],
+  "pittsburgh,pa": [40.4406, -79.9959],
+  "santa clara,ca": [37.3541, -121.9552],
+  "seattle,wa": [47.6062, -122.3321],
+  "tampa,fl": [27.9506, -82.4572],
+  "nashville,tn": [36.1627, -86.7816],
+  "landover,md": [38.934, -76.888],
+};
+
+const CITY_KEY_ALIASES = {
+  "los angeles,ca": "inglewood,ca",
+  "las vegas,nv": "paradise,nv",
+  "washington,dc": "landover,md",
+  "new york,ny": "east rutherford,nj",
+  "new york,nj": "east rutherford,nj",
+  "san francisco,ca": "santa clara,ca",
+};
+
+const getLatLngForGame = (game, index, stadiumCity) => {
   const seed = hashStringToInt(`${game?._id || ""}-${index}`);
+
+  const derivedCity =
+    stadiumCity ||
+    game?.stadiumCity ||
+    game?.competitors?.[1]?.stadiumCity ||
+    game?.competitors?.[0]?.stadiumCity ||
+    game?.venue?.city ||
+    game?.stadium?.city ||
+    "";
+
+  const cityKey = toCityKey(derivedCity);
+  const mappedKey = CITY_KEY_ALIASES[cityKey] || cityKey;
+  const mapped = CITY_KEY_TO_LATLNG[mappedKey];
+
+  if (Array.isArray(mapped) && mapped.length === 2) {
+    const jitterLat = ((seed % 5) - 2) * 0.06;
+    const jitterLng = (((seed >> 2) % 5) - 2) * 0.08;
+    const lat = mapped[0] + jitterLat;
+    const lng = mapped[1] + jitterLng;
+    // If somehow outside our play bounds, fall back.
+    if (USA_BOUNDS.contains(L.latLng(lat, lng))) return [lat, lng];
+  }
+
   const base = MARKER_ANCHORS[seed % MARKER_ANCHORS.length];
   const jitterLat = ((seed % 7) - 3) * 0.22;
   const jitterLng = (((seed >> 3) % 7) - 3) * 0.28;
-  const lat = base[0] + jitterLat;
-  const lng = base[1] + jitterLng;
-  return [lat, lng];
+  return [base[0] + jitterLat, base[1] + jitterLng];
 };
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -295,7 +429,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       return {
         game,
         idx,
-        latLng: getLatLngForGame(game, idx),
+        latLng: getLatLngForGame(game, idx, home?.stadiumCity),
         away,
         home,
         pick,
