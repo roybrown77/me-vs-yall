@@ -123,7 +123,7 @@ const ArcadeHud = ({
   }, [leaders, allGames]);
 
   const leadersVisibleRows = useMemo(() => {
-    return leaderboardRows.slice(0, areLeadersCollapsed ? 3 : 10);
+    return areLeadersCollapsed ? leaderboardRows.slice(0, 3) : leaderboardRows;
   }, [leaderboardRows, areLeadersCollapsed]);
 
   const renderPickBadge = (pickOutcome) => {
@@ -495,7 +495,7 @@ const ArcadeHud = ({
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Leader Board</div>
           <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>
-            {areLeadersCollapsed ? "Top 3" : "Top 10"}
+            {areLeadersCollapsed ? "Top 3" : "All"}
           </div>
 
           <button
