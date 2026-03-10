@@ -23,7 +23,7 @@ export const ArcadeModeToggle = ({ isArcadeMode, onArcadeModeOn, onArcadeModeOff
       width: "fit-content",
     }}
   >
-    <div style={{ fontSize: "9px", fontWeight: 700 }}>Arcade Mode</div>
+    <div style={{ fontSize: "9px", fontWeight: 700 }}>{isArcadeMode ? "Classic Mode" : "Arcade Mode"}</div>
     <div style={{ marginTop: "6px" }}>
       <IconButton
         style={isArcadeMode ? styles.toggleButtonOn : styles.toggleButtonOff}
@@ -152,6 +152,14 @@ const getScoreText = (game) => {
   return `${a}-${h}`;
 };
 
+const getGameLabelWithScore = (game, away, home) => {
+  const awayLabel = getTeamLabel(away);
+  const homeLabel = getTeamLabel(home);
+  const scoreText = getScoreText(game);
+  const suffix = game?.isGameOver ? " • Final" : "";
+  return `${awayLabel} ${scoreText} ${homeLabel}${suffix}`;
+};
+
 const createStickFigureIcon = () => {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
@@ -219,7 +227,7 @@ const buildPopupHtml = ({
 
   return `
     <div style="min-width:220px;">
-      <div style="font-weight:700;margin-bottom:6px;">${awayLabel} ${scoreText} ${homeLabel}</div>
+      <div style="font-weight:700;margin-bottom:6px;">${getGameLabelWithScore(game, away, home)}</div>
       <div style="font-size:12px;color:#000;margin-bottom:10px;">${header}${game?.startDateTimeDisplay ? ` • ${game.startDateTimeDisplay}` : ""}</div>
       <div style="display:flex;gap:8px;margin-bottom:10px;">
         ${pickButton(`Pick ${awayLabel}`, away?._id, awaySelected)}
@@ -391,7 +399,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
         fillOpacity: 0.95,
       });
 
-      marker.bindTooltip(getScoreText(game), {
+      marker.bindTooltip(getGameLabelWithScore(game, away, home), {
         permanent: true,
         direction: "top",
         offset: [0, -10],
