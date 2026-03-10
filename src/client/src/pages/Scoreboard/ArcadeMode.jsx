@@ -397,7 +397,7 @@ const buildPopupHtml = ({
   `;
 };
 
-const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
+const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiReady }) => {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const gamesLayerRef = useRef(null);
@@ -533,6 +533,14 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
 
     // eslint-disable-next-line consistent-return
     return () => {
+      if (onApiReady) {
+        try {
+          onApiReady(null);
+        } catch (e) {
+          // ignore
+        }
+      }
+
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
 
@@ -580,6 +588,42 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       gameMarkersRef.current = new Map();
     };
   }, []);
+
+  useEffect(() => {
+    if (!onApiReady) return;
+
+    const api = {
+      focusGame: (gameId) => {
+        const map = mapRef.current;
+        const marker = gameId ? gameMarkersRef.current.get(gameId) : null;
+        if (!map || !marker) return;
+        const latLng = marker.getLatLng();
+        map.panTo(latLng, { animate: false });
+      },
+      openGamePopup: (gameId) => {
+        const map = mapRef.current;
+        const marker = gameId ? gameMarkersRef.current.get(gameId) : null;
+        if (!map || !marker) return;
+        const latLng = marker.getLatLng();
+        map.panTo(latLng, { animate: false });
+        marker.openPopup();
+      },
+    };
+
+    try {
+      onApiReady(api);
+    } catch (e) {
+      // ignore
+    }
+
+    return () => {
+      try {
+        onApiReady(null);
+      } catch (e) {
+        // ignore
+      }
+    };
+  }, [onApiReady]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -846,6 +890,7 @@ LeafletArcadeMap.propTypes = {
   picks: PropTypes.array,
   updatingPick: PropTypes.bool,
   onMakePick: PropTypes.func.isRequired,
+  onApiReady: PropTypes.func,
 };
 
 const ArcadeMode = ({
@@ -869,6 +914,7 @@ const ArcadeMode = ({
   onMakePick,
 }) => {
   const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
+  const [mapApi, setMapApi] = useState(null);
 
   const allGames = [
     ...(groupedGames?.notCompleted || []),
@@ -898,6 +944,33 @@ const ArcadeMode = ({
 
   const filterPanelId = "arcade-scoreboard-filters";
 
+  const gameList = useMemo(() => {
+    return allGames.map((game) => {
+      const away = game?.competitors?.[0];
+      const home = game?.competitors?.[1];
+      const pick = (picks || []).find((p) => p.gameId === game._id);
+      const pickId = pick?.pickId;
+
+      const isOver = !!game.isGameOver;
+      const isStarted = hasGameStarted(game.startDateTime);
+      const canPick = !isOver && !isStarted && !updatingPick;
+
+      const awaySelected = pickId && away?._id && pickId === away._id;
+      const homeSelected = pickId && home?._id && pickId === home._id;
+
+      return {
+        game,
+        away,
+        home,
+        canPick,
+        isOver,
+        isStarted,
+        awaySelected,
+        homeSelected,
+      };
+    });
+  }, [allGames, picks, updatingPick]);
+
   return (
     <div>
       <div style={{ position: "fixed", top: "12px", right: "12px", zIndex: 7 }}>
@@ -908,14 +981,27 @@ const ArcadeMode = ({
         />
       </div>
 
-      <div style={{ position: "fixed", left: "12px", top: "12px", zIndex: 7 }}>
+      <div
+        style={{
+          position: "fixed",
+          left: "12px",
+          top: "12px",
+          zIndex: 7,
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          width: "min(360px, 45vw)",
+          maxHeight: "calc(100vh - 24px)",
+          pointerEvents: "auto",
+        }}
+      >
         <div
           style={{
             backgroundColor: "#fff",
             border: "1px solid #E7E7E7",
             borderRadius: "14px",
             padding: "10px 12px",
-            maxWidth: "75vw",
+            width: "100%",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -994,6 +1080,96 @@ const ArcadeMode = ({
             </div>
           )}
         </div>
+
+        <div
+          style={{
+            backgroundColor: "#fff",
+            border: "1px solid #E7E7E7",
+            borderRadius: "14px",
+            padding: "10px 10px",
+            width: "100%",
+            overflow: "hidden",
+            flex: 1,
+            minHeight: "180px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Games ({gameList.length})</div>
+            <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Tap to view</div>
+          </div>
+
+          <div style={{ overflowY: "auto", maxHeight: "100%", paddingRight: "2px" }}>
+            {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
+              const title = getGameLabelWithScore(game, away, home);
+              const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
+
+              const pickBtnStyle = (selected) => ({
+                flex: 1,
+                padding: "7px 8px",
+                borderRadius: "10px",
+                border: "1px solid #E7E7E7",
+                backgroundColor: selected ? "#B3E6CA" : "#fff",
+                fontWeight: selected ? 750 : 650,
+                fontSize: "11px",
+                cursor: canPick ? "pointer" : "default",
+                opacity: canPick ? 1 : 0.6,
+              });
+
+              return (
+                <div
+                  key={game._id}
+                  style={{
+                    border: "1px solid #E7E7E7",
+                    borderRadius: "12px",
+                    padding: "9px 10px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => mapApi?.openGamePopup?.(game._id)}
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      border: "none",
+                      background: "transparent",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div style={{ fontSize: "12px", fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
+                    <div style={{ marginTop: "4px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>{status}</div>
+                  </button>
+
+                  <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <button
+                      type="button"
+                      disabled={!canPick}
+                      onClick={() => {
+                        if (!canPick) return;
+                        onMakePick({ gameId: game._id, pickId: away?._id });
+                      }}
+                      style={pickBtnStyle(awaySelected)}
+                    >
+                      Pick {getTeamLabel(away)}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={!canPick}
+                      onClick={() => {
+                        if (!canPick) return;
+                        onMakePick({ gameId: game._id, pickId: home?._id });
+                      }}
+                      style={pickBtnStyle(homeSelected)}
+                    >
+                      Pick {getTeamLabel(home)}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       <LeafletArcadeMap
@@ -1001,6 +1177,7 @@ const ArcadeMode = ({
         picks={picks}
         updatingPick={updatingPick}
         onMakePick={onMakePick}
+        onApiReady={setMapApi}
       />
     </div>
   );
