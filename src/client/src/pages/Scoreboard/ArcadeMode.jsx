@@ -247,6 +247,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
   const playerRef = useRef(null);
   const gameMarkersRef = useRef(new Map());
   const stickIconRef = useRef(null);
+  const invalidateTimeoutRef = useRef(null);
 
   const [playerLatLng, setPlayerLatLng] = useState(USA_CENTER);
   const [nearGameId, setNearGameId] = useState(null);
@@ -292,6 +293,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       doubleClickZoom: false,
       dragging: true,
       tap: true,
+      zoomAnimation: false,
+      markerZoomAnimation: false,
+      fadeAnimation: false,
     });
 
     map.setView(USA_CENTER, 4);
@@ -308,7 +312,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     usPolygon.addTo(map);
 
     // Ensure the map fits the US bounds nicely
-    map.fitBounds(USA_BOUNDS, { padding: [18, 18] });
+    map.fitBounds(USA_BOUNDS, { padding: [18, 18], animate: false });
 
     gamesLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
@@ -327,7 +331,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     window.addEventListener("orientationchange", handleResize);
 
     // Give the browser a tick to lay out the fixed container.
-    setTimeout(() => {
+    invalidateTimeoutRef.current = setTimeout(() => {
       map.invalidateSize();
     }, 0);
 
@@ -335,6 +339,29 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
+
+      if (invalidateTimeoutRef.current) {
+        clearTimeout(invalidateTimeoutRef.current);
+        invalidateTimeoutRef.current = null;
+      }
+
+      // Defensive: stop any pending transitions/handlers before removing.
+      try {
+        map.closePopup();
+      } catch (e) {
+        // ignore
+      }
+      try {
+        map.stop();
+      } catch (e) {
+        // ignore
+      }
+      try {
+        map.off();
+      } catch (e) {
+        // ignore
+      }
+
       map.remove();
       mapRef.current = null;
       gamesLayerRef.current = null;
@@ -425,7 +452,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
 
       marker.bindPopup(popupHtml, {
         closeButton: true,
-        autoPan: true,
+        autoPan: false,
         maxWidth: 260,
         className: "",
       });
@@ -471,6 +498,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     const marker = nearGameId ? gameMarkersRef.current.get(nearGameId) : null;
     if (!map) return;
     if (!marker) return;
+    if (!marker._map) return;
     // Subtle visual emphasis: slightly enlarge the tooltip when near.
     // Leaflet tooltip DOM is managed internally; keep this minimal.
     marker.openPopup();
