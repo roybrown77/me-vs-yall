@@ -1107,7 +1107,7 @@ const ArcadeMode = ({
                 cursor: "pointer",
               }}
             >
-              {areGamesCollapsed ? "Show" : "Minimize"}
+              {areGamesCollapsed ? "Expand" : "Minimize"}
             </button>
           </div>
 
@@ -1164,14 +1164,15 @@ const ArcadeMode = ({
                 // Expanded view: horizontal scroll with 4 stacked rows.
                 display: "grid",
                 gridAutoFlow: "column",
-                gridTemplateRows: "repeat(4, 92px)",
-                gap: "8px",
+                gridTemplateRows: "repeat(2, 108px)",
+                gap: "14px",
                 alignContent: "start",
                 overflowX: "auto",
                 overflowY: "hidden",
-                paddingBottom: "2px",
+                padding: "2px 6px 8px 2px",
+                gap: "1.25em",
                 WebkitOverflowScrolling: "touch",
-                height: "min(392px, calc(100vh - 260px))",
+                height: "min(230px, calc(100vh - 260px))",
               }}
             >
               {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
@@ -1198,7 +1199,7 @@ const ArcadeMode = ({
                       borderRadius: "12px",
                       padding: "7px 8px",
                       width: "260px",
-                      height: "92px",
+                      height: "108px",
                       overflow: "hidden",
                       display: "flex",
                       flexDirection: "column",
