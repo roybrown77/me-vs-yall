@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import L from "leaflet";
@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import ToggleOn from "@mui/icons-material/ToggleOn";
 import ToggleOff from "@mui/icons-material/ToggleOff";
 
-import PageContainer from "../../components/PageContainer";
 import styles from "./styles";
 
 import { hasGameStarted } from "../../utilities";
@@ -143,6 +142,35 @@ const getLatLngForGame = (game, index) => {
   return [lat, lng];
 };
 
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+const getScoreText = (game) => {
+  const awayScore = game?.competitors?.[0]?.score;
+  const homeScore = game?.competitors?.[1]?.score;
+  const a = typeof awayScore === "number" ? awayScore : 0;
+  const h = typeof homeScore === "number" ? homeScore : 0;
+  return `${a}-${h}`;
+};
+
+const createStickFigureIcon = () => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+      <circle cx="13" cy="6" r="3.2" fill="#000" />
+      <line x1="13" y1="9.8" x2="13" y2="16" stroke="#000" stroke-width="2" stroke-linecap="round" />
+      <line x1="13" y1="11.8" x2="8" y2="14.2" stroke="#000" stroke-width="2" stroke-linecap="round" />
+      <line x1="13" y1="11.8" x2="18" y2="14.2" stroke="#000" stroke-width="2" stroke-linecap="round" />
+      <line x1="13" y1="16" x2="9" y2="21" stroke="#000" stroke-width="2" stroke-linecap="round" />
+      <line x1="13" y1="16" x2="17" y2="21" stroke="#000" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  `;
+  return L.divIcon({
+    className: "",
+    html: `<div style="transform: translate(-50%, -50%);">${svg}</div>`,
+    iconSize: [26, 26],
+    iconAnchor: [13, 13],
+  });
+};
+
 const buildPopupHtml = ({
   game,
   away,
@@ -170,6 +198,7 @@ const buildPopupHtml = ({
 
   const awayLabel = getTeamLabel(away);
   const homeLabel = getTeamLabel(home);
+  const scoreText = getScoreText(game);
 
   const pickButton = (label, teamId, selected) => {
     const fontWeight = selected ? "700" : "600";
@@ -190,7 +219,7 @@ const buildPopupHtml = ({
 
   return `
     <div style="min-width:220px;">
-      <div style="font-weight:700;margin-bottom:6px;">${awayLabel} 🆚 ${homeLabel}</div>
+      <div style="font-weight:700;margin-bottom:6px;">${awayLabel} ${scoreText} ${homeLabel}</div>
       <div style="font-size:12px;color:#000;margin-bottom:10px;">${header}${game?.startDateTimeDisplay ? ` • ${game.startDateTimeDisplay}` : ""}</div>
       <div style="display:flex;gap:8px;margin-bottom:10px;">
         ${pickButton(`Pick ${awayLabel}`, away?._id, awaySelected)}
@@ -207,6 +236,12 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const gamesLayerRef = useRef(null);
+  const playerRef = useRef(null);
+  const gameMarkersRef = useRef(new Map());
+  const stickIconRef = useRef(null);
+
+  const [playerLatLng, setPlayerLatLng] = useState(USA_CENTER);
+  const [nearGameId, setNearGameId] = useState(null);
 
   const computed = useMemo(() => {
     return allGames.map((game, idx) => {
@@ -270,13 +305,71 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     gamesLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
 
+    stickIconRef.current = createStickFigureIcon();
+    playerRef.current = L.marker(USA_CENTER, {
+      icon: stickIconRef.current,
+      interactive: false,
+      keyboard: false,
+    }).addTo(map);
+
+    const handleResize = () => {
+      map.invalidateSize();
+    };
+    window.addEventListener("resize", handleResize);
+
     // eslint-disable-next-line consistent-return
     return () => {
+      window.removeEventListener("resize", handleResize);
       map.remove();
       mapRef.current = null;
       gamesLayerRef.current = null;
+      playerRef.current = null;
+      gameMarkersRef.current = new Map();
     };
   }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const player = playerRef.current;
+    if (!map || !player) return;
+    player.setLatLng(playerLatLng);
+  }, [playerLatLng]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const stepForZoom = (zoom) => {
+      const base = 1.2;
+      const factor = Math.pow(2, zoom - 4);
+      return base / factor;
+    };
+
+    const handleKeyDown = (e) => {
+      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
+      e.preventDefault();
+
+      const zoom = map.getZoom();
+      const step = stepForZoom(zoom);
+      const [lat, lng] = playerLatLng;
+
+      let nextLat = lat;
+      let nextLng = lng;
+      if (e.key === "ArrowUp") nextLat += step;
+      if (e.key === "ArrowDown") nextLat -= step;
+      if (e.key === "ArrowLeft") nextLng -= step * 1.4;
+      if (e.key === "ArrowRight") nextLng += step * 1.4;
+
+      nextLat = clamp(nextLat, USA_BOUNDS.getSouth() + 0.2, USA_BOUNDS.getNorth() - 0.2);
+      nextLng = clamp(nextLng, USA_BOUNDS.getWest() + 0.2, USA_BOUNDS.getEast() - 0.2);
+
+      setPlayerLatLng([nextLat, nextLng]);
+      map.panTo([nextLat, nextLng], { animate: false });
+    };
+
+    window.addEventListener("keydown", handleKeyDown, { passive: false });
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [playerLatLng]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -284,6 +377,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     if (!map || !layer) return;
 
     layer.clearLayers();
+    gameMarkersRef.current.clear();
 
     computed.forEach((item) => {
       const { game, latLng, away, home, canPick, awaySelected, homeSelected } = item;
@@ -295,6 +389,13 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
         weight: 2,
         fillColor: isSelected ? "#B3E6CA" : "#FCE385",
         fillOpacity: 0.95,
+      });
+
+      marker.bindTooltip(getScoreText(game), {
+        permanent: true,
+        direction: "top",
+        offset: [0, -10],
+        opacity: 0.95,
       });
 
       const popupHtml = buildPopupHtml({
@@ -334,16 +435,40 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       });
 
       marker.addTo(layer);
+      gameMarkersRef.current.set(game._id, marker);
     });
-  }, [computed, updatingPick, onMakePick]);
+
+    // After drawing, determine nearest game and highlight it.
+    const playerPoint = map.latLngToContainerPoint(L.latLng(playerLatLng[0], playerLatLng[1]));
+    let closest = { id: null, dist: Number.POSITIVE_INFINITY };
+    computed.forEach((item) => {
+      const pt = map.latLngToContainerPoint(L.latLng(item.latLng[0], item.latLng[1]));
+      const dx = pt.x - playerPoint.x;
+      const dy = pt.y - playerPoint.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < closest.dist) closest = { id: item.game._id, dist: d };
+    });
+    setNearGameId(closest.dist <= 40 ? closest.id : null);
+  }, [computed, updatingPick, onMakePick, playerLatLng]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const marker = nearGameId ? gameMarkersRef.current.get(nearGameId) : null;
+    if (!map) return;
+    if (!marker) return;
+    // Subtle visual emphasis: slightly enlarge the tooltip when near.
+    // Leaflet tooltip DOM is managed internally; keep this minimal.
+    marker.openPopup();
+  }, [nearGameId]);
 
   return (
     <div
       style={{
-        marginTop: "10px",
+        position: "fixed",
+        inset: 0,
         background: "#EFFBF8",
-        height: "clamp(420px, 65vh, 620px)",
         overflow: "hidden",
+        zIndex: 5,
       }}
     >
       <div
@@ -381,19 +506,19 @@ const ArcadeMode = ({
 
   return (
     <div>
-      <PageContainer>
+      <div style={{ position: "fixed", top: "12px", right: "12px", zIndex: 7 }}>
         <ArcadeModeToggle
           isArcadeMode={isArcadeMode}
           onArcadeModeOn={onArcadeModeOn}
           onArcadeModeOff={onArcadeModeOff}
         />
-        <LeafletArcadeMap
-          allGames={allGames}
-          picks={picks}
-          updatingPick={updatingPick}
-          onMakePick={onMakePick}
-        />
-      </PageContainer>
+      </div>
+      <LeafletArcadeMap
+        allGames={allGames}
+        picks={picks}
+        updatingPick={updatingPick}
+        onMakePick={onMakePick}
+      />
     </div>
   );
 };
