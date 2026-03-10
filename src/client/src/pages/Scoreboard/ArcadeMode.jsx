@@ -1082,8 +1082,8 @@ const ArcadeMode = ({
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
-            flex: areGamesCollapsed ? "0 0 auto" : 1,
-            minHeight: areGamesCollapsed ? "unset" : "180px",
+            flex: "0 0 auto",
+            minHeight: areGamesCollapsed ? "unset" : "220px",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
@@ -1161,10 +1161,17 @@ const ArcadeMode = ({
             <div
               id={gamesPanelId}
               style={{
-                flex: 1,
-                minHeight: 0,
-                overflowY: "auto",
-                paddingRight: "2px",
+                // Expanded view: horizontal scroll with 4 stacked rows.
+                display: "grid",
+                gridAutoFlow: "column",
+                gridTemplateRows: "repeat(4, 92px)",
+                gap: "8px",
+                alignContent: "start",
+                overflowX: "auto",
+                overflowY: "hidden",
+                paddingBottom: "2px",
+                WebkitOverflowScrolling: "touch",
+                height: "min(392px, calc(100vh - 260px))",
               }}
             >
               {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
@@ -1173,12 +1180,12 @@ const ArcadeMode = ({
 
                 const pickBtnStyle = (selected) => ({
                   flex: 1,
-                  padding: "7px 8px",
+                  padding: "6px 7px",
                   borderRadius: "10px",
                   border: "1px solid #E7E7E7",
                   backgroundColor: selected ? "#B3E6CA" : "#fff",
                   fontWeight: selected ? 750 : 650,
-                  fontSize: "11px",
+                  fontSize: "10px",
                   cursor: canPick ? "pointer" : "default",
                   opacity: canPick ? 1 : 0.6,
                 });
@@ -1189,8 +1196,13 @@ const ArcadeMode = ({
                     style={{
                       border: "1px solid #E7E7E7",
                       borderRadius: "12px",
-                      padding: "9px 10px",
-                      marginBottom: "8px",
+                      padding: "7px 8px",
+                      width: "260px",
+                      height: "92px",
+                      overflow: "hidden",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
                     }}
                   >
                     <button
@@ -1205,11 +1217,23 @@ const ArcadeMode = ({
                         cursor: "pointer",
                       }}
                     >
-                      <div style={{ fontSize: "12px", fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
-                      <div style={{ marginTop: "4px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>{status}</div>
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 900,
+                          lineHeight: 1.15,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                        title={title}
+                      >
+                        {title}
+                      </div>
+                      <div style={{ marginTop: "2px", fontSize: "10px", fontWeight: 700, opacity: 0.75 }}>{status}</div>
                     </button>
 
-                    <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                    <div style={{ display: "flex", gap: "6px", marginTop: "6px" }}>
                       <button
                         type="button"
                         disabled={!canPick}
