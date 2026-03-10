@@ -754,6 +754,14 @@ const ArcadeMode = ({
   leagueLabel,
   year,
   weekLabel,
+  leagues,
+  leagueId,
+  weeks,
+  weekId,
+  dataLoading,
+  onFilterLeague,
+  onFilterYear,
+  onFilterWeek,
   groupedGames,
   picks,
   updatingPick,
@@ -763,6 +771,27 @@ const ArcadeMode = ({
     ...(groupedGames?.notCompleted || []),
     ...(groupedGames?.completed || []),
   ];
+
+  const leagueSelected = (leagues || []).find((l) => l.id === leagueId);
+  const years = leagueSelected?.years || [];
+  const weekIndexSelected = (weeks || []).findIndex((w) => w?._id === weekId);
+  const weekIndexValue = weekIndexSelected === -1 ? 0 : weekIndexSelected;
+
+  const selectStyle = {
+    width: "100%",
+    fontSize: "12px",
+    fontWeight: 700,
+    padding: "7px 10px",
+    borderRadius: "10px",
+    border: "1px solid #E7E7E7",
+    backgroundColor: "#fff",
+    outline: "none",
+  };
+
+  const dispatchChange = (handler, value) => {
+    if (!handler) return;
+    handler({ target: { value } });
+  };
 
   return (
     <div>
@@ -792,6 +821,50 @@ const ArcadeMode = ({
               {weekLabel}
             </div>
           )}
+
+          <div style={{ marginTop: "10px", display: "grid", gap: "8px" }}>
+            <select
+              aria-label="League"
+              style={selectStyle}
+              value={leagueId || ""}
+              disabled={!!dataLoading || !(leagues || []).length}
+              onChange={(e) => dispatchChange(onFilterLeague, e.target.value)}
+            >
+              {(leagues || []).map((l) => (
+                <option key={l.id} value={l.id}>
+                  {String(l.description || l.name || "").toUpperCase()}
+                </option>
+              ))}
+            </select>
+
+            <select
+              aria-label="Year"
+              style={selectStyle}
+              value={year ?? ""}
+              disabled={!!dataLoading || !years.length}
+              onChange={(e) => dispatchChange(onFilterYear, Number(e.target.value))}
+            >
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+
+            <select
+              aria-label="Week"
+              style={selectStyle}
+              value={weekIndexValue}
+              disabled={!!dataLoading || !(weeks || []).length}
+              onChange={(e) => dispatchChange(onFilterWeek, Number(e.target.value))}
+            >
+              {(weeks || []).map((w, idx) => (
+                <option key={w?._id || idx} value={idx}>
+                  {w?.displayName || w?.description || `Week ${idx + 1}`}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -812,6 +885,14 @@ ArcadeMode.propTypes = {
   leagueLabel: PropTypes.string,
   year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   weekLabel: PropTypes.string,
+  leagues: PropTypes.array,
+  leagueId: PropTypes.string,
+  weeks: PropTypes.array,
+  weekId: PropTypes.string,
+  dataLoading: PropTypes.bool,
+  onFilterLeague: PropTypes.func,
+  onFilterYear: PropTypes.func,
+  onFilterWeek: PropTypes.func,
   groupedGames: PropTypes.shape({
     notCompleted: PropTypes.array,
     completed: PropTypes.array,

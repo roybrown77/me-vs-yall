@@ -483,6 +483,14 @@ class Scoreboard extends Component {
           leagueLabel={leagueLabel}
           year={year}
           weekLabel={weekLabel}
+          leagues={leagues}
+          leagueId={leagueId}
+          weeks={weeks}
+          weekId={weekId}
+          dataLoading={dataLoading}
+          onFilterLeague={this.handleFilterLeague}
+          onFilterYear={this.handleFilterYear}
+          onFilterWeek={this.handleFilterWeek}
           games={games}
           picks={picks}
           teams={this.state.teams}
