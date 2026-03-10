@@ -490,6 +490,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
   const waterLayerRef = useRef(null);
   const gameMarkersRef = useRef(new Map());
   const tripLineRef = useRef(null);
+  const tripVehiclesRef = useRef([]);
+  const tripVehiclePathRef = useRef(null);
+  const tripVehicleRafRef = useRef(null);
   const invalidateTimeoutRef = useRef(null);
   const invalidateTimeout2Ref = useRef(null);
   const resizeObserverRef = useRef(null);
@@ -733,6 +736,131 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     gameMarkersRef.current.clear();
     markerBasesRef.current.clear();
     tripLineRef.current = null;
+    tripVehiclePathRef.current = null;
+
+    if (tripVehicleRafRef.current) {
+      cancelAnimationFrame(tripVehicleRafRef.current);
+      tripVehicleRafRef.current = null;
+    }
+
+    tripVehiclesRef.current = [];
+
+    const buildVehicleIcon = (emoji) => {
+      return L.divIcon({
+        className: "",
+        html: `<div style="font-size:18px;line-height:18px;filter: drop-shadow(0px 1px 0px rgba(0,0,0,0.15));">${emoji}</div>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      });
+    };
+
+    const computePath = (latLngs) => {
+      const pts = (latLngs || []).filter(Boolean);
+      if (pts.length < 2) return null;
+
+      const segLens = [];
+      let total = 0;
+      for (let i = 0; i < pts.length - 1; i += 1) {
+        const a = pts[i];
+        const b = pts[i + 1];
+        const len = a?.distanceTo ? a.distanceTo(b) : L.latLng(a).distanceTo(L.latLng(b));
+        const safe = Number.isFinite(len) ? len : 0;
+        segLens.push(safe);
+        total += safe;
+      }
+      if (!Number.isFinite(total) || total <= 0) return null;
+
+      const cumLens = [0];
+      for (let i = 0; i < segLens.length; i += 1) {
+        cumLens.push(cumLens[i] + segLens[i]);
+      }
+
+      return { pts, segLens, cumLens, total };
+    };
+
+    const getLatLngAtDistance = (path, dist) => {
+      if (!path) return null;
+      const { pts, segLens, cumLens, total } = path;
+      if (!pts?.length || total <= 0) return null;
+
+      let d = dist;
+      if (d < 0) d = ((d % total) + total) % total;
+      if (d > total) d %= total;
+
+      // Find segment containing distance.
+      let segIdx = 0;
+      for (let i = 0; i < cumLens.length - 1; i += 1) {
+        if (d >= cumLens[i] && d <= cumLens[i + 1]) {
+          segIdx = i;
+          break;
+        }
+      }
+
+      const segStart = pts[segIdx];
+      const segEnd = pts[segIdx + 1] || pts[segIdx];
+      const segLen = segLens[segIdx] || 1;
+      const segOffset = d - cumLens[segIdx];
+      const t = Math.max(0, Math.min(1, segOffset / segLen));
+
+      const lat = segStart.lat + (segEnd.lat - segStart.lat) * t;
+      const lng = segStart.lng + (segEnd.lng - segStart.lng) * t;
+      return L.latLng(lat, lng);
+    };
+
+    const ensureVehicles = (path) => {
+      if (!path) {
+        tripVehiclesRef.current.forEach((m) => {
+          try {
+            layer.removeLayer(m);
+          } catch (e) {
+            // ignore
+          }
+        });
+        tripVehiclesRef.current = [];
+        return;
+      }
+
+      if (tripVehiclesRef.current.length) return;
+
+      const emojis = ["🚗", "🚚", "🚙"];
+      tripVehiclesRef.current = emojis.map((emoji) =>
+        L.marker(path.pts[0], {
+          icon: buildVehicleIcon(emoji),
+          interactive: false,
+          keyboard: false,
+          opacity: 0.95,
+        }).addTo(layer)
+      );
+    };
+
+    const startVehicleAnimation = () => {
+      if (tripVehicleRafRef.current) return;
+
+      const periodMs = 16000; // one full loop
+      const offsets = [0, 0.33, 0.66];
+      const start = performance.now();
+
+      const tick = () => {
+        const path = tripVehiclePathRef.current;
+        if (!path || !tripVehiclesRef.current.length) {
+          tripVehicleRafRef.current = requestAnimationFrame(tick);
+          return;
+        }
+
+        const now = performance.now();
+        const base = ((now - start) % periodMs) / periodMs;
+
+        tripVehiclesRef.current.forEach((marker, i) => {
+          const frac = (base + (offsets[i] || 0)) % 1;
+          const latLng = getLatLngAtDistance(path, path.total * frac);
+          if (latLng) marker.setLatLng(latLng);
+        });
+
+        tripVehicleRafRef.current = requestAnimationFrame(tick);
+      };
+
+      tripVehicleRafRef.current = requestAnimationFrame(tick);
+    };
 
     const updateTripLine = () => {
       const points = (computed || [])
@@ -754,6 +882,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
           }
           tripLineRef.current = null;
         }
+
+        tripVehiclePathRef.current = null;
+        ensureVehicles(null);
         return;
       }
 
@@ -770,6 +901,11 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       } else {
         tripLineRef.current.setLatLngs(points);
       }
+
+      // Keep vehicle animation aligned to the current trip line.
+      tripVehiclePathRef.current = computePath(points);
+      ensureVehicles(tripVehiclePathRef.current);
+      startVehicleAnimation();
     };
 
     const layoutMarkers = () => {
@@ -934,6 +1070,21 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       } catch (e) {
         // ignore
       }
+
+      if (tripVehicleRafRef.current) {
+        cancelAnimationFrame(tripVehicleRafRef.current);
+        tripVehicleRafRef.current = null;
+      }
+
+      tripVehiclesRef.current.forEach((m) => {
+        try {
+          layer.removeLayer(m);
+        } catch (e) {
+          // ignore
+        }
+      });
+      tripVehiclesRef.current = [];
+      tripVehiclePathRef.current = null;
     };
   }, [computed, updatingPick, onMakePick]);
 
