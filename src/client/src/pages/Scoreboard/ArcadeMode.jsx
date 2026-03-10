@@ -143,17 +143,6 @@ const getLatLngForGame = (game, index) => {
   return [lat, lng];
 };
 
-const createMarkerIcon = (variant = "default") => {
-  const bg = variant === "selected" ? "#B3E6CA" : "#FCE385";
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:14px;height:14px;background:${bg};border:2px solid #000;box-shadow:-2px 2px 0 #000;image-rendering:pixelated"></div>`,
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
-    popupAnchor: [0, -10],
-  });
-};
-
 const buildPopupHtml = ({
   game,
   away,
@@ -163,21 +152,11 @@ const buildPopupHtml = ({
   canPick,
   updatingPick,
 }) => {
-  const header = game?.isGameOver ? "FINAL" : hasGameStarted(game.startDateTime) ? "LIVE" : "PICK";
-
-  const card = (label, teamId, isSelected) => {
-    const bg = isSelected ? "#B3E6CA" : "#EFFBF8";
-    const cursor = canPick ? "pointer" : "default";
-    const opacity = canPick ? "1" : "0.75";
-    return `
-      <div
-        data-teamid="${teamId || ""}"
-        style="flex:1;border:2px solid #000;background:${bg};padding:8px;cursor:${cursor};opacity:${opacity};box-shadow:-3px 3px 0 #000;"
-      >
-        <div style="font-weight:800;font-size:12px;line-height:1.1;">${label}</div>
-      </div>
-    `;
-  };
+  const header = game?.isGameOver
+    ? "Final"
+    : hasGameStarted(game.startDateTime)
+      ? "Live"
+      : "Pick";
 
   const statusText = game?.isGameOver
     ? "Complete"
@@ -189,17 +168,35 @@ const buildPopupHtml = ({
           ? "Tap a team"
           : "Locked";
 
+  const awayLabel = getTeamLabel(away);
+  const homeLabel = getTeamLabel(home);
+
+  const pickButton = (label, teamId, selected) => {
+    const fontWeight = selected ? "700" : "600";
+    const background = selected ? "#B3E6CA" : "#fff";
+    const border = "1px solid #E7E7E7";
+    const cursor = canPick ? "pointer" : "default";
+    const opacity = canPick ? "1" : "0.7";
+    return `
+      <button
+        type="button"
+        data-teamid="${teamId || ""}"
+        style="flex:1;padding:8px 10px;border:${border};border-radius:10px;background:${background};cursor:${cursor};opacity:${opacity};font-weight:${fontWeight};"
+      >
+        ${label}
+      </button>
+    `;
+  };
+
   return `
-    <div style="font-family:monospace;border:4px solid #000;background:#fff;box-shadow:-6px 6px 0 #000;padding:8px;min-width:190px;">
-      <div style="display:flex;justify-content:space-between;gap:8px;font-weight:800;font-size:10px;margin-bottom:8px;">
-        <span>${header}</span>
-        <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;">${game?.startDateTimeDisplay || ""}</span>
+    <div style="min-width:220px;">
+      <div style="font-weight:700;margin-bottom:6px;">${awayLabel} 🆚 ${homeLabel}</div>
+      <div style="font-size:12px;color:#000;margin-bottom:10px;">${header}${game?.startDateTimeDisplay ? ` • ${game.startDateTimeDisplay}` : ""}</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        ${pickButton(`Pick ${awayLabel}`, away?._id, awaySelected)}
+        ${pickButton(`Pick ${homeLabel}`, home?._id, homeSelected)}
       </div>
-      <div style="display:flex;gap:8px;">
-        ${card(getTeamLabel(away), away?._id, awaySelected)}
-        ${card(getTeamLabel(home), home?._id, homeSelected)}
-      </div>
-      <div style="margin-top:8px;border-top:2px solid #000;padding-top:6px;font-size:10px;font-weight:800;background:#FCE385;">
+      <div style="font-size:12px;font-weight:600;background:#EFFBF8;padding:8px;border-radius:10px;border:1px solid #E7E7E7;">
         ${statusText}
       </div>
     </div>
@@ -261,19 +258,11 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     // Background & US silhouette
     const usPolygon = L.polygon(USA_POLYGON, {
       color: "#000",
-      weight: 2,
+      weight: 1,
       fillColor: "#B3E6CA",
-      fillOpacity: 1,
+      fillOpacity: 0.6,
     });
     usPolygon.addTo(map);
-
-    // Frame to match the rest of the app's arcade look.
-    const border = L.rectangle(USA_BOUNDS, {
-      color: "#000",
-      weight: 3,
-      fill: false,
-    });
-    border.addTo(map);
 
     // Ensure the map fits the US bounds nicely
     map.fitBounds(USA_BOUNDS, { padding: [18, 18] });
@@ -298,11 +287,14 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
 
     computed.forEach((item) => {
       const { game, latLng, away, home, canPick, awaySelected, homeSelected } = item;
-      const iconVariant = awaySelected || homeSelected ? "selected" : "default";
 
-      const marker = L.marker(latLng, {
-        icon: createMarkerIcon(iconVariant),
-        keyboard: false,
+      const isSelected = awaySelected || homeSelected;
+      const marker = L.circleMarker(latLng, {
+        radius: isSelected ? 8 : 7,
+        color: isSelected ? "#3772FA" : "#000",
+        weight: 2,
+        fillColor: isSelected ? "#B3E6CA" : "#FCE385",
+        fillOpacity: 0.95,
       });
 
       const popupHtml = buildPopupHtml({
@@ -360,7 +352,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
           width: "100%",
           height: "100%",
           background: "#EFFBF8",
-          fontFamily: "monospace",
         }}
       />
     </div>
