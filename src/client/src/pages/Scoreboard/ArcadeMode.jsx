@@ -820,6 +820,7 @@ const ArcadeMode = ({
   onMakePick,
 }) => {
   const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
+  const [areGamesCollapsed, setAreGamesCollapsed] = useState(false);
   const [mapApi, setMapApi] = useState(null);
 
   const allGames = [
@@ -849,6 +850,7 @@ const ArcadeMode = ({
   };
 
   const filterPanelId = "arcade-scoreboard-filters";
+  const gamesPanelId = "arcade-scoreboard-games";
 
   const gameList = useMemo(() => {
     return allGames.map((game) => {
@@ -995,16 +997,37 @@ const ArcadeMode = ({
             padding: "10px 10px",
             width: "100%",
             overflow: "hidden",
-            flex: 1,
-            minHeight: "180px",
+            flex: areGamesCollapsed ? "0 0 auto" : 1,
+            minHeight: areGamesCollapsed ? "unset" : "180px",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
             <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Games ({gameList.length})</div>
-            <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Tap to view</div>
+            {!areGamesCollapsed && (
+              <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Tap to view</div>
+            )}
+
+            <button
+              type="button"
+              aria-controls={gamesPanelId}
+              aria-expanded={!areGamesCollapsed}
+              onClick={() => setAreGamesCollapsed((v) => !v)}
+              style={{
+                fontSize: "11px",
+                fontWeight: 800,
+                border: "1px solid #E7E7E7",
+                backgroundColor: "#fff",
+                borderRadius: "10px",
+                padding: "6px 10px",
+                cursor: "pointer",
+              }}
+            >
+              {areGamesCollapsed ? "Show" : "Minimize"}
+            </button>
           </div>
 
-          <div style={{ overflowY: "auto", maxHeight: "100%", paddingRight: "2px" }}>
+          {!areGamesCollapsed && (
+            <div id={gamesPanelId} style={{ overflowY: "auto", maxHeight: "100%", paddingRight: "2px" }}>
             {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
               const title = getGameLabelWithScore(game, away, home);
               const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
@@ -1074,7 +1097,8 @@ const ArcadeMode = ({
                 </div>
               );
             })}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
