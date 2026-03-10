@@ -465,8 +465,19 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     map.options.maxBoundsViscosity = 1.0;
 
     // Pixel-ish water background (extends beyond US bounds)
-    const waterBounds = USA_BOUNDS.pad(0.18);
+    const waterBounds = USA_BOUNDS.pad(0.75);
     waterLayerRef.current = L.layerGroup().addTo(map);
+
+    // Base ocean layer: cover the whole world so water is always visible.
+    const WORLD_BOUNDS = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
+    L.rectangle(WORLD_BOUNDS, {
+      color: "#000",
+      weight: 0,
+      fillColor: "#78C8FF",
+      fillOpacity: 0.35,
+      interactive: false,
+    }).addTo(waterLayerRef.current);
+
     L.rectangle(waterBounds, {
       color: "#000",
       weight: 0,
@@ -797,7 +808,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
           inset: 0,
           width: "100%",
           height: "100%",
-          background: "#EFFBF8",
+          background: "#78C8FF",
         }}
       />
     </div>
