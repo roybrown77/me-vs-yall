@@ -64,34 +64,32 @@ const getTeamLabel = (competitor = {}) => {
 // Hand-built anchor points (percent-based) across a simplified USA "land" area.
 // These are intentionally coarse to keep an 8-bit feel.
 const LAND_ANCHORS = [
-  { x: 14, y: 46 },
-  { x: 18, y: 40 },
-  { x: 20, y: 54 },
-  { x: 24, y: 44 },
-  { x: 26, y: 58 },
-  { x: 30, y: 48 },
-  { x: 32, y: 62 },
-  { x: 36, y: 42 },
-  { x: 38, y: 54 },
-  { x: 40, y: 66 },
-  { x: 44, y: 46 },
-  { x: 46, y: 58 },
-  { x: 48, y: 40 },
-  { x: 52, y: 50 },
-  { x: 54, y: 62 },
-  { x: 58, y: 44 },
-  { x: 60, y: 56 },
-  { x: 62, y: 68 },
-  { x: 66, y: 48 },
-  { x: 68, y: 60 },
-  { x: 70, y: 40 },
-  { x: 72, y: 52 },
-  { x: 74, y: 64 },
-  { x: 78, y: 46 },
-  { x: 80, y: 58 },
-  { x: 82, y: 70 },
-  { x: 86, y: 50 },
-  { x: 88, y: 62 },
+  { x: 16, y: 44 },
+  { x: 18, y: 54 },
+  { x: 22, y: 38 },
+  { x: 24, y: 48 },
+  { x: 28, y: 58 },
+  { x: 32, y: 42 },
+  { x: 34, y: 52 },
+  { x: 38, y: 62 },
+  { x: 42, y: 44 },
+  { x: 44, y: 54 },
+  { x: 48, y: 38 },
+  { x: 50, y: 48 },
+  { x: 54, y: 58 },
+  { x: 58, y: 42 },
+  { x: 60, y: 52 },
+  { x: 62, y: 62 },
+  { x: 66, y: 46 },
+  { x: 68, y: 56 },
+  { x: 72, y: 40 },
+  { x: 74, y: 50 },
+  { x: 76, y: 60 },
+  { x: 80, y: 44 },
+  { x: 82, y: 54 },
+  { x: 84, y: 64 },
+  { x: 88, y: 46 },
+  { x: 90, y: 56 },
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -156,28 +154,30 @@ const PixelUSAMap = ({ children }) => {
       {/* Simplified 8-bit land mass (not a traced outline) */}
       <svg
         viewBox="0 0 100 60"
-        preserveAspectRatio="none"
+        preserveAspectRatio="xMidYMid meet"
         style={{
           position: "absolute",
           inset: 0,
           width: "100%",
           height: "100%",
           zIndex: 0,
+          shapeRendering: "crispEdges",
         }}
       >
         <rect x="0" y="0" width="100" height="60" fill="#EFFBF8" />
         {/* Land */}
         <path
-          d="M8 36 H18 V28 H26 V22 H34 V18 H46 V14 H56 V16 H64 V20 H72 V24 H80 V30 H90 V34 H94 V40 H90 V44 H84 V48 H74 V50 H66 V52 H56 V50 H46 V52 H38 V50 H30 V48 H22 V44 H14 V40 H8 Z"
+          d="M12 22 H18 V20 H24 V18 H30 V16 H38 V14 H46 V13 H54 V14 H60 V16 H66 V18 H72 V20 H78 V21 H82 V22 H86 V24 H88 V26 H90 V30 H92 V34 H90 V36 H88 V38 H86 V40 H84 V42 H86 V44 H90 V46 H94 V50 H96 V54 H92 V58 H86 V56 H82 V52 H78 V50 H74 V49 H70 V51 H66 V55 H62 V53 H58 V51 H54 V53 H50 V55 H46 V53 H40 V51 H34 V49 H28 V47 H22 V45 H18 V42 H16 V38 H14 V34 H12 V28 Z"
           fill="#B3E6CA"
           stroke="#000"
           strokeWidth="1.2"
           shapeRendering="crispEdges"
         />
         {/* A couple of "mountain" pixels */}
-        <rect x="28" y="34" width="2" height="2" fill="#FCE385" />
-        <rect x="32" y="32" width="2" height="2" fill="#FCE385" />
-        <rect x="60" y="36" width="2" height="2" fill="#FCE385" />
+        <rect x="26" y="30" width="2" height="2" fill="#FCE385" />
+        <rect x="30" y="28" width="2" height="2" fill="#FCE385" />
+        <rect x="42" y="32" width="2" height="2" fill="#FCE385" />
+        <rect x="60" y="34" width="2" height="2" fill="#FCE385" />
       </svg>
 
       <div style={{ position: "relative", zIndex: 2, width: "100%", height: "100%" }}>
