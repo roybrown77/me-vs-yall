@@ -833,7 +833,7 @@ const ArcadeMode = ({
   onMakePick,
 }) => {
   const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
-  const [areGamesCollapsed, setAreGamesCollapsed] = useState(false);
+  const [areGamesCollapsed, setAreGamesCollapsed] = useState(true);
   const [mapApi, setMapApi] = useState(null);
 
   const allGames = [
