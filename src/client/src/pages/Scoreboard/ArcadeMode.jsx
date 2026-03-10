@@ -906,7 +906,7 @@ const ArcadeMode = ({
         style={{
           position: "fixed",
           left: "12px",
-          top: "12px",
+          bottom: "12px",
           zIndex: 7,
           display: "flex",
           flexDirection: "column",
