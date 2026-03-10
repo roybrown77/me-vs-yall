@@ -248,6 +248,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
   const gameMarkersRef = useRef(new Map());
   const stickIconRef = useRef(null);
   const invalidateTimeoutRef = useRef(null);
+  const resizeObserverRef = useRef(null);
 
   const [playerLatLng, setPlayerLatLng] = useState(USA_CENTER);
   const [nearGameId, setNearGameId] = useState(null);
@@ -330,15 +331,37 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", handleResize);
 
+    // Track container size changes (more reliable than window resize on some layouts).
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserverRef.current = new ResizeObserver(() => {
+        map.invalidateSize();
+      });
+      resizeObserverRef.current.observe(containerRef.current);
+    }
+
     // Give the browser a tick to lay out the fixed container.
     invalidateTimeoutRef.current = setTimeout(() => {
       map.invalidateSize();
     }, 0);
 
+    // And one more tick for safety (font load / toolbar layout can shift widths).
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 50);
+
     // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
+
+      if (resizeObserverRef.current) {
+        try {
+          resizeObserverRef.current.disconnect();
+        } catch (e) {
+          // ignore
+        }
+        resizeObserverRef.current = null;
+      }
 
       if (invalidateTimeoutRef.current) {
         clearTimeout(invalidateTimeoutRef.current);
@@ -509,6 +532,8 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       style={{
         position: "fixed",
         inset: 0,
+        width: "100vw",
+        height: "100vh",
         background: "#EFFBF8",
         overflow: "hidden",
         zIndex: 5,
@@ -517,6 +542,8 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       <div
         ref={containerRef}
         style={{
+          position: "absolute",
+          inset: 0,
           width: "100%",
           height: "100%",
           background: "#EFFBF8",
