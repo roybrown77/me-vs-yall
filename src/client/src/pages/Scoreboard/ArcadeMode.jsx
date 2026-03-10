@@ -489,6 +489,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
   const gamesLayerRef = useRef(null);
   const waterLayerRef = useRef(null);
   const gameMarkersRef = useRef(new Map());
+  const tripLineRef = useRef(null);
   const invalidateTimeoutRef = useRef(null);
   const invalidateTimeout2Ref = useRef(null);
   const resizeObserverRef = useRef(null);
@@ -731,6 +732,45 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     layer.clearLayers();
     gameMarkersRef.current.clear();
     markerBasesRef.current.clear();
+    tripLineRef.current = null;
+
+    const updateTripLine = () => {
+      const points = (computed || [])
+        .map((item) => {
+          const marker = item?.game?._id ? gameMarkersRef.current.get(item.game._id) : null;
+          if (marker) return marker.getLatLng();
+          const latLng = item?.latLng;
+          if (!latLng) return null;
+          return L.latLng(latLng[0], latLng[1]);
+        })
+        .filter(Boolean);
+
+      if (points.length < 2) {
+        if (tripLineRef.current) {
+          try {
+            layer.removeLayer(tripLineRef.current);
+          } catch (e) {
+            // ignore
+          }
+          tripLineRef.current = null;
+        }
+        return;
+      }
+
+      if (!tripLineRef.current) {
+        tripLineRef.current = L.polyline(points, {
+          color: "#000",
+          weight: 2,
+          opacity: 0.35,
+          dashArray: "7 10",
+          lineCap: "round",
+          lineJoin: "round",
+          interactive: false,
+        }).addTo(layer);
+      } else {
+        tripLineRef.current.setLatLngs(points);
+      }
+    };
 
     const layoutMarkers = () => {
       const markers = Array.from(gameMarkersRef.current.entries()).map(([id, marker]) => ({
@@ -806,6 +846,8 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
         const latLng = map.layerPointToLatLng(L.point(points[i].x, points[i].y));
         markers[i].marker.setLatLng(latLng);
       }
+
+      updateTripLine();
     };
 
     computed.forEach((item) => {
@@ -877,6 +919,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       marker.addTo(layer);
       gameMarkersRef.current.set(game._id, marker);
     });
+
+    // Draw the initial road-trip line (then snap again after repel layout).
+    updateTripLine();
 
     layoutMarkers();
     map.on("zoomend", layoutMarkers);
