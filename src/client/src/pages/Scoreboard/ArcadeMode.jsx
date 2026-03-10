@@ -519,7 +519,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       fadeAnimation: false,
     });
 
-    map.setView(USA_CENTER, 4);
+    map.setView(USA_CENTER, 4.6);
     map.setMaxBounds(USA_BOUNDS);
     map.options.maxBoundsViscosity = 1.0;
 
@@ -571,7 +571,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     usPolygon.addTo(map);
 
     // Ensure the map fits the US bounds nicely
-    map.fitBounds(USA_BOUNDS, { padding: [18, 18], animate: false });
+    map.fitBounds(USA_BOUNDS, { padding: [10, 10], animate: false });
 
     gamesLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
