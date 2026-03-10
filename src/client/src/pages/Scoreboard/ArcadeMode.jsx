@@ -1021,6 +1021,8 @@ const ArcadeMode = ({
             padding: "10px 10px",
             width: "100%",
             overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
             flex: areGamesCollapsed ? "0 0 auto" : 1,
             minHeight: areGamesCollapsed ? "unset" : "180px",
           }}
@@ -1097,7 +1099,15 @@ const ArcadeMode = ({
               })}
             </div>
           ) : (
-            <div id={gamesPanelId} style={{ overflowY: "auto", maxHeight: "100%", paddingRight: "2px" }}>
+            <div
+              id={gamesPanelId}
+              style={{
+                flex: 1,
+                minHeight: 0,
+                overflowY: "auto",
+                paddingRight: "2px",
+              }}
+            >
               {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
                 const title = getGameLabelWithScore(game, away, home);
                 const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
