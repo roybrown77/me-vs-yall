@@ -483,7 +483,7 @@ const buildPopupHtml = ({
   `;
 };
 
-const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiReady }) => {
+const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiReady, vehiclesMoving }) => {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const gamesLayerRef = useRef(null);
@@ -493,6 +493,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
   const tripVehiclesRef = useRef([]);
   const tripVehiclePathRef = useRef(null);
   const tripVehicleRafRef = useRef(null);
+  const vehiclesMovingRef = useRef(true);
+  const startVehicleAnimationRef = useRef(null);
+  const stopVehicleAnimationRef = useRef(null);
   const invalidateTimeoutRef = useRef(null);
   const invalidateTimeout2Ref = useRef(null);
   const resizeObserverRef = useRef(null);
@@ -531,6 +534,15 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       };
     });
   }, [allGames, picks, updatingPick, isAuthenticated]);
+
+  useEffect(() => {
+    vehiclesMovingRef.current = vehiclesMoving !== false;
+    if (!vehiclesMovingRef.current) {
+      stopVehicleAnimationRef.current?.();
+    } else {
+      startVehicleAnimationRef.current?.();
+    }
+  }, [vehiclesMoving]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -833,6 +845,13 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       );
     };
 
+    const stopVehicleAnimation = () => {
+      if (tripVehicleRafRef.current) {
+        cancelAnimationFrame(tripVehicleRafRef.current);
+        tripVehicleRafRef.current = null;
+      }
+    };
+
     const startVehicleAnimation = () => {
       if (tripVehicleRafRef.current) return;
 
@@ -861,6 +880,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
 
       tripVehicleRafRef.current = requestAnimationFrame(tick);
     };
+
+    startVehicleAnimationRef.current = startVehicleAnimation;
+    stopVehicleAnimationRef.current = stopVehicleAnimation;
 
     const updateTripLine = () => {
       const points = (computed || [])
@@ -905,7 +927,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       // Keep vehicle animation aligned to the current trip line.
       tripVehiclePathRef.current = computePath(points);
       ensureVehicles(tripVehiclePathRef.current);
-      startVehicleAnimation();
+      if (vehiclesMovingRef.current) startVehicleAnimation();
     };
 
     const layoutMarkers = () => {
@@ -1071,10 +1093,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
         // ignore
       }
 
-      if (tripVehicleRafRef.current) {
-        cancelAnimationFrame(tripVehicleRafRef.current);
-        tripVehicleRafRef.current = null;
-      }
+      stopVehicleAnimation();
 
       tripVehiclesRef.current.forEach((m) => {
         try {
@@ -1085,6 +1104,9 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       });
       tripVehiclesRef.current = [];
       tripVehiclePathRef.current = null;
+
+      startVehicleAnimationRef.current = null;
+      stopVehicleAnimationRef.current = null;
     };
   }, [computed, updatingPick, onMakePick]);
 
@@ -1120,6 +1142,7 @@ LeafletArcadeMap.propTypes = {
   updatingPick: PropTypes.bool,
   onMakePick: PropTypes.func.isRequired,
   onApiReady: PropTypes.func,
+  vehiclesMoving: PropTypes.bool,
 };
 
 const ArcadeMode = ({
@@ -1144,6 +1167,7 @@ const ArcadeMode = ({
 }) => {
   const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
   const [areGamesCollapsed, setAreGamesCollapsed] = useState(true);
+  const [areCarsMoving, setAreCarsMoving] = useState(true);
   const [mapApi, setMapApi] = useState(null);
 
   const isAuthenticated = isConfirmedAuthentication();
@@ -1393,6 +1417,24 @@ const ArcadeMode = ({
 
             <button
               type="button"
+              onClick={() => setAreCarsMoving((v) => !v)}
+              style={{
+                fontSize: "11px",
+                fontWeight: 800,
+                border: "1px solid #E7E7E7",
+                backgroundColor: "#fff",
+                borderRadius: "10px",
+                padding: "6px 10px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+              aria-label={areCarsMoving ? "Stop cars" : "Start cars"}
+            >
+              {areCarsMoving ? "Stop Cars" : "Start Cars"}
+            </button>
+
+            <button
+              type="button"
               aria-controls={gamesPanelId}
               aria-expanded={!areGamesCollapsed}
               onClick={() => setAreGamesCollapsed((v) => !v)}
@@ -1585,6 +1627,7 @@ const ArcadeMode = ({
         updatingPick={updatingPick}
         onMakePick={onMakePick}
         onApiReady={setMapApi}
+        vehiclesMoving={areCarsMoving}
       />
     </div>
   );
