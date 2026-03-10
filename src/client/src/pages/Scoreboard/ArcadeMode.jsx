@@ -506,7 +506,11 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       zoomControl: false,
       attributionControl: false,
       preferCanvas: true,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
+      scrollWheelZoom: "center",
+      wheelPxPerZoomLevel: 80,
+      // Prevent accidental zoom while scrolling; user must hold Ctrl/Cmd.
+      scrollWheelZoomRequiresKey: true,
       doubleClickZoom: false,
       dragging: true,
       tap: true,
@@ -518,6 +522,11 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     map.setView(USA_CENTER, 4);
     map.setMaxBounds(USA_BOUNDS);
     map.options.maxBoundsViscosity = 1.0;
+
+    // Zoom in/out buttons (kept away from the top HUD).
+    L.control
+      .zoom({ position: "bottomright", zoomInTitle: "Zoom in", zoomOutTitle: "Zoom out" })
+      .addTo(map);
 
     // Pixel-ish water background (extends beyond US bounds)
     const waterBounds = USA_BOUNDS.pad(0.75);
