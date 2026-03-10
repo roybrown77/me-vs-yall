@@ -502,7 +502,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       color: "#000",
       weight: 1,
       fillColor: "#B3E6CA",
-      fillOpacity: 0.6,
+      fillOpacity: 1,
     });
     usPolygon.addTo(map);
 
