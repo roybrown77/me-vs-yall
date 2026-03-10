@@ -408,6 +408,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
   const invalidateTimeoutRef = useRef(null);
   const invalidateTimeout2Ref = useRef(null);
   const resizeObserverRef = useRef(null);
+  const markerBasesRef = useRef(new Map());
 
   const [playerLatLng, setPlayerLatLng] = useState(USA_CENTER);
   const [nearGameId, setNearGameId] = useState(null);
@@ -630,9 +631,88 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
 
     layer.clearLayers();
     gameMarkersRef.current.clear();
+    markerBasesRef.current.clear();
+
+    const layoutMarkers = () => {
+      const markers = Array.from(gameMarkersRef.current.entries()).map(([id, marker]) => ({
+        id,
+        marker,
+        baseLatLng: markerBasesRef.current.get(id),
+      }));
+
+      if (!markers.length) return;
+
+      const minDistPx = 56; // roughly marker + tooltip footprint
+      const maxDriftPx = 70; // keep in the vicinity of the stadium city
+      const iterations = 12;
+      const spring = 0.14;
+
+      const basePoints = markers.map((m) => {
+        const base = m.baseLatLng || m.marker.getLatLng();
+        return map.latLngToLayerPoint(base);
+      });
+
+      const points = basePoints.map((p) => ({ x: p.x, y: p.y }));
+
+      const n = points.length;
+      for (let iter = 0; iter < iterations; iter += 1) {
+        for (let i = 0; i < n; i += 1) {
+          const bp = basePoints[i];
+          points[i].x += (bp.x - points[i].x) * spring;
+          points[i].y += (bp.y - points[i].y) * spring;
+        }
+
+        for (let i = 0; i < n; i += 1) {
+          for (let j = i + 1; j < n; j += 1) {
+            const dx = points[i].x - points[j].x;
+            const dy = points[i].y - points[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist >= minDistPx) continue;
+
+            let ux = 1;
+            let uy = 0;
+            if (dist > 0.0001) {
+              ux = dx / dist;
+              uy = dy / dist;
+            } else {
+              // Deterministic direction when perfectly overlapping.
+              const seed = hashStringToInt(`${markers[i].id}-${markers[j].id}`);
+              const angle = (seed % 360) * (Math.PI / 180);
+              ux = Math.cos(angle);
+              uy = Math.sin(angle);
+            }
+
+            const push = (minDistPx - dist) / 2;
+            points[i].x += ux * push;
+            points[i].y += uy * push;
+            points[j].x -= ux * push;
+            points[j].y -= uy * push;
+          }
+        }
+
+        // Clamp drift each iteration to reduce oscillation.
+        for (let i = 0; i < n; i += 1) {
+          const bp = basePoints[i];
+          const dx = points[i].x - bp.x;
+          const dy = points[i].y - bp.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d <= maxDriftPx) continue;
+          const s = maxDriftPx / d;
+          points[i].x = bp.x + dx * s;
+          points[i].y = bp.y + dy * s;
+        }
+      }
+
+      for (let i = 0; i < n; i += 1) {
+        const latLng = map.layerPointToLatLng(L.point(points[i].x, points[i].y));
+        markers[i].marker.setLatLng(latLng);
+      }
+    };
 
     computed.forEach((item) => {
       const { game, latLng, away, home, canPick, awaySelected, homeSelected } = item;
+
+      markerBasesRef.current.set(game._id, L.latLng(latLng[0], latLng[1]));
 
       const isSelected = awaySelected || homeSelected;
       const marker = L.circleMarker(latLng, {
@@ -690,18 +770,39 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       gameMarkersRef.current.set(game._id, marker);
     });
 
-    // After drawing, determine nearest game and highlight it.
+    layoutMarkers();
+    map.on("zoomend", layoutMarkers);
+    map.on("moveend", layoutMarkers);
+
+    return () => {
+      try {
+        map.off("zoomend", layoutMarkers);
+        map.off("moveend", layoutMarkers);
+      } catch (e) {
+        // ignore
+      }
+    };
+  }, [computed, updatingPick, onMakePick]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
     const playerPoint = map.latLngToContainerPoint(L.latLng(playerLatLng[0], playerLatLng[1]));
     let closest = { id: null, dist: Number.POSITIVE_INFINITY };
+
     computed.forEach((item) => {
-      const pt = map.latLngToContainerPoint(L.latLng(item.latLng[0], item.latLng[1]));
+      const marker = gameMarkersRef.current.get(item.game._id);
+      const markerLatLng = marker?.getLatLng ? marker.getLatLng() : L.latLng(item.latLng[0], item.latLng[1]);
+      const pt = map.latLngToContainerPoint(markerLatLng);
       const dx = pt.x - playerPoint.x;
       const dy = pt.y - playerPoint.y;
       const d = Math.sqrt(dx * dx + dy * dy);
       if (d < closest.dist) closest = { id: item.game._id, dist: d };
     });
+
     setNearGameId(closest.dist <= 40 ? closest.id : null);
-  }, [computed, updatingPick, onMakePick, playerLatLng]);
+  }, [computed, playerLatLng]);
 
   useEffect(() => {
     const map = mapRef.current;
