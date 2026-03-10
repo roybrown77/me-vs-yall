@@ -276,8 +276,6 @@ const getLatLngForGame = (game, index, stadiumCity) => {
   return [base[0] + jitterLat, base[1] + jitterLng];
 };
 
-const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
 const getScoreText = (game) => {
   const awayScore = game?.competitors?.[0]?.score;
   const homeScore = game?.competitors?.[1]?.score;
@@ -315,25 +313,6 @@ const buildPixelWaterTiles = (bounds, rows = 10, cols = 16) => {
     }
   }
   return tiles;
-};
-
-const createStickFigureIcon = () => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
-      <circle cx="13" cy="6" r="3.2" fill="#000" />
-      <line x1="13" y1="9.8" x2="13" y2="16" stroke="#000" stroke-width="2" stroke-linecap="round" />
-      <line x1="13" y1="11.8" x2="8" y2="14.2" stroke="#000" stroke-width="2" stroke-linecap="round" />
-      <line x1="13" y1="11.8" x2="18" y2="14.2" stroke="#000" stroke-width="2" stroke-linecap="round" />
-      <line x1="13" y1="16" x2="9" y2="21" stroke="#000" stroke-width="2" stroke-linecap="round" />
-      <line x1="13" y1="16" x2="17" y2="21" stroke="#000" stroke-width="2" stroke-linecap="round" />
-    </svg>
-  `;
-  return L.divIcon({
-    className: "",
-    html: `<div style="transform: translate(-50%, -50%);">${svg}</div>`,
-    iconSize: [26, 26],
-    iconAnchor: [13, 13],
-  });
 };
 
 const buildPopupHtml = ({
@@ -402,16 +381,11 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
   const mapRef = useRef(null);
   const gamesLayerRef = useRef(null);
   const waterLayerRef = useRef(null);
-  const playerRef = useRef(null);
   const gameMarkersRef = useRef(new Map());
-  const stickIconRef = useRef(null);
   const invalidateTimeoutRef = useRef(null);
   const invalidateTimeout2Ref = useRef(null);
   const resizeObserverRef = useRef(null);
   const markerBasesRef = useRef(new Map());
-
-  const [playerLatLng, setPlayerLatLng] = useState(USA_CENTER);
-  const [nearGameId, setNearGameId] = useState(null);
 
   const computed = useMemo(() => {
     return allGames.map((game, idx) => {
@@ -500,13 +474,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     gamesLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
 
-    stickIconRef.current = createStickFigureIcon();
-    playerRef.current = L.marker(USA_CENTER, {
-      icon: stickIconRef.current,
-      interactive: false,
-      keyboard: false,
-    }).addTo(map);
-
     const handleResize = () => {
       map.invalidateSize();
     };
@@ -584,7 +551,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       mapRef.current = null;
       gamesLayerRef.current = null;
       waterLayerRef.current = null;
-      playerRef.current = null;
       gameMarkersRef.current = new Map();
     };
   }, []);
@@ -624,49 +590,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       }
     };
   }, [onApiReady]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    const player = playerRef.current;
-    if (!map || !player) return;
-    player.setLatLng(playerLatLng);
-  }, [playerLatLng]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    const stepForZoom = (zoom) => {
-      const base = 1.2;
-      const factor = Math.pow(2, zoom - 4);
-      return base / factor;
-    };
-
-    const handleKeyDown = (e) => {
-      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
-      e.preventDefault();
-
-      const zoom = map.getZoom();
-      const step = stepForZoom(zoom);
-      const [lat, lng] = playerLatLng;
-
-      let nextLat = lat;
-      let nextLng = lng;
-      if (e.key === "ArrowUp") nextLat += step;
-      if (e.key === "ArrowDown") nextLat -= step;
-      if (e.key === "ArrowLeft") nextLng -= step * 1.4;
-      if (e.key === "ArrowRight") nextLng += step * 1.4;
-
-      nextLat = clamp(nextLat, USA_BOUNDS.getSouth() + 0.2, USA_BOUNDS.getNorth() - 0.2);
-      nextLng = clamp(nextLng, USA_BOUNDS.getWest() + 0.2, USA_BOUNDS.getEast() - 0.2);
-
-      setPlayerLatLng([nextLat, nextLng]);
-      map.panTo([nextLat, nextLng], { animate: false });
-    };
-
-    window.addEventListener("keydown", handleKeyDown, { passive: false });
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [playerLatLng]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -827,37 +750,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       }
     };
   }, [computed, updatingPick, onMakePick]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    const playerPoint = map.latLngToContainerPoint(L.latLng(playerLatLng[0], playerLatLng[1]));
-    let closest = { id: null, dist: Number.POSITIVE_INFINITY };
-
-    computed.forEach((item) => {
-      const marker = gameMarkersRef.current.get(item.game._id);
-      const markerLatLng = marker?.getLatLng ? marker.getLatLng() : L.latLng(item.latLng[0], item.latLng[1]);
-      const pt = map.latLngToContainerPoint(markerLatLng);
-      const dx = pt.x - playerPoint.x;
-      const dy = pt.y - playerPoint.y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < closest.dist) closest = { id: item.game._id, dist: d };
-    });
-
-    setNearGameId(closest.dist <= 40 ? closest.id : null);
-  }, [computed, playerLatLng]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    const marker = nearGameId ? gameMarkersRef.current.get(nearGameId) : null;
-    if (!map) return;
-    if (!marker) return;
-    if (!marker._map) return;
-    // Subtle visual emphasis: slightly enlarge the tooltip when near.
-    // Leaflet tooltip DOM is managed internally; keep this minimal.
-    marker.openPopup();
-  }, [nearGameId]);
 
   return (
     <div
