@@ -856,6 +856,35 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
         zIndex: 5,
       }}
     >
+      <style>
+        {`
+          @keyframes mvyFieldGoalKick {
+            /* One full loop: left -> right -> left, with continuous tumbling. */
+            0% {
+              transform: translate(14vw, 62vh) rotate(-10deg) rotateZ(0deg) rotateY(0deg) scale(1);
+            }
+            25% {
+              transform: translate(38vw, 30vh) rotate(0deg) rotateZ(360deg) rotateY(35deg) scale(1.08);
+            }
+            50% {
+              transform: translate(78vw, 62vh) rotate(10deg) rotateZ(720deg) rotateY(0deg) scale(1);
+            }
+            75% {
+              transform: translate(38vw, 30vh) rotate(0deg) rotateZ(1080deg) rotateY(-35deg) scale(1.08);
+            }
+            100% {
+              transform: translate(14vw, 62vh) rotate(-10deg) rotateZ(1440deg) rotateY(0deg) scale(1);
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .mvy-football-kick {
+              animation: none !important;
+            }
+          }
+        `}
+      </style>
+
       <div
         ref={containerRef}
         style={{
@@ -866,6 +895,33 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
           background: "#78C8FF",
         }}
       />
+
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 6,
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
+      >
+        <div
+          className="mvy-football-kick"
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            fontSize: "28px",
+            lineHeight: 1,
+            opacity: 0.95,
+            transformOrigin: "50% 50%",
+            willChange: "transform",
+            animation: "mvyFieldGoalKick 4.2s linear 0s infinite",
+          }}
+        >
+          🏈
+        </div>
+      </div>
     </div>
   );
 };
