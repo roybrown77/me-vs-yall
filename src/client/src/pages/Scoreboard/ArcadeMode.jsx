@@ -366,6 +366,31 @@ const getScoreText = (game) => {
   return `${a}-${h}`;
 };
 
+const TIE_PICK_ID = "000000000000000000000000";
+
+const getWinnerId = (game) => {
+  if (!game?.isGameOver) return null;
+  const a = game?.competitors?.[0];
+  const h = game?.competitors?.[1];
+  const aScore = typeof a?.score === "number" ? a.score : null;
+  const hScore = typeof h?.score === "number" ? h.score : null;
+  if (aScore == null || hScore == null) return null;
+  if (aScore === hScore) return TIE_PICK_ID;
+  return aScore > hScore ? a?._id : h?._id;
+};
+
+// Returns: 'win' | 'loss' | 'push' | 'pending' | null
+const getPickOutcome = ({ game, pickId }) => {
+  if (!pickId) return null;
+  if (!game?.isGameOver) return "pending";
+  const winnerId = getWinnerId(game);
+  if (!winnerId) return null;
+  if (winnerId === TIE_PICK_ID) {
+    return pickId === TIE_PICK_ID ? "win" : "push";
+  }
+  return pickId === winnerId ? "win" : "loss";
+};
+
 const getGameLabelWithScore = (game, away, home) => {
   const awayLabel = getTeamLabel(away);
   const homeLabel = getTeamLabel(home);
@@ -469,6 +494,8 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
   const resizeObserverRef = useRef(null);
   const markerBasesRef = useRef(new Map());
 
+  const isAuthenticated = isConfirmedAuthentication();
+
   const computed = useMemo(() => {
     return allGames.map((game, idx) => {
       const away = game?.competitors?.[0];
@@ -483,6 +510,8 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       const awaySelected = pickId && away?._id && pickId === away._id;
       const homeSelected = pickId && home?._id && pickId === home._id;
 
+      const pickOutcome = isAuthenticated ? getPickOutcome({ game, pickId }) : null;
+
       return {
         game,
         idx,
@@ -494,9 +523,10 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
         canPick,
         awaySelected,
         homeSelected,
+        pickOutcome,
       };
     });
-  }, [allGames, picks, updatingPick]);
+  }, [allGames, picks, updatingPick, isAuthenticated]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -779,16 +809,25 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
     };
 
     computed.forEach((item) => {
-      const { game, latLng, away, home, canPick, awaySelected, homeSelected } = item;
+      const { game, latLng, away, home, canPick, awaySelected, homeSelected, pickOutcome } = item;
 
       markerBasesRef.current.set(game._id, L.latLng(latLng[0], latLng[1]));
 
       const isSelected = awaySelected || homeSelected;
+
+      const isFinal = !!game?.isGameOver;
+      const isWin = isFinal && pickOutcome === "win";
+      const isLoss = isFinal && pickOutcome === "loss";
+
+      const strokeColor = isWin ? "#22C55E" : isLoss ? "#FF5722" : isSelected ? "#3772FA" : "#000";
+      const strokeWeight = isWin || isLoss ? 3 : 2;
+      const fillColor = isWin || isLoss ? "#F2F2F2" : isSelected ? "#B3E6CA" : "#FCE385";
+
       const marker = L.circleMarker(latLng, {
         radius: isSelected ? 8 : 7,
-        color: isSelected ? "#3772FA" : "#000",
-        weight: 2,
-        fillColor: isSelected ? "#B3E6CA" : "#FCE385",
+        color: strokeColor,
+        weight: strokeWeight,
+        fillColor,
         fillOpacity: 0.95,
       });
 
@@ -967,6 +1006,8 @@ const ArcadeMode = ({
   const [areGamesCollapsed, setAreGamesCollapsed] = useState(true);
   const [mapApi, setMapApi] = useState(null);
 
+  const isAuthenticated = isConfirmedAuthentication();
+
   const allGames = [
     ...(groupedGames?.notCompleted || []),
     ...(groupedGames?.completed || []),
@@ -1010,18 +1051,66 @@ const ArcadeMode = ({
       const awaySelected = pickId && away?._id && pickId === away._id;
       const homeSelected = pickId && home?._id && pickId === home._id;
 
+      const pickOutcome = getPickOutcome({ game, pickId });
+
       return {
         game,
         away,
         home,
+        pickId,
         canPick,
         isOver,
         isStarted,
         awaySelected,
         homeSelected,
+        pickOutcome,
       };
     });
   }, [allGames, picks, updatingPick]);
+
+  const pickRecord = useMemo(() => {
+    if (!isAuthenticated) return null;
+
+    let wins = 0;
+    let losses = 0;
+
+    gameList.forEach((g) => {
+      if (!g.pickId) return;
+      if (g.pickOutcome === "win") wins += 1;
+      if (g.pickOutcome === "loss") losses += 1;
+    });
+
+    return { wins, losses };
+  }, [gameList, isAuthenticated]);
+
+  const renderPickBadge = (pickOutcome) => {
+    if (!isAuthenticated) return null;
+    if (pickOutcome !== "win" && pickOutcome !== "loss") return null;
+
+    const isWin = pickOutcome === "win";
+    return (
+      <span
+        aria-label={isWin ? "Correct pick" : "Incorrect pick"}
+        title={isWin ? "Correct" : "Wrong"}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "18px",
+          height: "18px",
+          borderRadius: "6px",
+          fontSize: "12px",
+          fontWeight: 900,
+          backgroundColor: isWin ? "#B3E6CA" : "#FF5722",
+          color: isWin ? "#000" : "#fff",
+          border: "1px solid #E7E7E7",
+          flex: "0 0 auto",
+        }}
+      >
+        {isWin ? "✓" : "✕"}
+      </span>
+    );
+  };
 
   return (
     <div>
@@ -1152,7 +1241,12 @@ const ArcadeMode = ({
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-            <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Games ({gameList.length})</div>
+            <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>
+              Games ({gameList.length})
+              {pickRecord && (
+                <span style={{ fontSize: "11px", fontWeight: 800, opacity: 0.75 }}>{` • Record ${pickRecord.wins}-${pickRecord.losses}`}</span>
+              )}
+            </div>
             {!areGamesCollapsed && (
               <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Tap to view</div>
             )}
@@ -1188,7 +1282,7 @@ const ArcadeMode = ({
                 WebkitOverflowScrolling: "touch",
               }}
             >
-              {gameList.map(({ game, away, home, isOver, isStarted, awaySelected, homeSelected }) => {
+              {gameList.map(({ game, away, home, isOver, isStarted, awaySelected, homeSelected, pickOutcome }) => {
                 const awayTiny = getTeamTinyLabel(away);
                 const homeTiny = getTeamTinyLabel(home);
                 const scoreText = getScoreText(game);
@@ -1212,12 +1306,23 @@ const ArcadeMode = ({
                     }}
                     aria-label={`Open ${awayTiny} ${scoreText} ${homeTiny}`}
                   >
-                    <div style={{ fontSize: "10px", fontWeight: 900, lineHeight: 1.2 }}>
-                      {awayTiny} {scoreText} {homeTiny}
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                      <div
+                        style={{
+                          fontSize: "10px",
+                          fontWeight: 900,
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          flex: 1,
+                        }}
+                      >
+                        {awayTiny} {scoreText} {homeTiny}
+                      </div>
+                      {renderPickBadge(pickOutcome)}
                     </div>
-                    <div style={{ marginTop: "2px", fontSize: "9px", fontWeight: 700, opacity: 0.7 }}>
-                      {status}
-                    </div>
+                    <div style={{ marginTop: "2px", fontSize: "9px", fontWeight: 700, opacity: 0.7 }}>{status}</div>
                   </button>
                 );
               })}
@@ -1235,12 +1340,11 @@ const ArcadeMode = ({
                 overflowX: "auto",
                 overflowY: "hidden",
                 padding: "2px 6px 8px 2px",
-                gap: "1.25em",
                 WebkitOverflowScrolling: "touch",
                 height: "min(230px, calc(100vh - 260px))",
               }}
             >
-              {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected }) => {
+              {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected, pickOutcome }) => {
                 const title = getGameLabelWithScore(game, away, home);
                 const status = isOver ? "Final" : isStarted ? "Live" : "Pick";
 
@@ -1283,18 +1387,22 @@ const ArcadeMode = ({
                         cursor: "pointer",
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: "11px",
-                          fontWeight: 900,
-                          lineHeight: 1.15,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                        title={title}
-                      >
-                        {title}
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 900,
+                            lineHeight: 1.15,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            flex: 1,
+                          }}
+                          title={title}
+                        >
+                          {title}
+                        </div>
+                        {renderPickBadge(pickOutcome)}
                       </div>
                       <div style={{ marginTop: "2px", fontSize: "10px", fontWeight: 700, opacity: 0.75 }}>{status}</div>
                     </button>
