@@ -834,7 +834,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
 
       if (tripVehiclesRef.current.length) return;
 
-      const emojis = ["🚗", "🚚", "🚙"];
+      const emojis = ["🚗", "🚚", "🚙", "🏎️"];
       tripVehiclesRef.current = emojis.map((emoji) =>
         L.marker(path.pts[0], {
           icon: buildVehicleIcon(emoji),
@@ -856,7 +856,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
       if (tripVehicleRafRef.current) return;
 
       const periodMs = 16000; // one full loop
-      const offsets = [0, 0.33, 0.66];
       const start = performance.now();
 
       const tick = () => {
@@ -869,8 +868,10 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick, onApiRead
         const now = performance.now();
         const base = ((now - start) % periodMs) / periodMs;
 
+        const count = tripVehiclesRef.current.length || 1;
         tripVehiclesRef.current.forEach((marker, i) => {
-          const frac = (base + (offsets[i] || 0)) % 1;
+          const offset = i / count;
+          const frac = (base + offset) % 1;
           const latLng = getLatLngAtDistance(path, path.total * frac);
           if (latLng) marker.setLatLng(latLng);
         });
