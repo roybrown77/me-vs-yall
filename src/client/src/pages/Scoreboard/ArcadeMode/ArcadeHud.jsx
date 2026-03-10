@@ -19,6 +19,7 @@ const ArcadeHud = ({
   onFilterWeek,
   allGames,
   picks,
+  leaders,
   updatingPick,
   onMakePick,
   mapApi,
@@ -99,6 +100,25 @@ const ArcadeHud = ({
 
     return { wins, losses };
   }, [gameList, isAuthenticated]);
+
+  const leaderboardRows = useMemo(() => {
+    const list = Array.isArray(leaders) ? leaders : [];
+    const areAnyGamesInProgress = (allGames || []).some(
+      (g) => hasGameStarted(g?.startDateTime) && !g?.isGameOver
+    );
+
+    return list.slice(0, 5).map((l, idx) => {
+      const wins = areAnyGamesInProgress ? l?.winsBeforeGameOver : l?.wins;
+      const losses = areAnyGamesInProgress ? l?.lossesBeforeGameOver : l?.losses;
+
+      return {
+        key: l?.id || `${idx}`,
+        rank: idx + 1,
+        name: l?.userName || "",
+        record: Number.isFinite(wins) && Number.isFinite(losses) ? `${wins}-${losses}` : "",
+      };
+    });
+  }, [leaders, allGames]);
 
   const renderPickBadge = (pickOutcome) => {
     if (!isAuthenticated) return null;
@@ -456,6 +476,56 @@ const ArcadeHud = ({
           </div>
         )}
       </div>
+
+      <div
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid #E7E7E7",
+          borderRadius: "14px",
+          padding: "10px 12px",
+          width: "100%",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Leader Board</div>
+          <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Top 5</div>
+        </div>
+
+        {dataLoading && !leaderboardRows.length ? (
+          <div style={{ marginTop: "8px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Loading…</div>
+        ) : !leaderboardRows.length ? (
+          <div style={{ marginTop: "8px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>No leaders yet</div>
+        ) : (
+          <div style={{ marginTop: "8px", display: "grid", gap: "6px" }}>
+            {leaderboardRows.map((row) => (
+              <div
+                key={row.key}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontSize: "11px",
+                  fontWeight: 750,
+                }}
+              >
+                <div style={{ width: "18px", textAlign: "right", opacity: 0.8 }}>{row.rank}</div>
+                <div
+                  style={{
+                    flex: 1,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                  title={row.name}
+                >
+                  {row.name}
+                </div>
+                <div style={{ fontWeight: 800, opacity: 0.85 }}>{row.record}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -474,6 +544,7 @@ ArcadeHud.propTypes = {
   onFilterWeek: PropTypes.func,
   allGames: PropTypes.array.isRequired,
   picks: PropTypes.array,
+  leaders: PropTypes.array,
   updatingPick: PropTypes.bool,
   onMakePick: PropTypes.func.isRequired,
   mapApi: PropTypes.object,

@@ -30,6 +30,7 @@ import {
     hasGameStarted,
     getAreAllGamesOver,
     getAreAnyGamesInProgress,
+  getLeaders,
     getLeagueStartDateTime,
     leagues,
   } from "../../utilities";
@@ -70,6 +71,9 @@ class Scoreboard extends Component {
       games: [],
       picks: [],
       teams: [],
+      users: [],
+      leaders: [],
+      leaderboardPicks: [],
 
       leagueId,
       year,
@@ -189,7 +193,17 @@ class Scoreboard extends Component {
       endDateTime,
     };
 
-    const [games = [], picks = [], teams = []] = await Promise.all([
+    const leaderboardQuery = {
+      authId: isAuthenticated ? get(getUser(), "sub") : null,
+      leagueId,
+      year,
+      weekId,
+      beginDateTime,
+      endDateTime,
+      includeStrategies: true,
+    };
+
+    const [games = [], picks = [], teams = [], users = [], leaderboardPicks = []] = await Promise.all([
       callApi({
         method: "GET",
         endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
@@ -203,7 +217,23 @@ class Scoreboard extends Component {
           })
         : undefined,
       callApi({ method: "GET", endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}` }),
+      callApi({
+        method: "GET",
+        endpoint: `/api/usermanagement/users?${queryString.stringify(leaderboardQuery)}`,
+      }),
+      callApi({
+        method: "GET",
+        endpoint: `/api/pickmanagement/picks?${queryString.stringify(leaderboardQuery)}`,
+      }),
     ]);
+
+    const leaders = getLeaders({
+      games,
+      picks: leaderboardPicks,
+      users,
+      teams,
+      spreadMode: getSpreadMode() === "1",
+    });
 
     const groupedGames = getGroupedGames({
       games,
@@ -224,6 +254,9 @@ class Scoreboard extends Component {
       games,
       picks,
       teams,
+      users,
+      leaders,
+      leaderboardPicks,
 
       groupedGames,
       dataLoading: false,
@@ -364,11 +397,34 @@ class Scoreboard extends Component {
         beginDateTime: this.state.beginDateTime,
         endDateTime: this.state.endDateTime,
       };
-      const picks = await callApi({
-        method: "GET",
-        endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-          query
-        )}`,
+
+      const leaderboardQuery = {
+        authId: isAuthenticated ? get(getUser(), "sub") : null,
+        leagueId: this.state.leagueId,
+        year: this.state.year,
+        weekId: this.state.weekId,
+        beginDateTime: this.state.beginDateTime,
+        endDateTime: this.state.endDateTime,
+        includeStrategies: true,
+      };
+
+      const [picks, leaderboardPicks] = await Promise.all([
+        callApi({
+          method: "GET",
+          endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
+        }),
+        callApi({
+          method: "GET",
+          endpoint: `/api/pickmanagement/picks?${queryString.stringify(leaderboardQuery)}`,
+        }),
+      ]);
+
+      const leaders = getLeaders({
+        games: this.state.games,
+        picks: leaderboardPicks,
+        users: this.state.users,
+        teams: this.state.teams,
+        spreadMode: getSpreadMode() === "1",
       });
       const groupedGames = getGroupedGames({
         games: this.state.games,
@@ -376,7 +432,7 @@ class Scoreboard extends Component {
         teams: this.state.teams,
         spreadMode: getSpreadMode() === "1",
       });
-      this.setState(() => ({ updatingPick: false, picks, groupedGames }));
+      this.setState(() => ({ updatingPick: false, picks, groupedGames, leaders, leaderboardPicks }));
     };
 
     upsertPick(pickFound?._id, pick);
@@ -418,7 +474,7 @@ class Scoreboard extends Component {
     handleSpreadToggleOn = () => {
     const value = "1";
     localStorage.setItem("spreadModeToggle", value);
-    const { games, picks, teams } = this.state;
+      const { games, picks, teams, users, leaderboardPicks } = this.state;
     const groupedGames = getGroupedGames({
       games,
       picks,
@@ -426,15 +482,24 @@ class Scoreboard extends Component {
       spreadMode: value === "1",
     });
 
+      const leaders = getLeaders({
+        games,
+        picks: leaderboardPicks,
+        users,
+        teams,
+        spreadMode: value === "1",
+      });
+
     this.setState(() => ({
       groupedGames,
+        leaders,
     }));
   };
 
     handleSpreadToggleOff = () => {
     const value = "0";
     localStorage.setItem("spreadModeToggle", value);
-    const { games, picks, teams } = this.state;
+      const { games, picks, teams, users, leaderboardPicks } = this.state;
     const groupedGames = getGroupedGames({
       games,
       picks,
@@ -442,8 +507,17 @@ class Scoreboard extends Component {
       spreadMode: value === "1",
     });
 
+      const leaders = getLeaders({
+        games,
+        picks: leaderboardPicks,
+        users,
+        teams,
+        spreadMode: value === "1",
+      });
+
     this.setState(() => ({
       groupedGames,
+        leaders,
     }));
   };
 
@@ -494,6 +568,7 @@ class Scoreboard extends Component {
           games={games}
           picks={picks}
           teams={this.state.teams}
+          leaders={this.state.leaders}
           groupedGames={groupedGames}
           updatingPick={updatingPick}
           onMakePick={this.handleMakePick}

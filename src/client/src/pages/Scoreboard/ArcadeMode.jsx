@@ -31,6 +31,7 @@ const ArcadeMode = ({
   picks,
   updatingPick,
   onMakePick,
+  leaders,
 }) => {
   const [areCarsMoving, setAreCarsMoving] = useState(true);
   const [mapApi, setMapApi] = useState(null);
@@ -73,6 +74,7 @@ const ArcadeMode = ({
         onFilterWeek={onFilterWeek}
         allGames={allGames}
         picks={picks}
+        leaders={leaders}
         updatingPick={updatingPick}
         onMakePick={onMakePick}
         mapApi={mapApi}
@@ -115,6 +117,7 @@ ArcadeMode.propTypes = {
     completed: PropTypes.array,
   }),
   picks: PropTypes.array,
+  leaders: PropTypes.array,
   updatingPick: PropTypes.bool,
   onMakePick: PropTypes.func.isRequired,
 };
