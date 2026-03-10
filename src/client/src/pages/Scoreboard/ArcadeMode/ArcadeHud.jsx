@@ -30,6 +30,7 @@ const ArcadeHud = ({
 }) => {
   const [areFiltersCollapsed, setAreFiltersCollapsed] = useState(true);
   const [areGamesCollapsed, setAreGamesCollapsed] = useState(true);
+  const [areLeadersCollapsed, setAreLeadersCollapsed] = useState(true);
 
   const leagueSelected = (leagues || []).find((l) => l.id === leagueId);
   const years = leagueSelected?.years || [];
@@ -54,6 +55,7 @@ const ArcadeHud = ({
 
   const filterPanelId = "arcade-scoreboard-filters";
   const gamesPanelId = "arcade-scoreboard-games";
+  const leadersPanelId = "arcade-scoreboard-leaders";
 
   const gameList = useMemo(() => {
     return (allGames || []).map((game) => {
@@ -119,6 +121,10 @@ const ArcadeHud = ({
       };
     });
   }, [leaders, allGames]);
+
+  const leadersVisibleRows = useMemo(() => {
+    return leaderboardRows.slice(0, areLeadersCollapsed ? 3 : 10);
+  }, [leaderboardRows, areLeadersCollapsed]);
 
   const renderPickBadge = (pickOutcome) => {
     if (!isAuthenticated) return null;
@@ -488,7 +494,28 @@ const ArcadeHud = ({
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ fontSize: "12px", fontWeight: 800, flex: 1 }}>Leader Board</div>
-          <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>Top 5</div>
+          <div style={{ fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>
+            {areLeadersCollapsed ? "Top 3" : "Top 10"}
+          </div>
+
+          <button
+            type="button"
+            aria-controls={leadersPanelId}
+            aria-expanded={!areLeadersCollapsed}
+            onClick={() => setAreLeadersCollapsed((v) => !v)}
+            style={{
+              fontSize: "11px",
+              fontWeight: 800,
+              border: "1px solid #E7E7E7",
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              padding: "6px 10px",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {areLeadersCollapsed ? "Expand" : "Minimize"}
+          </button>
         </div>
 
         {dataLoading && !leaderboardRows.length ? (
@@ -496,8 +523,18 @@ const ArcadeHud = ({
         ) : !leaderboardRows.length ? (
           <div style={{ marginTop: "8px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>No leaders yet</div>
         ) : (
-          <div style={{ marginTop: "8px", display: "grid", gap: "6px" }}>
-            {leaderboardRows.map((row) => (
+          <div
+            id={leadersPanelId}
+            style={{
+              marginTop: "8px",
+              display: "grid",
+              gap: "6px",
+              maxHeight: areLeadersCollapsed ? "unset" : "160px",
+              overflowY: areLeadersCollapsed ? "visible" : "auto",
+              paddingRight: areLeadersCollapsed ? 0 : "2px",
+            }}
+          >
+            {leadersVisibleRows.map((row) => (
               <div
                 key={row.key}
                 style={{
