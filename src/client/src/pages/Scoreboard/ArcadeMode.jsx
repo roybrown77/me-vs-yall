@@ -349,8 +349,6 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     <div
       style={{
         marginTop: "10px",
-        border: "6px solid #000",
-        boxShadow: "-8px 8px 0px 0px #000",
         background: "#EFFBF8",
         height: "clamp(420px, 65vh, 620px)",
         overflow: "hidden",
