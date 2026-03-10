@@ -160,6 +160,29 @@ const getGameLabelWithScore = (game, away, home) => {
   return `${awayLabel} ${scoreText} ${homeLabel}${suffix}`;
 };
 
+const buildPixelWaterTiles = (bounds, rows = 10, cols = 16) => {
+  const sw = bounds.getSouthWest();
+  const ne = bounds.getNorthEast();
+  const latStep = (ne.lat - sw.lat) / rows;
+  const lngStep = (ne.lng - sw.lng) / cols;
+  const tiles = [];
+  for (let r = 0; r < rows; r += 1) {
+    for (let c = 0; c < cols; c += 1) {
+      const lat1 = sw.lat + r * latStep;
+      const lat2 = lat1 + latStep;
+      const lng1 = sw.lng + c * lngStep;
+      const lng2 = lng1 + lngStep;
+      const isAlt = (r + c) % 2 === 0;
+      tiles.push({
+        bounds: L.latLngBounds(L.latLng(lat1, lng1), L.latLng(lat2, lng2)),
+        color: isAlt ? "#B9E9FF" : "#9EDCFF",
+        opacity: isAlt ? 0.22 : 0.14,
+      });
+    }
+  }
+  return tiles;
+};
+
 const createStickFigureIcon = () => {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
@@ -244,10 +267,12 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const gamesLayerRef = useRef(null);
+  const waterLayerRef = useRef(null);
   const playerRef = useRef(null);
   const gameMarkersRef = useRef(new Map());
   const stickIconRef = useRef(null);
   const invalidateTimeoutRef = useRef(null);
+  const invalidateTimeout2Ref = useRef(null);
   const resizeObserverRef = useRef(null);
 
   const [playerLatLng, setPlayerLatLng] = useState(USA_CENTER);
@@ -303,6 +328,28 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     map.setMaxBounds(USA_BOUNDS);
     map.options.maxBoundsViscosity = 1.0;
 
+    // Pixel-ish water background (extends beyond US bounds)
+    const waterBounds = USA_BOUNDS.pad(0.18);
+    waterLayerRef.current = L.layerGroup().addTo(map);
+    L.rectangle(waterBounds, {
+      color: "#000",
+      weight: 0,
+      fillColor: "#78C8FF",
+      fillOpacity: 0.35,
+      interactive: false,
+    }).addTo(waterLayerRef.current);
+
+    const tiles = buildPixelWaterTiles(waterBounds, 10, 16);
+    tiles.forEach((t) => {
+      L.rectangle(t.bounds, {
+        color: "#000",
+        weight: 0,
+        fillColor: t.color,
+        fillOpacity: t.opacity,
+        interactive: false,
+      }).addTo(waterLayerRef.current);
+    });
+
     // Background & US silhouette
     const usPolygon = L.polygon(USA_POLYGON, {
       color: "#000",
@@ -345,7 +392,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
     }, 0);
 
     // And one more tick for safety (font load / toolbar layout can shift widths).
-    setTimeout(() => {
+    invalidateTimeout2Ref.current = setTimeout(() => {
       map.invalidateSize();
     }, 50);
 
@@ -368,6 +415,11 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
         invalidateTimeoutRef.current = null;
       }
 
+      if (invalidateTimeout2Ref.current) {
+        clearTimeout(invalidateTimeout2Ref.current);
+        invalidateTimeout2Ref.current = null;
+      }
+
       // Defensive: stop any pending transitions/handlers before removing.
       try {
         map.closePopup();
@@ -388,6 +440,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
       map.remove();
       mapRef.current = null;
       gamesLayerRef.current = null;
+      waterLayerRef.current = null;
       playerRef.current = null;
       gameMarkersRef.current = new Map();
     };
@@ -534,7 +587,7 @@ const LeafletArcadeMap = ({ allGames, picks, updatingPick, onMakePick }) => {
         inset: 0,
         width: "100vw",
         height: "100vh",
-        background: "#EFFBF8",
+        background: "#78C8FF",
         overflow: "hidden",
         zIndex: 5,
       }}
