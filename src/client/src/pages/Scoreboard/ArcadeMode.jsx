@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -12,6 +13,13 @@ import ToggleOff from "@mui/icons-material/ToggleOff";
 import styles from "./styles";
 
 import { hasGameStarted } from "../../utilities";
+import {
+  googleLogin,
+  isConfirmedAuthentication,
+  logout,
+} from "../../utilities/authenticationClient";
+
+import mvyLogo from "../../styles/images/mvy-balls-cut.png";
 
 export const ArcadeModeToggle = ({ isArcadeMode, onArcadeModeOn, onArcadeModeOff }) => (
   <div
@@ -43,6 +51,53 @@ ArcadeModeToggle.propTypes = {
   isArcadeMode: PropTypes.bool.isRequired,
   onArcadeModeOn: PropTypes.func.isRequired,
   onArcadeModeOff: PropTypes.func.isRequired,
+};
+
+const ArcadeBrandBar = () => {
+  const isAuthenticated = isConfirmedAuthentication();
+
+  const buttonStyle = {
+    border: "1px solid #E7E7E7",
+    backgroundColor: "#fff",
+    borderRadius: "10px",
+    padding: "7px 10px",
+    fontSize: "11px",
+    fontWeight: 900,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        padding: "8px 10px",
+        backgroundColor: "#fff",
+        border: "1px solid #E7E7E7",
+        borderRadius: "14px",
+        pointerEvents: "auto",
+      }}
+    >
+      <Link to="/" aria-label="Me vs Yall home" style={{ display: "flex", alignItems: "center" }}>
+        <img
+          src={mvyLogo}
+          alt="Me vs Yall"
+          style={{ height: "34px", width: "72px", objectFit: "contain" }}
+        />
+      </Link>
+
+      <button
+        type="button"
+        onClick={isAuthenticated ? logout : googleLogin}
+        style={buttonStyle}
+        aria-label={isAuthenticated ? "Sign out" : "Sign in"}
+      >
+        <span style={{ fontSize: ".7rem" }}>📱</span> {isAuthenticated ? "Sign out" : "SIGN IN"}
+      </button>
+    </div>
+  );
 };
 
 const hashStringToInt = (value = "") => {
@@ -905,6 +960,10 @@ const ArcadeMode = ({
 
   return (
     <div>
+      <div style={{ position: "fixed", top: "12px", left: "12px", zIndex: 7 }}>
+        <ArcadeBrandBar />
+      </div>
+
       <div style={{ position: "fixed", top: "12px", right: "12px", zIndex: 7 }}>
         <ArcadeModeToggle
           isArcadeMode={isArcadeMode}
