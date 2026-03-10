@@ -110,9 +110,7 @@ class Scoreboard extends Component {
   async componentDidMount() {
     window.scrollTo(0, 0);
 
-    if (!this.state.isArcadeMode) {
-      await this.initializeClassicScoreboard();
-    }
+    await this.initializeClassicScoreboard();
 
     if (isAuthenticated) {
       const createUser = async ({ user }) => {
@@ -139,7 +137,6 @@ class Scoreboard extends Component {
 
   handleArcadeModeOn = () => {
     setScoreboardViewMode("arcade");
-    clearInterval(this.timerID);
     this.setState(() => ({ isArcadeMode: true }));
   };
 
@@ -477,6 +474,12 @@ class Scoreboard extends Component {
           isArcadeMode={isArcadeMode}
           onArcadeModeOn={this.handleArcadeModeOn}
           onArcadeModeOff={this.handleArcadeModeOff}
+          games={games}
+          picks={picks}
+          teams={this.state.teams}
+          groupedGames={groupedGames}
+          updatingPick={updatingPick}
+          onMakePick={this.handleMakePick}
         />
       );
     }
