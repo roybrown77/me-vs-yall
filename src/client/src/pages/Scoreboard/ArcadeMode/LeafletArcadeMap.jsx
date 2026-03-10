@@ -42,6 +42,43 @@ const buildPixelWaterTiles = (bounds, rows = 10, cols = 16) => {
   return tiles;
 };
 
+const rebuildWaterBackground = (map, layerGroup) => {
+  if (!map || !layerGroup) return;
+
+  const WATER_PANE = "waterPane";
+
+  // Clear and rebuild so the checkered tiles always cover the viewport.
+  layerGroup.clearLayers();
+
+  // Base ocean layer: cover the whole world so water is always visible.
+  const WORLD_BOUNDS = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
+  L.rectangle(WORLD_BOUNDS, {
+    pane: WATER_PANE,
+    color: "#000",
+    weight: 0,
+    fillColor: "#78C8FF",
+    fillOpacity: 0.35,
+    interactive: false,
+  }).addTo(layerGroup);
+
+  // Build the checkered overlay from the *current* map view.
+  // Pad a bit so edges stay filled while panning.
+  const viewBounds = map.getBounds().pad(0.25);
+
+  // Tile density: keep it stable and fairly light.
+  const tiles = buildPixelWaterTiles(viewBounds, 12, 18);
+  tiles.forEach((t) => {
+    L.rectangle(t.bounds, {
+      pane: WATER_PANE,
+      color: "#000",
+      weight: 0,
+      fillColor: t.color,
+      fillOpacity: t.opacity,
+      interactive: false,
+    }).addTo(layerGroup);
+  });
+};
+
 const buildPopupHtml = ({
   game,
   away,
@@ -191,6 +228,15 @@ const LeafletArcadeMap = ({
       fadeAnimation: false,
     });
 
+    // Ensure water always stays behind land layers.
+    const WATER_PANE = "waterPane";
+    map.createPane(WATER_PANE);
+    const waterPaneEl = map.getPane(WATER_PANE);
+    if (waterPaneEl) {
+      waterPaneEl.style.zIndex = 200;
+      waterPaneEl.style.pointerEvents = "none";
+    }
+
     map.setView(USA_CENTER, 4.6);
     map.setMaxBounds(ARCADE_BOUNDS);
     map.options.maxBoundsViscosity = 1.0;
@@ -201,37 +247,14 @@ const LeafletArcadeMap = ({
       .addTo(map);
 
     // Pixel-ish water background (extends beyond US bounds)
-    const waterBounds = USA_BOUNDS.pad(0.75);
     waterLayerRef.current = L.layerGroup().addTo(map);
 
-    // Base ocean layer: cover the whole world so water is always visible.
-    const WORLD_BOUNDS = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
-    L.rectangle(WORLD_BOUNDS, {
-      color: "#000",
-      weight: 0,
-      fillColor: "#78C8FF",
-      fillOpacity: 0.35,
-      interactive: false,
-    }).addTo(waterLayerRef.current);
-
-    L.rectangle(waterBounds, {
-      color: "#000",
-      weight: 0,
-      fillColor: "#78C8FF",
-      fillOpacity: 0.35,
-      interactive: false,
-    }).addTo(waterLayerRef.current);
-
-    const tiles = buildPixelWaterTiles(waterBounds, 10, 16);
-    tiles.forEach((t) => {
-      L.rectangle(t.bounds, {
-        color: "#000",
-        weight: 0,
-        fillColor: t.color,
-        fillOpacity: t.opacity,
-        interactive: false,
-      }).addTo(waterLayerRef.current);
-    });
+    // Initial build + keep in sync with viewport size/position.
+    const refreshWater = () => rebuildWaterBackground(map, waterLayerRef.current);
+    refreshWater();
+    map.on("moveend", refreshWater);
+    map.on("zoomend", refreshWater);
+    map.on("resize", refreshWater);
 
     // Background & US silhouette
     const usPolygon = L.polygon(USA_POLYGON, {
@@ -257,7 +280,9 @@ const LeafletArcadeMap = ({
     });
 
     // Ensure the map fits the expanded play bounds (includes Caribbean)
-    map.fitBounds(ARCADE_BOUNDS, { padding: [10, 10], animate: false });
+    // Default view: focus on the USA a bit more, while still allowing pan/zoom
+    // down to the Caribbean (via ARCADE_BOUNDS max bounds).
+    map.fitBounds(USA_BOUNDS.pad(0.06), { padding: [10, 10], animate: false });
 
     gamesLayerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
@@ -325,6 +350,9 @@ const LeafletArcadeMap = ({
         // ignore
       }
       try {
+        map.off("moveend", refreshWater);
+        map.off("zoomend", refreshWater);
+        map.off("resize", refreshWater);
         map.stop();
       } catch (e) {
         // ignore
