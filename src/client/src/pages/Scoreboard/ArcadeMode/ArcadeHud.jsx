@@ -627,7 +627,7 @@ const ArcadeHud = ({
 
         {areHowToCollapsed && (
           <div style={{ marginTop: "6px", fontSize: "11px", fontWeight: 650, opacity: 0.75 }}>
-            Pick winners • watch the map • climb the ranks
+            Pick winners • Watch the map • Climb the mountains of the leaderboard
           </div>
         )}
       </div>
