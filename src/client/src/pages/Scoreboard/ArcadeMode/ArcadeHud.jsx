@@ -163,7 +163,7 @@ const ArcadeHud = ({
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        width: "100%",
+        // width: "100%",
         maxHeight: "100%",
         overflowY: "auto",
         pointerEvents: "auto",
@@ -175,7 +175,7 @@ const ArcadeHud = ({
           border: "1px solid #E7E7E7",
           borderRadius: "14px",
           padding: "10px 12px",
-          width: "100%",
+          // width: "100%",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -259,7 +259,7 @@ const ArcadeHud = ({
           border: "1px solid #E7E7E7",
           borderRadius: "14px",
           padding: "10px 10px",
-          width: "100%",
+          // width: "100%",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
@@ -488,7 +488,7 @@ const ArcadeHud = ({
           border: "1px solid #E7E7E7",
           borderRadius: "14px",
           padding: "10px 12px",
-          width: "100%",
+          // width: "100%",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -570,7 +570,7 @@ const ArcadeHud = ({
           border: "1px solid #E7E7E7",
           borderRadius: "14px",
           padding: "10px 12px",
-          width: "100%",
+          // width: "100%",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
