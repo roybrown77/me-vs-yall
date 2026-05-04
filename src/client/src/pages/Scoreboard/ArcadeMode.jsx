@@ -1,8 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import useMediaQuery from "@mui/material/useMediaQuery";
-
 import { isConfirmedAuthentication } from "../../utilities/authenticationClient";
 
 import ArcadeBrandBar from "./ArcadeMode/ArcadeBrandBar";
@@ -38,8 +36,6 @@ const ArcadeMode = ({
   const [areCarsMoving, setAreCarsMoving] = useState(false);
   const [mapApi, setMapApi] = useState(null);
 
-  const isNarrowLayout = useMediaQuery("(max-width: 949.98px)");
-
   const isAuthenticated = isConfirmedAuthentication();
 
   const allGames = [
@@ -66,15 +62,14 @@ const ArcadeMode = ({
       </div>
 
       {/* Responsive layout
-          < 950px: map on top, controls on bottom
-          >= 950px: controls on left, map on right
+          All widths: map on top, controls on bottom
       */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           display: "flex",
-          flexDirection: isNarrowLayout ? "column" : "row",
+          flexDirection: "column",
           gap: 0,
           padding: 0,
           boxSizing: "border-box",
@@ -82,9 +77,9 @@ const ArcadeMode = ({
       >
         <div
           style={{
-            order: isNarrowLayout ? 0 : 1,
-            flex: isNarrowLayout ? "0 0 auto" : "1 1 auto",
-            height: isNarrowLayout ? "55vh" : "auto",
+            order: 0,
+            flex: "0 0 auto",
+            height: "55vh",
             minHeight: 0,
             minWidth: 0,
           }}
@@ -101,9 +96,9 @@ const ArcadeMode = ({
 
         <div
           style={{
-            order: isNarrowLayout ? 1 : 0,
-            flex: isNarrowLayout ? "1 1 auto" : "0 0 auto",
-            width: isNarrowLayout ? "100%" : "min(380px, 45vw)",
+            order: 1,
+            flex: "1 1 auto",
+            width: "100%",
             minWidth: 0,
             minHeight: 0,
             overflow: "hidden",
