@@ -338,7 +338,7 @@ const ArcadeHud = ({
                 <button
                   key={game._id}
                   type="button"
-                  onClick={() => mapApi?.openGamePopup?.(game._id)}
+                  onClick={() => mapApi?.focusGame?.(game._id)}
                   style={{
                     flex: "0 0 auto",
                     textAlign: "left",
@@ -421,7 +421,7 @@ const ArcadeHud = ({
                 >
                   <button
                     type="button"
-                    onClick={() => mapApi?.openGamePopup?.(game._id)}
+                    onClick={() => mapApi?.focusGame?.(game._id)}
                     style={{
                       width: "100%",
                       textAlign: "left",

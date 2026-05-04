@@ -382,14 +382,6 @@ const LeafletArcadeMap = ({
         const latLng = marker.getLatLng();
         map.panTo(latLng, { animate: false });
       },
-      openGamePopup: (gameId) => {
-        const map = mapRef.current;
-        const marker = gameId ? gameMarkersRef.current.get(gameId) : null;
-        if (!map || !marker) return;
-        const latLng = marker.getLatLng();
-        map.panTo(latLng, { animate: false });
-        marker.openPopup();
-      },
     };
 
     try {
@@ -701,7 +693,7 @@ const LeafletArcadeMap = ({
       });
 
       marker.bindTooltip(getGameLabelWithScore(game, away, home), {
-        permanent: true,
+        permanent: false,
         direction: "top",
         offset: [0, -10],
         opacity: 0.95,
