@@ -35,7 +35,7 @@ const ArcadeMode = ({
   onMakePick,
   leaders,
 }) => {
-  const [areCarsMoving, setAreCarsMoving] = useState(true);
+  const [areCarsMoving, setAreCarsMoving] = useState(false);
   const [mapApi, setMapApi] = useState(null);
 
   const isNarrowLayout = useMediaQuery("(max-width: 949.98px)");
