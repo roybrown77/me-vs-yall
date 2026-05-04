@@ -146,6 +146,7 @@ const LeafletArcadeMap = ({
   onMakePick,
   onApiReady,
   vehiclesMoving,
+  style,
 }) => {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -215,7 +216,6 @@ const LeafletArcadeMap = ({
       zoomControl: false,
       attributionControl: false,
       preferCanvas: true,
-      scrollWheelZoom: true,
       scrollWheelZoom: "center",
       wheelPxPerZoomLevel: 80,
       // Prevent accidental zoom while scrolling; user must hold Ctrl/Cmd.
@@ -782,13 +782,13 @@ const LeafletArcadeMap = ({
   return (
     <div
       style={{
-        position: "fixed",
-        inset: 0,
-        width: "100vw",
-        height: "100vh",
+        position: "relative",
+        width: "100%",
+        height: "100%",
         background: "#78C8FF",
         overflow: "hidden",
-        zIndex: 5,
+        zIndex: 1,
+        ...style,
       }}
     >
       <div
@@ -812,6 +812,7 @@ LeafletArcadeMap.propTypes = {
   onMakePick: PropTypes.func.isRequired,
   onApiReady: PropTypes.func,
   vehiclesMoving: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 export default LeafletArcadeMap;

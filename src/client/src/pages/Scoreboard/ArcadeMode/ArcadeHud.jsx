@@ -160,15 +160,12 @@ const ArcadeHud = ({
   return (
     <div
       style={{
-        position: "fixed",
-        left: "12px",
-        bottom: "12px",
-        zIndex: 7,
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        width: "min(360px, 45vw)",
-        maxHeight: "calc(100vh - 24px)",
+        width: "100%",
+        maxHeight: "100%",
+        overflowY: "auto",
         pointerEvents: "auto",
       }}
     >
@@ -388,7 +385,7 @@ const ArcadeHud = ({
               overflowY: "hidden",
               padding: "2px 6px 8px 2px",
               WebkitOverflowScrolling: "touch",
-              height: "min(230px, calc(100vh - 260px))",
+              height: "230px",
             }}
           >
             {gameList.map(({ game, away, home, canPick, isOver, isStarted, awaySelected, homeSelected, pickOutcome }) => {
