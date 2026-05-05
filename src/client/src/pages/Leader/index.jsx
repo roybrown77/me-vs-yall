@@ -116,7 +116,27 @@ const Leader = () => {
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const arcadeMode = searchParams.get("arcadeMode") === "true";
+  const arcadeModeParam = searchParams.get("arcadeMode");
+  const arcadeMode = arcadeModeParam == null ? true : arcadeModeParam === "true";
+
+  useEffect(() => {
+    const next = new URLSearchParams(window.location.search);
+    let changed = false;
+
+    if (!next.has("arcadeMode")) {
+      next.set("arcadeMode", "true");
+      changed = true;
+    }
+
+    if (!next.has("spreadMode")) {
+      next.set("spreadMode", "false");
+      changed = true;
+    }
+
+    if (changed) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [setSearchParams]);
 
   const handleArcadeModeChange = useCallback(
     (enabled) => {

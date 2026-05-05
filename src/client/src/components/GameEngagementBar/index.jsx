@@ -78,7 +78,7 @@ const GameEngagementBar = ({
     };
 
     return (
-        <div style={{ display: 'flex', color: '#000', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', color: '#000', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
             <div style={{ display: 'flex' }}>
                 <div
                     onClick={toggleArcadeMode}
@@ -160,7 +160,6 @@ const GameEngagementBar = ({
                     marginTop: '25px',
                     padding: '10px',
                     backgroundColor: '#fff',
-                    marginLeft: !document.queryCommandSupported('copy') ? 'auto' : undefined,
                 }}
             >
                 <div style={{ fontSize: '9px', fontWeight: 700 }}>vs Spread</div>
