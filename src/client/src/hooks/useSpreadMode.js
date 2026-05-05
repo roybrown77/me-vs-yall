@@ -1,31 +1,27 @@
-import { useCallback, useEffect, useState } from "react";
-
-import { getSpreadMode, setSpreadMode } from "../utilities/spreadMode";
-
-const getInitialValue = () => getSpreadMode() === "1";
+import { useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const useSpreadMode = () => {
-  const [spreadMode, setSpreadModeState] = useState(getInitialValue);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const spreadMode = searchParams.get("spreadMode") === "true";
+
+  const setSpreadModeParam = useCallback(
+    (enabled) => {
+      const next = new URLSearchParams(window.location.search);
+      next.set("spreadMode", enabled ? "true" : "false");
+      setSearchParams(next, { replace: true });
+    },
+    [setSearchParams]
+  );
 
   const enableSpreadMode = useCallback(() => {
-    setSpreadMode("1");
-    setSpreadModeState(true);
-  }, []);
+    setSpreadModeParam(true);
+  }, [setSpreadModeParam]);
 
   const disableSpreadMode = useCallback(() => {
-    setSpreadMode("0");
-    setSpreadModeState(false);
-  }, []);
-
-  useEffect(() => {
-    const handleStorage = (event) => {
-      if (event.key !== "spreadModeToggle") return;
-      setSpreadModeState(getInitialValue());
-    };
-
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
+    setSpreadModeParam(false);
+  }, [setSpreadModeParam]);
 
   return {
     spreadMode,

@@ -23,6 +23,7 @@ const GameEngagementBar = ({
     teams,
     isAuthenticated,
     userId,
+    spreadMode,
     arcadeMode,
     onArcadeModeChange,
 }) => {
@@ -60,34 +61,25 @@ const GameEngagementBar = ({
         setIsSpreadModeAlertOpen(false);
     };
 
-    const spreadToggleOn = () => {
-        localStorage.setItem("spreadModeToggle", "1");
-        setIsSpreadModeAlertOpen(false);
-        handleSpreadToggleOff();
-    };
+    const isArcadeModeEnabled = typeof arcadeMode === "boolean" ? arcadeMode : false;
 
-    const spreadToggleOff = () => {
-        localStorage.setItem("spreadModeToggle", "0");
+    const enableSpreadMode = () => {
         setIsSpreadModeAlertOpen(true);
-        handleSpreadToggleOn();
+        handleSpreadToggleOn?.();
     };
 
-    const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
-
-    const isArcadeModeEnabled =
-        typeof arcadeMode === "boolean"
-            ? arcadeMode
-            : localStorage.getItem("arcadeModeToggle") === "1";
+    const disableSpreadMode = () => {
+        setIsSpreadModeAlertOpen(false);
+        handleSpreadToggleOff?.();
+    };
 
     const toggleArcadeMode = () => {
-        const newValue = isArcadeModeEnabled ? "0" : "1";
-        localStorage.setItem("arcadeModeToggle", newValue);
-        onArcadeModeChange?.(newValue === "1");
+        onArcadeModeChange?.(!isArcadeModeEnabled);
     };
 
     return (
-        <div style={{ display: 'flex', color: '#000' }}>
-            <div style={{ display: 'flex', marginLeft: 'auto' }}>
+        <div style={{ display: 'flex', color: '#000', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex' }}>
                 <div
                     onClick={toggleArcadeMode}
                     style={{
@@ -184,9 +176,9 @@ const GameEngagementBar = ({
                         aria-label="toggle spread mode"
                     >
                         {spreadMode ? (
-                            <ToggleOn onClick={spreadToggleOn} />
+                            <ToggleOn onClick={disableSpreadMode} />
                         ) : (
-                            <ToggleOff onClick={spreadToggleOff} />
+                            <ToggleOff onClick={enableSpreadMode} />
                         )}
                     </IconButton>
                     <Snackbar
@@ -222,6 +214,7 @@ GameEngagementBar.propTypes = {
     teams: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     userId: PropTypes.string,
+    spreadMode: PropTypes.bool,
     arcadeMode: PropTypes.bool,
     onArcadeModeChange: PropTypes.func,
 };

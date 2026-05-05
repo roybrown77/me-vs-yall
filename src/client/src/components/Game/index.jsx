@@ -231,9 +231,8 @@ const Game = (props) => {
     isAuthenticated,
     disableTie,
     updatingPick,
+    spreadMode = false,
   } = props;
-
-  const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
 
   const componentProps = {
     ...props,

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import get from "lodash/get";
 import last from "lodash/last";
 import queryString from "query-string";
@@ -114,9 +115,17 @@ const Leader = () => {
   const [picks, setPicks] = useState([]);
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [arcadeMode, setArcadeMode] = useState(() => {
-    return localStorage.getItem("arcadeModeToggle") === "1";
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const arcadeMode = searchParams.get("arcadeMode") === "true";
+
+  const handleArcadeModeChange = useCallback(
+    (enabled) => {
+      const next = new URLSearchParams(window.location.search);
+      next.set("arcadeMode", enabled ? "true" : "false");
+      setSearchParams(next, { replace: true });
+    },
+    [setSearchParams]
+  );
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
 
@@ -267,8 +276,9 @@ const Leader = () => {
           teams={teams}
           isAuthenticated={isAuthenticated}
           userId={userId}
+          spreadMode={spreadMode}
           arcadeMode={arcadeMode}
-          onArcadeModeChange={setArcadeMode}
+          onArcadeModeChange={handleArcadeModeChange}
         />
         {arcadeMode ? (
           <ArcadeLeaderboard />

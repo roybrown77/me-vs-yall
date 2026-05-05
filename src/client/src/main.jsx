@@ -3,6 +3,8 @@ import './styles/App.css';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import useSyncServiceWorker from './hooks/useSyncServiceWorker';
+
 import Home from './pages/Home';
 import Scoreboard from './pages/Scoreboard';
 import Leader from './pages/Leader';
@@ -17,8 +19,18 @@ import AuthenticationCallback from './pages/AuthenticationCallback';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-root.render(
-  <BrowserRouter>
+// Legacy cleanup: spread/arcade modes are now query-param driven.
+try {
+  localStorage.removeItem('spreadModeToggle');
+  localStorage.removeItem('arcadeModeToggle');
+} catch (e) {
+  // ignore
+}
+
+const AppRoot = () => {
+  useSyncServiceWorker();
+
+  return (
     <div className="App">
       <main>
         <div style={{ height: '100%' }}>
@@ -38,5 +50,11 @@ root.render(
         </div>
       </main>
     </div>
+  );
+};
+
+root.render(
+  <BrowserRouter>
+    <AppRoot />
   </BrowserRouter>
 );

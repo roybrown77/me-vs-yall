@@ -56,15 +56,6 @@ const ArcadeScoreboard = ({ games = [] }) => {
           padding: "10px 0 10px 0",
         }}
       >
-        <div
-          style={{
-            textAlign: "center",
-            fontWeight: 700,
-            marginBottom: "10px",
-          }}
-        >
-          arcade scoreboard
-        </div>
 
         <div style={{ position: "relative" }}>
           {displayGames.length > 0 && (
@@ -101,7 +92,6 @@ const ArcadeScoreboard = ({ games = [] }) => {
             const isLeft = side === "left";
             const isCenter = side === "center";
             const bobDelay = `${(index % 6) * 0.08}s`;
-            const emoji = isCenter ? "🎮" : isLeft ? "🦉" : "🐯";
 
             return (
               <div
@@ -148,10 +138,9 @@ const ArcadeScoreboard = ({ games = [] }) => {
                           animationDelay: bobDelay,
                         }}
                       >
-                        {emoji}
                       </div>
                       <div style={{ textAlign: "left" }}>
-                        <div style={{ fontSize: "12px", fontWeight: 700 }}>
+                        <div style={{ fontSize: "32px", fontWeight: 700 }}>
                           {getGameTitle(game)}
                         </div>
                         <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
@@ -190,7 +179,7 @@ const ArcadeScoreboard = ({ games = [] }) => {
                         {emoji}
                       </div>
                       <div style={{ textAlign: "left" }}>
-                        <div style={{ fontSize: "12px", fontWeight: 700 }}>
+                        <div style={{ fontSize: "32px", fontWeight: 700 }}>
                           {getGameTitle(game)}
                         </div>
                         <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>

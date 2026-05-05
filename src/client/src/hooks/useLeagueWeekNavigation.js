@@ -103,7 +103,7 @@ const useLeagueWeekNavigation = ({
       const leagueFound = leagues.find((league) => league.id === leagueSelected);
       if (!leagueFound) return;
 
-      history.push(`${routeBase}${leagueFound.name}`);
+      history.push(`${routeBase}${leagueFound.name}${window.location.search || ""}`);
 
       const years = get(leagueFound, "years", []);
       const year = last(years);

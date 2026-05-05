@@ -9,7 +9,7 @@ import Typer from './Typer';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 import { googleLogin, isConfirmedAuthentication } from '../../utilities/authenticationClient';
 import Header from '../../components/Header';
-import useSyncServiceWorker from './useSyncServiceWorker';
+// Service worker sync runs at the app root.
 import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
 
 const styles = {
@@ -62,7 +62,6 @@ const tagLines = [
 ];
 
 const Home = () => {
-  useSyncServiceWorker();
   useGoogleAnalytics();
 
   useEffect(() => {

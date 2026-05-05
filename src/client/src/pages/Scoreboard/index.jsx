@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import get from "lodash/get";
 import last from "lodash/last";
 import moment from "moment-timezone";
@@ -61,9 +62,17 @@ const Scoreboard = () => {
   const [updatingPick, setUpdatingPick] = useState(false);
   const [isShareClicked] = useState(false);
   const [isSpreadModeAlertOpen] = useState(false);
-  const [arcadeMode, setArcadeMode] = useState(() => {
-    return localStorage.getItem("arcadeModeToggle") === "1";
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const arcadeMode = searchParams.get("arcadeMode") === "true";
+
+  const handleArcadeModeChange = useCallback(
+    (enabled) => {
+      const next = new URLSearchParams(window.location.search);
+      next.set("arcadeMode", enabled ? "true" : "false");
+      setSearchParams(next, { replace: true });
+    },
+    [setSearchParams]
+  );
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
 
@@ -353,8 +362,9 @@ const Scoreboard = () => {
           teams={teams}
           isAuthenticated={isAuthenticated}
           userId={userId}
+          spreadMode={spreadMode}
           arcadeMode={arcadeMode}
-          onArcadeModeChange={setArcadeMode}
+          onArcadeModeChange={handleArcadeModeChange}
         />
         {arcadeMode ? (
           <ArcadeScoreboard
@@ -454,6 +464,7 @@ const Scoreboard = () => {
                         userId={userId}
                         disableTie={disableTie}
                         updatingPick={updatingPick}
+                        spreadMode={spreadMode}
                       />
                     </div>
                   );
@@ -525,6 +536,7 @@ const Scoreboard = () => {
                           isAuthenticated={isAuthenticated}
                           userId={userId}
                           disableTie={disableTie}
+                          spreadMode={spreadMode}
                         />
                       </div>
                     );
