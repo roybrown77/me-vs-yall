@@ -175,9 +175,11 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
         }
         @keyframes nflHurdleTD {
           0% { transform: translate(36px, 0px); }
-          38% { transform: translate(24px, 0px); }
-          52% { transform: translate(18px, -7px); }
-          68% { transform: translate(12px, 0px); }
+          22% { transform: translate(30px, 0px); }
+          32% { transform: translate(28px, -6px); }
+          38% { transform: translate(24px, -14px); }
+          50% { transform: translate(16px, 0px); }
+          70% { transform: translate(10px, 0px); }
           100% { transform: translate(0px, 0px); }
         }
         @keyframes nflKickBall {
@@ -255,7 +257,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
           height: 18px;
         }
         .nflTDRunner {
-          animation: nflHurdleTD 1.25s ease-in-out infinite;
+          animation: nflHurdleTD 1.9s ease-in-out infinite;
         }
 
         .nflKickLeg {
@@ -382,7 +384,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
                     className="nflMover nflTDRunner"
                     style={{
                       animationDelay: `${s.delay}s`,
-                      animationDuration: `${(1.25 * s.durationJitter).toFixed(2)}s`,
+                      animationDuration: `${(1.9 * s.durationJitter).toFixed(2)}s`,
                     }}
                   >
                     <span className="nflPx nflHead" style={{ left: 2, top: 3 }} />
