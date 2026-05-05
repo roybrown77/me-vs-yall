@@ -4,7 +4,7 @@ import Slide from '@mui/material/Slide';
 
 import { isLoggedIn, googleLogin } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy.png';
-import useGoogleAnalytics from '../../utilities/useGoogleAnalytics';
+import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
 
 const Play = () => {
     useGoogleAnalytics();

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { getUserProfile, setIdToken, setAccessToken, setExpiration } from '../../utilities/authenticationClient';
-import useGoogleAnalytics from '../../utilities/useGoogleAnalytics';
+import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
 
 const AuthenticationCallback = () => {
   useGoogleAnalytics();
