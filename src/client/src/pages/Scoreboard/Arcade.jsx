@@ -176,7 +176,6 @@ const ArcadeScoreboard = ({ games = [] }) => {
                       }}
                     >
                       <div aria-hidden style={{ fontSize: "30px", lineHeight: 1 }}>
-                        {emoji}
                       </div>
                       <div style={{ textAlign: "left" }}>
                         <div style={{ fontSize: "32px", fontWeight: 700 }}>
