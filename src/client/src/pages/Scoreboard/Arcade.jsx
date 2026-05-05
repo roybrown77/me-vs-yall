@@ -218,10 +218,9 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
                           animationDelay: bobDelay,
                         }}
                       >
-                        {isLeft ? "🦉" : "🐯"}
                       </div>
                       <div style={{ textAlign: "left" }}>
-                        <div style={{ fontSize: "12px", fontWeight: 700 }}>
+                        <div style={{ fontSize: "32px", fontWeight: 700 }}>
                           {getGameTitle(game)}
                         </div>
                         <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
