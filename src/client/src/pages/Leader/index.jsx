@@ -116,8 +116,12 @@ const Leader = () => {
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const arcadeModeParam = searchParams.get("arcadeMode");
-  const arcadeMode = arcadeModeParam == null ? true : arcadeModeParam === "true";
+  const arcadeModeValues = searchParams.getAll("arcadeMode");
+  const arcadeModeParam = arcadeModeValues.length
+    ? arcadeModeValues[arcadeModeValues.length - 1]
+    : null;
+  const arcadeMode =
+    arcadeModeParam == null ? true : arcadeModeParam.trim().toLowerCase() !== "false";
 
   useEffect(() => {
     const next = new URLSearchParams(window.location.search);

@@ -179,7 +179,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
                 gap: "8px",
                 padding: "8px 10px",
                 borderRadius: "12px",
-                background: "#8EB5CC",
+                background: "dodgerblue",
                 border: "1px solid rgba(0,0,0,0.12)",
                 cursor: "pointer",
                 color: "#000",

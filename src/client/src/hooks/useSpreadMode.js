@@ -4,7 +4,11 @@ import { useSearchParams } from "react-router-dom";
 const useSpreadMode = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const spreadMode = searchParams.get("spreadMode") === "true";
+  const spreadModeValues = searchParams.getAll("spreadMode");
+  const spreadModeParam = spreadModeValues.length
+    ? spreadModeValues[spreadModeValues.length - 1]
+    : null;
+  const spreadMode = spreadModeParam?.trim().toLowerCase() === "true";
 
   const setSpreadModeParam = useCallback(
     (enabled) => {

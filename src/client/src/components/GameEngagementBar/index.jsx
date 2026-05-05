@@ -78,7 +78,17 @@ const GameEngagementBar = ({
     };
 
     return (
-        <div style={{ display: 'flex', color: '#000', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+        <div
+            style={{
+                display: 'flex',
+                width: '100%',
+                color: '#000',
+                flexWrap: 'wrap',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                boxSizing: 'border-box',
+            }}
+        >
             <div style={{ display: 'flex' }}>
                 <div
                     onClick={toggleArcadeMode}
@@ -90,9 +100,9 @@ const GameEngagementBar = ({
                     }}
                 >
                     <div style={{ fontSize: "9px", fontWeight: 700 }}>Arcade Mode</div>
-                    <div style={{ background: '#8EB5CC', margin: '5px', borderRadius: '8px' }}>
+                    <div style={{ background: 'dodgerblue', margin: '5px', borderRadius: '8px' }}>
                         <IconButton
-                            style={{ color: "#000" }}
+                            style={isArcadeModeEnabled ? styles.toggleButtonOn : styles.toggleButtonOff}
                             aria-label="Toggle Arcade Mode"
                         >
                             {isArcadeModeEnabled ? <ToggleOn /> : <ToggleOff />}
