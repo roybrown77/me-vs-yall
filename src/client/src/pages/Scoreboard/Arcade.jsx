@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState, useEffect } from "react";
 
 const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
   const [controlsOpen, setControlsOpen] = useState(false);
   const displayGames = Array.isArray(games) ? games : [];
   const isSingleGame = displayGames.length === 1;
+
+  const listRef = useRef(null);
+  const nodeRefs = useRef([]);
+  const [spinePathD, setSpinePathD] = useState("");
 
   const getGameTitle = (game) => {
     const away = game?.competitors?.[0]?.name;
@@ -23,6 +27,66 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
     const scoreLine = away?.name && home?.name ? `${away.name} ${awayScore} - ${homeScore} ${home.name}` : `${awayScore} - ${homeScore}`;
     return [time, date, scoreLine].filter(Boolean).join(" • ");
   };
+
+  const computeSpinePath = useCallback(() => {
+    const listEl = listRef.current;
+    if (!listEl) {
+      setSpinePathD("");
+      return;
+    }
+
+    const listRect = listEl.getBoundingClientRect();
+    const points = nodeRefs.current
+      .filter(Boolean)
+      .map((el) => {
+        const r = el.getBoundingClientRect();
+        return {
+          x: r.left - listRect.left + r.width / 2,
+          y: r.top - listRect.top + r.height / 2,
+        };
+      })
+      .filter((p) => Number.isFinite(p.x) && Number.isFinite(p.y));
+
+    if (points.length < 2) {
+      setSpinePathD("");
+      return;
+    }
+
+    const totalHeight = listRect.height || 1;
+    let d = `M ${points[0].x} ${points[0].y}`;
+
+    for (let i = 1; i < points.length; i += 1) {
+      const p0 = points[i - 1];
+      const p1 = points[i];
+      const yMid = (p0.y + p1.y) / 2;
+      const progress = Math.max(0, Math.min(1, yMid / totalHeight));
+
+      // More winding as you scroll down: amplitude increases with progress.
+      const baseAmplitudePx = 14;
+      const extraAmplitudePx = 54;
+      const amplitude = baseAmplitudePx + extraAmplitudePx * progress;
+      const direction = i % 2 === 0 ? -1 : 1;
+      const dx = direction * amplitude;
+
+      d += ` C ${p0.x + dx} ${yMid}, ${p1.x + dx} ${yMid}, ${p1.x} ${p1.y}`;
+    }
+
+    setSpinePathD(d);
+  }, []);
+
+  useLayoutEffect(() => {
+    nodeRefs.current.length = displayGames.length;
+    computeSpinePath();
+  }, [computeSpinePath, displayGames.length, controlsOpen]);
+
+  useEffect(() => {
+    const listEl = listRef.current;
+    if (!listEl || typeof ResizeObserver === "undefined") return;
+
+    const observer = new ResizeObserver(() => computeSpinePath());
+    observer.observe(listEl);
+    return () => observer.disconnect();
+  }, [computeSpinePath]);
 
   return (
     <div
@@ -137,22 +201,28 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
           padding: "12px 12px 18px 12px",
         }}
       >
-        <div style={{ position: "relative" }}>
-          {displayGames.length > 0 && (
-            <div
+        <div ref={listRef} style={{ position: "relative" }}>
+          {displayGames.length > 1 && spinePathD && (
+            <svg
               aria-hidden
               style={{
                 position: "absolute",
-                left: "50%",
-                top: isSingleGame ? "0px" : "53px",
-                bottom: isSingleGame ? undefined : "53px",
-                height: isSingleGame ? "63px" : undefined,
-                width: "6px",
-                transform: "translateX(-50%)",
-                borderRadius: "999px",
-                background: "rgba(0,0,0,0.12)",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                pointerEvents: "none",
+                zIndex: 1,
               }}
-            />
+            >
+              <path
+                d={spinePathD}
+                fill="none"
+                stroke="rgba(0,0,0,0.12)"
+                strokeWidth={6}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           )}
 
           {displayGames.length === 0 && (
@@ -284,6 +354,9 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
                     fontSize: "14px",
                     position: "relative",
                     zIndex: 2,
+                  }}
+                  ref={(el) => {
+                    nodeRefs.current[index] = el;
                   }}
                 >
                   {index + 1}
