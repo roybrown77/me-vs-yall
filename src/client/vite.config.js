@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { minimal2023Preset } from '@vite-pwa/assets-generator/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,11 +10,40 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,
-      pwaAssets: { disabled: false, config: true},
+      pwaAssets: {
+        disabled: false,
+        config: false,
+        preset: minimal2023Preset,
+        image: 'public/favicon.png',
+        htmlPreset: '2023',
+      },
       manifest: {
         name: 'Me vs Yall',
         short_name: 'Me vs Yall',
         description: 'The ultimate sports pick\'em game.  Me vs Yall is a fun and entertaining way to analyze teams and players in the pursuit of correctly guessing who will win.  It will help you outwit others around the world and beat vegas for money.',
+        icons: [
+          {
+            src: 'pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: 'maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,svg,ico}'],
