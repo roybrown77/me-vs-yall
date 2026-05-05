@@ -369,7 +369,13 @@ const Leader = () => {
                                     👑
                                   </div>
                                 )}
-                                <img style={styles.userPicture} src={leader.picture} alt="" />
+                                <img
+                                  style={styles.userPicture}
+                                  src={leader.picture}
+                                  alt=""
+                                  referrerPolicy="no-referrer"
+                                  crossOrigin="anonymous"
+                                />
                               </div>
                             )}
                             {!leader.picture && (
