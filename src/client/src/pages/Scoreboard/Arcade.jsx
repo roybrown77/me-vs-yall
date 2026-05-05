@@ -29,7 +29,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 9999,
+        zIndex: 1200,
         backgroundColor: "#B3E6CA",
         fontFamily: "monospace",
         overflowY: "auto",
@@ -67,7 +67,6 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
             padding: "10px 12px",
           }}
         >
-          <div style={{ fontWeight: 700 }}>Arcade</div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <button
               type="button"
