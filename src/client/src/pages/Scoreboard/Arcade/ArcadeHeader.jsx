@@ -1,3 +1,5 @@
+import PumpUpMusic from "../../../components/PumpUpMusic";
+
 const ArcadeHeader = ({ controlsOpen, onControlsToggle, onExitArcadeMode, controls }) => {
   return (
     <div
@@ -59,6 +61,10 @@ const ArcadeHeader = ({ controlsOpen, onControlsToggle, onExitArcadeMode, contro
             Arcade Mode ON
           </button>
         </div>
+
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <PumpUpMusic autoStartOnFirstGesture />
+          </div>
       </div>
 
       {controlsOpen && (
