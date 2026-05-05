@@ -8,7 +8,13 @@ import ArcadeBaseStyles from "./ArcadeBaseStyles";
 import ArcadeHeader from "./ArcadeHeader";
 import ArcadeGameTimeline from "./ArcadeGameTimeline";
 
-const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
+const ArcadeScoreboard = ({
+  games = [],
+  controls,
+  onArcadeModeChange,
+  soundEnabled = true,
+  onSoundChange,
+}) => {
   const [controlsOpen, setControlsOpen] = useState(false);
   const displayGames = Array.isArray(games) ? games : [];
   const isSingleGame = displayGames.length === 1;
@@ -46,6 +52,8 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
           onControlsToggle={() => setControlsOpen((x) => !x)}
           onExitArcadeMode={() => onArcadeModeChange?.(false)}
           controls={controls}
+          soundEnabled={soundEnabled}
+          onSoundChange={onSoundChange}
         />
 
         <ArcadeGameTimeline

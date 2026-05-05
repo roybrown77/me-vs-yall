@@ -43,7 +43,12 @@ const createNoiseBuffer = (audioContext) => {
   return buffer;
 };
 
-const PumpUpMusic = ({ style, autoStartOnFirstGesture = false }) => {
+const PumpUpMusic = ({
+  style,
+  autoStartOnFirstGesture = false,
+  enabled = true,
+  onEnabledChange,
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const hasAutoStartedRef = useRef(false);
@@ -268,6 +273,12 @@ const PumpUpMusic = ({ style, autoStartOnFirstGesture = false }) => {
   }, [stop]);
 
   useEffect(() => {
+    if (enabled) return;
+    if (!isPlaying) return;
+    stop();
+  }, [enabled, isPlaying, stop]);
+
+  useEffect(() => {
     if (!autoStartOnFirstGesture) return undefined;
     if (isPlaying) return undefined;
     if (hasAutoStartedRef.current) return undefined;
@@ -287,18 +298,25 @@ const PumpUpMusic = ({ style, autoStartOnFirstGesture = false }) => {
     // Arcade mode can feel “instant” by starting on the first gesture.
     window.addEventListener('pointerdown', handleFirstGesture, { once: true });
     window.addEventListener('keydown', handleFirstGesture, { once: true });
+    // Trackpad/mouse-wheel scroll is often the first interaction on desktop.
+    // If the browser treats it as a valid user gesture, this makes music start
+    // without requiring an explicit click.
+    window.addEventListener('wheel', handleFirstGesture, { once: true, passive: true });
 
     return () => {
       isCancelled = true;
       window.removeEventListener('pointerdown', handleFirstGesture);
       window.removeEventListener('keydown', handleFirstGesture);
+      window.removeEventListener('wheel', handleFirstGesture);
     };
   }, [autoStartOnFirstGesture, isPlaying, start]);
 
   const handleClick = () => {
     if (isPlaying) {
       stop();
+      onEnabledChange?.(false);
     } else {
+      onEnabledChange?.(true);
       start();
     }
   };

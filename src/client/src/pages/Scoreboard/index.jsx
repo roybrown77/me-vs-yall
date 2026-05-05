@@ -70,6 +70,13 @@ const Scoreboard = () => {
   const arcadeMode =
     arcadeModeParam == null ? true : arcadeModeParam.trim().toLowerCase() !== "false";
 
+  const soundValues = searchParams.getAll("sound");
+  const soundParam = soundValues.length
+    ? soundValues[soundValues.length - 1]
+    : null;
+  const soundEnabled =
+    soundParam == null ? true : soundParam.trim().toLowerCase() !== "false";
+
   useEffect(() => {
     const next = new URLSearchParams(window.location.search);
     let changed = false;
@@ -84,6 +91,11 @@ const Scoreboard = () => {
       changed = true;
     }
 
+    if (!next.has("sound")) {
+      next.set("sound", "true");
+      changed = true;
+    }
+
     if (changed) {
       setSearchParams(next, { replace: true });
     }
@@ -93,6 +105,15 @@ const Scoreboard = () => {
     (enabled) => {
       const next = new URLSearchParams(window.location.search);
       next.set("arcadeMode", enabled ? "true" : "false");
+      setSearchParams(next, { replace: true });
+    },
+    [setSearchParams]
+  );
+
+  const handleSoundChange = useCallback(
+    (enabled) => {
+      const next = new URLSearchParams(window.location.search);
+      next.set("sound", enabled ? "true" : "false");
       setSearchParams(next, { replace: true });
     },
     [setSearchParams]
@@ -326,6 +347,8 @@ const Scoreboard = () => {
           <ArcadeScoreboard
             games={[...groupedGames.notCompleted, ...groupedGames.completed]}
             onArcadeModeChange={handleArcadeModeChange}
+            soundEnabled={soundEnabled}
+            onSoundChange={handleSoundChange}
             controls={
               <div>
                 <TinyScoreboard
