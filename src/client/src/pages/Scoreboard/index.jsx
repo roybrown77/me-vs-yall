@@ -357,7 +357,9 @@ const Scoreboard = () => {
           onArcadeModeChange={setArcadeMode}
         />
         {arcadeMode ? (
-          <ArcadeScoreboard />
+          <ArcadeScoreboard
+            games={[...groupedGames.notCompleted, ...groupedGames.completed]}
+          />
         ) : (
           <Box
             sx={{
