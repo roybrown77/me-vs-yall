@@ -5,6 +5,19 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
   const displayGames = Array.isArray(games) ? games : [];
   const isSingleGame = displayGames.length === 1;
 
+  const collapseGameName = (name) => {
+    if (typeof name !== "string") return name;
+    const trimmed = name.trim();
+    if (!trimmed) return trimmed;
+
+    if (trimmed.length <= 3) return trimmed;
+
+    const words = trimmed.split(/\s+/).filter(Boolean);
+    const maxWords = 3;
+    const collapsed = words.slice(0, maxWords).join(" ");
+    return words.length > maxWords ? `${collapsed}…` : collapsed;
+  };
+
   const listRef = useRef(null);
   const nodeRefs = useRef([]);
   const [spinePathD, setSpinePathD] = useState("");
@@ -12,7 +25,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
   const getGameTitle = (game) => {
     const away = game?.competitors?.[0]?.name;
     const home = game?.competitors?.[1]?.name;
-    if (game?.gameName) return game.gameName;
+    if (game?.gameName) return collapseGameName(game.gameName);
     if (away && home) return `${away} vs ${home}`;
     return "Game";
   };
@@ -340,7 +353,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
                   </div>
                 )}
 
-                <div
+                {!isSingleGame && <div
                   style={{
                     width: "54px",
                     height: "54px",
@@ -359,8 +372,8 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
                     nodeRefs.current[index] = el;
                   }}
                 >
-                  {index + 1}
-                </div>
+                  { index + 1}
+                </div>}
               </div>
             );
           })}
