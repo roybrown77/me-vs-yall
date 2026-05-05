@@ -20,6 +20,8 @@ import TinyScoreboard from "../../components/TinyScoreboard";
 import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
 
+import ArcadeScoreboard from "./Arcade";
+
 import { getPicksNotSelected, getGroupedGames } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
@@ -59,6 +61,9 @@ const Scoreboard = () => {
   const [updatingPick, setUpdatingPick] = useState(false);
   const [isShareClicked] = useState(false);
   const [isSpreadModeAlertOpen] = useState(false);
+  const [arcadeMode, setArcadeMode] = useState(() => {
+    return localStorage.getItem("arcadeModeToggle") === "1";
+  });
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
 
@@ -348,8 +353,12 @@ const Scoreboard = () => {
           teams={teams}
           isAuthenticated={isAuthenticated}
           userId={userId}
+          arcadeMode={arcadeMode}
+          onArcadeModeChange={setArcadeMode}
         />
-        {
+        {arcadeMode ? (
+          <ArcadeScoreboard />
+        ) : (
           <Box
             sx={{
               position: "relative",
@@ -522,7 +531,7 @@ const Scoreboard = () => {
               )}
             </div>
           </Box>
-        }
+        )}
         <RemainingGamesNotifier {...{ isAuthenticated, picksNotSelected }} />
       </PageContainer>
     </div>

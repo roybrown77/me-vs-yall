@@ -15,7 +15,17 @@ import {
     getCopiedGamesToShare,
   } from "../../utilities";
 
-const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games, picks, teams, isAuthenticated, userId }) => {
+const GameEngagementBar = ({
+    handleSpreadToggleOn,
+    handleSpreadToggleOff,
+    games,
+    picks,
+    teams,
+    isAuthenticated,
+    userId,
+    arcadeMode,
+    onArcadeModeChange,
+}) => {
     const [isShareClicked, setIsShareClicked] = useState(false);
     const [isSpreadModeAlertOpen, setIsSpreadModeAlertOpen] = useState(false);
 
@@ -64,9 +74,41 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
 
     const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
 
+    const isArcadeModeEnabled =
+        typeof arcadeMode === "boolean"
+            ? arcadeMode
+            : localStorage.getItem("arcadeModeToggle") === "1";
+
+    const toggleArcadeMode = () => {
+        const newValue = isArcadeModeEnabled ? "0" : "1";
+        localStorage.setItem("arcadeModeToggle", newValue);
+        onArcadeModeChange?.(newValue === "1");
+    };
+
     return (
         <div style={{ display: 'flex', color: '#000' }}>
-            <CalendarReminder />
+            <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                <div
+                    onClick={toggleArcadeMode}
+                    style={{
+                        marginTop: "25px",
+                        padding: "10px",
+                        backgroundColor: "#fff",
+                        cursor: "pointer",
+                    }}
+                >
+                    <div style={{ fontSize: "9px", fontWeight: 700 }}>Arcade Mode</div>
+                    <div style={{ background: '#8EB5CC', margin: '5px', borderRadius: '8px' }}>
+                        <IconButton
+                            style={{ color: "#000" }}
+                            aria-label="Toggle Arcade Mode"
+                        >
+                            {isArcadeModeEnabled ? <ToggleOn /> : <ToggleOff />}
+                        </IconButton>
+                    </div>
+                </div>
+                <CalendarReminder containerStyle={{ marginLeft: 0 }} />
+            </div>
             {document.queryCommandSupported('copy') && (
                 <div
                     style={{
@@ -180,6 +222,8 @@ GameEngagementBar.propTypes = {
     teams: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     userId: PropTypes.string,
+    arcadeMode: PropTypes.bool,
+    onArcadeModeChange: PropTypes.func,
 };
 
 export default GameEngagementBar;

@@ -21,6 +21,8 @@ import Countdown from "../../components/Countdown";
 import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
 
+import ArcadeLeaderboard from "./Arcade";
+
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
 import { getLeagueName } from '../../utilities/getLeagueName';
@@ -112,6 +114,9 @@ const Leader = () => {
   const [picks, setPicks] = useState([]);
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [arcadeMode, setArcadeMode] = useState(() => {
+    return localStorage.getItem("arcadeModeToggle") === "1";
+  });
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
 
@@ -262,8 +267,12 @@ const Leader = () => {
           teams={teams}
           isAuthenticated={isAuthenticated}
           userId={userId}
+          arcadeMode={arcadeMode}
+          onArcadeModeChange={setArcadeMode}
         />
-        {
+        {arcadeMode ? (
+          <ArcadeLeaderboard />
+        ) : (
           <Box
             sx={{
               position: "relative",
@@ -510,7 +519,7 @@ const Leader = () => {
               </div>
             </Slide>
           </Box>
-        }
+        )}
       </PageContainer>
     </div>
   );
