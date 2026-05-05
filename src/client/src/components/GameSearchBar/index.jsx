@@ -10,8 +10,12 @@ import get from 'lodash/get';
 
 const styles = {
   container: {
-    backgroundColor: 'transparent', 
-    boxShadow: 'none'
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%'
   },
   select: {
     fontFamily: 'monospace',
@@ -38,7 +42,7 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
 
   return (
     <div style={styles.container}>
-        <Grid item xs={12} justifyContent="center" sm container>
+        <Grid container item xs={12} justifyContent="center" alignItems="center">
             <FormControl style={styles.formControl}>
               <Select
                   value={leagueId}
@@ -65,7 +69,7 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
               </Select>
             </FormControl>  
         </Grid>
-        <Grid item xs={12} justifyContent="center" sm container>
+        <Grid container item xs={12} justifyContent="center" alignItems="center">
           <FormControl style={styles.formControl}>
             <Select
                 value={weekIndexSelected === -1 ? 0 : weekIndexSelected}

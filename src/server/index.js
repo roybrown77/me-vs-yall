@@ -51,7 +51,6 @@ function validateEnvironmentVariables() {
  */
 function setupDatabaseConnection() {
   const options = {
-    useUnifiedTopology: true,
     autoIndex: true,
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 45000,
@@ -72,7 +71,9 @@ function setupDatabaseConnection() {
 
   try {
     console.log('[MONGODB] - Connecting...');
-    mongoose.connect(dbConnectionString, options);
+    mongoose.connect(dbConnectionString, options).catch((error) => {
+      console.error('[MONGODB] - failed to connect on startup: ', error);
+    });
   } catch (error) {
     console.log('[MONGODB] - initialization failed: ', error);
   }
