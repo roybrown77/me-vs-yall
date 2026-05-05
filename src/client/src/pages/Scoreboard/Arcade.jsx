@@ -28,11 +28,15 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
     <div
       style={{
         position: "fixed",
-        inset: 0,
-        zIndex: 1200,
+        left: 0,
+        right: 0,
+        top: "56px",
+        bottom: 0,
+        zIndex: 98,
         backgroundColor: "#B3E6CA",
         fontFamily: "monospace",
         overflowY: "auto",
+        paddingBottom: "90px",
       }}
     >
       <style>{`
