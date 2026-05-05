@@ -1,9 +1,40 @@
-import { useCallback, useLayoutEffect, useRef, useState, useEffect } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, useEffect } from "react";
+import { getLeagueName } from "../../utilities/getLeagueName";
 
 const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
   const [controlsOpen, setControlsOpen] = useState(false);
   const displayGames = Array.isArray(games) ? games : [];
   const isSingleGame = displayGames.length === 1;
+
+  const leagueName = (getLeagueName?.() || "").toLowerCase();
+  const isNFLSelected = leagueName === "nfl";
+
+  const nflBackgroundSprites = useMemo(() => {
+    if (!isNFLSelected) return [];
+
+    const kinds = ["throw", "run", "hurdle"];
+    const count = 24;
+    return Array.from({ length: count }).map((_, i) => {
+      const kind = kinds[i % kinds.length];
+      const left = Math.random() * 100;
+      const top = 8 + Math.random() * 90; // avoid very top a bit
+      const scale = 0.9 + Math.random() * 0.8;
+      const opacity = 0.12 + Math.random() * 0.2;
+      const delay = -(Math.random() * 2.5);
+      const durationJitter = 0.85 + Math.random() * 0.6;
+
+      return {
+        id: `${kind}-${i}`,
+        kind,
+        left,
+        top,
+        scale,
+        opacity,
+        delay,
+        durationJitter,
+      };
+    });
+  }, [isNFLSelected]);
 
   const collapseGameName = (name) => {
     if (typeof name !== "string") return name;
@@ -129,8 +160,234 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
           75% { transform: rotate(-2deg); }
           100% { transform: rotate(0deg); }
         }
+
+        @keyframes nflBallArc {
+          0% { transform: translate(10px, 10px); }
+          35% { transform: translate(18px, 4px); }
+          70% { transform: translate(30px, 8px); }
+          100% { transform: translate(36px, 10px); }
+        }
+        @keyframes nflRunMove {
+          0% { transform: translateX(0px); }
+          100% { transform: translateX(24px); }
+        }
+        @keyframes nflLegs {
+          0% { transform: rotate(22deg); }
+          50% { transform: rotate(-22deg); }
+          100% { transform: rotate(22deg); }
+        }
+        @keyframes nflHurdleMove {
+          0% { transform: translate(0px, 0px); }
+          40% { transform: translate(12px, 0px); }
+          55% { transform: translate(18px, -7px); }
+          70% { transform: translate(24px, 0px); }
+          100% { transform: translate(34px, 0px); }
+        }
+
+        .nflBg {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          user-select: none;
+          overflow: hidden;
+          z-index: 0;
+        }
+        .nflSprite {
+          position: absolute;
+          width: 44px;
+          height: 18px;
+          filter: grayscale(1);
+        }
+        .nflScene {
+          width: 44px;
+          height: 18px;
+          position: relative;
+        }
+        .nflPx {
+          position: absolute;
+          background: rgba(0, 0, 0, 0.55);
+          box-sizing: border-box;
+          border-radius: 1px;
+        }
+        .nflHead { width: 4px; height: 4px; }
+        .nflBody { width: 2px; height: 7px; }
+        .nflArm { width: 6px; height: 2px; }
+        .nflLeg {
+          width: 7px;
+          height: 2px;
+          transform-origin: 1px 1px;
+          animation: nflLegs 0.55s ease-in-out infinite;
+        }
+        .nflLeg.b { animation-delay: 0.275s; }
+        .nflGround {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 2px;
+          height: 2px;
+          background: rgba(0, 0, 0, 0.14);
+          border-radius: 2px;
+        }
+        .nflBall {
+          width: 3px;
+          height: 3px;
+          animation: nflBallArc 1.3s ease-in-out infinite;
+        }
+        .nflRunner {
+          position: absolute;
+          left: 0;
+          top: 1px;
+          width: 18px;
+          height: 18px;
+          animation: nflRunMove 1.15s linear infinite;
+        }
+        .nflHurdler {
+          position: absolute;
+          left: 0;
+          top: 1px;
+          width: 18px;
+          height: 18px;
+          animation: nflHurdleMove 1.25s ease-in-out infinite;
+        }
+        .nflHurdle {
+          position: absolute;
+          left: 28px;
+          bottom: 4px;
+          width: 10px;
+          height: 2px;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 1px;
+        }
+        .nflHurdle::before {
+          content: "";
+          position: absolute;
+          left: 1px;
+          bottom: 0;
+          width: 2px;
+          height: 7px;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 1px;
+        }
+        .nflHurdle::after {
+          content: "";
+          position: absolute;
+          right: 1px;
+          bottom: 0;
+          width: 2px;
+          height: 7px;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 1px;
+        }
       `}</style>
 
+      {isNFLSelected && nflBackgroundSprites.length > 0 && (
+        <div className="nflBg" aria-hidden>
+          {nflBackgroundSprites.map((s) => (
+            <div
+              key={s.id}
+              className="nflSprite"
+              style={{
+                left: `${s.left}%`,
+                top: `${s.top}%`,
+                transform: `translate(-50%, -50%) scale(${s.scale})`,
+                opacity: s.opacity,
+              }}
+            >
+              {s.kind === "throw" && (
+                <div className="nflScene">
+                  <div className="nflGround" />
+                  <span className="nflPx nflHead" style={{ left: 4, top: 4 }} />
+                  <span className="nflPx nflBody" style={{ left: 5, top: 8 }} />
+                  <span className="nflPx nflArm" style={{ left: 6, top: 9 }} />
+                  <span
+                    className="nflPx nflBall"
+                    style={{
+                      left: 0,
+                      top: 0,
+                      animationDelay: `${s.delay}s`,
+                      animationDuration: `${(1.3 * s.durationJitter).toFixed(2)}s`,
+                    }}
+                  />
+                </div>
+              )}
+
+              {s.kind === "run" && (
+                <div className="nflScene">
+                  <div className="nflGround" />
+                  <div
+                    className="nflRunner"
+                    style={{
+                      animationDelay: `${s.delay}s`,
+                      animationDuration: `${(1.15 * s.durationJitter).toFixed(2)}s`,
+                    }}
+                  >
+                    <span className="nflPx nflHead" style={{ left: 2, top: 3 }} />
+                    <span className="nflPx nflBody" style={{ left: 3, top: 7 }} />
+                    <span className="nflPx nflArm" style={{ left: 4, top: 8 }} />
+                    <span
+                      className="nflPx nflLeg"
+                      style={{
+                        left: 3,
+                        top: 13,
+                        animationDelay: `${s.delay}s`,
+                        animationDuration: `${(0.55 * s.durationJitter).toFixed(2)}s`,
+                      }}
+                    />
+                    <span
+                      className="nflPx nflLeg b"
+                      style={{
+                        left: 3,
+                        top: 13,
+                        animationDelay: `${s.delay}s`,
+                        animationDuration: `${(0.55 * s.durationJitter).toFixed(2)}s`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {s.kind === "hurdle" && (
+                <div className="nflScene">
+                  <div className="nflGround" />
+                  <div className="nflHurdle" />
+                  <div
+                    className="nflHurdler"
+                    style={{
+                      animationDelay: `${s.delay}s`,
+                      animationDuration: `${(1.25 * s.durationJitter).toFixed(2)}s`,
+                    }}
+                  >
+                    <span className="nflPx nflHead" style={{ left: 2, top: 3 }} />
+                    <span className="nflPx nflBody" style={{ left: 3, top: 7 }} />
+                    <span className="nflPx nflArm" style={{ left: 4, top: 8 }} />
+                    <span
+                      className="nflPx nflLeg"
+                      style={{
+                        left: 3,
+                        top: 13,
+                        animationDelay: `${s.delay}s`,
+                        animationDuration: `${(0.55 * s.durationJitter).toFixed(2)}s`,
+                      }}
+                    />
+                    <span
+                      className="nflPx nflLeg b"
+                      style={{
+                        left: 3,
+                        top: 13,
+                        animationDelay: `${s.delay}s`,
+                        animationDuration: `${(0.55 * s.durationJitter).toFixed(2)}s`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+      )}
+
+      <div style={{ position: "relative", zIndex: 1 }}>
       <div
         style={{
           position: "sticky",
@@ -378,6 +635,7 @@ const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
             );
           })}
         </div>
+      </div>
       </div>
     </div>
   );
