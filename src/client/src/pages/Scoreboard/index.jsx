@@ -298,79 +298,157 @@ const Scoreboard = () => {
   return (
     <div>
       <PageContainer>
-        <TinyScoreboard
-          {...{
-            title: `Let's Go!!!`,
-            games: groupedGames.notCompleted,
-            loading: isLoading,
-          }}
-        />
-        {!isLoading && (
-          <TinyScoreboard
-            {...{
-              title: `Game Over`,
-              games: groupedGames.completed,
-              loading: isLoading,
-            }}
-          />
-        )}
-        <GameSearchBar
-          leagueId={leagueId}
-          leagues={leagues}
-          yearSelected={year}
-          weekId={weekId}
-          weeks={weeks}
-          loading={isLoading}
-          onFilterLeague={handleFilterLeague}
-          onFilterYear={handleFilterYear}
-          onFilterWeek={handleFilterWeek}
-          onFilterDate={handleFilterDate}
-        />
-        {!isAuthenticated && (
-          <Button
-            variant="contained"
-            style={styles.button}
-            onClick={googleLogin}
-          >
-            Make Your Picks
-          </Button>
-        )}
-        {isAuthenticated && (
-          <div>
-            <PickResult
-              loading={isLoading}
-              spreadMode={spreadMode}
-              games={groupedGames.completed}
-              picks={picks}
-            />
-          </div>
-        )}
-
-        <LeagueNotices
-          leagueId={leagueId}
-          areAllGamesOver={areAllGamesOver}
-          areAnyGamesInProgress={areAnyGamesInProgress}
-          timeUntilNextGameStarts={timeUntilNextGameStarts}
-          isAuthenticated={isAuthenticated}
-        />
-
-        <GameEngagementBar
-          handleSpreadToggleOn={enableSpreadMode}
-          handleSpreadToggleOff={disableSpreadMode}
-          games={games}
-          picks={picks}
-          teams={teams}
-          isAuthenticated={isAuthenticated}
-          userId={userId}
-          spreadMode={spreadMode}
-          arcadeMode={arcadeMode}
-          onArcadeModeChange={handleArcadeModeChange}
-        />
         {arcadeMode ? (
           <ArcadeScoreboard
             games={[...groupedGames.notCompleted, ...groupedGames.completed]}
+            onArcadeModeChange={handleArcadeModeChange}
+            controls={
+              <div>
+                <TinyScoreboard
+                  {...{
+                    title: `Let's Go!!!`,
+                    games: groupedGames.notCompleted,
+                    loading: isLoading,
+                  }}
+                />
+                {!isLoading && (
+                  <TinyScoreboard
+                    {...{
+                      title: `Game Over`,
+                      games: groupedGames.completed,
+                      loading: isLoading,
+                    }}
+                  />
+                )}
+                <GameSearchBar
+                  leagueId={leagueId}
+                  leagues={leagues}
+                  yearSelected={year}
+                  weekId={weekId}
+                  weeks={weeks}
+                  loading={isLoading}
+                  onFilterLeague={handleFilterLeague}
+                  onFilterYear={handleFilterYear}
+                  onFilterWeek={handleFilterWeek}
+                  onFilterDate={handleFilterDate}
+                />
+                {!isAuthenticated && (
+                  <Button
+                    variant="contained"
+                    style={styles.button}
+                    onClick={googleLogin}
+                  >
+                    Make Your Picks
+                  </Button>
+                )}
+                {isAuthenticated && (
+                  <div>
+                    <PickResult
+                      loading={isLoading}
+                      spreadMode={spreadMode}
+                      games={groupedGames.completed}
+                      picks={picks}
+                    />
+                  </div>
+                )}
+
+                <LeagueNotices
+                  leagueId={leagueId}
+                  areAllGamesOver={areAllGamesOver}
+                  areAnyGamesInProgress={areAnyGamesInProgress}
+                  timeUntilNextGameStarts={timeUntilNextGameStarts}
+                  isAuthenticated={isAuthenticated}
+                />
+
+                <GameEngagementBar
+                  handleSpreadToggleOn={enableSpreadMode}
+                  handleSpreadToggleOff={disableSpreadMode}
+                  games={games}
+                  picks={picks}
+                  teams={teams}
+                  isAuthenticated={isAuthenticated}
+                  userId={userId}
+                  spreadMode={spreadMode}
+                  arcadeMode={arcadeMode}
+                  onArcadeModeChange={handleArcadeModeChange}
+                />
+              </div>
+            }
           />
         ) : (
+          <>
+            <TinyScoreboard
+              {...{
+                title: `Let's Go!!!`,
+                games: groupedGames.notCompleted,
+                loading: isLoading,
+              }}
+            />
+            {!isLoading && (
+              <TinyScoreboard
+                {...{
+                  title: `Game Over`,
+                  games: groupedGames.completed,
+                  loading: isLoading,
+                }}
+              />
+            )}
+            <GameSearchBar
+              leagueId={leagueId}
+              leagues={leagues}
+              yearSelected={year}
+              weekId={weekId}
+              weeks={weeks}
+              loading={isLoading}
+              onFilterLeague={handleFilterLeague}
+              onFilterYear={handleFilterYear}
+              onFilterWeek={handleFilterWeek}
+              onFilterDate={handleFilterDate}
+            />
+            {!isAuthenticated && (
+              <Button
+                variant="contained"
+                style={styles.button}
+                onClick={googleLogin}
+              >
+                Make Your Picks
+              </Button>
+            )}
+            {isAuthenticated && (
+              <div>
+                <PickResult
+                  loading={isLoading}
+                  spreadMode={spreadMode}
+                  games={groupedGames.completed}
+                  picks={picks}
+                />
+              </div>
+            )}
+
+            <LeagueNotices
+              leagueId={leagueId}
+              areAllGamesOver={areAllGamesOver}
+              areAnyGamesInProgress={areAnyGamesInProgress}
+              timeUntilNextGameStarts={timeUntilNextGameStarts}
+              isAuthenticated={isAuthenticated}
+            />
+
+            <GameEngagementBar
+              handleSpreadToggleOn={enableSpreadMode}
+              handleSpreadToggleOff={disableSpreadMode}
+              games={games}
+              picks={picks}
+              teams={teams}
+              isAuthenticated={isAuthenticated}
+              userId={userId}
+              spreadMode={spreadMode}
+              arcadeMode={arcadeMode}
+              onArcadeModeChange={handleArcadeModeChange}
+            />
+          </>
+        )}
+
+        {!arcadeMode && (
           <Box
             sx={{
               position: "relative",
@@ -546,7 +624,9 @@ const Scoreboard = () => {
             </div>
           </Box>
         )}
-        <RemainingGamesNotifier {...{ isAuthenticated, picksNotSelected }} />
+        {!arcadeMode && (
+          <RemainingGamesNotifier {...{ isAuthenticated, picksNotSelected }} />
+        )}
       </PageContainer>
     </div>
   );

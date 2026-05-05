@@ -1,6 +1,7 @@
-import Box from "@mui/material/Box";
+import { useState } from "react";
 
-const ArcadeScoreboard = ({ games = [] }) => {
+const ArcadeScoreboard = ({ games = [], controls, onArcadeModeChange }) => {
+  const [controlsOpen, setControlsOpen] = useState(false);
   const displayGames = Array.isArray(games) ? games : [];
   const isSingleGame = displayGames.length === 1;
 
@@ -24,13 +25,14 @@ const ArcadeScoreboard = ({ games = [] }) => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        zIndex: "2",
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
         backgroundColor: "#B3E6CA",
-        padding: "18px",
         fontFamily: "monospace",
+        overflowY: "auto",
       }}
     >
       <style>{`
@@ -50,13 +52,88 @@ const ArcadeScoreboard = ({ games = [] }) => {
 
       <div
         style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          background: "#fff",
+          borderBottom: "1px solid rgba(0,0,0,0.12)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 12px",
+          }}
+        >
+          <div style={{ fontWeight: 700 }}>Arcade</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <button
+              type="button"
+              onClick={() => setControlsOpen((x) => !x)}
+              aria-expanded={controlsOpen}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 10px",
+                borderRadius: "12px",
+                background: "#fff",
+                border: "1px solid rgba(0,0,0,0.12)",
+                cursor: "pointer",
+                fontWeight: 700,
+                fontSize: "12px",
+              }}
+            >
+              Controls {controlsOpen ? "▴" : "▾"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onArcadeModeChange?.(false)}
+              aria-label="Exit Arcade Mode"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 10px",
+                borderRadius: "12px",
+                background: "#8EB5CC",
+                border: "1px solid rgba(0,0,0,0.12)",
+                cursor: "pointer",
+                color: "#000",
+                fontWeight: 700,
+                fontSize: "12px",
+              }}
+            >
+              Arcade Mode ON
+            </button>
+          </div>
+        </div>
+
+        {controlsOpen && (
+          <div
+            style={{
+              padding: "0 12px 12px 12px",
+              maxHeight: "70vh",
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {controls}
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
           maxWidth: "560px",
           margin: "0 auto",
           position: "relative",
-          padding: "10px 0 10px 0",
+          padding: "12px 12px 18px 12px",
         }}
       >
-
         <div style={{ position: "relative" }}>
           {displayGames.length > 0 && (
             <div
@@ -138,9 +215,10 @@ const ArcadeScoreboard = ({ games = [] }) => {
                           animationDelay: bobDelay,
                         }}
                       >
+                        {isLeft ? "🦉" : "🐯"}
                       </div>
                       <div style={{ textAlign: "left" }}>
-                        <div style={{ fontSize: "32px", fontWeight: 700 }}>
+                        <div style={{ fontSize: "12px", fontWeight: 700 }}>
                           {getGameTitle(game)}
                         </div>
                         <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
@@ -176,9 +254,10 @@ const ArcadeScoreboard = ({ games = [] }) => {
                       }}
                     >
                       <div aria-hidden style={{ fontSize: "30px", lineHeight: 1 }}>
+                        🎮
                       </div>
                       <div style={{ textAlign: "left" }}>
-                        <div style={{ fontSize: "32px", fontWeight: 700 }}>
+                        <div style={{ fontSize: "12px", fontWeight: 700 }}>
                           {getGameTitle(game)}
                         </div>
                         <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
@@ -212,7 +291,7 @@ const ArcadeScoreboard = ({ games = [] }) => {
           })}
         </div>
       </div>
-    </Box>
+    </div>
   );
 };
 

@@ -1,9 +1,7 @@
-import Box from "@mui/material/Box";
-
 const ArcadeLeaderboard = () => {
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         position: "relative",
         zIndex: "2",
         backgroundColor: "#B3E6CA",
@@ -14,7 +12,7 @@ const ArcadeLeaderboard = () => {
       }}
     >
       arcade leaderboard
-    </Box>
+    </div>
   );
 };
 
