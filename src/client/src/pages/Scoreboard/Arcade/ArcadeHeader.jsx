@@ -70,6 +70,7 @@ const ArcadeHeader = ({
             maxHeight: "70vh",
             overflowY: "auto",
             WebkitOverflowScrolling: "touch",
+            background: "#EFFBF8",
           }}
         >
           {controls}
@@ -77,7 +78,9 @@ const ArcadeHeader = ({
       )}
 
       {belowControls && (
-        <div style={{ padding: "0 12px 12px 12px" }}>{belowControls}</div>
+        <div style={{ padding: "0 12px 12px 12px", background: "#EFFBF8" }}>
+          {belowControls}
+        </div>
       )}
     </div>
   );

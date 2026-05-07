@@ -14,6 +14,7 @@ import Skeleton from "@mui/material/Skeleton";
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
+import ArcadeGameSearchBar from "../../components/GameSearchBar/ArcadeGameSearchBar";
 import PickResult from "../../components/PickResult";
 import Game from "../../components/Game";
 import Countdown from "../../components/Countdown";
@@ -387,7 +388,7 @@ const Scoreboard = () => {
             }
             controls={
               <div>
-                <GameSearchBar
+                <ArcadeGameSearchBar
                   leagueId={leagueId}
                   leagues={leagues}
                   yearSelected={year}
@@ -397,8 +398,6 @@ const Scoreboard = () => {
                   onFilterLeague={handleFilterLeague}
                   onFilterYear={handleFilterYear}
                   onFilterWeek={handleFilterWeek}
-                  onFilterDate={handleFilterDate}
-                  arcadeMode={arcadeMode}
                 />
                 {isAuthenticated && (
                   <div>
