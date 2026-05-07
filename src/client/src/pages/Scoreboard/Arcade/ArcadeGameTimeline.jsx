@@ -1,6 +1,23 @@
 import { getGameSubtitle, getGameTitle } from "./arcadeGameText";
 
-const ArcadeGameTimeline = ({ displayGames, isSingleGame, listRef, nodeRefs, spinePathD }) => {
+const getPickLabel = (game, picks) => {
+  if (!game?._id || !Array.isArray(picks) || picks.length === 0) return null;
+  const pick = picks.find((p) => p?.gameId === game._id);
+  if (!pick?.pickId) return null;
+  const competitorIndex = game?.competitors?.findIndex((c) => c?._id === pick.pickId);
+  if (competitorIndex !== 0 && competitorIndex !== 1) return null;
+  const competitor = game?.competitors?.[competitorIndex];
+  return competitor?.shortLocation || competitor?.name || null;
+};
+
+const ArcadeGameTimeline = ({
+  displayGames,
+  isSingleGame,
+  listRef,
+  nodeRefs,
+  spinePathD,
+  picks,
+}) => {
   return (
     <div
       style={{
@@ -51,6 +68,7 @@ const ArcadeGameTimeline = ({ displayGames, isSingleGame, listRef, nodeRefs, spi
           const isLeft = side === "left";
           const isCenter = side === "center";
           const bobDelay = `${(index % 6) * 0.08}s`;
+          const pickLabel = getPickLabel(game, picks);
 
           return (
             <div
@@ -104,6 +122,11 @@ const ArcadeGameTimeline = ({ displayGames, isSingleGame, listRef, nodeRefs, spi
                       <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
                         {getGameSubtitle(game)}
                       </div>
+                      {!!pickLabel && (
+                        <div style={{ fontSize: "10px", fontWeight: 800, marginTop: "4px" }}>
+                          YOUR PICK: {String(pickLabel)}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -143,6 +166,11 @@ const ArcadeGameTimeline = ({ displayGames, isSingleGame, listRef, nodeRefs, spi
                       <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
                         {getGameSubtitle(game)}
                       </div>
+                      {!!pickLabel && (
+                        <div style={{ fontSize: "10px", fontWeight: 800, marginTop: "4px" }}>
+                          YOUR PICK: {String(pickLabel)}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

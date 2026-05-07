@@ -12,10 +12,13 @@ export const collapseGameName = (name) => {
 };
 
 export const getGameTitle = (game) => {
-  const away = game?.competitors?.[0]?.name;
-  const home = game?.competitors?.[1]?.name;
+  const away = game?.competitors?.[0];
+  const home = game?.competitors?.[1];
+  const awayLabel = collapseGameName(away?.shortLocation || away?.name);
+  const homeLabel = collapseGameName(home?.shortLocation || home?.name);
+
+  if (awayLabel && homeLabel) return `${awayLabel} @ ${homeLabel}`;
   if (game?.gameName) return collapseGameName(game.gameName);
-  if (away && home) return `${away} vs ${home}`;
   return "Game";
 };
 
@@ -26,8 +29,10 @@ export const getGameSubtitle = (game) => {
   const homeScore = typeof home?.score === "number" ? home.score : "-";
   const time = game?.isGameOver ? "FINAL" : (game?.currentTime || game?.gameTime);
   const date = game?.startDateTimeDisplay;
-  const scoreLine = away?.name && home?.name
-    ? `${away.name} ${awayScore} - ${homeScore} ${home.name}`
+  const awayLabel = away?.shortLocation || away?.name;
+  const homeLabel = home?.shortLocation || home?.name;
+  const scoreLine = awayLabel && homeLabel
+    ? `${awayLabel} ${awayScore} - ${homeScore} ${homeLabel}`
     : `${awayScore} - ${homeScore}`;
 
   return [time, date, scoreLine].filter(Boolean).join(" • ");

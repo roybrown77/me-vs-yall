@@ -348,6 +348,7 @@ const Scoreboard = () => {
         {arcadeMode ? (
           <ArcadeScoreboard
             games={[...groupedGames.notCompleted, ...groupedGames.completed]}
+            picks={picks}
             onArcadeModeChange={handleArcadeModeChange}
             soundEnabled={soundEnabled}
             onSoundChange={handleSoundChange}

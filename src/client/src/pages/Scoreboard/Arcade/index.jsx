@@ -10,6 +10,7 @@ import ArcadeGameTimeline from "./ArcadeGameTimeline";
 
 const ArcadeScoreboard = ({
   games = [],
+  picks,
   controls,
   headerTop,
   belowControls,
@@ -72,6 +73,7 @@ const ArcadeScoreboard = ({
           listRef={listRef}
           nodeRefs={nodeRefs}
           spinePathD={spinePathD}
+          picks={picks}
         />
       </div>
     </div>
