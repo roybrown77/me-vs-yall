@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { getGameSubtitle, getGameTitle } from "./arcadeGameText";
 
 const getPickLabel = (game, picks) => {
@@ -10,6 +12,26 @@ const getPickLabel = (game, picks) => {
   return competitor?.shortLocation || competitor?.name || null;
 };
 
+const getSpreadLabel = (game) => {
+  const amount = game?.spread?.amount;
+  const teamId = game?.spread?.teamId;
+  if (amount == null || !teamId) return null;
+
+  const spreadTeam = game?.competitors?.find((c) => c?._id === teamId);
+  const spreadTeamLabel = spreadTeam?.shortLocation || spreadTeam?.name;
+  if (!spreadTeamLabel) return String(amount);
+
+  return `${spreadTeamLabel} ${amount}`;
+};
+
+const getCompetitorStatsLine = (competitor) => {
+  if (!competitor) return null;
+  const parts = [];
+  if (competitor.rank) parts.push(`#${competitor.rank}`);
+  if (competitor.record) parts.push(String(competitor.record));
+  return parts.length ? parts.join(" ") : null;
+};
+
 const ArcadeGameTimeline = ({
   displayGames,
   isSingleGame,
@@ -17,7 +39,10 @@ const ArcadeGameTimeline = ({
   nodeRefs,
   spinePathD,
   picks,
+  spreadMode,
 }) => {
+  const [expandedByKey, setExpandedByKey] = useState({});
+
   return (
     <div
       style={{
@@ -69,6 +94,15 @@ const ArcadeGameTimeline = ({
           const isCenter = side === "center";
           const bobDelay = `${(index % 6) * 0.08}s`;
           const pickLabel = getPickLabel(game, picks);
+          const spreadLabel = spreadMode ? getSpreadLabel(game) : null;
+
+          const key = String(game?._id ?? index);
+          const expanded = !!expandedByKey[key];
+
+          const away = game?.competitors?.[0];
+          const home = game?.competitors?.[1];
+          const awayStats = getCompetitorStatsLine(away);
+          const homeStats = getCompetitorStatsLine(home);
 
           return (
             <div
@@ -122,9 +156,59 @@ const ArcadeGameTimeline = ({
                       <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
                         {getGameSubtitle(game)}
                       </div>
+                      {!!spreadLabel && (
+                        <div style={{ fontSize: "10px", fontWeight: 800, marginTop: "4px" }}>
+                          SPREAD: {String(spreadLabel)}
+                        </div>
+                      )}
                       {!!pickLabel && (
                         <div style={{ fontSize: "10px", fontWeight: 800, marginTop: "4px" }}>
                           YOUR PICK: {String(pickLabel)}
+                        </div>
+                      )}
+
+                      <button
+                        type="button"
+                        aria-expanded={expanded}
+                        onClick={() =>
+                          setExpandedByKey((prev) => ({
+                            ...prev,
+                            [key]: !prev[key],
+                          }))
+                        }
+                        style={{
+                          marginTop: "8px",
+                          padding: "6px 10px",
+                          borderRadius: "10px",
+                          border: "1px solid rgba(0,0,0,0.18)",
+                          background: "rgba(255,255,255,0.95)",
+                          cursor: "pointer",
+                          fontWeight: 800,
+                          fontSize: "10px",
+                        }}
+                      >
+                        {expanded ? "Show less" : "Show more"}
+                      </button>
+
+                      {expanded && (
+                        <div style={{ marginTop: "8px", fontSize: "10px", fontWeight: 600 }}>
+                          {!!game?.gameName && (
+                            <div style={{ marginBottom: "6px", opacity: 0.9 }}>
+                              {String(game.gameName)}
+                            </div>
+                          )}
+                          {(away?.shortLocation || away?.name) && (
+                            <div style={{ opacity: 0.9 }}>
+                              {String(away?.shortLocation || away?.name)}: {String(away?.name || "")}
+                              {!!awayStats && <span style={{ opacity: 0.85 }}> • {awayStats}</span>}
+                            </div>
+                          )}
+                          {(home?.shortLocation || home?.name) && (
+                            <div style={{ opacity: 0.9 }}>
+                              {String(home?.shortLocation || home?.name)}: {String(home?.name || "")}
+                              {!!homeStats && <span style={{ opacity: 0.85 }}> • {homeStats}</span>}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -163,9 +247,59 @@ const ArcadeGameTimeline = ({
                       <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
                         {getGameSubtitle(game)}
                       </div>
+                      {!!spreadLabel && (
+                        <div style={{ fontSize: "10px", fontWeight: 800, marginTop: "4px" }}>
+                          SPREAD: {String(spreadLabel)}
+                        </div>
+                      )}
                       {!!pickLabel && (
                         <div style={{ fontSize: "10px", fontWeight: 800, marginTop: "4px" }}>
                           YOUR PICK: {String(pickLabel)}
+                        </div>
+                      )}
+
+                      <button
+                        type="button"
+                        aria-expanded={expanded}
+                        onClick={() =>
+                          setExpandedByKey((prev) => ({
+                            ...prev,
+                            [key]: !prev[key],
+                          }))
+                        }
+                        style={{
+                          marginTop: "8px",
+                          padding: "6px 10px",
+                          borderRadius: "10px",
+                          border: "1px solid rgba(0,0,0,0.18)",
+                          background: "rgba(255,255,255,0.95)",
+                          cursor: "pointer",
+                          fontWeight: 800,
+                          fontSize: "10px",
+                        }}
+                      >
+                        {expanded ? "Show less" : "Show more"}
+                      </button>
+
+                      {expanded && (
+                        <div style={{ marginTop: "8px", fontSize: "10px", fontWeight: 600 }}>
+                          {!!game?.gameName && (
+                            <div style={{ marginBottom: "6px", opacity: 0.9 }}>
+                              {String(game.gameName)}
+                            </div>
+                          )}
+                          {(away?.shortLocation || away?.name) && (
+                            <div style={{ opacity: 0.9 }}>
+                              {String(away?.shortLocation || away?.name)}: {String(away?.name || "")}
+                              {!!awayStats && <span style={{ opacity: 0.85 }}> • {awayStats}</span>}
+                            </div>
+                          )}
+                          {(home?.shortLocation || home?.name) && (
+                            <div style={{ opacity: 0.9 }}>
+                              {String(home?.shortLocation || home?.name)}: {String(home?.name || "")}
+                              {!!homeStats && <span style={{ opacity: 0.85 }}> • {homeStats}</span>}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

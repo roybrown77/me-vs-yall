@@ -349,6 +349,7 @@ const Scoreboard = () => {
           <ArcadeScoreboard
             games={[...groupedGames.notCompleted, ...groupedGames.completed]}
             picks={picks}
+            spreadMode={spreadMode}
             onArcadeModeChange={handleArcadeModeChange}
             soundEnabled={soundEnabled}
             onSoundChange={handleSoundChange}

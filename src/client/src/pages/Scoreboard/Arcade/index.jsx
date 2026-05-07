@@ -11,6 +11,7 @@ import ArcadeGameTimeline from "./ArcadeGameTimeline";
 const ArcadeScoreboard = ({
   games = [],
   picks,
+  spreadMode,
   controls,
   headerTop,
   belowControls,
@@ -74,6 +75,7 @@ const ArcadeScoreboard = ({
           nodeRefs={nodeRefs}
           spinePathD={spinePathD}
           picks={picks}
+          spreadMode={spreadMode}
         />
       </div>
     </div>
