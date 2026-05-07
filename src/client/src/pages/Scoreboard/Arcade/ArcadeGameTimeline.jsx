@@ -156,9 +156,6 @@ const ArcadeGameTimeline = ({
                       animationDelay: bobDelay,
                     }}
                   >
-                    <div aria-hidden style={{ fontSize: "30px", lineHeight: 1 }}>
-                      🎮
-                    </div>
                     <div style={{ textAlign: "left" }}>
                       <div style={{ fontSize: "12px", fontWeight: 700 }}>
                         {getGameTitle(game)}
