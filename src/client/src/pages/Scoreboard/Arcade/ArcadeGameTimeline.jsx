@@ -32,6 +32,21 @@ const getCompetitorStatsLine = (competitor) => {
   return parts.length ? parts.join(" ") : null;
 };
 
+const getCompetitorLabel = (competitor) => {
+  return competitor?.shortLocation || competitor?.name || null;
+};
+
+const getStatsRows = (game, limit = 8) => {
+  const stats = Array.isArray(game?.stats) ? game.stats : [];
+  return stats.slice(0, limit).filter((s) => s && s.name);
+};
+
+const formatStatValue = (value) => {
+  if (value == null) return "";
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  return "";
+};
+
 const ArcadeGameTimeline = ({
   displayGames,
   isSingleGame,
@@ -103,6 +118,9 @@ const ArcadeGameTimeline = ({
           const home = game?.competitors?.[1];
           const awayStats = getCompetitorStatsLine(away);
           const homeStats = getCompetitorStatsLine(home);
+          const gameStatsRows = getStatsRows(game, 8);
+          const awayHeader = getCompetitorLabel(away);
+          const homeHeader = getCompetitorLabel(home);
 
           return (
             <div
@@ -151,7 +169,7 @@ const ArcadeGameTimeline = ({
                     />
                     <div style={{ textAlign: "left" }}>
                       <div style={{ fontSize: "32px", fontWeight: 700 }}>
-                        {getGameTitle(game)}
+                        {getGameTitle(game, { isSingleGame })}
                       </div>
                       <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
                         {getGameSubtitle(game)}
@@ -209,6 +227,62 @@ const ArcadeGameTimeline = ({
                               {!!homeStats && <span style={{ opacity: 0.85 }}> • {homeStats}</span>}
                             </div>
                           )}
+
+                          <div style={{ marginTop: "10px", opacity: 0.95 }}>
+                            <div style={{ fontWeight: 800, marginBottom: "4px" }}>GAME STATS</div>
+                            {gameStatsRows.length === 0 && (
+                              <div style={{ opacity: 0.8 }}>Stats not available.</div>
+                            )}
+                            {gameStatsRows.length > 0 && (
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    fontWeight: 800,
+                                    opacity: 0.85,
+                                    marginBottom: "2px",
+                                  }}
+                                >
+                                  <div style={{ flex: 1 }} />
+                                  <div style={{ width: "64px", textAlign: "right" }}>
+                                    {awayHeader ? String(awayHeader) : "Away"}
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: "64px",
+                                      textAlign: "right",
+                                      marginLeft: "10px",
+                                    }}
+                                  >
+                                    {homeHeader ? String(homeHeader) : "Home"}
+                                  </div>
+                                </div>
+
+                                {gameStatsRows.map((stat) => (
+                                  <div
+                                    key={`${game?._id || "game"}-${stat.name}`}
+                                    style={{ display: "flex", opacity: 0.9 }}
+                                  >
+                                    <div style={{ flex: 1, paddingRight: "8px" }}>
+                                      {String(stat.name)}
+                                    </div>
+                                    <div style={{ width: "64px", textAlign: "right" }}>
+                                      {formatStatValue(stat?.awayTeam?.value)}
+                                    </div>
+                                    <div
+                                      style={{
+                                        width: "64px",
+                                        textAlign: "right",
+                                        marginLeft: "10px",
+                                      }}
+                                    >
+                                      {formatStatValue(stat?.homeTeam?.value)}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -242,7 +316,7 @@ const ArcadeGameTimeline = ({
                   >
                     <div style={{ textAlign: "left" }}>
                       <div style={{ fontSize: "12px", fontWeight: 700 }}>
-                        {getGameTitle(game)}
+                        {getGameTitle(game, { isSingleGame })}
                       </div>
                       <div style={{ fontSize: "10px", fontWeight: 600, opacity: 0.85 }}>
                         {getGameSubtitle(game)}
@@ -288,6 +362,74 @@ const ArcadeGameTimeline = ({
                               {String(game.gameName)}
                             </div>
                           )}
+                          {(away?.shortLocation || away?.name) && (
+                            <div style={{ opacity: 0.9 }}>
+                              {String(away?.shortLocation || away?.name)}: {String(away?.name || "")}
+                              {!!awayStats && <span style={{ opacity: 0.85 }}> • {awayStats}</span>}
+                            </div>
+                          )}
+                          {(home?.shortLocation || home?.name) && (
+                            <div style={{ opacity: 0.9 }}>
+                              {String(home?.shortLocation || home?.name)}: {String(home?.name || "")}
+                              {!!homeStats && <span style={{ opacity: 0.85 }}> • {homeStats}</span>}
+                            </div>
+                          )}
+
+                          <div style={{ marginTop: "10px", opacity: 0.95 }}>
+                            <div style={{ fontWeight: 800, marginBottom: "4px" }}>GAME STATS</div>
+                            {gameStatsRows.length === 0 && (
+                              <div style={{ opacity: 0.8 }}>Stats not available.</div>
+                            )}
+                            {gameStatsRows.length > 0 && (
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    fontWeight: 800,
+                                    opacity: 0.85,
+                                    marginBottom: "2px",
+                                  }}
+                                >
+                                  <div style={{ flex: 1 }} />
+                                  <div style={{ width: "64px", textAlign: "right" }}>
+                                    {awayHeader ? String(awayHeader) : "Away"}
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: "64px",
+                                      textAlign: "right",
+                                      marginLeft: "10px",
+                                    }}
+                                  >
+                                    {homeHeader ? String(homeHeader) : "Home"}
+                                  </div>
+                                </div>
+
+                                {gameStatsRows.map((stat) => (
+                                  <div
+                                    key={`${game?._id || "game"}-${stat.name}`}
+                                    style={{ display: "flex", opacity: 0.9 }}
+                                  >
+                                    <div style={{ flex: 1, paddingRight: "8px" }}>
+                                      {String(stat.name)}
+                                    </div>
+                                    <div style={{ width: "64px", textAlign: "right" }}>
+                                      {formatStatValue(stat?.awayTeam?.value)}
+                                    </div>
+                                    <div
+                                      style={{
+                                        width: "64px",
+                                        textAlign: "right",
+                                        marginLeft: "10px",
+                                      }}
+                                    >
+                                      {formatStatValue(stat?.homeTeam?.value)}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>

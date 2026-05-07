@@ -11,7 +11,7 @@ export const collapseGameName = (name) => {
   return words.length > maxWords ? `${collapsed}…` : collapsed;
 };
 
-export const getGameTitle = (game) => {
+export const getGameTitle = (game, options = {}) => {
   const away = game?.competitors?.[0];
   const home = game?.competitors?.[1];
   const awayLabel = collapseGameName(away?.shortLocation || away?.name);
@@ -19,7 +19,12 @@ export const getGameTitle = (game) => {
   const awayScore = typeof away?.score === "number" ? away.score : "-";
   const homeScore = typeof home?.score === "number" ? home.score : "-";
 
-  if (awayLabel && homeLabel) return `${awayScore} ${awayLabel} @ ${homeScore} ${homeLabel}`;
+  const isSingleGame = !!options?.isSingleGame;
+  const month = game?.startDateTime ? new Date(game.startDateTime).getMonth() : null;
+  const useVsEmoji = isSingleGame && (month === 1 || month === 6 || month === 7); // February, July, August
+  const separator = useVsEmoji ? "🆚" : "@";
+
+  if (awayLabel && homeLabel) return `${awayScore} ${awayLabel} ${separator} ${homeScore} ${homeLabel}`;
   if (game?.gameName) return collapseGameName(game.gameName);
   return "Game";
 };
