@@ -16,6 +16,7 @@ import PageContainer from "../../components/PageContainer";
 import GameSearchBar from "../../components/GameSearchBar";
 import ArcadeGameSearchBar from "../../components/GameSearchBar/ArcadeGameSearchBar";
 import PickResult from "../../components/PickResult";
+import ArcadePickResult from "../../components/PickResult/ArcadePickResult";
 import Game from "../../components/Game";
 import Countdown from "../../components/Countdown";
 import TinyScoreboard from "../../components/TinyScoreboard";
@@ -350,6 +351,16 @@ const Scoreboard = () => {
             onArcadeModeChange={handleArcadeModeChange}
             soundEnabled={soundEnabled}
             onSoundChange={handleSoundChange}
+            aboveTimeline={
+              isAuthenticated ? (
+                <ArcadePickResult
+                  loading={isLoading}
+                  spreadMode={spreadMode}
+                  games={groupedGames.completed}
+                  picks={picks}
+                />
+              ) : null
+            }
             headerTop={
               <div>
                 <TinyScoreboard
@@ -399,17 +410,6 @@ const Scoreboard = () => {
                   onFilterYear={handleFilterYear}
                   onFilterWeek={handleFilterWeek}
                 />
-                {isAuthenticated && (
-                  <div>
-                    <PickResult
-                      loading={isLoading}
-                      spreadMode={spreadMode}
-                      games={groupedGames.completed}
-                      picks={picks}
-                    />
-                  </div>
-                )}
-
                 <LeagueNotices
                   leagueId={leagueId}
                   areAllGamesOver={areAllGamesOver}

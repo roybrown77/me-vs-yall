@@ -13,6 +13,7 @@ const ArcadeScoreboard = ({
   controls,
   headerTop,
   belowControls,
+  aboveTimeline,
   onArcadeModeChange,
   soundEnabled = true,
   onSoundChange,
@@ -58,6 +59,12 @@ const ArcadeScoreboard = ({
           soundEnabled={soundEnabled}
           onSoundChange={onSoundChange}
         />
+
+        {!!aboveTimeline && (
+          <div style={{ maxWidth: "560px", margin: "0 auto", padding: "0 12px" }}>
+            {aboveTimeline}
+          </div>
+        )}
 
         <ArcadeGameTimeline
           displayGames={displayGames}
