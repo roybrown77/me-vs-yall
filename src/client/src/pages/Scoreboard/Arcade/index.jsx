@@ -17,7 +17,7 @@ const ArcadeScoreboard = ({
   soundEnabled = true,
   onSoundChange,
 }) => {
-  const [controlsOpen, setControlsOpen] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(true);
   const displayGames = Array.isArray(games) ? games : [];
   const isSingleGame = displayGames.length === 1;
 

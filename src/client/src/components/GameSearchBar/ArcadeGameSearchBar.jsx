@@ -60,7 +60,7 @@ const ArcadeGameSearchBar = ({
   const weekIndexSelected = leagueId && displayWeeks.findIndex((x) => x._id === weekId);
   const selectedWeekIndex = weekIndexSelected === -1 ? 0 : weekIndexSelected;
 
-  const leaguesForRow = leagueId ? [...displayLeagues].reverse() : [];
+  const leaguesForRow = leagueId ? [...displayLeagues] : [];
   const yearsForRow = leagueId ? [...displayYears].reverse() : [];
   const weeksForRow = leagueId
     ? displayWeeks
