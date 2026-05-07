@@ -36,9 +36,9 @@ const getCompetitorLabel = (competitor) => {
   return competitor?.shortLocation || competitor?.name || null;
 };
 
-const getStatsRows = (game, limit = 8) => {
+const getStatsRows = (game) => {
   const stats = Array.isArray(game?.stats) ? game.stats : [];
-  return stats.slice(0, limit).filter((s) => s && s.name);
+  return stats.filter((s) => s && s.name);
 };
 
 const formatStatValue = (value) => {
@@ -64,7 +64,7 @@ const ArcadeGameTimeline = ({
         maxWidth: "560px",
         margin: "0 auto",
         position: "relative",
-        padding: "12px 12px 18px 12px",
+        padding: "12px 12px 800px 12px",
       }}
     >
       <div ref={listRef} style={{ position: "relative" }}>
@@ -118,7 +118,7 @@ const ArcadeGameTimeline = ({
           const home = game?.competitors?.[1];
           const awayStats = getCompetitorStatsLine(away);
           const homeStats = getCompetitorStatsLine(home);
-          const gameStatsRows = getStatsRows(game, 8);
+          const gameStatsRows = getStatsRows(game);
           const awayHeader = getCompetitorLabel(away);
           const homeHeader = getCompetitorLabel(home);
 
@@ -258,9 +258,9 @@ const ArcadeGameTimeline = ({
                                   </div>
                                 </div>
 
-                                {gameStatsRows.map((stat) => (
+                                {gameStatsRows.map((stat, statIndex) => (
                                   <div
-                                    key={`${game?._id || "game"}-${stat.name}`}
+                                    key={`${game?._id || "game"}-${stat.name}-${statIndex}`}
                                     style={{ display: "flex", opacity: 0.9 }}
                                   >
                                     <div style={{ flex: 1, paddingRight: "8px" }}>
@@ -362,18 +362,6 @@ const ArcadeGameTimeline = ({
                               {String(game.gameName)}
                             </div>
                           )}
-                          {(away?.shortLocation || away?.name) && (
-                            <div style={{ opacity: 0.9 }}>
-                              {String(away?.shortLocation || away?.name)}: {String(away?.name || "")}
-                              {!!awayStats && <span style={{ opacity: 0.85 }}> • {awayStats}</span>}
-                            </div>
-                          )}
-                          {(home?.shortLocation || home?.name) && (
-                            <div style={{ opacity: 0.9 }}>
-                              {String(home?.shortLocation || home?.name)}: {String(home?.name || "")}
-                              {!!homeStats && <span style={{ opacity: 0.85 }}> • {homeStats}</span>}
-                            </div>
-                          )}
 
                           <div style={{ marginTop: "10px", opacity: 0.95 }}>
                             <div style={{ fontWeight: 800, marginBottom: "4px" }}>GAME STATS</div>
@@ -405,9 +393,9 @@ const ArcadeGameTimeline = ({
                                   </div>
                                 </div>
 
-                                {gameStatsRows.map((stat) => (
+                                {gameStatsRows.map((stat, statIndex) => (
                                   <div
-                                    key={`${game?._id || "game"}-${stat.name}`}
+                                    key={`${game?._id || "game"}-${stat.name}-${statIndex}`}
                                     style={{ display: "flex", opacity: 0.9 }}
                                   >
                                     <div style={{ flex: 1, paddingRight: "8px" }}>
