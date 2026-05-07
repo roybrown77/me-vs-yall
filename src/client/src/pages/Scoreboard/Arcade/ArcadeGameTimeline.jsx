@@ -139,7 +139,7 @@ const ArcadeGameTimeline = ({
                     position: "absolute",
                     left: isLeft ? "0" : undefined,
                     right: isLeft ? undefined : "0",
-                    width: "44%",
+                    width: expanded ? "25em" : "44%",
                     display: "flex",
                     justifyContent: isLeft ? "flex-start" : "flex-end",
                   }}
@@ -147,7 +147,7 @@ const ArcadeGameTimeline = ({
                   <div
                     style={{
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: expanded ? "flex-start" : "center",
                       gap: "10px",
                       padding: "10px 12px",
                       borderRadius: "14px",
@@ -156,6 +156,11 @@ const ArcadeGameTimeline = ({
                         "0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)",
                       animation: `arcadeBob 1.8s ease-in-out infinite`,
                       animationDelay: bobDelay,
+                      width: expanded ? "25em" : undefined,
+                      maxHeight: expanded ? "70vh" : undefined,
+                      overflowY: expanded ? "auto" : undefined,
+                      overflowX: "hidden",
+                      WebkitOverflowScrolling: expanded ? "touch" : undefined,
                     }}
                   >
                     <div
@@ -167,7 +172,7 @@ const ArcadeGameTimeline = ({
                         animationDelay: bobDelay,
                       }}
                     />
-                    <div style={{ textAlign: "left" }}>
+                    <div style={{ textAlign: "left", flex: "1 1 auto", minWidth: 0 }}>
                       <div style={{ fontSize: "32px", fontWeight: 700 }}>
                         {getGameTitle(game, { isSingleGame })}
                       </div>
@@ -303,7 +308,7 @@ const ArcadeGameTimeline = ({
                   <div
                     style={{
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: expanded ? "flex-start" : "center",
                       gap: "10px",
                       padding: "12px 14px",
                       borderRadius: "14px",
@@ -312,9 +317,14 @@ const ArcadeGameTimeline = ({
                         "0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)",
                       animation: `arcadeBob 1.8s ease-in-out infinite`,
                       animationDelay: bobDelay,
+                      width: expanded ? "25em" : undefined,
+                      maxHeight: expanded ? "70vh" : undefined,
+                      overflowY: expanded ? "auto" : undefined,
+                      overflowX: "hidden",
+                      WebkitOverflowScrolling: expanded ? "touch" : undefined,
                     }}
                   >
-                    <div style={{ textAlign: "left" }}>
+                    <div style={{ textAlign: "left", flex: "1 1 auto", minWidth: 0 }}>
                       <div style={{ fontSize: "32px", fontWeight: 700 }}>
                         {getGameTitle(game, { isSingleGame })}
                       </div>
