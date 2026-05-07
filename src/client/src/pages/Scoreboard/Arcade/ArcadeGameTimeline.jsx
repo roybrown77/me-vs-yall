@@ -288,18 +288,6 @@ const ArcadeGameTimeline = ({
                               {String(game.gameName)}
                             </div>
                           )}
-                          {(away?.shortLocation || away?.name) && (
-                            <div style={{ opacity: 0.9 }}>
-                              {String(away?.shortLocation || away?.name)}: {String(away?.name || "")}
-                              {!!awayStats && <span style={{ opacity: 0.85 }}> • {awayStats}</span>}
-                            </div>
-                          )}
-                          {(home?.shortLocation || home?.name) && (
-                            <div style={{ opacity: 0.9 }}>
-                              {String(home?.shortLocation || home?.name)}: {String(home?.name || "")}
-                              {!!homeStats && <span style={{ opacity: 0.85 }}> • {homeStats}</span>}
-                            </div>
-                          )}
                         </div>
                       )}
                     </div>
