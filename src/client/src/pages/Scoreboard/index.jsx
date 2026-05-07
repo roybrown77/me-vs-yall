@@ -379,15 +379,6 @@ const Scoreboard = () => {
                   onFilterWeek={handleFilterWeek}
                   onFilterDate={handleFilterDate}
                 />
-                {!isAuthenticated && (
-                  <Button
-                    variant="contained"
-                    style={styles.button}
-                    onClick={googleLogin}
-                  >
-                    Make Your Picks
-                  </Button>
-                )}
                 {isAuthenticated && (
                   <div>
                     <PickResult
@@ -452,15 +443,6 @@ const Scoreboard = () => {
               onFilterWeek={handleFilterWeek}
               onFilterDate={handleFilterDate}
             />
-            {!isAuthenticated && (
-              <Button
-                variant="contained"
-                style={styles.button}
-                onClick={googleLogin}
-              >
-                Make Your Picks
-              </Button>
-            )}
             {isAuthenticated && (
               <div>
                 <PickResult

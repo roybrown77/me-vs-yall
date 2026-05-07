@@ -40,20 +40,6 @@ const LeagueNotices = ({
           <div className="fast-flash">** {pluralNoun} in progress **</div>
         </div>
       )}
-      {!isAuthenticated && (
-        <div
-          style={{
-            color: "darkviolet",
-            fontSize: "17px",
-            margin: "4px 17%",
-            padding: "4px",
-            border: "4px solid darkviolet",
-            borderRadius: "8px",
-          }}
-        >
-          ** sign in then tap {singularNoun === "fight" ? "fighter" : "team"} **
-        </div>
-      )}
     </>
   );
 };

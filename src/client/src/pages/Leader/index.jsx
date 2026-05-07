@@ -274,15 +274,6 @@ const Leader = () => {
           onFilterWeek={handleFilterWeek}
           onFilterDate={handleFilterDate}
         />
-        {!isAuthenticated && (
-          <Button
-            variant="contained"
-            style={styles.button}
-            onClick={googleLogin}
-          >
-            Make Your Picks
-          </Button>
-        )}
 
         <LeagueNotices
           leagueId={leagueId}

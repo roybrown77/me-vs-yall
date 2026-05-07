@@ -176,7 +176,7 @@ const Header = (props) => {
                 e.target.style.color = '#000';
               }}
             >
-              <span style={{ fontSize: '.7rem' }}>📱</span> SIGN IN
+              <span style={{ fontSize: '.7rem' }}>📱</span> SIGN IN TO MAKE PICKS AND HAVE FUN
             </div>
           )}
         </AppBar>
