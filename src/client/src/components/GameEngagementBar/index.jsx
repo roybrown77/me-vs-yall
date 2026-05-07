@@ -146,7 +146,8 @@ const GameEngagementBar = ({
                         <Snackbar
                             open={isShareClicked}
                             onClose={handleGamesCopiedAlertClose}
-                            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                            sx={{ bottom: '90px' }}
                         >
                             <Alert
                                 severity="none"
@@ -194,7 +195,8 @@ const GameEngagementBar = ({
                     <Snackbar
                         open={isSpreadModeAlertOpen}
                         onClose={handleSpreadModeAlertClose}
-                        anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        sx={{ bottom: '90px' }}
                     >
                         <Alert
                             severity="none"
