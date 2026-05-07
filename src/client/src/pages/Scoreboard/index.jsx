@@ -349,7 +349,7 @@ const Scoreboard = () => {
             onArcadeModeChange={handleArcadeModeChange}
             soundEnabled={soundEnabled}
             onSoundChange={handleSoundChange}
-            controls={
+            headerTop={
               <div>
                 <TinyScoreboard
                   {...{
@@ -367,6 +367,10 @@ const Scoreboard = () => {
                     }}
                   />
                 )}
+              </div>
+            }
+            controls={
+              <div>
                 <GameSearchBar
                   leagueId={leagueId}
                   leagues={leagues}

@@ -11,6 +11,7 @@ import ArcadeGameTimeline from "./ArcadeGameTimeline";
 const ArcadeScoreboard = ({
   games = [],
   controls,
+  headerTop,
   onArcadeModeChange,
   soundEnabled = true,
   onSoundChange,
@@ -52,6 +53,7 @@ const ArcadeScoreboard = ({
           onControlsToggle={() => setControlsOpen((x) => !x)}
           onExitArcadeMode={() => onArcadeModeChange?.(false)}
           controls={controls}
+          headerTop={headerTop}
           soundEnabled={soundEnabled}
           onSoundChange={onSoundChange}
         />

@@ -5,6 +5,7 @@ const ArcadeHeader = ({
   onControlsToggle,
   onExitArcadeMode,
   controls,
+  headerTop,
   soundEnabled = true,
   onSoundChange,
 }) => {
@@ -18,6 +19,11 @@ const ArcadeHeader = ({
         borderBottom: "1px solid rgba(0,0,0,0.12)",
       }}
     >
+      {headerTop && (
+        <div style={{ padding: "0 12px" }}>
+          {headerTop}
+        </div>
+      )}
       <div
         style={{
           display: "flex",
