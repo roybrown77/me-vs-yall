@@ -30,7 +30,7 @@ const styles = {
   }
 };
 
-const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading, onFilterLeague, onFilterYear, onFilterWeek }) => {
+const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading, onFilterLeague, onFilterYear, onFilterWeek, arcadeMode }) => {
   const leagueSelected = leagueId && leagues.find(league => league.id === leagueId);
   const leaguesToDisplay = leagueId && leagues.map((league) =><MenuItem key={league.id} value={league.id}>{get(league, 'description', '').toUpperCase()}</MenuItem>);
 
@@ -39,11 +39,12 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
 
   const weekIndexSelected = leagueId && weeks.findIndex(x=>x._id === weekId);
   const weeksToDisplay = leagueId && weeks.map((week, index) => <MenuItem key={index} value={index}>{week.displayName}</MenuItem>);
+  const surfaceBackgroundColor = arcadeMode ? '#EFFBF8' : '#fff';
 
   return (
     <div style={styles.container}>
         <Grid container item xs={12} justifyContent="center" alignItems="center">
-            <FormControl style={styles.formControl}>
+            <FormControl style={{ ...styles.formControl, backgroundColor: surfaceBackgroundColor }}>
               <Select
                   value={leagueId}
                   onChange={onFilterLeague}
@@ -56,7 +57,7 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
               </Select>
               {!leagueId && <Skeleton animation="pulse" height='40px' width='100px' variant="rect"/>}
             </FormControl> 
-            <FormControl style={styles.formControl}>
+            <FormControl style={{ ...styles.formControl, backgroundColor: surfaceBackgroundColor }}>
                <Select
                   value={yearSelected}
                   onChange={onFilterYear}
@@ -70,7 +71,7 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
             </FormControl>  
         </Grid>
         <Grid container item xs={12} justifyContent="center" alignItems="center">
-          <FormControl style={styles.formControl}>
+          <FormControl style={{ ...styles.formControl, backgroundColor: surfaceBackgroundColor }}>
             <Select
                 value={weekIndexSelected === -1 ? 0 : weekIndexSelected}
                 onChange={onFilterWeek}
@@ -97,6 +98,7 @@ GameSearchBar.propTypes = {
   onFilterLeague: PropTypes.func,
   onFilterYear: PropTypes.func,
   onFilterWeek: PropTypes.func,
+  arcadeMode: PropTypes.bool,
 };
 
 GameSearchBar.defaultProps = {

@@ -12,6 +12,7 @@ const ArcadeScoreboard = ({
   games = [],
   controls,
   headerTop,
+  belowControls,
   onArcadeModeChange,
   soundEnabled = true,
   onSoundChange,
@@ -51,9 +52,9 @@ const ArcadeScoreboard = ({
         <ArcadeHeader
           controlsOpen={controlsOpen}
           onControlsToggle={() => setControlsOpen((x) => !x)}
-          onExitArcadeMode={() => onArcadeModeChange?.(false)}
           controls={controls}
           headerTop={headerTop}
+          belowControls={belowControls}
           soundEnabled={soundEnabled}
           onSoundChange={onSoundChange}
         />

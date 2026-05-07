@@ -3,9 +3,9 @@ import PumpUpMusic from "../../../components/PumpUpMusic";
 const ArcadeHeader = ({
   controlsOpen,
   onControlsToggle,
-  onExitArcadeMode,
   controls,
   headerTop,
+  belowControls,
   soundEnabled = true,
   onSoundChange,
 }) => {
@@ -50,28 +50,7 @@ const ArcadeHeader = ({
               fontSize: "12px",
             }}
           >
-            Controls {controlsOpen ? "▴" : "▾"}
-          </button>
-
-          <button
-            type="button"
-            onClick={onExitArcadeMode}
-            aria-label="Exit Arcade Mode"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "8px 10px",
-              borderRadius: "12px",
-              background: "dodgerblue",
-              border: "1px solid rgba(0,0,0,0.12)",
-              cursor: "pointer",
-              color: "#000",
-              fontWeight: 700,
-              fontSize: "12px",
-            }}
-          >
-            Arcade Mode ON
+            Filter Frenzy {controlsOpen ? "▴" : "▾"}
           </button>
         </div>
 
@@ -95,6 +74,10 @@ const ArcadeHeader = ({
         >
           {controls}
         </div>
+      )}
+
+      {belowControls && (
+        <div style={{ padding: "0 12px 12px 12px" }}>{belowControls}</div>
       )}
     </div>
   );

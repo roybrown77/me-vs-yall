@@ -356,6 +356,7 @@ const Scoreboard = () => {
                     title: `Let's Go!!!`,
                     games: groupedGames.notCompleted,
                     loading: isLoading,
+                    pastel: true,
                   }}
                 />
                 {!isLoading && (
@@ -364,10 +365,25 @@ const Scoreboard = () => {
                       title: `Game Over`,
                       games: groupedGames.completed,
                       loading: isLoading,
+                      pastel: true,
                     }}
                   />
                 )}
               </div>
+            }
+            belowControls={
+              <GameEngagementBar
+                handleSpreadToggleOn={enableSpreadMode}
+                handleSpreadToggleOff={disableSpreadMode}
+                games={games}
+                picks={picks}
+                teams={teams}
+                isAuthenticated={isAuthenticated}
+                userId={userId}
+                spreadMode={spreadMode}
+                arcadeMode={arcadeMode}
+                onArcadeModeChange={handleArcadeModeChange}
+              />
             }
             controls={
               <div>
@@ -382,6 +398,7 @@ const Scoreboard = () => {
                   onFilterYear={handleFilterYear}
                   onFilterWeek={handleFilterWeek}
                   onFilterDate={handleFilterDate}
+                  arcadeMode={arcadeMode}
                 />
                 {isAuthenticated && (
                   <div>
@@ -400,19 +417,6 @@ const Scoreboard = () => {
                   areAnyGamesInProgress={areAnyGamesInProgress}
                   timeUntilNextGameStarts={timeUntilNextGameStarts}
                   isAuthenticated={isAuthenticated}
-                />
-
-                <GameEngagementBar
-                  handleSpreadToggleOn={enableSpreadMode}
-                  handleSpreadToggleOff={disableSpreadMode}
-                  games={games}
-                  picks={picks}
-                  teams={teams}
-                  isAuthenticated={isAuthenticated}
-                  userId={userId}
-                  spreadMode={spreadMode}
-                  arcadeMode={arcadeMode}
-                  onArcadeModeChange={handleArcadeModeChange}
                 />
               </div>
             }

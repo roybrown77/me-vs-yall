@@ -62,6 +62,7 @@ const GameEngagementBar = ({
     };
 
     const isArcadeModeEnabled = typeof arcadeMode === "boolean" ? arcadeMode : false;
+    const surfaceBackgroundColor = isArcadeModeEnabled ? '#EFFBF8' : '#fff';
 
     const enableSpreadMode = () => {
         setIsSpreadModeAlertOpen(true);
@@ -95,7 +96,7 @@ const GameEngagementBar = ({
                     style={{
                         marginTop: "25px",
                         padding: "10px",
-                        backgroundColor: "#fff",
+                        backgroundColor: surfaceBackgroundColor,
                         cursor: "pointer",
                     }}
                 >
@@ -116,7 +117,7 @@ const GameEngagementBar = ({
                     style={{
                         marginTop: '25px',
                         padding: '10px',
-                        backgroundColor: '#fff',
+                        backgroundColor: surfaceBackgroundColor,
                     }}
                 >
                     <div style={{ fontSize: '9px', fontWeight: 700 }}>
@@ -169,7 +170,7 @@ const GameEngagementBar = ({
                 style={{
                     marginTop: '25px',
                     padding: '10px',
-                    backgroundColor: '#fff',
+                    backgroundColor: surfaceBackgroundColor,
                 }}
             >
                 <div style={{ fontSize: '9px', fontWeight: 700 }}>vs Spread</div>

@@ -15,7 +15,7 @@ const formatTime = (time) => {
     return value > 59 ? (value/100).toFixed(2).toString().replace('.',':') : ':' + value;
 };
 
-const TinyScoreboard = ({loading, title, games}) => {
+const TinyScoreboard = ({loading, title, games, pastel = false}) => {
     const styles = {
         header: {
             maxWidth: '35px',
@@ -35,7 +35,7 @@ const TinyScoreboard = ({loading, title, games}) => {
             fontSize: '12px',
             padding: '5px 0 15px 10px',
             fontWeight: 'bold',
-            backgroundColor: '#fff',
+            backgroundColor: pastel ? '#EFFBF8' : '#fff',
             overflowX: 'scroll'
         },
         linkToGame: {
