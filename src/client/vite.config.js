@@ -30,6 +30,19 @@ export default defineConfig(({ command }) => {
           display: 'standalone',
           theme_color: '#f5fffa',
           background_color: '#f5fffa',
+          screenshots: [
+            {
+              src: 'screenshots/screenshot-wide.png',
+              sizes: '1920x1080',
+              type: 'image/png',
+              form_factor: 'wide',
+            },
+            {
+              src: 'screenshots/screenshot-mobile.png',
+              sizes: '1080x1920',
+              type: 'image/png',
+            },
+          ],
           icons: [
             {
               src: 'pwa-64x64.png',
