@@ -7,4 +7,12 @@ module.exports = {
   	dbConnectionString: process.env.DB_CONNECTION_STRING,
 	shouldLoadGames: process.env.SHOULD_LOAD_GAMES_VIA_WEB_SERVER === 'true',
   	playHistoryCount: process.env.PLAY_HISTORY_COUNT || 5,
+
+	// Web Push / Notifications
+	vapidSubject: process.env.VAPID_SUBJECT,
+	vapidPublicKey: process.env.VAPID_PUBLIC_KEY,
+	vapidPrivateKey: process.env.VAPID_PRIVATE_KEY,
+	enablePickPushReminders: process.env.ENABLE_PICK_PUSH_REMINDERS === 'true',
+	pickPushReminderWindowHours: Number(process.env.PICK_PUSH_REMINDER_WINDOW_HOURS || 24),
+	pickPushReminderCooldownHours: Number(process.env.PICK_PUSH_REMINDER_COOLDOWN_HOURS || 6),
 };

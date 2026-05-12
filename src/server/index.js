@@ -22,6 +22,14 @@ const authCheck = setupAuthMiddleware();
 // Register API routes
 registerApiRoutes(app, authCheck);
 
+// Start notifications scheduler (if enabled)
+try {
+  const { startPickReminderScheduler } = require('./notification/pickReminderScheduler');
+  startPickReminderScheduler();
+} catch (error) {
+  console.error('[NOTIFICATIONS] Failed to start scheduler', error);
+}
+
 // Serve static assets in production
 if (nodeEnv === 'production') {
   serveStaticAssets(app);
@@ -90,7 +98,16 @@ function initializeExpressApp() {
   app.set('port', httpPort || 3001);
 
   const corsOptions = {
-    origin: ['https://www.mevsyall.com', 'http://localhost:3000'],
+    origin: (origin, callback) => {
+      // Allow same-origin requests (no Origin header) and local dev/preview.
+      if (!origin) return callback(null, true);
+
+      const allowed =
+        origin === 'https://www.mevsyall.com' ||
+        /^http:\/\/localhost:\d+$/.test(origin);
+
+      return callback(null, allowed);
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Allows cookies and credentials to be sent
@@ -138,6 +155,7 @@ function registerApiRoutes(app, authCheck) {
   const UserReadController = require('./user/UserReadController');
   const UserWriteController = require('./user/UserWriteController');
   const ArticleReadController = require('./article/ArticleReadController');
+  const NotificationController = require('./notification/NotificationController');
 
   app.use('/api/gamemanagement', GameController);
   app.use('/api/gamemanagement', authCheck, GameWriteController);
@@ -146,6 +164,9 @@ function registerApiRoutes(app, authCheck) {
   app.use('/api/usermanagement', UserReadController);
   app.use('/api/usermanagement', authCheck, UserWriteController);
   app.use('/api/articlemanagement', ArticleReadController);
+
+  // Notifications
+  app.use('/api/notificationmanagement', authCheck, NotificationController);
 }
 
 /**
@@ -155,9 +176,9 @@ function registerApiRoutes(app, authCheck) {
 function serveStaticAssets(app) {
   const compression = require('compression');
   app.use(compression()); // Enable compression for faster asset delivery
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
+  app.use(express.static(path.resolve(__dirname, '../client/dist')));
   app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
   });
 }
 

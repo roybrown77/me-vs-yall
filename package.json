@@ -16,7 +16,8 @@
     "path": "0.12.7",
     "puppeteer": "^24.42.0",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "concurrently": "9.2.1",
@@ -31,6 +32,8 @@
     "prod-server": "node src/server",
     "prod-worker": "node src/workers",
     "client": "nodemon start-client.js",
+    "generate-vapid": "npx web-push generate-vapid-keys",
+    "local-prod": "npm --prefix src/client run build && NODE_ENV=production node src/server",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "heroku-postbuild": "npm install vite && cd src/client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   }

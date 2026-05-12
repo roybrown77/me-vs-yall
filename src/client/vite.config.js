@@ -13,6 +13,9 @@ export default defineConfig(({ command }) => {
       VitePWA({
         registerType: 'autoUpdate',
         injectRegister: false,
+        strategies: 'injectManifest',
+        srcDir: 'src',
+        filename: 'sw.js',
         themeColor: '#f5fffa',
         pwaAssets: {
           disabled: false,
@@ -67,11 +70,7 @@ export default defineConfig(({ command }) => {
             },
           ],
         },
-        workbox: {
-          globPatterns: ['**/*.{js,css,html,svg,png,svg,ico}'],
-          cleanupOutdatedCaches: true,
-          clientsClaim: true,
-        },
+        // workbox options are used for generateSW; injectManifest uses the custom sw.
         devOptions: {
           enabled: isDevServer,
           navigateFallback: 'index.html',
@@ -93,7 +92,7 @@ export default defineConfig(({ command }) => {
     },
   },
   build: {
-    outDir: 'build'
+    outDir: 'dist'
   },
   envPrefix: 'REACT_APP_',
   };
