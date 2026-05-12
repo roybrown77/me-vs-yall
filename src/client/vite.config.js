@@ -10,6 +10,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,
+      themeColor: '#f5fffa',
       pwaAssets: {
         disabled: false,
         config: false,
@@ -21,6 +22,11 @@ export default defineConfig({
         name: 'Me vs Yall',
         short_name: 'Me vs Yall',
         description: 'The ultimate sports pick\'em game.  Me vs Yall is a fun and entertaining way to analyze teams and players in the pursuit of correctly guessing who will win.  It will help you outwit others around the world and beat vegas for money.',
+        start_url: '/',
+        scope: '/',
+        display: 'standalone',
+        theme_color: '#f5fffa',
+        background_color: '#f5fffa',
         icons: [
           {
             src: 'pwa-64x64.png',
