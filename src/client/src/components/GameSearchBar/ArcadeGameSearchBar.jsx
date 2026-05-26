@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import get from "lodash/get";
 
@@ -35,6 +36,7 @@ const bubbleRowStyles = {
     flexDirection: "column",
     alignItems: "flex-start",
     boxSizing: "border-box",
+    padding: "0 .5rem",
   },
 };
 
@@ -51,6 +53,10 @@ const ArcadeGameSearchBar = ({
   onFilterYear,
   onFilterWeek,
 }) => {
+  const leagueSelectedRef = useRef(null);
+  const yearSelectedRef = useRef(null);
+  const weekSelectedRef = useRef(null);
+
   const displayLeagues = Array.isArray(leagues) ? leagues : [];
   const displayWeeks = Array.isArray(weeks) ? weeks : [];
 
@@ -68,6 +74,24 @@ const ArcadeGameSearchBar = ({
         .reverse()
     : [];
 
+  useEffect(() => {
+    const selectedButtons = [
+      leagueSelectedRef.current,
+      yearSelectedRef.current,
+      weekSelectedRef.current,
+    ];
+
+    selectedButtons.forEach((button) => {
+      if (!button) return;
+
+      button.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    });
+  }, [leagueId, yearSelected, weekId, selectedWeekIndex]);
+
   return (
     <div style={bubbleRowStyles.container}>
       {!leagueId && (
@@ -84,6 +108,7 @@ const ArcadeGameSearchBar = ({
               return (
                 <button
                   key={league.id}
+                  ref={isSelected ? leagueSelectedRef : null}
                   type="button"
                   disabled={loading}
                   onClick={() => onFilterLeague?.(toChangeEvent(league.id))}
@@ -105,6 +130,7 @@ const ArcadeGameSearchBar = ({
               return (
                 <button
                   key={year}
+                  ref={isSelected ? yearSelectedRef : null}
                   type="button"
                   disabled={loading}
                   onClick={() => onFilterYear?.(toChangeEvent(year))}
@@ -126,6 +152,7 @@ const ArcadeGameSearchBar = ({
               return (
                 <button
                   key={`${week?._id ?? index}`}
+                  ref={isSelected ? weekSelectedRef : null}
                   type="button"
                   disabled={loading}
                   onClick={() => onFilterWeek?.(toChangeEvent(index))}

@@ -23,6 +23,12 @@ const styles = {
 
 const Footer = () => {
   const leagueName = getLeagueName();
+  const currentSearch = window?.location?.search || "";
+
+  const navigateWithCurrentQuery = (basePath) => {
+    window.location.href = `${basePath}${currentSearch}`;
+  };
+
   const selected = window?.location?.pathname?.includes("scoreboards")
     ? "scoreboards"
     : window?.location?.pathname?.includes("leaders")
@@ -47,7 +53,7 @@ const Footer = () => {
           borderBottom: selected === "scoreboards" ? "7px solid #1e90ff" : "",
         }}
         onClick={() => {
-          window.location.href = "/scoreboards/" + leagueName;
+          navigateWithCurrentQuery(`/scoreboards/${leagueName}`);
         }}
       >
         Scores
@@ -58,7 +64,7 @@ const Footer = () => {
           borderBottom: selected === "leaders" ? "7px solid #1e90ff" : "",
         }}
         onClick={() => {
-          window.location.href = "/leaders/" + leagueName;
+          navigateWithCurrentQuery(`/leaders/${leagueName}`);
         }}
       >
         Leaders
