@@ -145,6 +145,11 @@ const Header = (props) => {
 
   const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const notificationsSupported =
+    typeof window !== 'undefined' &&
+    'Notification' in window &&
+    'serviceWorker' in navigator &&
+    'PushManager' in window;
 
   useEffect(() => {
     const load = async () => {
@@ -327,7 +332,7 @@ const Header = (props) => {
             </div>
           )}
 
-          {import.meta.env.PROD && isAuthenticated && !notificationsEnabled && (
+          {import.meta.env.PROD && isAuthenticated && notificationsSupported && !notificationsEnabled && (
             <div
               style={{
                 position: 'fixed',
