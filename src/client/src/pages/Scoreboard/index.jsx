@@ -12,8 +12,8 @@ import Skeleton from "@mui/material/Skeleton";
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import PageContainer from "../../components/PageContainer";
-import GameSearchBar from "../../components/GameSearchBar";
-import PickResult from "../../components/PickResult";
+import ArcadeGameSearchBar from "../../components/GameSearchBar/ArcadeGameSearchBar";
+import ArcadePickResult from "../../components/PickResult/ArcadePickResult";
 import Game from "../../components/Game";
 import Countdown from "../../components/Countdown";
 import TinyScoreboard from "../../components/TinyScoreboard";
@@ -300,7 +300,7 @@ const Scoreboard = () => {
             }}
           />
         )}
-        <GameSearchBar
+        <ArcadeGameSearchBar
           leagueId={leagueId}
           leagues={leagues}
           yearSelected={year}
@@ -312,18 +312,9 @@ const Scoreboard = () => {
           onFilterWeek={handleFilterWeek}
           onFilterDate={handleFilterDate}
         />
-        {!isAuthenticated && (
-          <Button
-            variant="contained"
-            style={styles.button}
-            onClick={googleLogin}
-          >
-            Make Your Picks
-          </Button>
-        )}
         {isAuthenticated && (
           <div>
-            <PickResult
+            <ArcadePickResult
               loading={isLoading}
               spreadMode={spreadMode}
               games={groupedGames.completed}

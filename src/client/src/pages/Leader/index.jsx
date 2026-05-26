@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import VegasWinCalculationPopup from "./VegasWinCalculationPopup";
 import PageContainer from "../../components/PageContainer";
-import GameSearchBar from "../../components/GameSearchBar";
+import ArcadeGameSearchBar from "../../components/GameSearchBar/ArcadeGameSearchBar";
 import Countdown from "../../components/Countdown";
 import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
@@ -224,7 +224,7 @@ const Leader = () => {
   return (
     <div>
       <PageContainer>
-        <GameSearchBar
+        <ArcadeGameSearchBar
           leagueId={leagueId}
           leagues={leagues}
           yearSelected={year}
@@ -236,15 +236,6 @@ const Leader = () => {
           onFilterWeek={handleFilterWeek}
           onFilterDate={handleFilterDate}
         />
-        {!isAuthenticated && (
-          <Button
-            variant="contained"
-            style={styles.button}
-            onClick={googleLogin}
-          >
-            Make Your Picks
-          </Button>
-        )}
 
         <LeagueNotices
           leagueId={leagueId}
