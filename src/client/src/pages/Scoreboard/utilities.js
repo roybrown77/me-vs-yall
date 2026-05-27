@@ -4,6 +4,56 @@ import get from "lodash/get";
 
 import { getRandomIntInclusive, getSpreadAmount, hasGameStarted } from '../../utilities';
 
+const NFL_LEAGUE_ID = '59723313734d1d6202a85f10';
+
+const getNflSeasonOpenerGameId = (games = []) => {
+  const nflGames = games
+    .filter((game) => game?.leagueId === NFL_LEAGUE_ID && game?.startDateTime)
+    .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
+  if (nflGames.length === 0) {
+    return null;
+  }
+
+  const julyOrAugustOpener = nflGames.find((game) => {
+    const month = moment(game.startDateTime).month() + 1;
+    return month === 7 || month === 8;
+  });
+
+  return (julyOrAugustOpener || nflGames[0])._id;
+};
+
+const applyNflVenueOverrides = ({ game, team, isSeasonOpener = false }) => {
+  if (!game || !team || game?.leagueId !== NFL_LEAGUE_ID) {
+    return team;
+  }
+
+  const month = moment(game.startDateTime).month() + 1;
+
+  if (month === 2) {
+    return {
+      ...team,
+      stadiumName: '',
+      stadiumCity: '',
+      stadiumLocation: [''],
+    };
+  }
+
+  if (isSeasonOpener) {
+    return {
+      ...team,
+      stadiumName: 'Tom Benson Hall of Fame Stadium',
+      stadiumCity: 'Canton, Ohio',
+      stadiumLocation: [
+        'Where summer heat shimmers under the lights and a new season roars to life.',
+        'In Canton, shoulder pads crack like thunder and opening night writes the first line of legend.',
+      ],
+    };
+  }
+
+  return team;
+};
+
 const getPicksNotSelected = (games = [], picks = []) => {
     return games.reduce((count, game) => {
       const isPickMissing = !picks.some(pick => pick.gameId === game._id);
@@ -13,6 +63,8 @@ const getPicksNotSelected = (games = [], picks = []) => {
 };
 
 const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false}) => {
+  const seasonOpenerGameId = getNflSeasonOpenerGameId(games);
+
     const formattedGames = games.map((game) => {
       const displayDateTime = moment(new Date(game.startDateTime));
       const away = teams.find((x) => x._id === game.competitors[0]._id);
@@ -36,7 +88,11 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
           startDateTimeDisplay: displayDateTime.format("dddd MMM D YYYY h:mm a"),
           gameName,
           competitors: game.competitors.map((competitor, index) => {
-            const team = teams.find((x) => x._id === competitor._id);
+            const team = applyNflVenueOverrides({
+              game,
+              team: teams.find((x) => x._id === competitor._id),
+              isSeasonOpener: game?._id === seasonOpenerGameId,
+            });
             const index1 = index;
             const index2 = index === 0 ? 1 : 0;
             const teamAPick = picks.find(
@@ -83,7 +139,11 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
             : game.competitors[1]._id,
         gameName,
         competitors: game.competitors.map((competitor) => {
-          const team = teams.find((x) => x._id === competitor._id);
+          const team = applyNflVenueOverrides({
+            game,
+            team: teams.find((x) => x._id === competitor._id),
+            isSeasonOpener: game?._id === seasonOpenerGameId,
+          });
           return {
             ...competitor,
             ...team,
