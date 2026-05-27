@@ -37,6 +37,7 @@ const bubbleRowStyles = {
     alignItems: "flex-start",
     boxSizing: "border-box",
     padding: "0 .5rem",
+    margin: "1.5rem 0",
   },
 };
 
