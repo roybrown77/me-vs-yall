@@ -8,6 +8,8 @@ const PickSchema = new mongoose.Schema({
     gameType: { type: Number, index: true },
     gameId: mongoose.Schema.Types.ObjectId,
     pickId: mongoose.Schema.Types.ObjectId,
+    guessedAwayScore: Number,
+    guessedHomeScore: Number,
     gameDateTime: 'date',
 });
 module.exports = mongoose.model('Pick', PickSchema)

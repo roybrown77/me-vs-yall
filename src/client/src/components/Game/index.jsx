@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import moment from "moment-timezone";
 import get from "lodash/get";
@@ -76,11 +76,21 @@ const Game = (props) => {
     popoverOpen: false,
     popoverMessage: '',
     selectionMade: null,
+    guessedAwayScore: get(props, "pick.guessedAwayScore") ?? "",
+    guessedHomeScore: get(props, "pick.guessedHomeScore") ?? "",
   });
+
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      guessedAwayScore: get(props, "pick.guessedAwayScore") ?? "",
+      guessedHomeScore: get(props, "pick.guessedHomeScore") ?? "",
+    }));
+  }, [props.pick]);
 
   const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
-  const handleMakePick = (game, pickId, competitorIndex) => {
+  const handleMakePick = (game, pickId, competitorIndex, forceUpdate = false) => {
     setState((prevState) => ({
       ...prevState,
       selectionMade: competitorIndex === 0 ? 'left' : competitorIndex === 1 ? 'right' : 'left',
@@ -122,14 +132,22 @@ const Game = (props) => {
     }
 
     if (
-      get(props, "pick.pickId") === pickId ||
+      (get(props, "pick.pickId") === pickId && !forceUpdate) ||
       props?.updatingPick ||
       hasGameStarted(props.game.startDateTime)
     ) {
       return;
     }
 
-    const pick = { gameId: game._id, pickId };
+    const guessedAwayScore = state.guessedAwayScore === "" ? undefined : parseInt(state.guessedAwayScore, 10);
+    const guessedHomeScore = state.guessedHomeScore === "" ? undefined : parseInt(state.guessedHomeScore, 10);
+
+    const pick = {
+      gameId: game._id,
+      pickId,
+      guessedAwayScore: Number.isNaN(guessedAwayScore) ? undefined : guessedAwayScore,
+      guessedHomeScore: Number.isNaN(guessedHomeScore) ? undefined : guessedHomeScore,
+    };
     props.handleMakePick(pick);
   };
 
@@ -142,8 +160,69 @@ const Game = (props) => {
       return;
     }
 
-    const pick = { gameId, pickId: "000000000000000000000000" };
+    const guessedAwayScore = state.guessedAwayScore === "" ? undefined : parseInt(state.guessedAwayScore, 10);
+    const guessedHomeScore = state.guessedHomeScore === "" ? undefined : parseInt(state.guessedHomeScore, 10);
+
+    const pick = {
+      gameId,
+      pickId: "000000000000000000000000",
+      guessedAwayScore: Number.isNaN(guessedAwayScore) ? undefined : guessedAwayScore,
+      guessedHomeScore: Number.isNaN(guessedHomeScore) ? undefined : guessedHomeScore,
+    };
     props.handleMakePick(pick);
+  };
+
+  const handleScoreGuessInputChange = (event) => {
+    const { name, value } = event.target;
+    const nextValue = value === "" ? "" : Math.max(0, Math.min(99, parseInt(value, 10) || 0));
+
+    setState((prevState) => ({
+      ...prevState,
+      [name]: nextValue,
+    }));
+  };
+
+  const handleSaveScoreGuess = () => {
+    const existingPickId = get(props, "pick.pickId");
+
+    if (!existingPickId) {
+      setState((prevState) => ({
+        ...prevState,
+        popoverOpen: true,
+        popoverMessage: "Pick a winner first, then save your score guess.",
+      }));
+
+      setTimeout(() => {
+        setState((prevState) => ({
+          ...prevState,
+          popoverOpen: false,
+          popoverMessage: "",
+        }));
+      }, 2500);
+
+      return;
+    }
+
+    if (state.guessedAwayScore === "" || state.guessedHomeScore === "") {
+      setState((prevState) => ({
+        ...prevState,
+        popoverOpen: true,
+        popoverMessage: "Enter both team scores to save your guess.",
+      }));
+
+      setTimeout(() => {
+        setState((prevState) => ({
+          ...prevState,
+          popoverOpen: false,
+          popoverMessage: "",
+        }));
+      }, 2500);
+
+      return;
+    }
+
+    const selectedIndex = game.competitors[0]._id === existingPickId ? 0 : 1;
+    handleMakePick(game, existingPickId, selectedIndex, true);
   };
 
   const handleClearInput = () => {
@@ -234,6 +313,18 @@ const Game = (props) => {
   } = props;
 
   const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
+  const canShowTieAndGuess =
+    isAuthenticated &&
+    !hasGameStarted(game.startDateTime) &&
+    [
+      "59723313734d1d6202a85f10",
+      "59723313734d1d6202a85f17",
+      "59723313734d1d6202a85f25",
+      "59723313734d1d6202a85f27",
+      "59723313734d1d6202a85f29",
+    ].includes(get(game, "leagueId")) &&
+    !spreadMode &&
+    !disableTie;
 
   const componentProps = {
     ...props,
@@ -241,6 +332,8 @@ const Game = (props) => {
     spreadMode,
     handleMakePick,
     handleTie,
+    handleScoreGuessInputChange,
+    handleSaveScoreGuess,
     handleClearInput,
     handleInputChange,
     handleSaveGame,
@@ -300,19 +393,75 @@ const Game = (props) => {
             </div>
           )}
         </Grid>
-        {
-          isAuthenticated &&
-          !hasGameStarted(game.startDateTime) &&
-          [
-            "59723313734d1d6202a85f10",
-            "59723313734d1d6202a85f17",
-            "59723313734d1d6202a85f25",
-            "59723313734d1d6202a85f27",
-            "59723313734d1d6202a85f29",
-          ].includes(get(game, "leagueId")) &&
-          !spreadMode &&
-          !disableTie && <TieButton {...componentProps} />
-        }
+        {canShowTieAndGuess && <TieButton {...componentProps} />}
+        {canShowTieAndGuess && (
+          <div
+            style={{
+              marginTop: "8px",
+              border: "2px dashed #3772FA",
+              borderRadius: "14px",
+              padding: "10px 12px",
+              background:
+                "linear-gradient(135deg, rgba(55,114,250,0.12) 0%, rgba(253,187,45,0.14) 100%)",
+              fontFamily: "monospace",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontWeight: "700", marginBottom: "8px" }}>🎯 Score Guess</div>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <label htmlFor={`guess-away-${game._id}`} style={{ fontSize: "12px", fontWeight: "700" }}>
+                  {get(game, "competitors.0.name", "Away")}
+                </label>
+                <input
+                  id={`guess-away-${game._id}`}
+                  type="number"
+                  min="0"
+                  max="99"
+                  name="guessedAwayScore"
+                  value={state.guessedAwayScore ?? ""}
+                  onChange={handleScoreGuessInputChange}
+                  style={{ width: "56px", padding: "6px", borderRadius: "8px", border: "1px solid #3772FA" }}
+                  aria-label="Guess away score"
+                />
+              </div>
+              <span style={{ fontWeight: "700" }}>vs</span>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <label htmlFor={`guess-home-${game._id}`} style={{ fontSize: "12px", fontWeight: "700" }}>
+                  {get(game, "competitors.1.name", "Home")}
+                </label>
+                <input
+                  id={`guess-home-${game._id}`}
+                  type="number"
+                  min="0"
+                  max="99"
+                  name="guessedHomeScore"
+                  value={state.guessedHomeScore ?? ""}
+                  onChange={handleScoreGuessInputChange}
+                  style={{ width: "56px", padding: "6px", borderRadius: "8px", border: "1px solid #3772FA" }}
+                  aria-label="Guess home score"
+                />
+              </div>
+            </div>
+            <div style={{ marginTop: "8px", display: "flex", justifyContent: "center" }}>
+              <button
+                type="button"
+                onClick={handleSaveScoreGuess}
+                style={{
+                  padding: "6px 10px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  borderRadius: "9px",
+                  border: "1px solid #0B6E4F",
+                  backgroundColor: "#0B6E4F",
+                  color: "#fff",
+                }}
+              >
+                Save Guess
+              </button>
+            </div>
+          </div>
+        )}
         <div style={{ marginTop: "1rem" }}>
           <div style={{ display: "inline-flex" }}>
             <div

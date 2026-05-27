@@ -197,10 +197,12 @@ const Scoreboard = () => {
       const upsertPick = async (id, pick) => {
         setUpdatingPick(true);
 
-        const pickParams = queryString.stringify({
+        const pickParams = {
           gameId: pick.gameId,
           pickId: pick.pickId,
-        });
+          guessedAwayScore: pick.guessedAwayScore,
+          guessedHomeScore: pick.guessedHomeScore,
+        };
 
         await callApi({
           method: id ? "PUT" : "POST",

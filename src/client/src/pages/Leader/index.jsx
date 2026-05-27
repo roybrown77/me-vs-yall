@@ -403,6 +403,11 @@ const Leader = () => {
                               <div>
                                 {leader.wins} - {leader.losses}
                               </div>
+                              {leader.scoreGuessBumpPoints > 0 && (
+                                <div style={{ color: "#0B6E4F", fontWeight: "700" }}>
+                                  +{leader.scoreGuessBumpPoints.toFixed(2).replace(/\.00$/, "")} guess boost
+                                </div>
+                              )}
                               <div
                                 style={{
                                   fontWeight: "700",
@@ -489,6 +494,19 @@ const Leader = () => {
                                         />
                                       </td>
                                     </tr>
+                                    {game.scoreGuessLabel && (
+                                      <tr>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td align="center">
+                                          <span style={{ color: game.scoreGuessBump > 0 ? "#0B6E4F" : "#666" }}>
+                                            {game.scoreGuessLabel}
+                                          </span>
+                                        </td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                      </tr>
+                                    )}
                                   </tbody>
                                 );
                               })}

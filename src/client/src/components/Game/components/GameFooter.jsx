@@ -1,4 +1,5 @@
 import { hasGameStarted } from "../../../utilities";
+import { getScoreGuessLabel } from "../../../utilities/scoreGuess";
 
 const isAllEmojis = (input) => {
   // Define regex pattern for emojis
@@ -15,7 +16,14 @@ const getFontSize = (game) => {
 };
 
 const GameFooter = (props) => {
-  const { game, isAuthenticated, userId } = props;
+  const {
+    game,
+    isAuthenticated,
+    userId,
+    pick,
+  } = props;
+
+  const scoreGuessLabel = getScoreGuessLabel(pick, game);
 
   return (
     <div
@@ -50,6 +58,7 @@ const GameFooter = (props) => {
           {game.possession} {game.down}
         </div>
       )}
+      {scoreGuessLabel && <div style={{ marginTop: "5px" }}>{scoreGuessLabel}</div>}
     </div>
   );
 };

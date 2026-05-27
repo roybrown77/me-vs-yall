@@ -11,6 +11,15 @@ const ids = [
     'google-oauth2|102013494920578024535'
 ];
 
+const getScoreGuess = (value) => {
+    if (value === undefined || value === null || value === '') {
+        return undefined;
+    }
+
+    const parsed = parseInt(value, 10);
+    return Number.isNaN(parsed) ? undefined : parsed;
+};
+
 router.post('/picks/', function (req, res) {
     if (ids.includes(req.auth.sub)) {
         return res.status(200).send({});
@@ -21,6 +30,8 @@ router.post('/picks/', function (req, res) {
         gameId: new mongoose.Types.ObjectId(req.body.gameId),
         pickId: new mongoose.Types.ObjectId(req.body.pickId),
         gameType: req.body.gameType,
+        guessedAwayScore: getScoreGuess(req.body.guessedAwayScore),
+        guessedHomeScore: getScoreGuess(req.body.guessedHomeScore),
         createDateTime: moment().toISOString()
     };
 
@@ -40,6 +51,8 @@ router.put('/picks/:id', function (req, res) {
         gameId: new mongoose.Types.ObjectId(req.body.gameId),
         pickId: new mongoose.Types.ObjectId(req.body.pickId),
         gameType: req.body.gameType,
+        guessedAwayScore: getScoreGuess(req.body.guessedAwayScore),
+        guessedHomeScore: getScoreGuess(req.body.guessedHomeScore),
         createDateTime: moment().toISOString()
     };
 

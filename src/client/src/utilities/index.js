@@ -10,6 +10,11 @@ import zachBaby from "../styles/images/zach-baby.jpg";
 import gold from "../styles/images/gold.png";
 import silver from "../styles/images/silver.png";
 import bronze from "../styles/images/bronze.png";
+import {
+  getScoreGuessBumpPoints,
+  getScoreGuessLabel,
+  getScoreGuessTotals,
+} from "./scoreGuess";
 
 // *** leaders
 
@@ -39,8 +44,8 @@ const getLeaders = ({
   let medalCount = 0;
   formattedLeaders.map((leader) => {
     const leaderWins = areAnyGamesInProgress
-      ? leader.winsBeforeGameOver
-      : leader.wins;
+      ? leader.adjustedWinsBeforeGameOver
+      : leader.adjustedWins;
     const leaderLosses = areAnyGamesInProgress
       ? leader.lossesBeforeGameOver
       : leader.losses;
@@ -97,6 +102,7 @@ const getLeadersFormatted = (
       if (!!user) {
         const leaderPicks = picksByUser[key];
         const pickResult = getResults(games, leaderPicks, spreadMode);
+        const scoreGuessTotals = getScoreGuessTotals(games, leaderPicks);
         const winnings = getWinnings(pickResult);
 
         result.push({
@@ -112,6 +118,12 @@ const getLeadersFormatted = (
           lossesBeforeGameOver: pickResult.lossesBeforeGameOver,
           winsInARow: pickResult.winsInARow,
           lossesInARow: pickResult.lossesInARow,
+          scoreGuessBumpPoints: scoreGuessTotals.bumpPoints,
+          scoreGuessBumpHits: scoreGuessTotals.bumpHits,
+          scoreGuessExactHits: scoreGuessTotals.exactHits,
+          adjustedWins: pickResult.wins + scoreGuessTotals.bumpPoints,
+          adjustedWinsBeforeGameOver:
+            pickResult.winsBeforeGameOver + scoreGuessTotals.bumpPoints,
           totalPicks: leaderPicks.length,
           percentage:
             pickResult.wins + pickResult.losses > 0
@@ -132,6 +144,9 @@ const getLeadersFormatted = (
                 const isNewDate = date !== newGameDate;
                 if (isNewDate) date = newGameDate;
                 const hasStarted = hasGameStarted(game.startDateTime);
+                const leaderPick = leaderPicks.find((pick) => pick.gameId === game._id);
+                const scoreGuessLabel = getScoreGuessLabel(leaderPick, game);
+                const scoreGuessBump = getScoreGuessBumpPoints(game, leaderPick);
                 return {
                   ...game,
                   isNewDate,
@@ -170,6 +185,8 @@ const getLeadersFormatted = (
                   homeScore: hasStarted
                     ? get(game, "competitors.1.score") || 0
                     : undefined,
+                  scoreGuessLabel,
+                  scoreGuessBump,
                 };
               }),
         });
@@ -182,8 +199,15 @@ const getLeadersFormatted = (
 
   return orderBy(
     pickResults,
-    ["winsBeforeGameOver", "winsInARow", "wins", "lossesInARow", "userName"],
-    ["desc", "desc", "desc", "asc", "asc"]
+    [
+      "adjustedWinsBeforeGameOver",
+      "scoreGuessBumpPoints",
+      "winsInARow",
+      "wins",
+      "lossesInARow",
+      "userName",
+    ],
+    ["desc", "desc", "desc", "desc", "asc", "asc"]
   );
 };
 
