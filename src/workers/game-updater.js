@@ -46,7 +46,7 @@ try {
 
 const url = 'https://www.espn.com/nfl/scoreboard';
 const leagueId = '59723313734d1d6202a85f10';
-const year = 2025;
+const year = 2026;
 
 setInterval(async () => {
     try {

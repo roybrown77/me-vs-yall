@@ -84,8 +84,8 @@ const getPickStrategies = async (req) => {
             let mvyPicks = {};
     
             try {
-                const currentYear = 2025;
-                const endOfCurrentWeek1 = '2025-09-08';
+                const currentYear = 2026;
+                const endOfCurrentWeek1 = '2026-09-14';
                 
                 const daysSinceEndOfWeek1 = moment().diff(moment(endOfCurrentWeek1), 'days');
                 const isReadyForTheKings = year < currentYear || daysSinceEndOfWeek1 > (6*7 + 2); // End of week 1 plus 6 more weeks + 2 is start of Week 8
