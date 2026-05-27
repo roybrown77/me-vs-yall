@@ -69,6 +69,22 @@ const leaderBackgroundColor = [
   "#9CCEAF"
 ];
 
+const kingsAndVegasLeaderIds = new Set([
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "12",
+  "15",
+  "17",
+  "18",
+  "19",
+]);
+
+const canShowLeaderPicksAndGuesses = (leaderId) =>
+  kingsAndVegasLeaderIds.has(String(leaderId));
+
 const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
@@ -316,6 +332,12 @@ const Leader = () => {
                 {!isLoading &&
                   leaders.map((leader, index) => (
                     <div style={styles.container} key={leader.id}>
+                      {(() => {
+                        const showLeaderPicksAndGuesses = canShowLeaderPicksAndGuesses(
+                          leader.id
+                        );
+
+                        return (
                       <Accordion style={{ borderRadius: "8px", boxShadow: "none" }}>
                         <AccordionSummary
                           style={styles.expansionSummary}
@@ -403,7 +425,7 @@ const Leader = () => {
                               <div>
                                 {leader.wins} - {leader.losses}
                               </div>
-                              {leader.scoreGuessBumpPoints > 0 && (
+                              {showLeaderPicksAndGuesses && leader.scoreGuessBumpPoints > 0 && (
                                 <div style={{ color: "#0B6E4F", fontWeight: "700" }}>
                                   +{leader.scoreGuessBumpPoints.toFixed(2).replace(/\.00$/, "")} guess boost
                                 </div>
@@ -461,13 +483,15 @@ const Leader = () => {
                                     )}
                                     <tr>
                                       <td align="center">
-                                        <div
-                                          style={{
-                                            width: "24px",
-                                            height: "24px",
-                                            backgroundColor: game.awayIndicator,
-                                          }}
-                                        />
+                                        {showLeaderPicksAndGuesses && (
+                                          <div
+                                            style={{
+                                              width: "24px",
+                                              height: "24px",
+                                              backgroundColor: game.awayIndicator,
+                                            }}
+                                          />
+                                        )}
                                       </td>
                                       {
                                         <td align="center">
@@ -485,16 +509,18 @@ const Leader = () => {
                                         </td>
                                       }
                                       <td align="center">
-                                        <div
-                                          style={{
-                                            width: "24px",
-                                            height: "24px",
-                                            backgroundColor: game.homeIndicator,
-                                          }}
-                                        />
+                                        {showLeaderPicksAndGuesses && (
+                                          <div
+                                            style={{
+                                              width: "24px",
+                                              height: "24px",
+                                              backgroundColor: game.homeIndicator,
+                                            }}
+                                          />
+                                        )}
                                       </td>
                                     </tr>
-                                    {game.scoreGuessLabel && (
+                                    {showLeaderPicksAndGuesses && game.scoreGuessLabel && (
                                       <tr>
                                         <td align="center"></td>
                                         <td align="center"></td>
@@ -514,6 +540,8 @@ const Leader = () => {
                           </div>
                         </AccordionDetails>
                       </Accordion>
+                        );
+                      })()}
                     </div>
                   ))}
               </div>
