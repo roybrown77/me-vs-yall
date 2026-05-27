@@ -82,8 +82,8 @@ const kingsAndVegasLeaderIds = new Set([
   "19",
 ]);
 
-const canShowLeaderPicksAndGuesses = (leaderId) =>
-  kingsAndVegasLeaderIds.has(String(leaderId));
+const canShowLeaderPicksAndGuesses = ({ leaderId, gameStarted = false }) =>
+  gameStarted || kingsAndVegasLeaderIds.has(String(leaderId));
 
 const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
@@ -333,9 +333,10 @@ const Leader = () => {
                   leaders.map((leader, index) => (
                     <div style={styles.container} key={leader.id}>
                       {(() => {
-                        const showLeaderPicksAndGuesses = canShowLeaderPicksAndGuesses(
-                          leader.id
-                        );
+                        const showLeaderPicksAndGuesses = canShowLeaderPicksAndGuesses({
+                          leaderId: leader.id,
+                          gameStarted: areAnyGamesInProgress || areAllGamesOver,
+                        });
 
                         return (
                       <Accordion style={{ borderRadius: "8px", boxShadow: "none" }}>
