@@ -24,6 +24,7 @@ import { hasGameStarted } from "../../utilities";
 import {
   isConfirmedAuthentication,
 } from "../../utilities/authenticationClient";
+import { SCORE_GUESS_BUMPS } from "../../utilities/scoreGuess";
 import MMAGlove from "./components/MMAGlove";
 
 const styles = {
@@ -54,6 +55,12 @@ const getAstroPositionAndEmoji = () => {
 
 const boxingHypeText = "Let's Get Ready to Rumble!";
 const mmaHypeText = "It's Time!";
+const scoreGuessBoostRows = [
+  { diff: "0", points: SCORE_GUESS_BUMPS.exact },
+  { diff: "1", points: SCORE_GUESS_BUMPS.within1 },
+  { diff: "2", points: SCORE_GUESS_BUMPS.within2 },
+  { diff: "3", points: SCORE_GUESS_BUMPS.within3 },
+];
 
 const Game = (props) => {
   const [state, setState] = useState({
@@ -460,6 +467,40 @@ const Game = (props) => {
                 Save Guess
               </button>
             </div>
+            <details
+              style={{
+                marginTop: "10px",
+                textAlign: "left",
+                borderTop: "1px dashed rgba(0,0,0,0.2)",
+                paddingTop: "8px",
+              }}
+            >
+              <summary style={{ cursor: "pointer", fontWeight: "700", fontSize: "12px" }}>
+                How score guesses boost Leaders
+              </summary>
+              <div style={{ marginTop: "8px", fontSize: "12px", lineHeight: "1.5" }}>
+                <div>
+                  After a game is over, your guess can add bonus wins on the Leaders page.
+                  Bonus points are added to your total as: wins + guess boost.
+                </div>
+                <div style={{ marginTop: "6px" }}>
+                  Combined score miss = |away guess - away final| + |home guess - home final|
+                </div>
+                <div style={{ marginTop: "6px", display: "grid", gridTemplateColumns: "1fr auto", gap: "4px 10px" }}>
+                  {scoreGuessBoostRows.map((row) => (
+                    <div
+                      key={`row-${row.diff}`}
+                      style={{ display: "contents" }}
+                    >
+                      <div>Total miss of {row.diff}</div>
+                      <div style={{ fontWeight: "700" }}>
+                        +{row.points.toFixed(2).replace(/\.00$/, "")}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </details>
           </div>
         )}
         <div style={{ marginTop: "1rem" }}>
