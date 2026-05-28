@@ -48,7 +48,9 @@ const sortWeeksForNumbering = (weeks = []) => {
 };
 
 const buildWeekQueryMetaMap = (weeks = []) => {
-  const sortedWeeks = sortWeeksForNumbering(weeks);
+  const sortedWeeks = sortWeeksForNumbering(weeks).filter(
+    (week) => !week?.isRollup && !shouldSkipWeekQueryParam(week)
+  );
   const countersBySeasonType = { 1: 0, 2: 0, 3: 0 };
   const weekMetaById = {};
 
@@ -63,6 +65,26 @@ const buildWeekQueryMetaMap = (weeks = []) => {
   });
 
   return weekMetaById;
+};
+
+const shouldSkipWeekQueryParam = (selectedWeek = {}) => {
+  const labelCandidates = [
+    selectedWeek.displayName,
+    selectedWeek.description,
+    selectedWeek.name,
+  ]
+    .map((value) => String(value || "").trim())
+    .filter(Boolean);
+
+  return labelCandidates.some((label) => {
+    const normalizedLabel = label.toLowerCase();
+
+    if (normalizedLabel.startsWith("entire")) {
+      return true;
+    }
+
+    return /^week\s+\d+\s*-\s*\d+\b/i.test(label);
+  });
 };
 
 const getInitialSelectionFromQuery = ({ initialLeagueId, initialYear }) => {
@@ -120,7 +142,7 @@ const syncSelectionToQueryParams = ({ leagueId, year, selectedWeek, weekQueryMet
     searchParams.delete("seasonType");
   }
 
-  if (weekMeta?.week) {
+  if (weekMeta?.week && !shouldSkipWeekQueryParam(selectedWeek)) {
     searchParams.set("week", String(weekMeta.week));
   } else {
     searchParams.delete("week");
@@ -256,6 +278,10 @@ const useLeagueWeekNavigation = ({
       weekQueryMetaByIdRef.current = weekQueryMetaById;
 
       const selectedWeekFromQuery = weeksRaw.find((week) => {
+        if (shouldSkipWeekQueryParam(week)) {
+          return false;
+        }
+
         const weekMeta = weekQueryMetaById?.[week._id];
 
         if (
@@ -344,12 +370,15 @@ const useLeagueWeekNavigation = ({
       setBeginDateTime(currentWeek.beginDateTime);
       setEndDateTime(currentWeek.endDateTime);
 
-      syncSelectionToQueryParams({
-        leagueId,
-        year,
-        selectedWeek: currentWeek,
-        weekQueryMetaById: weekQueryMetaByIdRef.current,
-      });
+      // For aggregate/range labels (e.g., Entire season, Week 1-18), keep URL unchanged.
+      if (!shouldSkipWeekQueryParam(currentWeek)) {
+        syncSelectionToQueryParams({
+          leagueId,
+          year,
+          selectedWeek: currentWeek,
+          weekQueryMetaById: weekQueryMetaByIdRef.current,
+        });
+      }
 
       await onLoadDataRef.current?.({
         weeks: weeksRawRef.current,
