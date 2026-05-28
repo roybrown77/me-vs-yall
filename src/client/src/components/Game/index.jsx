@@ -63,6 +63,8 @@ const scoreGuessBoostRows = [
 ];
 
 const Game = (props) => {
+  const unauthenticatedPickMessage = 'Please sign in to make your picks. You got this! 🚀';
+
   const [state, setState] = useState({
     awayScore: null,
     homeScore: null,
@@ -97,6 +99,22 @@ const Game = (props) => {
 
   const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
+  const showPopoverMessage = (message, timeoutMs = 3000) => {
+    setState((prevState) => ({
+      ...prevState,
+      popoverOpen: true,
+      popoverMessage: message,
+    }));
+
+    setTimeout(() => {
+      setState((prevState) => ({
+        ...prevState,
+        popoverOpen: false,
+        popoverMessage: '',
+      }));
+    }, timeoutMs);
+  };
+
   const handleMakePick = (game, pickId, competitorIndex, forceUpdate = false) => {
     setState((prevState) => ({
       ...prevState,
@@ -107,34 +125,14 @@ const Game = (props) => {
 
     if (!isAuthenticated || hasGameStarted(game.startDateTime) || game.isGameOver) {
       if (hasGameStarted(game.startDateTime) && !game.isGameOver) {
-        setState((prevState) => ({
-          ...prevState,
-          popoverOpen: true,
-          popoverMessage: 'Game is in progress.  Get your popcorn and chill. 🍿',
-        }));
+        showPopoverMessage('Game is in progress.  Get your popcorn and chill. 🍿');
       }
       if (game.isGameOver) {
-        setState((prevState) => ({
-          ...prevState,
-          popoverOpen: true,
-          popoverMessage: 'The game is over.  Set your alarm earlier next time. ⏰',
-        }));
+        showPopoverMessage('The game is over.  Set your alarm earlier next time. ⏰');
       }
       if (!isAuthenticated) {
-        setState((prevState) => ({
-          ...prevState,
-          popoverOpen: true,
-          popoverMessage: 'Please sign in to make your picks. You got this! 🚀',
-        }));
+        showPopoverMessage(unauthenticatedPickMessage);
       }
-
-      setTimeout(() => {
-        setState((prevState) => ({
-          ...prevState,
-          popoverOpen: false,
-          popoverMessage: '',
-        }));
-      }, 3000);
       return;
     }
 
@@ -190,40 +188,21 @@ const Game = (props) => {
   };
 
   const handleSaveScoreGuess = () => {
+    if (!isAuthenticated) {
+      showPopoverMessage(unauthenticatedPickMessage);
+      return;
+    }
+
     const existingPickId = get(props, "pick.pickId");
 
     if (!existingPickId) {
-      setState((prevState) => ({
-        ...prevState,
-        popoverOpen: true,
-        popoverMessage: "Pick a winner first, then save your score guess.",
-      }));
-
-      setTimeout(() => {
-        setState((prevState) => ({
-          ...prevState,
-          popoverOpen: false,
-          popoverMessage: "",
-        }));
-      }, 2500);
+      showPopoverMessage("Pick a winner first, then save your score guess.", 2500);
 
       return;
     }
 
     if (state.guessedAwayScore === "" || state.guessedHomeScore === "") {
-      setState((prevState) => ({
-        ...prevState,
-        popoverOpen: true,
-        popoverMessage: "Enter both team scores to save your guess.",
-      }));
-
-      setTimeout(() => {
-        setState((prevState) => ({
-          ...prevState,
-          popoverOpen: false,
-          popoverMessage: "",
-        }));
-      }, 2500);
+      showPopoverMessage("Enter both team scores to save your guess.", 2500);
 
       return;
     }
@@ -320,7 +299,7 @@ const Game = (props) => {
   } = props;
 
   const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
-  const canShowTieAndGuess =
+  const canShowTie =
     isAuthenticated &&
     !hasGameStarted(game.startDateTime) &&
     [
@@ -332,6 +311,18 @@ const Game = (props) => {
     ].includes(get(game, "leagueId")) &&
     !spreadMode &&
     !disableTie;
+  const canShowScoreGuess =
+    !hasGameStarted(game.startDateTime) &&
+    [
+      "59723313734d1d6202a85f10",
+      "59723313734d1d6202a85f17",
+      "59723313734d1d6202a85f25",
+      "59723313734d1d6202a85f27",
+      "59723313734d1d6202a85f29",
+    ].includes(get(game, "leagueId")) &&
+    !spreadMode &&
+    !disableTie;
+  const isScoreGuessDisabled = !isAuthenticated;
 
   const componentProps = {
     ...props,
@@ -400,10 +391,11 @@ const Game = (props) => {
             </div>
           )}
         </Grid>
-        {canShowTieAndGuess && <TieButton {...componentProps} />}
-        {canShowTieAndGuess && (
+        {canShowTie && <TieButton {...componentProps} />}
+        {canShowScoreGuess && (
           <div
             style={{
+              position: "relative",
               marginTop: "8px",
               border: "2px dashed #3772FA",
               borderRadius: "14px",
@@ -412,9 +404,27 @@ const Game = (props) => {
                 "linear-gradient(135deg, rgba(55,114,250,0.12) 0%, rgba(253,187,45,0.14) 100%)",
               fontFamily: "monospace",
               textAlign: "center",
+              opacity: isScoreGuessDisabled ? 0.65 : 1,
             }}
           >
-            <div style={{ fontWeight: "700", marginBottom: "8px" }}>🎯 Score Guess</div>
+            {isScoreGuessDisabled && (
+              <button
+                type="button"
+                onClick={() => showPopoverMessage(unauthenticatedPickMessage)}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "not-allowed",
+                  zIndex: 2,
+                }}
+                aria-label="Sign in required to use score guess"
+              />
+            )}
+            <div style={{ fontWeight: "700", marginBottom: "8px" }}>🎯 Guess the Score</div>
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                 <label htmlFor={`guess-away-${game._id}`} style={{ fontSize: "12px", fontWeight: "700" }}>
@@ -428,6 +438,7 @@ const Game = (props) => {
                   name="guessedAwayScore"
                   value={state.guessedAwayScore ?? ""}
                   onChange={handleScoreGuessInputChange}
+                  disabled={isScoreGuessDisabled}
                   style={{ width: "56px", padding: "6px", borderRadius: "8px", border: "1px solid #3772FA" }}
                   aria-label="Guess away score"
                 />
@@ -445,6 +456,7 @@ const Game = (props) => {
                   name="guessedHomeScore"
                   value={state.guessedHomeScore ?? ""}
                   onChange={handleScoreGuessInputChange}
+                  disabled={isScoreGuessDisabled}
                   style={{ width: "56px", padding: "6px", borderRadius: "8px", border: "1px solid #3772FA" }}
                   aria-label="Guess home score"
                 />
@@ -454,10 +466,11 @@ const Game = (props) => {
               <button
                 type="button"
                 onClick={handleSaveScoreGuess}
+                disabled={isScoreGuessDisabled}
                 style={{
                   padding: "6px 10px",
                   fontWeight: "700",
-                  cursor: "pointer",
+                  cursor: isScoreGuessDisabled ? "not-allowed" : "pointer",
                   borderRadius: "9px",
                   border: "1px solid #0B6E4F",
                   backgroundColor: "#0B6E4F",
