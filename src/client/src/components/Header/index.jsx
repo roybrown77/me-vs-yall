@@ -332,7 +332,7 @@ const Header = (props) => {
             </div>
           )}
 
-          {import.meta.env.PROD && isAuthenticated && notificationsSupported && !notificationsEnabled && (
+          {false && import.meta.env.PROD && isAuthenticated && notificationsSupported && !notificationsEnabled && (
             <div
               style={{
                 position: 'fixed',
