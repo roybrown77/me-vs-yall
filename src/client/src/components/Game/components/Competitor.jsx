@@ -43,29 +43,42 @@ const GamePredictionStatusIcon = (props) => {
 
 const Competitor = (props) => {
   const { game, spreadMode, pick, competitor } = props;
+  const isFightLeague = ["59723313734d1d6202a85f25", "59723313734d1d6202a85f27"].includes(
+    get(game, "leagueId")
+  );
+  const showLiveScore = hasGameStarted(game.startDateTime) || game.isGameOver;
+  const hasCompetitorScore =
+    get(competitor, "score") !== null && get(competitor, "score") !== undefined;
+  const shouldRenderScorePill = !isFightLeague;
+  const shouldShowScoreInPill = showLiveScore || hasCompetitorScore;
+  const scorePillBackgroundColor = competitor?.color || "#1F2937";
+  const scoreDisplayValue = shouldShowScoreInPill
+    ? hasCompetitorScore
+      ? get(competitor, "score")
+      : 0
+    : undefined;
 
   return (
     <Grid className="detail-competitor" item xs={12} sm container>
       <Grid item xs style={{ flexGrow: '1' }}>
         <Grid item>
           <div>
-            {!["59723313734d1d6202a85f25", "59723313734d1d6202a85f27"].includes(
-              get(game, "leagueId")
-            ) && (
+            {shouldRenderScorePill && (
               <div style={{ 
                 fontSize: "1.5rem",
                 fontWeight: "bold",
                 width: "3rem",
-                color: "#ffffff",
-                backgroundColor: hasGameStarted(game.startDateTime) || game.isGameOver ? competitor.color : "transparent",
-                borderRadius: hasGameStarted(game.startDateTime) ? "4px" : "0",
-                padding: hasGameStarted(game.startDateTime) ? "4px" : "0",
-                margin: hasGameStarted(game.startDateTime) ? "0 auto" : "0",
-                marginBottom: hasGameStarted(game.startDateTime) ? ".5rem" : "0",
+                color: shouldShowScoreInPill ? "#ffffff" : "transparent",
+                backgroundColor: shouldShowScoreInPill ? scorePillBackgroundColor : "transparent",
+                borderRadius: shouldShowScoreInPill ? "4px" : "0",
+                padding: shouldShowScoreInPill ? "4px" : "0",
+                margin: shouldShowScoreInPill ? "0 auto" : "0",
+                marginBottom: shouldShowScoreInPill ? ".5rem" : "0",
+                position: "relative",
+                zIndex: 2,
+                textAlign: "center",
               }}>
-                {hasGameStarted(game.startDateTime) || game.isGameOver
-                  ? get(competitor, "score") || 0
-                  : undefined}
+                {scoreDisplayValue}
               </div>
             )}
             {competitor.country && (
