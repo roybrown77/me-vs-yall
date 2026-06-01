@@ -12,6 +12,7 @@ import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
 import ServiceWorkerManager from './ServiceWorkerManager';
+import PwaInstallBanner from './components/PwaInstallBanner';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           </Routes>
         </div>
       </main>
+      <PwaInstallBanner />
     </div>
   );
 };

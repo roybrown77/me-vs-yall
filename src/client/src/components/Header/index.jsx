@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,6 @@ import Popover from '@mui/material/Popover';
 
 import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
-import usePwaInstallPrompt from '../../hooks/usePwaInstallPrompt';
 import { callApi } from '../../utilities/http';
 
 const styles = {
@@ -109,39 +108,6 @@ const Header = (props) => {
   const isAuthenticated = isConfirmedAuthentication();
   const user = getUser();
   const picture = get(user,'picture');
-
-  const { canInstall, promptInstall } = usePwaInstallPrompt();
-
-  const dismissKey = 'pwaInstallDismissedAt';
-  const dismissForMs = 7 * 24 * 60 * 60 * 1000;
-  const [hideInstall, setHideInstall] = useState(() => {
-    try {
-      const dismissedAt = Number(localStorage.getItem(dismissKey));
-      if (!dismissedAt) return false;
-      return Date.now() - dismissedAt < dismissForMs;
-    } catch {
-      return false;
-    }
-  });
-
-  const showInstall = useMemo(() => {
-    return canInstall && !hideInstall;
-  }, [canInstall, hideInstall]);
-
-  const handleInstallClick = useCallback(async () => {
-    const result = await promptInstall();
-
-    // If the user dismisses the prompt, don't nag them.
-    if (result?.outcome !== 'accepted') {
-      try {
-        localStorage.setItem(dismissKey, String(Date.now()));
-      } catch {
-        // ignore
-      }
-    }
-
-    setHideInstall(true);
-  }, [promptInstall]);
 
   const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
@@ -301,43 +267,12 @@ const Header = (props) => {
             </div>
           )}
 
-          {showInstall && (
-            <div
-              style={{
-                position: 'fixed',
-                right: '0',
-                top: '60px',
-                margin: '5px',
-                padding: '12px',
-                borderRadius: '4px',
-                backgroundColor: '#fff',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                transition: 'background-color 0.3s, color 0.3s',
-                zIndex: 1000,
-              }}
-              onClick={handleInstallClick}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#fb8239';
-                e.target.style.color = '#fff';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#fff';
-                e.target.style.color = '#000';
-              }}
-            >
-              <span style={{ fontSize: '.7rem' }}>⬇️</span> INSTALL
-            </div>
-          )}
-
           {false && import.meta.env.PROD && isAuthenticated && notificationsSupported && !notificationsEnabled && (
             <div
               style={{
                 position: 'fixed',
                 right: '0',
-                top: showInstall ? '110px' : '60px',
+                top: '60px',
                 margin: '5px',
                 padding: '12px',
                 borderRadius: '4px',
