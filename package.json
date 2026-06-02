@@ -31,6 +31,7 @@
     "server": "nodemon src/server",
     "prod-server": "node src/server",
     "prod-worker": "node src/workers",
+    "test:notification": "node --test src/server/notification/__tests__/pickReminderScheduler.test.js",
     "client": "nodemon start-client.js",
     "generate-vapid": "npx web-push generate-vapid-keys",
     "local-prod": "npm --prefix src/client run build && NODE_ENV=production node src/server",

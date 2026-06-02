@@ -108,7 +108,7 @@ function initializeExpressApp() {
 
       return callback(null, allowed);
     },
-    methods: 'GET,HEAD,PUT,PATCH,POST',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Allows cookies and credentials to be sent
   };
@@ -155,6 +155,7 @@ function registerApiRoutes(app, authCheck) {
   const UserReadController = require('./user/UserReadController');
   const UserWriteController = require('./user/UserWriteController');
   const ArticleReadController = require('./article/ArticleReadController');
+  const NotificationPublicController = require('./notification/NotificationPublicController');
   const NotificationController = require('./notification/NotificationController');
 
   app.use('/api/gamemanagement', GameController);
@@ -166,6 +167,7 @@ function registerApiRoutes(app, authCheck) {
   app.use('/api/articlemanagement', ArticleReadController);
 
   // Notifications
+  app.use('/api/notificationmanagement', NotificationPublicController);
   app.use('/api/notificationmanagement', authCheck, NotificationController);
 }
 

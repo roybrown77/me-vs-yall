@@ -10,6 +10,8 @@ const PushSubscriptionSchema = new mongoose.Schema(
       auth: { type: String },
     },
     userAgent: { type: String },
+    notificationTypes: [{ type: String }],
+    sentEventKeys: [{ type: String }],
     lastNotifiedAt: { type: Date, index: true },
   },
   {

@@ -1,17 +1,22 @@
 const express = require('express');
 const pushSubscriptionRepository = require('./PushSubscriptionRepository');
-const { vapidPublicKey } = require('../../../config');
 const { sendPickReminderOnce } = require('./pickReminderScheduler');
 
 let router = express.Router();
 
-router.get('/vapidPublicKey', (req, res) => {
-  if (!vapidPublicKey) {
-    return res.status(500).send('Missing VAPID_PUBLIC_KEY');
+const validNotificationTypes = ['upcoming', 'in_progress', 'all_final'];
+
+const normalizeNotificationTypes = (types) => {
+  if (!Array.isArray(types) || !types.length) {
+    return validNotificationTypes;
   }
 
-  return res.status(200).send({ publicKey: vapidPublicKey });
-});
+  const cleaned = types
+    .map((x) => String(x || '').trim().toLowerCase())
+    .filter((x) => validNotificationTypes.includes(x));
+
+  return cleaned.length ? [...new Set(cleaned)] : validNotificationTypes;
+};
 
 router.get('/subscriptions/me', async (req, res) => {
   try {
@@ -24,7 +29,7 @@ router.get('/subscriptions/me', async (req, res) => {
   }
 });
 
-router.post('/subscriptions', async (req, res) => {
+router.post('/subscriptions/authenticated', async (req, res) => {
   try {
     const userId = req.auth?.sub;
     const subscription = req.body?.subscription;
@@ -34,6 +39,7 @@ router.post('/subscriptions', async (req, res) => {
     }
 
     const userAgent = req.body?.userAgent;
+    const notificationTypes = normalizeNotificationTypes(req.body?.notificationTypes);
 
     const upsert = {
       userId,
@@ -44,6 +50,7 @@ router.post('/subscriptions', async (req, res) => {
         auth: subscription.keys.auth,
       },
       userAgent,
+      notificationTypes,
     };
 
     const saved = await pushSubscriptionRepository.findOneAndUpdate(
@@ -54,24 +61,8 @@ router.post('/subscriptions', async (req, res) => {
 
     return res.status(200).send({ ok: true, id: saved._id });
   } catch (error) {
-    console.error('[NOTIFICATIONS] subscriptions POST error', error);
-    return res.status(500).send('Error saving subscription');
-  }
-});
-
-router.delete('/subscriptions', async (req, res) => {
-  try {
-    const userId = req.auth?.sub;
-    const endpoint = req.body?.endpoint;
-
-    if (!endpoint) return res.status(400).send('Missing endpoint');
-
-    await pushSubscriptionRepository.deleteOne({ endpoint, userId });
-
-    return res.status(200).send({ ok: true });
-  } catch (error) {
-    console.error('[NOTIFICATIONS] subscriptions DELETE error', error);
-    return res.status(500).send('Error deleting subscription');
+    console.error('[NOTIFICATIONS] subscriptions/authenticated POST error', error);
+    return res.status(500).send('Error saving authenticated subscription');
   }
 });
 

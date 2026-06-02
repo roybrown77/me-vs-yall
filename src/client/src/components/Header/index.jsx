@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,6 @@ import Popover from '@mui/material/Popover';
 
 import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
-import { callApi } from '../../utilities/http';
 
 const styles = {
   root: {
@@ -109,93 +108,6 @@ const Header = (props) => {
   const user = getUser();
   const picture = get(user,'picture');
 
-  const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const notificationsSupported =
-    typeof window !== 'undefined' &&
-    'Notification' in window &&
-    'serviceWorker' in navigator &&
-    'PushManager' in window;
-
-  useEffect(() => {
-    const load = async () => {
-      if (!import.meta.env.PROD) return;
-      if (!isAuthenticated) return;
-
-      try {
-        const result = await callApi({
-          method: 'GET',
-          endpoint: '/api/notificationmanagement/subscriptions/me',
-        });
-        setNotificationsEnabled(Boolean(result?.subscribed));
-      } catch {
-        // ignore
-      }
-    };
-
-    load();
-  }, [isAuthenticated]);
-
-  const enableNotifications = useCallback(async () => {
-    try {
-      setIsEnablingNotifications(true);
-
-      if (!('serviceWorker' in navigator)) {
-        alert('Notifications are not supported in this browser.');
-        return;
-      }
-
-      if (!('PushManager' in window)) {
-        alert('Push notifications are not supported in this browser.');
-        return;
-      }
-
-      const permission = await Notification.requestPermission();
-      if (permission !== 'granted') return;
-
-      const { publicKey } = await callApi({
-        method: 'GET',
-        endpoint: '/api/notificationmanagement/vapidPublicKey',
-      });
-
-      const urlBase64ToUint8Array = (base64String) => {
-        const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = window.atob(base64);
-        const outputArray = new Uint8Array(rawData.length);
-        for (let i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
-        return outputArray;
-      };
-
-      // Ensure SW is ready (production/preview). In dev we don't register SW.
-      const registration = await navigator.serviceWorker.ready;
-      const existing = await registration.pushManager.getSubscription();
-
-      const subscription =
-        existing ||
-        (await registration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(publicKey),
-        }));
-
-      await callApi({
-        method: 'POST',
-        endpoint: '/api/notificationmanagement/subscriptions',
-        body: {
-          subscription,
-          userAgent: navigator.userAgent,
-        },
-      });
-
-      setNotificationsEnabled(true);
-    } catch (error) {
-      console.error(error);
-      alert('Could not enable notifications.');
-    } finally {
-      setIsEnablingNotifications(false);
-    }
-  }, []);
-
   return (
     <div style={styles.root}>
       <div style={styles.appFrame}>
@@ -264,41 +176,6 @@ const Header = (props) => {
               }}
             >
               <span style={{ fontSize: '.7rem' }}>📱</span> SIGN IN
-            </div>
-          )}
-
-          {false && import.meta.env.PROD && isAuthenticated && notificationsSupported && !notificationsEnabled && (
-            <div
-              style={{
-                position: 'fixed',
-                right: '0',
-                top: '60px',
-                margin: '5px',
-                padding: '12px',
-                borderRadius: '4px',
-                backgroundColor: '#fff',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-                cursor: isEnablingNotifications ? 'default' : 'pointer',
-                opacity: isEnablingNotifications ? 0.7 : 1,
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                transition: 'background-color 0.3s, color 0.3s',
-                zIndex: 1000,
-              }}
-              onClick={isEnablingNotifications ? undefined : enableNotifications}
-              onMouseEnter={(e) => {
-                if (isEnablingNotifications) return;
-                e.target.style.backgroundColor = '#fb8239';
-                e.target.style.color = '#fff';
-              }}
-              onMouseLeave={(e) => {
-                if (isEnablingNotifications) return;
-                e.target.style.backgroundColor = '#fff';
-                e.target.style.color = '#000';
-              }}
-              title="Enable push notifications"
-            >
-              <span style={{ fontSize: '.7rem' }}>🔔</span> {isEnablingNotifications ? 'ENABLING…' : 'NOTIFY'}
             </div>
           )}
         </AppBar>

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Calendar from '@mui/icons-material/CalendarToday';
 import IconButton from "@mui/material/IconButton";
 
-const CalendarReminder = (props) => {
+const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
     const [showCalendarDescription, setShowCalendarDescription] = useState(false);
     const divRef = useRef(null);
 
@@ -30,7 +30,7 @@ const CalendarReminder = (props) => {
                 onClick={() => setShowCalendarDescription(!showCalendarDescription)}
                 style={{
                     marginTop: "25px",
-                    marginLeft: "auto",
+                  marginLeft,
                     padding: "10px",
                     backgroundColor: "#fff",
                     cursor: "pointer",
@@ -42,7 +42,7 @@ const CalendarReminder = (props) => {
                     style={{color: "#000" }}
                     aria-label="Add Calendar Reminder"
                     >
-                    <Calendar />
+                    <Calendar className={iconClassName} />
                     </IconButton>
                 </div>
             </div>

@@ -25,10 +25,20 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'Me vs Yall';
   const body = data.body || 'Upcoming games need your picks';
   const url = data.url || '/';
+  const icon = data.icon || '/favicon.png';
+  const badge = data.badge || '/favicon.png';
+  const tag = data.tag || 'pick-reminders';
+  const actions = Array.isArray(data.actions) ? data.actions : [];
+  const renotify = Boolean(data.renotify);
 
   event.waitUntil(
     self.registration.showNotification(title, {
       body,
+      icon,
+      badge,
+      tag,
+      renotify,
+      actions,
       data: { url },
     })
   );
@@ -36,6 +46,10 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+
+  if (event.action === 'dismiss') {
+    return;
+  }
 
   const url = event.notification?.data?.url || '/';
 
