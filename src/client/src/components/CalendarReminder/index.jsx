@@ -5,6 +5,24 @@ import IconButton from "@mui/material/IconButton";
 const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
     const [showCalendarDescription, setShowCalendarDescription] = useState(false);
     const divRef = useRef(null);
+    const reminderUrl = "https://www.mevsyall.com";
+    const reminderTitle = "Me vs Yall - Make Your Picks";
+    const reminderDetails = "Drop your picks before lock. Link: https://www.mevsyall.com";
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(reminderTitle)}&details=${encodeURIComponent(reminderDetails)}&recur=${encodeURIComponent("RRULE:FREQ=DAILY;BYHOUR=19;BYMINUTE=0;BYSECOND=0")}`;
+    const icsUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(
+      [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Me vs Yall//Pick Reminder//EN",
+        "BEGIN:VEVENT",
+        "UID:mevsyall-daily-pick-reminder@mevsyall.com",
+        "SUMMARY:Me vs Yall - Make Your Picks",
+        "DESCRIPTION:Drop your picks before lock. Link: https://www.mevsyall.com",
+        "RRULE:FREQ=DAILY;BYHOUR=19;BYMINUTE=0;BYSECOND=0",
+        "END:VEVENT",
+        "END:VCALENDAR",
+      ].join("\r\n")
+    )}`;
 
     const handleOutsideClick = (event) => {
       if (divRef.current && !divRef.current.contains(event.target)) {
@@ -51,20 +69,37 @@ const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
                 <div
                     ref={divRef}
                     style={{
-                    margin: "0 25%",
+                    left: "50%",
+                    transform: "translateX(-50%)",
                     zIndex: "9999",
-                    width: "50%",
+                    width: "min(480px, calc(100vw - 32px))",
                     position: "absolute",
                     padding: "16px",
                     background: "#fff",
+                    borderRadius: "14px",
                     boxShadow: "0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)",
                     fontSize: ".9rem",
                     textAlign: "left",
                     }}
                 >
-                    <div>1. Open your calendar app</div>
-                    <div>2. Create Me vs Yall reminder with link <a href="https://www.mevsyall.com">https://www.mevsyall.com</a></div>
-                    <div>3. Set reminder for 7 pm every night to avoid missing picks 😎🏈⚽️🏀🥇🏆👑✌🏿</div>
+                    <div style={{ fontWeight: 700, marginBottom: "8px" }}>Never miss picks again.</div>
+                    <div style={{ marginBottom: "8px" }}>
+                      Set a daily 7:00 PM reminder and keep your streak alive.
+                    </div>
+                    <div style={{ marginBottom: "10px" }}>
+                      <a href={googleCalendarUrl} target="_blank" rel="noreferrer">
+                        Quick add (Google Calendar)
+                      </a>
+                    </div>
+                    <div style={{ marginBottom: "10px" }}>
+                      <a href={icsUrl} download="mevsyall-pick-reminder.ics">
+                        Universal add (.ics for iOS, macOS, Android, Outlook)
+                      </a>
+                    </div>
+                    <div>
+                      Prefer manual? Create a daily reminder titled "Make your picks" and add this link: <a href={reminderUrl} target="_blank" rel="noreferrer">{reminderUrl}</a>
+                    </div>
+                    <div style={{ marginTop: "10px" }}>😎🏈⚽️🏀🥇🏆👑✌🏿</div>
                 </div>
             }
         </>
