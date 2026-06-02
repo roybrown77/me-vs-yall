@@ -61,6 +61,22 @@ const PwaInstallBanner = () => {
 
   const isMobile = useMemo(() => isMobileDevice(), []);
 
+  const installMessage = useMemo(() => {
+    if (canInstall) {
+      return 'Install MvY for quicker picks, cleaner stats, and a true app experience.';
+    }
+
+    if (showIosInstructions) {
+      return 'Tap Share, then Add to Home Screen to install MvY on iPhone.';
+    }
+
+    if (isMobile) {
+      return 'Open your browser menu and tap Add to Home Screen to install MvY.';
+    }
+
+    return 'Use your browser menu to install, pin, or create a MvY shortcut.';
+  }, [canInstall, showIosInstructions, isMobile]);
+
   const shouldShow = useMemo(() => {
     return !dismissed && !installed;
   }, [dismissed, installed]);
@@ -88,32 +104,19 @@ const PwaInstallBanner = () => {
         onClick={dismiss}
         aria-label="Close install banner"
       >
-        x
+        ×
       </button>
-      <div className="pwa-install-banner__spark">⭐</div>
       <div className="pwa-install-banner__content">
-        <div className="pwa-install-banner__title">Keep Me vs Yall one tap away</div>
-        {canInstall ? (
-          <div className="pwa-install-banner__subtitle">
-            Save to Home Screen for faster picks and a full app feel.
-          </div>
-        ) : showIosInstructions ? (
-          <div className="pwa-install-banner__subtitle">
-            Tap Share, then Add to Home Screen to install Sportspick.
-          </div>
-        ) : isMobile ? (
-          <div className="pwa-install-banner__subtitle">
-            Open your browser menu and tap Add to Home Screen.
-          </div>
-        ) : (
-          <div className="pwa-install-banner__subtitle">
-            Use your browser menu to install, pin, or create a shortcut.
-          </div>
-        )}
+        <div className="pwa-install-banner__kicker">GAMEDAY ACCESS</div>
+        <div className="pwa-install-banner__title">LOCK IN Me vs Yall ON YOUR HOME SCREEN</div>
+        <div className="pwa-install-banner__subtitle">{installMessage}</div>
+        <div className="pwa-install-banner__voice">
+          "The season is won in the margins. Keep MvY one tap away."
+        </div>
       </div>
       {canInstall ? (
         <button type="button" className="pwa-install-banner__action" onClick={handleInstall}>
-          Save to Home Screen
+          Install App
         </button>
       ) : null}
     </div>

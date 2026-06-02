@@ -57,23 +57,14 @@
 .pwa-install-banner__title {
   max-width: 58ch;
   color: #ffffff;
-  font-family: 'Book Antiqua', 'Palatino Linotype', Palatino, Georgia, serif;
-  font-size: 1.12rem;
-  font-weight: 700;
-  font-style: italic;
-  line-height: 1.16;
-  letter-spacing: 0.065em;
-  word-spacing: 0.1em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2);
-  text-wrap: balance;
-}
-
-.pwa-install-banner__brandmark {
   font-family: 'Franklin Gothic Heavy', 'Arial Narrow', 'Arial Black', sans-serif;
-  font-style: normal;
-  letter-spacing: 0.045em;
-  color: #ffe19c;
+  font-size: 1.08rem;
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: 0.055em;
+  word-spacing: 0.06em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  text-wrap: balance;
 }
 
 .pwa-install-banner__subtitle {
@@ -156,8 +147,8 @@
   }
 
   .pwa-install-banner__title {
-    font-size: 1rem;
-    letter-spacing: 0.05em;
+    font-size: 0.98rem;
+    letter-spacing: 0.045em;
   }
 
   .pwa-install-banner__subtitle,
