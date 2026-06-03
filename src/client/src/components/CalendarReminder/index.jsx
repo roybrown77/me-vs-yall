@@ -54,7 +54,7 @@ const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
                     cursor: "pointer",
                 }}
             >
-                <div style={{ fontSize: "9px", fontWeight: 700 }}>Add Reminder</div>
+                <div style={{ fontSize: "9px", fontWeight: 700 }}>Add to Calendar</div>
                 <div style={{ background: '#D68F92', margin: '5px', borderRadius: '8px' }}>
                     <IconButton
                     style={{color: "#000" }}
