@@ -482,6 +482,1022 @@ body {
   font-size: 17px;
 }
 
+/* --- magical home quest --- */
+
+/* --- doodle truck home --- */
+
+.home-doodle {
+  min-height: 100vh;
+  padding: 6.2rem 1rem 2.4rem;
+  position: relative;
+  background:
+    radial-gradient(circle at 16% 8%, rgba(255, 231, 163, 0.95), rgba(255, 231, 163, 0) 28%),
+    radial-gradient(circle at 86% 14%, rgba(142, 222, 255, 0.9), rgba(142, 222, 255, 0) 34%),
+    linear-gradient(180deg, #f8fbff 0%, #e5f4ff 50%, #dbefdc 100%);
+  color: #1f2b3d;
+}
+
+.home-doodle__drop-logo-wrap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(80vw, 330px);
+  z-index: 4;
+  pointer-events: none;
+  margin-top: 1rem;
+}
+
+.home-doodle__drop-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: home-doodle-logo-drop 880ms ease-out forwards;
+}
+
+.home-doodle__hero {
+  max-width: 70ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-doodle__eyebrow {
+  margin: 0;
+  color: #bf4518;
+  font: 700 0.73rem/1.2 'Courier New', Courier, monospace;
+  letter-spacing: 0.14em;
+}
+
+.home-doodle__hero h1 {
+  margin: 0.55rem 0 0;
+  color: #12233f;
+  font-family: 'Marker Felt', 'Trebuchet MS', sans-serif;
+  font-size: clamp(1.8rem, 6.7vw, 3.1rem);
+  line-height: 1.02;
+}
+
+.home-doodle__subhead {
+  margin: 5rem auto 0;
+  max-width: 64ch;
+  color: #324866;
+  font: 600 0.94rem/1.5 'Courier New', Courier, monospace;
+}
+
+.home-doodle__hero-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-doodle__cta,
+.home-doodle__ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font: 700 0.72rem/1 'Courier New', Courier, monospace;
+  padding: 0.66rem 1rem;
+  border: 1px solid transparent;
+}
+
+.home-doodle__cta {
+  background: #f2c34a;
+  color: #111f3a;
+  border-color: #d0a126;
+}
+
+.home-doodle__ghost {
+  background: #ffffff;
+  color: #1f2b3d;
+  border-color: #b3c7e2;
+}
+
+.home-doodle__storyline {
+  margin: 1.3rem auto 0;
+  max-width: 76ch;
+  height: 48px;
+  position: relative;
+}
+
+.home-doodle__milestone-track,
+.home-doodle__milestone-progress {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 4px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+}
+
+.home-doodle__milestone-track {
+  width: 100%;
+  background: rgba(41, 72, 116, 0.2);
+}
+
+.home-doodle__milestone-progress {
+  background: linear-gradient(90deg, #f2c34a, #ff9152);
+  transition: width 220ms ease;
+}
+
+.home-doodle__milestone {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.home-doodle__milestone-dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid #1a2a45;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+  transition: transform 220ms ease, background-color 220ms ease;
+}
+
+.home-doodle__milestone.is-active .home-doodle__milestone-dot {
+  background: #f2c34a;
+  transform: scale(1.25);
+  animation: home-doodle-milestone-pop 900ms ease-in-out infinite;
+}
+
+.home-doodle__road {
+  margin-top: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid #b8d4b8;
+  background:
+    linear-gradient(180deg, rgba(176, 225, 255, 0.7), rgba(176, 225, 255, 0.35) 38%, rgba(70, 160, 79, 0.2) 39%),
+    repeating-linear-gradient(90deg, #348f3f, #348f3f 24px, #3da348 24px, #3da348 48px);
+  padding: 0.9rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 154px;
+}
+
+.home-doodle__lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: 66%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.home-doodle__lane--mid {
+  top: 76%;
+}
+
+.home-doodle__controls-hint {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  z-index: 5;
+  margin: 0;
+  max-width: 9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(26, 42, 69, 0.22);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.48rem 0.58rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.home-doodle__controls-hint.is-hidden {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
+
+.home-doodle__controls-copy {
+  margin: 0;
+  color: #1a2a45;
+  font: 700 0.72rem/1.35 'Courier New', Courier, monospace;
+}
+
+.home-doodle__controls-meta {
+  margin: 0.35rem 0 0;
+  color: #2d476f;
+  font: 700 0.66rem/1.25 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.home-doodle__touchdown-celebration {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.home-doodle__touchdown-celebration.is-live {
+  opacity: 1;
+}
+
+.home-doodle__confetti {
+  position: absolute;
+  top: -18px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: home-doodle-confetti-fall;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+.home-doodle__confetti:nth-child(4n + 1) {
+  background: #f2c34a;
+}
+
+.home-doodle__confetti:nth-child(4n + 2) {
+  background: #ff5f45;
+}
+
+.home-doodle__confetti:nth-child(4n + 3) {
+  background: #34a853;
+}
+
+.home-doodle__confetti:nth-child(4n + 4) {
+  background: #2d8cff;
+}
+
+.home-doodle__typing {
+  position: relative;
+  z-index: 2;
+  max-width: 66ch;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid rgba(31, 43, 61, 0.24);
+  background: rgba(255, 255, 255, 0.92);
+  color: #1a2a45;
+  font: 700 0.8rem/1.4 'Courier New', Courier, monospace;
+  text-align: left;
+  padding: 0.52rem 0.6rem;
+  min-height: 2.5rem;
+}
+
+.home-doodle__cursor {
+  display: inline-block;
+  width: 0.46rem;
+  height: 0.95rem;
+  margin-left: 0.15rem;
+  vertical-align: -2px;
+  background: #1a2a45;
+  animation: home-doodle-cursor 900ms steps(1, end) infinite;
+}
+
+.home-doodle__truck-wrap {
+  position: absolute;
+  left: 0;
+  bottom: 0.72rem;
+  z-index: 3;
+  transition: transform 160ms linear;
+}
+
+.home-doodle__truck {
+  position: relative;
+  width: 140px;
+  height: 62px;
+  animation: home-doodle-truck-bounce 700ms ease-in-out infinite;
+}
+
+.home-doodle__truck--right .home-doodle__truck-emoji {
+  transform: scaleX(-1);
+}
+
+.home-doodle__truck-emoji {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 3.9rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.28));
+}
+
+.home-doodle__truck-riders {
+  position: absolute;
+  left: -30px;
+  bottom: 70px;
+  display: flex;
+  gap: 0.15rem;
+  z-index: 2;
+}
+
+.home-doodle__truck-rider {
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1;
+  transform-origin: center bottom;
+  animation: home-doodle-rider-bob 880ms ease-in-out infinite;
+}
+
+.home-doodle__truck-rider:nth-child(2n) {
+  animation-delay: 120ms;
+}
+
+.home-doodle__truck-bed {
+  position: absolute;
+  left: 12px;
+  bottom: 18px;
+  width: 76px;
+  height: 22px;
+  border-radius: 6px;
+  background: #d65d2f;
+  border: 2px solid #2a1f1a;
+}
+
+.home-doodle__truck-cab {
+  position: absolute;
+  left: 82px;
+  bottom: 18px;
+  width: 38px;
+  height: 29px;
+  border-radius: 8px 9px 5px 5px;
+  background: #eb7a3b;
+  border: 2px solid #2a1f1a;
+}
+
+.home-doodle__windshield {
+  position: absolute;
+  left: 89px;
+  bottom: 32px;
+  width: 22px;
+  height: 11px;
+  border-radius: 6px 8px 3px 3px;
+  border: 2px solid rgba(24, 34, 53, 0.65);
+  background: linear-gradient(140deg, rgba(225, 245, 255, 0.96), rgba(150, 203, 235, 0.9));
+}
+
+.home-doodle__wheel {
+  position: absolute;
+  bottom: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 3px solid #172133;
+  background: radial-gradient(circle, #bfc9d8 0 35%, #1f2b3d 36% 100%);
+  animation: home-doodle-wheel-spin 700ms linear infinite;
+}
+
+.home-doodle__wheel--left {
+  left: 20px;
+}
+
+.home-doodle__wheel--right {
+  left: 88px;
+}
+
+.home-doodle__flag-pole {
+  position: absolute;
+  left: 5px;
+  bottom: 20px;
+  width: 3px;
+  height: 42px;
+  background: #162236;
+}
+
+.home-doodle__flag {
+  position: absolute;
+  left: 8px;
+  bottom: 36px;
+  width: 62px;
+  height: 34px;
+  border-radius: 3px;
+  border: 1px solid rgba(22, 34, 54, 0.5);
+  background: linear-gradient(90deg, #ffffff, #ececec);
+  transform-origin: left center;
+  animation: home-doodle-flag-wave 1.1s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.home-doodle__flag-pole--rear-right {
+  left: 24px;
+}
+
+.home-doodle__flag--rear-right {
+  left: -40px;
+  transform-origin: right center;
+  animation-direction: reverse;
+}
+
+.home-doodle__flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.home-doodle__finale {
+  margin-top: 1.4rem;
+  border-radius: 14px;
+  border: 1px solid #b9cfef;
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0.9rem;
+  text-align: center;
+}
+
+.home-doodle__winding-run {
+  margin-top: 1.4rem;
+  min-height: 140vh;
+  border-radius: 16px;
+  border: 1px solid #b6d2b6;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0) 45%),
+    repeating-linear-gradient(90deg, #3b9e45, #3b9e45 26px, #46b454 26px, #46b454 52px);
+  padding: 1rem 0.85rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-doodle__winding-title {
+  position: sticky;
+  top: 14px;
+  z-index: 2;
+  width: fit-content;
+  margin: 0 auto;
+  border: 1px solid #c6d7e8;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #22344f;
+  font: 700 0.72rem/1 'Courier New', Courier, monospace;
+  letter-spacing: 0.08em;
+  padding: 0.45rem 0.75rem;
+  text-transform: uppercase;
+}
+
+.home-doodle__winding-typing {
+  position: sticky;
+  top: 52px;
+  z-index: 5;
+  max-width: 66ch;
+  margin: 0.55rem auto 0;
+  border-radius: 10px;
+  border: 1px solid rgba(31, 43, 61, 0.24);
+  background: rgba(255, 255, 255, 0.92);
+  color: #1a2a45;
+  font: 700 0.8rem/1.4 'Courier New', Courier, monospace;
+  text-align: left;
+  padding: 0.52rem 0.6rem;
+  min-height: 2.5rem;
+}
+
+.home-doodle__touchdown-celebration--winding {
+  z-index: 4;
+}
+
+.home-doodle__winding-track {
+  position: absolute;
+  inset: 0;
+}
+
+.home-doodle__winding-truck {
+  position: absolute;
+  z-index: 3;
+  width: 82px;
+  height: 52px;
+  transition: top 120ms linear, left 120ms linear, transform 120ms linear;
+}
+
+.home-doodle__winding-truck-emoji {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 2.7rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.32));
+}
+
+.home-doodle__winding-flag-pole {
+  position: absolute;
+  left: 22px;
+  bottom: 20px;
+  width: 2px;
+  height: 34px;
+  background: #162236;
+}
+
+.home-doodle__winding-flag {
+  position: absolute;
+  left: 24px;
+  bottom: 40px;
+  width: 62px;
+  height: 34px;
+  border-radius: 2px;
+  border: 1px solid rgba(22, 34, 54, 0.5);
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.home-doodle__winding-flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.home-doodle__winding-segment {
+  position: absolute;
+  height: 20px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(253, 241, 188, 0.95), rgba(236, 209, 137, 0.92));
+  border: 2px solid rgba(171, 128, 47, 0.52);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.14);
+}
+
+.home-doodle__winding-segment::before {
+  content: '';
+  position: absolute;
+  inset: 7px 9px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.6) 9px,
+    rgba(255, 255, 255, 0) 9px,
+    rgba(255, 255, 255, 0) 18px
+  );
+  opacity: 0.7;
+}
+
+.home-doodle__finale h2 {
+  margin: 0;
+  color: #10274b;
+  font-family: 'Marker Felt', 'Trebuchet MS', sans-serif;
+  font-size: 1.15rem;
+}
+
+.home-doodle__finale p {
+  margin: 0.55rem 0 0.75rem;
+  color: #243450;
+  font: 600 0.84rem/1.45 'Courier New', Courier, monospace;
+}
+
+.home-doodle__footer {
+  margin-top: 1.2rem;
+}
+
+.home-doodle__footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.home-doodle__footer-link {
+  color: #2f3f57;
+  text-decoration: none;
+  font: 700 0.74rem/1 'Courier New', Courier, monospace;
+}
+
+.home-doodle__footer-copy {
+  margin-top: 0.7rem;
+  text-align: center;
+  color: #4d5d74;
+  font: 600 0.66rem/1.45 'Courier New', Courier, monospace;
+}
+
+@keyframes home-doodle-cursor {
+  0%, 48% {
+    opacity: 1;
+  }
+
+  49%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes home-doodle-logo-drop {
+  0% {
+    transform: translateY(-120px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes home-doodle-wheel-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes home-doodle-truck-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes home-doodle-rider-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes home-doodle-flag-wave {
+  0%, 100% {
+    transform: skewY(0deg) scaleX(1);
+  }
+
+  50% {
+    transform: skewY(3deg) scaleX(0.95);
+  }
+}
+
+@keyframes home-doodle-milestone-pop {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(242, 195, 74, 0.24);
+  }
+}
+
+@keyframes home-doodle-confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(182px) rotate(280deg);
+    opacity: 0;
+  }
+}
+
+@media screen and (min-width: 860px) {
+  .home-doodle {
+    padding: 7rem 1.6rem 2.8rem;
+  }
+
+  .home-doodle__drop-logo-wrap {
+    width: 360px;
+  }
+
+  .home-doodle__storyline {
+    margin-top: 1.6rem;
+  }
+
+  .home-doodle__road {
+    min-height: 174px;
+    padding: 1.05rem;
+  }
+
+  .home-doodle__controls-hint {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 17rem;
+  }
+
+  .home-doodle__winding-run {
+    min-height: 170vh;
+    margin-top: 1.9rem;
+  }
+
+  .home-doodle__truck {
+    width: 162px;
+    height: 72px;
+  }
+
+  .home-doodle__truck-emoji {
+    font-size: 4.6rem;
+  }
+
+  .home-doodle__truck-riders {
+    left: -30px;
+    bottom: 75px;
+    gap: 0.2rem;
+  }
+
+  .home-doodle__truck-rider {
+    font-size: 1.2rem;
+  }
+
+  .home-doodle__truck-bed {
+    width: 90px;
+    height: 24px;
+  }
+
+  .home-doodle__truck-cab {
+    left: 94px;
+    width: 43px;
+    height: 32px;
+  }
+
+  .home-doodle__windshield {
+    left: 103px;
+    bottom: 34px;
+    width: 24px;
+    height: 12px;
+  }
+
+  .home-doodle__wheel {
+    width: 30px;
+    height: 30px;
+  }
+
+  .home-doodle__wheel--right {
+    left: 102px;
+  }
+}
+
+.home-quest {
+  min-height: 100vh;
+  padding: 2.2rem 1rem 2.5rem;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(27, 124, 255, 0.35), rgba(27, 124, 255, 0) 38%),
+    radial-gradient(circle at 85% 10%, rgba(255, 189, 62, 0.3), rgba(255, 189, 62, 0) 32%),
+    linear-gradient(180deg, #06122a 0%, #132346 48%, #1d2f59 100%);
+  color: #f3f7ff;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.home-quest__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.home-quest__map-orb {
+  position: relative;
+  width: min(74vw, 360px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 25%, #7ed9ff, #4b79ff 42%, #1a2f6c 74%, #0d173d 100%);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.22), 0 22px 45px rgba(0, 0, 0, 0.46);
+  overflow: hidden;
+}
+
+.home-quest__grid {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15) 1px, transparent 1px, transparent 24px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12) 1px, transparent 1px, transparent 24px);
+  opacity: 0.5;
+}
+
+.home-quest__route {
+  position: absolute;
+  border: 2px dashed rgba(255, 242, 186, 0.9);
+  border-radius: 999px;
+  animation: home-quest-route-spin 16s linear infinite;
+}
+
+.home-quest__route--one {
+  inset: 16% 18%;
+}
+
+.home-quest__route--two {
+  inset: 26% 10%;
+  animation-duration: 22s;
+  animation-direction: reverse;
+}
+
+.home-quest__hero-copy {
+  text-align: left;
+  max-width: 58ch;
+  margin: 0 auto;
+}
+
+.home-quest__eyebrow {
+  margin: 0 0 0.55rem;
+  color: #ffd47f;
+  letter-spacing: 0.15em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.home-quest__hero-copy h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 5.2vw, 2.8rem);
+  line-height: 1.06;
+}
+
+.home-quest__hero-copy p {
+  margin: 1rem 0 0;
+  color: #dce8ff;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.home-quest__hero-links {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.home-quest__primary,
+.home-quest__secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.home-quest__primary {
+  background: #ffd47f;
+  color: #192542;
+  border-color: #ffd47f;
+}
+
+.home-quest__secondary {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #f3f7ff;
+}
+
+.home-quest__story {
+  margin-top: 2rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.home-quest__chapter {
+  position: sticky;
+  top: 16px;
+  border: 1px solid rgba(210, 226, 255, 0.3);
+  background: linear-gradient(160deg, rgba(8, 22, 55, 0.84), rgba(29, 48, 95, 0.88));
+  border-radius: 14px;
+  padding: 0.85rem 0.95rem;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.home-quest__chapter-number {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+  color: #ffd47f;
+  font-size: 0.66rem;
+  letter-spacing: 0.15em;
+}
+
+.home-quest__chapter p {
+  margin: 0;
+  color: #eef4ff;
+  line-height: 1.38;
+  font-size: 0.88rem;
+}
+
+.home-quest__drop-zone {
+  margin-top: 2.4rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(180deg, rgba(109, 196, 255, 0.2), rgba(22, 150, 71, 0.28));
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-quest__skydiver {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.8rem;
+  font-size: 1.8rem;
+  transform: translateY(0) rotate(8deg);
+}
+
+.home-quest__skydiver.is-diving {
+  animation: home-quest-skydive 1.9s cubic-bezier(0.12, 0.75, 0.2, 1) forwards;
+}
+
+.home-quest__field {
+  height: 52px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background:
+    repeating-linear-gradient(90deg, rgba(17, 134, 52, 0.68), rgba(17, 134, 52, 0.68) 18px, rgba(28, 162, 62, 0.8) 18px, rgba(28, 162, 62, 0.8) 36px);
+}
+
+.home-quest__drop-zone h2 {
+  margin: 0.7rem 0 0;
+  font-size: 1rem;
+}
+
+.home-quest__drop-zone p {
+  margin: 0.55rem 0 0.8rem;
+  color: #e7f8ff;
+  font-size: 0.84rem;
+}
+
+.home-quest__footer {
+  margin-top: 1.8rem;
+  padding: 1rem 0 0.5rem;
+}
+
+.home-quest__footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.home-quest__footer-link {
+  color: #d7e7ff;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.home-quest__footer-copy {
+  margin-top: 0.8rem;
+  color: #d7e7ff;
+  text-align: center;
+  font-size: 0.65rem;
+  line-height: 1.45;
+}
+
+@keyframes home-quest-route-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes home-quest-skydive {
+  0% {
+    transform: translateY(0) rotate(8deg) scale(1);
+  }
+
+  65% {
+    transform: translateY(70px) rotate(2deg) scale(0.96);
+  }
+
+  100% {
+    transform: translateY(122px) rotate(0deg) scale(0.84);
+    opacity: 0.3;
+  }
+}
+
+@media screen and (min-width: 860px) {
+  .home-quest {
+    padding: 3.2rem 2.5rem;
+  }
+
+  .home-quest__hero {
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 2.2rem;
+    align-items: center;
+  }
+
+  .home-quest__story {
+    margin-top: 2.8rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .home-quest__chapter {
+    min-height: 122px;
+    top: 28px;
+  }
+
+  .home-quest__drop-zone {
+    margin-top: 3rem;
+    padding: 1.2rem;
+  }
+}
+
 /* --- header & side bar --- */
 
 #app-bar {

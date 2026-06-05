@@ -1,206 +1,465 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 
-import Slide from '@mui/material/Slide';
-
-import Typer from './Typer';
-
-import mvy from '../../styles/images/mvy-balls-cut.png';
-import { googleLogin, isConfirmedAuthentication } from '../../utilities/authenticationClient';
 import Header from '../../components/Header';
+import Typer from './Typer';
 import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
-
-const styles = {
-  inProgress: {
-    height: '10px',
-    width: '10px',
-    backgroundColor: 'red',
-    position: 'absolute',
-    margin: '15px 0 0 10px',
-  },
-  signIn: {
-    margin: '50px auto 25px auto',
-    padding: '10px',
-    borderRadius: '4px',
-    border: '3px solid #000',
-    fontFamily: 'monospace',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    color: '#000',
-    width: '175px',
-  },
-  selections: {
-    marginTop: '4rem',
-    fontSize: '15px',
-    gap: '1rem',
-    display: 'grid',
-  },
-  footerLinks: {
-    padding: '20px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  link: {
-    color: '#000',
-  },
-  toggleOn: {
-    color: '#fff',
-    fontSize: '5em',
-  },
-  toggleOff: {
-    color: '#000',
-    fontSize: '5em',
-  },
-};
+import mvyBalls from '../../styles/images/mvy-balls-cut.png';
+import maddenTouchdown from '../../media/madden-touchdown.m4a';
+import tecmoTouchdown from '../../media/tecmo-touchdown.m4a'
+import boasty from '../../media/boasty.m4a';
 
 const tagLines = [
   `"the ultimate sports pick'em game.  like the karate kid "we're the best around! no one can never ever keep us down! 🥋"`,
-  `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct. 🪐"`,
+  // `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct. 🪐"`,
 ];
+
+const storySteps = [
+  'The Me vs Yall bandwagon truck roars to life under the lights in an epic quest for glory.',
+  'As the flag snaps in the wind, legends rise.',
+  'Rolling through the field leaves rivals in the turf.',
+  'Lock in your picks to kickoff destiny!',
+];
+
+const windingLevelSteps = [
+  'Level 1: Enter the winding lanes and keep the pace steady.',
+  'Level 2: Curves tighten up. Read the field and stay sharp.',
+  'Level 3: Rival noise rises. Hold your line and trust the playbook.',
+  'Level 4: Final stretch ahead. Push through to the end zone.',
+];
+
+const windingSegments = [
+  { top: '10%', left: '8%', width: '62%', rotate: '12deg' },
+  { top: '24%', left: '30%', width: '58%', rotate: '-11deg' },
+  { top: '38%', left: '6%', width: '66%', rotate: '10deg' },
+  { top: '52%', left: '28%', width: '61%', rotate: '-9deg' },
+  { top: '66%', left: '10%', width: '64%', rotate: '11deg' },
+  { top: '80%', left: '32%', width: '54%', rotate: '-8deg' },
+];
+
+const confettiPieces = Array.from({ length: 18 }, (_, index) => index);
+const TOUCHDOWN_TRIGGER_PROGRESS = 0.9;
 
 const Home = () => {
   useGoogleAnalytics();
+  const endRef = useRef(null);
+  const windingRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [truckProgress, setTruckProgress] = useState(0);
+  const [windingProgress, setWindingProgress] = useState(0);
+  const [enteredDropZone, setEnteredDropZone] = useState(false);
+  const [typedText, setTypedText] = useState('');
+  const [windingTypedText, setWindingTypedText] = useState('');
+  const wasTouchdownRef = useRef(false);
+  const touchdownSoundsRef = useRef([]);
+  const hasUnlockedTouchdownAudioRef = useRef(false);
+
+  const activeStoryIndex = useMemo(() => {
+    return Math.min(storySteps.length - 1, Math.floor(truckProgress * storySteps.length));
+  }, [truckProgress]);
+
+  const activeWindingLevelIndex = useMemo(() => {
+    return Math.min(
+      windingLevelSteps.length - 1,
+      Math.floor(windingProgress * windingLevelSteps.length)
+    );
+  }, [windingProgress]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const gram = () => {
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY || 0;
+      const totalScrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      if (totalScrollable <= 0) {
+        setScrollProgress(0);
+        return;
+      }
+
+      const nextProgress = Math.max(0, Math.min(1, scrollTop / totalScrollable));
+      setScrollProgress(nextProgress);
+
+      if (windingRef.current) {
+        const rect = windingRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight || 1;
+        const travelRange = rect.height + viewportHeight;
+        const covered = viewportHeight - rect.top;
+        const nextWindingProgress = Math.max(0, Math.min(1, covered / travelRange));
+        setWindingProgress(nextWindingProgress);
+      }
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    setTruckProgress(scrollProgress);
+  }, [scrollProgress]);
+
+  useEffect(() => {
+    const onWheel = (event) => {
+      const horizontalDelta =
+        Math.abs(event.deltaX) > 0 ? event.deltaX : event.shiftKey ? event.deltaY : 0;
+
+      if (horizontalDelta === 0) return;
+
+      setTruckProgress((previous) => {
+        const next = previous + horizontalDelta * 0.0014;
+        return Math.max(0, Math.min(1, next));
+      });
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+
+    return () => window.removeEventListener('wheel', onWheel);
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      const target = event.target;
+      const isEditableTarget =
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT');
+
+      if (isEditableTarget) return;
+
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+      setTruckProgress((previous) => {
+        const delta = event.key === 'ArrowRight' ? 0.035 : -0.035;
+        const next = previous + delta;
+        return Math.max(0, Math.min(1, next));
+      });
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const line = storySteps[activeStoryIndex];
+    let current = 0;
+
+    setTypedText('');
+
+    const timer = window.setInterval(() => {
+      current += 1;
+      setTypedText(line.slice(0, current));
+
+      if (current >= line.length) {
+        window.clearInterval(timer);
+      }
+    }, 18);
+
+    return () => window.clearInterval(timer);
+  }, [activeStoryIndex]);
+
+  useEffect(() => {
+    const line = windingLevelSteps[activeWindingLevelIndex];
+    let current = 0;
+
+    setWindingTypedText('');
+
+    const timer = window.setInterval(() => {
+      current += 1;
+      setWindingTypedText(line.slice(0, current));
+
+      if (current >= line.length) {
+        window.clearInterval(timer);
+      }
+    }, 18);
+
+    return () => window.clearInterval(timer);
+  }, [activeWindingLevelIndex]);
+
+  useEffect(() => {
+    if (!endRef.current) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setEnteredDropZone(true);
+        }
+      },
+      {
+        threshold: 0.9,
+      }
+    );
+
+    observer.observe(endRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    touchdownSoundsRef.current = [new Audio(maddenTouchdown), new Audio(tecmoTouchdown), new Audio(boasty)];
+
+    return () => {
+      touchdownSoundsRef.current.forEach((sound) => {
+        sound.pause();
+        sound.currentTime = 0;
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    const unlockTouchdownAudio = () => {
+      if (hasUnlockedTouchdownAudioRef.current || touchdownSoundsRef.current.length === 0) return;
+
+      const sounds = touchdownSoundsRef.current;
+      hasUnlockedTouchdownAudioRef.current = true;
+
+      sounds.forEach((sound) => {
+        sound.muted = true;
+        sound.currentTime = 0;
+        sound.play()
+          .then(() => {
+            sound.pause();
+            sound.currentTime = 0;
+            sound.muted = false;
+          })
+          .catch(() => {
+            sound.muted = false;
+          });
+      });
+    };
+
+    window.addEventListener('pointerdown', unlockTouchdownAudio, { passive: true });
+    window.addEventListener('keydown', unlockTouchdownAudio);
+    window.addEventListener('wheel', unlockTouchdownAudio, { passive: true });
+    window.addEventListener('touchstart', unlockTouchdownAudio, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', unlockTouchdownAudio);
+      window.removeEventListener('keydown', unlockTouchdownAudio);
+      window.removeEventListener('wheel', unlockTouchdownAudio);
+      window.removeEventListener('touchstart', unlockTouchdownAudio);
+    };
+  }, []);
+
+  const gram = (event) => {
+    event.preventDefault();
     window.location = 'https://www.instagram.com/_mevsyall';
   };
 
-  const tube = () => {
-    window.location = 'https://www.youtube.com/channel/UC3BFY6ohNlayFkPVnlPKqww';
-  };
-
   const year = moment().format('YYYY');
+  const now = useMemo(() => moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a'), []);
+  const truckX = 10 + truckProgress * 70;
+  const hasTruckMoved = truckProgress > 0.01;
+  const isTouchdown = truckProgress >= TOUCHDOWN_TRIGGER_PROGRESS;
+  const isWindingTouchdown = windingProgress >= 0.97;
+  const windingTruckTop = 10 + windingProgress * 80;
+  const windingTruckLeft = 50 + Math.sin(windingProgress * Math.PI * 6) * 26;
+  const windingTruckRotation = Math.cos(windingProgress * Math.PI * 6) * 9;
+
+  useEffect(() => {
+    if (isTouchdown && !wasTouchdownRef.current && touchdownSoundsRef.current.length > 0) {
+      const randomIndex = Math.floor(Math.random() * touchdownSoundsRef.current.length);
+      const selectedSound = touchdownSoundsRef.current[randomIndex];
+
+      selectedSound.currentTime = 0;
+      selectedSound.play().catch(() => {
+        // Ignore autoplay rejections in browsers that require prior interaction.
+      });
+    }
+
+    wasTouchdownRef.current = isTouchdown;
+  }, [isTouchdown]);
 
   return (
     <Header disableTopBanner={true}>
-      <div style={{ backgroundColor: 'transparent', fontFamily: 'monospace' }} className="fade-in">
-        <div
-          style={{
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            zIndex: '1',
-          }}
-        >
-          <Slide direction={'down'} in={true} mountOnEnter unmountOnExit timeout={750}>
-            <div style={{ marginTop: '2em' }}>
-              <img style={{ height: '137px', width: '275px' }} src={mvy} alt="" />
-            </div>
-          </Slide>
+      <div className="fade-in">
+        <div className="home-doodle__drop-logo-wrap" aria-hidden="true">
+          <img className="home-doodle__drop-logo" src={mvyBalls} alt="" />
         </div>
-        <div
-          style={{
-            color: '#000',
-            padding: '16px',
-            fontSize: '25px',
-            top: '3em',
-            position: 'relative',
-            left: '0',
-            zIndex: '2',
-            paddingTop: '5em',
-          }}
-        >
-          <div style={{ fontSize: '15px' }}>sports x fun x friends x vegas</div>
-          <div style={{ marginTop: '1.5rem', fontSize: '15px' }}>
-            <Typer dataText={tagLines} />
+        <section className="home-doodle__hero">
+          <p className="home-doodle__subhead">
+            sports x fun x friends x vegas
+          </p>
+          <div style={{ fontFamily: 'monospace', fontWeight: '600', margin: '2rem 0' }}><Typer dataText={tagLines} /></div>
+          <div className="home-doodle__hero-actions">
+            <Link className="home-doodle__cta" to="/scoreboards/nfl">
+              Jump To Scores
+            </Link>
+            <Link className="home-doodle__ghost" to="/leaders/nfl">
+              See Leaderboard
+            </Link>
           </div>
-          <div style={styles.selections}>
-            {false && !isConfirmedAuthentication() && 
-            <div>
-              <Link className="link-group" to={() => {}} onClick={googleLogin}>
-                <span style={{ marginRight: '.5rem' }}>{'>'}</span>
-                <span className="link-text-main">Sign In (Invitation Only)</span>
-                <div style={{ marginTop: '3rem', fontSize: '15px' }}>
-                  <div style={{ marginTop: '1rem' }}>An Exclusive Sports Experience Awaits You</div>
-                </div>
-              </Link>
-              <div style={{ marginTop: '3rem', fontSize: '14px' }}>
-                <div style={{ marginTop: '1rem' }}>
-                  If you wish to inquire about access, please contact us at info@mevsyall.com
-                </div>
-              </div>
-            </div>}
-            <div>
-              <Link className="link-group" to="/scoreboards/nfl">
-                <span style={{ marginRight: '.5rem' }}>{'>'}</span>
-                <span className="link-text-main">View Games</span>
-              </Link>
-            </div>
-            <div>
-              <Link className="link-group" to="/leaders/nfl">
-                <span style={{ marginRight: '.5rem' }}>{'>'}</span>
-                <span className="link-text-main">View Leaderboard</span>
-              </Link>
-            </div>
-          </div>
-        </div>
+        </section>
+
+        <section className="home-doodle__storyline" aria-label="Story milestones animation">
+          <div className="home-doodle__milestone-track" />
           <div
-            style={{
-              color: '#fff',
-              fontSize: '8px',
-              position: 'fixed',
-              right: '0',
-              bottom: '1rem',
-              zIndex: '2',
-            }}
+            className="home-doodle__milestone-progress"
+            style={{ width: `${(activeStoryIndex / (storySteps.length - 1)) * 100}%` }}
+          />
+          {storySteps.map((step, index) => (
+            <div
+              key={step}
+              className={`home-doodle__milestone${index === activeStoryIndex ? ' is-active' : ''}`}
+              style={{ left: `${(index / (storySteps.length - 1)) * 100}%` }}
+              aria-label={step}
+            >
+              <span className="home-doodle__milestone-dot" />
+            </div>
+          ))}
+        </section>
+
+        <section className="home-doodle__road" aria-label="Field road">
+          <div className="home-doodle__lane" />
+          <div className="home-doodle__lane home-doodle__lane--mid" />
+          <aside
+            className={`home-doodle__controls-hint${hasTruckMoved ? ' is-hidden' : ''}`}
+            aria-label="Truck controls help"
           >
-          <div className="link-group" style={{ ...styles.footerLinks, color: '#000' }}>
-            <div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/tips">
-                  Tips
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/shop">
-                  Shop
-                </Link>
-              </div>
-            </div>
-            <div style={{ paddingLeft: '50px' }}>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="/origin">
-                  Origin
-                </Link>
-              </div>
-              <div>
-                <Link className="link-group link-text" style={{ ...styles.link, color: '#000' }} to="" onClick={gram}>
-                  Gram
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div style={{ color: '#000' }}>
-            <div>© 2017-{year} Me vs Yall</div>
-            <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')}</div>
-            <div>ATL via BOS via HOU via SUN</div>
-          </div>
-        </div>
-        {false && !isConfirmedAuthentication() && (
+            <p className="home-doodle__controls-meta">⬅️ ➡️ Arrow keys or mouse left/right scroll</p>
+          </aside>
           <div
-            style={{
-              color: '#fff',
-              fontSize: '10px',
-              marginTop: '5rem',
-            }}
+            className={`home-doodle__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}
+            aria-hidden="true"
           >
-            <Link className="link-text" style={{ ...styles.link, cursor: 'pointer' }} to="/origin">
+            {confettiPieces.map((piece) => (
+              <span
+                key={`confetti-${piece}`}
+                className="home-doodle__confetti"
+                style={{
+                  left: `${8 + piece * 5}%`,
+                  animationDelay: `${(piece % 6) * 90}ms`,
+                  animationDuration: `${850 + (piece % 5) * 160}ms`,
+                }}
+              />
+            ))}
+          </div>
+          {hasTruckMoved && (
+            <div className="home-doodle__typing" role="status" aria-live="polite">
+              {typedText}
+              <span className="home-doodle__cursor" />
+            </div>
+          )}
+          <div
+            className="home-doodle__truck-wrap"
+            style={{ transform: `translateX(${truckX}vw)` }}
+            aria-hidden="true"
+          >
+            <div className="home-doodle__truck home-doodle__truck--right">
+              <div className="home-doodle__truck-riders" aria-hidden="true">
+                <span className="home-doodle__truck-rider">😎</span>
+                <span className="home-doodle__truck-rider">😄</span>
+                <span className="home-doodle__truck-rider">😅</span>
+                <span className="home-doodle__truck-rider">😂</span>
+              </div>
+              <span className="home-doodle__truck-emoji" role="img" aria-label="Truck">
+                🚚
+              </span>
+              <div className="home-doodle__flag-pole home-doodle__flag-pole--rear-right" />
+              <div className="home-doodle__flag home-doodle__flag--rear-right">
+                <img src={mvyBalls} alt="Me vs Yall balls logo flag" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        { false && <section className="home-doodle__winding-run" aria-label="Long winding run" ref={windingRef}>
+          <div className="home-doodle__winding-title">Long Winding Field Run</div>
+          <div className="home-doodle__winding-typing" role="status" aria-live="polite">
+            {windingTypedText}
+            <span className="home-doodle__cursor" />
+          </div>
+          <div
+            className={`home-doodle__touchdown-celebration home-doodle__touchdown-celebration--winding${
+              isWindingTouchdown ? ' is-live' : ''
+            }`}
+            aria-hidden="true"
+          >
+            {confettiPieces.map((piece) => (
+              <span
+                key={`winding-confetti-${piece}`}
+                className="home-doodle__confetti"
+                style={{
+                  left: `${8 + piece * 5}%`,
+                  animationDelay: `${(piece % 6) * 90}ms`,
+                  animationDuration: `${850 + (piece % 5) * 160}ms`,
+                }}
+              />
+            ))}
+          </div>
+          <div className="home-doodle__winding-track" aria-hidden="true">
+            {windingSegments.map((segment) => (
+              <div
+                key={`${segment.top}-${segment.left}`}
+                className="home-doodle__winding-segment"
+                style={{
+                  top: segment.top,
+                  left: segment.left,
+                  width: segment.width,
+                  transform: `rotate(${segment.rotate})`,
+                }}
+              />
+            ))}
+            <div
+              className="home-doodle__winding-truck"
+              style={{
+                top: `${windingTruckTop}%`,
+                left: `${windingTruckLeft}%`,
+                transform: `translate(-50%, -50%) rotate(${windingTruckRotation}deg)`,
+              }}
+            >
+              <span className="home-doodle__winding-truck-emoji" role="img" aria-label="Truck on winding run">
+                🚚
+              </span>
+              <div className="home-doodle__winding-flag-pole" />
+              <div className="home-doodle__winding-flag">
+                <img src={mvyBalls} alt="Me vs Yall balls logo flag" />
+              </div>
+            </div>
+          </div>
+        </section>}
+
+        {false && <section className="home-doodle__finale" ref={endRef}>
+          <h2>{enteredDropZone ? 'Touchdown. Scores Are Ready.' : 'Drive To Midfield To Unlock Scores'}</h2>
+          <p>
+            {enteredDropZone
+              ? 'The truck made it. Tap below when you want to open Scores.'
+              : 'Keep scrolling until the truck reaches midfield, then open Scores when ready.'}
+          </p>
+          <Link className="home-doodle__cta" to="/scoreboards/nfl">
+            Open Scores Now
+          </Link>
+        </section>}
+
+        <footer className="home-doodle__footer">
+          <div className="home-doodle__footer-links">
+            <Link className="home-doodle__footer-link" to="/tips">
+              Tips
+            </Link>
+            <Link className="home-doodle__footer-link" to="/shop">
+              Shop
+            </Link>
+            <Link className="home-doodle__footer-link" to="/origin">
               Origin
             </Link>
-            <div style={{ color: '#000', marginTop: '1rem' }}>
-              <div>© 2017-{year} Me vs Yall</div>
-              <div>{moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a')}</div>
-              <div>ATL via BOS via HOU via SUN</div>
-            </div>
+            <Link className="home-doodle__footer-link" to="" onClick={gram}>
+              Gram
+            </Link>
           </div>
-        )}
+          <div className="home-doodle__footer-copy">
+            <div>© 2017-{year} Me vs Yall</div>
+            <div>{now}</div>
+            <div>ATL via BOS via HOU via SUN</div>
+          </div>
+        </footer>
       </div>
     </Header>
   );

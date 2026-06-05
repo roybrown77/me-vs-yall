@@ -107,9 +107,10 @@ const Header = (props) => {
   const isAuthenticated = isConfirmedAuthentication();
   const user = getUser();
   const picture = get(user,'picture');
+  const rootStyle = disableTopBanner ? { margin: 0 } : styles.root;
 
   return (
-    <div style={styles.root}>
+    <div style={rootStyle}>
       <div style={styles.appFrame}>
         <AppBar style={{
           ...styles.appBar,
@@ -179,7 +180,7 @@ const Header = (props) => {
             </div>
           )}
         </AppBar>
-        <main>
+        <main className="home-doodle">
           {children}
         </main>
       </div>
