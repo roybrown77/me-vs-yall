@@ -20,6 +20,7 @@
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.42);
   overflow: hidden;
   animation: install-banner-rise 360ms ease-out;
+  font-family: 'Serif', Serif;
 }
 
 .pwa-install-banner::before {
@@ -44,25 +45,27 @@
 
 .pwa-install-banner__kicker {
   display: inline-flex;
-  margin-bottom: 4px;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 10px;
   border: 1px solid rgba(244, 209, 138, 0.75);
   border-radius: 999px;
-  padding: 2px 10px;
+  padding: 4px 10px 2px 10px;
   background: rgba(0, 0, 0, 0.35);
   color: #f4d18a;
-  font: 700 0.65rem/1.15 'Trebuchet MS', 'Arial Narrow', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: 0.12em;
 }
 
 .pwa-install-banner__title {
   max-width: 58ch;
   color: #ffffff;
-  font-family: 'Franklin Gothic Heavy', 'Arial Narrow', 'Arial Black', sans-serif;
-  font-size: 1.08rem;
-  font-weight: 900;
-  line-height: 1.12;
-  letter-spacing: 0.055em;
-  word-spacing: 0.06em;
+  font-size: 1.02rem;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  word-spacing: 0.05em;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
   text-wrap: balance;
 }
@@ -71,14 +74,18 @@
   margin-top: 5px;
   max-width: 60ch;
   color: #ffe7e7;
-  font: 500 0.8rem/1.4 'Trebuchet MS', Verdana, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
 
 .pwa-install-banner__voice {
   margin-top: 6px;
   max-width: 62ch;
   color: #ffe19c;
-  font: 600 0.73rem/1.42 'Palatino Linotype', Palatino, serif;
+  font-family: 'Serif', Serif, monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.42;
   letter-spacing: 0.01em;
   opacity: 0.98;
 }
@@ -92,7 +99,7 @@
   padding: 10px 16px;
   background: #f4d18a;
   color: #121212;
-  font: 800 0.75rem/1 'Trebuchet MS', 'Arial Narrow', sans-serif;
+  font: 800 0.75rem/1 'Courier New', Courier, monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
@@ -147,12 +154,11 @@
   }
 
   .pwa-install-banner__title {
-    font-size: 0.98rem;
-    letter-spacing: 0.045em;
+    font-size: 0.94rem;
+    letter-spacing: 0.03em;
   }
 
-  .pwa-install-banner__subtitle,
-  .pwa-install-banner__voice {
+  .pwa-install-banner__subtitle {
     font-size: 0.72rem;
   }
 }

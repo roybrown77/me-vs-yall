@@ -62,19 +62,15 @@ const PwaInstallBanner = () => {
   const isMobile = useMemo(() => isMobileDevice(), []);
 
   const installMessage = useMemo(() => {
-    if (canInstall) {
-      return 'Install MvY for quicker picks, cleaner stats, and a true app experience.';
-    }
-
     if (showIosInstructions) {
-      return 'Tap Share, then Add to Home Screen to install MvY on iPhone.';
+      return 'Tap Share then Add to Home Screen to install on iPhone.';
     }
 
     if (isMobile) {
-      return 'Open your browser menu and tap Add to Home Screen to install MvY.';
+      return 'Open your browser menu and tap Add to Home Screen to install.';
     }
 
-    return 'Use your browser menu to install, pin, or create a MvY shortcut.';
+    return 'Use your browser menu to install, pin, or create a shortcut.';
   }, [canInstall, showIosInstructions, isMobile]);
 
   const shouldShow = useMemo(() => {
@@ -108,11 +104,8 @@ const PwaInstallBanner = () => {
       </button>
       <div className="pwa-install-banner__content">
         <div className="pwa-install-banner__kicker">GAMEDAY ACCESS</div>
-        <div className="pwa-install-banner__title">LOCK IN Me vs Yall ON YOUR HOME SCREEN</div>
+        <div className="pwa-install-banner__title">Add Me vs Yall to Home Screen since the season is won in the margins.</div>
         <div className="pwa-install-banner__subtitle">{installMessage}</div>
-        <div className="pwa-install-banner__voice">
-          "The season is won in the margins. Keep MvY one tap away."
-        </div>
       </div>
       {canInstall ? (
         <button type="button" className="pwa-install-banner__action" onClick={handleInstall}>
