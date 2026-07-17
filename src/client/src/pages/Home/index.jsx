@@ -262,7 +262,7 @@ const Home = () => {
           <p className="home-doodle__subhead">
             sports x fun x friends x vegas
           </p>
-          <div style={{ fontFamily: 'monospace', fontWeight: '600', margin: '2rem 0' }}><Typer dataText={tagLines} /></div>
+          <div style={{ fontFamily: 'monospace', margin: '2rem 0' }}><Typer dataText={tagLines} /></div>
           <div className="home-doodle__hero-actions">
             <Link className="home-doodle__cta" to="/scoreboards/nfl">
               Jump To Scores
