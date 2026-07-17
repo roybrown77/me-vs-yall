@@ -45,7 +45,6 @@ const Home = () => {
   useGoogleAnalytics();
   const endRef = useRef(null);
   const windingRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [truckProgress, setTruckProgress] = useState(0);
   const [windingProgress, setWindingProgress] = useState(0);
   const [enteredDropZone, setEnteredDropZone] = useState(false);
@@ -72,54 +71,20 @@ const Home = () => {
 
   useEffect(() => {
     const onScroll = () => {
-      const scrollTop = window.scrollY || 0;
-      const totalScrollable =
-        document.documentElement.scrollHeight - window.innerHeight;
+      if (!windingRef.current) return;
 
-      if (totalScrollable <= 0) {
-        setScrollProgress(0);
-        return;
-      }
-
-      const nextProgress = Math.max(0, Math.min(1, scrollTop / totalScrollable));
-      setScrollProgress(nextProgress);
-
-      if (windingRef.current) {
-        const rect = windingRef.current.getBoundingClientRect();
-        const viewportHeight = window.innerHeight || 1;
-        const travelRange = rect.height + viewportHeight;
-        const covered = viewportHeight - rect.top;
-        const nextWindingProgress = Math.max(0, Math.min(1, covered / travelRange));
-        setWindingProgress(nextWindingProgress);
-      }
+      const rect = windingRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const travelRange = rect.height + viewportHeight;
+      const covered = viewportHeight - rect.top;
+      const nextWindingProgress = Math.max(0, Math.min(1, covered / travelRange));
+      setWindingProgress(nextWindingProgress);
     };
 
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    setTruckProgress(scrollProgress);
-  }, [scrollProgress]);
-
-  useEffect(() => {
-    const onWheel = (event) => {
-      const horizontalDelta =
-        Math.abs(event.deltaX) > 0 ? event.deltaX : event.shiftKey ? event.deltaY : 0;
-
-      if (horizontalDelta === 0) return;
-
-      setTruckProgress((previous) => {
-        const next = previous + horizontalDelta * 0.0014;
-        return Math.max(0, Math.min(1, next));
-      });
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: true });
-
-    return () => window.removeEventListener('wheel', onWheel);
   }, []);
 
   useEffect(() => {
@@ -133,7 +98,6 @@ const Home = () => {
           target.tagName === 'SELECT');
 
       if (isEditableTarget) return;
-
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
 
       setTruckProgress((previous) => {
@@ -254,6 +218,16 @@ const Home = () => {
     window.location = 'https://www.instagram.com/_mevsyall';
   };
 
+  const handleMilestoneClick = (index) => {
+    if (storySteps.length <= 1) {
+      setTruckProgress(0);
+      return;
+    }
+
+    const nextProgress = index / (storySteps.length - 1);
+    setTruckProgress(Math.max(0, Math.min(1, nextProgress)));
+  };
+
   const year = moment().format('YYYY');
   const now = useMemo(() => moment().tz('America/New_York').format('MM/DD/YYYY hh:mm a'), []);
   const truckX = 10 + truckProgress * 70;
@@ -311,6 +285,14 @@ const Home = () => {
               className={`home-doodle__milestone${index === activeStoryIndex ? ' is-active' : ''}`}
               style={{ left: `${(index / (storySteps.length - 1)) * 100}%` }}
               aria-label={step}
+              onClick={() => handleMilestoneClick(index)}
+              onKeyDown={(event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                handleMilestoneClick(index);
+              }}
+              role="button"
+              tabIndex={0}
             >
               <span className="home-doodle__milestone-dot" />
             </div>
@@ -324,7 +306,7 @@ const Home = () => {
             className={`home-doodle__controls-hint${hasTruckMoved ? ' is-hidden' : ''}`}
             aria-label="Truck controls help"
           >
-            <p className="home-doodle__controls-meta">⬅️ ➡️ Arrow keys or mouse left/right scroll</p>
+            <p className="home-doodle__controls-meta">Use ⬅️ ➡️ arrow keys or click a milestone dot</p>
           </aside>
           <div
             className={`home-doodle__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}

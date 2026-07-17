@@ -608,6 +608,12 @@ body {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.home-doodle__milestone:focus-visible .home-doodle__milestone-dot {
+  outline: 2px solid #1a2a45;
+  outline-offset: 3px;
 }
 
 .home-doodle__milestone-dot {
