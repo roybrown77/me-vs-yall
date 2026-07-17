@@ -313,6 +313,90 @@ body {
   transform-origin: 50% 20%;
 }
 
+.calendar-reminder__actions {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.calendar-reminder__modal {
+  box-sizing: border-box;
+  max-height: min(78vh, 560px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.calendar-reminder__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #e5b648;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: linear-gradient(140deg, #ffeab0 0%, #ffd77a 100%);
+  color: #2a1a00;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  box-shadow: 0 3px 9px rgba(53, 36, 0, 0.16);
+  transition: transform 130ms ease, box-shadow 130ms ease, background-color 130ms ease;
+}
+
+.calendar-reminder__action-btn:hover {
+  background: linear-gradient(140deg, #ffe6a0 0%, #ffc95a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(53, 36, 0, 0.22);
+}
+
+.calendar-reminder__action-btn:focus-visible {
+  outline: 3px solid rgba(214, 143, 146, 0.45);
+  outline-offset: 2px;
+}
+
+.calendar-reminder__action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(53, 36, 0, 0.18);
+}
+
+.calendar-reminder__manual {
+  margin-top: 4px;
+}
+
+.calendar-reminder__manual-copy {
+  margin-bottom: 8px;
+}
+
+.calendar-reminder__action-btn--subtle {
+  border-color: #b9d2ef;
+  background: linear-gradient(140deg, #f8fbff 0%, #e8f2ff 100%);
+  color: #12355f;
+}
+
+.calendar-reminder__action-btn--subtle:hover {
+  background: linear-gradient(140deg, #f1f8ff 0%, #dcecff 100%);
+}
+
+@media (max-width: 420px) {
+  .calendar-reminder__modal {
+    top: 66px !important;
+    max-height: 72vh;
+    padding: 12px !important;
+  }
+
+  .calendar-reminder__action-btn {
+    font-size: 0.8rem;
+    padding: 9px 10px;
+  }
+}
+
 @keyframes airplane-idle-bob {
   0%, 78%, 100% {
     transform: rotate(-45deg) translate(0, 0);

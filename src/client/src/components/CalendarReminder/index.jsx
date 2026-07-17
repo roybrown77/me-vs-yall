@@ -68,12 +68,14 @@ const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
                 showCalendarDescription &&
                 <div
                     ref={divRef}
+                  className="calendar-reminder__modal"
                     style={{
                     left: "50%",
                     transform: "translateX(-50%)",
                     zIndex: "9999",
-                    width: "min(480px, calc(100vw - 32px))",
-                    position: "absolute",
+                  width: "min(480px, calc(100vw - 20px))",
+                  position: "fixed",
+                  top: "74px",
                     padding: "16px",
                     background: "#fff",
                     borderRadius: "14px",
@@ -86,18 +88,35 @@ const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
                     <div style={{ marginBottom: "8px" }}>
                       Set a daily 7:00 PM reminder and keep your streak alive.
                     </div>
-                    <div style={{ marginBottom: "10px" }}>
-                      <a href={googleCalendarUrl} target="_blank" rel="noreferrer">
+                    <div className="calendar-reminder__actions">
+                      <a
+                        className="calendar-reminder__action-btn"
+                        href={googleCalendarUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         Quick add (Google Calendar)
                       </a>
-                    </div>
-                    <div style={{ marginBottom: "10px" }}>
-                      <a href={icsUrl} download="mevsyall-pick-reminder.ics">
+                      <a
+                        className="calendar-reminder__action-btn"
+                        href={icsUrl}
+                        download="mevsyall-pick-reminder.ics"
+                      >
                         Universal add (.ics for iOS, macOS, Android, Outlook)
                       </a>
                     </div>
-                    <div>
-                      Prefer manual? Create a daily reminder titled "Make your picks" and add this link: <a href={reminderUrl} target="_blank" rel="noreferrer">{reminderUrl}</a>
+                    <div className="calendar-reminder__manual">
+                      <div className="calendar-reminder__manual-copy">
+                        Prefer manual? Create a daily reminder titled "Make your picks", then open this link:
+                      </div>
+                      <a
+                        className="calendar-reminder__action-btn calendar-reminder__action-btn--subtle"
+                        href={reminderUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open Me vs Yall
+                      </a>
                     </div>
                     <div style={{ marginTop: "10px" }}>😎🏈⚽️🏀🥇🏆👑✌🏿</div>
                 </div>
