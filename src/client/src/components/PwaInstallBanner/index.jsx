@@ -63,14 +63,14 @@ const PwaInstallBanner = () => {
 
   const installMessage = useMemo(() => {
     if (showIosInstructions) {
-      return 'Tap Share then Add to Home Screen to install on iPhone.';
+      return 'Share -> Add to Home Screen';
     }
 
     if (isMobile) {
-      return 'Open your browser menu and tap Add to Home Screen to install.';
+      return 'Menu -> Add to Home Screen';
     }
 
-    return 'Use your browser menu to install, pin, or create a shortcut.';
+    return 'Menu -> Install app';
   }, [canInstall, showIosInstructions, isMobile]);
 
   const shouldShow = useMemo(() => {
@@ -103,15 +103,17 @@ const PwaInstallBanner = () => {
         ×
       </button>
       <div className="pwa-install-banner__content">
-        <div className="pwa-install-banner__kicker">GAMEDAY ACCESS</div>
-        <div className="pwa-install-banner__title">Add Me vs Yall to Home Screen since the season is won in the margins.</div>
+        <div className="pwa-install-banner__kicker">QUICK INSTALL</div>
+        <div className="pwa-install-banner__title">Install Me vs Yall</div>
         <div className="pwa-install-banner__subtitle">{installMessage}</div>
       </div>
-      {canInstall ? (
-        <button type="button" className="pwa-install-banner__action" onClick={handleInstall}>
-          Install App
-        </button>
-      ) : null}
+      <div className="pwa-install-banner__controls">
+        {canInstall ? (
+          <button type="button" className="pwa-install-banner__action" onClick={handleInstall}>
+            Install App
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };
