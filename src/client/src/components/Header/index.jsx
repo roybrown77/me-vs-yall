@@ -151,33 +151,18 @@ const Header = (props) => {
             </div>
           )}
           {!isAuthenticated && (
-            <div
-              style={{
-                position: 'fixed',
-                right: '0',
-                top: '0',
-                margin: '5px',
-                padding: '12px',
-                borderRadius: '4px',
-                backgroundColor: '#fff',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                transition: 'background-color 0.3s, color 0.3s'
-              }}
+            <button
+              type="button"
+              className="header-sign-in-btn"
               onClick={googleLogin}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#fb8239';
-                e.target.style.color = '#fff';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#fff';
-                e.target.style.color = '#000';
-              }}
+              aria-label="Sign in"
             >
-              <span style={{ fontSize: '.7rem' }}>📱</span> SIGN IN
-            </div>
+              <span className="header-sign-in-btn__icon" aria-hidden="true">⚡</span>
+              <span className="header-sign-in-btn__label-wrap">
+                <span className="header-sign-in-btn__eyebrow">GITTY UP</span>
+                <span className="header-sign-in-btn__label">SIGN IN</span>
+              </span>
+            </button>
           )}
         </AppBar>
         <main className="home-doodle">
