@@ -269,6 +269,7 @@ const Scoreboard = () => {
         liveVideoUrl: game.liveVideoUrl,
         highlightVideoUrl: game.highlightVideoUrl,
         isHidden: game.isHidden,
+        isGameOfTheWeek: game.isGameOfTheWeek,
       };
 
       await callApi({

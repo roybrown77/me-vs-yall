@@ -24,7 +24,11 @@ import { hasGameStarted } from "../../utilities";
 import {
   isConfirmedAuthentication,
 } from "../../utilities/authenticationClient";
-import { SCORE_GUESS_BUMPS } from "../../utilities/scoreGuess";
+import {
+  SCORE_GUESS_BUMPS,
+  GAME_OF_THE_WEEK_BASE_BONUS,
+  GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER,
+} from "../../utilities/scoreGuess";
 import MMAGlove from "./components/MMAGlove";
 
 const styles = {
@@ -55,11 +59,11 @@ const getAstroPositionAndEmoji = () => {
 
 const boxingHypeText = "Let's Get Ready to Rumble!";
 const mmaHypeText = "It's Time!";
-const scoreGuessBoostRows = [
-  { diff: "0", points: SCORE_GUESS_BUMPS.exact },
-  { diff: "1", points: SCORE_GUESS_BUMPS.within1 },
-  { diff: "2", points: SCORE_GUESS_BUMPS.within2 },
-  { diff: "3", points: SCORE_GUESS_BUMPS.within3 },
+const getScoreGuessBoostRows = (multiplier = 1) => [
+  { diff: "0", points: SCORE_GUESS_BUMPS.exact * multiplier },
+  { diff: "1", points: SCORE_GUESS_BUMPS.within1 * multiplier },
+  { diff: "2", points: SCORE_GUESS_BUMPS.within2 * multiplier },
+  { diff: "3", points: SCORE_GUESS_BUMPS.within3 * multiplier },
 ];
 
 const Game = (props) => {
@@ -82,6 +86,7 @@ const Game = (props) => {
     liveVideoUrl: null,
     highlightVideoUrl: null,
     isHidden: null,
+    isGameOfTheWeek: Boolean(get(props, "game.isGameOfTheWeek")),
     popoverOpen: false,
     popoverMessage: '',
     selectionMade: null,
@@ -230,6 +235,7 @@ const Game = (props) => {
       liveVideoUrl: null,
       highlightVideoUrl: null,
       isHidden: null,
+      isGameOfTheWeek: Boolean(get(props, "game.isGameOfTheWeek")),
     }));
   };
 
@@ -255,6 +261,7 @@ const Game = (props) => {
       homeRecord,
       awaySpread,
       isHidden,
+      isGameOfTheWeek,
       homeSpread,
       gameName,
       isGameOver,
@@ -286,6 +293,7 @@ const Game = (props) => {
       liveVideoUrl,
       highlightVideoUrl,
       isHidden,
+      isGameOfTheWeek,
     };
 
     props.handleUpdateGame(game);
@@ -323,6 +331,14 @@ const Game = (props) => {
     !spreadMode &&
     !disableTie;
   const isScoreGuessDisabled = !isAuthenticated;
+  const isGameOfTheWeek =
+    get(game, "isGameOfTheWeek") === true ||
+    get(game, "isGameOfTheWeek") === "true" ||
+    get(game, "isGameOfTheWeek") === 1;
+  const scoreGuessMultiplier = isGameOfTheWeek
+    ? GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER
+    : 1;
+  const scoreGuessBoostRows = getScoreGuessBoostRows(scoreGuessMultiplier);
 
   const componentProps = {
     ...props,
@@ -391,22 +407,42 @@ const Game = (props) => {
             </div>
           )}
         </Grid>
-        {canShowTie && <TieButton {...componentProps} />}
-        {canShowScoreGuess && (
+        {isGameOfTheWeek && (
           <div
             style={{
-              position: "relative",
               marginTop: "8px",
-              border: "2px dashed #3772FA",
-              borderRadius: "14px",
-              padding: "10px 12px",
-              background:
-                "linear-gradient(135deg, rgba(55,114,250,0.12) 0%, rgba(253,187,45,0.14) 100%)",
-              fontFamily: "monospace",
-              textAlign: "center",
-              opacity: isScoreGuessDisabled ? 0.65 : 1,
+              marginBottom: "6px",
+              display: "inline-block",
+              padding: "4px 8px",
+              borderRadius: "999px",
+              backgroundColor: "#0B6E4F",
+              color: "#fff",
+              fontWeight: "700",
+              fontSize: "12px",
             }}
+            title="Game of the Week"
+            aria-label="Game of the Week"
           >
+            ⭐ Game of the Week
+          </div>
+        )}
+        {canShowTie && <TieButton {...componentProps} />}
+        {canShowScoreGuess && (
+          <>
+            <div
+              style={{
+                position: "relative",
+                marginTop: "8px",
+                border: "2px dashed #3772FA",
+                borderRadius: "14px",
+                padding: "10px 12px",
+                background:
+                  "linear-gradient(135deg, rgba(55,114,250,0.12) 0%, rgba(253,187,45,0.14) 100%)",
+                fontFamily: "monospace",
+                textAlign: "center",
+                opacity: isScoreGuessDisabled ? 0.65 : 1,
+              }}
+            >
             {isScoreGuessDisabled && (
               <button
                 type="button"
@@ -480,6 +516,33 @@ const Game = (props) => {
                 Save Guess
               </button>
             </div>
+            <div
+              style={{
+                marginTop: "8px",
+                fontSize: "12px",
+                lineHeight: "1.5",
+                fontWeight: "700",
+                color: isGameOfTheWeek ? "#0B6E4F" : "#5f6368",
+                textAlign: "left",
+              }}
+            >
+              {isGameOfTheWeek
+                ? `Game of the Week is active for this matchup, so score-guess bonuses are multiplied by ${GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER}.`
+                : `No Game of the Week multiplier is active for this matchup.`}
+            </div>
+            {isGameOfTheWeek && (
+              <div
+                style={{
+                  marginTop: "4px",
+                  fontSize: "12px",
+                  lineHeight: "1.5",
+                  color: "#0B6E4F",
+                  textAlign: "left",
+                }}
+              >
+                You still get +{GAME_OF_THE_WEEK_BASE_BONUS.toFixed(2).replace(/\.00$/, "")} if you pick the winner, even without entering a score guess.
+              </div>
+            )}
             <details
               style={{
                 marginTop: "10px",
@@ -496,6 +559,11 @@ const Game = (props) => {
                   After a game is over, your guess can add bonus wins on the Leaders page.
                   Bonus points are added to your total as: wins + guess boost.
                 </div>
+                {isGameOfTheWeek && (
+                  <div style={{ marginTop: "6px", fontWeight: "700", color: "#0B6E4F" }}>
+                    This game is marked Game of the Week, so guess boost points are multiplied by {GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER}. If you skip score guessing, a correct winner pick still gets +{GAME_OF_THE_WEEK_BASE_BONUS.toFixed(2).replace(/\.00$/, "")}. 
+                  </div>
+                )}
                 <div style={{ marginTop: "6px" }}>
                   Combined score miss = |away guess - away final| + |home guess - home final|
                 </div>
@@ -514,7 +582,8 @@ const Game = (props) => {
                 </div>
               </div>
             </details>
-          </div>
+            </div>
+          </>
         )}
         <div style={{ marginTop: "1rem" }}>
           <div style={{ display: "inline-flex" }}>

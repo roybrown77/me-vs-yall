@@ -7,6 +7,15 @@ const SCORE_GUESS_BUMPS = {
   within3: 0.75,
 };
 
+const GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER = 2;
+const GAME_OF_THE_WEEK_BASE_BONUS = 1;
+const TIE_PICK_ID = "000000000000000000000000";
+
+const isGameOfTheWeek = (game = {}) =>
+  get(game, "isGameOfTheWeek") === true ||
+  get(game, "isGameOfTheWeek") === "true" ||
+  get(game, "isGameOfTheWeek") === 1;
+
 const toIntegerOrNull = (value) => {
   if (value === null || value === undefined || value === "") {
     return null;
@@ -49,25 +58,45 @@ const getScoreGuessDelta = (game = {}, pick = {}) => {
 
 const getScoreGuessBumpPoints = (game = {}, pick = {}) => {
   const delta = getScoreGuessDelta(game, pick);
+  const gameOfTheWeek = isGameOfTheWeek(game);
+  const multiplier = gameOfTheWeek
+    ? GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER
+    : 1;
 
-  if (!delta) {
+  let guessBump = 0;
+
+  if (delta) {
+    if (delta.totalDiff === 0) {
+      guessBump = SCORE_GUESS_BUMPS.exact * multiplier;
+    } else if (delta.totalDiff === 1) {
+      guessBump = SCORE_GUESS_BUMPS.within1 * multiplier;
+    } else if (delta.totalDiff === 2) {
+      guessBump = SCORE_GUESS_BUMPS.within2 * multiplier;
+    } else if (delta.totalDiff === 3) {
+      guessBump = SCORE_GUESS_BUMPS.within3 * multiplier;
+    }
+  }
+
+  if (guessBump > 0) {
+    return guessBump;
+  }
+
+  if (!gameOfTheWeek || !get(game, "isGameOver")) {
     return 0;
   }
 
-  if (delta.totalDiff === 0) {
-    return SCORE_GUESS_BUMPS.exact;
-  }
+  const awayScore = parseInt(get(game, "competitors.0.score", 0), 10);
+  const homeScore = parseInt(get(game, "competitors.1.score", 0), 10);
 
-  if (delta.totalDiff === 1) {
-    return SCORE_GUESS_BUMPS.within1;
-  }
+  const winnerPickId =
+    awayScore === homeScore
+      ? TIE_PICK_ID
+      : awayScore > homeScore
+      ? get(game, "competitors.0._id")
+      : get(game, "competitors.1._id");
 
-  if (delta.totalDiff === 2) {
-    return SCORE_GUESS_BUMPS.within2;
-  }
-
-  if (delta.totalDiff === 3) {
-    return SCORE_GUESS_BUMPS.within3;
+  if (get(pick, "pickId") === winnerPickId) {
+    return GAME_OF_THE_WEEK_BASE_BONUS;
   }
 
   return 0;
@@ -75,13 +104,16 @@ const getScoreGuessBumpPoints = (game = {}, pick = {}) => {
 
 const getScoreGuessLabel = (pick = {}, game = {}) => {
   const { away, home, hasGuess } = getScoreGuessFromPick(pick);
-
-  if (!hasGuess) {
-    return "";
-  }
-
   const bump = getScoreGuessBumpPoints(game, pick);
   const bumpLabel = bump > 0 ? ` (+${bump.toFixed(2).replace(/\.00$/, "")})` : "";
+
+  if (!hasGuess) {
+    if (bump > 0 && isGameOfTheWeek(game)) {
+      return `Game of the Week bonus${bumpLabel}`;
+    }
+
+    return "";
+  }
 
   return `Guess ${away}-${home}${bumpLabel}`;
 };
@@ -100,12 +132,13 @@ const getScoreGuessTotals = (games = [], picks = []) => {
       }
 
       const bump = getScoreGuessBumpPoints(game, pick);
+      const delta = getScoreGuessDelta(game, pick);
       if (bump > 0) {
         total.bumpPoints += bump;
         total.bumpHits += 1;
       }
 
-      if (bump === SCORE_GUESS_BUMPS.exact) {
+      if (delta?.totalDiff === 0) {
         total.exactHits += 1;
       }
 
@@ -121,6 +154,8 @@ const getScoreGuessTotals = (games = [], picks = []) => {
 
 export {
   SCORE_GUESS_BUMPS,
+  GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER,
+  GAME_OF_THE_WEEK_BASE_BONUS,
   getScoreGuessFromPick,
   getScoreGuessDelta,
   getScoreGuessBumpPoints,

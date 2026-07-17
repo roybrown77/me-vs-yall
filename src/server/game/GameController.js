@@ -553,6 +553,7 @@ router.get('/games', async function (req, res) {
     const wholeYearFields = { 
       leagueId: 1, 
       isGameOver: 1, 
+      isGameOfTheWeek: 1,
       competitors: 1, 
       year: 1, 
       spread: 1, 

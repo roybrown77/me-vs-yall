@@ -23,6 +23,7 @@ const GameEditor = (props) => {
       handleInputChange,
       handleSaveGame,
       isHidden,
+      isGameOfTheWeek,
     } = props;
   
     return (
@@ -46,6 +47,16 @@ const GameEditor = (props) => {
             onChange={handleInputChange}
           />
           is hidden
+        </div>
+        <div>
+          <Checkbox
+            name="isGameOfTheWeek"
+            color="primary"
+            checked={Boolean(isGameOfTheWeek)}
+            inputProps={{ "aria-label": "secondary checkbox" }}
+            onChange={handleInputChange}
+          />
+          is game of the week
         </div>
         <div style={{ display: "flex" }}>
           <div>

@@ -92,6 +92,10 @@ const update = async (game, cb) => {
             set(updatedGame,'isHidden',game.isHidden);
         }
 
+        if (typeof game?.isGameOfTheWeek === 'boolean') {
+            set(updatedGame,'isGameOfTheWeek',game.isGameOfTheWeek);
+        }
+
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
 
         const gameUpdated = await gameRepository.findOneAndUpdate(

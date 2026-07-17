@@ -503,6 +503,15 @@ const Leader = () => {
                                         <span>{game.awayTeam}</span>
                                         <span> vs </span>
                                         <span>{game.homeTeam}</span>
+                                        {(game.isGameOfTheWeek === true || game.isGameOfTheWeek === "true" || game.isGameOfTheWeek === 1) && (
+                                          <span
+                                            style={{ marginLeft: "6px", color: "#f59e0b", fontWeight: "700" }}
+                                            title="Game of the Week"
+                                            aria-label="Game of the Week"
+                                          >
+                                            ⭐
+                                          </span>
+                                        )}
                                       </td>
                                       {
                                         <td align="center">
