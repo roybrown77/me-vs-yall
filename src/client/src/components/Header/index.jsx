@@ -79,6 +79,9 @@ const Profile = (props) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+  const popoverContent = typeof props.children === 'function'
+    ? props.children({ close: handleClose })
+    : props.children;
 
   return (
     <div>
@@ -90,13 +93,17 @@ const Profile = (props) => {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
-        style={{ left: 'unset', right: '0' }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'center',
+          horizontal: 'right',
         }}
+        PaperProps={{ className: 'header-signout-popover__paper' }}
       >
-        {props.children}
+        {popoverContent}
       </Popover>
     </div>
   );
@@ -125,24 +132,31 @@ const Header = (props) => {
           </Typography>
           {isAuthenticated && picture && (
             <Profile mainElement={(<img style={styles.userPicture} src={picture} alt="User Profile" />)}>
-              <div
-                onClick={logout}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '12px',
-                  cursor: 'pointer',
-                  position: 'fixed',
-                  right: '0',
-                  backgroundColor: '#fff',
-                  borderRadius: '4px',
-                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
-                }}
-              >
-                <div style={{ margin: 'auto 10px' }}>
-                  <span style={{ fontSize: '.7rem' }}>📱</span> Sign out
+              {({ close }) => (
+                <div className="header-signout-popover">
+                  <div className="header-signout-popover__kicker">Account</div>
+                  <div className="header-signout-popover__identity">{get(user, 'name', 'Me vs Yall Player')}</div>
+                  <div className="header-signout-popover__actions">
+                    <button
+                      type="button"
+                      className="header-signout-popover__btn header-signout-popover__btn--ghost"
+                      onClick={close}
+                    >
+                      Stay Signed In
+                    </button>
+                    <button
+                      type="button"
+                      className="header-signout-popover__btn header-signout-popover__btn--danger"
+                      onClick={() => {
+                        close();
+                        logout();
+                      }}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </Profile>
           )}
           {isAuthenticated && !picture && (
