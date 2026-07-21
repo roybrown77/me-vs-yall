@@ -24,6 +24,7 @@ const getLeaders = ({
   users = [],
   teams = [],
   spreadMode = false,
+  includeBonusPoints = true,
   isRollup = false,
 }) => {
   const sortedGames = orderBy(games, ["_id"], ["desc"]).sort(
@@ -36,7 +37,8 @@ const getLeaders = ({
     users,
     teams,
     isRollup,
-    spreadMode
+    spreadMode,
+    includeBonusPoints
   );
   const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
   let wins;
@@ -44,8 +46,12 @@ const getLeaders = ({
   let medalCount = 0;
   formattedLeaders.map((leader) => {
     const leaderWins = areAnyGamesInProgress
-      ? leader.adjustedWinsBeforeGameOver
-      : leader.adjustedWins;
+      ? includeBonusPoints
+        ? leader.adjustedWinsBeforeGameOver
+        : leader.winsBeforeGameOver
+      : includeBonusPoints
+      ? leader.adjustedWins
+      : leader.wins;
     const leaderLosses = areAnyGamesInProgress
       ? leader.lossesBeforeGameOver
       : leader.losses;
@@ -79,7 +85,8 @@ const getLeadersFormatted = (
   users = [],
   teams = [],
   isRollup = false,
-  spreadMode = false
+  spreadMode = false,
+  includeBonusPoints = true
 ) => {
   const picksByUser = groupBy(picks, "userId");
 
@@ -197,18 +204,31 @@ const getLeadersFormatted = (
     []
   );
 
-  return orderBy(
-    pickResults,
-    [
-      "adjustedWinsBeforeGameOver",
-      "scoreGuessBumpPoints",
-      "winsInARow",
-      "wins",
-      "lossesInARow",
-      "userName",
-    ],
-    ["desc", "desc", "desc", "desc", "asc", "asc"]
-  );
+  return includeBonusPoints
+    ? orderBy(
+        pickResults,
+        [
+          "adjustedWinsBeforeGameOver",
+          "scoreGuessBumpPoints",
+          "winsInARow",
+          "wins",
+          "lossesInARow",
+          "userName",
+        ],
+        ["desc", "desc", "desc", "desc", "asc", "asc"]
+      )
+    : orderBy(
+        pickResults,
+        [
+          "winsBeforeGameOver",
+          "winsInARow",
+          "wins",
+          "lossesInARow",
+          "losses",
+          "userName",
+        ],
+        ["desc", "desc", "desc", "asc", "asc", "asc"]
+      );
 };
 
 const getWinnings = (results) => {

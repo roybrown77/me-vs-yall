@@ -129,16 +129,19 @@ const Leader = () => {
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
 
-  const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
-  const selectedLeaderTab = spreadMode ? 1 : 0;
+  const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
+  const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
+  const isBonusPointsTab = selectedLeaderTab === 0;
+  const isSpreadTab = selectedLeaderTab === 2;
 
   const handleLeaderTabChange = (_, selectedTab) => {
-    if (selectedTab === 1) {
-      enableSpreadMode();
-      return;
-    }
+    setSelectedLeaderTab(selectedTab);
 
-    disableSpreadMode();
+    if (selectedTab === 2) {
+      enableSpreadMode();
+    } else {
+      disableSpreadMode();
+    }
   };
 
   const loadData = useCallback(
@@ -213,6 +216,8 @@ const Leader = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Leaders should always open on Bonus Points.
+    disableSpreadMode();
   }, []);
 
   const poll = useCallback(() => {
@@ -234,14 +239,15 @@ const Leader = () => {
       picks,
       users,
       teams,
-      spreadMode,
+      spreadMode: isSpreadTab,
+      includeBonusPoints: isBonusPointsTab,
     });
-  }, [games, picks, spreadMode, teams, users]);
+  }, [games, isBonusPointsTab, isSpreadTab, picks, teams, users]);
 
   const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
   const areAllGamesOver = getAreAllGamesOver(games);
   const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
-  const leaderSummaryPadding = (areAnyGamesInProgress ? 0.5 : 0) + (spreadMode ? 0.5 : 0);
+  const leaderSummaryPadding = (areAnyGamesInProgress ? 0.5 : 0) + (isSpreadTab ? 0.5 : 0);
   const isLoading = dataLoading && !areAnyGamesInProgress;
   const user = getUser();
   const userId = get(user, "sub");
@@ -306,8 +312,9 @@ const Leader = () => {
                   margin: "auto",
                 }}
               >
-                <Tab style={{ color: "#000" }} label="Straight Up" {...a11yProps(0)} />
-                <Tab style={{ color: "#000" }} label="vs Spread" {...a11yProps(1)} />
+                <Tab style={{ color: "#000" }} label="Bonus Points" {...a11yProps(0)} />
+                <Tab style={{ color: "#000" }} label="Straight Up" {...a11yProps(1)} />
+                <Tab style={{ color: "#000" }} label="vs Spread" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <Slide
@@ -432,12 +439,12 @@ const Leader = () => {
                                   {leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}
                                 </div>
                               )}
-                              {spreadMode && <VegasWinCalculationPopup {...{ leader }} />}
+                              {isSpreadTab && <VegasWinCalculationPopup {...{ leader }} />}
                               <div>{leader.percentage}</div>
                               <div>
                                 {leader.wins} - {leader.losses}
                               </div>
-                              {showLeaderPicksAndGuesses && leader.scoreGuessBumpPoints > 0 && (
+                              {isBonusPointsTab && showLeaderPicksAndGuesses && leader.scoreGuessBumpPoints > 0 && (
                                 <div style={{ color: "#0B6E4F", fontWeight: "700" }}>
                                   +{leader.scoreGuessBumpPoints.toFixed(2).replace(/\.00$/, "")} guess boost
                                 </div>
@@ -461,7 +468,7 @@ const Leader = () => {
                         </AccordionSummary>
                         <AccordionDetails style={styles.expansionPanelDetails}>
                           <div style={{ margin: "12px auto" }}>
-                            {spreadMode && (
+                            {isSpreadTab && (
                               <VegasWinCalculationPopup
                                 {...{
                                   title: "in Vegas you would have won: ",
@@ -541,7 +548,7 @@ const Leader = () => {
                                         )}
                                       </td>
                                     </tr>
-                                    {showLeaderPicksAndGuesses && game.scoreGuessLabel && (
+                                    {isBonusPointsTab && showLeaderPicksAndGuesses && game.scoreGuessLabel && (
                                       <tr>
                                         <td align="center"></td>
                                         <td align="center"></td>
