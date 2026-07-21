@@ -130,6 +130,16 @@ const Leader = () => {
   const [teams, setTeams] = useState([]);
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
+  const selectedLeaderTab = spreadMode ? 1 : 0;
+
+  const handleLeaderTabChange = (_, selectedTab) => {
+    if (selectedTab === 1) {
+      enableSpreadMode();
+      return;
+    }
+
+    disableSpreadMode();
+  };
 
   const loadData = useCallback(
     async ({
@@ -262,13 +272,12 @@ const Leader = () => {
         />
 
         <GameEngagementBar
-          handleSpreadToggleOn={enableSpreadMode}
-          handleSpreadToggleOff={disableSpreadMode}
           games={games}
           picks={picks}
           teams={teams}
           isAuthenticated={isAuthenticated}
           userId={userId}
+          showSpreadToggle={false}
         />
         {
           <Box
@@ -288,7 +297,8 @@ const Leader = () => {
               }}
             >
               <Tabs
-                value={0}
+                value={selectedLeaderTab}
+                onChange={handleLeaderTabChange}
                 aria-label="game types"
                 style={{
                   paddingBottom: "20px",
@@ -296,7 +306,8 @@ const Leader = () => {
                   margin: "auto",
                 }}
               >
-                <Tab style={{ color: "#000" }} label="Leaders" {...a11yProps(0)} />
+                <Tab style={{ color: "#000" }} label="Straight Up" {...a11yProps(0)} />
+                <Tab style={{ color: "#000" }} label="vs Spread" {...a11yProps(1)} />
               </Tabs>
             </Box>
             <Slide

@@ -19,7 +19,7 @@ import {
     getCopiedGamesToShare,
   } from "../../utilities";
 
-const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games, picks, teams, isAuthenticated, userId }) => {
+const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games, picks, teams, isAuthenticated, userId, showSpreadToggle = true }) => {
     const [isShareClicked, setIsShareClicked] = useState(false);
     const [isSpreadModeAlertOpen, setIsSpreadModeAlertOpen] = useState(false);
     const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
@@ -325,52 +325,54 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                     </div>
                 </div>
             )}
-            <div
-                style={{
-                    marginTop: '25px',
-                    padding: '10px',
-                    backgroundColor: '#fff',
-                }}
-            >
-                <div style={{ fontSize: '9px', fontWeight: 700 }}>vs Spread</div>
+            {showSpreadToggle && (
                 <div
                     style={{
-                        background: '#FCE385',
-                        margin: '5px',
-                        borderRadius: '8px',
+                        marginTop: '25px',
+                        padding: '10px',
+                        backgroundColor: '#fff',
                     }}
                 >
-                    <IconButton
-                        style={spreadMode ? styles.toggleButtonOn : styles.toggleButtonOff}
-                        aria-label="toggle spread mode"
+                    <div style={{ fontSize: '9px', fontWeight: 700 }}>vs Spread</div>
+                    <div
+                        style={{
+                            background: '#FCE385',
+                            margin: '5px',
+                            borderRadius: '8px',
+                        }}
                     >
-                        {spreadMode ? (
-                            <ToggleOn onClick={spreadToggleOn} />
-                        ) : (
-                            <ToggleOff onClick={spreadToggleOff} />
-                        )}
-                    </IconButton>
-                    <Snackbar
-                        open={isSpreadModeAlertOpen}
-                        onClose={handleSpreadModeAlertClose}
-                        anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
-                    >
-                        <Alert
-                            severity="none"
-                            onClose={handleSpreadModeAlertClose}
-                            style={{
-                                textAlign: 'center',
-                                backgroundColor: '#FCE385',
-                                color: '#000000',
-                                font: 'bold 14px monospace',
-                            }}
+                        <IconButton
+                            style={spreadMode ? styles.toggleButtonOn : styles.toggleButtonOff}
+                            aria-label="toggle spread mode"
                         >
-                            {'Spread mode activated!'}
-                            <span style={{ marginLeft: '4px', fontSize: '2rem' }}>🐣</span>
-                        </Alert>
-                    </Snackbar>
+                            {spreadMode ? (
+                                <ToggleOn onClick={spreadToggleOn} />
+                            ) : (
+                                <ToggleOff onClick={spreadToggleOff} />
+                            )}
+                        </IconButton>
+                        <Snackbar
+                            open={isSpreadModeAlertOpen}
+                            onClose={handleSpreadModeAlertClose}
+                            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+                        >
+                            <Alert
+                                severity="none"
+                                onClose={handleSpreadModeAlertClose}
+                                style={{
+                                    textAlign: 'center',
+                                    backgroundColor: '#FCE385',
+                                    color: '#000000',
+                                    font: 'bold 14px monospace',
+                                }}
+                            >
+                                {'Spread mode activated!'}
+                                <span style={{ marginLeft: '4px', fontSize: '2rem' }}>🐣</span>
+                            </Alert>
+                        </Snackbar>
+                    </div>
                 </div>
-            </div>
+            )}
 
             <CalendarReminder marginLeft="0" iconClassName="add-reminder-icon-wiggle" />
 
@@ -426,13 +428,14 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
 };
 
 GameEngagementBar.propTypes = {
-    handleSpreadToggleOn: PropTypes.func.isRequired,
-    handleSpreadToggleOff: PropTypes.func.isRequired,
+    handleSpreadToggleOn: PropTypes.func,
+    handleSpreadToggleOff: PropTypes.func,
     games: PropTypes.array.isRequired,
     picks: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     userId: PropTypes.string,
+    showSpreadToggle: PropTypes.bool,
 };
 
 export default GameEngagementBar;
