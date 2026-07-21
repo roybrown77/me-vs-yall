@@ -102,20 +102,19 @@ const CalendarReminder = ({ marginLeft = 'auto', iconClassName = '' }) => {
                         href={icsUrl}
                         download="mevsyall-pick-reminder.ics"
                       >
-                        Universal add (.ics for iOS, macOS, Android, Outlook)
+                        Universal add (iOS, macOS, Android, Outlook)
                       </a>
                     </div>
                     <div className="calendar-reminder__manual">
                       <div className="calendar-reminder__manual-copy">
-                        Prefer manual? Create a daily reminder titled "Make your picks", then open this link:
+                        Prefer manual? Create a daily reminder titled "Make your picks" with link:
                       </div>
                       <a
-                        className="calendar-reminder__action-btn calendar-reminder__action-btn--subtle"
                         href={reminderUrl}
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Open Me vs Yall
+                        {reminderUrl}
                       </a>
                     </div>
                     <div style={{ marginTop: "10px" }}>😎🏈⚽️🏀🥇🏆👑✌🏿</div>
