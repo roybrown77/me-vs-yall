@@ -312,9 +312,9 @@ const Leader = () => {
                   margin: "auto",
                 }}
               >
-                <Tab style={{ color: "#000" }} label="Bonus Points" {...a11yProps(0)} />
-                <Tab style={{ color: "#000" }} label="Straight Up" {...a11yProps(1)} />
-                <Tab style={{ color: "#000" }} label="vs Spread" {...a11yProps(2)} />
+                <Tab label="Picks + Bonus 🚀" {...a11yProps(0)} />
+                <Tab label="Picks 🎯" {...a11yProps(1)} />
+                <Tab label="Against the Spread 📊" {...a11yProps(2)} />
               </Tabs>
             </Box>
             <Slide
