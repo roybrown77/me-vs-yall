@@ -49,7 +49,7 @@ const TinyScoreboard = ({loading, title, games}) => {
     if (games?.length === 0 && !loading) return null;
 
     return (
-        <div style={{margin: '0 0 15px 0'}}>
+        <div style={{margin: '15px 0'}}>
             <div style={{display: 'flex'}}>
                 <div style={styles.header}>
                     {title}

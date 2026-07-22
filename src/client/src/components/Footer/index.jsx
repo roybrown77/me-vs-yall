@@ -7,7 +7,7 @@ const styles = {
     zIndex: 99,
     position: "fixed",
     bottom: "0",
-    backgroundColor: "#f5fffa",
+    backgroundColor: "#ffe8a3",
     boxShadow: "none",
     width: "100%",
     color: "#000",

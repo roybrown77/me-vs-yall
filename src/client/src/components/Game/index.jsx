@@ -39,7 +39,6 @@ const styles = {
   game: {
     backgroundColor: "#ffffff",
     padding: "8px",
-    marginBottom: "8px",
   },
   paper: {
     borderRadius: "8px",
@@ -413,7 +412,7 @@ const Game = (props) => {
               marginTop: "8px",
               marginBottom: "6px",
               display: "inline-block",
-              padding: "4px 8px",
+              padding: "4px 8px 6px 8px",
               borderRadius: "999px",
               backgroundColor: "#0B6E4F",
               color: "#fff",
