@@ -414,7 +414,6 @@ const Scoreboard = () => {
                             color: "#ffffff",
                             width: "100%",
                             padding: "2px 0",
-                            marginBottom: "8px",
                           }}
                         >
                           <div
@@ -453,7 +452,6 @@ const Scoreboard = () => {
                         color: "#ffffff",
                         width: "100%",
                         padding: "2px 0",
-                        marginBottom: "8px",
                       }}
                     >
                       <div
@@ -486,7 +484,6 @@ const Scoreboard = () => {
                               color: "#ffffff",
                               width: "100%",
                               padding: "2px 0",
-                              marginBottom: "8px",
                             }}
                           >
                             <div

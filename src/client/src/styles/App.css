@@ -208,7 +208,6 @@
 }
 
 body {
-  background-color: #EFFBF8;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
@@ -616,7 +615,6 @@ body {
 
 .home-doodle {
   min-height: 100vh;
-  padding: 6.2rem 1rem 2.4rem;
   position: relative;
   background:
     radial-gradient(circle at 16% 8%, rgba(255, 231, 163, 0.95), rgba(255, 231, 163, 0) 28%),
@@ -1288,10 +1286,6 @@ body {
 }
 
 @media screen and (min-width: 860px) {
-  .home-doodle {
-    padding: 7rem 1.6rem 2.8rem;
-  }
-
   .home-doodle__drop-logo-wrap {
     width: 360px;
   }

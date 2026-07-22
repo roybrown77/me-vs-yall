@@ -1,7 +1,6 @@
 const styles = {
     root: {
       width: '100%',
-      paddingBottom: '12px'
     },
     heading: {
       fontSize: '1.5rem',

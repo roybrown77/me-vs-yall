@@ -254,7 +254,7 @@ const Home = () => {
 
   return (
     <Header disableTopBanner={true}>
-      <div className="fade-in">
+      <div className="fade-in" style={{ padding: '6.2rem 1rem 2.4rem' }}>
         <div className="home-doodle__drop-logo-wrap" aria-hidden="true">
           <img className="home-doodle__drop-logo" src={mvyBalls} alt="" />
         </div>
