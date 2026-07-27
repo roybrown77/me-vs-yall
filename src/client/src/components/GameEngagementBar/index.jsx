@@ -333,7 +333,7 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                         backgroundColor: '#fff',
                     }}
                 >
-                    <div style={{ fontSize: '9px', fontWeight: 700 }}>vs Spread</div>
+                    <div style={{ fontSize: '9px', fontWeight: 700 }}>View Spread</div>
                     <div
                         style={{
                             background: '#FCE385',
