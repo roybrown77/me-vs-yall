@@ -629,15 +629,20 @@ body {
   color: #1f2b3d;
 }
 
+.home-doodle__content-shift {
+  position: relative;
+  padding-top: 1.35rem;
+}
+
 .home-doodle__drop-logo-wrap {
   position: absolute;
-  top: 0;
+  top: 0.85rem;
   left: 50%;
   transform: translateX(-50%);
   width: min(80vw, 330px);
   z-index: 4;
   pointer-events: none;
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .home-doodle__drop-logo {
@@ -649,7 +654,7 @@ body {
 
 .home-doodle__hero {
   max-width: 70ch;
-  margin: 0 auto;
+  margin-top: 10rem;
   text-align: center;
 }
 
@@ -676,7 +681,8 @@ body {
 }
 
 .home-doodle__hero-typer-wrap {
-  margin: 2rem 0 0;
+  margin: 0;
+  padding-top: 1rem;
 }
 
 .home-doodle__hero-typer {

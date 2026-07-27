@@ -310,29 +310,30 @@ const Home = () => {
   return (
     <Header disableTopBanner={true}>
       <div className="fade-in home-doodle__page" style={{ padding: '6.2rem 1rem 2.4rem' }}>
-        <div className="home-doodle__drop-logo-wrap" aria-hidden="true">
-          <img className="home-doodle__drop-logo" src={mvyBalls} alt="" />
-        </div>
-        <section className="home-doodle__hero">
-          <p className="home-doodle__subhead">
-            sports x fun x friends x vegas
-          </p>
-          <div className="home-doodle__hero-typer-wrap">
-            <div className="home-doodle__hero-typer">
-              <Typer dataText={tagLines} />
+        <div className="home-doodle__content-shift">
+          <div className="home-doodle__drop-logo-wrap" aria-hidden="true">
+            <img className="home-doodle__drop-logo" src={mvyBalls} alt="" />
+          </div>
+          <section className="home-doodle__hero">
+            <p className="home-doodle__subhead">
+              sports x fun x friends x vegas
+            </p>
+            <div className="home-doodle__hero-typer-wrap">
+              <div className="home-doodle__hero-typer">
+                <Typer dataText={tagLines} />
+              </div>
             </div>
-          </div>
-          <div className="home-doodle__hero-actions">
-            <Link className="home-doodle__cta" to="/scoreboards/nfl">
-              Jump To Scores
-            </Link>
-            <Link className="home-doodle__ghost" to="/leaders/nfl">
-              See Leaderboard
-            </Link>
-          </div>
-        </section>
+            <div className="home-doodle__hero-actions">
+              <Link className="home-doodle__cta" to="/scoreboards/nfl">
+                Jump To Scores
+              </Link>
+              <Link className="home-doodle__ghost" to="/leaders/nfl">
+                See Leaderboard
+              </Link>
+            </div>
+          </section>
 
-        {showGameTrail && <section className="home-doodle__storyline" aria-label="Story milestones animation">
+        {true && <section className="home-doodle__storyline" aria-label="Story milestones animation">
           <div className="home-doodle__milestone-track" />
           <div
             className="home-doodle__milestone-progress"
@@ -358,7 +359,7 @@ const Home = () => {
           ))}
         </section>}
 
-        {showGameTrail && <section className="home-doodle__road" aria-label="Field road">
+        {true && <section className="home-doodle__road" aria-label="Field road">
           <div className="home-doodle__lane" />
           <div className="home-doodle__lane home-doodle__lane--mid" />
           <aside
@@ -412,7 +413,7 @@ const Home = () => {
           </div>
         </section>}
 
-        { false && <section className="home-doodle__winding-run" aria-label="Long winding run" ref={windingRef}>
+        {false && <section className="home-doodle__winding-run" aria-label="Long winding run" ref={windingRef}>
           <div className="home-doodle__winding-title">Long Winding Field Run</div>
           <div className="home-doodle__winding-typing" role="status" aria-live="polite">
             {windingTypedText}
@@ -479,6 +480,7 @@ const Home = () => {
             Open Scores Now
           </Link>
         </section>}
+        </div>
 
         <footer className="home-doodle__footer">
           <div className="home-doodle__footer-links">
