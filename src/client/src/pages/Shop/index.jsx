@@ -49,21 +49,21 @@ const items = [
     image: hoodiesBw,
     name: 'White Hoodie',
     price: 'Sold Out',
-    source: 'courtesy @ _jayfilms'
+    // source: 'courtesy @ _jayfilms'
   },
   {
     id: 2,
     image: shirtsBw,
     name: 'Black Tee',
     price: 'Sold Out',
-    contact: '@ _jayfilms'
+    // contact: '@ _jayfilms'
   },
   {
     id: 3,
     image: shirts,
     name: 'White Tee',
     price: 'Sold Out',
-    contact: '@ _romeyofficial'
+    // contact: '@ _romeyofficial'
   },
   {
     id: 4,
