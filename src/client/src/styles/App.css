@@ -583,6 +583,12 @@ body {
   animation-duration:1s;
 }
 
+.home-doodle__page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 /* --- splash page --- */
 
 @media screen and (min-width: 1000px) {
@@ -669,8 +675,20 @@ body {
   font: 600 0.94rem/1.5 'Courier New', Courier, monospace;
 }
 
+.home-doodle__hero-typer-wrap {
+  margin: 2rem 0 0;
+}
+
+.home-doodle__hero-typer {
+  min-height: 4.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-family: monospace;
+}
+
 .home-doodle__hero-actions {
-  margin-top: 1rem;
+  margin-top: 1.8rem;
   display: flex;
   gap: 0.7rem;
   justify-content: center;
@@ -1173,7 +1191,8 @@ body {
 }
 
 .home-doodle__footer {
-  margin-top: 1.2rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
 }
 
 .home-doodle__footer-links {

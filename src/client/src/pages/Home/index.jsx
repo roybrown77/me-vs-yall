@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
+import queryString from 'query-string';
 
 import Header from '../../components/Header';
 import Typer from './Typer';
 import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
+import { callApi } from '../../utilities/http';
+import { getLeagueName } from '../../utilities/getLeagueName';
+import { leagues } from '../../utilities';
 import mvyBalls from '../../styles/images/mvy-balls-cut.png';
 import maddenTouchdown from '../../media/madden-touchdown.m4a';
 import tecmoTouchdown from '../../media/tecmo-touchdown.m4a'
@@ -53,6 +57,7 @@ const Home = () => {
   const wasTouchdownRef = useRef(false);
   const touchdownSoundsRef = useRef([]);
   const hasUnlockedTouchdownAudioRef = useRef(false);
+  const [showGameTrail, setShowGameTrail] = useState(false);
 
   const activeStoryIndex = useMemo(() => {
     return Math.min(storySteps.length - 1, Math.floor(truckProgress * storySteps.length));
@@ -67,6 +72,56 @@ const Home = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadScheduleVisibility = async () => {
+      try {
+        const leagueName = getLeagueName();
+        const league = leagues.find((item) => item.name === leagueName) || leagues[0];
+        const year = league?.years?.[league.years.length - 1];
+
+        if (!league?.id || !year) {
+          if (isMounted) setShowGameTrail(true);
+          return;
+        }
+
+        const games = await callApi({
+          method: 'GET',
+          endpoint: `/api/gamemanagement/games?${queryString.stringify({ leagueId: league.id, year })}`,
+        });
+
+        const now = moment().tz('America/New_York');
+        const upcomingGames = (Array.isArray(games) ? games : [])
+          .filter((game) => game?.startDateTime && moment(game.startDateTime).isAfter(now))
+          .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+
+        if (upcomingGames.length === 0) {
+          if (isMounted) setShowGameTrail(false);
+          return;
+        }
+
+        const nextStart = moment(upcomingGames[0].startDateTime).tz('America/New_York');
+        const showFrom = nextStart.clone().subtract(1, 'day');
+
+        if (isMounted) {
+          setShowGameTrail(now.isSameOrAfter(showFrom));
+        }
+      } catch (error) {
+        if (isMounted) {
+          // Fallback to visible if schedule lookup fails.
+          setShowGameTrail(true);
+        }
+      }
+    };
+
+    loadScheduleVisibility();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -254,7 +309,7 @@ const Home = () => {
 
   return (
     <Header disableTopBanner={true}>
-      <div className="fade-in" style={{ padding: '6.2rem 1rem 2.4rem' }}>
+      <div className="fade-in home-doodle__page" style={{ padding: '6.2rem 1rem 2.4rem' }}>
         <div className="home-doodle__drop-logo-wrap" aria-hidden="true">
           <img className="home-doodle__drop-logo" src={mvyBalls} alt="" />
         </div>
@@ -262,7 +317,11 @@ const Home = () => {
           <p className="home-doodle__subhead">
             sports x fun x friends x vegas
           </p>
-          <div style={{ fontFamily: 'monospace', margin: '2rem 0' }}><Typer dataText={tagLines} /></div>
+          <div className="home-doodle__hero-typer-wrap">
+            <div className="home-doodle__hero-typer">
+              <Typer dataText={tagLines} />
+            </div>
+          </div>
           <div className="home-doodle__hero-actions">
             <Link className="home-doodle__cta" to="/scoreboards/nfl">
               Jump To Scores
@@ -273,7 +332,7 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="home-doodle__storyline" aria-label="Story milestones animation">
+        {showGameTrail && <section className="home-doodle__storyline" aria-label="Story milestones animation">
           <div className="home-doodle__milestone-track" />
           <div
             className="home-doodle__milestone-progress"
@@ -297,9 +356,9 @@ const Home = () => {
               <span className="home-doodle__milestone-dot" />
             </div>
           ))}
-        </section>
+        </section>}
 
-        <section className="home-doodle__road" aria-label="Field road">
+        {showGameTrail && <section className="home-doodle__road" aria-label="Field road">
           <div className="home-doodle__lane" />
           <div className="home-doodle__lane home-doodle__lane--mid" />
           <aside
@@ -351,7 +410,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section>}
 
         { false && <section className="home-doodle__winding-run" aria-label="Long winding run" ref={windingRef}>
           <div className="home-doodle__winding-title">Long Winding Field Run</div>
