@@ -143,6 +143,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (!showGameTrail) return undefined;
+
     const onKeyDown = (event) => {
       const target = event.target;
       const isEditableTarget =
@@ -165,7 +167,7 @@ const Home = () => {
     window.addEventListener('keydown', onKeyDown);
 
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  }, [showGameTrail]);
 
   useEffect(() => {
     const line = storySteps[activeStoryIndex];
@@ -234,6 +236,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (!showGameTrail) return undefined;
+
     const unlockTouchdownAudio = () => {
       if (hasUnlockedTouchdownAudioRef.current || touchdownSoundsRef.current.length === 0) return;
 
@@ -266,7 +270,7 @@ const Home = () => {
       window.removeEventListener('wheel', unlockTouchdownAudio);
       window.removeEventListener('touchstart', unlockTouchdownAudio);
     };
-  }, []);
+  }, [showGameTrail]);
 
   const gram = (event) => {
     event.preventDefault();
@@ -294,6 +298,11 @@ const Home = () => {
   const windingTruckRotation = Math.cos(windingProgress * Math.PI * 6) * 9;
 
   useEffect(() => {
+    if (!showGameTrail) {
+      wasTouchdownRef.current = false;
+      return;
+    }
+
     if (isTouchdown && !wasTouchdownRef.current && touchdownSoundsRef.current.length > 0) {
       const randomIndex = Math.floor(Math.random() * touchdownSoundsRef.current.length);
       const selectedSound = touchdownSoundsRef.current[randomIndex];
@@ -305,7 +314,7 @@ const Home = () => {
     }
 
     wasTouchdownRef.current = isTouchdown;
-  }, [isTouchdown]);
+  }, [isTouchdown, showGameTrail]);
 
   return (
     <Header disableTopBanner={true}>
