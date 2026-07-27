@@ -484,9 +484,9 @@ const Home = () => {
 
         <footer className="home-doodle__footer">
           <div className="home-doodle__footer-links">
-            <Link className="home-doodle__footer-link" to="/tips">
+            {false && <Link className="home-doodle__footer-link" to="/tips">
               Tips
-            </Link>
+            </Link>}
             <Link className="home-doodle__footer-link" to="/shop">
               Shop
             </Link>
