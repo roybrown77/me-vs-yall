@@ -333,7 +333,7 @@ const Home = () => {
             </div>
           </section>
 
-        {true && <section className="home-doodle__storyline" aria-label="Story milestones animation">
+        {showGameTrail && <section className="home-doodle__storyline" aria-label="Story milestones animation">
           <div className="home-doodle__milestone-track" />
           <div
             className="home-doodle__milestone-progress"
@@ -359,7 +359,7 @@ const Home = () => {
           ))}
         </section>}
 
-        {true && <section className="home-doodle__road" aria-label="Field road">
+        {showGameTrail && <section className="home-doodle__road" aria-label="Field road">
           <div className="home-doodle__lane" />
           <div className="home-doodle__lane home-doodle__lane--mid" />
           <aside
