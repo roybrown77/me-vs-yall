@@ -653,8 +653,8 @@ body {
 }
 
 .home-doodle__hero {
-  max-width: 70ch;
-  margin-top: 10rem;
+  width: min(100%, 70ch);
+  margin: 10rem auto 0;
   text-align: center;
 }
 
@@ -676,6 +676,7 @@ body {
 .home-doodle__subhead {
   margin: 5rem auto 0;
   max-width: 64ch;
+  padding-top: 1rem;
   color: #324866;
   font: 600 0.94rem/1.5 'Courier New', Courier, monospace;
 }
@@ -1311,6 +1312,14 @@ body {
 }
 
 @media screen and (min-width: 860px) {
+  .home-doodle__subhead {
+    padding-top: 2rem;
+  }
+
+  .home-doodle__hero-actions {
+    margin-top: 2.4rem;
+  }
+
   .home-doodle__drop-logo-wrap {
     width: 360px;
   }
