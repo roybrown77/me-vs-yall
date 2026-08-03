@@ -17,8 +17,6 @@ if (!dbConnectionString) {
 */
 
 const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   autoIndex: false, // Don't build indexes
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
@@ -50,7 +48,9 @@ mongoose.connection.on('disconnected', function () {
 
 try {
   console.log('[MONGODB] - Connecting...');
-  mongoose.connect(dbConnectionString,options);
+  mongoose.connect(dbConnectionString, options).catch((err) => {
+    console.error('[MONGODB] - failed to connect on startup: ', err);
+  });
 } catch (err) {
   console.log("[MONGODB] - initialization failed: ", err.message);
 }

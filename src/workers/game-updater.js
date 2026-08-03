@@ -28,14 +28,14 @@ mongoose.connection.on('disconnected', function () {
 try {
     console.log('[MONGODB] - Connecting...');
     const options = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
         autoIndex: false,
         serverSelectionTimeoutMS: 5000,
         socketTimeoutMS: 45000,
         family: 4,
     };
-    mongoose.connect(dbConnectionString, options);
+    mongoose.connect(dbConnectionString, options).catch((err) => {
+        console.error('[MONGODB] - failed to connect on startup: ', err);
+    });
 } catch (err) {
     console.log("[MONGODB] - initialization failed: ", err.message);
 }
@@ -69,7 +69,8 @@ setInterval(async () => {
         const search = {
             leagueId: new mongoose.Types.ObjectId(leagueId),
             isGameOver: { $ne: true },
-            startDateTime: { $lte: new Date(Date.now() + 30 * 60 * 1000) },
+            // startDateTime: { $lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }, // 7 days from now
+            startDateTime: { $lte: new Date(Date.now() + 30 * 60 * 1000) }, // 30 minutes from now
             year: year
         };
 
