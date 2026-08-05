@@ -18,6 +18,11 @@ const normalizeNotificationTypes = (types) => {
   return cleaned.length ? [...new Set(cleaned)] : validNotificationTypes;
 };
 
+const normalizeTimezone = (tz) => {
+  const value = String(tz || '').trim();
+  return value || null;
+};
+
 router.get('/vapidPublicKey', (req, res) => {
   if (!vapidPublicKey) {
     return res.status(500).send('Missing VAPID_PUBLIC_KEY');
@@ -36,6 +41,7 @@ router.post('/subscriptions', async (req, res) => {
     }
 
     const userAgent = req.body?.userAgent;
+    const timezone = normalizeTimezone(req.body?.timezone);
     const notificationTypes = normalizeNotificationTypes(req.body?.notificationTypes);
 
     const upsert = {
@@ -47,6 +53,7 @@ router.post('/subscriptions', async (req, res) => {
         auth: subscription.keys.auth,
       },
       userAgent,
+      timezone,
       notificationTypes,
     };
 

@@ -179,9 +179,12 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                         applicationServerKey: urlBase64ToUint8Array(publicKey),
                     }));
 
+                                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || null;
+
                                 const payload = {
                                     subscription,
                                     userAgent: navigator.userAgent,
+                                    timezone,
                                     notificationTypes: ['upcoming', 'in_progress', 'all_final'],
                                 };
 

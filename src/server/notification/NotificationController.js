@@ -18,6 +18,11 @@ const normalizeNotificationTypes = (types) => {
   return cleaned.length ? [...new Set(cleaned)] : validNotificationTypes;
 };
 
+const normalizeTimezone = (tz) => {
+  const value = String(tz || '').trim();
+  return value || null;
+};
+
 router.get('/subscriptions/me', async (req, res) => {
   try {
     const userId = req.auth?.sub;
@@ -39,6 +44,7 @@ router.post('/subscriptions/authenticated', async (req, res) => {
     }
 
     const userAgent = req.body?.userAgent;
+    const timezone = normalizeTimezone(req.body?.timezone);
     const notificationTypes = normalizeNotificationTypes(req.body?.notificationTypes);
 
     const upsert = {
@@ -50,6 +56,7 @@ router.post('/subscriptions/authenticated', async (req, res) => {
         auth: subscription.keys.auth,
       },
       userAgent,
+      timezone,
       notificationTypes,
     };
 

@@ -133,7 +133,7 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
       return {
         find: async (query) => {
           calls.pickFind.push(query);
-          return [{ gameId: 'game-early' }];
+          return [];
         },
       };
     }
@@ -170,8 +170,8 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
   assert.equal(calls.deleteOne.length, 0, 'Expected no subscription deletions');
 
   const sentPayload = JSON.parse(calls.sendNotification[0][1]);
-  assert.equal(sentPayload.title, '🏈 Me vs Yall');
-  assert.equal(sentPayload.body, '1 upcoming game need your pick');
+  assert.equal(sentPayload.title, '🏈 Pick Reminder');
+  assert.equal(sentPayload.body, '1 game start in about 1 hour and need your pick');
   assert.equal(sentPayload.icon, '/favicon.png');
   assert.equal(sentPayload.badge, '/favicon.png');
   assert.equal(sentPayload.tag, 'pick-reminder-nfl');

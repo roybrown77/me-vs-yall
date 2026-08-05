@@ -8,7 +8,6 @@ const {
   vapidPrivateKey,
   enablePickPushReminders,
   pickPushReminderWindowHours,
-  pickPushReminderCooldownHours,
 } = require('../../../config');
 
 const gameRepository = require('../game/databaseRepositories/GameRepository');
@@ -49,6 +48,20 @@ const markEventKeySent = async ({ subscriptionId, eventKey }) => {
     { _id: subscriptionId },
     { $addToSet: { sentEventKeys: eventKey } }
   );
+};
+
+const getValidTimezone = (timezone) => {
+  if (!timezone) return null;
+  return moment.tz.zone(timezone) ? timezone : null;
+};
+
+const getLocalDateKey = ({ dateValue, timezone }) => {
+  return moment(dateValue).tz(timezone).format('YYYY-MM-DD');
+};
+
+const buildDailyEventKey = ({ type, timezone, dateValue = new Date() }) => {
+  const dateKey = getLocalDateKey({ dateValue, timezone });
+  return `${type}:${dateKey}`;
 };
 
 const canRun = () => {
@@ -115,7 +128,7 @@ const buildInProgressEvent = (games = []) => {
   return {
     eventKey: `in-progress:${leagueName}:${dateKey}`,
     payload: {
-      title: '⏱️ Me vs Yall',
+      title: '⏱️ Games In Progress',
       body: `${sorted.length} game${sorted.length === 1 ? ' is' : 's are'} in progress now`,
       icon: '/favicon.png',
       badge: '/favicon.png',
@@ -157,7 +170,7 @@ const buildAllFinalEvent = (games = []) => {
   return {
     eventKey: `all-final:${chosen.leagueName}:${chosen.dateKey}`,
     payload: {
-      title: '🏁 Me vs Yall',
+      title: '🏁 Final Scores Ready',
       body: `All ${chosen.leagueName.toUpperCase()} games are final. Check the leaderboard.`,
       icon: '/favicon.png',
       badge: '/favicon.png',
@@ -179,18 +192,7 @@ const computeMissingPickCount = async ({ userId, gameIds }) => {
   });
 
   const pickedGameIds = new Set(picks.map((p) => String(p.gameId)));
-  let missing = 0;
-  for (const gameId of gameIds) {
-    if (!pickedGameIds.has(String(gameId))) missing += 1;
-  }
-
-  return missing;
-};
-
-const shouldSendForSubscription = ({ subscription, cooldownHours }) => {
-  if (!subscription?.lastNotifiedAt) return true;
-  const nextAllowedAt = moment(subscription.lastNotifiedAt).add(cooldownHours, 'hours');
-  return moment().isAfter(nextAllowedAt);
+  return gameIds.filter((gameId) => !pickedGameIds.has(String(gameId)));
 };
 
 const sendPickReminderOnce = async () => {
@@ -216,8 +218,12 @@ const sendPickReminderOnce = async () => {
     (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
   );
   const nextGame = sortedUpcomingGames[0];
-  const leagueName = nextGame ? getLeagueName(nextGame.leagueId) : 'nfl';
-  const gameIds = sortedUpcomingGames.map((g) => g._id);
+  const now = Date.now();
+  const oneHourFromNow = now + 60 * 60 * 1000;
+  const upcomingGamesStartingSoon = sortedUpcomingGames.filter((game) => {
+    const startTime = new Date(game.startDateTime).getTime();
+    return startTime > now && startTime <= oneHourFromNow;
+  });
 
   const inProgressEvent = buildInProgressEvent(inProgressGames || []);
   const allFinalEvent = buildAllFinalEvent(recentlyStartedGames || []);
@@ -227,36 +233,48 @@ const sendPickReminderOnce = async () => {
 
   for (const sub of subscriptions) {
     try {
-      if (!shouldSendForSubscription({ subscription: sub, cooldownHours: pickPushReminderCooldownHours })) {
-        // Upcoming reminders are cooldown controlled; other event types use dedupe keys.
-      } else if (hasNotificationTypeEnabled({ subscription: sub, type: 'upcoming' }) && nextGame) {
-        let missingCount = 0;
+      const validTimezone = getValidTimezone(sub.timezone);
+      const subscriptionTimezone = validTimezone || 'UTC';
+
+      if (
+        hasNotificationTypeEnabled({ subscription: sub, type: 'upcoming' }) &&
+        nextGame &&
+        upcomingGamesStartingSoon.length
+      ) {
+        const unnotifiedStartingSoonGames = upcomingGamesStartingSoon.filter((game) => {
+          const eventKey = `upcoming-1h:${String(game._id)}`;
+          return !hasSentEventKey({ subscription: sub, eventKey });
+        });
+
+        if (unnotifiedStartingSoonGames.length) {
+          const targetGameIds = unnotifiedStartingSoonGames.map((g) => g._id);
+          const firstTargetGame = unnotifiedStartingSoonGames[0];
+          const targetLeagueName = firstTargetGame ? getLeagueName(firstTargetGame.leagueId) : 'nfl';
+          let missingGameIds = targetGameIds;
 
         if (sub.userId) {
-          missingCount = await computeMissingPickCount({ userId: sub.userId, gameIds });
-          if (!missingCount) {
-            missingCount = 0;
-          }
-        } else {
-          // Guest installs still get a generic upcoming kickoff reminder.
-          missingCount = sortedUpcomingGames.length;
+          missingGameIds = await computeMissingPickCount({
+            userId: sub.userId,
+            gameIds: targetGameIds,
+          });
         }
 
+        const missingCount = missingGameIds.length;
         if (missingCount > 0) {
           const payload = {
-            title: '🏈 Me vs Yall',
+            title: '🏈 Pick Reminder',
             body: sub.userId
-              ? `${missingCount} upcoming game${missingCount === 1 ? '' : 's'} need your pick`
-              : `${missingCount} game${missingCount === 1 ? '' : 's'} kick off soon`,
+              ? `${missingCount} game${missingCount === 1 ? '' : 's'} start in about 1 hour and need your pick`
+              : `${missingCount} game${missingCount === 1 ? '' : 's'} start in about 1 hour`,
             icon: '/favicon.png',
             badge: '/favicon.png',
-            tag: `pick-reminder-${leagueName}`,
+            tag: `pick-reminder-${targetLeagueName}`,
             renotify: true,
             actions: [
               { action: 'open-picks', title: 'Open Picks' },
               { action: 'dismiss', title: 'Later' },
             ],
-            url: `/scoreboards/${leagueName}`,
+            url: `/scoreboards/${targetLeagueName}`,
           };
 
           await webpush.sendNotification(
@@ -268,18 +286,34 @@ const sendPickReminderOnce = async () => {
             JSON.stringify(payload)
           );
 
-          await pushSubscriptionRepository.updateOne(
-            { _id: sub._id },
-            { $set: { lastNotifiedAt: new Date() } }
-          );
+          for (const gameId of missingGameIds) {
+            await markEventKeySent({
+              subscriptionId: sub._id,
+              eventKey: `upcoming-1h:${String(gameId)}`,
+            });
+          }
+        }
         }
       }
 
       if (
         inProgressEvent &&
         hasNotificationTypeEnabled({ subscription: sub, type: 'in_progress' }) &&
-        !hasSentEventKey({ subscription: sub, eventKey: inProgressEvent.eventKey })
+        !hasSentEventKey({
+          subscription: sub,
+          eventKey: buildDailyEventKey({
+            type: 'in-progress-daily',
+            timezone: subscriptionTimezone,
+            dateValue: new Date(),
+          }),
+        })
       ) {
+        const inProgressEventKey = buildDailyEventKey({
+          type: 'in-progress-daily',
+          timezone: subscriptionTimezone,
+          dateValue: new Date(),
+        });
+
         await webpush.sendNotification(
           {
             endpoint: sub.endpoint,
@@ -289,7 +323,7 @@ const sendPickReminderOnce = async () => {
           JSON.stringify(inProgressEvent.payload)
         );
 
-        await markEventKeySent({ subscriptionId: sub._id, eventKey: inProgressEvent.eventKey });
+        await markEventKeySent({ subscriptionId: sub._id, eventKey: inProgressEventKey });
       }
 
       if (
