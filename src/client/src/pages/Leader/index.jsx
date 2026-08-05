@@ -128,6 +128,7 @@ const Leader = () => {
   const [picks, setPicks] = useState([]);
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [failedLeaderPictures, setFailedLeaderPictures] = useState({});
 
   const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
@@ -143,6 +144,19 @@ const Leader = () => {
       disableSpreadMode();
     }
   };
+
+  const handleLeaderPictureError = useCallback((leaderId) => {
+    setFailedLeaderPictures((current) => {
+      if (current[leaderId]) {
+        return current;
+      }
+
+      return {
+        ...current,
+        [leaderId]: true,
+      };
+    });
+  }, []);
 
   const loadData = useCallback(
     async ({
@@ -389,7 +403,7 @@ const Leader = () => {
                                 {index + 1}
                               </div>
                             )}
-                            {leader.picture && (
+                            {leader.picture && !failedLeaderPictures[leader.id] && (
                               <div style={{ margin: "auto" }}>
                                 {index === 0 && (
                                   <div
@@ -411,10 +425,11 @@ const Leader = () => {
                                   alt=""
                                   referrerPolicy="no-referrer"
                                   crossOrigin="anonymous"
+                                  onError={() => handleLeaderPictureError(leader.id)}
                                 />
                               </div>
                             )}
-                            {!leader.picture && (
+                            {(!leader.picture || failedLeaderPictures[leader.id]) && (
                               <div
                                 style={{
                                   ...styles.userDefaultPictureContainer,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
@@ -113,7 +113,13 @@ const Header = (props) => {
   const isAuthenticated = isConfirmedAuthentication();
   const user = getUser();
   const picture = get(user,'picture');
+  const [profileImageFailed, setProfileImageFailed] = useState(false);
   const rootStyle = disableTopBanner ? { margin: 0 } : styles.root;
+  const showProfileImage = isAuthenticated && picture && !profileImageFailed;
+
+  useEffect(() => {
+    setProfileImageFailed(false);
+  }, [picture]);
 
   return (
     <div style={rootStyle}>
@@ -129,8 +135,8 @@ const Header = (props) => {
               </Link>
             )}
           </Typography>
-          {isAuthenticated && picture && (
-            <Profile mainElement={(<img style={styles.userPicture} src={picture} alt="User Profile" />)}>
+          {showProfileImage && (
+            <Profile mainElement={(<img style={styles.userPicture} src={picture} alt="User Profile" onError={() => setProfileImageFailed(true)} />)}>
               {({ close }) => (
                 <div className="header-signout-popover">
                   <div className="header-signout-popover__kicker">Account</div>
@@ -158,9 +164,9 @@ const Header = (props) => {
               )}
             </Profile>
           )}
-          {isAuthenticated && !picture && (
+          {isAuthenticated && !showProfileImage && (
             <div style={styles.userDefaultPicture} title="User Profile">
-              <div style={{ margin: '8px 0' }}>{user.name[0]}</div>
+              <div style={{ margin: '8px 0' }}>{get(user, 'name', '?')[0]}</div>
             </div>
           )}
           {!isAuthenticated && (

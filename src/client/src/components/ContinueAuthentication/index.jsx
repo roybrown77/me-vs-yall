@@ -17,6 +17,7 @@ import {
 const ContinueAuthentication = () => {
     const [open, setOpen] = useState(true);
     const [user] = useState(getUser());
+    const [authUserImageFailed, setAuthUserImageFailed] = useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -66,7 +67,32 @@ const ContinueAuthentication = () => {
                                     marginBottom: '15px'
                             }}>
                                 <div style={{marginLeft: '10px'}}>
-                                    <img style={{height: '30px', width: '30px', borderRadius: '50px'}} src={user.picture} alt="Sign in to Me vs Yall"/>
+                                    {!authUserImageFailed && user.picture && (
+                                        <img
+                                            style={{height: '30px', width: '30px', borderRadius: '50px'}}
+                                            src={user.picture}
+                                            alt="Sign in to Me vs Yall"
+                                            onError={() => setAuthUserImageFailed(true)}
+                                        />
+                                    )}
+                                    {(authUserImageFailed || !user.picture) && (
+                                        <div
+                                            style={{
+                                                height: '30px',
+                                                width: '30px',
+                                                borderRadius: '50px',
+                                                backgroundColor: '#707070',
+                                                color: '#fff',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontSize: '0.9rem',
+                                                fontWeight: '700',
+                                            }}
+                                        >
+                                            {(user.given_name || user.name || '?')[0]}
+                                        </div>
+                                    )}
                                 </div>
                                 <div style={{width: '100%', marginLeft: '10px'}}>
                                     <div>
