@@ -168,16 +168,17 @@ const Scoreboard = () => {
 
   usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 15000 });
 
+  const currentWeek = weeks.find((x) => x._id === weekId);
   const groupedGames = useMemo(() => {
     return getGroupedGames({
       games,
       picks,
       teams,
       spreadMode,
+      week: currentWeek,
     });
-  }, [games, picks, spreadMode, teams]);
+  }, [currentWeek, games, picks, spreadMode, teams]);
 
-  const currentWeek = weeks.find((x) => x._id === weekId);
   const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
   const areAllGamesOver = getAreAllGamesOver(games);
   const gamesNotStarted = games.filter((x) => !hasGameStarted(x.startDateTime));

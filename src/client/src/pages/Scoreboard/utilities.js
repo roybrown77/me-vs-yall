@@ -6,7 +6,18 @@ import { getRandomIntInclusive, getSpreadAmount, hasGameStarted } from '../../ut
 
 const NFL_LEAGUE_ID = '59723313734d1d6202a85f10';
 
-const getNflSeasonOpenerGameId = (games = []) => {
+const isHallOfFameWeek = (week = {}) => {
+  const weekLabels = [week?.description, week?.name, week?.displayName]
+    .map((value) => String(value || '').toLowerCase());
+
+  return weekLabels.some((label) => label.includes('hall of fame game'));
+};
+
+const getNflSeasonOpenerGameId = (games = [], week = {}) => {
+  if (!isHallOfFameWeek(week)) {
+    return null;
+  }
+
   const nflGames = games
     .filter((game) => game?.leagueId === NFL_LEAGUE_ID && game?.startDateTime)
     .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
@@ -62,8 +73,8 @@ const getPicksNotSelected = (games = [], picks = []) => {
     }, 0);
 };
 
-const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false}) => {
-  const seasonOpenerGameId = getNflSeasonOpenerGameId(games);
+const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false, week = {}}) => {
+  const seasonOpenerGameId = getNflSeasonOpenerGameId(games, week);
 
     const formattedGames = games.map((game) => {
       const displayDateTime = moment(new Date(game.startDateTime));
