@@ -126,10 +126,6 @@ const getScoreGuessLabel = (pick = {}, game = {}) => {
   }
 
   if (!hasGuess) {
-    if (bump > 0 && isGameOfTheWeek(game)) {
-      return `Game of the Week bonus${bumpLabel}`;
-    }
-
     return "";
   }
 

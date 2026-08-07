@@ -58,6 +58,7 @@ const getAstroPositionAndEmoji = () => {
 
 const boxingHypeText = "Let's Get Ready to Rumble!";
 const mmaHypeText = "It's Time!";
+const TIE_PICK_ID = "000000000000000000000000";
 const getScoreGuessBoostRows = (multiplier = 1) => [
   { diff: "0", points: SCORE_GUESS_BUMPS.exact * multiplier },
   { diff: "1", points: SCORE_GUESS_BUMPS.within1 * multiplier },
@@ -119,6 +120,40 @@ const Game = (props) => {
     }, timeoutMs);
   };
 
+  const getParsedScoreGuessValues = () => {
+    const away = state.guessedAwayScore === "" ? undefined : parseInt(state.guessedAwayScore, 10);
+    const home = state.guessedHomeScore === "" ? undefined : parseInt(state.guessedHomeScore, 10);
+
+    return {
+      guessedAwayScore: Number.isNaN(away) ? undefined : away,
+      guessedHomeScore: Number.isNaN(home) ? undefined : home,
+    };
+  };
+
+  const shouldResetScoreGuessForPick = (nextPickId) => {
+    const { guessedAwayScore, guessedHomeScore } = getParsedScoreGuessValues();
+
+    if (guessedAwayScore === undefined || guessedHomeScore === undefined) {
+      return false;
+    }
+
+    const awayCompetitorId = get(game, "competitors.0._id");
+    const homeCompetitorId = get(game, "competitors.1._id");
+
+    if (!awayCompetitorId || !homeCompetitorId) {
+      return false;
+    }
+
+    const scoreGuessPickId =
+      guessedAwayScore === guessedHomeScore
+        ? TIE_PICK_ID
+        : guessedAwayScore > guessedHomeScore
+        ? awayCompetitorId
+        : homeCompetitorId;
+
+    return scoreGuessPickId !== nextPickId;
+  };
+
   const handleMakePick = (game, pickId, competitorIndex, forceUpdate = false) => {
     setState((prevState) => ({
       ...prevState,
@@ -148,35 +183,55 @@ const Game = (props) => {
       return;
     }
 
-    const guessedAwayScore = state.guessedAwayScore === "" ? undefined : parseInt(state.guessedAwayScore, 10);
-    const guessedHomeScore = state.guessedHomeScore === "" ? undefined : parseInt(state.guessedHomeScore, 10);
+    const shouldResetScoreGuess = !forceUpdate && shouldResetScoreGuessForPick(pickId);
+    const parsedGuess = getParsedScoreGuessValues();
+
+    if (shouldResetScoreGuess) {
+      setState((prevState) => ({
+        ...prevState,
+        guessedAwayScore: "",
+        guessedHomeScore: "",
+      }));
+
+      showPopoverMessage("Score guess cleared because it conflicted with your new pick.", 2300);
+    }
 
     const pick = {
       gameId: game._id,
       pickId,
-      guessedAwayScore: Number.isNaN(guessedAwayScore) ? undefined : guessedAwayScore,
-      guessedHomeScore: Number.isNaN(guessedHomeScore) ? undefined : guessedHomeScore,
+      guessedAwayScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedAwayScore,
+      guessedHomeScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedHomeScore,
     };
     props.handleMakePick(pick);
   };
 
   const handleTie = (gameId) => {
     if (
-      get(props, "pick.pickId") === "000000000000000000000000" ||
+      get(props, "pick.pickId") === TIE_PICK_ID ||
       props?.updatingPick ||
       hasGameStarted(props.game.startDateTime)
     ) {
       return;
     }
 
-    const guessedAwayScore = state.guessedAwayScore === "" ? undefined : parseInt(state.guessedAwayScore, 10);
-    const guessedHomeScore = state.guessedHomeScore === "" ? undefined : parseInt(state.guessedHomeScore, 10);
+    const shouldResetScoreGuess = shouldResetScoreGuessForPick(TIE_PICK_ID);
+    const parsedGuess = getParsedScoreGuessValues();
+
+    if (shouldResetScoreGuess) {
+      setState((prevState) => ({
+        ...prevState,
+        guessedAwayScore: "",
+        guessedHomeScore: "",
+      }));
+
+      showPopoverMessage("Score guess cleared because it conflicted with your new pick.", 2300);
+    }
 
     const pick = {
       gameId,
-      pickId: "000000000000000000000000",
-      guessedAwayScore: Number.isNaN(guessedAwayScore) ? undefined : guessedAwayScore,
-      guessedHomeScore: Number.isNaN(guessedHomeScore) ? undefined : guessedHomeScore,
+      pickId: TIE_PICK_ID,
+      guessedAwayScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedAwayScore,
+      guessedHomeScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedHomeScore,
     };
     props.handleMakePick(pick);
   };
