@@ -131,7 +131,7 @@ const Leader = () => {
 
   const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
-  const isBonusPointsTab = selectedLeaderTab === 0;
+  const isBonusPointsTab = selectedLeaderTab === 1;
   const isSpreadTab = selectedLeaderTab === 2;
 
   const handleLeaderTabChange = (_, selectedTab) => {
@@ -216,7 +216,7 @@ const Leader = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Leaders should always open on Bonus Points.
+    // Leaders should always open on Picks.
     disableSpreadMode();
   }, []);
 
@@ -312,8 +312,8 @@ const Leader = () => {
                   margin: "auto",
                 }}
               >
-                <Tab label="Picks + Bonus 🚀" {...a11yProps(0)} />
-                <Tab label="Picks 🎯" {...a11yProps(1)} />
+                <Tab label="Picks 🎯" {...a11yProps(0)} />
+                <Tab label="Picks + Bonus 🚀" {...a11yProps(1)} />
                 <Tab label="Against the Spread 📊" {...a11yProps(2)} />
               </Tabs>
             </Box>
