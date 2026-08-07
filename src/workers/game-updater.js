@@ -271,8 +271,9 @@ async function scrapeGameInformation(url) {
                         }
                     }
 
-                    const isGameOverEl = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-gray-01');
-                    const isGameOver = isGameOverEl ? !!isGameOverEl.textContent : false;
+                    const gameStatusEl = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time');
+                    const gameStatusText = gameStatusEl ? gameStatusEl.textContent.trim() : '';
+                    const isGameOver = /^final\b/i.test(gameStatusText);
 
                     const currentTimeEl = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.h9.clr-negative');
                     const currentTime = currentTimeEl ? currentTimeEl.textContent.trim() : null;
