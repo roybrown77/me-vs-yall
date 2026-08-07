@@ -106,6 +106,24 @@ const getScoreGuessLabel = (pick = {}, game = {}) => {
   const { away, home, hasGuess } = getScoreGuessFromPick(pick);
   const bump = getScoreGuessBumpPoints(game, pick);
   const bumpLabel = bump > 0 ? ` (+${bump.toFixed(2).replace(/\.00$/, "")})` : "";
+  const delta = getScoreGuessDelta(game, pick);
+  const gameOfTheWeek = isGameOfTheWeek(game);
+  const multiplier = gameOfTheWeek
+    ? GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER
+    : 1;
+
+  let guessBump = 0;
+  if (delta) {
+    if (delta.totalDiff === 0) {
+      guessBump = SCORE_GUESS_BUMPS.exact * multiplier;
+    } else if (delta.totalDiff === 1) {
+      guessBump = SCORE_GUESS_BUMPS.within1 * multiplier;
+    } else if (delta.totalDiff === 2) {
+      guessBump = SCORE_GUESS_BUMPS.within2 * multiplier;
+    } else if (delta.totalDiff === 3) {
+      guessBump = SCORE_GUESS_BUMPS.within3 * multiplier;
+    }
+  }
 
   if (!hasGuess) {
     if (bump > 0 && isGameOfTheWeek(game)) {
@@ -115,7 +133,15 @@ const getScoreGuessLabel = (pick = {}, game = {}) => {
     return "";
   }
 
-  return `Guess ${away}-${home}${bumpLabel}`;
+  if (get(game, "isGameOver")) {
+    if (guessBump > 0) {
+      return `Guess ${away}-${home} (+${guessBump.toFixed(2).replace(/\.00$/, "")})`;
+    }
+
+    return `Guess ${away}-${home} (0)`;
+  }
+
+  return `Guess ${away}-${home}`;
 };
 
 const getScoreGuessTotals = (games = [], picks = []) => {

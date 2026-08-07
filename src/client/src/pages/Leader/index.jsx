@@ -246,6 +246,10 @@ const Leader = () => {
 
   const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
   const areAllGamesOver = getAreAllGamesOver(games);
+  const hasAnyGamesStartedOrFinished = useMemo(
+    () => games.some((game) => game.isGameOver || new Date(game.startDateTime) <= new Date()),
+    [games]
+  );
   const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
   const leaderSummaryPadding = (areAnyGamesInProgress ? 0.5 : 0) + (isSpreadTab ? 0.5 : 0);
   const isLoading = dataLoading && !areAnyGamesInProgress;
@@ -353,7 +357,7 @@ const Leader = () => {
                       {(() => {
                         const showLeaderPicksAndGuesses = canShowLeaderPicksAndGuesses({
                           leaderId: leader.id,
-                          gameStarted: areAnyGamesInProgress || areAllGamesOver,
+                          gameStarted: hasAnyGamesStartedOrFinished,
                         });
 
                         return (
@@ -444,11 +448,6 @@ const Leader = () => {
                               <div>
                                 {leader.wins} - {leader.losses}
                               </div>
-                              {isBonusPointsTab && showLeaderPicksAndGuesses && leader.scoreGuessBumpPoints > 0 && (
-                                <div style={{ color: "#0B6E4F", fontWeight: "700" }}>
-                                  +{leader.scoreGuessBumpPoints.toFixed(2).replace(/\.00$/, "")} guess boost
-                                </div>
-                              )}
                               <div
                                 style={{
                                   fontWeight: "700",
@@ -553,7 +552,7 @@ const Leader = () => {
                                         <td align="center"></td>
                                         <td align="center"></td>
                                         <td align="center">
-                                          <span style={{ color: game.scoreGuessBump > 0 ? "#0B6E4F" : "#666" }}>
+                                          <span style={{ color: /\(\+/.test(game.scoreGuessLabel) ? "#0B6E4F" : /\(0\)/.test(game.scoreGuessLabel) ? "#B42318" : "#666" }}>
                                             {game.scoreGuessLabel}
                                           </span>
                                         </td>
