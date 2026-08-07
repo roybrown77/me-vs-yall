@@ -8,7 +8,7 @@ import Typer from './Typer';
 import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
 import { callApi } from '../../utilities/http';
 import { getLeagueName } from '../../utilities/getLeagueName';
-import { leagues } from '../../utilities';
+import { hasGameStarted, leagues } from '../../utilities';
 import mvyBalls from '../../styles/images/mvy-balls-cut.png';
 import maddenTouchdown from '../../media/madden-touchdown.m4a';
 import tecmoTouchdown from '../../media/tecmo-touchdown.m4a'
@@ -44,11 +44,13 @@ const windingSegments = [
 
 const confettiPieces = Array.from({ length: 18 }, (_, index) => index);
 const TOUCHDOWN_TRIGGER_PROGRESS = 0.9;
+const BANDWAGON_SCROLL_SENSITIVITY = 2.3;
 
 const Home = () => {
   useGoogleAnalytics();
   const endRef = useRef(null);
   const windingRef = useRef(null);
+  const roadRef = useRef(null);
   const [truckProgress, setTruckProgress] = useState(0);
   const [windingProgress, setWindingProgress] = useState(0);
   const [enteredDropZone, setEnteredDropZone] = useState(false);
@@ -94,7 +96,17 @@ const Home = () => {
         });
 
         const now = moment().tz('America/New_York');
-        const upcomingGames = (Array.isArray(games) ? games : [])
+        const scheduleGames = Array.isArray(games) ? games : [];
+        const areAnyGamesInProgress = scheduleGames.some(
+          (game) => game?.startDateTime && hasGameStarted(game.startDateTime) && !game?.isGameOver
+        );
+
+        if (areAnyGamesInProgress) {
+          if (isMounted) setShowGameTrail(true);
+          return;
+        }
+
+        const upcomingGames = scheduleGames
           .filter((game) => game?.startDateTime && moment(game.startDateTime).isAfter(now))
           .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 
@@ -167,6 +179,39 @@ const Home = () => {
     window.addEventListener('keydown', onKeyDown);
 
     return () => window.removeEventListener('keydown', onKeyDown);
+  }, [showGameTrail]);
+
+  useEffect(() => {
+    if (!showGameTrail) return undefined;
+
+    const onScroll = () => {
+      if (!roadRef.current) return;
+
+      const isAtPageBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+
+      if (isAtPageBottom) {
+        setTruckProgress(1);
+        return;
+      }
+
+      const rect = roadRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const travelRange = viewportHeight + rect.height;
+      const covered = viewportHeight - rect.top;
+      const normalizedProgress = covered / travelRange;
+      const nextProgress = Math.max(
+        0,
+        Math.min(1, normalizedProgress * BANDWAGON_SCROLL_SENSITIVITY)
+      );
+
+      setTruckProgress(nextProgress);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', onScroll);
   }, [showGameTrail]);
 
   useEffect(() => {
@@ -342,86 +387,6 @@ const Home = () => {
             </div>
           </section>
 
-        {showGameTrail && <section className="home-doodle__storyline" aria-label="Story milestones animation">
-          <div className="home-doodle__milestone-track" />
-          <div
-            className="home-doodle__milestone-progress"
-            style={{ width: `${(activeStoryIndex / (storySteps.length - 1)) * 100}%` }}
-          />
-          {storySteps.map((step, index) => (
-            <div
-              key={step}
-              className={`home-doodle__milestone${index === activeStoryIndex ? ' is-active' : ''}`}
-              style={{ left: `${(index / (storySteps.length - 1)) * 100}%` }}
-              aria-label={step}
-              onClick={() => handleMilestoneClick(index)}
-              onKeyDown={(event) => {
-                if (event.key !== 'Enter' && event.key !== ' ') return;
-                event.preventDefault();
-                handleMilestoneClick(index);
-              }}
-              role="button"
-              tabIndex={0}
-            >
-              <span className="home-doodle__milestone-dot" />
-            </div>
-          ))}
-        </section>}
-
-        {showGameTrail && <section className="home-doodle__road" aria-label="Field road">
-          <div className="home-doodle__lane" />
-          <div className="home-doodle__lane home-doodle__lane--mid" />
-          <aside
-            className={`home-doodle__controls-hint${hasTruckMoved ? ' is-hidden' : ''}`}
-            aria-label="Truck controls help"
-          >
-            <p className="home-doodle__controls-meta">Use ⬅️ ➡️ arrow keys or click a milestone dot</p>
-          </aside>
-          <div
-            className={`home-doodle__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}
-            aria-hidden="true"
-          >
-            {confettiPieces.map((piece) => (
-              <span
-                key={`confetti-${piece}`}
-                className="home-doodle__confetti"
-                style={{
-                  left: `${8 + piece * 5}%`,
-                  animationDelay: `${(piece % 6) * 90}ms`,
-                  animationDuration: `${850 + (piece % 5) * 160}ms`,
-                }}
-              />
-            ))}
-          </div>
-          {hasTruckMoved && (
-            <div className="home-doodle__typing" role="status" aria-live="polite">
-              {typedText}
-              <span className="home-doodle__cursor" />
-            </div>
-          )}
-          <div
-            className="home-doodle__truck-wrap"
-            style={{ transform: `translateX(${truckX}vw)` }}
-            aria-hidden="true"
-          >
-            <div className="home-doodle__truck home-doodle__truck--right">
-              <div className="home-doodle__truck-riders" aria-hidden="true">
-                <span className="home-doodle__truck-rider">😎</span>
-                <span className="home-doodle__truck-rider">😄</span>
-                <span className="home-doodle__truck-rider">😅</span>
-                <span className="home-doodle__truck-rider">😂</span>
-              </div>
-              <span className="home-doodle__truck-emoji" role="img" aria-label="Truck">
-                🚚
-              </span>
-              <div className="home-doodle__flag-pole home-doodle__flag-pole--rear-right" />
-              <div className="home-doodle__flag home-doodle__flag--rear-right">
-                <img src={mvyBalls} alt="Me vs Yall balls logo flag" />
-              </div>
-            </div>
-          </div>
-        </section>}
-
         {false && <section className="home-doodle__winding-run" aria-label="Long winding run" ref={windingRef}>
           <div className="home-doodle__winding-title">Long Winding Field Run</div>
           <div className="home-doodle__winding-typing" role="status" aria-live="polite">
@@ -511,6 +476,86 @@ const Home = () => {
             <div>{now}</div>
             <div>ATL via BOS via HOU via SUN</div>
           </div>
+
+        {showGameTrail && <section className="home-doodle__storyline" aria-label="Story milestones animation">
+          <div className="home-doodle__milestone-track" />
+          <div
+            className="home-doodle__milestone-progress"
+            style={{ width: `${(activeStoryIndex / (storySteps.length - 1)) * 100}%` }}
+          />
+          {storySteps.map((step, index) => (
+            <div
+              key={step}
+              className={`home-doodle__milestone${index === activeStoryIndex ? ' is-active' : ''}`}
+              style={{ left: `${(index / (storySteps.length - 1)) * 100}%` }}
+              aria-label={step}
+              onClick={() => handleMilestoneClick(index)}
+              onKeyDown={(event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                handleMilestoneClick(index);
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              <span className="home-doodle__milestone-dot" />
+            </div>
+          ))}
+        </section>}
+
+        {showGameTrail && <section className="home-doodle__road" aria-label="Field road" ref={roadRef}>
+          <div className="home-doodle__lane" />
+          <div className="home-doodle__lane home-doodle__lane--mid" />
+          {false && <aside
+            className={`home-doodle__controls-hint${hasTruckMoved ? ' is-hidden' : ''}`}
+            aria-label="Truck controls help"
+          >
+            <p className="home-doodle__controls-meta">Use ⬅️ ➡️ arrow keys or click a milestone dot</p>
+          </aside>}
+          <div
+            className={`home-doodle__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}
+            aria-hidden="true"
+          >
+            {confettiPieces.map((piece) => (
+              <span
+                key={`confetti-${piece}`}
+                className="home-doodle__confetti"
+                style={{
+                  left: `${8 + piece * 5}%`,
+                  animationDelay: `${(piece % 6) * 90}ms`,
+                  animationDuration: `${850 + (piece % 5) * 160}ms`,
+                }}
+              />
+            ))}
+          </div>
+          {hasTruckMoved && (
+            <div className="home-doodle__typing" role="status" aria-live="polite">
+              {typedText}
+              <span className="home-doodle__cursor" />
+            </div>
+          )}
+          <div
+            className="home-doodle__truck-wrap"
+            style={{ transform: `translateX(${truckX}vw)` }}
+            aria-hidden="true"
+          >
+            <div className="home-doodle__truck home-doodle__truck--right">
+              <div className="home-doodle__truck-riders" aria-hidden="true">
+                <span className="home-doodle__truck-rider">😎</span>
+                <span className="home-doodle__truck-rider">😄</span>
+                <span className="home-doodle__truck-rider">😅</span>
+                <span className="home-doodle__truck-rider">😂</span>
+              </div>
+              <span className="home-doodle__truck-emoji" role="img" aria-label="Truck">
+                🚚
+              </span>
+              <div className="home-doodle__flag-pole home-doodle__flag-pole--rear-right" />
+              <div className="home-doodle__flag home-doodle__flag--rear-right">
+                <img src={mvyBalls} alt="Me vs Yall balls logo flag" />
+              </div>
+            </div>
+          </div>
+        </section>}
         </footer>
       </div>
     </Header>
