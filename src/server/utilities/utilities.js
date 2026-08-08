@@ -30,6 +30,15 @@ const getGames = async ({
   let games = [];
   let browser;
   let page;
+
+  const getSpreadDetails = (spreadText) => {
+    const spreadMatch = (spreadText || '').match(/Spread:\s*([A-Z]+)\s*[-+]?\s*([\d.]+)/i);
+
+    return {
+      spreadTeam: spreadMatch ? spreadMatch[1] : null,
+      spreadAmount: spreadMatch ? spreadMatch[2] : 0
+    };
+  };
   
   try {
     browser = await puppeteer.launch({
@@ -42,8 +51,8 @@ const getGames = async ({
     page = await browser.newPage();
 
     await page.setViewport({
-      width: 2000,
-      height: 1000,
+      width: 2500,
+      height: 1500,
     });
 
     await page.setUserAgent(
@@ -103,22 +112,72 @@ const getGames = async ({
         return element ? element.innerText : null;
       }, spreadSelector.replace("INDEX", i));
 
-      const spreadTeam = (spread || "").includes('Spread:') 
-        ? (spread?.match(/Spread:\s*([A-Z]+)\s*-/) || [])[1] 
-        : null;
+      const { spreadTeam, spreadAmount } = getSpreadDetails(spread);
 
-      const spreadAmount = (spread?.match(/Spread:\s*[A-Z]+\s*-\s*([\d.]+)/) || [])[1] || 0;
+      if ((awayTeam || '').trim() && (homeTeam || '').trim()) {
+        games.push({
+            startDateTime: moment(new Date(startDate + " " + startTime)).toISOString(),
+            spread: {
+             team: spreadTeam,
+             amount: spreadAmount,
+             spreadDateTime: moment().toISOString()
+            },
+            awayTeam: (awayTeam || '').trim(),
+            homeTeam: (homeTeam || '').trim(),
+        });
+      }
+    }
 
-      games.push({
-          startDateTime: moment(new Date(startDate + " " + startTime)).toISOString(),
-          spread: {
-           team: spreadTeam,
-           amount: spreadAmount,
-           spreadDateTime: moment().toISOString()
-          },
-          awayTeam: (awayTeam || '').trim(),
-          homeTeam: (homeTeam || '').trim(),
+    if (games.length === 0 && listLength > 0) {
+      console.log(`${message} getGames selector parse returned 0 games, trying scoreboard fallback parser.`);
+
+      const fallbackGames = await page.evaluate(() => {
+        const parsedGames = [];
+        const scoreboards = document.querySelectorAll('.Scoreboard');
+
+        scoreboards.forEach((scoreboard) => {
+          const competitors = scoreboard.querySelectorAll('.ScoreboardScoreCell__Competitors > li');
+          const awayTeam = competitors[0]?.querySelector('.ScoreCell__TeamName--shortDisplayName')?.textContent?.trim() || '';
+          const homeTeam = competitors[1]?.querySelector('.ScoreCell__TeamName--shortDisplayName')?.textContent?.trim() || '';
+
+          if (!awayTeam || !homeTeam) {
+            return;
+          }
+
+          const startTime = scoreboard.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time')?.textContent?.trim() || '';
+          const card = scoreboard.closest('.Card');
+          const startDate = card?.querySelector('.Card__Header__Title')?.textContent?.trim() || '';
+
+          const spread = scoreboard.querySelector('.OddsStripWrapper li:nth-child(1) .rIczU')?.textContent?.trim() || '';
+
+          parsedGames.push({
+            awayTeam,
+            homeTeam,
+            startDate,
+            startTime,
+            spread
+          });
+        });
+
+        return parsedGames;
       });
+
+      games = fallbackGames.map((game) => {
+        const { spreadTeam, spreadAmount } = getSpreadDetails(game.spread);
+
+        return {
+          startDateTime: moment(new Date(`${game.startDate} ${game.startTime}`)).toISOString(),
+          spread: {
+            team: spreadTeam,
+            amount: spreadAmount,
+            spreadDateTime: moment().toISOString()
+          },
+          awayTeam: (game.awayTeam || '').trim(),
+          homeTeam: (game.homeTeam || '').trim(),
+        };
+      });
+
+      console.log(`${message} getGames fallback parser loaded ${games.length} games.`);
     }
   } catch (error) {
     console.log(`${message} getGames browser error 2: `, error);
