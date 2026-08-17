@@ -11,6 +11,7 @@ const {
 } = require('../../../config');
 
 const gameRepository = require('../game/databaseRepositories/GameRepository');
+const gameWeekRepository = require('../game/databaseRepositories/GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
 const pushSubscriptionRepository = require('./PushSubscriptionRepository');
 
@@ -29,6 +30,101 @@ const leagueIdToName = {
 };
 
 const defaultNotificationTypes = ['upcoming', 'in_progress', 'all_final'];
+
+const NFL_LEAGUE_ID = '59723313734d1d6202a85f10';
+const PICK_FINALIZE_REMINDER_HOUR = 19;
+const PICK_FINALIZE_LOOKAHEAD_DAYS = 21;
+
+const buildPickFinalizeReminderPayload = () => ({
+  title: 'Are you ready for some football?!',
+  body: 'Finalize your picks.',
+  icon: '/favicon.png',
+  badge: '/favicon.png',
+  tag: 'pick-finalize-reminder',
+  renotify: true,
+  actions: [
+    { action: 'open-picks', title: 'Open Picks' },
+    { action: 'dismiss', title: 'Later' },
+  ],
+  url: '/scoreboards/nfl',
+});
+
+const isSevenPmWindow = ({ timezone, dateValue = new Date() }) => {
+  const local = moment(dateValue).tz(timezone);
+  return local.hour() === PICK_FINALIZE_REMINDER_HOUR && local.minute() < 15;
+};
+
+const findGameWeek = (game, gameWeeks = []) => {
+  const start = new Date(game.startDateTime).getTime();
+
+  return gameWeeks.find((week) => {
+    const begin = new Date(week.beginDateTime).getTime();
+    const end = new Date(week.endDateTime).getTime();
+    return start >= begin && start <= end;
+  });
+};
+
+const getUpcomingNflFirstGamesOfWeek = async () => {
+  const now = new Date();
+  const windowEnd = new Date(Date.now() + PICK_FINALIZE_LOOKAHEAD_DAYS * 24 * 60 * 60 * 1000);
+  const leagueObjectId = new mongoose.Types.ObjectId(NFL_LEAGUE_ID);
+
+  const games = await gameRepository.find({
+    leagueId: leagueObjectId,
+    isGameOver: { $ne: true },
+    isHidden: { $ne: true },
+    startDateTime: { $gt: now, $lte: windowEnd },
+  });
+
+  if (!games.length) return [];
+
+  const years = [...new Set(games.map((game) => game.year).filter(Boolean))];
+  const gameWeeks = years.length
+    ? await gameWeekRepository.find({
+        leagueId: leagueObjectId,
+        year: years.length === 1 ? years[0] : { $in: years },
+      })
+    : [];
+
+  const firstGamesByWeek = new Map();
+
+  for (const game of games) {
+    const week = findGameWeek(game, gameWeeks);
+    const weekKey = week ? String(week._id) : `fallback-${getDateKey(game.startDateTime)}`;
+    const existing = firstGamesByWeek.get(weekKey);
+
+    if (!existing || new Date(game.startDateTime) < new Date(existing.startDateTime)) {
+      firstGamesByWeek.set(weekKey, game);
+    }
+  }
+
+  return [...firstGamesByWeek.values()];
+};
+
+const isDayBeforeFirstGameOfWeek = ({
+  timezone,
+  dateValue = new Date(),
+  firstGamesOfWeek = [],
+}) => {
+  if (!firstGamesOfWeek.length) return false;
+
+  const tomorrowKey = moment(dateValue).tz(timezone).clone().add(1, 'day').format('YYYY-MM-DD');
+
+  return firstGamesOfWeek.some((game) => {
+    return getLocalDateKey({ dateValue: game.startDateTime, timezone }) === tomorrowKey;
+  });
+};
+
+const isPickFinalizeReminderWindow = ({
+  timezone,
+  dateValue = new Date(),
+  firstGamesOfWeek = [],
+}) => {
+  return (
+    isSevenPmWindow({ timezone, dateValue }) &&
+    isDayBeforeFirstGameOfWeek({ timezone, dateValue, firstGamesOfWeek })
+  );
+};
 
 const hasNotificationTypeEnabled = ({ subscription, type }) => {
   const configuredTypes = Array.isArray(subscription?.notificationTypes)
@@ -195,6 +291,50 @@ const computeMissingPickCount = async ({ userId, gameIds }) => {
   return gameIds.filter((gameId) => !pickedGameIds.has(String(gameId)));
 };
 
+const sendPickFinalizeReminder = async ({
+  subscription,
+  subscriptionTimezone,
+  dateValue = new Date(),
+  firstGamesOfWeek = [],
+}) => {
+  if (
+    !isPickFinalizeReminderWindow({
+      timezone: subscriptionTimezone,
+      dateValue,
+      firstGamesOfWeek,
+    }) ||
+    !hasNotificationTypeEnabled({ subscription, type: 'upcoming' })
+  ) {
+    return false;
+  }
+
+  const pickFinalizeEventKey = buildDailyEventKey({
+    type: 'pick-finalize',
+    timezone: subscriptionTimezone,
+    dateValue,
+  });
+
+  if (hasSentEventKey({ subscription, eventKey: pickFinalizeEventKey })) {
+    return false;
+  }
+
+  await webpush.sendNotification(
+    {
+      endpoint: subscription.endpoint,
+      expirationTime: subscription.expirationTime,
+      keys: subscription.keys,
+    },
+    JSON.stringify(buildPickFinalizeReminderPayload())
+  );
+
+  await markEventKeySent({
+    subscriptionId: subscription._id,
+    eventKey: pickFinalizeEventKey,
+  });
+
+  return true;
+};
+
 const sendPickReminderOnce = async () => {
   if (!canRun()) return;
 
@@ -206,27 +346,24 @@ const sendPickReminderOnce = async () => {
     getRecentlyStartedGames({ lookbackHours: 36 }),
   ]);
 
-  const hasAnyEvents =
-    (upcomingGames && upcomingGames.length) ||
-    (inProgressGames && inProgressGames.length) ||
-    (recentlyStartedGames && recentlyStartedGames.length);
-
-  if (!hasAnyEvents) return;
-
-  // Prefer deep-linking to the league of the next upcoming game.
   const sortedUpcomingGames = [...(upcomingGames || [])].sort(
     (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
   );
   const nextGame = sortedUpcomingGames[0];
-  const now = Date.now();
-  const oneHourFromNow = now + 60 * 60 * 1000;
+  const nowMs = Date.now();
+  const oneHourFromNow = nowMs + 60 * 60 * 1000;
   const upcomingGamesStartingSoon = sortedUpcomingGames.filter((game) => {
     const startTime = new Date(game.startDateTime).getTime();
-    return startTime > now && startTime <= oneHourFromNow;
+    return startTime > nowMs && startTime <= oneHourFromNow;
   });
 
   const inProgressEvent = buildInProgressEvent(inProgressGames || []);
   const allFinalEvent = buildAllFinalEvent(recentlyStartedGames || []);
+  const hasAnyGameEvents =
+    Boolean(inProgressEvent) ||
+    Boolean(allFinalEvent) ||
+    Boolean(upcomingGamesStartingSoon.length);
+  const firstGamesOfWeek = await getUpcomingNflFirstGamesOfWeek();
 
   const subscriptions = await pushSubscriptionRepository.find({});
   if (!subscriptions?.length) return;
@@ -235,6 +372,18 @@ const sendPickReminderOnce = async () => {
     try {
       const validTimezone = getValidTimezone(sub.timezone);
       const subscriptionTimezone = validTimezone || 'UTC';
+      const now = new Date();
+
+      await sendPickFinalizeReminder({
+        subscription: sub,
+        subscriptionTimezone,
+        dateValue: now,
+        firstGamesOfWeek,
+      });
+
+      if (!hasAnyGameEvents) {
+        continue;
+      }
 
       if (
         hasNotificationTypeEnabled({ subscription: sub, type: 'upcoming' }) &&
@@ -373,4 +522,8 @@ const startPickReminderScheduler = () => {
 module.exports = {
   startPickReminderScheduler,
   sendPickReminderOnce,
+  isPickFinalizeReminderWindow,
+  isDayBeforeFirstGameOfWeek,
+  buildPickFinalizeReminderPayload,
+  getUpcomingNflFirstGamesOfWeek,
 };
