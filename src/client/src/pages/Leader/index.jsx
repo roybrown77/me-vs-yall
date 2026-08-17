@@ -30,6 +30,7 @@ import {
   getAreAnyGamesInProgress,
   getLeagueStartDateTime,
   getLeaders,
+  hasGameStarted,
   leagues,
 } from "../../utilities";
 import {
@@ -82,8 +83,10 @@ const kingsAndVegasLeaderIds = new Set([
   "19",
 ]);
 
-const canShowLeaderPicksAndGuesses = ({ leaderId, gameStarted = false }) =>
-  gameStarted || kingsAndVegasLeaderIds.has(String(leaderId));
+const canShowLeaderPicksAndGuesses = ({ leaderId, game }) =>
+  kingsAndVegasLeaderIds.has(String(leaderId)) ||
+  game.isGameOver ||
+  hasGameStarted(game.startDateTime);
 
 const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
@@ -260,10 +263,6 @@ const Leader = () => {
 
   const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
   const areAllGamesOver = getAreAllGamesOver(games);
-  const hasAnyGamesStartedOrFinished = useMemo(
-    () => games.some((game) => game.isGameOver || new Date(game.startDateTime) <= new Date()),
-    [games]
-  );
   const timeUntilNextGameStarts = getLeagueStartDateTime(leagueId, games);
   const leaderSummaryPadding = (areAnyGamesInProgress ? 0.5 : 0) + (isSpreadTab ? 0.5 : 0);
   const isLoading = dataLoading && !areAnyGamesInProgress;
@@ -368,13 +367,6 @@ const Leader = () => {
                 {!isLoading &&
                   leaders.map((leader, index) => (
                     <div style={styles.container} key={leader.id}>
-                      {(() => {
-                        const showLeaderPicksAndGuesses = canShowLeaderPicksAndGuesses({
-                          leaderId: leader.id,
-                          gameStarted: hasAnyGamesStartedOrFinished,
-                        });
-
-                        return (
                       <Accordion style={{ borderRadius: "8px", boxShadow: "none" }}>
                         <AccordionSummary
                           style={styles.expansionSummary}
@@ -493,6 +485,11 @@ const Leader = () => {
                             )}
                             <table style={{ width: "100%", backgroundColor: "#fff" }}>
                               {get(leader, "games", []).map((game) => {
+                                const showLeaderPicksAndGuesses = canShowLeaderPicksAndGuesses({
+                                  leaderId: leader.id,
+                                  game,
+                                });
+
                                 return (
                                   <tbody key={leader.id + "-" + game._id}>
                                     {game.isNewDate && (
@@ -582,8 +579,6 @@ const Leader = () => {
                           </div>
                         </AccordionDetails>
                       </Accordion>
-                        );
-                      })()}
                     </div>
                   ))}
               </div>
