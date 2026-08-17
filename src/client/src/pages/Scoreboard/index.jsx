@@ -249,38 +249,36 @@ const Scoreboard = () => {
     ]
   );
 
-  const handleUpdateGame = useCallback((game) => {
+  const handleUpdateGame = useCallback(async (game) => {
     if (!isAuthenticated) return;
 
-    const updateGame = async (game) => {
-      const gameParams = {
-        id: game.id,
-        awayScore: game.awayScore,
-        homeScore: game.homeScore,
-        awayRank: game.awayRank,
-        homeRank: game.homeRank,
-        awayRecord: game.awayRecord,
-        homeRecord: game.homeRecord,
-        awaySpread: game.awaySpread,
-        homeSpread: game.homeSpread,
-        gameName: game.gameName,
-        isGameOver: game.isGameOver,
-        currentTime: game.currentTime,
-        gameTime: game.gameTime,
-        liveVideoUrl: game.liveVideoUrl,
-        highlightVideoUrl: game.highlightVideoUrl,
-        isHidden: game.isHidden,
-        isGameOfTheWeek: game.isGameOfTheWeek,
-      };
-
-      await callApi({
-        method: "PUT",
-        endpoint: `/api/gamemanagement/games/${encodeURIComponent(game.id)}`,
-        body: gameParams,
-      });
+    const gameParams = {
+      id: game.id,
+      awayScore: game.awayScore,
+      homeScore: game.homeScore,
+      awayRank: game.awayRank,
+      homeRank: game.homeRank,
+      awayRecord: game.awayRecord,
+      homeRecord: game.homeRecord,
+      awaySpread: game.awaySpread,
+      homeSpread: game.homeSpread,
+      gameName: game.gameName,
+      isGameOver: game.isGameOver,
+      currentTime: game.currentTime,
+      gameTime: game.gameTime,
+      liveVideoUrl: game.liveVideoUrl,
+      highlightVideoUrl: game.highlightVideoUrl,
+      isHidden: game.isHidden,
+      isGameOfTheWeek: game.isGameOfTheWeek,
     };
 
-    updateGame(game);
+    await callApi({
+      method: "PUT",
+      endpoint: `/api/gamemanagement/games/${encodeURIComponent(game.id)}`,
+      body: gameParams,
+    });
+
+    window.location.reload();
   }, []);
 
   let gameDate = null;
