@@ -1,4 +1,9 @@
 const styles = {
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '16px',
+    },
     googleLogin: {
       width: '250px',
       '&:hover': {

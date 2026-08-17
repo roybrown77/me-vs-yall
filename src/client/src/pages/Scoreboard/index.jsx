@@ -349,7 +349,6 @@ const Scoreboard = () => {
             sx={{
               position: "relative",
               zIndex: "2",
-              backgroundColor: "#EFFBF8",
             }}
           >
             <Box
@@ -441,9 +440,7 @@ const Scoreboard = () => {
                     </div>
                   );
                 })}
-              {!isLoading && (
-                <div>
-                  {groupedGames.completed.length > 0 && (
+              {!isLoading && groupedGames.completed.length > 0 && (
                     <div
                       style={{
                         position: "relative",
@@ -466,52 +463,51 @@ const Scoreboard = () => {
                       </div>
                     </div>
                   )}
-                  {groupedGames.completed.map((game) => {
-                    const newGameDate = moment(get(game, "startDateTime")).format(
-                      "dddd MMM D YYYY"
-                    );
-                    const newDate = gameDate !== newGameDate;
-                    if (newDate) gameDate = newGameDate;
+              {!isLoading &&
+                groupedGames.completed.map((game) => {
+                  const newGameDate = moment(get(game, "startDateTime")).format(
+                    "dddd MMM D YYYY"
+                  );
+                  const newDate = gameDate !== newGameDate;
+                  if (newDate) gameDate = newGameDate;
 
-                    return (
-                      <div key={game._id}>
-                        {newDate && (
+                  return (
+                    <div key={game._id}>
+                      {newDate && (
+                        <div
+                          style={{
+                            position: "relative",
+                            zIndex: 10,
+                            fontFamily: "monospace",
+                            backgroundColor: "rgba(0,0,0,0.87)",
+                            color: "#ffffff",
+                            width: "100%",
+                            padding: "2px 0",
+                          }}
+                        >
                           <div
                             style={{
-                              position: "relative",
-                              zIndex: 10,
-                              fontFamily: "monospace",
-                              backgroundColor: "rgba(0,0,0,0.87)",
-                              color: "#ffffff",
-                              width: "100%",
-                              padding: "2px 0",
+                              margin: "16px 0",
+                              fontSize: "14px",
+                              fontWeight: "600",
                             }}
                           >
-                            <div
-                              style={{
-                                margin: "16px 0",
-                                fontSize: "14px",
-                                fontWeight: "600",
-                              }}
-                            >
-                              {gameDate}
-                            </div>
+                            {gameDate}
                           </div>
-                        )}
-                        <Game
-                          game={game}
-                          pick={picks.find((x) => x.gameId === game._id)}
-                          handleMakePick={handleMakePick}
-                          handleUpdateGame={handleUpdateGame}
-                          isAuthenticated={isAuthenticated}
-                          userId={userId}
-                          disableTie={disableTie}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+                        </div>
+                      )}
+                      <Game
+                        game={game}
+                        pick={picks.find((x) => x.gameId === game._id)}
+                        handleMakePick={handleMakePick}
+                        handleUpdateGame={handleUpdateGame}
+                        isAuthenticated={isAuthenticated}
+                        userId={userId}
+                        disableTie={disableTie}
+                      />
+                    </div>
+                  );
+                })}
             </div>
           </Box>
         }
