@@ -48,7 +48,7 @@ const CompetitorHeader = (props) => {
         {showSpread && (
           <div
             style={{
-              fontSize: "17px",
+              fontSize: ".7em",
               width: "100%",
               height: "2rem",
             }}
