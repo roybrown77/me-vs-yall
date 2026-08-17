@@ -11,10 +11,34 @@ const upsert = async (pick, cb) => {
         if (!isValid(game, pick)) {
             return cb(new Error('Invalid pick'));
         }
+        const { guessedAwayScore, guessedHomeScore, ...restPick } = pick;
         const finalPick = { 
-            ...pick,
+            ...restPick,
             leagueId: get(game,'leagueId'),
             year: get(game,'year')
+        };
+
+        const $set = { ...finalPick };
+        const $unset = {};
+
+        if (guessedAwayScore === null) {
+            $unset.guessedAwayScore = '';
+        } else if (guessedAwayScore !== undefined) {
+            $set.guessedAwayScore = guessedAwayScore;
+        }
+
+        if (guessedHomeScore === null) {
+            $unset.guessedHomeScore = '';
+        } else if (guessedHomeScore !== undefined) {
+            $set.guessedHomeScore = guessedHomeScore;
+        }
+
+        const update = {};
+        if (Object.keys($set).length) {
+            update.$set = $set;
+        }
+        if (Object.keys($unset).length) {
+            update.$unset = $unset;
         }
 
         const result = await pickRepository.findOneAndUpdate(
@@ -23,7 +47,7 @@ const upsert = async (pick, cb) => {
                 gameId: pick.gameId,
                 gameType: pick.gameType === "1" ? 1 : { $ne: 1 },
             },
-            finalPick,
+            update,
             {
                 new: true, // Return the updated document
                 upsert: true // Create a new document if no match is found

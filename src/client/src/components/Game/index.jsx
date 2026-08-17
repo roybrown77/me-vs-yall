@@ -100,7 +100,11 @@ const Game = (props) => {
       guessedAwayScore: get(props, "pick.guessedAwayScore") ?? "",
       guessedHomeScore: get(props, "pick.guessedHomeScore") ?? "",
     }));
-  }, [props.pick]);
+  }, [
+    props.pick?.pickId,
+    props.pick?.guessedAwayScore,
+    props.pick?.guessedHomeScore,
+  ]);
 
   const { position: astroPosition, emoji: astroEmoji, isDayTime } = getAstroPositionAndEmoji();
 
@@ -130,36 +134,27 @@ const Game = (props) => {
     };
   };
 
-  const shouldResetScoreGuessForPick = (nextPickId) => {
-    const { guessedAwayScore, guessedHomeScore } = getParsedScoreGuessValues();
-
-    if (guessedAwayScore === undefined || guessedHomeScore === undefined) {
-      return false;
-    }
-
+  const getPickIdFromScoreGuess = (guessedAwayScore, guessedHomeScore) => {
     const awayCompetitorId = get(game, "competitors.0._id");
     const homeCompetitorId = get(game, "competitors.1._id");
 
-    if (!awayCompetitorId || !homeCompetitorId) {
-      return false;
+    if (
+      guessedAwayScore === undefined ||
+      guessedHomeScore === undefined ||
+      !awayCompetitorId ||
+      !homeCompetitorId
+    ) {
+      return null;
     }
 
-    const scoreGuessPickId =
-      guessedAwayScore === guessedHomeScore
-        ? TIE_PICK_ID
-        : guessedAwayScore > guessedHomeScore
-        ? awayCompetitorId
-        : homeCompetitorId;
+    if (guessedAwayScore === guessedHomeScore) {
+      return TIE_PICK_ID;
+    }
 
-    return scoreGuessPickId !== nextPickId;
+    return guessedAwayScore > guessedHomeScore ? awayCompetitorId : homeCompetitorId;
   };
 
   const handleMakePick = (game, pickId, competitorIndex, forceUpdate = false) => {
-    setState((prevState) => ({
-      ...prevState,
-      selectionMade: competitorIndex === 0 ? 'left' : competitorIndex === 1 ? 'right' : 'left',
-    }));
-
     const isAuthenticated = isConfirmedAuthentication();
 
     if (!isAuthenticated || hasGameStarted(game.startDateTime) || game.isGameOver) {
@@ -183,26 +178,31 @@ const Game = (props) => {
       return;
     }
 
-    const shouldResetScoreGuess = !forceUpdate && shouldResetScoreGuessForPick(pickId);
     const parsedGuess = getParsedScoreGuessValues();
 
-    if (shouldResetScoreGuess) {
+    if (!forceUpdate) {
       setState((prevState) => ({
         ...prevState,
+        selectionMade: competitorIndex === 0 ? 'left' : competitorIndex === 1 ? 'right' : null,
         guessedAwayScore: "",
         guessedHomeScore: "",
       }));
 
-      showPopoverMessage("Score guess cleared because it conflicted with your new pick.", 2300);
+      props.handleMakePick({
+        gameId: game._id,
+        pickId,
+        guessedAwayScore: null,
+        guessedHomeScore: null,
+      });
+      return;
     }
 
-    const pick = {
+    props.handleMakePick({
       gameId: game._id,
       pickId,
-      guessedAwayScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedAwayScore,
-      guessedHomeScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedHomeScore,
-    };
-    props.handleMakePick(pick);
+      guessedAwayScore: parsedGuess.guessedAwayScore,
+      guessedHomeScore: parsedGuess.guessedHomeScore,
+    });
   };
 
   const handleTie = (gameId) => {
@@ -214,26 +214,18 @@ const Game = (props) => {
       return;
     }
 
-    const shouldResetScoreGuess = shouldResetScoreGuessForPick(TIE_PICK_ID);
-    const parsedGuess = getParsedScoreGuessValues();
+    setState((prevState) => ({
+      ...prevState,
+      guessedAwayScore: "",
+      guessedHomeScore: "",
+    }));
 
-    if (shouldResetScoreGuess) {
-      setState((prevState) => ({
-        ...prevState,
-        guessedAwayScore: "",
-        guessedHomeScore: "",
-      }));
-
-      showPopoverMessage("Score guess cleared because it conflicted with your new pick.", 2300);
-    }
-
-    const pick = {
+    props.handleMakePick({
       gameId,
       pickId: TIE_PICK_ID,
-      guessedAwayScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedAwayScore,
-      guessedHomeScore: shouldResetScoreGuess ? undefined : parsedGuess.guessedHomeScore,
-    };
-    props.handleMakePick(pick);
+      guessedAwayScore: null,
+      guessedHomeScore: null,
+    });
   };
 
   const handleScoreGuessInputChange = (event) => {
@@ -252,22 +244,52 @@ const Game = (props) => {
       return;
     }
 
-    const existingPickId = get(props, "pick.pickId");
-
-    if (!existingPickId) {
-      showPopoverMessage("Pick a winner first, then save your score guess.", 2500);
-
+    if (hasGameStarted(game.startDateTime) || game.isGameOver || props?.updatingPick) {
       return;
     }
 
-    if (state.guessedAwayScore === "" || state.guessedHomeScore === "") {
+    const parsedGuess = getParsedScoreGuessValues();
+
+    if (parsedGuess.guessedAwayScore === undefined || parsedGuess.guessedHomeScore === undefined) {
       showPopoverMessage("Enter both team scores to save your guess.", 2500);
-
       return;
     }
 
-    const selectedIndex = game.competitors[0]._id === existingPickId ? 0 : 1;
-    handleMakePick(game, existingPickId, selectedIndex, true);
+    const scoreGuessPickId = getPickIdFromScoreGuess(
+      parsedGuess.guessedAwayScore,
+      parsedGuess.guessedHomeScore
+    );
+
+    if (!scoreGuessPickId) {
+      return;
+    }
+
+    if (scoreGuessPickId === TIE_PICK_ID && !canShowTie) {
+      showPopoverMessage("Tie picks aren't available for this game.", 2500);
+      return;
+    }
+
+    const existingPickId = get(props, "pick.pickId");
+    const pickChanged = existingPickId !== scoreGuessPickId;
+
+    if (scoreGuessPickId === TIE_PICK_ID) {
+      setState((prevState) => ({
+        ...prevState,
+        selectionMade: null,
+      }));
+    } else {
+      const selectedIndex = game.competitors[0]._id === scoreGuessPickId ? 0 : 1;
+      setState((prevState) => ({
+        ...prevState,
+        selectionMade: selectedIndex === 0 ? 'left' : 'right',
+      }));
+    }
+
+    handleMakePick(game, scoreGuessPickId, scoreGuessPickId === TIE_PICK_ID ? -1 : (game.competitors[0]._id === scoreGuessPickId ? 0 : 1), true);
+
+    if (pickChanged) {
+      showPopoverMessage("Pick updated to match your score guess.", 2300);
+    }
   };
 
   const handleClearInput = () => {

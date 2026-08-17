@@ -12,7 +12,11 @@ const ids = [
 ];
 
 const getScoreGuess = (value) => {
-    if (value === undefined || value === null || value === '') {
+    if (value === null || value === '') {
+        return null;
+    }
+
+    if (value === undefined) {
         return undefined;
     }
 
