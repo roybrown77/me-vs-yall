@@ -604,7 +604,7 @@ const Game = (props) => {
             >
               {isGameOfTheWeek
                 ? `Game of the Week is active for this matchup, so score-guess bonuses are multiplied by ${GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER}.`
-                : `No Game of the Week multiplier is active for this matchup.`}
+                : null}
             </div>
             {isGameOfTheWeek && (
               <div
