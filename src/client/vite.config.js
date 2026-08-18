@@ -16,7 +16,7 @@ export default defineConfig(({ command }) => {
         strategies: 'injectManifest',
         srcDir: 'src',
         filename: 'sw.js',
-        themeColor: '#f5fffa',
+        themeColor: '#FFE8A3',
         pwaAssets: {
           disabled: false,
           config: false,
@@ -31,8 +31,8 @@ export default defineConfig(({ command }) => {
           start_url: '/',
           scope: '/',
           display: 'standalone',
-          theme_color: '#f5fffa',
-          background_color: '#f5fffa',
+          theme_color: '#FFE8A3',
+          background_color: '#FFE8A3',
           screenshots: [
             {
               src: 'screenshots/screenshot-wide.png',
