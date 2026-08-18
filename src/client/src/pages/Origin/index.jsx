@@ -23,11 +23,13 @@ const Origin = () => {
 
     return (
         <PageContainer>
-            <div style={{textAlign: 'left', padding: '12px'}}>{line1}</div>
-            <div style={{textAlign: 'left', padding: '12px'}}>{line2}</div>
-            <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
-            <div style={{textAlign: 'left', padding: '12px'}}>
-                {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+            <div style={{ marginTop: '10%' }}>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line1}</div>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line2}</div>
+                <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
+                <div style={{textAlign: 'left', padding: '12px'}}>
+                    {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
+                </div>
             </div>
         </PageContainer>
     );
