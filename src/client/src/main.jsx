@@ -1,4 +1,5 @@
 import './styles/App.css';
+import './utilities/pwaInstallPrompt';
 
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

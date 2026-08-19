@@ -3,13 +3,7 @@
 }
 
 .pwa-install-banner {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
-  z-index: 1400;
-  width: min(420px, calc(100vw - 32px));
-  margin: 0 auto;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -17,8 +11,19 @@
   padding: 16px 16px 14px;
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-  animation: install-banner-rise 360ms ease-out;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.pwa-install-banner--docked {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1400;
+  width: min(420px, calc(100vw - 32px));
+  margin: 0 auto;
+  animation: install-banner-rise 360ms ease-out;
 }
 
 .pwa-install-banner__header {
@@ -119,6 +124,47 @@
   padding: 4px;
 }
 
+.pwa-install-banner--modal {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  animation: none;
+}
+
+.pwa-install-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+}
+
+.pwa-install-overlay__panel {
+  width: min(420px, 100%);
+  max-height: min(78vh, 560px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pwa-install-banner__emojis {
+  text-align: center;
+  font-size: 1.35rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+}
+
+.pwa-install-banner__message {
+  color: #444444;
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+}
+
 @keyframes install-banner-rise {
   from {
     transform: translateY(8px);
@@ -132,25 +178,35 @@
 }
 
 @media screen and (max-width: 700px) {
-  .pwa-install-banner {
+  .pwa-install-banner--docked {
     right: 12px;
     bottom: 12px;
     left: 12px;
     width: auto;
   }
 
-  .pwa-install-banner__action {
+  .pwa-install-banner .pwa-install-banner__action {
     width: 100%;
     justify-content: center;
   }
 
-  .pwa-install-banner__footer {
+  .pwa-install-banner .pwa-install-banner__footer {
     justify-content: stretch;
+  }
+
+  .pwa-install-overlay {
+    align-items: flex-end;
+    padding: 12px;
+  }
+
+  .pwa-install-overlay__panel {
+    width: 100%;
+    max-height: min(82vh, 560px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pwa-install-banner,
+  .pwa-install-banner--docked,
   .pwa-install-banner__action {
     animation: none;
     transition: none;
@@ -300,94 +356,10 @@ body {
   }
 }
 
-.add-reminder-icon-wiggle,
+.install-app-icon-wiggle,
 .notify-icon-wiggle {
   animation: gentle-icon-wiggle 9s ease-in-out infinite;
   transform-origin: 50% 20%;
-}
-
-.calendar-reminder__actions {
-  display: grid;
-  gap: 10px;
-  margin: 12px 0;
-}
-
-.calendar-reminder__modal {
-  box-sizing: border-box;
-  max-height: min(78vh, 560px);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.calendar-reminder__action-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
-  border: 1px solid #e5b648;
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: linear-gradient(140deg, #ffeab0 0%, #ffd77a 100%);
-  color: #2a1a00;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-decoration: none;
-  text-align: center;
-  line-height: 1.35;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  box-shadow: 0 3px 9px rgba(53, 36, 0, 0.16);
-  transition: transform 130ms ease, box-shadow 130ms ease, background-color 130ms ease;
-}
-
-.calendar-reminder__action-btn:hover {
-  background: linear-gradient(140deg, #ffe6a0 0%, #ffc95a 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 7px 14px rgba(53, 36, 0, 0.22);
-}
-
-.calendar-reminder__action-btn:focus-visible {
-  outline: 3px solid rgba(214, 143, 146, 0.45);
-  outline-offset: 2px;
-}
-
-.calendar-reminder__action-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px rgba(53, 36, 0, 0.18);
-}
-
-.calendar-reminder__manual {
-  margin-top: 4px;
-}
-
-.calendar-reminder__manual-copy {
-  margin-bottom: 8px;
-}
-
-.calendar-reminder__action-btn--subtle {
-  border-color: #b9d2ef;
-  background: linear-gradient(140deg, #f8fbff 0%, #e8f2ff 100%);
-  color: #12355f;
-}
-
-.calendar-reminder__action-btn--subtle:hover {
-  background: linear-gradient(140deg, #f1f8ff 0%, #dcecff 100%);
-}
-
-@media (max-width: 420px) {
-  .calendar-reminder__modal {
-    top: 66px !important;
-    max-height: 72vh;
-    padding: 12px !important;
-  }
-
-  .calendar-reminder__action-btn {
-    font-size: 0.8rem;
-    padding: 9px 10px;
-  }
 }
 
 @keyframes airplane-idle-bob {

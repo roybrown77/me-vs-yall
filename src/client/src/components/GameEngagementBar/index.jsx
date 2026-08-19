@@ -2,16 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Send from '@mui/icons-material/Send';
 import ToggleOn from '@mui/icons-material/ToggleOn';
 import ToggleOff from '@mui/icons-material/ToggleOff';
-import NotificationsActive from '@mui/icons-material/NotificationsActive';
-import NotificationsOff from '@mui/icons-material/NotificationsOff';
 
-import CalendarReminder from '../CalendarReminder';
+import InstallApp from '../InstallApp';
+import NotifyPrompt from '../NotifyPrompt';
 import styles from "../../pages/Scoreboard/styles";
 import { callApi } from '../../utilities/http';
 
@@ -53,38 +51,6 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                                     : notificationPermission === 'denied'
                                         ? 'Notifications are blocked in browser/app settings. Allow notifications and try again.'
                                         : '';
-        const isNotifyDisabled = !notificationsEnabled && Boolean(notifyDisabledReason);
-
-        const disableNotifications = useCallback(async () => {
-            try {
-                setIsEnablingNotifications(true);
-
-                if (!('serviceWorker' in navigator)) {
-                    setNotificationsEnabled(false);
-                    return;
-                }
-
-                const registration = await navigator.serviceWorker.ready;
-                const existing = await registration.pushManager.getSubscription();
-
-                if (existing) {
-                    await callApi({
-                        method: 'DELETE',
-                        endpoint: '/api/notificationmanagement/subscriptions',
-                        body: { endpoint: existing.endpoint },
-                    });
-
-                    await existing.unsubscribe();
-                }
-
-                setNotificationsEnabled(false);
-            } catch (error) {
-                console.error(error);
-                alert(getEnableErrorMessage(error));
-            } finally {
-                setIsEnablingNotifications(false);
-            }
-        }, []);
 
         const getEnableErrorMessage = (error) => {
             const status = error?.response?.status;
@@ -111,6 +77,47 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
 
             return 'Could not enable notifications.';
         };
+
+        const disableNotifications = useCallback(async () => {
+            try {
+                setIsEnablingNotifications(true);
+
+                if (!('serviceWorker' in navigator)) {
+                    setNotificationsEnabled(false);
+                    return {
+                        tone: 'info',
+                        message: 'Notifications turned off on this device.',
+                    };
+                }
+
+                const registration = await navigator.serviceWorker.ready;
+                const existing = await registration.pushManager.getSubscription();
+
+                if (existing) {
+                    await callApi({
+                        method: 'DELETE',
+                        endpoint: '/api/notificationmanagement/subscriptions',
+                        body: { endpoint: existing.endpoint },
+                    });
+
+                    await existing.unsubscribe();
+                }
+
+                setNotificationsEnabled(false);
+                return {
+                    tone: 'info',
+                    message: 'Notifications turned off.',
+                };
+            } catch (error) {
+                console.error(error);
+                return {
+                    tone: 'info',
+                    message: getEnableErrorMessage(error),
+                };
+            } finally {
+                setIsEnablingNotifications(false);
+            }
+        }, []);
 
         useEffect(() => {
             const load = async () => {
@@ -148,12 +155,29 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                 setIsEnablingNotifications(true);
 
                 if (!isNotificationRuntimeReady) {
-                    alert('Push notifications are not supported in this browser.');
-                    return;
+                    return {
+                        tone: 'info',
+                        message: import.meta.env.PROD
+                            ? 'Push notifications are not supported in this browser. Install the app or set a calendar reminder.'
+                            : 'Push notifications turn on in the live app. Visit mevsyall.com or use a production build to enable them.',
+                    };
                 }
 
                 const permission = await Notification.requestPermission();
-                if (permission !== 'granted') return;
+                if (permission === 'denied') {
+                    return {
+                        tone: 'info',
+                        message:
+                            'Notifications are blocked. Allow them in your browser or app settings, then try again.',
+                    };
+                }
+
+                if (permission !== 'granted') {
+                    return {
+                        tone: 'info',
+                        message: 'Notification permission was not granted.',
+                    };
+                }
 
                 const { publicKey } = await callApi({
                     method: 'GET',
@@ -179,47 +203,53 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                         applicationServerKey: urlBase64ToUint8Array(publicKey),
                     }));
 
-                                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || null;
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || null;
 
-                                const payload = {
-                                    subscription,
-                                    userAgent: navigator.userAgent,
-                                    timezone,
-                                    notificationTypes: ['upcoming', 'in_progress', 'all_final'],
-                                };
+                const payload = {
+                    subscription,
+                    userAgent: navigator.userAgent,
+                    timezone,
+                    notificationTypes: ['upcoming', 'in_progress', 'all_final'],
+                };
 
-                                if (isAuthenticated) {
-                                    try {
-                                        await callApi({
-                                            method: 'POST',
-                                            endpoint: '/api/notificationmanagement/subscriptions/authenticated',
-                                            body: payload,
-                                        });
-                                    } catch (authError) {
-                                        const authStatus = authError?.response?.status;
-                                        if (authStatus === 401 || authStatus === 403) {
-                                            // If session is stale, still register a guest subscription.
-                                            await callApi({
-                                                method: 'POST',
-                                                endpoint: '/api/notificationmanagement/subscriptions',
-                                                body: payload,
-                                            });
-                                        } else {
-                                            throw authError;
-                                        }
-                                    }
-                                } else {
-                                    await callApi({
-                                        method: 'POST',
-                                        endpoint: '/api/notificationmanagement/subscriptions',
-                                        body: payload,
-                                    });
-                                }
+                if (isAuthenticated) {
+                    try {
+                        await callApi({
+                            method: 'POST',
+                            endpoint: '/api/notificationmanagement/subscriptions/authenticated',
+                            body: payload,
+                        });
+                    } catch (authError) {
+                        const authStatus = authError?.response?.status;
+                        if (authStatus === 401 || authStatus === 403) {
+                            await callApi({
+                                method: 'POST',
+                                endpoint: '/api/notificationmanagement/subscriptions',
+                                body: payload,
+                            });
+                        } else {
+                            throw authError;
+                        }
+                    }
+                } else {
+                    await callApi({
+                        method: 'POST',
+                        endpoint: '/api/notificationmanagement/subscriptions',
+                        body: payload,
+                    });
+                }
 
                 setNotificationsEnabled(true);
+                return {
+                    tone: 'success',
+                    message: 'Notifications enabled. You are ready for kickoff! 🔔',
+                };
             } catch (error) {
                 console.error(error);
-                                alert(getEnableErrorMessage(error));
+                return {
+                    tone: 'info',
+                    message: getEnableErrorMessage(error),
+                };
             } finally {
                 setIsEnablingNotifications(false);
             }
@@ -377,54 +407,16 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                 </div>
             )}
 
-            <CalendarReminder marginLeft="0" iconClassName="add-reminder-icon-wiggle" />
+            <InstallApp marginLeft="0" />
 
-            <div
-                style={{
-                    marginTop: '25px',
-                    padding: '10px',
-                    backgroundColor: '#fff',
-                }}
-            >
-                <div style={{ fontSize: '9px', fontWeight: 700 }}>Notify</div>
-                <div
-                    style={{
-                        background: notificationsEnabled ? '#B3E6CA' : '#E4E4E4',
-                        margin: '5px',
-                        borderRadius: '8px',
-                    }}
-                >
-                                        <Tooltip
-                                                title={
-                                                    notificationsEnabled
-                                                        ? 'Notifications are enabled. Click to turn them off.'
-                                                        : notifyDisabledReason || 'Enable notifications'
-                                                }
-                                                arrow
-                                        >
-                        <span>
-                            <IconButton
-                                style={{ color: '#000' }}
-                                                                onClick={
-                                                                    isNotifyDisabled
-                                                                        ? undefined
-                                                                        : notificationsEnabled
-                                                                            ? disableNotifications
-                                                                            : enableNotifications
-                                                                }
-                                                                aria-label={notificationsEnabled ? 'disable notifications' : 'enable notifications'}
-                                disabled={isNotifyDisabled}
-                            >
-                                                                {notificationsEnabled ? (
-                                                                    <NotificationsActive className="notify-icon-wiggle" />
-                                                                ) : (
-                                                                    <NotificationsOff className="notify-icon-wiggle" />
-                                                                )}
-                            </IconButton>
-                        </span>
-                    </Tooltip>
-                </div>
-            </div>
+            <NotifyPrompt
+                notificationsEnabled={notificationsEnabled}
+                notificationsSupported={notificationsSupported}
+                notifyDisabledReason={notifyDisabledReason}
+                isEnablingNotifications={isEnablingNotifications}
+                onEnable={enableNotifications}
+                onDisable={disableNotifications}
+            />
 
         </div>
     );
