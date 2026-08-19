@@ -1,4 +1,5 @@
 import './styles/App.css';
+import './pwa/registerServiceWorker';
 import './utilities/pwaInstallPrompt';
 
 import { createRoot } from 'react-dom/client';

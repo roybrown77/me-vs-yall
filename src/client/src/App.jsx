@@ -11,13 +11,11 @@ import Contact from './pages/Contact';
 import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
 
-import ServiceWorkerManager from './ServiceWorkerManager';
 import PwaInstallBanner from './components/PwaInstallBanner';
 
 const App = () => {
   return (
     <div className="App">
-      {import.meta.env.PROD ? <ServiceWorkerManager /> : null}
       <main>
         <div style={{ height: '100%' }}>
           <Routes>

@@ -25,6 +25,7 @@ export default defineConfig(({ command }) => {
           htmlPreset: '2023',
         },
         manifest: {
+          id: '/',
           name: 'Me vs Yall',
           short_name: 'Me vs Yall',
           description: 'The ultimate sports pick\'em game.  Me vs Yall is a fun and entertaining way to analyze teams and players in the pursuit of correctly guessing who will win.  It will help you outwit others around the world and beat vegas for money.',

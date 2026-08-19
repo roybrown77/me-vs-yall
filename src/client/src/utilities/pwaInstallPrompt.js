@@ -34,6 +34,17 @@ const emitChange = () => {
   listeners.forEach((listener) => listener());
 };
 
+const refreshInstalled = () => {
+  const nextInstalled = isStandalone();
+  if (nextInstalled === installed) return;
+
+  installed = nextInstalled;
+  if (installed) {
+    deferredPrompt = null;
+  }
+  emitChange();
+};
+
 export const subscribePwaInstall = (listener) => {
   listeners.add(listener);
   return () => listeners.delete(listener);
@@ -48,10 +59,17 @@ export const promptPwaInstall = async () => {
     return { outcome: 'unavailable' };
   }
 
-  await deferredPrompt.prompt();
-  const choiceResult = await deferredPrompt.userChoice;
+  const promptEvent = deferredPrompt;
   deferredPrompt = null;
   emitChange();
+
+  await promptEvent.prompt();
+  const choiceResult = await promptEvent.userChoice;
+
+  if (choiceResult.outcome === 'accepted') {
+    installed = true;
+    emitChange();
+  }
 
   return choiceResult;
 };
@@ -68,4 +86,15 @@ if (typeof window !== 'undefined') {
     deferredPrompt = null;
     emitChange();
   });
+
+  window.addEventListener('pageshow', refreshInstalled);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      refreshInstalled();
+    }
+  });
+
+  if (window.matchMedia) {
+    window.matchMedia('(display-mode: standalone)').addEventListener('change', refreshInstalled);
+  }
 }
