@@ -1,6 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import InstallMobile from '@mui/icons-material/InstallMobile';
+
 import usePwaInstallPrompt from '../../hooks/usePwaInstallPrompt';
+import mvyIcon from '../../styles/images/mvy-balls-cut.png';
 
 const dismissKey = 'pwaInstallBannerDismissed';
 const dismissForDays = 30;
@@ -71,7 +74,13 @@ const PwaInstallBanner = () => {
     }
 
     return 'Menu -> Install app';
-  }, [canInstall, showIosInstructions, isMobile]);
+  }, [showIosInstructions, isMobile]);
+
+  const siteLabel = useMemo(() => {
+    if (typeof window === 'undefined') return 'mevsyall.com';
+
+    return window.location.host || 'mevsyall.com';
+  }, []);
 
   const shouldShow = useMemo(() => {
     return !dismissed && !installed;
@@ -87,8 +96,11 @@ const PwaInstallBanner = () => {
   }, []);
 
   const handleInstall = useCallback(async () => {
-    await promptInstall();
-  }, [promptInstall]);
+    if (canInstall) {
+      await promptInstall();
+      return;
+    }
+  }, [canInstall, promptInstall]);
 
   if (!shouldShow) return null;
 
@@ -102,17 +114,34 @@ const PwaInstallBanner = () => {
       >
         ×
       </button>
-      <div className="pwa-install-banner__content">
-        <div className="pwa-install-banner__kicker">QUICK INSTALL</div>
-        <div className="pwa-install-banner__title">Install Me vs Yall</div>
-        <div className="pwa-install-banner__subtitle">{installMessage}</div>
+
+      <div className="pwa-install-banner__header">
+        <img
+          className="pwa-install-banner__icon"
+          src={mvyIcon}
+          alt=""
+        />
+        <div className="pwa-install-banner__info">
+          <div className="pwa-install-banner__title">Me vs Yall</div>
+          <div className="pwa-install-banner__subtitle">{siteLabel}</div>
+          {!canInstall ? (
+            <div className="pwa-install-banner__hint">{installMessage}</div>
+          ) : null}
+        </div>
       </div>
-      <div className="pwa-install-banner__controls">
-        {canInstall ? (
-          <button type="button" className="pwa-install-banner__action" onClick={handleInstall}>
-            Install App
-          </button>
-        ) : null}
+
+      <div className="pwa-install-banner__footer">
+        <button
+          type="button"
+          className="pwa-install-banner__action"
+          onClick={handleInstall}
+          disabled={!canInstall}
+          aria-disabled={!canInstall}
+          title={!canInstall ? installMessage : undefined}
+        >
+          <InstallMobile fontSize="small" aria-hidden="true" />
+          <span>Add to Home Screen</span>
+        </button>
       </div>
     </div>
   );
