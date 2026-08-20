@@ -44,7 +44,7 @@ const windingSegments = [
 
 const confettiPieces = Array.from({ length: 18 }, (_, index) => index);
 const TOUCHDOWN_TRIGGER_PROGRESS = 0.9;
-const BANDWAGON_SCROLL_SENSITIVITY = 2.3;
+const BANDWAGON_SCROLL_SENSITIVITY = 1.8;
 
 const Home = () => {
   useGoogleAnalytics();
@@ -72,10 +72,12 @@ const Home = () => {
     );
   }, [windingProgress]);
 
+  // Start at the top of the page when it loads.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Show the bandwagon easter egg only near game day (or when games are live).
   useEffect(() => {
     let isMounted = true;
 
@@ -136,6 +138,7 @@ const Home = () => {
     };
   }, []);
 
+  // Track scroll progress through the hidden winding-run section.
   useEffect(() => {
     const onScroll = () => {
       if (!windingRef.current) return;
@@ -154,6 +157,7 @@ const Home = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Move the bandwagon truck with the left and right arrow keys.
   useEffect(() => {
     if (!showGameTrail) return undefined;
 
@@ -181,6 +185,7 @@ const Home = () => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [showGameTrail]);
 
+  // Move the bandwagon truck along the road as you scroll down the page.
   useEffect(() => {
     if (!showGameTrail) return undefined;
 
@@ -214,6 +219,7 @@ const Home = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [showGameTrail]);
 
+  // Type out the current bandwagon story line one character at a time.
   useEffect(() => {
     const line = storySteps[activeStoryIndex];
     let current = 0;
@@ -232,6 +238,7 @@ const Home = () => {
     return () => window.clearInterval(timer);
   }, [activeStoryIndex]);
 
+  // Type out the current winding level line one character at a time.
   useEffect(() => {
     const line = windingLevelSteps[activeWindingLevelIndex];
     let current = 0;
@@ -250,6 +257,7 @@ const Home = () => {
     return () => window.clearInterval(timer);
   }, [activeWindingLevelIndex]);
 
+  // Flip on the finale state when the hidden end section scrolls into view.
   useEffect(() => {
     if (!endRef.current) return undefined;
 
@@ -269,6 +277,7 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Load the touchdown sound clips once when the page opens.
   useEffect(() => {
     touchdownSoundsRef.current = [new Audio(maddenTouchdown), new Audio(tecmoTouchdown), new Audio(boasty)];
 
@@ -280,9 +289,10 @@ const Home = () => {
     };
   }, []);
 
+  // Unlock audio on first tap or scroll so touchdown sounds can play later.
   useEffect(() => {
     if (!showGameTrail) return undefined;
-
+  
     const unlockTouchdownAudio = () => {
       if (hasUnlockedTouchdownAudioRef.current || touchdownSoundsRef.current.length === 0) return;
 
@@ -342,6 +352,7 @@ const Home = () => {
   const windingTruckLeft = 50 + Math.sin(windingProgress * Math.PI * 6) * 26;
   const windingTruckRotation = Math.cos(windingProgress * Math.PI * 6) * 9;
 
+  // Play a random touchdown sound when the bandwagon reaches the end zone.
   useEffect(() => {
     if (!showGameTrail) {
       wasTouchdownRef.current = false;
