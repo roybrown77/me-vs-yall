@@ -213,23 +213,32 @@ const updateGames = async () => {
   Handle events gracefully
 */
 
-const gracefulExitSIGINT = async () => {
-  console.info(`SIGINT signal received.`);
+const gracefulExit = async (signal) => {
+  console.info(`${signal} signal received.`);
 
-  await mongoose.disconnect();
+  const forceExitTimer = setTimeout(() => {
+    console.warn('[WORKERS] - forcing exit after shutdown timeout.');
+    process.exit(1);
+  }, 5000);
+  forceExitTimer.unref();
 
-  console.log('[MONGODB] - disconnected through app termination SIGINT.');
+  try {
+    await mongoose.disconnect();
+    console.log(`[MONGODB] - disconnected through app termination ${signal}.`);
+  } catch (error) {
+    console.error('[MONGODB] - disconnect error during shutdown:', error);
+  }
+
+  clearTimeout(forceExitTimer);
+  process.exit(0);
 };
 
-const gracefulExitSIGTERM = async () => {
-  console.info(`SIGTERM signal received.`);
-
-  await mongoose.disconnect();
-
-  console.log('[MONGODB] - disconnected through app termination SIGTERM.');
-};
-
-process.on('SIGINT', gracefulExitSIGINT).on('SIGTERM', gracefulExitSIGTERM);
+process.once('SIGINT', () => {
+  gracefulExit('SIGINT');
+});
+process.once('SIGTERM', () => {
+  gracefulExit('SIGTERM');
+});
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error(`Process unhandledRejection reason: ${reason}, promise: ${promise}`);

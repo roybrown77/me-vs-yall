@@ -27,7 +27,7 @@
     "node": "24.15.0"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently --kill-others --handle-input \"npm run server\" \"npm run client\"",
     "server": "nodemon src/server",
     "prod-server": "node src/server",
     "prod-worker": "node src/workers",

@@ -514,13 +514,23 @@ const startPickReminderScheduler = () => {
 
   // Run immediately and then every 15 minutes.
   sendPickReminderOnce().catch((e) => console.error(e));
-  setInterval(() => {
+  global.__pickReminderInterval = setInterval(() => {
     sendPickReminderOnce().catch((e) => console.error(e));
   }, 15 * 60 * 1000);
 };
 
+const stopPickReminderScheduler = () => {
+  if (global.__pickReminderInterval) {
+    clearInterval(global.__pickReminderInterval);
+    global.__pickReminderInterval = undefined;
+  }
+
+  global.__pickReminderSchedulerStarted = false;
+};
+
 module.exports = {
   startPickReminderScheduler,
+  stopPickReminderScheduler,
   sendPickReminderOnce,
   isPickFinalizeReminderWindow,
   isDayBeforeFirstGameOfWeek,

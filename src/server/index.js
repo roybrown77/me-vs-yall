@@ -200,20 +200,54 @@ function startWebServer(app) {
  * @param {object} server - The server instance
  */
 function setupGracefulShutdownHandlers(server) {
+  let shuttingDown = false;
+
   const gracefulExit = async (signal) => {
+    if (shuttingDown) {
+      process.exit(0);
+      return;
+    }
+
+    shuttingDown = true;
     console.info(`${signal} signal received.`);
 
-    await mongoose.disconnect();
+    const forceExitTimer = setTimeout(() => {
+      console.warn('[WEB_SERVER] - forcing exit after shutdown timeout.');
+      process.exit(1);
+    }, 5000);
+    forceExitTimer.unref();
 
-    console.log(`[MONGODB] - disconnected through app termination ${signal}.`);
+    try {
+      const { stopPickReminderScheduler } = require('./notification/pickReminderScheduler');
+      stopPickReminderScheduler();
+    } catch (error) {
+      console.error('[NOTIFICATIONS] - failed to stop scheduler during shutdown:', error);
+    }
+
+    try {
+      await mongoose.disconnect();
+      console.log(`[MONGODB] - disconnected through app termination ${signal}.`);
+    } catch (error) {
+      console.error('[MONGODB] - disconnect error during shutdown:', error);
+    }
+
+    if (typeof server.closeAllConnections === 'function') {
+      server.closeAllConnections();
+    }
 
     server.close(() => {
+      clearTimeout(forceExitTimer);
       console.log(`[WEB_SERVER] - closed through app termination ${signal}.`);
+      process.exit(0);
     });
   };
 
-  process.on('SIGINT', () => gracefulExit('SIGINT'));
-  process.on('SIGTERM', () => gracefulExit('SIGTERM'));
+  process.once('SIGINT', () => {
+    gracefulExit('SIGINT');
+  });
+  process.once('SIGTERM', () => {
+    gracefulExit('SIGTERM');
+  });
 }
 
 /**
