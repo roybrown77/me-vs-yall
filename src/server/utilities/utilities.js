@@ -26,10 +26,13 @@ const getGames = async ({
     startDateSelector,
     startTimeSelector,
     spreadSelector,
+    page: existingPage,
+    ownsBrowser = true,
 }) => {
   let games = [];
   let browser;
-  let page;
+  let page = existingPage;
+  const shouldManageBrowser = ownsBrowser && !existingPage;
 
   const getSpreadDetails = (spreadText) => {
     const spreadMatch = (spreadText || '').match(/Spread:\s*([A-Z]+)\s*[-+]?\s*([\d.]+)/i);
@@ -39,27 +42,47 @@ const getGames = async ({
       spreadAmount: spreadMatch ? spreadMatch[2] : 0
     };
   };
+
+  const closeManagedBrowser = async () => {
+    if (!shouldManageBrowser) {
+      return;
+    }
+
+    try {
+      if (page) {
+        await page.close();
+        page = null;
+      }
+      if (browser) {
+        await browser.close();
+        browser = null;
+      }
+    } catch (error) {
+      console.log(`browser close error: `, error.message);
+    }
+  };
   
   try {
-    browser = await puppeteer.launch({
-      pipe: true,
-      ignoreHTTPSErrors: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Sandbox settings
-      // headless: false,
-    });
+    if (!page) {
+      browser = await puppeteer.launch({
+        pipe: true,
+        ignoreHTTPSErrors: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      });
 
-    page = await browser.newPage();
+      page = await browser.newPage();
 
-    await page.setViewport({
-      width: 2500,
-      height: 1500,
-    });
+      await page.setViewport({
+        width: 2500,
+        height: 1500,
+      });
 
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    );
+      await page.setUserAgent(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      );
 
-    await page.goto(url, { waitUntil: 'networkidle2' });
+      await page.goto(url, { waitUntil: 'networkidle2' });
+    }
 
     const listLength = await page.evaluate((sel) => {
       return document.getElementsByClassName(sel).length;
@@ -68,21 +91,7 @@ const getGames = async ({
     console.log(`${message} listLength: ${listLength}`);
 
     if (listLength === 0) {
-      try {
-        if (!!page) {
-          const pageCloseResult = await page.close();
-          console.log('page close 1');
-          page = null;
-        }
-        if (!!browser) {
-          const browserCloseResult = await browser.close();
-          console.log('browser close 1');
-          browser = null;
-        }
-      } catch (error) {
-        console.log(`browser close error 1: `, error.message);
-      }
-
+      await closeManagedBrowser();
       return [];
     }
 
@@ -182,20 +191,7 @@ const getGames = async ({
   } catch (error) {
     console.log(`${message} getGames browser error 2: `, error);
   } finally {
-    try {
-      if (!!page) {
-        const pageCloseResult = await page.close();
-        console.log('page close 2');
-        page = null;
-      }
-      if (!!browser) {
-        const browserCloseResult = await browser.close();
-        console.log('browser close 2');
-        browser = null;
-      }
-    } catch (error) {
-      console.log(`browser close error 2: `, error);
-    } 
+    await closeManagedBrowser();
   }
   
   return games;
