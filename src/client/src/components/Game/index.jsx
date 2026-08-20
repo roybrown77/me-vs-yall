@@ -420,6 +420,11 @@ const Game = (props) => {
     ? GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER
     : 1;
   const scoreGuessBoostRows = getScoreGuessBoostRows(scoreGuessMultiplier);
+  const shouldReserveHeaderSpace = game.competitors.some((competitorItem) => {
+    const showConference = Boolean(competitorItem?.conference) && !slimMode;
+    const showSpread = Boolean(spreadMode && game?.spread?.teamId === competitorItem._id);
+    return showConference || showSpread;
+  });
 
   const componentProps = {
     ...props,
@@ -449,7 +454,9 @@ const Game = (props) => {
           {game.competitors.map((competitor, competitorIndex) => {
             const pickColumn = (
               <Paper style={styles.paper}>
-                <CompetitorHeader {...{ ...componentProps, competitor }} />
+                <CompetitorHeader
+                  {...{ ...componentProps, competitor, reserveHeaderSpace: shouldReserveHeaderSpace }}
+                />
                 <Competitor {...{ ...componentProps, competitor }} />
               </Paper>
             );
@@ -464,8 +471,8 @@ const Game = (props) => {
               style={{
                 width: "50%",
                 border: competitor.selected
-                  ? `${slimMode ? "1em" : "1.5rem"} dashed #3772FA`
-                  : `${slimMode ? "1em" : "1.5rem"} dashed #E7E7E7`,
+                  ? `${slimMode ? "1.25em" : "1.5rem"} dashed #3772FA`
+                  : `${slimMode ? "1.25em" : "1.5rem"} dashed #E7E7E7`,
                 padding: slimMode ? "4px" : "10px",
                 cursor: "pointer",
               }}

@@ -1,70 +1,56 @@
 const CompetitorHeader = (props) => {
-  const { game, competitor, spreadMode, slimMode = false } = props;
+  const { game, competitor, spreadMode, slimMode = false, reserveHeaderSpace = false } = props;
   const showConference = Boolean(competitor?.conference) && !slimMode;
   const showSpread = Boolean(spreadMode && game?.spread?.teamId === competitor._id);
-  const hasHeaderBadge = showConference || showSpread;
+  const headerStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    minHeight: "2rem",
+    width: "100%",
+  };
+
+  if (!showConference && !showSpread) {
+    if (!reserveHeaderSpace) {
+      return null;
+    }
+
+    return <div style={headerStyle} aria-hidden="true" />;
+  }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        minHeight: hasHeaderBadge ? "2rem" : "0.5rem",
-        marginBottom: hasHeaderBadge ? "0" : "0.15rem",
-        width: "100%",
-      }}
-    >
-      {/* Left: Conference */}
+    <div style={headerStyle}>
       <div style={{ textAlign: "left", flex: 1 }}>
         {showConference && (
-          <div
+          <span
             style={{
+              padding: "5px",
+              fontWeight: "bold",
+              color: "#ffffff",
+              backgroundColor: competitor?.conference === "AFC" ? "#FF3344" : "#004C99",
+              borderRadius: "5px",
+              display: "inline-block",
               fontSize: ".7em",
-              width: "100%",
-              height: "2rem",
             }}
           >
-            <div
-              style={{
-                padding: "5px",
-                fontWeight: "bold",
-                color: "#ffffff",
-                backgroundColor:
-                  competitor?.conference === "AFC"
-                    ? "#FF3344"
-                    : "#004C99",
-                borderRadius: "5px",
-                display: "inline-block",
-              }}
-            >
-              {competitor?.conference}
-            </div>
-          </div>
+            {competitor?.conference}
+          </span>
         )}
       </div>
-      {/* Right: Spread */}
       <div style={{ textAlign: "right", flex: 1 }}>
         {showSpread && (
-          <div
+          <span
             style={{
+              padding: "5px",
+              fontWeight: "bold",
+              backgroundColor: "#FCE385",
+              borderRadius: "5px",
+              display: "inline-block",
               fontSize: ".7em",
-              width: "100%",
-              height: "2rem",
             }}
           >
-            <div
-              style={{
-                padding: "5px",
-                fontWeight: "bold",
-                backgroundColor: "#FCE385",
-                borderRadius: "5px",
-                display: "inline-block",
-              }}
-            >
-              {game?.spread?.amount}
-            </div>
-          </div>
+            {game?.spread?.amount}
+          </span>
         )}
       </div>
     </div>
