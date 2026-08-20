@@ -42,7 +42,7 @@ const GamePredictionStatusIcon = (props) => {
 };
 
 const Competitor = (props) => {
-  const { game, spreadMode, pick, competitor } = props;
+  const { game, spreadMode, pick, competitor, slimMode = false } = props;
   const isFightLeague = ["59723313734d1d6202a85f25", "59723313734d1d6202a85f27"].includes(
     get(game, "leagueId")
   );
@@ -65,9 +65,9 @@ const Competitor = (props) => {
           <div>
             {shouldRenderScorePill && (
               <div style={{ 
-                fontSize: "1.5rem",
+                fontSize: slimMode ? "1.1rem" : "1.5rem",
                 fontWeight: "bold",
-                width: "3rem",
+                width: slimMode ? "2.25rem" : "3rem",
                 color: shouldShowScoreInPill ? "#ffffff" : "transparent",
                 backgroundColor: shouldShowScoreInPill ? scorePillBackgroundColor : "transparent",
                 borderRadius: shouldShowScoreInPill ? "4px" : "0",
@@ -81,27 +81,32 @@ const Competitor = (props) => {
                 {scoreDisplayValue}
               </div>
             )}
-            {competitor.country && (
+            {competitor.country && !slimMode && (
               <div style={{ fontSize: "70px" }}>
                 {getFlag(competitor.country)}
               </div>
             )}
             <div
               style={{
-                fontSize: competitor.shortLocation.length > 8 ? "1.5em" : 
-                (competitor.shortLocation.length > 3 ? "1.75em" : "2.5em"),
-                marginTop: competitor.country ? "-10px" : "0",
+                fontSize: slimMode
+                  ? "1.25em"
+                  : competitor.shortLocation.length > 8
+                    ? "1.5em"
+                    : competitor.shortLocation.length > 3
+                      ? "1.75em"
+                      : "2.5em",
+                marginTop: competitor.country && !slimMode ? "-10px" : "0",
                 fontWeight: "600",
                 color: competitor.color,
-                borderBottom: `1rem solid ${competitor.color2}`,
-                maxWidth: "7rem",
+                borderBottom: slimMode ? `0.35rem solid ${competitor.color2}` : `1rem solid ${competitor.color2}`,
+                maxWidth: slimMode ? "100%" : "7rem",
                 margin: "0 auto",
               }}
             >
               <span
                 style={{
                   color: "#555555",
-                  fontSize: "17px",
+                  fontSize: slimMode ? "13px" : "17px",
                   fontWeight: "bold",
                   marginRight: competitor.rank ? "10px" : "0",
                 }}
@@ -113,7 +118,7 @@ const Competitor = (props) => {
             <div
               style={{
                 paddingBottom: "4px",
-                fontSize: competitor.country ? "15px" : "20px",
+                fontSize: slimMode ? "13px" : competitor.country ? "15px" : "20px",
                 padding: competitor.record
                   ? "0"
                   : (get(game, "isGameOver") && get(pick, "pickId")) ||
@@ -124,7 +129,7 @@ const Competitor = (props) => {
             >
               {competitor.name}
             </div>
-            {competitor.record && (
+            {competitor.record && !slimMode && (
               <div
                 style={{
                   fontSize: "16px",

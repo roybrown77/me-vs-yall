@@ -4,6 +4,11 @@ const styles = {
       flexDirection: 'column',
       gap: '16px',
     },
+    rootSlim: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '6px',
+    },
     googleLogin: {
       width: '250px',
       '&:hover': {

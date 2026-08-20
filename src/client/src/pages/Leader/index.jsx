@@ -301,6 +301,7 @@ const Leader = () => {
           isAuthenticated={isAuthenticated}
           userId={userId}
           showSpreadToggle={false}
+          showSlimToggle={false}
         />
         {
           <Box

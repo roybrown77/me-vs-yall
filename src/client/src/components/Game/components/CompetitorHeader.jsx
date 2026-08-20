@@ -1,6 +1,6 @@
 const CompetitorHeader = (props) => {
-  const { game, competitor, spreadMode } = props;
-  const showConference = Boolean(competitor?.conference);
+  const { game, competitor, spreadMode, slimMode = false } = props;
+  const showConference = Boolean(competitor?.conference) && !slimMode;
   const showSpread = Boolean(spreadMode && game?.spread?.teamId === competitor._id);
   const hasHeaderBadge = showConference || showSpread;
 

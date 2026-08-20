@@ -43,6 +43,7 @@ import styles from "./styles";
 import useLeagueWeekNavigation from "../../hooks/useLeagueWeekNavigation";
 import usePollWhileGamesInProgress from "../../hooks/usePollWhileGamesInProgress";
 import useSpreadMode from "../../hooks/useSpreadMode";
+import useSlimUx from "../../hooks/useSlimUx";
 
 const isAuthenticated = isConfirmedAuthentication();
 
@@ -61,6 +62,7 @@ const Scoreboard = () => {
   const [isSpreadModeAlertOpen] = useState(false);
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
+  const { slimMode, enableSlimMode, disableSlimMode } = useSlimUx();
 
   const loadData = useCallback(
     async ({
@@ -286,14 +288,16 @@ const Scoreboard = () => {
   return (
     <div>
       <PageContainer>
-        <TinyScoreboard
-          {...{
-            title: `Let's Go!!!`,
-            games: groupedGames.notCompleted,
-            loading: isLoading,
-          }}
-        />
-        {!isLoading && (
+        {!slimMode && (
+          <TinyScoreboard
+            {...{
+              title: `Let's Go!!!`,
+              games: groupedGames.notCompleted,
+              loading: isLoading,
+            }}
+          />
+        )}
+        {!isLoading && !slimMode && (
           <TinyScoreboard
             {...{
               title: `Game Over`,
@@ -314,7 +318,7 @@ const Scoreboard = () => {
           onFilterWeek={handleFilterWeek}
           onFilterDate={handleFilterDate}
         />
-        {isAuthenticated && (
+        {isAuthenticated && !slimMode && (
           <div>
             <ArcadePickResult
               loading={isLoading}
@@ -336,6 +340,9 @@ const Scoreboard = () => {
         <GameEngagementBar
           handleSpreadToggleOn={enableSpreadMode}
           handleSpreadToggleOff={disableSpreadMode}
+          handleSlimToggleOn={enableSlimMode}
+          handleSlimToggleOff={disableSlimMode}
+          slimMode={slimMode}
           games={games}
           picks={picks}
           teams={teams}
@@ -370,7 +377,7 @@ const Scoreboard = () => {
                 <Tab style={{ color: "#000" }} label="Scores" {...a11yProps(0)} />
               </Tabs>
             </Box>
-            <div style={styles.root}>
+            <div style={slimMode ? styles.rootSlim : styles.root}>
               {isLoading && (
                 <div style={{ margin: "10px 0" }}>
                   <Skeleton animation="pulse" height="5em" variant="rect" />
@@ -416,8 +423,8 @@ const Scoreboard = () => {
                         >
                           <div
                             style={{
-                              margin: "16px 0",
-                              fontSize: "14px",
+                              margin: slimMode ? "6px 0" : "16px 0",
+                              fontSize: slimMode ? "12px" : "14px",
                               fontWeight: "600",
                             }}
                           >
@@ -434,6 +441,8 @@ const Scoreboard = () => {
                         userId={userId}
                         disableTie={disableTie}
                         updatingPick={updatingPick}
+                        spreadMode={spreadMode}
+                        slimMode={slimMode}
                       />
                     </div>
                   );
@@ -452,8 +461,8 @@ const Scoreboard = () => {
                     >
                       <div
                         style={{
-                          margin: "16px 0",
-                          fontSize: "14px",
+                          margin: slimMode ? "6px 0" : "16px 0",
+                          fontSize: slimMode ? "12px" : "14px",
                           fontWeight: "600",
                         }}
                       >
@@ -485,8 +494,8 @@ const Scoreboard = () => {
                         >
                           <div
                             style={{
-                              margin: "16px 0",
-                              fontSize: "14px",
+                              margin: slimMode ? "6px 0" : "16px 0",
+                              fontSize: slimMode ? "12px" : "14px",
                               fontWeight: "600",
                             }}
                           >
@@ -502,6 +511,8 @@ const Scoreboard = () => {
                         isAuthenticated={isAuthenticated}
                         userId={userId}
                         disableTie={disableTie}
+                        spreadMode={spreadMode}
+                        slimMode={slimMode}
                       />
                     </div>
                   );

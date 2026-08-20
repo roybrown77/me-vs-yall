@@ -380,10 +380,14 @@ const Game = (props) => {
     isAuthenticated,
     disableTie,
     updatingPick,
+    spreadMode: spreadModeProp,
+    slimMode = false,
   } = props;
 
-  const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
+  const spreadMode =
+    spreadModeProp ?? localStorage.getItem("spreadModeToggle") === "1";
   const canShowTie =
+    !slimMode &&
     isAuthenticated &&
     !hasGameStarted(game.startDateTime) &&
     [
@@ -396,6 +400,7 @@ const Game = (props) => {
     !spreadMode &&
     !disableTie;
   const canShowScoreGuess =
+    !slimMode &&
     !hasGameStarted(game.startDateTime) &&
     [
       "59723313734d1d6202a85f10",
@@ -420,6 +425,7 @@ const Game = (props) => {
     ...props,
     ...state,
     spreadMode,
+    slimMode,
     handleMakePick,
     handleTie,
     handleScoreGuessInputChange,
@@ -430,17 +436,25 @@ const Game = (props) => {
   };
 
   return (
-    <div id={"game-" + game._id} key={game._id} style={styles.game}>
+    <div id={"game-" + game._id} key={game._id} style={{ ...styles.game, padding: slimMode ? "4px" : "8px" }}>
       <div
         style={{
           zIndex: 3,
           position: "relative",
           backgroundColor: "#fff",
-          paddingBottom: "20px",
+          paddingBottom: slimMode ? "4px" : "20px",
         }}
       >
         <Grid key={game._id + "-gridlist"} container style={styles.root}>
-          {game.competitors.map((competitor, competitorIndex) => (
+          {game.competitors.map((competitor, competitorIndex) => {
+            const pickColumn = (
+              <Paper style={styles.paper}>
+                <CompetitorHeader {...{ ...componentProps, competitor }} />
+                <Competitor {...{ ...componentProps, competitor }} />
+              </Paper>
+            );
+
+            return (
             <Grid
               key={game._id + "." + competitor._id}
               item
@@ -450,20 +464,20 @@ const Game = (props) => {
               style={{
                 width: "50%",
                 border: competitor.selected
-                  ? "1.5rem dashed #3772FA"
-                  : "1.5rem dashed #E7E7E7",
-                padding: "10px",
+                  ? `${slimMode ? "1em" : "1.5rem"} dashed #3772FA`
+                  : `${slimMode ? "1em" : "1.5rem"} dashed #E7E7E7`,
+                padding: slimMode ? "4px" : "10px",
                 cursor: "pointer",
               }}
             >
-              <Grow in={true} timeout={500}>
-                <Paper style={styles.paper}>
-                  <CompetitorHeader {...{ ...componentProps, competitor }} />
-                  <Competitor {...{ ...componentProps, competitor }} />
-                </Paper>
-              </Grow>
+              {slimMode ? pickColumn : (
+                <Grow in={true} timeout={500}>
+                  {pickColumn}
+                </Grow>
+              )}
             </Grid>
-          ))}
+            );
+          })}
           {state.popoverOpen && (
             <div
               style={{
@@ -483,7 +497,7 @@ const Game = (props) => {
             </div>
           )}
         </Grid>
-        {isGameOfTheWeek && (
+        {isGameOfTheWeek && !slimMode && (
           <div
             style={{
               marginTop: "8px",
@@ -661,6 +675,7 @@ const Game = (props) => {
             </div>
           </>
         )}
+        {!slimMode && (
         <div style={{ marginTop: "1rem" }}>
           <div style={{ display: "inline-flex" }}>
             <div
@@ -859,9 +874,25 @@ const Game = (props) => {
             </div>
           )}
         </div>
-        <GameFooter {...componentProps} />
+        )}
+        {slimMode ? (
+          <div
+            style={{
+              fontSize: "11px",
+              color: "#666",
+              textAlign: "center",
+              marginTop: "4px",
+              fontFamily: "monospace",
+            }}
+          >
+            {moment(get(game, "startDateTime")).format("ddd h:mm A")}
+            {isGameOfTheWeek ? " · ⭐ GOTW" : ""}
+          </div>
+        ) : (
+          <GameFooter {...componentProps} />
+        )}
       </div>
-      <GamePlayTabs {...componentProps} />
+      {!slimMode && <GamePlayTabs {...componentProps} />}
     </div>
   );
 };
@@ -871,6 +902,7 @@ Game.propTypes = {
   pick: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
   spreadMode: PropTypes.bool,
+  slimMode: PropTypes.bool,
   disableTie: PropTypes.bool,
   handleMakePick: PropTypes.func,
   handleUpdateGame: PropTypes.func,

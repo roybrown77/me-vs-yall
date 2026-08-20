@@ -17,7 +17,20 @@ import {
     getCopiedGamesToShare,
   } from "../../utilities";
 
-const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games, picks, teams, isAuthenticated, userId, showSpreadToggle = true }) => {
+const GameEngagementBar = ({
+    handleSpreadToggleOn,
+    handleSpreadToggleOff,
+    handleSlimToggleOn,
+    handleSlimToggleOff,
+    slimMode = false,
+    games,
+    picks,
+    teams,
+    isAuthenticated,
+    userId,
+    showSpreadToggle = true,
+    showSlimToggle = true,
+}) => {
     const [isShareClicked, setIsShareClicked] = useState(false);
     const [isSpreadModeAlertOpen, setIsSpreadModeAlertOpen] = useState(false);
     const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
@@ -407,6 +420,36 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
                 </div>
             )}
 
+            {showSlimToggle && (
+                <div
+                    style={{
+                        marginTop: '25px',
+                        padding: '10px',
+                        backgroundColor: '#fff',
+                    }}
+                >
+                    <div style={{ fontSize: '9px', fontWeight: 700 }}>Slim UX</div>
+                    <div
+                        style={{
+                            background: '#D6E4FF',
+                            margin: '5px',
+                            borderRadius: '8px',
+                        }}
+                    >
+                        <IconButton
+                            style={slimMode ? styles.toggleButtonOn : styles.toggleButtonOff}
+                            aria-label="toggle slim ux mode"
+                        >
+                            {slimMode ? (
+                                <ToggleOn onClick={handleSlimToggleOff} />
+                            ) : (
+                                <ToggleOff onClick={handleSlimToggleOn} />
+                            )}
+                        </IconButton>
+                    </div>
+                </div>
+            )}
+
             <InstallApp marginLeft="0" />
 
             <NotifyPrompt
@@ -425,12 +468,16 @@ const GameEngagementBar = ({ handleSpreadToggleOn, handleSpreadToggleOff, games,
 GameEngagementBar.propTypes = {
     handleSpreadToggleOn: PropTypes.func,
     handleSpreadToggleOff: PropTypes.func,
+    handleSlimToggleOn: PropTypes.func,
+    handleSlimToggleOff: PropTypes.func,
+    slimMode: PropTypes.bool,
     games: PropTypes.array.isRequired,
     picks: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     userId: PropTypes.string,
     showSpreadToggle: PropTypes.bool,
+    showSlimToggle: PropTypes.bool,
 };
 
 export default GameEngagementBar;
