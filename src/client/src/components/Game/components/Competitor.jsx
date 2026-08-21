@@ -82,7 +82,7 @@ const Competitor = (props) => {
         fontSize: "2.25em",
         fontWeight: "600",
         color: competitor.color,
-        borderBottom: `.25em solid ${competitor.color2}`,
+        borderBottom: `1rem solid ${competitor.color2}`,
         maxWidth: "100%",
         margin: "0 auto",
         lineHeight: 1.05,
@@ -97,7 +97,7 @@ const Competitor = (props) => {
         marginTop: competitor.country ? "-10px" : "0",
         fontWeight: "600",
         color: competitor.color,
-        borderBottom: `.5rem solid ${competitor.color2}`,
+        borderBottom: `1rem solid ${competitor.color2}`,
         maxWidth: "7rem",
         margin: "0 auto",
       };
