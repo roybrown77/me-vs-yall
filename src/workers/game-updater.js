@@ -257,9 +257,11 @@ async function scrapeGameInformationFromPage(page) {
                     });
                 });
 
-                const lastPlayText = gameElement.querySelector('.Scoreboard__RowContainer.flex.flex-column.flex-auto')?.textContent?.trim() || '';
-                const lastPlayMatch = lastPlayText.match(/Last\s*Play:\s*(.+)/i);
-                const lastPlay = lastPlayMatch ? lastPlayMatch[1] : '';
+                const lastPlayText =
+                    gameElement.querySelector('.DriveChart2D__PlayText')?.textContent?.trim() ||
+                    gameElement.querySelector('.DriveChart2D__PlayTextContainer')?.textContent?.trim() ||
+                    '';
+                const lastPlay = lastPlayText.replace(/^Last\s*Play:\s*/i, '').trim();
 
                 const spread = gameElement.querySelector('.OddsStripWrapper li:nth-child(1) .rIczU')?.textContent?.trim() || '';
                 const total = gameElement.querySelector('.OddsStripWrapper li:nth-child(2) .rIczU')?.textContent?.trim() || '';
