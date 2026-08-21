@@ -410,26 +410,8 @@ const Scoreboard = () => {
                   return (
                     <div key={game._id}>
                       {newDate && (
-                        <div
-                          style={{
-                            position: "relative",
-                            zIndex: 3,
-                            fontFamily: "monospace",
-                            backgroundColor: "rgba(0,0,0,0.87)",
-                            color: "#ffffff",
-                            width: "100%",
-                            padding: "2px 0",
-                          }}
-                        >
-                          <div
-                            style={{
-                              margin: slimMode ? "6px 0" : "16px 0",
-                              fontSize: slimMode ? "12px" : "14px",
-                              fontWeight: "600",
-                            }}
-                          >
-                            {gameDate}
-                          </div>
+                        <div style={styles.dateHeader(slimMode)}>
+                          {gameDate}
                         </div>
                       )}
                       <Game
@@ -448,26 +430,8 @@ const Scoreboard = () => {
                   );
                 })}
               {!isLoading && groupedGames.completed.length > 0 && (
-                    <div
-                      style={{
-                        position: "relative",
-                        zIndex: 10,
-                        fontFamily: "monospace",
-                        backgroundColor: "rgba(0,0,0,0.87)",
-                        color: "#ffffff",
-                        width: "100%",
-                        padding: "2px 0",
-                      }}
-                    >
-                      <div
-                        style={{
-                          margin: slimMode ? "6px 0" : "16px 0",
-                          fontSize: slimMode ? "12px" : "14px",
-                          fontWeight: "600",
-                        }}
-                      >
-                        *** Game Over ***
-                      </div>
+                    <div style={styles.dateHeader(slimMode, 10)}>
+                      *** Game Over ***
                     </div>
                   )}
               {!isLoading &&
@@ -481,26 +445,8 @@ const Scoreboard = () => {
                   return (
                     <div key={game._id}>
                       {newDate && (
-                        <div
-                          style={{
-                            position: "relative",
-                            zIndex: 10,
-                            fontFamily: "monospace",
-                            backgroundColor: "rgba(0,0,0,0.87)",
-                            color: "#ffffff",
-                            width: "100%",
-                            padding: "2px 0",
-                          }}
-                        >
-                          <div
-                            style={{
-                              margin: slimMode ? "6px 0" : "16px 0",
-                              fontSize: slimMode ? "12px" : "14px",
-                              fontWeight: "600",
-                            }}
-                          >
-                            {gameDate}
-                          </div>
+                        <div style={styles.dateHeader(slimMode, 10)}>
+                          {gameDate}
                         </div>
                       )}
                       <Game

@@ -9,6 +9,20 @@ const styles = {
       flexDirection: 'column',
       gap: '6px',
     },
+    dateHeader: (slimMode, zIndex = 3) => ({
+      position: 'relative',
+      zIndex,
+      boxSizing: 'border-box',
+      fontFamily: 'monospace',
+      backgroundColor: 'rgba(0,0,0,0.87)',
+      color: '#ffffff',
+      width: '100%',
+      padding: slimMode ? '8px 0' : '18px 0',
+      fontSize: slimMode ? '12px' : '14px',
+      fontWeight: '600',
+      lineHeight: 1.2,
+      textAlign: 'center',
+    }),
     googleLogin: {
       width: '250px',
       '&:hover': {
