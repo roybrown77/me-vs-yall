@@ -29,7 +29,7 @@ const styles = {
       padding: '8px'
     },
     leaderHypeBanner: {
-      margin: '12px auto 16px',
+      margin: '1em',
       maxWidth: '42rem',
       padding: '10px 12px',
       border: '3px solid #0f172a',

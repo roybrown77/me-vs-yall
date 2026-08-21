@@ -335,11 +335,9 @@ const Leader = () => {
                 <Tab label="Against the Spread 📊" {...a11yProps(2)} />
               </Tabs>
             </Box>
-            {!isLoading && !areAnyGamesInProgress && !areAllGamesOver && (
-              <div style={styles.leaderHypeBanner} role="status" aria-live="polite">
-                Watch the drama and leaders emerge after games start and points are put on the board! 🍿
-              </div>
-            )}
+            <div style={styles.leaderHypeBanner} role="status" aria-live="polite">
+              Watch the drama and leaders emerge after games start and points are put on the board! 🍿
+            </div>
             <Slide
               direction={"up"}
               in={true}
