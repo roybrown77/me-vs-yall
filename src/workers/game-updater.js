@@ -266,8 +266,15 @@ async function scrapeGameInformationFromPage(page) {
                 const spread = gameElement.querySelector('.OddsStripWrapper li:nth-child(1) .rIczU')?.textContent?.trim() || '';
                 const total = gameElement.querySelector('.OddsStripWrapper li:nth-child(2) .rIczU')?.textContent?.trim() || '';
 
-                const gameStatusText = gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time')?.textContent?.trim() || '';
-                const isGameOver = /^final\b/i.test(gameStatusText);
+                const scoreCellEl = gameElement.querySelector('.ScoreboardScoreCell');
+                const isPostGame = scoreCellEl?.classList.contains('ScoreboardScoreCell--post') ?? false;
+                const gameStatusText =
+                    gameElement.querySelector('.ScoreboardScoreCell__Overview .ScoreCell__Time')?.textContent?.trim() ||
+                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time')?.textContent?.trim() ||
+                    '';
+                const isGameOver =
+                    isPostGame ||
+                    /^(final(\/ot)?|f\/ot)$/i.test(gameStatusText);
 
                 const down = gameElement.querySelector('.DriveChart2D__DownAndDistance')?.textContent?.trim() || null;
 
