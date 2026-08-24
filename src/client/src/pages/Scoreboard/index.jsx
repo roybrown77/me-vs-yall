@@ -19,6 +19,7 @@ import Countdown from "../../components/Countdown";
 import TinyScoreboard from "../../components/TinyScoreboard";
 import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
+import LeaderHypeBanner from "../../components/LeaderHypeBanner";
 
 import { getPicksNotSelected, getGroupedGames } from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
@@ -377,6 +378,7 @@ const Scoreboard = () => {
                 <Tab style={{ color: "#000" }} label="Scores" {...a11yProps(0)} />
               </Tabs>
             </Box>
+            <LeaderHypeBanner />
             <div style={slimMode ? styles.rootSlim : styles.root}>
               {isLoading && (
                 <div style={{ margin: "10px 0" }}>

@@ -20,6 +20,7 @@ import ArcadeGameSearchBar from "../../components/GameSearchBar/ArcadeGameSearch
 import Countdown from "../../components/Countdown";
 import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
+import LeaderHypeBanner from "../../components/LeaderHypeBanner";
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi } from "../../utilities/http";
@@ -340,9 +341,7 @@ const Leader = () => {
                 P + B = Picks + Bonus
               </div>
             )}
-            <div style={styles.leaderHypeBanner} role="status" aria-live="polite">
-              Watch the drama and leaders emerge after games start and points are put on the board! 🍿
-            </div>
+            <LeaderHypeBanner />
             <Slide
               direction={"up"}
               in={true}
