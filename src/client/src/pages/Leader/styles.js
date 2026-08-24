@@ -43,6 +43,16 @@ const styles = {
       textAlign: 'center',
       letterSpacing: '0.03em',
     },
+    leaderTabNote: {
+      margin: '0 1em 0.5em',
+      maxWidth: '42rem',
+      padding: '6px 10px',
+      color: '#475569',
+      fontFamily: "'Courier New', Courier, monospace",
+      fontSize: '0.75rem',
+      fontWeight: '600',
+      textAlign: 'center',
+    },
     userPicture: {
       height: '50px',
       width: '50px',

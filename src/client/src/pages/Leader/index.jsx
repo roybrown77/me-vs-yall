@@ -135,13 +135,13 @@ const Leader = () => {
 
   const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
-  const isBonusPointsTab = selectedLeaderTab === 1;
-  const isSpreadTab = selectedLeaderTab === 2;
+  const isSpreadTab = selectedLeaderTab === 1;
+  const isBonusPointsTab = selectedLeaderTab === 2;
 
   const handleLeaderTabChange = (_, selectedTab) => {
     setSelectedLeaderTab(selectedTab);
 
-    if (selectedTab === 2) {
+    if (selectedTab === 1) {
       enableSpreadMode();
     } else {
       disableSpreadMode();
@@ -331,10 +331,15 @@ const Leader = () => {
                 }}
               >
                 <Tab label="Picks 🎯" {...a11yProps(0)} />
-                <Tab label="Picks + Bonus 🚀" {...a11yProps(1)} />
-                <Tab label="Against the Spread 📊" {...a11yProps(2)} />
+                <Tab label="Against the Spread 📊" {...a11yProps(1)} />
+                <Tab label="P + B 🚀" {...a11yProps(2)} />
               </Tabs>
             </Box>
+            {isBonusPointsTab && (
+              <div style={styles.leaderTabNote} role="note">
+                P + B = Picks + Bonus
+              </div>
+            )}
             <div style={styles.leaderHypeBanner} role="status" aria-live="polite">
               Watch the drama and leaders emerge after games start and points are put on the board! 🍿
             </div>
