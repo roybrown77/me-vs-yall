@@ -13,7 +13,9 @@ const {
 const gameRepository = require('../game/databaseRepositories/GameRepository');
 const gameWeekRepository = require('../game/databaseRepositories/GameWeekRepository');
 const pickRepository = require('../pick/PickRepository');
+const userRepository = require('../user/UserRepository');
 const pushSubscriptionRepository = require('./PushSubscriptionRepository');
+const { rankLeaders, formatTopLeadersBody } = require('./leaderRankings');
 
 const leagueIdToName = {
   '59723313734d1d6202a85f10': 'nfl',
@@ -30,8 +32,8 @@ const leagueIdToName = {
 };
 
 const defaultNotificationTypes = ['upcoming', 'in_progress', 'all_final'];
+const MAX_DAILY_NOTIFICATIONS = 2;
 
-const NFL_LEAGUE_ID = '59723313734d1d6202a85f10';
 const PICK_FINALIZE_REMINDER_HOUR = 19;
 const PICK_FINALIZE_LOOKAHEAD_DAYS = 21;
 
@@ -64,65 +66,37 @@ const findGameWeek = (game, gameWeeks = []) => {
   });
 };
 
-const getUpcomingNflFirstGamesOfWeek = async () => {
-  const now = new Date();
-  const windowEnd = new Date(Date.now() + PICK_FINALIZE_LOOKAHEAD_DAYS * 24 * 60 * 60 * 1000);
-  const leagueObjectId = new mongoose.Types.ObjectId(NFL_LEAGUE_ID);
-
-  const games = await gameRepository.find({
-    leagueId: leagueObjectId,
-    isGameOver: { $ne: true },
-    isHidden: { $ne: true },
-    startDateTime: { $gt: now, $lte: windowEnd },
-  });
-
-  if (!games.length) return [];
-
-  const years = [...new Set(games.map((game) => game.year).filter(Boolean))];
-  const gameWeeks = years.length
-    ? await gameWeekRepository.find({
-        leagueId: leagueObjectId,
-        year: years.length === 1 ? years[0] : { $in: years },
-      })
-    : [];
-
-  const firstGamesByWeek = new Map();
-
-  for (const game of games) {
-    const week = findGameWeek(game, gameWeeks);
-    const weekKey = week ? String(week._id) : `fallback-${getDateKey(game.startDateTime)}`;
-    const existing = firstGamesByWeek.get(weekKey);
-
-    if (!existing || new Date(game.startDateTime) < new Date(existing.startDateTime)) {
-      firstGamesByWeek.set(weekKey, game);
-    }
-  }
-
-  return [...firstGamesByWeek.values()];
+const getGamesOnLocalDate = ({ games, timezone, dateKey }) => {
+  return games.filter(
+    (game) => getLocalDateKey({ dateValue: game.startDateTime, timezone }) === dateKey
+  );
 };
 
-const isDayBeforeFirstGameOfWeek = ({
+const isDayBeforeGamesStart = ({
   timezone,
   dateValue = new Date(),
-  firstGamesOfWeek = [],
+  scheduledGames = [],
 }) => {
-  if (!firstGamesOfWeek.length) return false;
+  const todayKey = getLocalDateKey({ dateValue, timezone });
+  const tomorrowKey = moment(dateValue).tz(timezone).add(1, 'day').format('YYYY-MM-DD');
+  const gamesToday = getGamesOnLocalDate({ games: scheduledGames, timezone, dateKey: todayKey });
+  const gamesTomorrow = getGamesOnLocalDate({
+    games: scheduledGames,
+    timezone,
+    dateKey: tomorrowKey,
+  }).filter((game) => game.isGameOver !== true);
 
-  const tomorrowKey = moment(dateValue).tz(timezone).clone().add(1, 'day').format('YYYY-MM-DD');
-
-  return firstGamesOfWeek.some((game) => {
-    return getLocalDateKey({ dateValue: game.startDateTime, timezone }) === tomorrowKey;
-  });
+  return gamesToday.length === 0 && gamesTomorrow.length > 0;
 };
 
 const isPickFinalizeReminderWindow = ({
   timezone,
   dateValue = new Date(),
-  firstGamesOfWeek = [],
+  scheduledGames = [],
 }) => {
   return (
     isSevenPmWindow({ timezone, dateValue }) &&
-    isDayBeforeFirstGameOfWeek({ timezone, dateValue, firstGamesOfWeek })
+    isDayBeforeGamesStart({ timezone, dateValue, scheduledGames })
   );
 };
 
@@ -155,9 +129,18 @@ const getLocalDateKey = ({ dateValue, timezone }) => {
   return moment(dateValue).tz(timezone).format('YYYY-MM-DD');
 };
 
-const buildDailyEventKey = ({ type, timezone, dateValue = new Date() }) => {
+const buildDailyEventKey = ({ type, timezone, dateValue = new Date(), suffix = '' }) => {
   const dateKey = getLocalDateKey({ dateValue, timezone });
-  return `${type}:${dateKey}`;
+  return suffix ? `${type}:${suffix}:${dateKey}` : `${type}:${dateKey}`;
+};
+
+const getDailyNotificationCount = ({ subscription, timezone, dateValue = new Date() }) => {
+  const dateKey = getLocalDateKey({ dateValue, timezone });
+  return (subscription?.sentEventKeys || []).filter((key) => key.endsWith(`:${dateKey}`)).length;
+};
+
+const canSendAnotherNotificationToday = ({ subscription, timezone, dateValue = new Date() }) => {
+  return getDailyNotificationCount({ subscription, timezone, dateValue }) < MAX_DAILY_NOTIFICATIONS;
 };
 
 const canRun = () => {
@@ -179,23 +162,20 @@ const getUpcomingGames = async ({ windowHours }) => {
   const now = new Date();
   const windowEnd = new Date(Date.now() + windowHours * 60 * 60 * 1000);
 
-  const search = {
-    isGameOver: { $ne: true },
-    isHidden: { $ne: true },
-    startDateTime: { $gt: now, $lte: windowEnd },
-  };
-
-  return gameRepository.find(search);
-};
-
-const getInProgressGames = async ({ lookbackHours = 8 }) => {
-  const now = new Date();
-  const startedAfter = new Date(Date.now() - lookbackHours * 60 * 60 * 1000);
-
   return gameRepository.find({
     isGameOver: { $ne: true },
     isHidden: { $ne: true },
-    startDateTime: { $gte: startedAfter, $lte: now },
+    startDateTime: { $gt: now, $lte: windowEnd },
+  });
+};
+
+const getScheduledGames = async () => {
+  const windowStart = new Date(Date.now() - 36 * 60 * 60 * 1000);
+  const windowEnd = new Date(Date.now() + PICK_FINALIZE_LOOKAHEAD_DAYS * 24 * 60 * 60 * 1000);
+
+  return gameRepository.find({
+    isHidden: { $ne: true },
+    startDateTime: { $gte: windowStart, $lte: windowEnd },
   });
 };
 
@@ -211,46 +191,44 @@ const getRecentlyStartedGames = async ({ lookbackHours = 36 }) => {
 
 const getLeagueName = (leagueId) => leagueIdToName[String(leagueId)] || 'nfl';
 
-const getDateKey = (dateValue) => moment(dateValue).utc().format('YYYY-MM-DD');
+const getTodaysUpcomingGames = ({ games, timezone, dateValue = new Date() }) => {
+  const todayKey = getLocalDateKey({ dateValue, timezone });
+  const nowMs = new Date(dateValue).getTime();
 
-const buildInProgressEvent = (games = []) => {
-  if (!games.length) return null;
-
-  const sorted = games.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
-  const first = sorted[0];
-  const leagueName = getLeagueName(first.leagueId);
-  const dateKey = getDateKey(first.startDateTime);
-
-  return {
-    eventKey: `in-progress:${leagueName}:${dateKey}`,
-    payload: {
-      title: '⏱️ Games In Progress',
-      body: `${sorted.length} game${sorted.length === 1 ? ' is' : 's are'} in progress now`,
-      icon: '/favicon.png',
-      badge: '/favicon.png',
-      tag: `in-progress-${leagueName}-${dateKey}`,
-      renotify: true,
-      actions: [
-        { action: 'open-picks', title: 'Watch Live' },
-        { action: 'dismiss', title: 'Later' },
-      ],
-      url: `/scoreboards/${leagueName}`,
-    },
-  };
+  return games
+    .filter((game) => getLocalDateKey({ dateValue: game.startDateTime, timezone }) === todayKey)
+    .filter((game) => game.isGameOver !== true && new Date(game.startDateTime).getTime() > nowMs)
+    .sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
 };
 
-const buildAllFinalEvent = (games = []) => {
-  if (!games.length) return null;
+const isOneHourBeforeFirstKickoff = ({ timezone, dateValue = new Date(), firstGame }) => {
+  if (!firstGame) return false;
 
+  const kickoff = moment(firstGame.startDateTime).tz(timezone);
+  const now = moment(dateValue).tz(timezone);
+  const minutesUntil = kickoff.diff(now, 'minutes');
+
+  return minutesUntil > 45 && minutesUntil <= 75;
+};
+
+const getAllFinalBucketForTimezone = ({ games, timezone }) => {
   const buckets = new Map();
+
   for (const game of games) {
     const leagueName = getLeagueName(game.leagueId);
-    const dateKey = getDateKey(game.startDateTime);
+    const dateKey = getLocalDateKey({ dateValue: game.startDateTime, timezone });
     const key = `${leagueName}:${dateKey}`;
 
     if (!buckets.has(key)) {
-      buckets.set(key, { leagueName, dateKey, games: [] });
+      buckets.set(key, {
+        leagueName,
+        dateKey,
+        leagueId: game.leagueId,
+        year: game.year,
+        games: [],
+      });
     }
+
     buckets.get(key).games.push(game);
   }
 
@@ -261,25 +239,22 @@ const buildAllFinalEvent = (games = []) => {
   if (!allFinalBuckets.length) return null;
 
   allFinalBuckets.sort((a, b) => (a.dateKey < b.dateKey ? 1 : -1));
-  const chosen = allFinalBuckets[0];
-
-  return {
-    eventKey: `all-final:${chosen.leagueName}:${chosen.dateKey}`,
-    payload: {
-      title: '🏁 Final Scores Ready',
-      body: `All ${chosen.leagueName.toUpperCase()} games are final. Check the leaderboard.`,
-      icon: '/favicon.png',
-      badge: '/favicon.png',
-      tag: `all-final-${chosen.leagueName}-${chosen.dateKey}`,
-      renotify: true,
-      actions: [
-        { action: 'open-leaderboard', title: 'Open Leaderboard' },
-        { action: 'dismiss', title: 'Later' },
-      ],
-      url: `/leaders/${chosen.leagueName}`,
-    },
-  };
+  return allFinalBuckets[0];
 };
+
+const buildAllFinalPayload = ({ leagueName, dateKey, topLeaders = [] }) => ({
+  title: '🏁 Final Scores Ready',
+  body: `All ${leagueName.toUpperCase()} games are final. ${formatTopLeadersBody(topLeaders)}`,
+  icon: '/favicon.png',
+  badge: '/favicon.png',
+  tag: `all-final-${leagueName}-${dateKey}`,
+  renotify: true,
+  actions: [
+    { action: 'open-leaderboard', title: 'Open Leaderboard' },
+    { action: 'dismiss', title: 'Later' },
+  ],
+  url: `/leaders/${leagueName}`,
+});
 
 const computeMissingPickCount = async ({ userId, gameIds }) => {
   const picks = await pickRepository.find({
@@ -291,19 +266,61 @@ const computeMissingPickCount = async ({ userId, gameIds }) => {
   return gameIds.filter((gameId) => !pickedGameIds.has(String(gameId)));
 };
 
+const getTopLeadersForNotification = async ({ referenceGame, leaderCache }) => {
+  const leagueId = referenceGame.leagueId;
+  const year = referenceGame.year;
+  const gameWeeks = await gameWeekRepository.find({ leagueId, year });
+  const week = findGameWeek(referenceGame, gameWeeks);
+
+  if (!week) return [];
+
+  const cacheKey = `${String(leagueId)}:${year}:${String(week._id)}`;
+  if (leaderCache.has(cacheKey)) {
+    return leaderCache.get(cacheKey);
+  }
+
+  const weekGames = await gameRepository.find({
+    leagueId,
+    year,
+    isHidden: { $ne: true },
+    startDateTime: { $gte: week.beginDateTime, $lte: week.endDateTime },
+  });
+
+  const gameIds = weekGames.map((game) => game._id);
+  if (!gameIds.length) {
+    leaderCache.set(cacheKey, []);
+    return [];
+  }
+
+  const picks = await pickRepository.find({ gameId: { $in: gameIds } });
+  const userIds = [...new Set(picks.map((pick) => pick.userId).filter((id) => id && id !== '1'))];
+  const users = userIds.length
+    ? await userRepository.find({ authServiceId: { $in: userIds } })
+    : [];
+
+  const topLeaders = rankLeaders({ games: weekGames, picks, users }).slice(0, 3);
+  leaderCache.set(cacheKey, topLeaders);
+  return topLeaders;
+};
+
 const sendPickFinalizeReminder = async ({
   subscription,
   subscriptionTimezone,
   dateValue = new Date(),
-  firstGamesOfWeek = [],
+  scheduledGames = [],
 }) => {
   if (
     !isPickFinalizeReminderWindow({
       timezone: subscriptionTimezone,
       dateValue,
-      firstGamesOfWeek,
+      scheduledGames,
     }) ||
-    !hasNotificationTypeEnabled({ subscription, type: 'upcoming' })
+    !hasNotificationTypeEnabled({ subscription, type: 'upcoming' }) ||
+    !canSendAnotherNotificationToday({
+      subscription,
+      timezone: subscriptionTimezone,
+      dateValue,
+    })
   ) {
     return false;
   }
@@ -340,30 +357,13 @@ const sendPickReminderOnce = async () => {
 
   configureWebPush();
 
-  const [upcomingGames, inProgressGames, recentlyStartedGames] = await Promise.all([
+  const [upcomingGames, scheduledGames, recentlyStartedGames] = await Promise.all([
     getUpcomingGames({ windowHours: pickPushReminderWindowHours }),
-    getInProgressGames({ lookbackHours: 8 }),
+    getScheduledGames(),
     getRecentlyStartedGames({ lookbackHours: 36 }),
   ]);
 
-  const sortedUpcomingGames = [...(upcomingGames || [])].sort(
-    (a, b) => new Date(a.startDateTime) - new Date(b.startDateTime)
-  );
-  const nextGame = sortedUpcomingGames[0];
-  const nowMs = Date.now();
-  const oneHourFromNow = nowMs + 60 * 60 * 1000;
-  const upcomingGamesStartingSoon = sortedUpcomingGames.filter((game) => {
-    const startTime = new Date(game.startDateTime).getTime();
-    return startTime > nowMs && startTime <= oneHourFromNow;
-  });
-
-  const inProgressEvent = buildInProgressEvent(inProgressGames || []);
-  const allFinalEvent = buildAllFinalEvent(recentlyStartedGames || []);
-  const hasAnyGameEvents =
-    Boolean(inProgressEvent) ||
-    Boolean(allFinalEvent) ||
-    Boolean(upcomingGamesStartingSoon.length);
-  const firstGamesOfWeek = await getUpcomingNflFirstGamesOfWeek();
+  const leaderCache = new Map();
 
   const subscriptions = await pushSubscriptionRepository.find({});
   if (!subscriptions?.length) return;
@@ -378,52 +378,85 @@ const sendPickReminderOnce = async () => {
         subscription: sub,
         subscriptionTimezone,
         dateValue: now,
-        firstGamesOfWeek,
+        scheduledGames,
       });
-
-      if (!hasAnyGameEvents) {
-        continue;
-      }
 
       if (
         hasNotificationTypeEnabled({ subscription: sub, type: 'upcoming' }) &&
-        nextGame &&
-        upcomingGamesStartingSoon.length
+        canSendAnotherNotificationToday({
+          subscription: sub,
+          timezone: subscriptionTimezone,
+          dateValue: now,
+        })
       ) {
-        const unnotifiedStartingSoonGames = upcomingGamesStartingSoon.filter((game) => {
-          const eventKey = `upcoming-1h:${String(game._id)}`;
-          return !hasSentEventKey({ subscription: sub, eventKey });
-        });
+        const todaysUpcomingByLeague = new Map();
 
-        if (unnotifiedStartingSoonGames.length) {
-          const targetGameIds = unnotifiedStartingSoonGames.map((g) => g._id);
-          const firstTargetGame = unnotifiedStartingSoonGames[0];
-          const targetLeagueName = firstTargetGame ? getLeagueName(firstTargetGame.leagueId) : 'nfl';
-          let missingGameIds = targetGameIds;
-
-        if (sub.userId) {
-          missingGameIds = await computeMissingPickCount({
-            userId: sub.userId,
-            gameIds: targetGameIds,
-          });
+        for (const game of getTodaysUpcomingGames({
+          games: upcomingGames,
+          timezone: subscriptionTimezone,
+          dateValue: now,
+        })) {
+          const leagueName = getLeagueName(game.leagueId);
+          if (!todaysUpcomingByLeague.has(leagueName)) {
+            todaysUpcomingByLeague.set(leagueName, []);
+          }
+          todaysUpcomingByLeague.get(leagueName).push(game);
         }
 
-        const missingCount = missingGameIds.length;
-        if (missingCount > 0) {
+        for (const [leagueName, todaysGames] of todaysUpcomingByLeague.entries()) {
+          const firstKickoff = todaysGames[0];
+          const dailyKickoffEventKey = buildDailyEventKey({
+            type: 'upcoming-1h-daily',
+            timezone: subscriptionTimezone,
+            dateValue: now,
+            suffix: leagueName,
+          });
+
+          if (
+            !isOneHourBeforeFirstKickoff({
+              timezone: subscriptionTimezone,
+              dateValue: now,
+              firstGame: firstKickoff,
+            }) ||
+            hasSentEventKey({ subscription: sub, eventKey: dailyKickoffEventKey }) ||
+            !canSendAnotherNotificationToday({
+              subscription: sub,
+              timezone: subscriptionTimezone,
+              dateValue: now,
+            })
+          ) {
+            continue;
+          }
+
+          const targetGameIds = todaysGames.map((game) => game._id);
+          let missingGameIds = targetGameIds;
+
+          if (sub.userId) {
+            missingGameIds = await computeMissingPickCount({
+              userId: sub.userId,
+              gameIds: targetGameIds,
+            });
+          }
+
+          const missingCount = missingGameIds.length;
+          if (missingCount <= 0) {
+            continue;
+          }
+
           const payload = {
             title: '🏈 Pick Reminder',
             body: sub.userId
-              ? `${missingCount} game${missingCount === 1 ? '' : 's'} start in about 1 hour and need your pick`
-              : `${missingCount} game${missingCount === 1 ? '' : 's'} start in about 1 hour`,
+              ? `${missingCount} game${missingCount === 1 ? '' : 's'} kick off in about 1 hour and need your pick`
+              : `${missingCount} game${missingCount === 1 ? '' : 's'} kick off in about 1 hour`,
             icon: '/favicon.png',
             badge: '/favicon.png',
-            tag: `pick-reminder-${targetLeagueName}`,
+            tag: `pick-reminder-${leagueName}`,
             renotify: true,
             actions: [
               { action: 'open-picks', title: 'Open Picks' },
               { action: 'dismiss', title: 'Later' },
             ],
-            url: `/scoreboards/${targetLeagueName}`,
+            url: `/scoreboards/${leagueName}`,
           };
 
           await webpush.sendNotification(
@@ -435,66 +468,65 @@ const sendPickReminderOnce = async () => {
             JSON.stringify(payload)
           );
 
-          for (const gameId of missingGameIds) {
+          await markEventKeySent({
+            subscriptionId: sub._id,
+            eventKey: dailyKickoffEventKey,
+          });
+        }
+      }
+
+      if (
+        hasNotificationTypeEnabled({ subscription: sub, type: 'all_final' }) &&
+        canSendAnotherNotificationToday({
+          subscription: sub,
+          timezone: subscriptionTimezone,
+          dateValue: now,
+        })
+      ) {
+        const allFinalBucket = getAllFinalBucketForTimezone({
+          games: recentlyStartedGames,
+          timezone: subscriptionTimezone,
+        });
+
+        if (allFinalBucket) {
+          const allFinalEventKey = buildDailyEventKey({
+            type: 'all-final-daily',
+            timezone: subscriptionTimezone,
+            dateValue: now,
+            suffix: allFinalBucket.leagueName,
+          });
+
+          if (!hasSentEventKey({ subscription: sub, eventKey: allFinalEventKey })) {
+            const topLeaders = await getTopLeadersForNotification({
+              referenceGame: allFinalBucket.games[0],
+              leaderCache,
+            });
+
+            await webpush.sendNotification(
+              {
+                endpoint: sub.endpoint,
+                expirationTime: sub.expirationTime,
+                keys: sub.keys,
+              },
+              JSON.stringify(
+                buildAllFinalPayload({
+                  leagueName: allFinalBucket.leagueName,
+                  dateKey: allFinalBucket.dateKey,
+                  topLeaders,
+                })
+              )
+            );
+
             await markEventKeySent({
               subscriptionId: sub._id,
-              eventKey: `upcoming-1h:${String(gameId)}`,
+              eventKey: allFinalEventKey,
             });
           }
         }
-        }
-      }
-
-      if (
-        inProgressEvent &&
-        hasNotificationTypeEnabled({ subscription: sub, type: 'in_progress' }) &&
-        !hasSentEventKey({
-          subscription: sub,
-          eventKey: buildDailyEventKey({
-            type: 'in-progress-daily',
-            timezone: subscriptionTimezone,
-            dateValue: new Date(),
-          }),
-        })
-      ) {
-        const inProgressEventKey = buildDailyEventKey({
-          type: 'in-progress-daily',
-          timezone: subscriptionTimezone,
-          dateValue: new Date(),
-        });
-
-        await webpush.sendNotification(
-          {
-            endpoint: sub.endpoint,
-            expirationTime: sub.expirationTime,
-            keys: sub.keys,
-          },
-          JSON.stringify(inProgressEvent.payload)
-        );
-
-        await markEventKeySent({ subscriptionId: sub._id, eventKey: inProgressEventKey });
-      }
-
-      if (
-        allFinalEvent &&
-        hasNotificationTypeEnabled({ subscription: sub, type: 'all_final' }) &&
-        !hasSentEventKey({ subscription: sub, eventKey: allFinalEvent.eventKey })
-      ) {
-        await webpush.sendNotification(
-          {
-            endpoint: sub.endpoint,
-            expirationTime: sub.expirationTime,
-            keys: sub.keys,
-          },
-          JSON.stringify(allFinalEvent.payload)
-        );
-
-        await markEventKeySent({ subscriptionId: sub._id, eventKey: allFinalEvent.eventKey });
       }
     } catch (error) {
       const statusCode = error?.statusCode;
       if (statusCode === 404 || statusCode === 410) {
-        // Subscription is gone/expired; clean it up.
         await pushSubscriptionRepository.deleteOne({ _id: sub._id });
       }
 
@@ -506,13 +538,11 @@ const sendPickReminderOnce = async () => {
 const startPickReminderScheduler = () => {
   if (!canRun()) return;
 
-  // Guard: avoid multiple schedulers (e.g. hot reload)
   if (global.__pickReminderSchedulerStarted) return;
   global.__pickReminderSchedulerStarted = true;
 
   console.log('[NOTIFICATIONS] Pick reminder scheduler enabled');
 
-  // Run immediately and then every 15 minutes.
   sendPickReminderOnce().catch((e) => console.error(e));
   global.__pickReminderInterval = setInterval(() => {
     sendPickReminderOnce().catch((e) => console.error(e));
@@ -533,7 +563,12 @@ module.exports = {
   stopPickReminderScheduler,
   sendPickReminderOnce,
   isPickFinalizeReminderWindow,
-  isDayBeforeFirstGameOfWeek,
+  isDayBeforeGamesStart,
   buildPickFinalizeReminderPayload,
-  getUpcomingNflFirstGamesOfWeek,
+  getGamesOnLocalDate,
+  getDailyNotificationCount,
+  canSendAnotherNotificationToday,
+  isOneHourBeforeFirstKickoff,
+  buildAllFinalPayload,
+  formatTopLeadersBody,
 };

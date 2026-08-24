@@ -162,7 +162,7 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
   await sendPickReminderOnce();
 
   assert.equal(calls.setVapidDetails.length, 1, 'Expected VAPID config to be set once');
-  assert.equal(calls.gameFind.length, 4, 'Expected upcoming, in-progress, final-status, and NFL first-game queries');
+  assert.equal(calls.gameFind.length, 3, 'Expected upcoming, scheduled, and final-status queries');
   assert.equal(calls.pickFind.length, 1, 'Expected picks query once for subscription user');
   assert.equal(calls.subFind, 1, 'Expected subscription lookup once');
   assert.equal(calls.sendNotification.length, 1, 'Expected one push notification');
@@ -171,7 +171,7 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
 
   const sentPayload = JSON.parse(calls.sendNotification[0][1]);
   assert.equal(sentPayload.title, '🏈 Pick Reminder');
-  assert.equal(sentPayload.body, '1 game start in about 1 hour and need your pick');
+  assert.equal(sentPayload.body, '2 games kick off in about 1 hour and need your pick');
   assert.equal(sentPayload.icon, '/favicon.png');
   assert.equal(sentPayload.badge, '/favicon.png');
   assert.equal(sentPayload.tag, 'pick-reminder-nfl');
@@ -194,7 +194,7 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
   });
 });
 
-test('sendPickReminderOnce sends 7pm reminder day before first game of week', async () => {
+test('sendPickReminderOnce sends 7pm reminder the day before games start', async () => {
   const originalEnv = {
     ENABLE_PICK_PUSH_REMINDERS: process.env.ENABLE_PICK_PUSH_REMINDERS,
     VAPID_SUBJECT: process.env.VAPID_SUBJECT,
@@ -212,7 +212,6 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
     setVapidDetails: [],
     sendNotification: [],
     gameFind: [],
-    gameWeekFind: [],
     pickFind: [],
     subFind: 0,
     updateOne: [],
@@ -230,15 +229,6 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
       sentEventKeys: [],
     },
   ];
-
-  const nflWeek = {
-    _id: 'week-1',
-    leagueId: leagueIdNFL,
-    year: 2026,
-    beginDateTime: new Date('2026-08-19T04:00:00.000Z'),
-    endDateTime: new Date('2026-08-26T03:59:59.000Z'),
-    description: 'Week 1',
-  };
 
   const firstGameOfWeek = {
     _id: 'game-thursday',
@@ -272,22 +262,14 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
       return {
         find: async (search) => {
           calls.gameFind.push(search);
-
-          if (String(search?.leagueId) === leagueIdNFL) {
-            return [firstGameOfWeek];
-          }
-
-          return [];
+          return [firstGameOfWeek];
         },
       };
     }
 
-    if (request === '../game/databaseRepositories/GameWeekRepository') {
+    if (request === '../user/UserRepository') {
       return {
-        find: async (search) => {
-          calls.gameWeekFind.push(search);
-          return [nflWeek];
-        },
+        find: async () => [],
       };
     }
 
@@ -322,18 +304,18 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
   const {
     sendPickReminderOnce,
     isPickFinalizeReminderWindow,
-    isDayBeforeFirstGameOfWeek,
+    isDayBeforeGamesStart,
     buildPickFinalizeReminderPayload,
   } = require('../pickReminderScheduler');
 
   const wednesdaySevenPm = new Date('2026-08-19T23:05:00.000Z'); // Wed 7:05pm ET
-  const firstGamesOfWeek = [firstGameOfWeek];
+  const scheduledGames = [firstGameOfWeek];
 
   assert.equal(
-    isDayBeforeFirstGameOfWeek({
+    isDayBeforeGamesStart({
       timezone: 'America/New_York',
       dateValue: wednesdaySevenPm,
-      firstGamesOfWeek,
+      scheduledGames,
     }),
     true
   );
@@ -342,7 +324,7 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
     isPickFinalizeReminderWindow({
       timezone: 'America/New_York',
       dateValue: wednesdaySevenPm,
-      firstGamesOfWeek,
+      scheduledGames,
     }),
     true
   );
@@ -351,7 +333,7 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
     isPickFinalizeReminderWindow({
       timezone: 'America/New_York',
       dateValue: new Date('2026-08-20T23:05:00.000Z'),
-      firstGamesOfWeek,
+      scheduledGames,
     }),
     false
   );
@@ -360,7 +342,7 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
     isPickFinalizeReminderWindow({
       timezone: 'America/New_York',
       dateValue: wednesdaySevenPm,
-      firstGamesOfWeek: [],
+      scheduledGames: [],
     }),
     false
   );
@@ -389,7 +371,6 @@ test('sendPickReminderOnce sends 7pm reminder day before first game of week', as
 
   global.Date = originalDate;
 
-  assert.equal(calls.gameWeekFind.length, 1, 'Expected NFL game weeks lookup');
   assert.equal(calls.sendNotification.length, 1, 'Expected one pick finalize push notification');
   assert.equal(calls.updateOne.length, 1, 'Expected pick finalize event key to be stored');
 
@@ -415,7 +396,7 @@ test('isPickFinalizeReminderWindow supports playoff Friday before Saturday kicko
   const { isPickFinalizeReminderWindow } = require('../pickReminderScheduler');
 
   const fridaySevenPm = new Date('2026-01-10T00:05:00.000Z'); // Fri 7:05pm ET
-  const firstGamesOfWeek = [
+  const scheduledGames = [
     {
       _id: 'game-saturday',
       leagueId: leagueIdNFL,
@@ -428,7 +409,31 @@ test('isPickFinalizeReminderWindow supports playoff Friday before Saturday kicko
     isPickFinalizeReminderWindow({
       timezone: 'America/New_York',
       dateValue: fridaySevenPm,
-      firstGamesOfWeek,
+      scheduledGames,
+    }),
+    true
+  );
+});
+
+test('isPickFinalizeReminderWindow supports Monday before Tuesday kickoff', () => {
+  delete require.cache[schedulerModulePath];
+  const { isPickFinalizeReminderWindow } = require('../pickReminderScheduler');
+
+  const mondaySevenPm = new Date('2026-09-08T23:05:00.000Z'); // Mon 7:05pm ET
+  const scheduledGames = [
+    {
+      _id: 'game-tuesday',
+      leagueId: leagueIdNFL,
+      year: 2026,
+      startDateTime: new Date('2026-09-09T23:15:00.000Z'), // Tue 7:15pm ET
+    },
+  ];
+
+  assert.equal(
+    isPickFinalizeReminderWindow({
+      timezone: 'America/New_York',
+      dateValue: mondaySevenPm,
+      scheduledGames,
     }),
     true
   );
@@ -439,7 +444,7 @@ test('isPickFinalizeReminderWindow supports holiday Tuesday before Wednesday kic
   const { isPickFinalizeReminderWindow } = require('../pickReminderScheduler');
 
   const tuesdaySevenPm = new Date('2026-11-25T00:05:00.000Z'); // Tue 7:05pm ET
-  const firstGamesOfWeek = [
+  const scheduledGames = [
     {
       _id: 'game-wednesday',
       leagueId: leagueIdNFL,
@@ -452,8 +457,66 @@ test('isPickFinalizeReminderWindow supports holiday Tuesday before Wednesday kic
     isPickFinalizeReminderWindow({
       timezone: 'America/New_York',
       dateValue: tuesdaySevenPm,
-      firstGamesOfWeek,
+      scheduledGames,
     }),
     true
+  );
+});
+
+test('isPickFinalizeReminderWindow supports Saturday before Sunday kickoff with no games today', () => {
+  delete require.cache[schedulerModulePath];
+  const { isPickFinalizeReminderWindow } = require('../pickReminderScheduler');
+
+  const saturdaySevenPm = new Date('2026-08-22T23:05:00.000Z'); // Sat 7:05pm ET
+  const scheduledGames = [
+    {
+      _id: 'game-sunday-early',
+      leagueId: leagueIdNFL,
+      startDateTime: new Date('2026-08-23T17:00:00.000Z'), // Sun 1:00pm ET
+    },
+    {
+      _id: 'game-sunday-late',
+      leagueId: leagueIdNFL,
+      startDateTime: new Date('2026-08-24T00:20:00.000Z'), // Sun 8:20pm ET
+    },
+  ];
+
+  assert.equal(
+    isPickFinalizeReminderWindow({
+      timezone: 'America/New_York',
+      dateValue: saturdaySevenPm,
+      scheduledGames,
+    }),
+    true
+  );
+});
+
+test('canSendAnotherNotificationToday enforces two notifications per day', () => {
+  delete require.cache[schedulerModulePath];
+  const {
+    canSendAnotherNotificationToday,
+    getDailyNotificationCount,
+  } = require('../pickReminderScheduler');
+
+  const subscription = {
+    sentEventKeys: ['pick-finalize:2026-08-21', 'upcoming-1h-daily:nfl:2026-08-21'],
+  };
+
+  assert.equal(
+    getDailyNotificationCount({
+      subscription,
+      timezone: 'America/New_York',
+      dateValue: new Date('2026-08-21T20:00:00.000Z'),
+    }),
+    2
+  );
+
+  assert.equal(
+    canSendAnotherNotificationToday({
+      subscription,
+      timezone: 'America/New_York',
+      dateValue: new Date('2026-08-21T20:00:00.000Z'),
+    }),
+    false
   );
 });
