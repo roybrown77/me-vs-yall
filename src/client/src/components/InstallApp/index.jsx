@@ -44,7 +44,6 @@ const InstallApp = ({ marginLeft = '0' }) => {
                 className="pwa-install-banner--modal"
                 onClose={() => setIsOpen(false)}
                 showClose
-                showEmojis
               />
             </div>
           </div>,

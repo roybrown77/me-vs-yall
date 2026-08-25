@@ -31,7 +31,6 @@ const PwaInstallCard = ({
   className = '',
   onClose,
   showClose = false,
-  showEmojis = false,
 }) => {
   const { canInstall, promptInstall } = usePwaInstallPrompt();
   const [installFeedback, setInstallFeedback] = useState(null);
@@ -116,11 +115,9 @@ const PwaInstallCard = ({
           </button>
         </div>
 
-        {showEmojis ? (
-          <div className="pwa-install-banner__emojis" aria-hidden="true">
-            {INSTALL_APP_EMOJIS}
-          </div>
-        ) : null}
+        <div className="pwa-install-banner__emojis" aria-hidden="true">
+          {INSTALL_APP_EMOJIS}
+        </div>
       </div>
 
       <Snackbar
@@ -150,7 +147,6 @@ PwaInstallCard.propTypes = {
   className: PropTypes.string,
   onClose: PropTypes.func,
   showClose: PropTypes.bool,
-  showEmojis: PropTypes.bool,
 };
 
 export default PwaInstallCard;
