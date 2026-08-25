@@ -236,6 +236,25 @@ const withEspnPage = async (url, callback) => {
             timeout: PAGE_LOAD_TIMEOUT_MS,
         });
         await page.waitForSelector('.Scoreboard', { timeout: 15000 }).catch(() => {});
+        await page.waitForFunction(() => {
+            const scoreboards = Array.from(document.querySelectorAll('.Scoreboard'));
+            if (!scoreboards.length) {
+                return false;
+            }
+
+            return scoreboards.every((gameElement) => {
+                const teams = gameElement.querySelectorAll('.ScoreboardScoreCell__Competitors > li');
+                if (teams.length < 2) {
+                    return false;
+                }
+
+                const timeText =
+                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time')?.textContent?.trim() ||
+                    '';
+
+                return Boolean(timeText);
+            });
+        }, { timeout: 20000 }).catch(() => {});
 
         return await callback(page);
     } finally {
@@ -260,7 +279,11 @@ async function scrapeGameInformationFromPage(page) {
             const scoreboards = document.querySelectorAll('.Scoreboard');
 
             scoreboards.forEach((gameElement) => {
-                const cardHeader = gameElement.closest('.Card')?.querySelector('.Card__Header__Title')?.textContent?.trim() || '';
+                const cardEl = gameElement.closest('.Card');
+                const cardHeader =
+                    cardEl?.querySelector('.Card__Header__Title')?.textContent?.trim() ||
+                    cardEl?.querySelector('header')?.getAttribute('aria-label')?.trim() ||
+                    '';
                 const competitors = gameElement.querySelectorAll('.ScoreboardScoreCell__Competitors > li');
                 const gameScores = [];
 
@@ -298,11 +321,13 @@ async function scrapeGameInformationFromPage(page) {
                 const total = gameElement.querySelector('.OddsStripWrapper li:nth-child(2) .rIczU')?.textContent?.trim() || '';
 
                 const scoreCellEl = gameElement.querySelector('.ScoreboardScoreCell');
+                const isPreGame = scoreCellEl?.classList.contains('ScoreboardScoreCell--pre') ?? false;
                 const isPostGame = scoreCellEl?.classList.contains('ScoreboardScoreCell--post') ?? false;
-                const gameStatusText =
-                    gameElement.querySelector('.ScoreboardScoreCell__Overview .ScoreCell__Time')?.textContent?.trim() ||
-                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time')?.textContent?.trim() ||
-                    '';
+                const kickoffTimeEl =
+                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.ScoreCell__Time--default') ||
+                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time');
+                const kickoffTime = kickoffTimeEl?.textContent?.trim() || '';
+                const gameStatusText = kickoffTime;
                 const isGameOver =
                     isPostGame ||
                     /^(final(\/ot)?|f\/ot)$/i.test(gameStatusText);
@@ -373,6 +398,9 @@ async function scrapeGameInformationFromPage(page) {
                 if (gameScores.length > 0) {
                     results.push({
                         card: cardHeader,
+                        espnGameId: gameElement.id || null,
+                        isPreGame,
+                        kickoffTime: kickoffTime || null,
                         game: gameScores,
                         spread,
                         total,
@@ -435,49 +463,125 @@ const getCompetitorHash = (competitors = []) => {
     return JSON.stringify(hashCompetitors);
 };
 
-const parseStartDateTime = ({ cardDateText, timeText }) => {
-    const cardDate = (cardDateText || '').trim();
+const NFL_TIMEZONE = 'America/New_York';
+
+const normalizeStatusText = (statusText) => String(statusText ?? '').trim().replace(/\u00a0/g, ' ');
+
+const isLiveGameStatus = (statusText = '') => {
+    const status = normalizeStatusText(statusText);
+    if (!status || /^final/i.test(status)) {
+        return false;
+    }
+
+    if (/halftime/i.test(status)) {
+        return true;
+    }
+
+    if (/\b(1st|2nd|3rd|4th|OT)\b/i.test(status)) {
+        return true;
+    }
+
+    if (/^\d{1,2}:\d{2}\s*-/.test(status)) {
+        return true;
+    }
+
+    return false;
+};
+
+const isScheduledKickoffStatus = (statusText = '') => {
+    const status = normalizeStatusText(statusText);
+    return /^(\d{1,2}:\d{2}\s*(?:A\.?\s*M\.?|P\.?\s*M\.?))$/i.test(status);
+};
+
+const parseCardDate = (cardDateText = '') => {
+    const cardDate = normalizeStatusText(cardDateText);
     if (!cardDate) {
         return null;
     }
 
-    const cardMoment = moment.tz(cardDate, 'dddd, MMMM D, YYYY', 'America/New_York');
-    if (!cardMoment.isValid()) {
+    const formats = ['dddd, MMMM D, YYYY', 'dddd, MMMM DD, YYYY'];
+
+    for (const format of formats) {
+        const parsed = moment.tz(cardDate, format, true, NFL_TIMEZONE);
+        if (parsed.isValid()) {
+            return parsed;
+        }
+    }
+
+    return null;
+};
+
+const parseKickoffFromCardAndTime = ({ cardDateText, timeText }) => {
+    const status = normalizeStatusText(timeText);
+    const cardMoment = parseCardDate(cardDateText);
+
+    if (!cardMoment || !status) {
         return null;
     }
 
-    const trimmedTime = (timeText || '').trim();
-    if (/^final/i.test(trimmedTime)) {
-        return cardMoment.hour(20).minute(0).second(0).millisecond(0).toDate();
+    const timeMatch = status.match(/^(\d{1,2}:\d{2})\s*(A\.?\s*M\.?|P\.?\s*M\.?)\.?$/i);
+    if (!timeMatch) {
+        return null;
     }
 
-    const scheduledTimeMatch = trimmedTime.match(/^(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
-    if (scheduledTimeMatch) {
-        const parsed = moment.tz(
-            `${cardDate} ${scheduledTimeMatch[1]}`,
-            'dddd, MMMM D, YYYY h:mm A',
-            'America/New_York'
-        );
+    const meridiem = timeMatch[2].replace(/\./g, '').replace(/\s/g, '').toUpperCase();
+    const kickoff = moment.tz(
+        `${cardMoment.format('YYYY-MM-DD')} ${timeMatch[1]} ${meridiem}`,
+        'YYYY-MM-DD h:mm A',
+        true,
+        NFL_TIMEZONE
+    );
 
-        if (parsed.isValid()) {
-            return parsed.toDate();
-        }
+    return kickoff.isValid() ? kickoff.toDate() : null;
+};
+
+const parseScheduledKickoff = ({ cardDateText, statusText, isPreGame = false }) => {
+    const status = normalizeStatusText(statusText);
+    if (!status) {
+        return null;
     }
 
-    const liveClockMatch = trimmedTime.match(/^(\d{1,2}:\d{2})/);
-    if (liveClockMatch) {
-        const parsed = moment.tz(
-            `${cardDate} ${liveClockMatch[1]}`,
-            'dddd, MMMM D, YYYY h:mm A',
-            'America/New_York'
-        );
-
-        if (parsed.isValid()) {
-            return parsed.toDate();
-        }
+    if (isPreGame || isScheduledKickoffStatus(status)) {
+        return parseKickoffFromCardAndTime({ cardDateText, timeText: status });
     }
 
-    return cardMoment.hour(20).minute(0).second(0).millisecond(0).toDate();
+    if (/^final/i.test(status) || isLiveGameStatus(status)) {
+        return null;
+    }
+
+    return parseKickoffFromCardAndTime({ cardDateText, timeText: status });
+};
+
+const formatKickoffForLog = (kickoff) => moment(kickoff).tz(NFL_TIMEZONE).format('ddd MMM D YYYY h:mm A z');
+
+const applyStartDateTimeToCompetitors = ({ scrapedGame, competitors = [] }) => {
+    const kickoff = parseScheduledKickoff({
+        cardDateText: scrapedGame.card,
+        statusText: scrapedGame.kickoffTime,
+        isPreGame: scrapedGame.isPreGame === true,
+    });
+
+    if (!kickoff || competitors.length === 0) {
+        return {
+            competitors,
+            startDateTimeFields: {},
+            kickoffLog: null,
+        };
+    }
+
+    const nextCompetitors = competitors.map((competitor) => ({
+        ...competitor,
+        startDateTime: kickoff,
+    }));
+
+    return {
+        competitors: nextCompetitors,
+        startDateTimeFields: {
+            startDateTime: kickoff,
+            hashCompetitors: getCompetitorHash(nextCompetitors),
+        },
+        kickoffLog: formatKickoffForLog(kickoff),
+    };
 };
 
 const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
@@ -486,12 +590,19 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
         return null;
     }
 
-    const startDateTime = parseStartDateTime({
+    const startDateTime = parseScheduledKickoff({
         cardDateText: scrapedGame.card,
-        timeText: scrapedGame.currentTime,
+        statusText: scrapedGame.kickoffTime,
+        isPreGame: scrapedGame.isPreGame === true,
     });
 
     if (!startDateTime) {
+        console.log('[GAME_UPDATER] Skipping create; could not parse scheduled kickoff:', {
+            card: scrapedGame.card,
+            kickoffTime: scrapedGame.kickoffTime,
+            status: scrapedGame.currentTime,
+            isPreGame: scrapedGame.isPreGame,
+        });
         return null;
     }
 
@@ -636,7 +747,7 @@ const runGameUpdate = async () => {
 
                 console.log('Current East Coast Hour:', eastCoastHour);
 
-                if ((eastCoastHour === 2 && minutes < 30) || (eastCoastHour === 14 && minutes < 30)) {
+                if ((eastCoastHour === 2 && minutes < 30) || (eastCoastHour === 12 && minutes < 30)) {
                     games = await gameRepository.find(buildGameSearch({ year, includeAllActive: true }));
                 }
 
@@ -655,6 +766,14 @@ const runGameUpdate = async () => {
                     }
 
                     const spread = calculateSpread(mergedGame);
+                    const {
+                        competitors: competitorsWithKickoff,
+                        startDateTimeFields,
+                        kickoffLog,
+                    } = applyStartDateTimeToCompetitors({
+                        scrapedGame: mergedGame,
+                        competitors: game.competitors || [],
+                    });
 
                     const updateResult = await gameRepository.updateOne(
                         { _id: game._id },
@@ -663,6 +782,8 @@ const runGameUpdate = async () => {
                                 spread: spread,
                                 overUnder: parseInt(mergedGame.total, 10),
                                 weather: (mergedGame.weather || game.weather) || '57',
+                                competitors: competitorsWithKickoff,
+                                ...startDateTimeFields,
                             }
                         }
                     );
@@ -670,7 +791,7 @@ const runGameUpdate = async () => {
                     logGameUpdate({
                         game,
                         updateType: 'spread',
-                        details: `spread ${spread.amount}, O/U ${parseInt(mergedGame.total, 10) || 'N/A'}`,
+                        details: `spread ${spread.amount}, O/U ${parseInt(mergedGame.total, 10) || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 }
@@ -701,6 +822,14 @@ const runGameUpdate = async () => {
 
                 if (currentTime < spreadUpdateTime) {
                     const spread = calculateSpread(mergedGame);
+                    const {
+                        competitors: competitorsWithKickoff,
+                        startDateTimeFields,
+                        kickoffLog,
+                    } = applyStartDateTimeToCompetitors({
+                        scrapedGame: mergedGame,
+                        competitors: game.competitors || [],
+                    });
 
                     const updateResult = await gameRepository.updateOne(
                         { _id: game._id },
@@ -709,6 +838,8 @@ const runGameUpdate = async () => {
                                 spread: spread,
                                 overUnder: parseInt(mergedGame.total, 10),
                                 weather: (mergedGame.weather || game.weather) || '57',
+                                competitors: competitorsWithKickoff,
+                                ...startDateTimeFields,
                             }
                         }
                     );
@@ -716,7 +847,7 @@ const runGameUpdate = async () => {
                     logGameUpdate({
                         game,
                         updateType: 'spread',
-                        details: `spread ${spread.amount}, O/U ${parseInt(mergedGame.total, 10) || 'N/A'}`,
+                        details: `spread ${spread.amount}, O/U ${parseInt(mergedGame.total, 10) || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 } else {
@@ -731,14 +862,24 @@ const runGameUpdate = async () => {
                         }
                     ];
 
+                    const {
+                        competitors: competitorsWithKickoff,
+                        startDateTimeFields,
+                        kickoffLog,
+                    } = applyStartDateTimeToCompetitors({
+                        scrapedGame: mergedGame,
+                        competitors: updatedCompetitors,
+                    });
+
                     const updateResult = await gameRepository.updateOne(
                         { _id: game._id },
                         {
                             $set: {
-                                competitors: updatedCompetitors,
+                                competitors: competitorsWithKickoff,
                                 down: `Down: ${mergedGame.down || 'N/A'} - Poss: ${mergedGame.possession || 'N/A'} - Last play: ${mergedGame.lastPlay || 'N/A'}`,
                                 currentTime: mergedGame.currentTime,
-                                isGameOver: mergedGame.isGameOver
+                                isGameOver: mergedGame.isGameOver,
+                                ...startDateTimeFields,
                             }
                         }
                     );
@@ -746,7 +887,7 @@ const runGameUpdate = async () => {
                     logGameUpdate({
                         game,
                         updateType: 'score',
-                        details: `${updatedCompetitors[0].score}-${updatedCompetitors[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${mergedGame.isGameOver}`,
+                        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${mergedGame.isGameOver}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 }
