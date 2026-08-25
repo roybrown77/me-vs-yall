@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
 const gameRepository = require('../server/game/databaseRepositories/GameRepository');
 const { dbConnectionString } = require('../../config');
 const { nflTeams } = require('../server/utilities/teams/nfl');
@@ -8,9 +9,9 @@ const { getNflGameDataSource } = require('../server/utilities/getGameDataSource'
 
 puppeteer.use(StealthPlugin());
 
-/*
-    Setup database
-*/
+/* =============================================================================
+   DATABASE SETUP
+   ============================================================================= */
 
 if (!dbConnectionString) {
     console.log('[ENV_VARIABLE] - missing db connection string');
@@ -44,6 +45,10 @@ try {
     console.log("[MONGODB] - initialization failed: ", err.message);
 }
 
+/* =============================================================================
+   CONSTANTS
+   ============================================================================= */
+
 /*
     Update game information every 10 seconds
 */
@@ -59,6 +64,10 @@ let sharedBrowser = null;
 let browserSessionUses = 0;
 let isShuttingDown = false;
 let updateLoopSleep = null;
+
+/* =============================================================================
+   TEAM MATCHING HELPERS
+   ============================================================================= */
 
 const normalizeKey = (value = '') => value.toString().trim().toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -85,6 +94,10 @@ const resolveNflTeam = ({ initial = '', teamName = '' }) => {
     }) || null;
 };
 
+/* =============================================================================
+   GAME MATCHING HELPERS
+   ============================================================================= */
+
 const hasSameCompetitors = ({ dbGame, scrapedGame }) => {
     const dbCompetitorIds = (dbGame.competitors || [])
         .map((competitor) => competitor?._id?.toString().toLowerCase())
@@ -110,6 +123,10 @@ const getDbGameKey = (dbGame) => getGameKeyFromIds((dbGame.competitors || []).ma
 
 const getScrapedGameKey = (scrapedGame) => getGameKeyFromIds((scrapedGame.game || []).map((team) => team?.teamDetails?._id).filter(Boolean));
 
+/* =============================================================================
+   LOGGING HELPERS
+   ============================================================================= */
+
 const getGameLabel = (game) => {
     const away = game.competitors?.[0]?.name || 'Away';
     const home = game.competitors?.[1]?.name || 'Home';
@@ -129,6 +146,16 @@ const logGameUpdate = ({ game, updateType, details, updateResult }) => {
     const changeNote = modifiedCount === 0 ? ' (matched, no field changes)' : '';
     console.log(`[GAME_UPDATER] Updated ${updateType} for ${gameLabel}${changeNote}: ${details}`);
 };
+
+const logGameCreate = ({ gameDoc }) => {
+    const away = gameDoc.competitors?.[0]?.name || 'Away';
+    const home = gameDoc.competitors?.[1]?.name || 'Home';
+    console.log(`[GAME_UPDATER] Created game ${away} vs ${home} (${gameDoc.startDateTime?.toISOString?.() || gameDoc.startDateTime})`);
+};
+
+/* =============================================================================
+   BROWSER / ESPN PAGE SESSION
+   ============================================================================= */
 
 const getScrapedResults = async (page) => {
     const results = await scrapeGameInformationFromPage(page);
@@ -221,6 +248,10 @@ const withEspnPage = async (url, callback) => {
         }
     }
 };
+
+/* =============================================================================
+   SCRAPING - read game data from ESPN scoreboard DOM
+   ============================================================================= */
 
 async function scrapeGameInformationFromPage(page) {
     try {
@@ -372,6 +403,10 @@ async function scrapeGameInformationFromPage(page) {
     }
 }
 
+/* =============================================================================
+   SHARED GAME FIELD HELPERS - used by create + update paths
+   ============================================================================= */
+
 const calculateSpread = (mergedGame) => {
     const spreadText = (mergedGame.spread || '').trim();
     const spreadMatch = spreadText.match(/(?:Spread:\s*)?([A-Za-z]{2,5})\s*([+-]?\d+(?:\.\d+)?)/i);
@@ -383,6 +418,173 @@ const calculateSpread = (mergedGame) => {
         teamId: spreadTeam ? spreadTeam.teamDetails._id : null,
         amount: spreadAmount || 0,
         spreadDateTime: new Date(),
+    };
+};
+
+/* =============================================================================
+   GAME CREATION - ported from utilities.js (formatGames + createGames)
+   ============================================================================= */
+
+const getCompetitorHash = (competitors = []) => {
+    const hashCompetitors = competitors.map((competitor) => ({
+        _id: competitor._id,
+        name: competitor.name,
+        startDateTime: competitor.startDateTime,
+    }));
+
+    return JSON.stringify(hashCompetitors);
+};
+
+const parseStartDateTime = ({ cardDateText, timeText }) => {
+    const cardDate = (cardDateText || '').trim();
+    if (!cardDate) {
+        return null;
+    }
+
+    const cardMoment = moment.tz(cardDate, 'dddd, MMMM D, YYYY', 'America/New_York');
+    if (!cardMoment.isValid()) {
+        return null;
+    }
+
+    const trimmedTime = (timeText || '').trim();
+    if (/^final/i.test(trimmedTime)) {
+        return cardMoment.hour(20).minute(0).second(0).millisecond(0).toDate();
+    }
+
+    const scheduledTimeMatch = trimmedTime.match(/^(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
+    if (scheduledTimeMatch) {
+        const parsed = moment.tz(
+            `${cardDate} ${scheduledTimeMatch[1]}`,
+            'dddd, MMMM D, YYYY h:mm A',
+            'America/New_York'
+        );
+
+        if (parsed.isValid()) {
+            return parsed.toDate();
+        }
+    }
+
+    const liveClockMatch = trimmedTime.match(/^(\d{1,2}:\d{2})/);
+    if (liveClockMatch) {
+        const parsed = moment.tz(
+            `${cardDate} ${liveClockMatch[1]}`,
+            'dddd, MMMM D, YYYY h:mm A',
+            'America/New_York'
+        );
+
+        if (parsed.isValid()) {
+            return parsed.toDate();
+        }
+    }
+
+    return cardMoment.hour(20).minute(0).second(0).millisecond(0).toDate();
+};
+
+const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
+    const teams = scrapedGame.game || [];
+    if (teams.length !== 2 || !teams[0]?.teamDetails || !teams[1]?.teamDetails) {
+        return null;
+    }
+
+    const startDateTime = parseStartDateTime({
+        cardDateText: scrapedGame.card,
+        timeText: scrapedGame.currentTime,
+    });
+
+    if (!startDateTime) {
+        return null;
+    }
+
+    const competitors = [
+        {
+            _id: new mongoose.Types.ObjectId(teams[0].teamDetails._id),
+            name: `${teams[0].teamDetails.location} ${teams[0].teamDetails.name}`,
+            startDateTime,
+        },
+        {
+            _id: new mongoose.Types.ObjectId(teams[1].teamDetails._id),
+            name: `${teams[1].teamDetails.location} ${teams[1].teamDetails.name}`,
+            startDateTime,
+        },
+    ];
+
+    const spread = calculateSpread(scrapedGame);
+    const gameName = (scrapedGame.card || `${competitors[0].name} vs ${competitors[1].name}`).split(',')[0];
+
+    return {
+        leagueId: new mongoose.Types.ObjectId(leagueId),
+        year,
+        startDateTime,
+        gameName,
+        competitors,
+        hashCompetitors: getCompetitorHash(competitors),
+        spread: spread?.teamId ? spread : null,
+        overUnder: parseInt(scrapedGame.total, 10) || undefined,
+        weather: scrapedGame.weather || '57',
+        isGameOver: scrapedGame.isGameOver === true,
+        currentTime: scrapedGame.currentTime || null,
+    };
+};
+
+const createMissingGamesFromScrape = async ({ results, year, leagueId }) => {
+    const leagueObjectId = new mongoose.Types.ObjectId(leagueId);
+    const existingGames = await gameRepository.find({ leagueId: leagueObjectId, year });
+    const existingHashes = new Set(
+        existingGames.map((game) => game.hashCompetitors).filter(Boolean)
+    );
+    const existingCompetitorKeys = new Set(existingGames.map(getDbGameKey));
+
+    let createdCount = 0;
+
+    for (const scrapedGame of results) {
+        const gameDoc = buildGameFromScrapedResult(scrapedGame, { leagueId, year });
+        if (!gameDoc) {
+            continue;
+        }
+
+        const scrapedKey = getScrapedGameKey(scrapedGame);
+        if (existingHashes.has(gameDoc.hashCompetitors) || existingCompetitorKeys.has(scrapedKey)) {
+            continue;
+        }
+
+        try {
+            await gameRepository.create(gameDoc);
+            existingHashes.add(gameDoc.hashCompetitors);
+            existingCompetitorKeys.add(scrapedKey);
+            createdCount += 1;
+            logGameCreate({ gameDoc });
+        } catch (error) {
+            console.error('[GAME_UPDATER] create game error:', error.message);
+        }
+    }
+
+    if (createdCount === 0) {
+        console.log('[GAME_UPDATER] No new games to create.');
+    } else {
+        console.log(`[GAME_UPDATER] Created ${createdCount} new game(s).`);
+    }
+
+    return createdCount;
+};
+
+/* =============================================================================
+   GAME UPDATES - spread, score, live status
+   ============================================================================= */
+
+const buildGameSearch = ({ year, includeAllActive = false }) => {
+    if (includeAllActive) {
+        return {
+            leagueId: new mongoose.Types.ObjectId(leagueId),
+            isGameOver: { $ne: true },
+            year,
+        };
+    }
+
+    return {
+        leagueId: new mongoose.Types.ObjectId(leagueId),
+        isGameOver: { $ne: true },
+        startDateTime: { $lte: new Date(Date.now() + 30 * 60 * 1000) },
+        year,
     };
 };
 
@@ -409,16 +611,21 @@ const runGameUpdate = async () => {
             await closeSharedBrowser();
         }
 
-        const search = {
-            leagueId: new mongoose.Types.ObjectId(leagueId),
-            isGameOver: { $ne: true },
-            startDateTime: { $lte: new Date(Date.now() + 30 * 60 * 1000) },
-            year: year
-        };
+        const search = buildGameSearch({ year });
 
         let games = await gameRepository.find(search);
 
         await withEspnPage(url, async (page) => {
+            const { results, sharedGameKeys } = await getScrapedResults(page);
+
+            if (sharedGameKeys.size === 0) {
+                console.log('No ESPN scoreboard games available; skipping update run.');
+                console.log('------------------------');
+                return;
+            }
+
+            await createMissingGamesFromScrape({ results, year, leagueId });
+
             if (!games.length) {
                 console.log(`All scores updated or no games close to starting.`);
 
@@ -430,23 +637,11 @@ const runGameUpdate = async () => {
                 console.log('Current East Coast Hour:', eastCoastHour);
 
                 if ((eastCoastHour === 2 && minutes < 30) || (eastCoastHour === 14 && minutes < 30)) {
-                    games = await gameRepository.find({
-                        leagueId: new mongoose.Types.ObjectId(leagueId),
-                        isGameOver: { $ne: true },
-                        year: year
-                    });
+                    games = await gameRepository.find(buildGameSearch({ year, includeAllActive: true }));
                 }
 
                 if (!games.length) {
                     console.log(`Not time to update spread.`);
-                    console.log('------------------------');
-                    return;
-                }
-
-                const { results, sharedGameKeys } = await getScrapedResults(page);
-
-                if (sharedGameKeys.size === 0) {
-                    console.log('No ESPN scoreboard games available; skipping spread update run.');
                     console.log('------------------------');
                     return;
                 }
@@ -484,13 +679,7 @@ const runGameUpdate = async () => {
                 return;
             }
 
-            const { results, sharedGameKeys } = await getScrapedResults(page);
-
-            if (sharedGameKeys.size === 0) {
-                console.log('No ESPN scoreboard games available; skipping score update run.');
-                console.log('------------------------');
-                return;
-            }
+            games = await gameRepository.find(search);
 
             for (const game of games) {
                 const dbGameKey = getDbGameKey(game);
@@ -570,6 +759,10 @@ const runGameUpdate = async () => {
         await closeSharedBrowser();
     }
 };
+
+/* =============================================================================
+   MAIN UPDATE LOOP
+   ============================================================================= */
 
 const startGameUpdateLoop = async () => {
     while (!isShuttingDown) {
