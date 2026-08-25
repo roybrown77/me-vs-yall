@@ -651,7 +651,7 @@ body {
 }
 
 .home-doodle__storyline {
-  margin: 100rem auto 0;
+  margin: 500rem auto 0;
   max-width: 76ch;
   height: 48px;
   position: relative;
@@ -1121,7 +1121,7 @@ body {
 }
 
 .home-doodle__footer {
-  margin-top: 20rem;
+  margin-top: 40rem;
   margin-bottom: 20em;
 }
 
@@ -1245,10 +1245,6 @@ body {
 
   .home-doodle__drop-logo-wrap {
     width: 360px;
-  }
-
-  .home-doodle__storyline {
-    margin-top: 100rem;
   }
 
   .home-doodle__road {
