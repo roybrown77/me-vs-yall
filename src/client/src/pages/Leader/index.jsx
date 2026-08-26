@@ -458,7 +458,6 @@ const Leader = () => {
                                   {leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}
                                 </div>
                               )}
-                              {isSpreadTab && <VegasWinCalculationPopup {...{ leader }} />}
                               <div>{leader.percentage}</div>
                               <div>
                                 {leader.wins} - {leader.losses}
