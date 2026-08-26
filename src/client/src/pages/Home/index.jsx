@@ -374,38 +374,38 @@ const Home = () => {
 
   return (
     <Header disableTopBanner={true}>
-      <div className="fade-in home-doodle__page" style={{ padding: '6.2rem 1rem 2.4rem' }}>
-        <div className="home-doodle__content-shift">
-          <div className="home-doodle__drop-logo-wrap" aria-hidden="true">
-            <img className="home-doodle__drop-logo" src={mvyBalls} alt="" />
+      <div className="fade-in home-splash__page" style={{ padding: '6.2rem 1rem 2.4rem' }}>
+        <div className="home-splash__content-shift">
+          <div className="home-splash__drop-logo-wrap" aria-hidden="true">
+            <img className="home-splash__drop-logo" src={mvyBalls} alt="" />
           </div>
-          <section className="home-doodle__hero">
-            <p className="home-doodle__subhead">
+          <section className="home-splash__hero">
+            <p className="home-splash__subhead">
               sports x fun x friends x vegas
             </p>
-            <div className="home-doodle__hero-typer-wrap">
-              <div className="home-doodle__hero-typer">
+            <div className="home-splash__hero-typer-wrap">
+              <div className="home-splash__hero-typer">
                 <Typer dataText={tagLines} />
               </div>
             </div>
-            <div className="home-doodle__hero-actions">
-              <Link className="home-doodle__cta" to="/scoreboards/nfl">
+            <div className="home-splash__hero-actions">
+              <Link className="home-splash__cta" to="/scoreboards/nfl">
                 Jump To Scores
               </Link>
-              <Link className="home-doodle__ghost" to="/leaders/nfl">
+              <Link className="home-splash__ghost" to="/leaders/nfl">
                 See Leaderboard
               </Link>
             </div>
           </section>
 
-        {false && <section className="home-doodle__winding-run" aria-label="Long winding run" ref={windingRef}>
-          <div className="home-doodle__winding-title">Long Winding Field Run</div>
-          <div className="home-doodle__winding-typing" role="status" aria-live="polite">
+        {false && <section className="home-splash__winding-run" aria-label="Long winding run" ref={windingRef}>
+          <div className="home-splash__winding-title">Long Winding Field Run</div>
+          <div className="home-splash__winding-typing" role="status" aria-live="polite">
             {windingTypedText}
-            <span className="home-doodle__cursor" />
+            <span className="home-splash__cursor" />
           </div>
           <div
-            className={`home-doodle__touchdown-celebration home-doodle__touchdown-celebration--winding${
+            className={`home-splash__touchdown-celebration home-splash__touchdown-celebration--winding${
               isWindingTouchdown ? ' is-live' : ''
             }`}
             aria-hidden="true"
@@ -413,7 +413,7 @@ const Home = () => {
             {confettiPieces.map((piece) => (
               <span
                 key={`winding-confetti-${piece}`}
-                className="home-doodle__confetti"
+                className="home-splash__confetti"
                 style={{
                   left: `${8 + piece * 5}%`,
                   animationDelay: `${(piece % 6) * 90}ms`,
@@ -422,11 +422,11 @@ const Home = () => {
               />
             ))}
           </div>
-          <div className="home-doodle__winding-track" aria-hidden="true">
+          <div className="home-splash__winding-track" aria-hidden="true">
             {windingSegments.map((segment) => (
               <div
                 key={`${segment.top}-${segment.left}`}
-                className="home-doodle__winding-segment"
+                className="home-splash__winding-segment"
                 style={{
                   top: segment.top,
                   left: segment.left,
@@ -436,68 +436,68 @@ const Home = () => {
               />
             ))}
             <div
-              className="home-doodle__winding-truck"
+              className="home-splash__winding-truck"
               style={{
                 top: `${windingTruckTop}%`,
                 left: `${windingTruckLeft}%`,
                 transform: `translate(-50%, -50%) rotate(${windingTruckRotation}deg)`,
               }}
             >
-              <span className="home-doodle__winding-truck-emoji" role="img" aria-label="Truck on winding run">
+              <span className="home-splash__winding-truck-emoji" role="img" aria-label="Truck on winding run">
                 🚚
               </span>
-              <div className="home-doodle__winding-flag-pole" />
-              <div className="home-doodle__winding-flag">
+              <div className="home-splash__winding-flag-pole" />
+              <div className="home-splash__winding-flag">
                 <img src={mvyBalls} alt="Me vs Yall balls logo flag" />
               </div>
             </div>
           </div>
         </section>}
 
-        {false && <section className="home-doodle__finale" ref={endRef}>
+        {false && <section className="home-splash__finale" ref={endRef}>
           <h2>{enteredDropZone ? 'Touchdown. Scores Are Ready.' : 'Drive To Midfield To Unlock Scores'}</h2>
           <p>
             {enteredDropZone
               ? 'The truck made it. Tap below when you want to open Scores.'
               : 'Keep scrolling until the truck reaches midfield, then open Scores when ready.'}
           </p>
-          <Link className="home-doodle__cta" to="/scoreboards/nfl">
+          <Link className="home-splash__cta" to="/scoreboards/nfl">
             Open Scores Now
           </Link>
         </section>}
         </div>
 
-        <footer className="home-doodle__footer">
-          <div className="home-doodle__footer-links">
-            {false && <Link className="home-doodle__footer-link" to="/tips">
+        <footer className="home-splash__footer">
+          <div className="home-splash__footer-links">
+            {false && <Link className="home-splash__footer-link" to="/tips">
               Tips
             </Link>}
-            <Link className="home-doodle__footer-link" to="/shop">
+            <Link className="home-splash__footer-link" to="/shop">
               Shop
             </Link>
-            <Link className="home-doodle__footer-link" to="/origin">
+            <Link className="home-splash__footer-link" to="/origin">
               Origin
             </Link>
-            <Link className="home-doodle__footer-link" to="" onClick={gram}>
+            <Link className="home-splash__footer-link" to="" onClick={gram}>
               Gram
             </Link>
           </div>
-          <div className="home-doodle__footer-copy">
+          <div className="home-splash__footer-copy">
             <div>© 2017-{year} Me vs Yall</div>
             <div>{now}</div>
             <div>ATL via BOS via HOU via SUN</div>
           </div>
 
-        {showGameTrail && <section className="home-doodle__storyline" aria-label="Story milestones animation">
-          <div className="home-doodle__milestone-track" />
+        {showGameTrail && <section className="home-splash__storyline" aria-label="Story milestones animation">
+          <div className="home-splash__milestone-track" />
           <div
-            className="home-doodle__milestone-progress"
+            className="home-splash__milestone-progress"
             style={{ width: `${(activeStoryIndex / (storySteps.length - 1)) * 100}%` }}
           />
           {storySteps.map((step, index) => (
             <div
               key={step}
-              className={`home-doodle__milestone${index === activeStoryIndex ? ' is-active' : ''}`}
+              className={`home-splash__milestone${index === activeStoryIndex ? ' is-active' : ''}`}
               style={{ left: `${(index / (storySteps.length - 1)) * 100}%` }}
               aria-label={step}
               onClick={() => handleMilestoneClick(index)}
@@ -509,28 +509,28 @@ const Home = () => {
               role="button"
               tabIndex={0}
             >
-              <span className="home-doodle__milestone-dot" />
+              <span className="home-splash__milestone-dot" />
             </div>
           ))}
         </section>}
 
-        {showGameTrail && <section className="home-doodle__road" aria-label="Field road" ref={roadRef}>
-          <div className="home-doodle__lane" />
-          <div className="home-doodle__lane home-doodle__lane--mid" />
+        {showGameTrail && <section className="home-splash__road" aria-label="Field road" ref={roadRef}>
+          <div className="home-splash__lane" />
+          <div className="home-splash__lane home-splash__lane--mid" />
           {false && <aside
-            className={`home-doodle__controls-hint${hasTruckMoved ? ' is-hidden' : ''}`}
+            className={`home-splash__controls-hint${hasTruckMoved ? ' is-hidden' : ''}`}
             aria-label="Truck controls help"
           >
-            <p className="home-doodle__controls-meta">Use ⬅️ ➡️ arrow keys or click a milestone dot</p>
+            <p className="home-splash__controls-meta">Use ⬅️ ➡️ arrow keys or click a milestone dot</p>
           </aside>}
           <div
-            className={`home-doodle__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}
+            className={`home-splash__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}
             aria-hidden="true"
           >
             {confettiPieces.map((piece) => (
               <span
                 key={`confetti-${piece}`}
-                className="home-doodle__confetti"
+                className="home-splash__confetti"
                 style={{
                   left: `${8 + piece * 5}%`,
                   animationDelay: `${(piece % 6) * 90}ms`,
@@ -540,28 +540,28 @@ const Home = () => {
             ))}
           </div>
           {hasTruckMoved && (
-            <div className="home-doodle__typing" role="status" aria-live="polite">
+            <div className="home-splash__typing" role="status" aria-live="polite">
               {typedText}
-              <span className="home-doodle__cursor" />
+              <span className="home-splash__cursor" />
             </div>
           )}
           <div
-            className="home-doodle__truck-wrap"
+            className="home-splash__truck-wrap"
             style={{ transform: `translateX(${truckX}vw)` }}
             aria-hidden="true"
           >
-            <div className="home-doodle__truck home-doodle__truck--right">
-              <div className="home-doodle__truck-riders" aria-hidden="true">
-                <span className="home-doodle__truck-rider">😎</span>
-                <span className="home-doodle__truck-rider">😄</span>
-                <span className="home-doodle__truck-rider">😅</span>
-                <span className="home-doodle__truck-rider">😂</span>
+            <div className="home-splash__truck home-splash__truck--right">
+              <div className="home-splash__truck-riders" aria-hidden="true">
+                <span className="home-splash__truck-rider">😎</span>
+                <span className="home-splash__truck-rider">😄</span>
+                <span className="home-splash__truck-rider">😅</span>
+                <span className="home-splash__truck-rider">😂</span>
               </div>
-              <span className="home-doodle__truck-emoji" role="img" aria-label="Truck">
+              <span className="home-splash__truck-emoji" role="img" aria-label="Truck">
                 🚚
               </span>
-              <div className="home-doodle__flag-pole home-doodle__flag-pole--rear-right" />
-              <div className="home-doodle__flag home-doodle__flag--rear-right">
+              <div className="home-splash__flag-pole home-splash__flag-pole--rear-right" />
+              <div className="home-splash__flag home-splash__flag--rear-right">
                 <img src={mvyBalls} alt="Me vs Yall balls logo flag" />
               </div>
             </div>

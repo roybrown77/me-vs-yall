@@ -184,7 +184,7 @@ const Header = (props) => {
             </button>
           )}
         </AppBar>
-        <main className="home-doodle">
+        <main className="home-splash">
           {children}
         </main>
       </div>

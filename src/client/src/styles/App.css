@@ -505,7 +505,7 @@ body {
   animation-duration:1s;
 }
 
-.home-doodle__page {
+.home-splash__page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -539,9 +539,9 @@ body {
 
 /* --- magical home quest --- */
 
-/* --- doodle truck home --- */
+/* --- home splash / bandwagon truck --- */
 
-.home-doodle {
+.home-splash {
   min-height: 100vh;
   position: relative;
   background:
@@ -551,12 +551,12 @@ body {
   color: #1f2b3d;
 }
 
-.home-doodle__content-shift {
+.home-splash__content-shift {
   position: relative;
   padding-top: 1.35rem;
 }
 
-.home-doodle__drop-logo-wrap {
+.home-splash__drop-logo-wrap {
   position: absolute;
   top: 0.85rem;
   left: 50%;
@@ -567,27 +567,27 @@ body {
   margin-top: 0;
 }
 
-.home-doodle__drop-logo {
+.home-splash__drop-logo {
   display: block;
   width: 100%;
   height: auto;
-  animation: home-doodle-logo-drop 880ms ease-out forwards;
+  animation: home-splash-logo-drop 880ms ease-out forwards;
 }
 
-.home-doodle__hero {
+.home-splash__hero {
   width: min(100%, 70ch);
   margin: 10rem auto 0;
   text-align: center;
 }
 
-.home-doodle__eyebrow {
+.home-splash__eyebrow {
   margin: 0;
   color: #bf4518;
   font: 700 0.73rem/1.2 'Courier New', Courier, monospace;
   letter-spacing: 0.14em;
 }
 
-.home-doodle__hero h1 {
+.home-splash__hero h1 {
   margin: 0.55rem 0 0;
   color: #12233f;
   font-family: 'Marker Felt', 'Trebuchet MS', sans-serif;
@@ -595,7 +595,7 @@ body {
   line-height: 1.02;
 }
 
-.home-doodle__subhead {
+.home-splash__subhead {
   margin: 5rem auto 0;
   max-width: 64ch;
   padding-top: 1rem;
@@ -603,12 +603,12 @@ body {
   font: 600 0.94rem/1.5 'Courier New', Courier, monospace;
 }
 
-.home-doodle__hero-typer-wrap {
+.home-splash__hero-typer-wrap {
   margin: 0;
   padding-top: 1rem;
 }
 
-.home-doodle__hero-typer {
+.home-splash__hero-typer {
   min-height: 4.5rem;
   display: flex;
   align-items: flex-start;
@@ -616,7 +616,7 @@ body {
   font-family: monospace;
 }
 
-.home-doodle__hero-actions {
+.home-splash__hero-actions {
   margin-top: 1.8rem;
   display: flex;
   gap: 0.7rem;
@@ -624,8 +624,8 @@ body {
   flex-wrap: wrap;
 }
 
-.home-doodle__cta,
-.home-doodle__ghost {
+.home-splash__cta,
+.home-splash__ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -638,27 +638,27 @@ body {
   border: 1px solid transparent;
 }
 
-.home-doodle__cta {
+.home-splash__cta {
   background: #f2c34a;
   color: #111f3a;
   border-color: #d0a126;
 }
 
-.home-doodle__ghost {
+.home-splash__ghost {
   background: #ffffff;
   color: #1f2b3d;
   border-color: #b3c7e2;
 }
 
-.home-doodle__storyline {
+.home-splash__storyline {
   margin: 500rem auto 0;
   max-width: 76ch;
   height: 48px;
   position: relative;
 }
 
-.home-doodle__milestone-track,
-.home-doodle__milestone-progress {
+.home-splash__milestone-track,
+.home-splash__milestone-progress {
   position: absolute;
   top: 50%;
   left: 0;
@@ -667,29 +667,29 @@ body {
   border-radius: 999px;
 }
 
-.home-doodle__milestone-track {
+.home-splash__milestone-track {
   width: 100%;
   background: rgba(41, 72, 116, 0.2);
 }
 
-.home-doodle__milestone-progress {
+.home-splash__milestone-progress {
   background: linear-gradient(90deg, #f2c34a, #ff9152);
   transition: width 220ms ease;
 }
 
-.home-doodle__milestone {
+.home-splash__milestone {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
 }
 
-.home-doodle__milestone:focus-visible .home-doodle__milestone-dot {
+.home-splash__milestone:focus-visible .home-splash__milestone-dot {
   outline: 2px solid #1a2a45;
   outline-offset: 3px;
 }
 
-.home-doodle__milestone-dot {
+.home-splash__milestone-dot {
   display: block;
   width: 14px;
   height: 14px;
@@ -700,13 +700,13 @@ body {
   transition: transform 220ms ease, background-color 220ms ease;
 }
 
-.home-doodle__milestone.is-active .home-doodle__milestone-dot {
+.home-splash__milestone.is-active .home-splash__milestone-dot {
   background: #f2c34a;
   transform: scale(1.25);
-  animation: home-doodle-milestone-pop 900ms ease-in-out infinite;
+  animation: home-splash-milestone-pop 900ms ease-in-out infinite;
 }
 
-.home-doodle__road {
+.home-splash__road {
   margin-top: 1.5rem;
   margin-bottom: 3rem;
   border-radius: 16px;
@@ -720,7 +720,7 @@ body {
   min-height: 154px;
 }
 
-.home-doodle__lane {
+.home-splash__lane {
   position: absolute;
   left: 0;
   right: 0;
@@ -729,11 +729,11 @@ body {
   background: rgba(255, 255, 255, 0.35);
 }
 
-.home-doodle__lane--mid {
+.home-splash__lane--mid {
   top: 76%;
 }
 
-.home-doodle__controls-hint {
+.home-splash__controls-hint {
   position: absolute;
   right: 0.55rem;
   bottom: 0.55rem;
@@ -749,19 +749,19 @@ body {
   transition: opacity 220ms ease, transform 220ms ease;
 }
 
-.home-doodle__controls-hint.is-hidden {
+.home-splash__controls-hint.is-hidden {
   opacity: 0;
   transform: translateY(6px);
   pointer-events: none;
 }
 
-.home-doodle__controls-copy {
+.home-splash__controls-copy {
   margin: 0;
   color: #1a2a45;
   font: 700 0.72rem/1.35 'Courier New', Courier, monospace;
 }
 
-.home-doodle__controls-meta {
+.home-splash__controls-meta {
   margin: 0.35rem 0 0;
   color: #2d476f;
   font: 700 0.66rem/1.25 'Courier New', Courier, monospace;
@@ -769,7 +769,7 @@ body {
   letter-spacing: 0.03em;
 }
 
-.home-doodle__touchdown-celebration {
+.home-splash__touchdown-celebration {
   position: absolute;
   inset: 0;
   z-index: 4;
@@ -778,39 +778,39 @@ body {
   transition: opacity 220ms ease;
 }
 
-.home-doodle__touchdown-celebration.is-live {
+.home-splash__touchdown-celebration.is-live {
   opacity: 1;
 }
 
-.home-doodle__confetti {
+.home-splash__confetti {
   position: absolute;
   top: -18px;
   width: 10px;
   height: 16px;
   border-radius: 2px;
   opacity: 0;
-  animation-name: home-doodle-confetti-fall;
+  animation-name: home-splash-confetti-fall;
   animation-timing-function: ease-out;
   animation-iteration-count: infinite;
 }
 
-.home-doodle__confetti:nth-child(4n + 1) {
+.home-splash__confetti:nth-child(4n + 1) {
   background: #f2c34a;
 }
 
-.home-doodle__confetti:nth-child(4n + 2) {
+.home-splash__confetti:nth-child(4n + 2) {
   background: #ff5f45;
 }
 
-.home-doodle__confetti:nth-child(4n + 3) {
+.home-splash__confetti:nth-child(4n + 3) {
   background: #34a853;
 }
 
-.home-doodle__confetti:nth-child(4n + 4) {
+.home-splash__confetti:nth-child(4n + 4) {
   background: #2d8cff;
 }
 
-.home-doodle__typing {
+.home-splash__typing {
   position: relative;
   z-index: 2;
   max-width: 66ch;
@@ -825,17 +825,17 @@ body {
   min-height: 2.5rem;
 }
 
-.home-doodle__cursor {
+.home-splash__cursor {
   display: inline-block;
   width: 0.46rem;
   height: 0.95rem;
   margin-left: 0.15rem;
   vertical-align: -2px;
   background: #1a2a45;
-  animation: home-doodle-cursor 900ms steps(1, end) infinite;
+  animation: home-splash-cursor 900ms steps(1, end) infinite;
 }
 
-.home-doodle__truck-wrap {
+.home-splash__truck-wrap {
   position: absolute;
   left: 0;
   bottom: 0.72rem;
@@ -843,18 +843,18 @@ body {
   transition: transform 160ms linear;
 }
 
-.home-doodle__truck {
+.home-splash__truck {
   position: relative;
   width: 140px;
   height: 62px;
-  animation: home-doodle-truck-bounce 700ms ease-in-out infinite;
+  animation: home-splash-truck-bounce 700ms ease-in-out infinite;
 }
 
-.home-doodle__truck--right .home-doodle__truck-emoji {
+.home-splash__truck--right .home-splash__truck-emoji {
   transform: scaleX(-1);
 }
 
-.home-doodle__truck-emoji {
+.home-splash__truck-emoji {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -863,7 +863,7 @@ body {
   filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.28));
 }
 
-.home-doodle__truck-riders {
+.home-splash__truck-riders {
   position: absolute;
   left: -30px;
   bottom: 70px;
@@ -872,19 +872,19 @@ body {
   z-index: 2;
 }
 
-.home-doodle__truck-rider {
+.home-splash__truck-rider {
   display: inline-block;
   font-size: 1.1rem;
   line-height: 1;
   transform-origin: center bottom;
-  animation: home-doodle-rider-bob 880ms ease-in-out infinite;
+  animation: home-splash-rider-bob 880ms ease-in-out infinite;
 }
 
-.home-doodle__truck-rider:nth-child(2n) {
+.home-splash__truck-rider:nth-child(2n) {
   animation-delay: 120ms;
 }
 
-.home-doodle__truck-bed {
+.home-splash__truck-bed {
   position: absolute;
   left: 12px;
   bottom: 18px;
@@ -895,7 +895,7 @@ body {
   border: 2px solid #2a1f1a;
 }
 
-.home-doodle__truck-cab {
+.home-splash__truck-cab {
   position: absolute;
   left: 82px;
   bottom: 18px;
@@ -906,7 +906,7 @@ body {
   border: 2px solid #2a1f1a;
 }
 
-.home-doodle__windshield {
+.home-splash__windshield {
   position: absolute;
   left: 89px;
   bottom: 32px;
@@ -917,7 +917,7 @@ body {
   background: linear-gradient(140deg, rgba(225, 245, 255, 0.96), rgba(150, 203, 235, 0.9));
 }
 
-.home-doodle__wheel {
+.home-splash__wheel {
   position: absolute;
   bottom: 0;
   width: 28px;
@@ -925,18 +925,18 @@ body {
   border-radius: 999px;
   border: 3px solid #172133;
   background: radial-gradient(circle, #bfc9d8 0 35%, #1f2b3d 36% 100%);
-  animation: home-doodle-wheel-spin 700ms linear infinite;
+  animation: home-splash-wheel-spin 700ms linear infinite;
 }
 
-.home-doodle__wheel--left {
+.home-splash__wheel--left {
   left: 20px;
 }
 
-.home-doodle__wheel--right {
+.home-splash__wheel--right {
   left: 88px;
 }
 
-.home-doodle__flag-pole {
+.home-splash__flag-pole {
   position: absolute;
   left: 5px;
   bottom: 20px;
@@ -945,7 +945,7 @@ body {
   background: #162236;
 }
 
-.home-doodle__flag {
+.home-splash__flag {
   position: absolute;
   left: 8px;
   bottom: 36px;
@@ -955,27 +955,27 @@ body {
   border: 1px solid rgba(22, 34, 54, 0.5);
   background: linear-gradient(90deg, #ffffff, #ececec);
   transform-origin: left center;
-  animation: home-doodle-flag-wave 1.1s ease-in-out infinite;
+  animation: home-splash-flag-wave 1.1s ease-in-out infinite;
   overflow: hidden;
 }
 
-.home-doodle__flag-pole--rear-right {
+.home-splash__flag-pole--rear-right {
   left: 24px;
 }
 
-.home-doodle__flag--rear-right {
+.home-splash__flag--rear-right {
   left: -40px;
   transform-origin: right center;
   animation-direction: reverse;
 }
 
-.home-doodle__flag img {
+.home-splash__flag img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.home-doodle__finale {
+.home-splash__finale {
   margin-top: 1.4rem;
   border-radius: 14px;
   border: 1px solid #b9cfef;
@@ -984,7 +984,7 @@ body {
   text-align: center;
 }
 
-.home-doodle__winding-run {
+.home-splash__winding-run {
   margin-top: 1.4rem;
   min-height: 140vh;
   border-radius: 16px;
@@ -997,7 +997,7 @@ body {
   overflow: hidden;
 }
 
-.home-doodle__winding-title {
+.home-splash__winding-title {
   position: sticky;
   top: 14px;
   z-index: 2;
@@ -1013,7 +1013,7 @@ body {
   text-transform: uppercase;
 }
 
-.home-doodle__winding-typing {
+.home-splash__winding-typing {
   position: sticky;
   top: 52px;
   z-index: 5;
@@ -1029,16 +1029,16 @@ body {
   min-height: 2.5rem;
 }
 
-.home-doodle__touchdown-celebration--winding {
+.home-splash__touchdown-celebration--winding {
   z-index: 4;
 }
 
-.home-doodle__winding-track {
+.home-splash__winding-track {
   position: absolute;
   inset: 0;
 }
 
-.home-doodle__winding-truck {
+.home-splash__winding-truck {
   position: absolute;
   z-index: 3;
   width: 82px;
@@ -1046,7 +1046,7 @@ body {
   transition: top 120ms linear, left 120ms linear, transform 120ms linear;
 }
 
-.home-doodle__winding-truck-emoji {
+.home-splash__winding-truck-emoji {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -1055,7 +1055,7 @@ body {
   filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.32));
 }
 
-.home-doodle__winding-flag-pole {
+.home-splash__winding-flag-pole {
   position: absolute;
   left: 22px;
   bottom: 20px;
@@ -1064,7 +1064,7 @@ body {
   background: #162236;
 }
 
-.home-doodle__winding-flag {
+.home-splash__winding-flag {
   position: absolute;
   left: 24px;
   bottom: 40px;
@@ -1076,13 +1076,13 @@ body {
   overflow: hidden;
 }
 
-.home-doodle__winding-flag img {
+.home-splash__winding-flag img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.home-doodle__winding-segment {
+.home-splash__winding-segment {
   position: absolute;
   height: 20px;
   border-radius: 999px;
@@ -1092,7 +1092,7 @@ body {
   box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.14);
 }
 
-.home-doodle__winding-segment::before {
+.home-splash__winding-segment::before {
   content: '';
   position: absolute;
   inset: 7px 9px;
@@ -1107,45 +1107,45 @@ body {
   opacity: 0.7;
 }
 
-.home-doodle__finale h2 {
+.home-splash__finale h2 {
   margin: 0;
   color: #10274b;
   font-family: 'Marker Felt', 'Trebuchet MS', sans-serif;
   font-size: 1.15rem;
 }
 
-.home-doodle__finale p {
+.home-splash__finale p {
   margin: 0.55rem 0 0.75rem;
   color: #243450;
   font: 600 0.84rem/1.45 'Courier New', Courier, monospace;
 }
 
-.home-doodle__footer {
+.home-splash__footer {
   margin-top: 40rem;
   margin-bottom: 20em;
 }
 
-.home-doodle__footer-links {
+.home-splash__footer-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.8rem;
 }
 
-.home-doodle__footer-link {
+.home-splash__footer-link {
   color: #2f3f57;
   text-decoration: none;
   font: 700 0.74rem/1 'Courier New', Courier, monospace;
 }
 
-.home-doodle__footer-copy {
+.home-splash__footer-copy {
   margin-top: 0.7rem;
   text-align: center;
   color: #4d5d74;
   font: 600 0.66rem/1.45 'Courier New', Courier, monospace;
 }
 
-@keyframes home-doodle-cursor {
+@keyframes home-splash-cursor {
   0%, 48% {
     opacity: 1;
   }
@@ -1155,7 +1155,7 @@ body {
   }
 }
 
-@keyframes home-doodle-logo-drop {
+@keyframes home-splash-logo-drop {
   0% {
     transform: translateY(-120px);
     opacity: 0;
@@ -1167,7 +1167,7 @@ body {
   }
 }
 
-@keyframes home-doodle-wheel-spin {
+@keyframes home-splash-wheel-spin {
   from {
     transform: rotate(0deg);
   }
@@ -1177,7 +1177,7 @@ body {
   }
 }
 
-@keyframes home-doodle-truck-bounce {
+@keyframes home-splash-truck-bounce {
   0%, 100% {
     transform: translateY(0);
   }
@@ -1187,7 +1187,7 @@ body {
   }
 }
 
-@keyframes home-doodle-rider-bob {
+@keyframes home-splash-rider-bob {
   0%, 100% {
     transform: translateY(0);
   }
@@ -1197,7 +1197,7 @@ body {
   }
 }
 
-@keyframes home-doodle-flag-wave {
+@keyframes home-splash-flag-wave {
   0%, 100% {
     transform: skewY(0deg) scaleX(1);
   }
@@ -1207,7 +1207,7 @@ body {
   }
 }
 
-@keyframes home-doodle-milestone-pop {
+@keyframes home-splash-milestone-pop {
   0%,
   100% {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
@@ -1218,7 +1218,7 @@ body {
   }
 }
 
-@keyframes home-doodle-confetti-fall {
+@keyframes home-splash-confetti-fall {
   0% {
     transform: translateY(0) rotate(0deg);
     opacity: 0;
@@ -1235,77 +1235,77 @@ body {
 }
 
 @media screen and (min-width: 860px) {
-  .home-doodle__subhead {
+  .home-splash__subhead {
     padding-top: 2rem;
   }
 
-  .home-doodle__hero-actions {
+  .home-splash__hero-actions {
     margin-top: 2.4rem;
   }
 
-  .home-doodle__drop-logo-wrap {
+  .home-splash__drop-logo-wrap {
     width: 360px;
   }
 
-  .home-doodle__road {
+  .home-splash__road {
     min-height: 174px;
     padding: 1.05rem;
   }
 
-  .home-doodle__controls-hint {
+  .home-splash__controls-hint {
     right: 0.75rem;
     bottom: 0.75rem;
     width: 17rem;
   }
 
-  .home-doodle__winding-run {
+  .home-splash__winding-run {
     min-height: 170vh;
     margin-top: 1.9rem;
   }
 
-  .home-doodle__truck {
+  .home-splash__truck {
     width: 162px;
     height: 72px;
   }
 
-  .home-doodle__truck-emoji {
+  .home-splash__truck-emoji {
     font-size: 4.6rem;
   }
 
-  .home-doodle__truck-riders {
+  .home-splash__truck-riders {
     left: -30px;
     bottom: 75px;
     gap: 0.2rem;
   }
 
-  .home-doodle__truck-rider {
+  .home-splash__truck-rider {
     font-size: 1.2rem;
   }
 
-  .home-doodle__truck-bed {
+  .home-splash__truck-bed {
     width: 90px;
     height: 24px;
   }
 
-  .home-doodle__truck-cab {
+  .home-splash__truck-cab {
     left: 94px;
     width: 43px;
     height: 32px;
   }
 
-  .home-doodle__windshield {
+  .home-splash__windshield {
     left: 103px;
     bottom: 34px;
     width: 24px;
     height: 12px;
   }
 
-  .home-doodle__wheel {
+  .home-splash__wheel {
     width: 30px;
     height: 30px;
   }
 
-  .home-doodle__wheel--right {
+  .home-splash__wheel--right {
     left: 102px;
   }
 }
