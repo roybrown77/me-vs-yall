@@ -332,10 +332,15 @@ const Leader = () => {
                 }}
               >
                 <Tab label="Picks 🎯" {...a11yProps(0)} />
-                <Tab label="Against the Spread 📊" {...a11yProps(1)} />
+                <Tab label="ATS 📊" {...a11yProps(1)} />
                 <Tab label="P + B 🚀" {...a11yProps(2)} />
               </Tabs>
             </Box>
+            {isSpreadTab && (
+              <div style={styles.leaderTabNote} role="note">
+                Against the Spread
+              </div>
+            )}
             {isBonusPointsTab && (
               <div style={styles.leaderTabNote} role="note">
                 P + B = Picks + Bonus
