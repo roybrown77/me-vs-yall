@@ -449,21 +449,12 @@ const Game = (props) => {
   const gameHeadingText = buildGameHeadingText(game);
 
   return (
-    <div key={game._id} style={{ ...styles.game, padding: slimMode ? "4px" : "8px" }}>
-      <h2
-        id={resolvedGameSlug}
-        style={{
-          margin: 0,
-          padding: slimMode ? "0 0 4px" : "0 0 8px",
-          fontFamily: "monospace",
-          fontSize: slimMode ? "14px" : "16px",
-          fontWeight: 700,
-          textAlign: "center",
-          color: "#000",
-        }}
-      >
-        {gameHeadingText}
-      </h2>
+    <div
+      id={resolvedGameSlug}
+      key={game._id}
+      style={{ ...styles.game, position: "relative", padding: slimMode ? "4px" : "8px" }}
+    >
+      <h2 className="sr-only">{gameHeadingText}</h2>
       <div
         style={{
           zIndex: 3,

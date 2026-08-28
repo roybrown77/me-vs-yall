@@ -207,7 +207,10 @@ const TinyScoreboard = ({loading, title, games, getGameHref}) => {
                                             to={getGameHref?.(game) || "#"}
                                             style={{textDecoration: 'none'}}
                                         >
-                                            <div style={styles.linkToGame}>{buildGameLinkLabel(game)}</div>
+                                            <div style={styles.linkToGame}>
+                                                <span className="sr-only">{buildGameLinkLabel(game)}</span>
+                                                {game.isGameOver ? 'Recap' : isLive ? 'Plays' : 'Preview'}
+                                            </div>
                                         </Link>
                                     </div>
                                 )
