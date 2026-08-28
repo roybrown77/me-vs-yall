@@ -620,13 +620,11 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
     ];
 
     const spread = calculateSpread(scrapedGame);
-    const gameName = (scrapedGame.card || `${competitors[0].name} vs ${competitors[1].name}`).split(',')[0];
 
     return {
         leagueId: new mongoose.Types.ObjectId(leagueId),
         year,
         startDateTime,
-        gameName,
         competitors,
         hashCompetitors: getCompetitorHash(competitors),
         spread: spread?.teamId ? spread : null,
