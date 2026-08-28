@@ -1,6 +1,11 @@
 import BottomNavigation from "@mui/material/BottomNavigation";
 
 import { getLeagueName } from "../../utilities/getLeagueName";
+import {
+  buildNavigationPath,
+  detectRouteBase,
+  parseNavigationPath,
+} from "../../utilities/navigationPaths";
 
 const styles = {
   root: {
@@ -23,10 +28,22 @@ const styles = {
 
 const Footer = () => {
   const leagueName = getLeagueName();
-  const currentSearch = window?.location?.search || "";
+  const currentPath = window?.location?.pathname || "";
+  const currentRouteBase = detectRouteBase(currentPath);
+  const navigationState = parseNavigationPath(currentPath, currentRouteBase);
 
-  const navigateWithCurrentQuery = (basePath) => {
-    window.location.href = `${basePath}${currentSearch}`;
+  const navigateWithCurrentNavigation = (targetRouteBase) => {
+    const isLeavingScores =
+      currentRouteBase === "/scoreboards/" && targetRouteBase !== "/scoreboards/";
+
+    window.location.href = buildNavigationPath({
+      routeBase: targetRouteBase,
+      leagueName: navigationState.leagueName || leagueName,
+      year: navigationState.year,
+      seasonType: navigationState.seasonType,
+      weekSegment: navigationState.weekSegment,
+      gameSlug: isLeavingScores ? null : navigationState.gameSlug,
+    });
   };
 
   const selected = window?.location?.pathname?.includes("scoreboards")
@@ -53,7 +70,7 @@ const Footer = () => {
           borderBottom: selected === "scoreboards" ? "7px solid #1e90ff" : "",
         }}
         onClick={() => {
-          navigateWithCurrentQuery(`/scoreboards/${leagueName}`);
+          navigateWithCurrentNavigation("/scoreboards/");
         }}
       >
         Scores
@@ -64,7 +81,7 @@ const Footer = () => {
           borderBottom: selected === "leaders" ? "7px solid #1e90ff" : "",
         }}
         onClick={() => {
-          navigateWithCurrentQuery(`/leaders/${leagueName}`);
+          navigateWithCurrentNavigation("/leaders/");
         }}
       >
         Leaders

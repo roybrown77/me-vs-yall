@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import get from "lodash/get";
 import last from "lodash/last";
 import queryString from "query-string";
@@ -44,6 +44,7 @@ import styles from "./styles";
 
 import useLeagueWeekNavigation from "../../hooks/useLeagueWeekNavigation";
 import usePollWhileGamesInProgress from "../../hooks/usePollWhileGamesInProgress";
+import usePageSeo from "../../hooks/usePageSeo";
 import useSpreadMode from "../../hooks/useSpreadMode";
 
 const isAuthenticated = isConfirmedAuthentication();
@@ -133,6 +134,7 @@ const Leader = () => {
   const [users, setUsers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [failedLeaderPictures, setFailedLeaderPictures] = useState({});
+  const loadRequestIdRef = useRef(0);
 
   const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
@@ -170,7 +172,10 @@ const Leader = () => {
       beginDateTime,
       endDateTime,
       showLoader = true,
+      signal,
     }) => {
+      const requestId = ++loadRequestIdRef.current;
+
       if (showLoader) {
         setDataLoading(true);
       }
@@ -190,26 +195,37 @@ const Leader = () => {
         callApi({
           method: "GET",
           endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+          signal,
         }),
         callApi({
           method: "GET",
           endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
+          signal,
         }),
         callApi({
           method: "GET",
           endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
+          signal,
         }),
         callApi({
           method: "GET",
           endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}`,
+          signal,
         }),
       ]);
 
-      setGames(games);
+      if (signal?.aborted || requestId !== loadRequestIdRef.current) {
+        return;
+      }
+
+      setGames(games || []);
       setPicks(picks || []);
-      setUsers(users);
-      setTeams(teams);
-      setDataLoading(false);
+      setUsers(users || []);
+      setTeams(teams || []);
+
+      if (showLoader) {
+        setDataLoading(false);
+      }
     },
     []
   );
@@ -248,6 +264,16 @@ const Leader = () => {
       showLoader: false,
     });
   }, [beginDateTime, endDateTime, leagueId, loadData, weekId, year]);
+
+  const currentWeek = weeks.find((week) => week._id === weekId);
+
+  usePageSeo({
+    enabled: !dataLoading,
+    pageKind: "leaders",
+    leagueId,
+    year,
+    week: currentWeek,
+  });
 
   usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 15000 });
 

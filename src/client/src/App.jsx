@@ -20,8 +20,8 @@ const App = () => {
         <div style={{ height: '100%' }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/scoreboards/:leagueName" element={<Scoreboard />} />
-            <Route path="/leaders/:leagueName" element={<Leader />} />
+            <Route path="/scoreboards/:leagueName/*" element={<Scoreboard />} />
+            <Route path="/leaders/:leagueName/*" element={<Leader />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/oftheweek" element={<OfTheWeek />} />
             <Route path="/tips" element={<Tips />} />

@@ -15,7 +15,13 @@ const getApiOrigin = () => {
   return origin;
 };
 
-export const callApi = async ({ method, endpoint, body }) => {
+export const isRequestAborted = (error) =>
+  axios.isCancel(error) ||
+  error?.code === "ERR_CANCELED" ||
+  error?.name === "CanceledError";
+
+export const callApi = async ({ method, endpoint, body, signal }) => {
+  try {
     const apiOrigin = getApiOrigin();
     const response = await axios({
       method,
@@ -25,7 +31,15 @@ export const callApi = async ({ method, endpoint, body }) => {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
       data: body,
+      signal,
     });
-  
+
     return response?.data;
-  };
+  } catch (error) {
+    if (isRequestAborted(error)) {
+      return null;
+    }
+
+    throw error;
+  }
+};

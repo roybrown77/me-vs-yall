@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import get from "lodash/get";
 import last from "lodash/last";
 import moment from "moment-timezone";
@@ -43,12 +44,16 @@ import styles from "./styles";
 
 import useLeagueWeekNavigation from "../../hooks/useLeagueWeekNavigation";
 import usePollWhileGamesInProgress from "../../hooks/usePollWhileGamesInProgress";
+import useScrollToGameSlug from "../../hooks/useScrollToGameSlug";
+import usePageSeo from "../../hooks/usePageSeo";
 import useSpreadMode from "../../hooks/useSpreadMode";
 import useSlimUx from "../../hooks/useSlimUx";
+import { assignGameSlugs, withGameSlug } from "../../utilities/navigationPaths";
 
 const isAuthenticated = isConfirmedAuthentication();
 
 const Scoreboard = () => {
+  const location = useLocation();
   const initialLeague = useMemo(() => {
     return leagues.find((league) => league.name === getLeagueName()) || leagues[0];
   }, []);
@@ -61,6 +66,7 @@ const Scoreboard = () => {
   const [updatingPick, setUpdatingPick] = useState(false);
   const [isShareClicked] = useState(false);
   const [isSpreadModeAlertOpen] = useState(false);
+  const loadRequestIdRef = useRef(0);
 
   const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const { slimMode, enableSlimMode, disableSlimMode } = useSlimUx();
@@ -73,7 +79,9 @@ const Scoreboard = () => {
       beginDateTime,
       endDateTime,
       showLoader = true,
+      signal,
     }) => {
+      const requestId = ++loadRequestIdRef.current;
       const user = getUser();
       const userId = get(user, "sub");
       setUserId(userId);
@@ -95,6 +103,7 @@ const Scoreboard = () => {
         callApi({
           method: "GET",
           endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+          signal,
         }),
         isAuthenticated
           ? callApi({
@@ -102,18 +111,27 @@ const Scoreboard = () => {
               endpoint: `/api/pickmanagement/picks?${queryString.stringify(
                 query
               )}`,
+              signal,
             })
           : undefined,
         callApi({
           method: "GET",
           endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}`,
+          signal,
         }),
       ]);
 
-      setGames(games);
+      if (signal?.aborted || requestId !== loadRequestIdRef.current) {
+        return;
+      }
+
+      setGames(games || []);
       setPicks(picks || []);
-      setTeams(teams);
-      setDataLoading(false);
+      setTeams(teams || []);
+
+      if (showLoader) {
+        setDataLoading(false);
+      }
     },
     []
   );
@@ -181,6 +199,29 @@ const Scoreboard = () => {
       week: currentWeek,
     });
   }, [currentWeek, games, picks, spreadMode, teams]);
+
+  const gameSlugById = useMemo(() => assignGameSlugs(games), [games]);
+
+  const getGameHref = useCallback(
+    (game) =>
+      withGameSlug(
+        location.pathname,
+        "/scoreboards/",
+        gameSlugById[game._id]
+      ),
+    [gameSlugById, location.pathname]
+  );
+
+  useScrollToGameSlug({ games, enabled: !dataLoading });
+  usePageSeo({
+    enabled: !dataLoading,
+    pageKind: "scores",
+    leagueId,
+    year,
+    week: currentWeek,
+    games,
+    gameSlugById,
+  });
 
   const areAnyGamesInProgress = getAreAnyGamesInProgress(games);
   const areAllGamesOver = getAreAllGamesOver(games);
@@ -295,6 +336,7 @@ const Scoreboard = () => {
               title: `Let's Go!!!`,
               games: groupedGames.notCompleted,
               loading: isLoading,
+              getGameHref,
             }}
           />
         )}
@@ -304,6 +346,7 @@ const Scoreboard = () => {
               title: `Game Over`,
               games: groupedGames.completed,
               loading: isLoading,
+              getGameHref,
             }}
           />
         )}
@@ -418,6 +461,7 @@ const Scoreboard = () => {
                       )}
                       <Game
                         game={game}
+                        gameSlug={gameSlugById[game._id]}
                         pick={picks.find((x) => x.gameId === game._id)}
                         handleMakePick={handleMakePick}
                         handleUpdateGame={handleUpdateGame}
@@ -453,6 +497,7 @@ const Scoreboard = () => {
                       )}
                       <Game
                         game={game}
+                        gameSlug={gameSlugById[game._id]}
                         pick={picks.find((x) => x.gameId === game._id)}
                         handleMakePick={handleMakePick}
                         handleUpdateGame={handleUpdateGame}

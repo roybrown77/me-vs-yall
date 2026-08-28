@@ -22,6 +22,10 @@ import GameFooter from "./components/GameFooter";
 
 import { hasGameStarted } from "../../utilities";
 import {
+  buildGameHeadingText,
+  buildGameSlugFromCompetitors,
+} from "../../utilities/navigationPaths";
+import {
   isConfirmedAuthentication,
 } from "../../utilities/authenticationClient";
 import {
@@ -377,6 +381,7 @@ const Game = (props) => {
 
   const {
     game,
+    gameSlug,
     isAuthenticated,
     disableTie,
     updatingPick,
@@ -440,8 +445,25 @@ const Game = (props) => {
     handleSaveGame,
   };
 
+  const resolvedGameSlug = gameSlug || buildGameSlugFromCompetitors(game);
+  const gameHeadingText = buildGameHeadingText(game);
+
   return (
-    <div id={"game-" + game._id} key={game._id} style={{ ...styles.game, padding: slimMode ? "4px" : "8px" }}>
+    <div key={game._id} style={{ ...styles.game, padding: slimMode ? "4px" : "8px" }}>
+      <h2
+        id={resolvedGameSlug}
+        style={{
+          margin: 0,
+          padding: slimMode ? "0 0 4px" : "0 0 8px",
+          fontFamily: "monospace",
+          fontSize: slimMode ? "14px" : "16px",
+          fontWeight: 700,
+          textAlign: "center",
+          color: "#000",
+        }}
+      >
+        {gameHeadingText}
+      </h2>
       <div
         style={{
           zIndex: 3,
@@ -906,6 +928,7 @@ const Game = (props) => {
 
 Game.propTypes = {
   game: PropTypes.object,
+  gameSlug: PropTypes.string,
   pick: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
   spreadMode: PropTypes.bool,

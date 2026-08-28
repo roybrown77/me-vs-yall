@@ -1,10 +1,12 @@
 import Skeleton from '@mui/material/Skeleton';
+import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import get from 'lodash/get';
 
 import { 
     hasGameStarted
 } from '../../utilities';
+import { buildGameLinkLabel } from '../../utilities/navigationPaths';
 
 const formatQuarter = (quarter) => {
     if (!quarter) return '';
@@ -69,7 +71,7 @@ const getLiveQuarterDisplay = (game) => {
     return formatQuarter(get(game, 'playHistory[0].quarter'));
 };
 
-const TinyScoreboard = ({loading, title, games}) => {
+const TinyScoreboard = ({loading, title, games, getGameHref}) => {
     const styles = {
         header: {
             flex: '0 0 auto',
@@ -201,9 +203,12 @@ const TinyScoreboard = ({loading, title, games}) => {
                                                 <div style={styles.kickoffTime}>{formatKickoffTime(game.startDateTime)}</div>
                                             </div>
                                         </div>
-                                        <a href={"#game-" + game._id} style={{textDecoration: 'none'}}>
-                                            <div style={styles.linkToGame}>{game.isGameOver ? 'Recap' : isLive ? 'Plays' : 'Preview'}</div>
-                                        </a>
+                                        <Link
+                                            to={getGameHref?.(game) || "#"}
+                                            style={{textDecoration: 'none'}}
+                                        >
+                                            <div style={styles.linkToGame}>{buildGameLinkLabel(game)}</div>
+                                        </Link>
                                     </div>
                                 )
                             })
