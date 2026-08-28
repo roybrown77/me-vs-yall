@@ -393,8 +393,8 @@ const Leader = () => {
                             }}
                           >
                             {leader.medal && (
-                              <div style={{ margin: "auto 10px auto 0" }}>
-                                <img style={{ width: "40px" }} src={leader.medal} alt="" />
+                              <div style={{ margin: "auto 10px auto 0", fontSize: "3rem", lineHeight: 1 }} aria-hidden="true">
+                                {leader.medal}
                               </div>
                             )}
                             {![1, 2, 3].includes(index + 1) && !leader.medal && (

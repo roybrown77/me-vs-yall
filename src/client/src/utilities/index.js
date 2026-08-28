@@ -7,9 +7,12 @@ import transform from "lodash/transform";
 import orderBy from "lodash/orderBy";
 
 import zachBaby from "../styles/images/zach-baby.jpg";
-import gold from "../styles/images/gold.png";
-import silver from "../styles/images/silver.png";
-import bronze from "../styles/images/bronze.png";
+
+const MEDAL_EMOJIS = {
+  gold: "🥇",
+  silver: "🥈",
+  bronze: "🥉",
+};
 import {
   getScoreGuessBumpPoints,
   getScoreGuessLabel,
@@ -63,15 +66,15 @@ const getLeaders = ({
     }
 
     if (leaderWins >= wins && leaderLosses >= losses && medalCount === 1) {
-      leader.medal = gold;
+      leader.medal = MEDAL_EMOJIS.gold;
     }
 
     if (leaderWins >= wins && leaderLosses >= losses && medalCount === 2) {
-      leader.medal = silver;
+      leader.medal = MEDAL_EMOJIS.silver;
     }
 
     if (leaderWins >= wins && leaderLosses >= losses && medalCount === 3) {
-      leader.medal = bronze;
+      leader.medal = MEDAL_EMOJIS.bronze;
     }
 
     return leader;
