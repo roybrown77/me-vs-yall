@@ -158,7 +158,7 @@ const TinyScoreboard = ({loading, title, games}) => {
                             games?.map((game, index) => {
                                 const isLive = hasGameStarted(game.startDateTime) && !game.isGameOver;
                                 const leaderStyle = (competitorIndex) => (
-                                    game.competitors[competitorIndex].score >= game.competitors[1 - competitorIndex].score && isLive
+                                    game.competitors[competitorIndex].score >= game.competitors[1 - competitorIndex].score && hasGameStarted(game.startDateTime)
                                         ? { borderRight: '8px solid #FCE385', paddingRight: '4px' }
                                         : {}
                                 );
