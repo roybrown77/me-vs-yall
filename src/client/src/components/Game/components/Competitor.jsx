@@ -4,7 +4,6 @@ import get from "lodash/get";
 
 import getFlag from "../getFlag";
 import { hasGameStarted } from "../../../utilities";
-import { isFightLeague } from "../../../utilities/leagueCopy";
 
 const GamePredictionStatusIcon = (props) => {
   const { game, competitor, spreadMode, pick } = props;
@@ -50,11 +49,9 @@ const Competitor = (props) => {
     slimMode = false,
     sharedTextSizes,
   } = props;
-  const fightLeague = isFightLeague(get(game, "leagueId"));
   const showLiveScore = hasGameStarted(game.startDateTime) || game.isGameOver;
   const hasCompetitorScore =
     get(competitor, "score") !== null && get(competitor, "score") !== undefined;
-  const shouldRenderScorePill = !fightLeague;
   const shouldShowScoreInPill = showLiveScore || hasCompetitorScore;
   const scorePillBackgroundColor = competitor?.color || "#1F2937";
   const scoreDisplayValue = shouldShowScoreInPill
@@ -64,7 +61,7 @@ const Competitor = (props) => {
     : undefined;
   const showResultIcon = get(game, "isGameOver") && competitor.selected;
 
-  const scorePill = shouldRenderScorePill && shouldShowScoreInPill && (
+  const scorePill = shouldShowScoreInPill && (
     <div
       style={{
         fontSize: slimMode ? "1.1rem" : "1.5rem",
@@ -94,8 +91,7 @@ const Competitor = (props) => {
     padding: competitor.record ? "0" : "4px 0",
   };
 
-  const shouldShowCountryFlag = Boolean(competitor.country) && (!slimMode || fightLeague);
-  const countryFlagBlock = shouldShowCountryFlag ? (
+  const countryFlagBlock = competitor.country ? (
     <div style={{ fontSize: slimMode ? "2rem" : "70px", lineHeight: 1 }}>
       {getFlag(competitor.country)}
     </div>
@@ -139,24 +135,22 @@ const Competitor = (props) => {
 
   return (
     <div className="detail-competitor" style={{ textAlign: "center" }}>
-      {shouldRenderScorePill && (
-        <div
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-            width: "3rem",
-            color: shouldShowScoreInPill ? "#ffffff" : "transparent",
-            backgroundColor: shouldShowScoreInPill ? scorePillBackgroundColor : "transparent",
-            borderRadius: shouldShowScoreInPill ? "4px" : "0",
-            padding: shouldShowScoreInPill ? "4px" : "0",
-            margin: shouldShowScoreInPill ? "0 auto" : "0",
-            marginBottom: shouldShowScoreInPill ? ".5rem" : "0",
-            textAlign: "center",
-          }}
-        >
-          {shouldShowScoreInPill ? scoreDisplayValue : null}
-        </div>
-      )}
+      <div
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          width: "3rem",
+          color: shouldShowScoreInPill ? "#ffffff" : "transparent",
+          backgroundColor: shouldShowScoreInPill ? scorePillBackgroundColor : "transparent",
+          borderRadius: shouldShowScoreInPill ? "4px" : "0",
+          padding: shouldShowScoreInPill ? "4px" : "0",
+          margin: shouldShowScoreInPill ? "0 auto" : "0",
+          marginBottom: shouldShowScoreInPill ? ".5rem" : "0",
+          textAlign: "center",
+        }}
+      >
+        {shouldShowScoreInPill ? scoreDisplayValue : null}
+      </div>
       {countryFlagBlock}
       {locationBlock}
       {nameBlock}
