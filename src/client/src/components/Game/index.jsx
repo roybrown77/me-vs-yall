@@ -29,6 +29,9 @@ import {
   isConfirmedAuthentication,
 } from "../../utilities/authenticationClient";
 import {
+  getSharedCompetitorTextSizes,
+} from "../../utilities/leagueCopy";
+import {
   SCORE_GUESS_BUMPS,
   GAME_OF_THE_WEEK_BASE_BONUS,
   GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER,
@@ -430,12 +433,14 @@ const Game = (props) => {
     const showSpread = Boolean(spreadMode && game?.spread?.teamId === competitorItem._id);
     return showConference || showSpread;
   });
+  const sharedTextSizes = getSharedCompetitorTextSizes(game.competitors, { slimMode });
 
   const componentProps = {
     ...props,
     ...state,
     spreadMode,
     slimMode,
+    sharedTextSizes,
     handleMakePick,
     handleTie,
     handleScoreGuessInputChange,

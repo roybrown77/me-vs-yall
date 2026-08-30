@@ -6,6 +6,7 @@ const gameRepository = require('../server/game/databaseRepositories/GameReposito
 const { dbConnectionString } = require('../../config');
 const { nflTeams } = require('../server/utilities/teams/nfl');
 const { getNflGameDataSource } = require('../server/utilities/getGameDataSource');
+const { getPlayHistory } = require('../server/utilities/utilities');
 
 puppeteer.use(StealthPlugin());
 
@@ -869,6 +870,14 @@ const runGameUpdate = async () => {
                         competitors: updatedCompetitors,
                     });
 
+                    const newPlayHistory = getPlayHistory({
+                        message: 'game-updater',
+                        leagueId,
+                        playHistory: game.playHistory || [],
+                        lastPlay: mergedGame.lastPlay || '',
+                        currentTime: mergedGame.currentTime || '',
+                    });
+
                     const updateResult = await gameRepository.updateOne(
                         { _id: game._id },
                         {
@@ -877,6 +886,7 @@ const runGameUpdate = async () => {
                                 down: `Down: ${mergedGame.down || 'N/A'} - Poss: ${mergedGame.possession || 'N/A'} - Last play: ${mergedGame.lastPlay || 'N/A'}`,
                                 currentTime: mergedGame.currentTime,
                                 isGameOver: mergedGame.isGameOver,
+                                playHistory: newPlayHistory,
                                 ...startDateTimeFields,
                             }
                         }
@@ -885,7 +895,7 @@ const runGameUpdate = async () => {
                     logGameUpdate({
                         game,
                         updateType: 'score',
-                        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${mergedGame.isGameOver}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
+                        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${mergedGame.isGameOver}, playHistory ${newPlayHistory.length}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 }

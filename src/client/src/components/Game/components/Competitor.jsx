@@ -4,6 +4,7 @@ import get from "lodash/get";
 
 import getFlag from "../getFlag";
 import { hasGameStarted } from "../../../utilities";
+import { isFightLeague } from "../../../utilities/leagueCopy";
 
 const GamePredictionStatusIcon = (props) => {
   const { game, competitor, spreadMode, pick } = props;
@@ -41,14 +42,19 @@ const GamePredictionStatusIcon = (props) => {
 };
 
 const Competitor = (props) => {
-  const { game, spreadMode, pick, competitor, slimMode = false } = props;
-  const isFightLeague = ["59723313734d1d6202a85f25", "59723313734d1d6202a85f27"].includes(
-    get(game, "leagueId")
-  );
+  const {
+    game,
+    spreadMode,
+    pick,
+    competitor,
+    slimMode = false,
+    sharedTextSizes,
+  } = props;
+  const fightLeague = isFightLeague(get(game, "leagueId"));
   const showLiveScore = hasGameStarted(game.startDateTime) || game.isGameOver;
   const hasCompetitorScore =
     get(competitor, "score") !== null && get(competitor, "score") !== undefined;
-  const shouldRenderScorePill = !isFightLeague;
+  const shouldRenderScorePill = !fightLeague;
   const shouldShowScoreInPill = showLiveScore || hasCompetitorScore;
   const scorePillBackgroundColor = competitor?.color || "#1F2937";
   const scoreDisplayValue = shouldShowScoreInPill
@@ -77,50 +83,31 @@ const Competitor = (props) => {
     </div>
   );
 
-  const locationStyle = slimMode
-    ? {
-        fontSize: "2.25em",
-        fontWeight: "600",
-        color: competitor.color,
-        borderBottom: `1rem solid ${competitor.color2}`,
-        maxWidth: "100%",
-        margin: "0 auto",
-        lineHeight: 1.05,
-      }
-    : {
-        fontSize:
-          competitor.shortLocation.length > 8
-            ? "1.5em"
-            : competitor.shortLocation.length > 3
-              ? "1.75em"
-              : "2.5em",
-        marginTop: competitor.country ? "-10px" : "0",
-        fontWeight: "600",
-        color: competitor.color,
-        borderBottom: `1rem solid ${competitor.color2}`,
-        maxWidth: "7rem",
-        margin: "0 auto",
-      };
+  const locationStyle = {
+    "--competitor-location-size": sharedTextSizes?.locationFontSize,
+    color: competitor.color,
+    borderBottom: `1rem solid ${competitor.color2}`,
+  };
 
-  const nameStyle = slimMode
-    ? {
-        fontSize: "1.25em",
-        padding: "4px 0 0",
-        lineHeight: 1.1,
-      }
-    : {
-        paddingBottom: "4px",
-        fontSize: competitor.country ? "15px" : "20px",
-        padding: competitor.record ? "0" : "4px 0",
-      };
+  const nameStyle = {
+    "--competitor-name-size": sharedTextSizes?.nameFontSize,
+    padding: competitor.record ? "0" : "4px 0",
+  };
+
+  const shouldShowCountryFlag = Boolean(competitor.country) && (!slimMode || fightLeague);
+  const countryFlagBlock = shouldShowCountryFlag ? (
+    <div style={{ fontSize: slimMode ? "2rem" : "70px", lineHeight: 1 }}>
+      {getFlag(competitor.country)}
+    </div>
+  ) : null;
 
   const locationBlock = (
-    <div style={locationStyle}>
+    <div className="competitor-location" style={locationStyle}>
       {competitor.rank ? (
         <span
+          className="competitor-rank"
           style={{
             color: "#555555",
-            fontSize: slimMode ? "0.45em" : "17px",
             fontWeight: "bold",
             marginRight: "10px",
           }}
@@ -132,12 +119,17 @@ const Competitor = (props) => {
     </div>
   );
 
-  const nameBlock = <div style={nameStyle}>{competitor.name}</div>;
+  const nameBlock = (
+    <div className="competitor-name" style={nameStyle}>
+      {competitor.name}
+    </div>
+  );
 
   if (slimMode) {
     return (
       <div className="detail-competitor" style={{ textAlign: "center" }}>
         {scorePill}
+        {countryFlagBlock}
         {locationBlock}
         {nameBlock}
         {showResultIcon ? <GamePredictionStatusIcon {...props} /> : null}
@@ -165,15 +157,13 @@ const Competitor = (props) => {
           {shouldShowScoreInPill ? scoreDisplayValue : null}
         </div>
       )}
-      {competitor.country && (
-        <div style={{ fontSize: "70px" }}>{getFlag(competitor.country)}</div>
-      )}
+      {countryFlagBlock}
       {locationBlock}
       {nameBlock}
       {competitor.record && (
         <div
+          className="competitor-record"
           style={{
-            fontSize: "16px",
             color: "#BDBDBD",
             padding: "4px 0",
           }}

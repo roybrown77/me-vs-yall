@@ -13,7 +13,7 @@ const userRepository = require('../user/UserRepository');
 
 const { loadAmericanFootballGames } = require('./businessLogicDomains/AmericanFootballDomain');
 
-const { shouldLoadGames, playHistoryCount } = require('../../../config');
+const { shouldLoadGames } = require('../../../config');
 
 const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
 
@@ -578,7 +578,6 @@ router.get('/games', async function (req, res) {
         setBaseballPlays(game);
 
         game.hashCompetitors = null;
-        game.playHistory = game.playHistory.slice(0,playHistoryCount);
         const teamStats = getAllTeamStats(gamesWholeYear);
         game.stats = getGameStats(game, teamStats);
       });
