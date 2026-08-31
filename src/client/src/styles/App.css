@@ -2203,31 +2203,3 @@ body {
 .detail-competitor .competitor-record {
   font-size: 16px;
 }
-
-@media (max-width: 600px) {
-  .detail-competitor .competitor-location {
-    font-size: min(var(--competitor-location-size, 2.5em), 1.5em);
-  }
-
-  .detail-competitor .competitor-name {
-    font-size: min(var(--competitor-name-size, 20px), 14px);
-  }
-
-  .detail-competitor .competitor-record {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 400px) {
-  .detail-competitor .competitor-location {
-    font-size: min(var(--competitor-location-size, 2.5em), 1.25em);
-  }
-
-  .detail-competitor .competitor-name {
-    font-size: min(var(--competitor-name-size, 20px), 12px);
-  }
-
-  .detail-competitor .competitor-record {
-    font-size: 12px;
-  }
-}

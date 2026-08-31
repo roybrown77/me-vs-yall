@@ -6,6 +6,13 @@ export const getSharedCompetitorTextSizes = (competitors = [], { slimMode = fals
   const maxLocationLen = Math.max(...competitors.map((c) => (c.shortLocation || "").length), 0);
   const maxNameLen = Math.max(...competitors.map((c) => (c.name || "").length), 0);
 
+  if (maxLocationLen <= 3) {
+    return {
+      locationFontSize: "2.5em",
+      nameFontSize: "1.25em",
+    };
+  }
+
   let locationFontSize = slimMode ? "1.85em" : "2.5em";
   if (maxLocationLen > 11) {
     locationFontSize = slimMode ? "1.05em" : "1.2em";
