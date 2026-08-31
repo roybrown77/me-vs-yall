@@ -543,21 +543,30 @@ const Game = (props) => {
         )}
         {canShowTie && <TieButton {...componentProps} />}
         {canShowScoreGuess && (
-          <>
-            <div
+          <details
+            className="score-guess-details"
+            style={{
+              marginTop: "8px",
+              border: "2px dashed #3772FA",
+              borderRadius: "14px",
+              padding: "10px 12px",
+              background:
+                "linear-gradient(135deg, rgba(55,114,250,0.12) 0%, rgba(253,187,45,0.14) 100%)",
+              fontFamily: "monospace",
+              textAlign: "center",
+              opacity: isScoreGuessDisabled ? 0.65 : 1,
+            }}
+          >
+            <summary
               style={{
-                position: "relative",
-                marginTop: "8px",
-                border: "2px dashed #3772FA",
-                borderRadius: "14px",
-                padding: "10px 12px",
-                background:
-                  "linear-gradient(135deg, rgba(55,114,250,0.12) 0%, rgba(253,187,45,0.14) 100%)",
-                fontFamily: "monospace",
-                textAlign: "center",
-                opacity: isScoreGuessDisabled ? 0.65 : 1,
+                cursor: "pointer",
+                fontWeight: "700",
+                listStyle: "none",
               }}
             >
+              🎯 Guess the Score
+            </summary>
+            <div style={{ position: "relative", marginTop: "8px" }}>
             {isScoreGuessDisabled && (
               <button
                 type="button"
@@ -575,7 +584,6 @@ const Game = (props) => {
                 aria-label="Sign in required to use score guess"
               />
             )}
-            <div style={{ fontWeight: "700", marginBottom: "8px" }}>🎯 Guess the Score</div>
             <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                 <label htmlFor={`guess-away-${game._id}`} style={{ fontSize: "12px", fontWeight: "700" }}>
@@ -698,7 +706,7 @@ const Game = (props) => {
               </div>
             </details>
             </div>
-          </>
+          </details>
         )}
         {!slimMode && (
         <div style={{ marginTop: "1rem" }}>
