@@ -245,7 +245,7 @@ const setAmericanFootballPlays = (game) => {
           if (yardNumber >= 10 && 
             !lastPlay.toLowerCase().includes('kick') &&
             !lastPlay.toLowerCase().includes('injur')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🎯🤩";
+            game.playHistory[i].lastPlay = lastPlay + " 🎯";
             highlights.push(game.playHistory[i]);
           }
         }
@@ -278,7 +278,7 @@ const setAmericanFootballDown = (game) => {
 
     if (downPlay.toLowerCase().includes('touchdown') || 
       downPlay.toLowerCase().includes('td')) {
-      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " 🤩");
+      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " ");
     }
 
     if (downPlay.toLowerCase().includes('safety')) {
@@ -348,7 +348,7 @@ const setAmericanFootballDown = (game) => {
           if (yardNumber >= 10 && 
             !downPlay.toLowerCase().includes('kick') && 
             !downPlay.toLowerCase().includes('injur')) {
-            game.down = downPlay + " 🎯🤩";
+            game.down = downPlay + " 🎯";
           }
         }
       } catch (error) {
