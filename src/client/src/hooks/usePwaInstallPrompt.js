@@ -14,7 +14,7 @@ const usePwaInstallPrompt = () => {
     getPwaInstallServerSnapshot
   );
 
-  const promptInstall = useCallback(async () => promptPwaInstall(), []);
+  const promptInstall = useCallback(() => promptPwaInstall(), []);
 
   return { canInstall, promptInstall, installed };
 };

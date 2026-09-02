@@ -48,11 +48,13 @@ export const getInstallMessage = ({ canInstall, isIos: onIos, isAndroid: onAndro
   if (canInstall) return null;
 
   if (onIos) {
-    return 'Tap Share, then Add to Home Screen';
+    return 'Tap the Share button, then choose Add to Home Screen';
   }
 
   if (onAndroid) {
-    return 'Tap menu (⋮), then Install app';
+    return canInstall
+      ? null
+      : 'If no install prompt appears, open the browser menu (⋮) and choose Install app or Add to Home Screen';
   }
 
   if (isMobile) {

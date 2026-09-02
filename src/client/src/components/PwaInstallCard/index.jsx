@@ -1,20 +1,12 @@
-import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import InstallMobile from '@mui/icons-material/InstallMobile';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-import usePwaInstallPrompt from '../../hooks/usePwaInstallPrompt';
+import usePwaInstallAction from '../../hooks/usePwaInstallAction';
 import mvyIcon from '../../styles/images/mvy-balls-cut.png';
-import {
-  getInstallMessage,
-  getSiteLabel,
-  INSTALL_APP_EMOJIS,
-  isAndroid,
-  isIos,
-  isMobileDevice,
-} from '../../utilities/pwaInstall';
+import { getSiteLabel, INSTALL_APP_EMOJIS } from '../../utilities/pwaInstall';
 
 const feedbackStyles = {
   success: {
@@ -32,45 +24,12 @@ const PwaInstallCard = ({
   onClose,
   showClose = false,
 }) => {
-  const { canInstall, promptInstall } = usePwaInstallPrompt();
-  const [installFeedback, setInstallFeedback] = useState(null);
-  const onIos = useMemo(() => isIos(), []);
-  const onAndroid = useMemo(() => isAndroid(), []);
-  const isMobile = useMemo(() => isMobileDevice(), []);
-  const installMessage = useMemo(
-    () => getInstallMessage({ canInstall, isIos: onIos, isAndroid: onAndroid, isMobile }),
-    [canInstall, onAndroid, onIos, isMobile]
-  );
-  const siteLabel = useMemo(() => getSiteLabel(), []);
-
-  const handleInstall = useCallback(async () => {
-    if (canInstall) {
-      const result = await promptInstall();
-
-      if (result?.outcome === 'accepted') {
-        setInstallFeedback({
-          tone: 'success',
-          message: 'App installed! Open Me vs Yall from your home screen.',
-        });
-        return;
-      }
-
-      if (result?.outcome === 'dismissed') {
-        setInstallFeedback({
-          tone: 'info',
-          message: 'Install canceled. Try again whenever you are ready.',
-        });
-        return;
-      }
-    }
-
-    if (installMessage) {
-      setInstallFeedback({
-        tone: 'info',
-        message: installMessage,
-      });
-    }
-  }, [canInstall, installMessage, promptInstall]);
+  const {
+    handleInstall,
+    installFeedback,
+    installMessage,
+    setInstallFeedback,
+  } = usePwaInstallAction();
 
   const feedbackStyle =
     feedbackStyles[installFeedback?.tone] || feedbackStyles.info;
@@ -97,7 +56,7 @@ const PwaInstallCard = ({
           <img className="pwa-install-banner__icon" src={mvyIcon} alt="" />
           <div className="pwa-install-banner__info">
             <div className="pwa-install-banner__title">Me vs Yall</div>
-            <div className="pwa-install-banner__subtitle">{siteLabel}</div>
+            <div className="pwa-install-banner__subtitle">{getSiteLabel()}</div>
             {installMessage ? (
               <div className="pwa-install-banner__hint">{installMessage}</div>
             ) : null}

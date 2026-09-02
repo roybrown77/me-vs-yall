@@ -54,24 +54,29 @@ export const getPwaInstallSnapshot = () => cachedSnapshot;
 
 export const getPwaInstallServerSnapshot = () => SERVER_SNAPSHOT;
 
-export const promptPwaInstall = async () => {
+export const promptPwaInstall = () => {
   if (!deferredPrompt) {
-    return { outcome: 'unavailable' };
+    return Promise.resolve({ outcome: 'unavailable' });
   }
 
   const promptEvent = deferredPrompt;
   deferredPrompt = null;
-  emitChange();
 
-  await promptEvent.prompt();
-  const choiceResult = await promptEvent.userChoice;
-
-  if (choiceResult.outcome === 'accepted') {
-    installed = true;
-    emitChange();
-  }
-
-  return choiceResult;
+  // prompt() must run synchronously in the click handler's call stack.
+  return promptEvent
+    .prompt()
+    .then(() => promptEvent.userChoice)
+    .then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        installed = true;
+      }
+      emitChange();
+      return choiceResult;
+    })
+    .catch(() => {
+      emitChange();
+      return { outcome: 'unavailable' };
+    });
 };
 
 if (typeof window !== 'undefined') {
