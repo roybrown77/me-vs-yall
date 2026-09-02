@@ -13,9 +13,20 @@ const userRepository = require('../user/UserRepository');
 
 const { loadAmericanFootballGames } = require('./businessLogicDomains/AmericanFootballDomain');
 
-const { shouldLoadGames } = require('../../../config');
+const { shouldLoadGames, playHistoryCount } = require('../../../config');
 
 const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
+
+const limitPlayHistoryForResponse = (game) => {
+  if (!Array.isArray(game?.playHistory)) {
+    return;
+  }
+
+  const limit = Number(playHistoryCount) || 10;
+  if (game.playHistory.length > limit) {
+    game.playHistory = game.playHistory.slice(0, limit);
+  }
+};
 
 const { getNflGameDataSource } = require('../utilities/getGameDataSource');
 
@@ -578,6 +589,7 @@ router.get('/games', async function (req, res) {
         setBaseballPlays(game);
 
         game.hashCompetitors = null;
+        limitPlayHistoryForResponse(game);
         const teamStats = getAllTeamStats(gamesWholeYear);
         game.stats = getGameStats(game, teamStats);
       });
