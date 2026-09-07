@@ -126,6 +126,10 @@ const getScoreGuessLabel = (pick = {}, game = {}) => {
   }
 
   if (!hasGuess) {
+    if (get(game, "isGameOver") && bump > 0) {
+      return `Correct winner (+${bump.toFixed(2).replace(/\.00$/, "")})`;
+    }
+
     return "";
   }
 

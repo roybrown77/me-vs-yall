@@ -90,6 +90,45 @@ const canShowLeaderPicksAndGuesses = ({ leaderId, game }) =>
   game.isGameOver ||
   hasGameStarted(game.startDateTime);
 
+const formatLeaderWinTotal = (value) =>
+  Number(value ?? 0).toFixed(2).replace(/\.00$/, "");
+
+const getLeaderRecord = ({ leader, isBonusPointsTab, areAnyGamesInProgress }) => {
+  if (isBonusPointsTab) {
+    return {
+      interimWins: formatLeaderWinTotal(leader.adjustedWinsBeforeGameOver),
+      interimLosses: leader.lossesBeforeGameOver,
+      wins: formatLeaderWinTotal(
+        areAnyGamesInProgress ? leader.adjustedWinsBeforeGameOver : leader.adjustedWins
+      ),
+      losses: areAnyGamesInProgress ? leader.lossesBeforeGameOver : leader.losses,
+      totalWins: formatLeaderWinTotal(leader.adjustedWins),
+      totalLosses: leader.losses,
+    };
+  }
+
+  return {
+    interimWins: leader.winsBeforeGameOver,
+    interimLosses: leader.lossesBeforeGameOver,
+    wins: areAnyGamesInProgress ? leader.winsBeforeGameOver : leader.wins,
+    losses: areAnyGamesInProgress ? leader.lossesBeforeGameOver : leader.losses,
+    totalWins: leader.wins,
+    totalLosses: leader.losses,
+  };
+};
+
+const getLeaderBonusLabel = (game) => {
+  if (game.scoreGuessLabel) {
+    return game.scoreGuessLabel;
+  }
+
+  if (!game.scoreGuessBump) {
+    return "";
+  }
+
+  return `Bonus (+${Number(game.scoreGuessBump).toFixed(2).replace(/\.00$/, "")})`;
+};
+
 const getGameStreakEmoji = (wins, losses, winsInARow, lossesInARow) => {
   let emoji = "😅"; // neutral / balanced
 
@@ -404,7 +443,14 @@ const Leader = () => {
                   </div>
                 )}
                 {!isLoading &&
-                  leaders.map((leader, index) => (
+                  leaders.map((leader, index) => {
+                    const leaderRecord = getLeaderRecord({
+                      leader,
+                      isBonusPointsTab,
+                      areAnyGamesInProgress,
+                    });
+
+                    return (
                     <div style={styles.container} key={leader.id}>
                       <Accordion style={{ borderRadius: "8px", boxShadow: "none" }}>
                         <AccordionSummary
@@ -486,13 +532,20 @@ const Leader = () => {
                             >
                               {areAnyGamesInProgress && (
                                 <div style={{ color: "gray" }}>
-                                  {leader.winsBeforeGameOver} - {leader.lossesBeforeGameOver}
+                                  {leaderRecord.interimWins} - {leaderRecord.interimLosses}
                                 </div>
                               )}
                               <div>{leader.percentage}</div>
                               <div>
-                                {leader.wins} - {leader.losses}
+                                {areAnyGamesInProgress
+                                  ? `${leaderRecord.totalWins} - ${leaderRecord.totalLosses}`
+                                  : `${leaderRecord.wins} - ${leaderRecord.losses}`}
                               </div>
+                              {isBonusPointsTab && leader.scoreGuessBumpPoints > 0 && (
+                                <div style={{ color: "#0B6E4F", fontWeight: "700" }}>
+                                  +{formatLeaderWinTotal(leader.scoreGuessBumpPoints)} bonus
+                                </div>
+                              )}
                               <div
                                 style={{
                                   fontWeight: "700",
@@ -527,6 +580,7 @@ const Leader = () => {
                                   leaderId: leader.id,
                                   game,
                                 });
+                                const bonusLabel = getLeaderBonusLabel(game);
 
                                 return (
                                   <tbody key={leader.id + "-" + game._id}>
@@ -596,13 +650,13 @@ const Leader = () => {
                                         )}
                                       </td>
                                     </tr>
-                                    {isBonusPointsTab && showLeaderPicksAndGuesses && game.scoreGuessLabel && (
+                                    {isBonusPointsTab && showLeaderPicksAndGuesses && bonusLabel && (
                                       <tr>
                                         <td align="center"></td>
                                         <td align="center"></td>
                                         <td align="center">
-                                          <span style={{ color: /\(\+/.test(game.scoreGuessLabel) ? "#0B6E4F" : /\(0\)/.test(game.scoreGuessLabel) ? "#B42318" : "#666" }}>
-                                            {game.scoreGuessLabel}
+                                          <span style={{ color: /\(\+/.test(bonusLabel) ? "#0B6E4F" : /\(0\)/.test(bonusLabel) ? "#B42318" : "#666" }}>
+                                            {bonusLabel}
                                           </span>
                                         </td>
                                         <td align="center"></td>
@@ -617,7 +671,8 @@ const Leader = () => {
                         </AccordionDetails>
                       </Accordion>
                     </div>
-                  ))}
+                    );
+                  })}
               </div>
             </Slide>
           </Box>
