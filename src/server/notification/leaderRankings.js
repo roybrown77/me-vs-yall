@@ -59,6 +59,7 @@ const SCORE_GUESS_BUMPS = {
   within1: 2,
   within2: 1.25,
   within3: 0.75,
+  within4: 0.5,
 };
 
 const hasGameStarted = (dateTime) => {
@@ -110,13 +111,14 @@ const getScoreGuessBumpPoints = (game = {}, pick = {}) => {
   const homeScore = parseInt(get(game, 'competitors.1.score', 0), 10);
   const awayDiff = Math.abs(away - awayScore);
   const homeDiff = Math.abs(home - homeScore);
-  const totalDiff = awayDiff + homeDiff;
+  const maxDiff = Math.max(awayDiff, homeDiff);
   const multiplier = isGameOfTheWeek(game) ? 2 : 1;
 
-  if (totalDiff === 0) return SCORE_GUESS_BUMPS.exact * multiplier;
-  if (totalDiff === 1) return SCORE_GUESS_BUMPS.within1 * multiplier;
-  if (totalDiff === 2) return SCORE_GUESS_BUMPS.within2 * multiplier;
-  if (totalDiff === 3) return SCORE_GUESS_BUMPS.within3 * multiplier;
+  if (maxDiff === 0) return SCORE_GUESS_BUMPS.exact * multiplier;
+  if (maxDiff === 1) return SCORE_GUESS_BUMPS.within1 * multiplier;
+  if (maxDiff === 2) return SCORE_GUESS_BUMPS.within2 * multiplier;
+  if (maxDiff === 3) return SCORE_GUESS_BUMPS.within3 * multiplier;
+  if (maxDiff === 4) return SCORE_GUESS_BUMPS.within4 * multiplier;
 
   if (isGameOfTheWeek(game)) {
     const winnerPickId =

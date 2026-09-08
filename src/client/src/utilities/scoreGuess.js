@@ -5,6 +5,16 @@ const SCORE_GUESS_BUMPS = {
   within1: 2,
   within2: 1.25,
   within3: 0.75,
+  within4: 0.5,
+};
+
+const getGuessBumpFromMaxDiff = (maxDiff, multiplier) => {
+  if (maxDiff === 0) return SCORE_GUESS_BUMPS.exact * multiplier;
+  if (maxDiff === 1) return SCORE_GUESS_BUMPS.within1 * multiplier;
+  if (maxDiff === 2) return SCORE_GUESS_BUMPS.within2 * multiplier;
+  if (maxDiff === 3) return SCORE_GUESS_BUMPS.within3 * multiplier;
+  if (maxDiff === 4) return SCORE_GUESS_BUMPS.within4 * multiplier;
+  return 0;
 };
 
 const GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER = 2;
@@ -52,7 +62,7 @@ const getScoreGuessDelta = (game = {}, pick = {}) => {
   return {
     awayDiff,
     homeDiff,
-    totalDiff: awayDiff + homeDiff,
+    maxDiff: Math.max(awayDiff, homeDiff),
   };
 };
 
@@ -63,19 +73,9 @@ const getScoreGuessBumpPoints = (game = {}, pick = {}) => {
     ? GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER
     : 1;
 
-  let guessBump = 0;
-
-  if (delta) {
-    if (delta.totalDiff === 0) {
-      guessBump = SCORE_GUESS_BUMPS.exact * multiplier;
-    } else if (delta.totalDiff === 1) {
-      guessBump = SCORE_GUESS_BUMPS.within1 * multiplier;
-    } else if (delta.totalDiff === 2) {
-      guessBump = SCORE_GUESS_BUMPS.within2 * multiplier;
-    } else if (delta.totalDiff === 3) {
-      guessBump = SCORE_GUESS_BUMPS.within3 * multiplier;
-    }
-  }
+  const guessBump = delta
+    ? getGuessBumpFromMaxDiff(delta.maxDiff, multiplier)
+    : 0;
 
   if (guessBump > 0) {
     return guessBump;
@@ -111,19 +111,9 @@ const getScoreGuessLabel = (pick = {}, game = {}) => {
   const multiplier = gameOfTheWeek
     ? GAME_OF_THE_WEEK_SCORE_GUESS_MULTIPLIER
     : 1;
-
-  let guessBump = 0;
-  if (delta) {
-    if (delta.totalDiff === 0) {
-      guessBump = SCORE_GUESS_BUMPS.exact * multiplier;
-    } else if (delta.totalDiff === 1) {
-      guessBump = SCORE_GUESS_BUMPS.within1 * multiplier;
-    } else if (delta.totalDiff === 2) {
-      guessBump = SCORE_GUESS_BUMPS.within2 * multiplier;
-    } else if (delta.totalDiff === 3) {
-      guessBump = SCORE_GUESS_BUMPS.within3 * multiplier;
-    }
-  }
+  const guessBump = delta
+    ? getGuessBumpFromMaxDiff(delta.maxDiff, multiplier)
+    : 0;
 
   if (!hasGuess) {
     if (get(game, "isGameOver") && bump > 0) {
@@ -164,7 +154,7 @@ const getScoreGuessTotals = (games = [], picks = []) => {
         total.bumpHits += 1;
       }
 
-      if (delta?.totalDiff === 0) {
+      if (delta?.maxDiff === 0) {
         total.exactHits += 1;
       }
 

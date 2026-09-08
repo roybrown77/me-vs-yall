@@ -71,6 +71,7 @@ const getScoreGuessBoostRows = (multiplier = 1) => [
   { diff: "1", points: SCORE_GUESS_BUMPS.within1 * multiplier },
   { diff: "2", points: SCORE_GUESS_BUMPS.within2 * multiplier },
   { diff: "3", points: SCORE_GUESS_BUMPS.within3 * multiplier },
+  { diff: "4", points: SCORE_GUESS_BUMPS.within4 * multiplier },
 ];
 
 const Game = (props) => {
@@ -688,7 +689,7 @@ const Game = (props) => {
                   </div>
                 )}
                 <div style={{ marginTop: "6px" }}>
-                  Combined score miss = |away guess - away final| + |home guess - home final|
+                  Each team within N points = max(|away guess - away final|, |home guess - home final|)
                 </div>
                 <div style={{ marginTop: "6px", display: "grid", gridTemplateColumns: "1fr auto", gap: "4px 10px" }}>
                   {scoreGuessBoostRows.map((row) => (
@@ -696,7 +697,7 @@ const Game = (props) => {
                       key={`row-${row.diff}`}
                       style={{ display: "contents" }}
                     >
-                      <div>Total miss of {row.diff}</div>
+                      <div>Each team within {row.diff} points</div>
                       <div style={{ fontWeight: "700" }}>
                         +{row.points.toFixed(2).replace(/\.00$/, "")}
                       </div>
