@@ -18,7 +18,7 @@ const styles = {
 
 const LeaderHypeBanner = () => (
   <div style={styles.banner} role="status" aria-live="polite">
-    Watch the drama and leaders emerge after games start and points are put on the board! 🍿
+    Tap a team then watch the drama and leaders emerge after games start and points are put on the board! 🍿
   </div>
 );
 
