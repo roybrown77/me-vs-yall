@@ -1,9 +1,46 @@
+import { useLayoutEffect, useRef } from "react";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import Cancel from "@mui/icons-material/Cancel";
 import get from "lodash/get";
 
 import getFlag from "../getFlag";
 import { hasGameStarted } from "../../../utilities";
+
+const MIN_SHRINK_FONT_SIZE_PX = 8;
+
+const useShrinkToFit = (content) => {
+  const ref = useRef(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+
+    const fit = () => {
+      el.style.fontSize = "";
+      let size = parseFloat(window.getComputedStyle(el).fontSize);
+      if (!size) return;
+
+      const maxWidth = el.clientWidth;
+      if (maxWidth <= 0) return;
+
+      while (el.scrollWidth > maxWidth && size > MIN_SHRINK_FONT_SIZE_PX) {
+        size -= 0.5;
+        el.style.fontSize = `${size}px`;
+      }
+    };
+
+    fit();
+
+    const parent = el.parentElement;
+    if (!parent) return undefined;
+
+    const observer = new ResizeObserver(fit);
+    observer.observe(parent);
+    return () => observer.disconnect();
+  }, [content]);
+
+  return ref;
+};
 
 const GamePredictionStatusIcon = (props) => {
   const { game, competitor, spreadMode, pick } = props;
@@ -60,6 +97,9 @@ const Competitor = (props) => {
       : 0
     : undefined;
   const showResultIcon = get(game, "isGameOver") && competitor.selected;
+  const locationText = `${competitor.rank ? `${competitor.rank} ` : ""}${competitor.shortLocation || ""}`;
+  const locationRef = useShrinkToFit(locationText);
+  const nameRef = useShrinkToFit(competitor.name);
 
   const scorePill = shouldShowScoreInPill && (
     <div
@@ -98,7 +138,7 @@ const Competitor = (props) => {
   ) : null;
 
   const locationBlock = (
-    <div className="competitor-location" style={locationStyle}>
+    <div ref={locationRef} className="competitor-location" style={locationStyle}>
       {competitor.rank ? (
         <span
           className="competitor-rank"
@@ -116,7 +156,7 @@ const Competitor = (props) => {
   );
 
   const nameBlock = (
-    <div className="competitor-name" style={nameStyle}>
+    <div ref={nameRef} className="competitor-name" style={nameStyle}>
       {competitor.name}
     </div>
   );

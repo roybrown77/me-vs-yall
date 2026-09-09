@@ -2173,6 +2173,11 @@ body {
 	}
 }
 
+.detail-competitor {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .detail-competitor .competitor-location {
   max-width: 100%;
   width: 100%;
@@ -2180,7 +2185,8 @@ body {
   margin-right: auto;
   padding: 0 6px;
   box-sizing: border-box;
-  overflow-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
   text-align: center;
   font-weight: 600;
   line-height: 1.05;
@@ -2193,9 +2199,12 @@ body {
 
 .detail-competitor .competitor-name {
   max-width: 100%;
+  width: 100%;
   padding: 0 6px;
   box-sizing: border-box;
-  overflow-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
   line-height: 1.1;
   font-size: var(--competitor-name-size, 20px);
 }

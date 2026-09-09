@@ -489,6 +489,7 @@ const Game = (props) => {
               className={updatingPick ? "fast-flash" : ""}
               style={{
                 width: "50%",
+                minWidth: 0,
                 border: competitor.selected
                   ? `${slimMode ? "1.25em" : "1.5rem"} dashed #3772FA`
                   : `${slimMode ? "1.25em" : "1.5rem"} dashed #E7E7E7`,
