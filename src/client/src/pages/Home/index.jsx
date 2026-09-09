@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import moment from 'moment-timezone';
 import queryString from 'query-string';
 
@@ -48,6 +48,8 @@ const BANDWAGON_SCROLL_SENSITIVITY = 1.8;
 
 const Home = () => {
   useGoogleAnalytics();
+  const location = useLocation();
+  const isHomePath = location.pathname === '/';
   const endRef = useRef(null);
   const windingRef = useRef(null);
   const roadRef = useRef(null);
@@ -59,7 +61,16 @@ const Home = () => {
   const wasTouchdownRef = useRef(false);
   const touchdownSoundsRef = useRef([]);
   const hasUnlockedTouchdownAudioRef = useRef(false);
+  const hasScrolledHomeTrailRef = useRef(false);
+  const skipInitialRoadMeasureRef = useRef(true);
   const [showGameTrail, setShowGameTrail] = useState(false);
+
+  const stopTouchdownSounds = () => {
+    touchdownSoundsRef.current.forEach((sound) => {
+      sound.pause();
+      sound.currentTime = 0;
+    });
+  };
 
   const activeStoryIndex = useMemo(() => {
     return Math.min(storySteps.length - 1, Math.floor(truckProgress * storySteps.length));
@@ -159,7 +170,7 @@ const Home = () => {
 
   // Move the bandwagon truck with the left and right arrow keys.
   useEffect(() => {
-    if (!showGameTrail) return undefined;
+    if (!isHomePath || !showGameTrail) return undefined;
 
     const onKeyDown = (event) => {
       const target = event.target;
@@ -183,22 +194,16 @@ const Home = () => {
     window.addEventListener('keydown', onKeyDown);
 
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [showGameTrail]);
+  }, [isHomePath, showGameTrail]);
 
   // Move the bandwagon truck along the road as you scroll down the page.
   useEffect(() => {
-    if (!showGameTrail) return undefined;
+    if (!isHomePath || !showGameTrail) return undefined;
+
+    skipInitialRoadMeasureRef.current = true;
 
     const onScroll = () => {
       if (!roadRef.current) return;
-
-      const isAtPageBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
-
-      if (isAtPageBottom) {
-        setTruckProgress(1);
-        return;
-      }
 
       const rect = roadRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
@@ -210,6 +215,16 @@ const Home = () => {
         Math.min(1, normalizedProgress * BANDWAGON_SCROLL_SENSITIVITY)
       );
 
+      if (skipInitialRoadMeasureRef.current) {
+        skipInitialRoadMeasureRef.current = false;
+        setTruckProgress(Math.min(nextProgress, TOUCHDOWN_TRIGGER_PROGRESS - 0.01));
+        return;
+      }
+
+      if (window.scrollY > 8) {
+        hasScrolledHomeTrailRef.current = true;
+      }
+
       setTruckProgress(nextProgress);
     };
 
@@ -217,7 +232,7 @@ const Home = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => window.removeEventListener('scroll', onScroll);
-  }, [showGameTrail]);
+  }, [isHomePath, showGameTrail]);
 
   // Type out the current bandwagon story line one character at a time.
   useEffect(() => {
@@ -277,24 +292,27 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Load the touchdown sound clips once when the page opens.
+  // Load the touchdown sound clips once when the home page opens.
   useEffect(() => {
     touchdownSoundsRef.current = [new Audio(maddenTouchdown), new Audio(tecmoTouchdown), new Audio(boasty)];
 
     return () => {
-      touchdownSoundsRef.current.forEach((sound) => {
-        sound.pause();
-        sound.currentTime = 0;
-      });
+      stopTouchdownSounds();
     };
   }, []);
 
-  // Unlock audio on first tap or scroll so touchdown sounds can play later.
+  // Unlock audio on home-page scroll so touchdown sounds can play later.
   useEffect(() => {
-    if (!showGameTrail) return undefined;
-  
+    if (!isHomePath || !showGameTrail) return undefined;
+
     const unlockTouchdownAudio = () => {
-      if (hasUnlockedTouchdownAudioRef.current || touchdownSoundsRef.current.length === 0) return;
+      if (
+        !hasScrolledHomeTrailRef.current ||
+        hasUnlockedTouchdownAudioRef.current ||
+        touchdownSoundsRef.current.length === 0
+      ) {
+        return;
+      }
 
       const sounds = touchdownSoundsRef.current;
       hasUnlockedTouchdownAudioRef.current = true;
@@ -314,18 +332,16 @@ const Home = () => {
       });
     };
 
-    window.addEventListener('pointerdown', unlockTouchdownAudio, { passive: true });
-    window.addEventListener('keydown', unlockTouchdownAudio);
+    window.addEventListener('scroll', unlockTouchdownAudio, { passive: true });
     window.addEventListener('wheel', unlockTouchdownAudio, { passive: true });
-    window.addEventListener('touchstart', unlockTouchdownAudio, { passive: true });
+    window.addEventListener('touchmove', unlockTouchdownAudio, { passive: true });
 
     return () => {
-      window.removeEventListener('pointerdown', unlockTouchdownAudio);
-      window.removeEventListener('keydown', unlockTouchdownAudio);
+      window.removeEventListener('scroll', unlockTouchdownAudio);
       window.removeEventListener('wheel', unlockTouchdownAudio);
-      window.removeEventListener('touchstart', unlockTouchdownAudio);
+      window.removeEventListener('touchmove', unlockTouchdownAudio);
     };
-  }, [showGameTrail]);
+  }, [isHomePath, showGameTrail]);
 
   const gram = (event) => {
     event.preventDefault();
@@ -354,12 +370,18 @@ const Home = () => {
 
   // Play a random touchdown sound when the bandwagon reaches the end zone.
   useEffect(() => {
-    if (!showGameTrail) {
+    if (!isHomePath || !showGameTrail) {
       wasTouchdownRef.current = false;
+      stopTouchdownSounds();
       return;
     }
 
-    if (isTouchdown && !wasTouchdownRef.current && touchdownSoundsRef.current.length > 0) {
+    if (
+      isTouchdown &&
+      !wasTouchdownRef.current &&
+      hasScrolledHomeTrailRef.current &&
+      touchdownSoundsRef.current.length > 0
+    ) {
       const randomIndex = Math.floor(Math.random() * touchdownSoundsRef.current.length);
       const selectedSound = touchdownSoundsRef.current[randomIndex];
 
@@ -370,7 +392,7 @@ const Home = () => {
     }
 
     wasTouchdownRef.current = isTouchdown;
-  }, [isTouchdown, showGameTrail]);
+  }, [isHomePath, isTouchdown, showGameTrail]);
 
   return (
     <Header disableTopBanner={true}>
@@ -389,10 +411,10 @@ const Home = () => {
               </div>
             </div>
             <div className="home-splash__hero-actions">
-              <Link className="home-splash__cta" to="/scoreboards/nfl">
+              <Link className="home-splash__cta" to="/scoreboards/nfl" onClick={stopTouchdownSounds}>
                 Jump To Scores
               </Link>
-              <Link className="home-splash__ghost" to="/leaders/nfl">
+              <Link className="home-splash__ghost" to="/leaders/nfl" onClick={stopTouchdownSounds}>
                 See Leaderboard
               </Link>
             </div>
@@ -461,7 +483,7 @@ const Home = () => {
               ? 'The truck made it. Tap below when you want to open Scores.'
               : 'Keep scrolling until the truck reaches midfield, then open Scores when ready.'}
           </p>
-          <Link className="home-splash__cta" to="/scoreboards/nfl">
+          <Link className="home-splash__cta" to="/scoreboards/nfl" onClick={stopTouchdownSounds}>
             Open Scores Now
           </Link>
         </section>}
