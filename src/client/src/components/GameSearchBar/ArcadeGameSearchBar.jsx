@@ -39,9 +39,25 @@ const bubbleRowStyles = {
     padding: "0 .5rem",
     margin: "1.5rem 0",
   },
+  entireSeasonRow: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+    gap: "10px",
+    padding: "0 0 8px",
+  },
 };
 
 const toChangeEvent = (value) => ({ target: { value } });
+
+const isEntireSeasonWeek = (week = {}) => {
+  const labels = [week.displayName, week.description, week.name]
+    .map((value) => String(value || "").trim().toLowerCase())
+    .filter(Boolean);
+
+  return labels.some((label) => label.startsWith("entire"));
+};
 
 const ArcadeGameSearchBar = ({
   leagueId,
@@ -69,11 +85,15 @@ const ArcadeGameSearchBar = ({
 
   const leaguesForRow = leagueId ? [...displayLeagues] : [];
   const yearsForRow = leagueId ? [...displayYears].reverse() : [];
-  const weeksForRow = leagueId
-    ? displayWeeks
-        .map((w, index) => ({ week: w, index }))
-        .reverse()
+  const weeksWithIndex = leagueId
+    ? displayWeeks.map((week, index) => ({ week, index }))
     : [];
+  const entireSeasonWeeks = weeksWithIndex.filter(({ week }) =>
+    isEntireSeasonWeek(week)
+  );
+  const weeksForRow = weeksWithIndex
+    .filter(({ week }) => !isEntireSeasonWeek(week))
+    .reverse();
 
   useEffect(() => {
     const selectedButtons = [
@@ -168,6 +188,30 @@ const ArcadeGameSearchBar = ({
               );
             })}
           </div>
+
+          {entireSeasonWeeks.length > 0 && (
+            <div style={bubbleRowStyles.entireSeasonRow} aria-label="Season filters">
+              {entireSeasonWeeks.map(({ week, index }) => {
+                const isSelected = Number(selectedWeekIndex) === Number(index);
+                return (
+                  <button
+                    key={`${week?._id ?? index}-entire-season`}
+                    ref={isSelected ? weekSelectedRef : null}
+                    type="button"
+                    disabled={loading}
+                    onClick={() => onFilterWeek?.(toChangeEvent(index))}
+                    style={{
+                      ...bubbleRowStyles.bubble,
+                      ...(isSelected ? bubbleRowStyles.bubbleSelected : {}),
+                      opacity: loading ? 0.7 : 1,
+                    }}
+                  >
+                    {week?.displayName ?? "Entire season"}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </>
       )}
     </div>
