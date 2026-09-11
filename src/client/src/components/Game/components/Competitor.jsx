@@ -50,6 +50,7 @@ const GamePredictionStatusIcon = (props) => {
       {((spreadMode &&
         get(game, "isGameOver") &&
         competitor.selected &&
+        !competitor.spreadPush &&
         !competitor.selectedWinner) ||
         (!spreadMode &&
           get(game, "isGameOver") &&
@@ -63,6 +64,7 @@ const GamePredictionStatusIcon = (props) => {
       {((spreadMode &&
         get(game, "isGameOver") &&
         competitor.selected &&
+        !competitor.spreadPush &&
         competitor.selectedWinner) ||
         (!spreadMode &&
           get(game, "isGameOver") &&

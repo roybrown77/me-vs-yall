@@ -283,6 +283,72 @@ const getVegasUser = () => {
   };
 };
 
+const getSpreadFavoriteMargin = (game = {}) => {
+  const spreadTeamId = get(game, "spread.teamId");
+  if (!spreadTeamId) return null;
+
+  const favoriteIndex = game.competitors.findIndex(
+    (competitor) => String(competitor._id) === String(spreadTeamId)
+  );
+  if (favoriteIndex === -1) return null;
+
+  const underdogIndex = favoriteIndex === 0 ? 1 : 0;
+  const favoriteScore = parseInt(get(game, `competitors.${favoriteIndex}.score`, 0), 10) || 0;
+  const underdogScore = parseInt(get(game, `competitors.${underdogIndex}.score`, 0), 10) || 0;
+
+  return favoriteScore - underdogScore;
+};
+
+const isSpreadPush = (game = {}) => {
+  if (!get(game, "isGameOver") || !get(game, "spread.teamId")) {
+    return false;
+  }
+
+  const margin = getSpreadFavoriteMargin(game);
+  const spreadAmount = getSpreadAmount(get(game, "spread.amount"));
+
+  return margin !== null && margin > 0 && margin === spreadAmount;
+};
+
+const isSpreadPickWinner = (game = {}, pickId) => {
+  if (!get(game, "spread.teamId")) {
+    return false;
+  }
+
+  const pickIdStr = String(pickId);
+  const team0Id = String(game.competitors[0]._id);
+  const team1Id = String(game.competitors[1]._id);
+  const spreadTeamId = String(get(game, "spread.teamId"));
+  const score0 = parseInt(get(game, "competitors.0.score", 0), 10) || 0;
+  const score1 = parseInt(get(game, "competitors.1.score", 0), 10) || 0;
+  const spreadAmount = getSpreadAmount(get(game, "spread.amount"));
+
+  return (
+    (score0 > score1 &&
+      pickIdStr === team0Id &&
+      spreadTeamId === team0Id &&
+      score0 - score1 > spreadAmount) ||
+    (score1 > score0 &&
+      pickIdStr === team1Id &&
+      spreadTeamId === team1Id &&
+      score1 - score0 > spreadAmount) ||
+    (score0 > score1 &&
+      pickIdStr === team1Id &&
+      spreadTeamId === team0Id &&
+      score0 - score1 < spreadAmount) ||
+    (score1 > score0 &&
+      pickIdStr === team0Id &&
+      spreadTeamId === team1Id &&
+      score1 - score0 < spreadAmount) ||
+    (score0 >= score1 &&
+      pickIdStr === team0Id &&
+      spreadTeamId === team1Id) ||
+    (score1 >= score0 &&
+      pickIdStr === team1Id &&
+      spreadTeamId === team0Id)
+  );
+};
+
 const getSpreadLeaderIndicator = (
   game,
   picks,
@@ -297,27 +363,21 @@ const getSpreadLeaderIndicator = (
       pick.pickId === game.competitors[index1]._id && pick.gameId === game._id
   );
 
-  return game.isGameOver &&
-    get(game, "spread.teamId") &&
-    ((game.competitors[index1].score > game.competitors[index2].score &&
-      teamAPick &&
-      game.spread.teamId === game.competitors[index1]._id &&
-      game.competitors[index1].score - game.competitors[index2].score >=
-        getSpreadAmount(game.spread.amount)) ||
-      (game.competitors[index1].score >= game.competitors[index2].score &&
-        teamAPick &&
-        game.spread.teamId === game.competitors[index2]._id) ||
-      (game.competitors[index2].score > game.competitors[index1].score &&
-        teamAPick &&
-        game.spread.teamId === game.competitors[index2]._id &&
-        game.competitors[index2].score - game.competitors[index1].score <
-          getSpreadAmount(game.spread.amount)))
-    ? "#009933"
-    : game.isGameOver && get(game, "spread.teamId") && teamAPick
-    ? "red"
-    : teamAPick
-    ? "lightblue"
-    : "";
+  if (!teamAPick) return "";
+
+  if (game.isGameOver && isSpreadPush(game)) {
+    return "#888888";
+  }
+
+  if (game.isGameOver && isSpreadPickWinner(game, teamAPick.pickId)) {
+    return "#009933";
+  }
+
+  if (game.isGameOver && get(game, "spread.teamId")) {
+    return "red";
+  }
+
+  return "lightblue";
 };
 
 const getLeaderIndicator = (game, picks, index1, index2) => {
@@ -430,33 +490,11 @@ const getResults = (games = [], picks = [], spreadMode = false) => {
         let winnerSelected = false;
 
         if (spreadMode && get(game, "spread.teamId")) {
-          winnerSelected =
-            (game.competitors[0].score > game.competitors[1].score &&
-              gamePicked.pickId === game.competitors[0]._id &&
-              game.spread.teamId === game.competitors[0]._id &&
-              game.competitors[0].score - game.competitors[1].score >=
-                getSpreadAmount(game.spread.amount)) ||
-            (game.competitors[1].score > game.competitors[0].score &&
-              gamePicked.pickId === game.competitors[1]._id &&
-              game.spread.teamId === game.competitors[1]._id &&
-              game.competitors[1].score - game.competitors[0].score >=
-                getSpreadAmount(game.spread.amount)) ||
-            (game.competitors[0].score > game.competitors[1].score &&
-              gamePicked.pickId === game.competitors[1]._id &&
-              game.spread.teamId === game.competitors[0]._id &&
-              game.competitors[0].score - game.competitors[1].score <
-                getSpreadAmount(game.spread.amount)) ||
-            (game.competitors[1].score > game.competitors[0].score &&
-              gamePicked.pickId === game.competitors[0]._id &&
-              game.spread.teamId === game.competitors[1]._id &&
-              game.competitors[1].score - game.competitors[0].score <
-                getSpreadAmount(game.spread.amount)) ||
-            (game.competitors[0].score >= game.competitors[1].score &&
-              gamePicked.pickId === game.competitors[0]._id &&
-              game.spread.teamId === game.competitors[1]._id) ||
-            (game.competitors[1].score >= game.competitors[0].score &&
-              gamePicked.pickId === game.competitors[1]._id &&
-              game.spread.teamId === game.competitors[0]._id);
+          if (get(game, "isGameOver", false) && isSpreadPush(game)) {
+            return total;
+          }
+
+          winnerSelected = isSpreadPickWinner(game, gamePicked.pickId);
         } else {
           const winner =
             game.competitors[0].score === game.competitors[1].score
@@ -719,5 +757,7 @@ export {
   getLeagueStartDateTime,
   getRandomIntInclusive,
   getSpreadAmount,
+  isSpreadPush,
+  isSpreadPickWinner,
   getCopiedGamesToShare,
 };

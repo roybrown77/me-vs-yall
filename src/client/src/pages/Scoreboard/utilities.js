@@ -2,7 +2,12 @@ import moment from 'moment-timezone';
 import orderBy from "lodash/orderBy";
 import get from "lodash/get";
 
-import { getRandomIntInclusive, getSpreadAmount, hasGameStarted } from '../../utilities';
+import {
+  getRandomIntInclusive,
+  hasGameStarted,
+  isSpreadPickWinner,
+  isSpreadPush,
+} from '../../utilities';
 
 const NFL_LEAGUE_ID = '59723313734d1d6202a85f10';
 
@@ -109,29 +114,17 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
             const teamAPick = picks.find(
               (pick) => pick.pickId === competitor._id && pick.gameId === game._id
             );
+            const spreadPush = get(game, "isGameOver") && isSpreadPush(game);
             const selectedWinner =
-              get(game, "spread.teamId") &&
-              ((game.competitors[index1].score > game.competitors[index2].score &&
-                teamAPick &&
-                game.spread.teamId === game.competitors[index1]._id &&
-                game.competitors[index1].score - game.competitors[index2].score >=
-                  getSpreadAmount(game.spread.amount)) ||
-                (game.competitors[index1].score >=
-                  game.competitors[index2].score &&
-                  teamAPick &&
-                  game.spread.teamId === game.competitors[index2]._id) ||
-                (game.competitors[index2].score >
-                  game.competitors[index1].score &&
-                  teamAPick &&
-                  game.spread.teamId === game.competitors[index2]._id &&
-                  game.competitors[index2].score -
-                    game.competitors[index1].score <
-                    getSpreadAmount(game.spread.amount)));
+              !!teamAPick &&
+              !spreadPush &&
+              isSpreadPickWinner(game, competitor._id);
             return {
               ...competitor,
               ...team,
               record: competitor.finalRecord || competitor.record,
               selectedWinner,
+              spreadPush: spreadPush && !!teamAPick,
               selected: !!teamAPick,
               name: team.name || team.location,
             };
