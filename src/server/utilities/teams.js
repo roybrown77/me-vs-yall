@@ -167,7 +167,7 @@ const boxingCompetitors = [
         _id: "19823783734d1d04a1b3100d",
         location: 'Ryan Garcia',
         shortLocation: "Ryan",
-        name: "The Flash Garcia",
+        name: "King Ry Garcia",
         country: "USA"
     },
     {
@@ -428,6 +428,13 @@ const boxingCompetitors = [
         shortLocation: "Caleb",
         name: "Sweethands Plant",
         country: "USA"
+    },
+    {
+        _id: "19823783734d1d04a1b31033",
+        location: "Conor Benn",
+        shortLocation: "Conor",
+        name: "The Destroyer Benn",
+        country: "UK"
     }
 ];
 

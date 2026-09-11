@@ -48,6 +48,8 @@ const getFlag = (country) => {
       return "🇯🇲";
     case "SOUTH AFRICA":
       return "🇿🇦";
+    case "UK":
+      return "🇬🇧";
     default:
       return "🇺🇸";
   }
