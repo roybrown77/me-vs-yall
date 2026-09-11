@@ -893,18 +893,18 @@ const Game = (props) => {
                   transform: " rotate(90deg)",
                 }}
               >
-                <MMAGlove style={{ height: 75 }} />
+                <MMAGlove style={{ height: 58 }} />
               </div>
               <div
                 style={{
                   position: "relative",
-                  top: "1em",
+                  top: "1.35em",
                   right: "-.75em",
                   fontSize: "3rem",
                   transform: " rotate(90deg) scaleY(-1)",
                 }}
               >
-                <MMAGlove style={{ height: 75 }} />
+                <MMAGlove style={{ height: 58 }} />
               </div>
             </div>
           )}
