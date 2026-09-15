@@ -16,7 +16,7 @@ import boasty from '../../media/boasty.m4a';
 
 const tagLines = [
   `"the ultimate sports pick'em game.  like the karate kid "we're the best around! no one can never ever keep us down! 🥋"`,
-  // `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct. 🪐"`,
+  `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct. 🪐"`,
 ];
 
 const storySteps = [
