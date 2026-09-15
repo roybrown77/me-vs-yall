@@ -151,6 +151,7 @@ export const parseWeekSegment = (segment) => {
 
 export const SCOREBOARD_VIEW_RANKINGS = "rankings";
 export const SCOREBOARD_VIEW_BRACKET = "bracket";
+export const SCOREBOARD_VIEW_AMERICA = "america";
 
 export const isRankingsPathSegment = (segment) =>
   String(segment || "").toLowerCase() === SCOREBOARD_VIEW_RANKINGS;
@@ -158,9 +159,13 @@ export const isRankingsPathSegment = (segment) =>
 const isBracketPathSegment = (segment) =>
   String(segment || "").toLowerCase() === SCOREBOARD_VIEW_BRACKET;
 
+const isAmericaPathSegment = (segment) =>
+  String(segment || "").toLowerCase() === SCOREBOARD_VIEW_AMERICA;
+
 const viewFromSegment = (segment) => {
   if (isRankingsPathSegment(segment)) return SCOREBOARD_VIEW_RANKINGS;
   if (isBracketPathSegment(segment)) return SCOREBOARD_VIEW_BRACKET;
+  if (isAmericaPathSegment(segment)) return SCOREBOARD_VIEW_AMERICA;
   return null;
 };
 
@@ -264,7 +269,8 @@ export const buildNavigationPath = ({
 
   if (
     scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
-    scoreboardView === SCOREBOARD_VIEW_BRACKET
+    scoreboardView === SCOREBOARD_VIEW_BRACKET ||
+    scoreboardView === SCOREBOARD_VIEW_AMERICA
   ) {
     parts.push(scoreboardView);
   } else if (gameSlug) {

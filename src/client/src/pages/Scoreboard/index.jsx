@@ -14,6 +14,7 @@ import { StandingsTabLoader } from "./ScoreboardTabLoading.jsx";
 import StandingsRefreshNotice from "./StandingsRefreshNotice.jsx";
 import TeamRankings from "./TeamRankings";
 import PlayoffBracket from "./PlayoffBracket.jsx";
+import AmericaMap from "./AmericaMap";
 import TabPanel from "../../components/TabPanel";
 import {
   areRankingsAvailableForSelection,
@@ -79,6 +80,7 @@ import {
   assignGameSlugs,
   buildNavigationPath,
   parseNavigationPath,
+  SCOREBOARD_VIEW_AMERICA,
   SCOREBOARD_VIEW_BRACKET,
   SCOREBOARD_VIEW_RANKINGS,
   withGameSlug,
@@ -505,21 +507,28 @@ const Scoreboard = () => {
     setScoreboardTabIndex(0);
   }, [location.pathname, parsedScoreboardPath.scoreboardView]);
 
+  const americaTabIndex = playoffsAvailable ? 3 : rankingsAvailable ? 2 : 1;
+  const isAmericaViewActive =
+    parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_AMERICA;
   const isPlayoffsViewActive =
     playoffsAvailable &&
+    !isAmericaViewActive &&
     (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_BRACKET ||
       scoreboardTabIndex === 2);
   const isRankingsViewActive =
     rankingsAvailable &&
+    !isAmericaViewActive &&
     !isPlayoffsViewActive &&
     (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
       scoreboardTabIndex === 1);
   const standingsViewActive = isRankingsViewActive || isPlayoffsViewActive;
-  const activeScoreboardTab = isPlayoffsViewActive
-    ? 2
-    : isRankingsViewActive
-      ? 1
-      : 0;
+  const activeScoreboardTab = isAmericaViewActive
+    ? americaTabIndex
+    : isPlayoffsViewActive
+      ? 2
+      : isRankingsViewActive
+        ? 1
+        : 0;
 
   const buildScoreboardPath = useCallback(
     ({ scoreboardView = null, gameSlug = null } = {}) => {
@@ -1117,6 +1126,17 @@ const Scoreboard = () => {
   ]);
 
   const handleScoreboardTabChange = (_, tabIndex) => {
+    if (tabIndex === americaTabIndex) {
+      navigate({
+        pathname: buildScoreboardPath({
+          scoreboardView: SCOREBOARD_VIEW_AMERICA,
+        }),
+        search: location.search,
+        hash: location.hash,
+      });
+      return;
+    }
+
     if (tabIndex === 1 && !rankingsAvailable) {
       return;
     }
@@ -1176,7 +1196,11 @@ const Scoreboard = () => {
 
   useScrollToGameSlug({
     games,
-    enabled: !dataLoading && !isRankingsViewActive && !isPlayoffsViewActive,
+    enabled:
+      !dataLoading &&
+      !isRankingsViewActive &&
+      !isPlayoffsViewActive &&
+      !isAmericaViewActive,
   });
   usePageSeo({
     enabled: !dataLoading,
@@ -1210,6 +1234,10 @@ const Scoreboard = () => {
     isPlayoffsViewActive && !standingsSeasonReady;
   const standingsPanelLoading = rankingsPanelLoading || playoffsPanelLoading;
   const handleFilterDate = undefined;
+  const americaGames = useMemo(
+    () => [...groupedGames.notCompleted, ...groupedGames.completed],
+    [groupedGames]
+  );
 
   const handleMakePick = useCallback(
     (pick) => {
@@ -1418,6 +1446,7 @@ const Scoreboard = () => {
                 {playoffsAvailable && (
                   <Tab label="Playoffs" {...a11yProps(2, "scoreboard")} />
                 )}
+                <Tab label="America" {...a11yProps(americaTabIndex, "scoreboard")} />
               </Tabs>
             </Box>
             {!standingsPanelLoading && <LeaderHypeBanner />}
@@ -1562,6 +1591,20 @@ const Scoreboard = () => {
                 </div>
               </TabPanel>
             )}
+            <TabPanel
+              value={activeScoreboardTab}
+              index={americaTabIndex}
+              idPrefix="scoreboard"
+              bold={false}
+            >
+              <AmericaMap
+                games={americaGames}
+                onTeamPick={(game, pickId) =>
+                  handleMakePick({ gameId: game._id, pickId })
+                }
+                loading={isLoading}
+              />
+            </TabPanel>
           </Box>
         }
         <RemainingGamesNotifier
