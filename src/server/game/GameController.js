@@ -621,13 +621,15 @@ router.get('/gameweeks', async function (req, res) {
     const gameWeeks = await gameWeekRepository.find(finalSearch);
   
     const viewableGameWeeks = gameWeeks.reduce((total,x)=>{  
+      const description = String(get(x, 'description', '') || '').toLowerCase();
+
       if (req.query.skipEntireWeek === 'true' && 
-          (x.description.toLowerCase().includes('entire') || 
-           /week \d{1,2}-\d{1,2}/i.test(x.description.toLowerCase()))) {
+          (description.includes('entire') || 
+           /week \d{1,2}-\d{1,2}/i.test(description))) {
         return total;
       }
 
-      if (x.description.toLowerCase().includes('entire')) {
+      if (description.includes('entire')) {
         x.sortOrder = 1;
       } else {
         x.sortOrder = 2;

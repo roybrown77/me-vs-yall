@@ -87,10 +87,10 @@ const Shop = () => {
   return (
     <PageContainer>
       <Grid container style={styles.root}>
-        <Grid item xs={12} style={{paddingTop:'12px'}}>
-          <Grid container justify="center">
+        <Grid size={12} style={{paddingTop:'12px'}}>
+          <Grid container justifyContent="center">
             {items.map(item => (
-              <Grid key={item.id} item style={{padding:'4px',cursor:'pointer'}}>
+              <Grid key={item.id} size="auto" style={{padding:'4px',cursor:'pointer'}}>
                 <div style={styles.item}>
                   <div style={styles.name}>{item.name}</div>
                   <img src={item.image} style={styles.image} alt=""/>

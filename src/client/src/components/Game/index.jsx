@@ -483,8 +483,7 @@ const Game = (props) => {
             return (
             <Grid
               key={game._id + "." + competitor._id}
-              item
-              xs={6}
+              size={6}
               onClick={() => handleMakePick(game, competitor._id, competitorIndex)}
               className={updatingPick ? "fast-flash" : ""}
               style={{

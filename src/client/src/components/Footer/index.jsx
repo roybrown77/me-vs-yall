@@ -1,5 +1,3 @@
-import BottomNavigation from "@mui/material/BottomNavigation";
-
 import { getLeagueName } from "../../utilities/getLeagueName";
 import {
   buildNavigationPath,
@@ -16,6 +14,9 @@ const styles = {
     boxShadow: "none",
     width: "100%",
     color: "#000",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   action: {
     fontSize: "15px",
@@ -55,7 +56,7 @@ const Footer = () => {
     : "MvY";
 
   return (
-    <BottomNavigation style={styles.root}>
+    <nav style={styles.root} aria-label="Main navigation">
       <div
         style={styles.action}
         onClick={() => {
@@ -97,7 +98,7 @@ const Footer = () => {
       >
         OTW
       </div>
-    </BottomNavigation>
+    </nav>
   );
 };
 

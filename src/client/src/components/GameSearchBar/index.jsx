@@ -42,7 +42,7 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
 
   return (
     <div style={styles.container}>
-        <Grid container item xs={12} justifyContent="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center" sx={{ width: "100%" }}>
             <FormControl style={styles.formControl}>
               <Select
                   value={leagueId}
@@ -69,7 +69,7 @@ const GameSearchBar = ({ leagueId, leagues, weekId, yearSelected, weeks, loading
               </Select>
             </FormControl>  
         </Grid>
-        <Grid container item xs={12} justifyContent="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center" sx={{ width: "100%" }}>
           <FormControl style={styles.formControl}>
             <Select
                 value={weekIndexSelected === -1 ? 0 : weekIndexSelected}
