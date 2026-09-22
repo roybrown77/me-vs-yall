@@ -11,7 +11,7 @@ let router = express.Router();
 
 const get = require('lodash/get');
 
-const censoredIds = ['google-oauth2|105396867324708249567'];
+const censoredIds = ['google-oauth2|105396867324708249567', 'google-oauth2|116142512598652278859'];
 const excludedIds = [];
 const adminUsers = [
     'google-oauth2|114172296334563495985', // me
