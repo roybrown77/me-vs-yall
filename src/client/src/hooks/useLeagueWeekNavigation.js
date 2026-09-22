@@ -4,7 +4,6 @@ import last from "lodash/last";
 
 import { formatWeeks, leagues } from "../utilities";
 import { fetchGameWeeks } from "../utilities/gameWeeks";
-import useNavigationRequestAbort from "./useNavigationRequestAbort";
 import {
   buildNavigationPath,
   buildWeekSegmentFromWeek,
@@ -154,6 +153,10 @@ const syncSelectionToPath = ({
   const selectedWeekId = selectedWeek?._id;
   const weekMeta = selectedWeekId ? weekQueryMetaById?.[selectedWeekId] : null;
 
+  const scoreboardView = routeBase.includes("scoreboards")
+    ? parseNavigationPath(window.location.pathname, routeBase).scoreboardView
+    : null;
+
   const nextUrl = buildNavigationPath({
     routeBase,
     leagueName: league?.name,
@@ -163,7 +166,8 @@ const syncSelectionToPath = ({
       weekMeta?.weekSegment && !shouldSkipWeekSegment(selectedWeek)
         ? weekMeta.weekSegment
         : null,
-    gameSlug,
+    scoreboardView,
+    gameSlug: scoreboardView ? null : gameSlug,
   });
 
   const currentPathAndSearch = `${window.location.pathname}${window.location.search}`;
@@ -196,8 +200,19 @@ const useLeagueWeekNavigation = ({
   const initialWeekIdQueryRef = useRef(null);
   const initialSeasonTypeQueryRef = useRef(null);
   const initialGameSlugRef = useRef(null);
-  const { beginNavigationRequest, abortNavigationRequest } =
-    useNavigationRequestAbort();
+  const activeScoresRequestRef = useRef(null);
+  const scoresRequestEpochRef = useRef(0);
+
+  const beginCriteriaChangeRequest = useCallback(() => {
+    activeScoresRequestRef.current?.abort();
+    activeScoresRequestRef.current = new AbortController();
+    scoresRequestEpochRef.current += 1;
+
+    return {
+      signal: activeScoresRequestRef.current.signal,
+      requestEpoch: scoresRequestEpochRef.current,
+    };
+  }, []);
 
   useEffect(() => {
     gameWeeksQueryExtrasRef.current = gameWeeksQueryExtras;
@@ -222,8 +237,22 @@ const useLeagueWeekNavigation = ({
   );
 
   const selectWeekAndLoadData = useCallback(
-    async ({ weeksRaw, leagueId, year, selectedWeek, gameSlug = null, signal }) => {
+    async ({
+      weeksRaw,
+      leagueId,
+      year,
+      selectedWeek,
+      gameSlug = null,
+      signal,
+      requestEpoch,
+    }) => {
       if (signal?.aborted) return;
+      if (
+        requestEpoch != null &&
+        requestEpoch !== scoresRequestEpochRef.current
+      ) {
+        return;
+      }
       if (!weeksRaw?.length) return;
 
       const currentWeek = selectedWeek || last(weeksRaw);
@@ -262,13 +291,14 @@ const useLeagueWeekNavigation = ({
         beginDateTime: currentWeek.beginDateTime,
         endDateTime: currentWeek.endDateTime,
         signal,
+        requestEpoch,
       });
     },
     [routeBase]
   );
 
   useEffect(() => {
-    const signal = beginNavigationRequest();
+    const { signal, requestEpoch } = beginCriteriaChangeRequest();
 
     (async () => {
       const {
@@ -296,7 +326,9 @@ const useLeagueWeekNavigation = ({
         year: initialYearResolved,
         signal,
       });
-      if (signal.aborted) return;
+      if (signal.aborted || requestEpoch !== scoresRequestEpochRef.current) {
+        return;
+      }
       if (!weeksRaw) return;
 
       const weekQueryMetaById = buildWeekQueryMetaMap(weeksRaw);
@@ -347,13 +379,13 @@ const useLeagueWeekNavigation = ({
         selectedWeek: selectedWeekFromPath,
         gameSlug: initialGameSlugRef.current,
         signal,
+        requestEpoch,
       });
     })();
 
-    return abortNavigationRequest;
+    return undefined;
   }, [
-    abortNavigationRequest,
-    beginNavigationRequest,
+    beginCriteriaChangeRequest,
     initialLeagueId,
     initialYear,
     loadGameWeeks,
@@ -363,7 +395,7 @@ const useLeagueWeekNavigation = ({
 
   const handleFilterLeague = useCallback(
     async (event) => {
-      const signal = beginNavigationRequest();
+      const { signal, requestEpoch } = beginCriteriaChangeRequest();
       const leagueSelected = event.target.value;
       const leagueFound = leagues.find((league) => league.id === leagueSelected);
       if (!leagueFound) return;
@@ -376,7 +408,9 @@ const useLeagueWeekNavigation = ({
         year,
         signal,
       });
-      if (signal.aborted) return;
+      if (signal.aborted || requestEpoch !== scoresRequestEpochRef.current) {
+        return;
+      }
 
       await selectWeekAndLoadData({
         weeksRaw,
@@ -384,14 +418,15 @@ const useLeagueWeekNavigation = ({
         year,
         gameSlug: null,
         signal,
+        requestEpoch,
       });
     },
-    [beginNavigationRequest, loadGameWeeks, selectWeekAndLoadData]
+    [beginCriteriaChangeRequest, loadGameWeeks, selectWeekAndLoadData]
   );
 
   const handleFilterYear = useCallback(
     async (event) => {
-      const signal = beginNavigationRequest();
+      const { signal, requestEpoch } = beginCriteriaChangeRequest();
       const yearSelected = Number(event.target.value);
 
       const league = leagues.find((league) => league.id === leagueId);
@@ -401,7 +436,9 @@ const useLeagueWeekNavigation = ({
       if (!Number.isFinite(yearSelected) || !yearFound) return;
 
       const weeksRaw = await loadGameWeeks({ leagueId, year: yearFound, signal });
-      if (signal.aborted) return;
+      if (signal.aborted || requestEpoch !== scoresRequestEpochRef.current) {
+        return;
+      }
 
       await selectWeekAndLoadData({
         weeksRaw,
@@ -409,14 +446,15 @@ const useLeagueWeekNavigation = ({
         year: yearFound,
         gameSlug: null,
         signal,
+        requestEpoch,
       });
     },
-    [beginNavigationRequest, leagueId, loadGameWeeks, selectWeekAndLoadData]
+    [beginCriteriaChangeRequest, leagueId, loadGameWeeks, selectWeekAndLoadData]
   );
 
   const handleFilterWeek = useCallback(
     async (event) => {
-      const signal = beginNavigationRequest();
+      const { signal, requestEpoch } = beginCriteriaChangeRequest();
       const weekIndex = event.target.value;
       const currentWeek = weeks[weekIndex];
       if (!currentWeek) return;
@@ -424,6 +462,10 @@ const useLeagueWeekNavigation = ({
       setWeekId(currentWeek._id);
       setBeginDateTime(currentWeek.beginDateTime);
       setEndDateTime(currentWeek.endDateTime);
+
+      if (requestEpoch !== scoresRequestEpochRef.current) {
+        return;
+      }
 
       if (!shouldSkipWeekSegment(currentWeek)) {
         syncSelectionToPath({
@@ -444,9 +486,20 @@ const useLeagueWeekNavigation = ({
         beginDateTime: currentWeek.beginDateTime,
         endDateTime: currentWeek.endDateTime,
         signal,
+        requestEpoch,
       });
     },
-    [beginNavigationRequest, leagueId, routeBase, weeks, year]
+    [beginCriteriaChangeRequest, leagueId, routeBase, weeks, year]
+  );
+
+  const getActiveScoresRequestSignal = useCallback(
+    () => activeScoresRequestRef.current?.signal,
+    []
+  );
+
+  const getActiveScoresRequestEpoch = useCallback(
+    () => scoresRequestEpochRef.current,
+    []
   );
 
   return {
@@ -456,6 +509,8 @@ const useLeagueWeekNavigation = ({
     weekId,
     beginDateTime,
     endDateTime,
+    getActiveScoresRequestSignal,
+    getActiveScoresRequestEpoch,
 
     handleFilterLeague,
     handleFilterYear,

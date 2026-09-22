@@ -14,8 +14,6 @@ const useNavigationRequestAbort = () => {
     abortControllerRef.current = null;
   }, []);
 
-  useEffect(() => abortNavigationRequest, [abortNavigationRequest]);
-
   return {
     beginNavigationRequest,
     abortNavigationRequest,

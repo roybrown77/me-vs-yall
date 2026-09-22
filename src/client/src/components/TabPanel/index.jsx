@@ -10,16 +10,14 @@ const TabPanel = (props) => {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
+        hidden={value !== index}
         style={{
             color: "rgba(0, 0, 0, .87)",
             fontSize: "1rem",
-            fontWeight: "bold",
         }}>
-        {value === index && (
-            <Box sx={{ p: 3, padding: 0 }}>
+            <Box sx={{ p: 3, padding: 0, display: value === index ? "block" : "none" }}>
             {children}
             </Box>
-        )}
         </div>
     );
 };

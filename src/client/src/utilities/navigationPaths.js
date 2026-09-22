@@ -147,23 +147,44 @@ export const parseWeekSegment = (segment) => {
   return match ? Number(match[1]) : null;
 };
 
+export const SCOREBOARD_VIEW_RANKINGS = "rankings";
+
+export const isRankingsPathSegment = (segment) =>
+  String(segment || "").toLowerCase() === SCOREBOARD_VIEW_RANKINGS;
+
 const parseWeekAndGameSegments = (segments = []) => {
   const fourth = segments[3];
   const fifth = segments[4];
 
   if (!fourth) {
-    return { weekSegment: null, gameSlug: null };
+    return { weekSegment: null, gameSlug: null, scoreboardView: null };
   }
 
   if (isGameSlugSegment(fourth)) {
-    return { weekSegment: null, gameSlug: fourth };
+    return { weekSegment: null, gameSlug: fourth, scoreboardView: null };
+  }
+
+  if (isRankingsPathSegment(fourth) && !fifth) {
+    return {
+      weekSegment: null,
+      gameSlug: null,
+      scoreboardView: SCOREBOARD_VIEW_RANKINGS,
+    };
+  }
+
+  if (isRankingsPathSegment(fifth)) {
+    return {
+      weekSegment: fourth,
+      gameSlug: null,
+      scoreboardView: SCOREBOARD_VIEW_RANKINGS,
+    };
   }
 
   if (fifth && isGameSlugSegment(fifth)) {
-    return { weekSegment: fourth, gameSlug: fifth };
+    return { weekSegment: fourth, gameSlug: fifth, scoreboardView: null };
   }
 
-  return { weekSegment: fourth, gameSlug: fifth || null };
+  return { weekSegment: fourth, gameSlug: fifth || null, scoreboardView: null };
 };
 
 export const detectRouteBase = (pathname = "") => {
@@ -185,7 +206,7 @@ export const parseNavigationPath = (pathname = "", routeBase = detectRouteBase(p
   const remainder = normalizedPath.slice(normalizedBase.length);
   const segments = remainder.split("/").filter(Boolean);
   const [leagueName, yearRaw, seasonSegment] = segments;
-  const { weekSegment, gameSlug } = parseWeekAndGameSegments(segments);
+  const { weekSegment, gameSlug, scoreboardView } = parseWeekAndGameSegments(segments);
   const year = yearRaw ? Number(yearRaw) : null;
 
   return {
@@ -195,6 +216,7 @@ export const parseNavigationPath = (pathname = "", routeBase = detectRouteBase(p
     weekSegment,
     week: parseWeekSegment(weekSegment),
     gameSlug,
+    scoreboardView,
   };
 };
 
@@ -205,6 +227,7 @@ export const buildNavigationPath = ({
   seasonType,
   weekSegment,
   week,
+  scoreboardView,
   gameSlug,
 }) => {
   const parts = [routeBase.replace(/\/$/, ""), leagueName].filter(Boolean);
@@ -225,7 +248,9 @@ export const buildNavigationPath = ({
     parts.push(resolvedWeekSegment);
   }
 
-  if (gameSlug) {
+  if (scoreboardView === SCOREBOARD_VIEW_RANKINGS) {
+    parts.push(SCOREBOARD_VIEW_RANKINGS);
+  } else if (gameSlug) {
     parts.push(gameSlug);
   }
 
@@ -236,8 +261,16 @@ export const withGameSlug = (pathname, routeBase, gameSlug) =>
   buildNavigationPath({
     routeBase,
     ...parseNavigationPath(pathname, routeBase),
+    scoreboardView: null,
     gameSlug,
   });
+
+export const isScoreboardRankingsPath = (
+  pathname = "",
+  routeBase = "/scoreboards/"
+) =>
+  parseNavigationPath(pathname, routeBase).scoreboardView ===
+  SCOREBOARD_VIEW_RANKINGS;
 
 export const getLeagueNameFromPath = (pathname = window?.location?.pathname) => {
   const parsed =

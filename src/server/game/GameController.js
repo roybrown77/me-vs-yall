@@ -518,8 +518,9 @@ router.get('/games', async function (req, res) {
   const leagueId = get(req, 'query.leagueId');
   const year = get(req, 'query.year');
   const includeStrategies = get(req,'query.includeStrategies') === 'true';
+  const forRankings = get(req, 'query.forRankings') === 'true';
 
-  if (shouldLoadGames) {
+  if (shouldLoadGames && !forRankings) {
     loadNflGames();
     // loadMlbGames()
   }
@@ -530,6 +531,47 @@ router.get('/games', async function (req, res) {
   console.log("time2: ", moment().format());
 
   try {
+    if (forRankings) {
+      const endDateTime = get(req, 'query.endDateTime');
+      const beginDateTime = get(req, 'query.beginDateTime');
+      const seasonStart = moment(String(year) + '0601');
+
+      const rankingsSearch = {
+        leagueId: new mongoose.Types.ObjectId(leagueId),
+        year: year,
+        isGameOver: true,
+        isHidden: { $ne: true },
+        startDateTime: {
+          $gt: new Date(
+            !beginDateTime || beginDateTime === '-1'
+              ? seasonStart
+              : moment(beginDateTime)
+          ),
+          $lt: new Date(moment(endDateTime)),
+        },
+      };
+
+      const rankingsFields = {
+        competitors: 1,
+        spread: 1,
+        startDateTime: 1,
+        year: 1,
+        isGameOver: 1,
+        playHistory: 1,
+      };
+
+      const rankingGames = await gameRepository
+        .find(rankingsSearch, rankingsFields, {})
+        .lean()
+        .exec();
+
+      rankingGames.forEach((game) => {
+        limitPlayHistoryForResponse(game);
+      });
+
+      return res.status(200).send(rankingGames);
+    }
+
     const search = {
       leagueId: new mongoose.Types.ObjectId(leagueId),
       year: year,
@@ -582,6 +624,8 @@ router.get('/games', async function (req, res) {
     console.log("time3: ", moment().format());
 
     if (!includeStrategies) {
+      const teamStats = getAllTeamStats(gamesWholeYear);
+
       gamesThisRange.forEach(game=>{
         setAmericanFootballPlays(game);
         setAmericanFootballDown(game);
@@ -590,7 +634,6 @@ router.get('/games', async function (req, res) {
 
         game.hashCompetitors = null;
         limitPlayHistoryForResponse(game);
-        const teamStats = getAllTeamStats(gamesWholeYear);
         game.stats = getGameStats(game, teamStats);
       });
     }

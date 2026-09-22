@@ -23,7 +23,7 @@ import LeagueNotices from "../../components/LeagueNotices";
 import LeaderHypeBanner from "../../components/LeaderHypeBanner";
 
 import a11yProps from "../../utilities/a11yProps";
-import { callApi } from "../../utilities/http";
+import { callApi, isRequestAborted } from "../../utilities/http";
 import { getLeagueName } from '../../utilities/getLeagueName';
 import {
   formatWeeks,
@@ -174,6 +174,7 @@ const Leader = () => {
   const [teams, setTeams] = useState([]);
   const [failedLeaderPictures, setFailedLeaderPictures] = useState({});
   const loadRequestIdRef = useRef(0);
+  const scoresRequestEpochGetterRef = useRef(() => 0);
 
   const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
@@ -212,8 +213,13 @@ const Leader = () => {
       endDateTime,
       showLoader = true,
       signal,
+      requestEpoch,
     }) => {
       const requestId = ++loadRequestIdRef.current;
+      const isStaleRequest = () =>
+        signal?.aborted ||
+        (requestEpoch != null &&
+          requestEpoch !== scoresRequestEpochGetterRef.current());
 
       if (showLoader) {
         setDataLoading(true);
@@ -230,40 +236,48 @@ const Leader = () => {
         includeStrategies: true,
       };
 
-      const [games = [], picks = [], users = [], teams = []] = await Promise.all([
-        callApi({
-          method: "GET",
-          endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
-          signal,
-        }),
-        callApi({
-          method: "GET",
-          endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
-          signal,
-        }),
-        callApi({
-          method: "GET",
-          endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
-          signal,
-        }),
-        callApi({
-          method: "GET",
-          endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}`,
-          signal,
-        }),
-      ]);
+      try {
+        const [games = [], picks = [], users = [], teams = []] = await Promise.all([
+          callApi({
+            method: "GET",
+            endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+            signal,
+          }),
+          callApi({
+            method: "GET",
+            endpoint: `/api/pickmanagement/picks?${queryString.stringify(query)}`,
+            signal,
+          }),
+          callApi({
+            method: "GET",
+            endpoint: `/api/usermanagement/users?${queryString.stringify(query)}`,
+            signal,
+          }),
+          callApi({
+            method: "GET",
+            endpoint: `/api/gamemanagement/teams?leagueId=${query?.leagueId}`,
+            signal,
+          }),
+        ]);
 
-      if (signal?.aborted || requestId !== loadRequestIdRef.current) {
-        return;
-      }
+        if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
+          return;
+        }
 
-      setGames(games || []);
-      setPicks(picks || []);
-      setUsers(users || []);
-      setTeams(teams || []);
+        setGames(games || []);
+        setPicks(picks || []);
+        setUsers(users || []);
+        setTeams(teams || []);
+      } catch (error) {
+        if (isRequestAborted(error) || isStaleRequest()) {
+          return;
+        }
 
-      if (showLoader) {
-        setDataLoading(false);
+        throw error;
+      } finally {
+        if (showLoader && requestId === loadRequestIdRef.current) {
+          setDataLoading(false);
+        }
       }
     },
     []
@@ -279,6 +293,8 @@ const Leader = () => {
     handleFilterLeague,
     handleFilterYear,
     handleFilterWeek,
+    getActiveScoresRequestSignal,
+    getActiveScoresRequestEpoch,
   } = useLeagueWeekNavigation({
     routeBase: "/leaders/",
     initialLeagueId: initialLeague?.id,
@@ -286,6 +302,8 @@ const Leader = () => {
     gameWeeksQueryExtras: {},
     onLoadData: (params) => loadData({ ...params, showLoader: true }),
   });
+
+  scoresRequestEpochGetterRef.current = getActiveScoresRequestEpoch;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -301,8 +319,19 @@ const Leader = () => {
       beginDateTime,
       endDateTime,
       showLoader: false,
+      signal: getActiveScoresRequestSignal(),
+      requestEpoch: getActiveScoresRequestEpoch(),
     });
-  }, [beginDateTime, endDateTime, leagueId, loadData, weekId, year]);
+  }, [
+    beginDateTime,
+    endDateTime,
+    getActiveScoresRequestEpoch,
+    getActiveScoresRequestSignal,
+    leagueId,
+    loadData,
+    weekId,
+    year,
+  ]);
 
   const currentWeek = weeks.find((week) => week._id === weekId);
 
