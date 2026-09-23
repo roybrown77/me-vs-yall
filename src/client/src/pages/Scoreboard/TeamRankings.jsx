@@ -5,7 +5,6 @@ import Skeleton from "@mui/material/Skeleton";
 import {
   attachRankMovement,
   buildTeamRankings,
-  formatSpreadCoverRate,
 } from "./rankings";
 
 const movementLabel = (entry) => {
@@ -75,9 +74,9 @@ const TeamRankings = ({
   return (
     <div style={styles.wrapper}>
       <p style={styles.note}>
-        Rankings blend season results, point differential, against-the-spread
-        covers, and recent play-history momentum (scoring drives and key plays
-        from the last few games). Each team shows an arrow for movement versus
+        Rankings blend season results, point differential, and recent
+        play-history momentum (scoring drives and key plays from the last few
+        games). Each team shows an arrow for movement versus
         last week&apos;s snapshot.
         {usesPriorPlayoffs
           ? " Week 1 also folds in last season's playoff games; every later week uses this season only."
@@ -92,7 +91,6 @@ const TeamRankings = ({
               <th style={styles.thLeft}>Team</th>
               <th style={styles.th}>Record</th>
               <th style={styles.th}>Diff</th>
-              <th style={styles.th}>ATS</th>
               <th style={styles.th}>Momentum</th>
             </tr>
           </thead>
@@ -113,11 +111,6 @@ const TeamRankings = ({
                   <td style={styles.td}>
                     {entry.pointDifferential > 0 ? "+" : ""}
                     {entry.pointDifferential}
-                  </td>
-                  <td style={styles.td}>
-                    {entry.spreadGames > 0
-                      ? formatSpreadCoverRate(entry.spreadCoverRate)
-                      : "—"}
                   </td>
                   <td style={styles.td}>{entry.momentum.toFixed(1)}</td>
                 </tr>

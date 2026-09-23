@@ -502,7 +502,6 @@ router.get('/games', async function (req, res) {
 
       const rankingsFields = {
         competitors: 1,
-        spread: 1,
         startDateTime: 1,
         year: 1,
         isGameOver: 1,

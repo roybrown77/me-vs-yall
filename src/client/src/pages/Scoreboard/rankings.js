@@ -1,7 +1,5 @@
 import get from "lodash/get";
 
-import { isSpreadPickWinner } from "../../utilities";
-
 export const inferSeasonType = (week = {}) => {
   const description = String(week.description || "").toLowerCase();
 
@@ -239,9 +237,6 @@ const getTeamIndex = (game, teamId) =>
     (competitor) => String(competitor._id) === String(teamId)
   );
 
-const teamCoveredSpread = (game, teamId) =>
-  isSpreadPickWinner(game, teamId);
-
 const isScoringPlay = (lastPlay = "") => {
   const play = String(lastPlay).toLowerCase();
   return (
@@ -297,8 +292,6 @@ const buildTeamMetrics = (games = [], teamId, teamsById = {}) => {
   let ties = 0;
   let pointsFor = 0;
   let pointsAgainst = 0;
-  let spreadCovers = 0;
-  let spreadGames = 0;
 
   teamGames.forEach((game) => {
     const teamIndex = getTeamIndex(game, teamId);
@@ -315,26 +308,16 @@ const buildTeamMetrics = (games = [], teamId, teamsById = {}) => {
     if (teamScore > opponentScore) wins += 1;
     else if (teamScore < opponentScore) losses += 1;
     else ties += 1;
-
-    if (get(game, "spread.teamId")) {
-      spreadGames += 1;
-      if (teamCoveredSpread(game, teamId)) {
-        spreadCovers += 1;
-      }
-    }
   });
 
   const gamesPlayed = wins + losses + ties;
   const pointDifferential = pointsFor - pointsAgainst;
   const momentum = getMomentumFromGames(teamGames);
-  const spreadCoverRate =
-    spreadGames > 0 ? spreadCovers / spreadGames : 0;
 
   const powerScore =
     wins * 3 -
     losses * 3 +
     pointDifferential * 0.35 +
-    spreadCovers * 2.25 +
     momentum * 1.5 +
     (wins - losses) * 0.5;
 
@@ -351,9 +334,6 @@ const buildTeamMetrics = (games = [], teamId, teamsById = {}) => {
     pointsFor,
     pointsAgainst,
     pointDifferential,
-    spreadCovers,
-    spreadGames,
-    spreadCoverRate,
     momentum,
     powerScore,
   };
@@ -418,9 +398,6 @@ export const attachRankMovement = (currentRankings = [], previousRankings = []) 
     return { ...entry, movement: "same", rankDelta: 0 };
   });
 };
-
-export const formatSpreadCoverRate = (rate) =>
-  `${Math.round((rate || 0) * 100)}%`;
 
 export const filterGamesThroughDate = (games = [], endDateTime) => {
   if (!endDateTime) {
