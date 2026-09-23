@@ -16,7 +16,9 @@ import TeamRankings from "./TeamRankings";
 import TabPanel from "../../components/TabPanel";
 import {
   areRankingsAvailableForWeek,
+  getEarliestPlayoffWeekBegin,
   getLatestPlayoffWeekEnd,
+  getRankingsSeasonBeginDateTime,
   isFirstRegularSeasonWeek,
   resolveRankingSnapshots,
 } from "./rankings";
@@ -425,10 +427,13 @@ const Scoreboard = () => {
     setRankingsLoading(true);
 
     try {
+      const seasonBeginDateTime =
+        getRankingsSeasonBeginDateTime(weeks) ?? "-1";
+
       const query = {
         leagueId,
         year,
-        beginDateTime: "-1",
+        beginDateTime: seasonBeginDateTime,
         endDateTime,
         forRankings: true,
       };
@@ -459,18 +464,21 @@ const Scoreboard = () => {
             skipEntireWeek: true,
           })) || [];
 
+        const priorPlayoffBeginDateTime = getEarliestPlayoffWeekBegin(
+          fetchedPriorWeeks
+        );
         const priorPlayoffEndDateTime = getLatestPlayoffWeekEnd(
           fetchedPriorWeeks
         );
 
-        if (priorPlayoffEndDateTime) {
+        if (priorPlayoffBeginDateTime && priorPlayoffEndDateTime) {
           fetchedPriorGames =
             (await callApi({
               method: "GET",
               endpoint: `/api/gamemanagement/games?${queryString.stringify({
                 leagueId,
                 year: priorYear,
-                beginDateTime: "-1",
+                beginDateTime: priorPlayoffBeginDateTime,
                 endDateTime: priorPlayoffEndDateTime,
                 forRankings: true,
               })}`,

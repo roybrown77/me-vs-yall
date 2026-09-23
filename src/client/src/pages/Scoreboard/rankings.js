@@ -122,10 +122,27 @@ export const filterGamesInSeasonTypes = (games = [], weeks = [], seasonTypes = [
 export const filterPlayoffGames = (games = [], weeks = []) =>
   filterGamesInSeasonTypes(games, weeks, [3]);
 
-export const getLatestPlayoffWeekEnd = (weeks = []) => {
-  const playoffWeeks = getNavigableWeeks(weeks).filter(
-    (week) => inferSeasonType(week) === 3
+const getPlayoffWeeks = (weeks = []) =>
+  getNavigableWeeks(weeks).filter((week) => inferSeasonType(week) === 3);
+
+const getWeekBeginDateTime = (week) =>
+  week?.displayBeginDateTime || week?.beginDateTime || null;
+
+export const getRankingsSeasonBeginDateTime = (weeks = []) => {
+  const regularWeeks = getNavigableWeeks(weeks).filter(
+    (week) => inferSeasonType(week) === 2
   );
+
+  return getWeekBeginDateTime(regularWeeks[0]);
+};
+
+export const getEarliestPlayoffWeekBegin = (weeks = []) => {
+  const playoffWeeks = getPlayoffWeeks(weeks);
+  return getWeekBeginDateTime(playoffWeeks[0]);
+};
+
+export const getLatestPlayoffWeekEnd = (weeks = []) => {
+  const playoffWeeks = getPlayoffWeeks(weeks);
 
   let latestWeek = null;
   let latestTime = null;
