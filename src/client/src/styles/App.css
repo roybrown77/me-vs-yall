@@ -2216,6 +2216,7 @@ body {
 
 .score-guess-details > summary {
   list-style: none;
+  font-size: .8rem;
 }
 
 .score-guess-details > summary::-webkit-details-marker {

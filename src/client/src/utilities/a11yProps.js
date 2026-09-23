@@ -1,7 +1,7 @@
-const a11yProps = (index) => {
+const a11yProps = (index, idPrefix = "simple") => {
     return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        id: `${idPrefix}-tab-${index}`,
+        "aria-controls": `${idPrefix}-tabpanel-${index}`,
     };
 };
 

@@ -61,6 +61,8 @@ const GamePlayTabs = (props) => {
     setTabValue(newTabValue);
   };
 
+  const tabIdPrefix = `game-${game._id}`;
+
   return (
     <Box
       sx={{
@@ -88,9 +90,9 @@ const GamePlayTabs = (props) => {
             margin: "auto",
           }}
         >
-          <Tab label="Plays 🕹" {...a11yProps(0)} />
-          <Tab label="Highlights 📸" {...a11yProps(1)} />
-          <Tab label="Stats 🤓" {...a11yProps(2)} />
+          <Tab label="Plays 🕹" {...a11yProps(0, tabIdPrefix)} />
+          <Tab label="Highlights 📸" {...a11yProps(1, tabIdPrefix)} />
+          <Tab label="Stats 🤓" {...a11yProps(2, tabIdPrefix)} />
           {watchLiveGames &&
             ([
               "59723313734d1d6202a85f10",
@@ -99,16 +101,16 @@ const GamePlayTabs = (props) => {
             ].includes(game?.leagueId) ||
               game.liveVideoUrl ||
               game.highlightVideoUrl) && (
-              <Tab label="Watch Live 📺" {...a11yProps(3)} />
+              <Tab label="Watch Live 📺" {...a11yProps(3, tabIdPrefix)} />
             )}
           {isAuthenticated &&
             userId === "google-oauth2|114172296334563495985" && (
-              <Tab label="Edit" {...a11yProps(3)} />
+              <Tab label="Edit" {...a11yProps(3, tabIdPrefix)} />
             )}
         </Tabs>
       </Box>
       {/* Play History */}
-      <TabPanel value={tabValue} index={TabState.PLAY_HISTORY}>
+      <TabPanel value={tabValue} index={TabState.PLAY_HISTORY} idPrefix={tabIdPrefix}>
         <div style={{ margin: "4px 0", display: "flex" }}>
           <div
             style={{
@@ -143,7 +145,7 @@ const GamePlayTabs = (props) => {
           )}
       </TabPanel>
       {/* MvY Highlights */}
-      <TabPanel value={tabValue} index={TabState.HIGHLIGHTS}>
+      <TabPanel value={tabValue} index={TabState.HIGHLIGHTS} idPrefix={tabIdPrefix}>
         <div style={{ margin: "4px 0", display: "flex" }}>
           <div
             style={{
@@ -178,7 +180,7 @@ const GamePlayTabs = (props) => {
         )}
       </TabPanel>
       {/* Stats */}
-      <TabPanel value={tabValue} index={TabState.STATS}>
+      <TabPanel value={tabValue} index={TabState.STATS} idPrefix={tabIdPrefix}>
         <div>
           <GameStats {...props} />
         </div>
@@ -186,7 +188,7 @@ const GamePlayTabs = (props) => {
       {/* Watch Live Games */}
       {
         enableWatchLiveGames &&
-        <TabPanel value={tabValue} index={TabState.EDIT}>
+        <TabPanel value={tabValue} index={TabState.EDIT} idPrefix={tabIdPrefix}>
           {hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
             ([
@@ -248,7 +250,7 @@ const GamePlayTabs = (props) => {
       {/* Game Editor */}
       {
         enableGameEditor &&
-        <TabPanel value={tabValue} index={TabState.EDIT}>
+        <TabPanel value={tabValue} index={TabState.EDIT} idPrefix={tabIdPrefix}>
           <GameEditor {...props} />
         </TabPanel>
       }

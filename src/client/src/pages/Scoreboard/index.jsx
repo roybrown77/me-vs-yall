@@ -823,14 +823,19 @@ const Scoreboard = () => {
                   },
                 }}
               >
-                <Tab label="Scores" {...a11yProps(0)} />
+                <Tab label="Scores" {...a11yProps(0, "scoreboard")} />
                 {rankingsAvailable && (
-                  <Tab label="Rankings" {...a11yProps(1)} />
+                  <Tab label="Rankings" {...a11yProps(1, "scoreboard")} />
                 )}
               </Tabs>
             </Box>
             <LeaderHypeBanner />
-            <TabPanel value={activeScoreboardTab} index={0}>
+            <TabPanel
+              value={activeScoreboardTab}
+              index={0}
+              idPrefix="scoreboard"
+              bold={false}
+            >
             <div style={slimMode ? styles.rootSlim : styles.root}>
               {isLoading && (
                 <div style={{ margin: "10px 0" }}>
@@ -922,7 +927,13 @@ const Scoreboard = () => {
             </div>
             </TabPanel>
             {rankingsAvailable && (
-              <TabPanel value={activeScoreboardTab} index={1} key="rankings-tab">
+              <TabPanel
+                value={activeScoreboardTab}
+                index={1}
+                key="rankings-tab"
+                idPrefix="scoreboard"
+                bold={false}
+              >
                 <TeamRankings
                   loading={rankingsLoading}
                   leagueId={leagueId}
