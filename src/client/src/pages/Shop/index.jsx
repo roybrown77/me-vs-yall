@@ -8,6 +8,8 @@ import shirtsBw from '../../styles/images/mvy-tee-black-bw.jpg';
 import shirts from '../../styles/images/mvy-tee-white-romey.jpg';
 import shirtGray from '../../styles/images/mvy-tee-gray.jpg';
 import stickers from '../../styles/images/mvy-sticker-gray.jpg';
+import jaliceWhiteTee from '../../styles/images/jalice-white-tee.jpg';
+import romeWhiteHoodie from '../../styles/images/rome-white-hoodie.jpg';
 
 const styles = {
   root: {
@@ -27,7 +29,7 @@ const styles = {
   price: {
     position: 'relative',
     paddingRight: '75%',
-    bottom: '48px'
+    bottom: '70px'
   },
   contact: {
     position: 'relative',
@@ -45,6 +47,12 @@ const styles = {
 
 const items = [
   {
+    id: 7,
+    image: romeWhiteHoodie,
+    name: 'White Hoodie',
+    price: 'Sold Out',
+  },
+  {
     id: 1,
     image: hoodiesBw,
     name: 'White Hoodie',
@@ -57,6 +65,12 @@ const items = [
     name: 'Black Tee',
     price: 'Sold Out',
     // contact: '@ _jayfilms'
+  },
+  {
+    id: 6,
+    image: jaliceWhiteTee,
+    name: 'White Tee',
+    price: 'Sold Out',
   },
   {
     id: 3,
@@ -76,7 +90,7 @@ const items = [
     image: stickers,
     name: 'Stickers',
     price: 'Sold Out'
-  }
+  },
 ];
 
 const Shop = () => {
