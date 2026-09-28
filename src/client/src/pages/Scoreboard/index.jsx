@@ -324,6 +324,21 @@ const Scoreboard = () => {
 
   usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 15000 });
 
+  useEffect(() => {
+    if (!isAuthenticated || dataLoading) {
+      return;
+    }
+
+    const gamesNotStarted = games.filter(
+      (game) => !hasGameStarted(game.startDateTime)
+    );
+    const unpickedCount = getPicksNotSelected(gamesNotStarted, picks);
+
+    if (unpickedCount > 0) {
+      enableSlimMode();
+    }
+  }, [dataLoading, enableSlimMode, games, isAuthenticated, picks]);
+
   const rankingSnapshots = useMemo(
     () =>
       resolveRankingSnapshots({
