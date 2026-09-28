@@ -819,9 +819,9 @@ const Scoreboard = () => {
                 value={activeScoreboardTab}
                 onChange={handleScoreboardTabChange}
                 aria-label="scoreboard views"
-                variant="fullWidth"
                 sx={{
-                  width: "100%",
+                  width: "fit-content",
+                  margin: "0 auto",
                   paddingBottom: "12px",
                   "& .MuiTab-root": {
                     minHeight: 48,
