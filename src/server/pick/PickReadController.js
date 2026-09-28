@@ -260,14 +260,70 @@ const getPicks = async (req) => {
     return await pickRepository.find(finalSearch);
 };
 
+const hasGameStarted = (startDateTime) => {
+    const gameStartDateTime = moment(new Date(startDateTime));
+    const currentDateTime = moment(new Date());
+    return gameStartDateTime.diff(currentDateTime, 'seconds') < 5;
+};
+
+const getCommunityPicksForStartedGames = async (req) => {
+    const leagueId = req.query?.leagueId;
+    const year = req.query?.year;
+    const gameType = req.query?.gameType;
+
+    if (!leagueId || !year) {
+        return [];
+    }
+
+    const gameSearch = {
+        leagueId: new mongoose.Types.ObjectId(leagueId),
+        year: year,
+        isHidden: { $ne: true },
+    };
+
+    if (
+        req.query?.beginDateTime &&
+        req.query?.endDateTime &&
+        req.query?.beginDateTime !== '-1'
+    ) {
+        gameSearch.startDateTime = {
+            $gt: new Date(moment(req.query.beginDateTime)),
+            $lt: new Date(moment(req.query.endDateTime)),
+        };
+    }
+
+    const games = await gameRepository
+        .find(gameSearch, { startDateTime: 1 })
+        .lean()
+        .exec();
+
+    const startedGameIds = (games || [])
+        .filter((game) => hasGameStarted(game.startDateTime))
+        .map((game) => game._id);
+
+    if (startedGameIds.length === 0) {
+        return [];
+    }
+
+    return pickRepository.find({
+        leagueId: new mongoose.Types.ObjectId(leagueId),
+        year: year,
+        gameId: { $in: startedGameIds },
+        gameType: gameType === '1' ? 1 : { $ne: 1 },
+    });
+};
+
 router.get('/picks/', async function (req, res) {
     try {
-        const [ picks, picksWithStrategies ] = await Promise.all([
+        const [ picks, picksWithStrategies, communityPicks ] = await Promise.all([
             getPicks(req),
-            getPickStrategies(req)
+            getPickStrategies(req),
+            req.query?.communityPicksForStartedGames === 'true'
+                ? getCommunityPicksForStartedGames(req)
+                : Promise.resolve([]),
         ]);
 
-        res.status(200).send([...picks, ...picksWithStrategies]);
+        res.status(200).send([...picks, ...picksWithStrategies, ...communityPicks]);
     } catch (error) {
         console.log("Get picks error: ", error);
         return res.status(500).send("There was a problem fetching picks");

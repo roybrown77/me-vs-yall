@@ -15,6 +15,7 @@ import BoxingRing from "../../styles/images/boxing_ring.png";
 import MMARing from "../../styles/images/mma_ring.png";
 
 import GamePlayTabs from "./components/GamePlayTabs";
+import GamePickAvatarStack from "./components/GamePickAvatarStack";
 import TieButton from "./components/TieButton";
 import CompetitorHeader from "./components/CompetitorHeader";
 import Competitor from "./components/Competitor";
@@ -391,6 +392,7 @@ const Game = (props) => {
     updatingPick,
     spreadMode: spreadModeProp,
     slimMode = false,
+    fieldPickers,
   } = props;
 
   const spreadMode =
@@ -748,6 +750,46 @@ const Game = (props) => {
               </div>
             </div>
           </div>
+          {hasGameStarted(game.startDateTime) &&
+            fieldPickers &&
+            (fieldPickers.away.length > 0 || fieldPickers.home.length > 0) && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: "90%",
+                  maxWidth: "500px",
+                  margin: "0 auto 6px",
+                }}
+              >
+                <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
+                  <GamePickAvatarStack side="left" pickers={fieldPickers.away} />
+                </div>
+                <div
+                  style={{
+                    flexShrink: 0,
+                    padding: "0 8px",
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    fontSize: "12px",
+                    color: "#334155",
+                  }}
+                >
+                  vs
+                </div>
+                <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+                  <GamePickAvatarStack side="right" pickers={fieldPickers.home} />
+                </div>
+              </div>
+            )}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
           {["59723313734d1d6202a85f10", "59723313734d1d6202a85f15"].includes(
             get(game, "leagueId")
           ) && <AmericanFootballMiniRallyGame {...{ game }} selectionMade={state.selectionMade} />}
@@ -907,6 +949,7 @@ const Game = (props) => {
               </div>
             </div>
           )}
+          </div>
         </div>
         )}
         {slimMode ? (
@@ -938,6 +981,10 @@ Game.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   spreadMode: PropTypes.bool,
   slimMode: PropTypes.bool,
+  fieldPickers: PropTypes.shape({
+    away: PropTypes.array,
+    home: PropTypes.array,
+  }),
   disableTie: PropTypes.bool,
   handleMakePick: PropTypes.func,
   handleUpdateGame: PropTypes.func,

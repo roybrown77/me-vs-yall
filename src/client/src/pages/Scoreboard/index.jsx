@@ -39,7 +39,11 @@ import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
 import LeaderHypeBanner from "../../components/LeaderHypeBanner";
 
-import { getPicksNotSelected, getGroupedGames } from "./utilities";
+import {
+  getFieldPickersForGame,
+  getPicksNotSelected,
+  getGroupedGames,
+} from "./utilities";
 import a11yProps from "../../utilities/a11yProps";
 import { callApi, isRequestAborted } from "../../utilities/http";
 import { getLeagueName } from '../../utilities/getLeagueName';
@@ -87,6 +91,8 @@ const Scoreboard = () => {
   const [dataLoading, setDataLoading] = useState(true);
   const [games, setGames] = useState([]);
   const [picks, setPicks] = useState([]);
+  const [revealedPicks, setRevealedPicks] = useState([]);
+  const [pickUsers, setPickUsers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [userId, setUserId] = useState(null);
   const [updatingPick, setUpdatingPick] = useState(false);
@@ -151,23 +157,68 @@ const Scoreboard = () => {
           });
 
       try {
-        const [games = [], picks = [], teams = []] = await Promise.all([
-          callApi({
-            method: "GET",
-            endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
-            signal,
-          }),
-          isAuthenticated
-            ? callApi({
-                method: "GET",
-                endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-                  query
-                )}`,
-                signal,
-              })
-            : undefined,
-          teamsRequest,
-        ]);
+        const games = await callApi({
+          method: "GET",
+          endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+          signal,
+        });
+
+        if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
+          return;
+        }
+
+        const anyGameStarted = (games || []).some((game) =>
+          hasGameStarted(game.startDateTime)
+        );
+        const communityQuery = {
+          leagueId,
+          year,
+          weekId,
+          beginDateTime,
+          endDateTime,
+          communityPicksForStartedGames: true,
+          authId: userId || null,
+        };
+        const usersQuery = {
+          leagueId,
+          year,
+          weekId,
+          beginDateTime,
+          endDateTime,
+          authId: userId || null,
+        };
+
+        const [picks = [], teams = [], communityPicks = [], users = []] =
+          await Promise.all([
+            isAuthenticated
+              ? callApi({
+                  method: "GET",
+                  endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+                    query
+                  )}`,
+                  signal,
+                })
+              : Promise.resolve([]),
+            teamsRequest,
+            anyGameStarted
+              ? callApi({
+                  method: "GET",
+                  endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+                    communityQuery
+                  )}`,
+                  signal,
+                })
+              : Promise.resolve([]),
+            anyGameStarted
+              ? callApi({
+                  method: "GET",
+                  endpoint: `/api/usermanagement/users?${queryString.stringify(
+                    usersQuery
+                  )}`,
+                  signal,
+                })
+              : Promise.resolve([]),
+          ]);
 
         if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
           return;
@@ -179,6 +230,8 @@ const Scoreboard = () => {
 
         setGames(games || []);
         setPicks(picks || []);
+        setRevealedPicks(anyGameStarted ? communityPicks || [] : []);
+        setPickUsers(anyGameStarted ? users || [] : []);
         setTeams(teams || cachedTeams || []);
       } catch (error) {
         if (isRequestAborted(error) || isStaleRequest()) {
@@ -908,6 +961,11 @@ const Scoreboard = () => {
                         updatingPick={updatingPick}
                         spreadMode={spreadMode}
                         slimMode={slimMode}
+                        fieldPickers={getFieldPickersForGame(
+                          game,
+                          revealedPicks,
+                          pickUsers
+                        )}
                       />
                     </div>
                   );
@@ -943,6 +1001,11 @@ const Scoreboard = () => {
                         disableTie={disableTie}
                         spreadMode={spreadMode}
                         slimMode={slimMode}
+                        fieldPickers={getFieldPickersForGame(
+                          game,
+                          revealedPicks,
+                          pickUsers
+                        )}
                       />
                     </div>
                   );

@@ -70,6 +70,67 @@ const applyNflVenueOverrides = ({ game, team, isSeasonOpener = false }) => {
   return team;
 };
 
+const getPickerLabel = (user) => {
+  if (!user) {
+    return "?";
+  }
+
+  const first = String(user.firstName || "").trim();
+  const last = String(user.lastName || "").trim();
+
+  if (first && last) {
+    return `${first[0]}${last[0]}`.toUpperCase();
+  }
+
+  if (first) {
+    return first.slice(0, 2).toUpperCase();
+  }
+
+  return "?";
+};
+
+const getFieldPickersForGame = (game, revealedPicks = [], users = []) => {
+  if (!game || !hasGameStarted(game.startDateTime)) {
+    return { away: [], home: [] };
+  }
+
+  const awayId = String(game.competitors?.[0]?._id || "");
+  const homeId = String(game.competitors?.[1]?._id || "");
+  const usersByAuthId = users.reduce((acc, user) => {
+    acc[String(user.authServiceId)] = user;
+    return acc;
+  }, {});
+
+  const away = [];
+  const home = [];
+  const seen = new Set();
+
+  revealedPicks
+    .filter((pick) => String(pick.gameId) === String(game._id))
+    .forEach((pick) => {
+      const dedupeKey = `${pick.userId}-${pick.pickId}`;
+      if (seen.has(dedupeKey)) {
+        return;
+      }
+      seen.add(dedupeKey);
+
+      const user = usersByAuthId[String(pick.userId)];
+      const entry = {
+        id: String(pick.userId),
+        picture: user?.picture || null,
+        label: getPickerLabel(user),
+      };
+
+      if (String(pick.pickId) === awayId) {
+        away.push(entry);
+      } else if (String(pick.pickId) === homeId) {
+        home.push(entry);
+      }
+    });
+
+  return { away, home };
+};
+
 const getPicksNotSelected = (games = [], picks = []) => {
     return games.reduce((count, game) => {
       const isPickMissing = !picks.some(pick => pick.gameId === game._id);
@@ -179,6 +240,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
   };
 
 export {
+    getFieldPickersForGame,
     getPicksNotSelected,
     getGroupedGames,
 };
