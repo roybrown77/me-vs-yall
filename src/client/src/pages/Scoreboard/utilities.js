@@ -59,7 +59,7 @@ const applyNflVenueOverrides = ({ game, team, isSeasonOpener = false }) => {
     return {
       ...team,
       stadiumName: 'Tom Benson Hall of Fame Stadium',
-      stadiumCity: 'Canton, Ohio',
+      stadiumCity: 'Canton, Ohio, USA',
       stadiumLocation: [
         'Where summer heat shimmers under the lights and a new season roars to life.',
         'In Canton, shoulder pads crack like thunder and opening night writes the first line of legend.',
