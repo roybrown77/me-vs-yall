@@ -14,6 +14,16 @@ import maddenTouchdown from '../../media/madden-touchdown.m4a';
 import tecmoTouchdown from '../../media/tecmo-touchdown.m4a'
 import boasty from '../../media/boasty.m4a';
 
+const taglineEndings = [
+  { word: 'doubles', emoji: '🥙' },
+  { word: 'pastelillos', emoji: '🥟' },
+  { word: 'roti', emoji: '🌯' },
+  { word: 'wings', emoji: '🍗' },
+  { word: 'pizza', emoji: '🍕' },
+  { word: 'tacos', emoji: '🌮' },
+  { word: 'vegas' },
+];
+
 const tagLines = [
   `"the ultimate sports pick'em game.  like the karate kid "we're the best around! no one can never ever keep us down! 🥋"`,
   `"your mission, should you choose to accept it, is to pick the perfect week. correctly pick the winner of every game this week and you will succeed. it's one of the toughest things to do in the universe. this message will self destruct. 🪐"`,
@@ -48,6 +58,9 @@ const BANDWAGON_SCROLL_SENSITIVITY = 1.8;
 
 const Home = () => {
   useGoogleAnalytics();
+  const [taglineEnding] = useState(
+    () => taglineEndings[Math.floor(Math.random() * taglineEndings.length)]
+  );
   const location = useLocation();
   const isHomePath = location.pathname === '/';
   const endRef = useRef(null);
@@ -403,7 +416,7 @@ const Home = () => {
           </div>
           <section className="home-splash__hero">
             <p className="home-splash__subhead">
-              sports x fun x friends x vegas
+              sports x fun x friends x {taglineEnding.word} {taglineEnding.emoji}
             </p>
             <div className="home-splash__hero-typer-wrap">
               <div className="home-splash__hero-typer">
