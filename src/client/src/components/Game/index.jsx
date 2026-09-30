@@ -866,6 +866,8 @@ const Game = (props) => {
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 height: "20em",
+                width: "100%",
+                alignSelf: "stretch",
                 marginTop: "1rem",
                 position: "relative",
               }}
@@ -926,6 +928,8 @@ const Game = (props) => {
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 height: "20em",
+                width: "100%",
+                alignSelf: "stretch",
                 marginTop: "1rem",
                 position: "relative",
               }}
