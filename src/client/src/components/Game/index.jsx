@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import moment from "moment-timezone";
 import get from "lodash/get";
@@ -25,7 +26,12 @@ import { hasGameStarted } from "../../utilities";
 import {
   buildGameHeadingText,
   buildGameSlugFromCompetitors,
+  buildNavigationPath,
+  detectRouteBase,
+  parseNavigationPath,
 } from "../../utilities/navigationPaths";
+import { getLeagueName } from "../../utilities/getLeagueName";
+import { leagues } from "../../utilities";
 import {
   isConfirmedAuthentication,
 } from "../../utilities/authenticationClient";
@@ -455,6 +461,22 @@ const Game = (props) => {
 
   const resolvedGameSlug = gameSlug || buildGameSlugFromCompetitors(game);
   const gameHeadingText = buildGameHeadingText(game);
+  const location = useLocation();
+  const leadersHref = useMemo(() => {
+    const routeBase = detectRouteBase(location.pathname);
+    const navigationState = parseNavigationPath(location.pathname, routeBase);
+    const league = leagues.find(
+      (entry) => String(entry.id) === String(game.leagueId)
+    );
+
+    return buildNavigationPath({
+      routeBase: "/leaders/",
+      leagueName: navigationState.leagueName || league?.name || getLeagueName(),
+      year: navigationState.year,
+      seasonType: navigationState.seasonType,
+      weekSegment: navigationState.weekSegment,
+    });
+  }, [game.leagueId, location.pathname]);
 
   return (
     <div
@@ -763,7 +785,11 @@ const Game = (props) => {
                 }}
               >
                 <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
-                  <GamePickAvatarStack side="left" pickers={fieldPickers.away} />
+                  <GamePickAvatarStack
+                    side="left"
+                    pickers={fieldPickers.away}
+                    leadersHref={leadersHref}
+                  />
                 </div>
                 <div
                   style={{
@@ -778,7 +804,11 @@ const Game = (props) => {
                   vs
                 </div>
                 <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-                  <GamePickAvatarStack side="right" pickers={fieldPickers.home} />
+                  <GamePickAvatarStack
+                    side="right"
+                    pickers={fieldPickers.home}
+                    leadersHref={leadersHref}
+                  />
                 </div>
               </div>
             )}

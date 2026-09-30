@@ -23,8 +23,14 @@ const colorForId = (id) => {
   return avatarColors[hash];
 };
 
-const GamePickAvatarStack = ({ pickers = [], side = "left" }) => {
+const GamePickAvatarStack = ({ pickers = [], side = "left", leadersHref }) => {
   const [failedImages, setFailedImages] = useState({});
+
+  const navigateToLeaders = useCallback(() => {
+    if (leadersHref) {
+      window.location.href = leadersHref;
+    }
+  }, [leadersHref]);
 
   const handleImageError = useCallback((pickerId) => {
     setFailedImages((current) => ({
@@ -42,12 +48,26 @@ const GamePickAvatarStack = ({ pickers = [], side = "left" }) => {
 
   return (
     <div
+      role={leadersHref ? "link" : undefined}
+      tabIndex={leadersHref ? 0 : undefined}
+      onClick={leadersHref ? navigateToLeaders : undefined}
+      onKeyDown={
+        leadersHref
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                navigateToLeaders();
+              }
+            }
+          : undefined
+      }
       style={{
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        cursor: leadersHref ? "pointer" : undefined,
       }}
-      aria-label={`${side === "left" ? "Away" : "Home"} pickers`}
+      aria-label={`${side === "left" ? "Away" : "Home"} pickers. View on Leaders page.`}
     >
       {visiblePickers.map((picker, index) => {
         const showImage = picker.picture && !failedImages[picker.id];
@@ -130,6 +150,7 @@ GamePickAvatarStack.propTypes = {
     })
   ),
   side: PropTypes.oneOf(["left", "right"]),
+  leadersHref: PropTypes.string,
 };
 
 export default GamePickAvatarStack;
