@@ -18,10 +18,8 @@ const taglineEndings = [
   { word: 'doubles', emoji: '🥙' },
   { word: 'pastelillos', emoji: '🥟' },
   { word: 'roti', emoji: '🌯' },
-  { word: 'wings', emoji: '🍗' },
-  { word: 'pizza', emoji: '🍕' },
   { word: 'tacos', emoji: '🌮' },
-  { word: 'vegas' },
+  { word: 'popcorn', emoji: '🍿' },
 ];
 
 const tagLines = [
