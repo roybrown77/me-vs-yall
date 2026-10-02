@@ -103,6 +103,8 @@ const Home = () => {
 
   // Show the bandwagon easter egg only near game day (or when games are live).
   useEffect(() => {
+    if (false) return undefined;
+
     let isMounted = true;
 
     const loadScheduleVisibility = async () => {
@@ -523,7 +525,7 @@ const Home = () => {
             <div>ATL via BOS via HOU via SUN</div>
           </div>
 
-        {showGameTrail && <section className="home-splash__storyline" aria-label="Story milestones animation">
+        {false && showGameTrail && <section className="home-splash__storyline" aria-label="Story milestones animation">
           <div className="home-splash__milestone-track" />
           <div
             className="home-splash__milestone-progress"
@@ -549,7 +551,7 @@ const Home = () => {
           ))}
         </section>}
 
-        {showGameTrail && <section className="home-splash__road" aria-label="Field road" ref={roadRef}>
+        {false && showGameTrail && <section className="home-splash__road" aria-label="Field road" ref={roadRef}>
           <div className="home-splash__lane" />
           <div className="home-splash__lane home-splash__lane--mid" />
           {false && <aside
