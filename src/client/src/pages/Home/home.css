@@ -128,7 +128,7 @@
 .home-recent-scores {
   margin-top: 3.75rem;
   width: 100%;
-  max-width: 22rem;
+  max-width: 24rem;
   margin-left: auto;
   margin-right: auto;
   padding: 0 clamp(0.25rem, 2vw, 0.5rem);
@@ -156,7 +156,7 @@
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid #d4e2f2;
   border-radius: 8px;
-  padding: 0.3rem 0.45rem 0.28rem;
+  padding: 0.38rem 0.5rem 0.34rem;
   box-shadow: 0 1px 4px rgba(18, 35, 63, 0.05);
   overflow: hidden;
 }
@@ -196,9 +196,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;
+  width: 1.1rem;
   color: #3772fa;
-  font: 700 1.25rem/1 'Courier New', Courier, monospace;
+  font: 700 1.4rem/1 'Courier New', Courier, monospace;
   transition: color 120ms ease, transform 120ms ease;
 }
 
@@ -228,8 +228,8 @@
 
 .home-recent-scores__team-label {
   min-width: 0;
-  max-width: 4.75rem;
-  font: 700 clamp(0.62rem, 2.4vw, 0.72rem) / 1.15 'Courier New', Courier, monospace;
+  max-width: 5.5rem;
+  font: 700 clamp(0.78rem, 3vw, 0.92rem) / 1.15 'Courier New', Courier, monospace;
   letter-spacing: 0.04em;
   white-space: nowrap;
   overflow: hidden;
@@ -246,19 +246,19 @@
 
 .home-recent-scores__score-pill {
   flex-shrink: 0;
-  min-width: clamp(1.65rem, 7vw, 2rem);
+  min-width: clamp(1.85rem, 8vw, 2.25rem);
   box-sizing: border-box;
-  padding: 0.15rem 0.2rem;
+  padding: 0.2rem 0.28rem;
   border-radius: 4px;
   color: #fff;
-  font: 800 clamp(0.78rem, 3.2vw, 0.92rem) / 1 'Courier New', Courier, monospace;
+  font: 800 clamp(0.92rem, 3.8vw, 1.08rem) / 1 'Courier New', Courier, monospace;
   text-align: center;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
 }
 
 .home-recent-scores__versus {
   flex: 0 0 auto;
-  font: 700 0.58rem/1 'Courier New', Courier, monospace;
+  font: 700 0.72rem/1 'Courier New', Courier, monospace;
   color: #64748b;
   text-transform: lowercase;
 }
@@ -299,7 +299,7 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  min-height: 24px;
+  min-height: 28px;
   overflow: hidden;
 }
 
@@ -314,14 +314,14 @@
 }
 
 .home-recent-scores .home-recent-scores__leaders-half > div {
-  transform: scale(0.82);
+  transform: scale(0.92);
 }
 
 .home-recent-scores__leaders-vs {
   flex: 0 0 auto;
   font-family: monospace;
   font-weight: 700;
-  font-size: 10px;
+  font-size: 0.72rem;
   color: #64748b;
 }
 
