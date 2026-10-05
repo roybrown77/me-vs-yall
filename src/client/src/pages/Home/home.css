@@ -138,8 +138,15 @@
   gap: 0.45rem;
 }
 
+.home-recent-scores--loading {
+  gap: 0.35rem;
+}
+
 .home-recent-scores__skeleton {
-  border-radius: 10px !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  background-color: rgba(41, 72, 116, 0.14) !important;
 }
 
 .home-recent-scores__game {

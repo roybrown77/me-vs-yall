@@ -661,4 +661,22 @@ router.get('/teams', function (req, res) {
   res.status(200).send(req.query?.leagueId ? teams[req.query.leagueId.toString().toLowerCase()] : allTeams);
 });
 
+router.get('/home-recent-scores', async function (req, res) {
+  const leagueId = get(req, 'query.leagueId');
+  const year = get(req, 'query.year');
+
+  if (!leagueId || !year) {
+    return res.status(400).send('leagueId and year are required');
+  }
+
+  try {
+    const { getHomeRecentScores } = require('../home/homeRecentScoresService');
+    const payload = await getHomeRecentScores({ leagueId, year });
+    res.status(200).send(payload);
+  } catch (error) {
+    console.log('Get home recent scores error: ', error);
+    return res.status(500).send('There was a problem fetching home recent scores');
+  }
+});
+
 module.exports = router;
