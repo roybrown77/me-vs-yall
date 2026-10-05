@@ -275,31 +275,42 @@ const getCommunityPicksForStartedGames = async (req) => {
         return [];
     }
 
-    const gameSearch = {
-        leagueId: new mongoose.Types.ObjectId(leagueId),
-        year: year,
-        isHidden: { $ne: true },
-    };
+    let startedGameIds = [];
 
-    if (
-        req.query?.beginDateTime &&
-        req.query?.endDateTime &&
-        req.query?.beginDateTime !== '-1'
-    ) {
-        gameSearch.startDateTime = {
-            $gt: new Date(moment(req.query.beginDateTime)),
-            $lt: new Date(moment(req.query.endDateTime)),
+    const startedGameIdsParam = String(req.query?.startedGameIds || '').trim();
+    if (startedGameIdsParam) {
+        startedGameIds = startedGameIdsParam
+            .split(',')
+            .map((id) => id.trim())
+            .filter(Boolean)
+            .map((id) => new mongoose.Types.ObjectId(id));
+    } else {
+        const gameSearch = {
+            leagueId: new mongoose.Types.ObjectId(leagueId),
+            year: year,
+            isHidden: { $ne: true },
         };
+
+        if (
+            req.query?.beginDateTime &&
+            req.query?.endDateTime &&
+            req.query?.beginDateTime !== '-1'
+        ) {
+            gameSearch.startDateTime = {
+                $gt: new Date(moment(req.query.beginDateTime)),
+                $lt: new Date(moment(req.query.endDateTime)),
+            };
+        }
+
+        const games = await gameRepository
+            .find(gameSearch, { startDateTime: 1 })
+            .lean()
+            .exec();
+
+        startedGameIds = (games || [])
+            .filter((game) => hasGameStarted(game.startDateTime))
+            .map((game) => game._id);
     }
-
-    const games = await gameRepository
-        .find(gameSearch, { startDateTime: 1 })
-        .lean()
-        .exec();
-
-    const startedGameIds = (games || [])
-        .filter((game) => hasGameStarted(game.startDateTime))
-        .map((game) => game._id);
 
     if (startedGameIds.length === 0) {
         return [];

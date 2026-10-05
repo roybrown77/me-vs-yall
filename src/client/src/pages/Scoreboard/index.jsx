@@ -147,6 +147,8 @@ const Scoreboard = () => {
         endDateTime,
       };
 
+      const gamesQuery = { ...query, skipTeamStats: true };
+
       const cachedTeams = teamsByLeagueRef.current[String(leagueId)];
       const teamsRequest = cachedTeams
         ? Promise.resolve(cachedTeams)
@@ -157,19 +159,29 @@ const Scoreboard = () => {
           });
 
       try {
-        const games = await callApi({
-          method: "GET",
-          endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
-          signal,
-        });
+        const [games, teamsFromRequest] = await Promise.all([
+          callApi({
+            method: "GET",
+            endpoint: `/api/gamemanagement/games?${queryString.stringify(gamesQuery)}`,
+            signal,
+          }),
+          teamsRequest,
+        ]);
 
         if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
           return;
         }
 
+        const resolvedTeams = teamsFromRequest?.length
+          ? teamsFromRequest
+          : cachedTeams || [];
         const anyGameStarted = (games || []).some((game) =>
           hasGameStarted(game.startDateTime)
         );
+        const startedGameIds = (games || [])
+          .filter((game) => hasGameStarted(game.startDateTime))
+          .map((game) => game._id)
+          .join(",");
         const communityQuery = {
           leagueId,
           year,
@@ -178,6 +190,7 @@ const Scoreboard = () => {
           endDateTime,
           communityPicksForStartedGames: true,
           authId: userId || null,
+          ...(startedGameIds ? { startedGameIds } : {}),
         };
         const usersQuery = {
           leagueId,
@@ -188,51 +201,83 @@ const Scoreboard = () => {
           authId: userId || null,
         };
 
-        const [picks = [], teams = [], communityPicks = [], users = []] =
-          await Promise.all([
-            isAuthenticated
-              ? callApi({
-                  method: "GET",
-                  endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-                    query
-                  )}`,
-                  signal,
-                })
-              : Promise.resolve([]),
-            teamsRequest,
-            anyGameStarted
-              ? callApi({
-                  method: "GET",
-                  endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-                    communityQuery
-                  )}`,
-                  signal,
-                })
-              : Promise.resolve([]),
-            anyGameStarted
-              ? callApi({
-                  method: "GET",
-                  endpoint: `/api/usermanagement/users?${queryString.stringify(
-                    usersQuery
-                  )}`,
-                  signal,
-                })
-              : Promise.resolve([]),
-          ]);
+        const [picks = [], communityPicks = [], users = []] = await Promise.all([
+          isAuthenticated
+            ? callApi({
+                method: "GET",
+                endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+                  query
+                )}`,
+                signal,
+              })
+            : Promise.resolve([]),
+          anyGameStarted
+            ? callApi({
+                method: "GET",
+                endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+                  communityQuery
+                )}`,
+                signal,
+              })
+            : Promise.resolve([]),
+          anyGameStarted
+            ? callApi({
+                method: "GET",
+                endpoint: `/api/usermanagement/users?${queryString.stringify(
+                  usersQuery
+                )}`,
+                signal,
+              })
+            : Promise.resolve([]),
+        ]);
 
         if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
           return;
         }
 
-        if (teams?.length) {
-          teamsByLeagueRef.current[String(leagueId)] = teams;
+        if (resolvedTeams?.length) {
+          teamsByLeagueRef.current[String(leagueId)] = resolvedTeams;
         }
 
         setGames(games || []);
         setPicks(picks || []);
         setRevealedPicks(anyGameStarted ? communityPicks || [] : []);
         setPickUsers(anyGameStarted ? users || [] : []);
-        setTeams(teams || cachedTeams || []);
+        setTeams(resolvedTeams);
+
+        if (showLoader && (games || []).length > 0) {
+          void (async () => {
+            try {
+              const fullGames = await callApi({
+                method: "GET",
+                endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+                signal,
+              });
+
+              if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
+                return;
+              }
+
+              setGames((previousGames) =>
+                previousGames.map((game) => {
+                  const match = (fullGames || []).find(
+                    (entry) => String(entry._id) === String(game._id)
+                  );
+
+                  if (!match?.stats?.length) {
+                    return game;
+                  }
+
+                  return { ...game, stats: match.stats };
+                })
+              );
+            } catch (error) {
+              if (isRequestAborted(error) || isStaleRequest()) {
+                return;
+              }
+            }
+          })();
+        }
       } catch (error) {
         if (isRequestAborted(error) || isStaleRequest()) {
           return;
@@ -375,7 +420,7 @@ const Scoreboard = () => {
     rankingsAbortRef.current?.abort();
   }, [isRankingsViewActive, leagueId, weekId, year]);
 
-  usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 15000 });
+  usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 10000 });
 
   useEffect(() => {
     if (!isAuthenticated || dataLoading) {

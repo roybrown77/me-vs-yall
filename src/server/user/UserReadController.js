@@ -124,9 +124,20 @@ router.get('/users', async function (req, res) {
 
         const picks = await pickRepository.find(finalSearch);
 
-        const users = await userRepository.find({});
-        const filteredUsers = users.filter(user => 
-            picks.some(pick => pick.userId === user.authServiceId || !isNaN(pick.userId))
+        const authServiceIds = [
+            ...new Set(
+                (picks || [])
+                    .map((pick) => pick.userId)
+                    .filter((id) => id != null && String(id).includes('|'))
+            ),
+        ];
+
+        const users = authServiceIds.length
+            ? await userRepository.find({ authServiceId: { $in: authServiceIds } })
+            : [];
+
+        const filteredUsers = users.filter((user) =>
+            picks.some((pick) => pick.userId === user.authServiceId)
         );
         const finalUsers = [];
         filteredUsers.forEach(user=>{

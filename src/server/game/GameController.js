@@ -14,6 +14,13 @@ const userRepository = require('../user/UserRepository');
 const { playHistoryCount } = require('../../../config');
 
 const { getAllTeamStats, getGameStats } = require('../utilities/gameStats');
+const { getCachedAllTeamStats } = require('../utilities/teamStatsCache');
+
+const hasScoreboardGameLive = (game = {}) => {
+  const started =
+    moment(new Date(game.startDateTime)).diff(moment(), 'seconds') < 5;
+  return started && !game.isGameOver;
+};
 
 const limitPlayHistoryForResponse = (game) => {
   if (!Array.isArray(game?.playHistory)) {
@@ -473,6 +480,8 @@ router.get('/games', async function (req, res) {
   const year = get(req, 'query.year');
   const includeStrategies = get(req,'query.includeStrategies') === 'true';
   const forRankings = get(req, 'query.forRankings') === 'true';
+  const skipTeamStats = get(req, 'query.skipTeamStats') === 'true';
+  const endDateTime = get(req, 'query.endDateTime');
 
   // backupData();
   // getEmailAddresses();
@@ -564,17 +573,36 @@ router.get('/games', async function (req, res) {
       currentTime: 1
     };
 
-    const [gamesThisRange, gamesWholeYear] = await Promise.all([
-      gameRepository.find(thisRangeSearch, includeStrategies ? wholeYearFields : {}, {}).exec(),
-      gameRepository.find(wholeYearSearch, wholeYearFields, {}).exec(),
-  ]);
+    const rangeProjection = includeStrategies ? wholeYearFields : {};
+    const gamesThisRange = await gameRepository
+      .find(thisRangeSearch, rangeProjection, {})
+      .lean()
+      .exec();
 
     console.log("time3: ", moment().format());
 
     if (!includeStrategies) {
-      const teamStats = getAllTeamStats(gamesWholeYear);
+      let teamStats = null;
 
-      gamesThisRange.forEach(game=>{
+      if (!skipTeamStats) {
+        const loadWholeYearGames = () =>
+          gameRepository.find(wholeYearSearch, wholeYearFields, {}).lean().exec();
+        const hasLiveGames = (gamesThisRange || []).some(hasScoreboardGameLive);
+
+        if (hasLiveGames) {
+          const gamesWholeYear = await loadWholeYearGames();
+          teamStats = getAllTeamStats(gamesWholeYear);
+        } else {
+          teamStats = await getCachedAllTeamStats({
+            leagueId,
+            year,
+            endDateTime,
+            loadWholeYearGames,
+          });
+        }
+      }
+
+      gamesThisRange.forEach((game) => {
         setAmericanFootballPlays(game);
         setAmericanFootballDown(game);
         setBasketballPlays(game);
@@ -582,7 +610,7 @@ router.get('/games', async function (req, res) {
 
         game.hashCompetitors = null;
         limitPlayHistoryForResponse(game);
-        game.stats = getGameStats(game, teamStats);
+        game.stats = teamStats ? getGameStats(game, teamStats) : [];
       });
     }
 
