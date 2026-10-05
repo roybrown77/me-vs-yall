@@ -23,6 +23,9 @@ import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
 
 import { hasGameStarted } from "../../utilities";
+
+import "./game.css";
+import "./fields.css";
 import {
   buildGameHeadingText,
   buildGameSlugFromCompetitors,

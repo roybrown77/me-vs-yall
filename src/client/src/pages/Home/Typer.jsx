@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getRandomIntInclusive } from '../../utilities';
 
+import './typer.css';
+
 const TYPING_SPEED = 70;
 const DELETING_SPEED = 30;
 const WAIT_BEFORE_DELETING_SECONDS = 3000;

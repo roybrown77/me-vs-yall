@@ -5,6 +5,8 @@ import Slide from '@mui/material/Slide';
 
 import GoogleImage from '../../styles/images/google.png';
 
+import './continue-authentication.css';
+
 import { 
     autoGoogleLogin, 
     isLoggedIn, 

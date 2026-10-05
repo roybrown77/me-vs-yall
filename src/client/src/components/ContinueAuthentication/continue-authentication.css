@@ -1,0 +1,14 @@
+/* --- one tap sign in --- */
+
+.one-tap-sign-in {
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+@media screen and (min-width: 800px) {
+  .one-tap-sign-in {
+    margin: auto;
+    width: 50%;
+  }
+}

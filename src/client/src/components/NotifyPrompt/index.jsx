@@ -11,6 +11,8 @@ import NotificationsOff from '@mui/icons-material/NotificationsOff';
 import NotifyPromptCard from '../NotifyPromptCard';
 import usePwaInstallPrompt from '../../hooks/usePwaInstallPrompt';
 
+import '../PwaInstall/pwa-install.css';
+
 const notifyFeedbackStyles = {
   success: {
     backgroundColor: '#B3E6CA',

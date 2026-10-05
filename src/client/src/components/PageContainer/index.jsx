@@ -6,6 +6,8 @@ import Footer from '../Footer';
 import { isConfirmedAuthentication } from '../../utilities/authenticationClient';
 import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
 
+import './page-container.css';
+
 const PageContainer = (props) => {
     useGoogleAnalytics();
 

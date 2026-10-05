@@ -23,7 +23,12 @@ const colorForId = (id) => {
   return avatarColors[hash];
 };
 
-const GamePickAvatarStack = ({ pickers = [], side = "left", leadersHref }) => {
+const GamePickAvatarStack = ({
+  pickers = [],
+  side = "left",
+  leadersHref,
+  maxVisible = MAX_VISIBLE,
+}) => {
   const [failedImages, setFailedImages] = useState({});
 
   const navigateToLeaders = useCallback(() => {
@@ -43,7 +48,7 @@ const GamePickAvatarStack = ({ pickers = [], side = "left", leadersHref }) => {
     return null;
   }
 
-  const visiblePickers = pickers.slice(0, MAX_VISIBLE);
+  const visiblePickers = pickers.slice(0, maxVisible);
   const overflowCount = pickers.length - visiblePickers.length;
 
   return (
@@ -151,6 +156,7 @@ GamePickAvatarStack.propTypes = {
   ),
   side: PropTypes.oneOf(["left", "right"]),
   leadersHref: PropTypes.string,
+  maxVisible: PropTypes.number,
 };
 
 export default GamePickAvatarStack;

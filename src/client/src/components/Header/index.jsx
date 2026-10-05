@@ -11,6 +11,8 @@ import Popover from '@mui/material/Popover';
 import { googleLogin, isConfirmedAuthentication, logout, getUser } from '../../utilities/authenticationClient';
 import mvy from '../../styles/images/mvy-balls-cut.png';
 
+import './header.css';
+
 const styles = {
   root: {
     margin: '56px 0'

@@ -1,0 +1,110 @@
+.app {
+  position: relative;
+  display: block;
+  border-bottom: 2.5rem solid;
+  text-decoration: none;
+  text-align: center;
+}
+
+.app__wrapper {
+  padding-top: 62.5%;
+}
+
+.app__title {
+  position: absolute;
+  right: 0;
+  bottom: -2.5rem;
+  left: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-top: 0.55rem;
+  height: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  font: 1.4rem/1 sans-serif;
+}
+
+.link-group {
+  color: #000;
+  text-decoration: none !important;
+}
+
+.link-text:hover {
+  color: dodgerblue !important;
+  font-weight: bold !important;
+  font-size: 10px !important;
+}
+
+.link-text-main:hover {
+  color: dodgerblue !important;
+  padding: 0.25rem;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+/* --- leagues page --- */
+
+.list {
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.list-item {
+  margin: 12px 0 0 0;
+  width: 100%;
+  background-color: blue;
+  font: 1.4rem/1 sans-serif;
+  color: transparent;
+  font-size: 3.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+/*.list-item:hover {
+  -webkit-transform:translate(0,-2px);
+  transform:translate(0,-2px);opacity:.85;
+}*/
+
+.list-item-text {
+  cursor: pointer;
+}
+
+/* --- login start--- */
+
+#login-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: #fff;
+}
+
+.fa {
+  padding: 20px;
+  font-size: 130px;
+  width: 150px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+.fa:hover {
+    opacity: 0.7;
+    cursor: pointer !important;
+}
+
+.preview {
+  background-color: #3D9970;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 900;
+  font-family: sans-serif;
+  padding: 65px 20px;
+}

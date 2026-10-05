@@ -36,6 +36,6 @@
     "generate-vapid": "npx web-push generate-vapid-keys",
     "local-prod": "npm --prefix src/client run build && NODE_ENV=production node src/server",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
-    "heroku-postbuild": "npm install vite && cd src/client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "npm --prefix src/client install --include=dev && npm --prefix src/client run build"
   }
 }

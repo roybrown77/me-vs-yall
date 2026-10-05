@@ -14,6 +14,8 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+import './leader.css';
+
 import VegasWinCalculationPopup from "./VegasWinCalculationPopup";
 import PageContainer from "../../components/PageContainer";
 import ArcadeGameSearchBar from "../../components/GameSearchBar/ArcadeGameSearchBar";

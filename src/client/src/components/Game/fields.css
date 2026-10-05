@@ -1,0 +1,57 @@
+/* --- mini game animation --- */
+
+.ball {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #FF5722;
+  font-size: 1.75rem;
+}
+
+@keyframes throw-ball-left-to-right {
+  0%{
+    transform: translateX(0px);
+  }
+  100%{
+    transform: translateX(1900px);
+  }
+}
+
+.throwBallRight.ball {
+  width: 25%;
+  top: 2rem;
+  position: absolute;
+  display: block;
+  animation: 3s linear 1 throw-ball-left-to-right;
+  animation-fill-mode: forwards;
+  z-index: 10000;
+}
+
+.throwBaseBallRight.ball {
+  width: 25%;
+  top: 2rem;
+  position: absolute;
+  display: block;
+  animation: 7s linear 1 throw-ball-left-to-right;
+  animation-fill-mode: forwards;
+  z-index: 10000;
+}
+
+@keyframes throw-ball-right-to-left {
+  0%{
+    transform: translateX(0px);
+  }
+  100%{
+    transform: translateX(-1900px);
+  }
+}
+
+.throwBallLeft.ball {
+  width: 25%;
+  top: 2rem;
+  position: absolute;
+  display: block;
+  animation: 3s linear 1 throw-ball-right-to-left;
+  animation-fill-mode: forwards;
+  z-index: 10000;
+}

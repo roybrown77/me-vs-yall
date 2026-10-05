@@ -1,0 +1,12 @@
+/* --- text type animation --- */
+
+.typer-cursor {
+  -webkit-animation-name: flash-keyframe; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+
+  animation-name: flash-keyframe;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+
+  margin-left: 10px;
+}

@@ -5,6 +5,7 @@ import queryString from 'query-string';
 
 import Header from '../../components/Header';
 import Typer from './Typer';
+import HomeRecentScores from './HomeRecentScores';
 import useGoogleAnalytics from '../../hooks/useGoogleAnalytics';
 import { callApi } from '../../utilities/http';
 import { getLeagueName } from '../../utilities/getLeagueName';
@@ -14,11 +15,13 @@ import maddenTouchdown from '../../media/madden-touchdown.m4a';
 import tecmoTouchdown from '../../media/tecmo-touchdown.m4a'
 import boasty from '../../media/boasty.m4a';
 
+import './home.css';
+
 const taglineEndings = [
-  { word: 'doubles', emoji: '🥙' },
-  { word: 'pastelillos', emoji: '🥟' },
-  { word: 'roti', emoji: '🌯' },
-  { word: 'tacos', emoji: '🌮' },
+  // { word: 'doubles', emoji: '🥙' },
+  // { word: 'pastelillos', emoji: '🥟' },
+  // { word: 'roti', emoji: '🌯' },
+  // { word: 'tacos', emoji: '🌮' },
   { word: 'popcorn', emoji: '🍿' },
 ];
 
@@ -433,6 +436,7 @@ const Home = () => {
                 See Leaderboard
               </Link>
             </div>
+            <HomeRecentScores />
           </section>
 
         {false && <section className="home-splash__winding-run" aria-label="Long winding run" ref={windingRef}>

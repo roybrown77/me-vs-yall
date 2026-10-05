@@ -9,6 +9,8 @@ import usePwaInstallPrompt from '../../hooks/usePwaInstallPrompt';
 import mvyIcon from '../../styles/images/mvy-balls-cut.png';
 import { INSTALL_APP_EMOJIS } from '../../utilities/pwaInstall';
 
+import '../PwaInstall/pwa-install.css';
+
 const feedbackStyles = {
   success: {
     backgroundColor: '#B3E6CA',

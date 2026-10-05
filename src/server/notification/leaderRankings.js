@@ -5,6 +5,8 @@ const moment = require('moment-timezone');
 
 const TIE_PICK_ID = '000000000000000000000000';
 
+const trimOrEmpty = (value) => String(value ?? '').trim();
+
 const SPECIAL_LEADER_IDS = new Set([
   '1',
   '2',
@@ -26,7 +28,7 @@ const SPECIAL_LEADER_IDS = new Set([
 
 const isSpecialLeaderName = (user = {}) => {
   const authServiceId = String(get(user, 'authServiceId', ''));
-  const firstName = get(user, 'firstName', '').trim();
+  const firstName = trimOrEmpty(get(user, 'firstName'));
 
   if (SPECIAL_LEADER_IDS.has(authServiceId)) {
     return true;
@@ -36,8 +38,8 @@ const isSpecialLeaderName = (user = {}) => {
 };
 
 const formatLeaderDisplayName = (user = {}) => {
-  const firstName = get(user, 'firstName', '').trim();
-  const lastName = get(user, 'lastName', '').trim();
+  const firstName = trimOrEmpty(get(user, 'firstName'));
+  const lastName = trimOrEmpty(get(user, 'lastName'));
 
   if (isSpecialLeaderName(user)) {
     return firstName || 'Anonymous';
@@ -49,6 +51,10 @@ const formatLeaderDisplayName = (user = {}) => {
 
   if (!lastName) {
     return firstName;
+  }
+
+  if (!firstName) {
+    return `${lastName[0]}.`;
   }
 
   return `${firstName} ${lastName[0]}.`;

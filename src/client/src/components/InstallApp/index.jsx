@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import PwaInstallCard from '../PwaInstallCard';
 import usePwaInstallPrompt from '../../hooks/usePwaInstallPrompt';
 
+import '../PwaInstall/pwa-install.css';
+
 const InstallApp = ({ marginLeft = '0' }) => {
   const { installed } = usePwaInstallPrompt();
   const [isOpen, setIsOpen] = useState(false);

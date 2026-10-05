@@ -78,3 +78,14 @@ test('formatLeaderDisplayName keeps Vegas, kings, and queens unabbreviated', () 
     'Pat S.'
   );
 });
+
+test('formatLeaderDisplayName handles null name fields', () => {
+  assert.equal(
+    formatLeaderDisplayName({ authServiceId: 'user-4', firstName: null, lastName: null }),
+    'Anonymous'
+  );
+  assert.equal(
+    formatLeaderDisplayName({ authServiceId: 'user-5', firstName: null, lastName: 'Jones' }),
+    'J.'
+  );
+});
