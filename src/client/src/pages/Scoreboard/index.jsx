@@ -89,6 +89,7 @@ const Scoreboard = () => {
   }, []);
 
   const [dataLoading, setDataLoading] = useState(true);
+  const [picksDataLoading, setPicksDataLoading] = useState(false);
   const [games, setGames] = useState([]);
   const [picks, setPicks] = useState([]);
   const [revealedPicks, setRevealedPicks] = useState([]);
@@ -182,6 +183,18 @@ const Scoreboard = () => {
           .filter((game) => hasGameStarted(game.startDateTime))
           .map((game) => game._id)
           .join(",");
+        if (resolvedTeams?.length) {
+          teamsByLeagueRef.current[String(leagueId)] = resolvedTeams;
+        }
+
+        setGames(games || []);
+        setTeams(resolvedTeams);
+
+        if (showLoader && requestId === loadRequestIdRef.current) {
+          setDataLoading(false);
+        }
+
+        const needsPickExtras = isAuthenticated || anyGameStarted;
         const communityQuery = {
           leagueId,
           year,
@@ -201,49 +214,72 @@ const Scoreboard = () => {
           authId: userId || null,
         };
 
-        const [picks = [], communityPicks = [], users = []] = await Promise.all([
-          isAuthenticated
-            ? callApi({
-                method: "GET",
-                endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-                  query
-                )}`,
-                signal,
-              })
-            : Promise.resolve([]),
-          anyGameStarted
-            ? callApi({
-                method: "GET",
-                endpoint: `/api/pickmanagement/picks?${queryString.stringify(
-                  communityQuery
-                )}`,
-                signal,
-              })
-            : Promise.resolve([]),
-          anyGameStarted
-            ? callApi({
-                method: "GET",
-                endpoint: `/api/usermanagement/users?${queryString.stringify(
-                  usersQuery
-                )}`,
-                signal,
-              })
-            : Promise.resolve([]),
-        ]);
+        const loadPickExtras = async () => {
+          try {
+            const [nextPicks = [], communityPicks = [], users = []] =
+              await Promise.all([
+                isAuthenticated
+                  ? callApi({
+                      method: "GET",
+                      endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+                        query
+                      )}`,
+                      signal,
+                    })
+                  : Promise.resolve([]),
+                anyGameStarted
+                  ? callApi({
+                      method: "GET",
+                      endpoint: `/api/pickmanagement/picks?${queryString.stringify(
+                        communityQuery
+                      )}`,
+                      signal,
+                    })
+                  : Promise.resolve([]),
+                anyGameStarted
+                  ? callApi({
+                      method: "GET",
+                      endpoint: `/api/usermanagement/users?${queryString.stringify(
+                        usersQuery
+                      )}`,
+                      signal,
+                    })
+                  : Promise.resolve([]),
+              ]);
 
-        if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
-          return;
+            if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
+              return;
+            }
+
+            setPicks(nextPicks || []);
+            setRevealedPicks(anyGameStarted ? communityPicks || [] : []);
+            setPickUsers(anyGameStarted ? users || [] : []);
+          } catch (error) {
+            if (isRequestAborted(error) || isStaleRequest()) {
+              return;
+            }
+          } finally {
+            if (
+              !isStaleRequest() &&
+              requestId === loadRequestIdRef.current &&
+              showLoader
+            ) {
+              setPicksDataLoading(false);
+            }
+          }
+        };
+
+        if (needsPickExtras) {
+          if (showLoader) {
+            setPicksDataLoading(true);
+          }
+          void loadPickExtras();
+        } else {
+          setPicks([]);
+          setRevealedPicks([]);
+          setPickUsers([]);
+          setPicksDataLoading(false);
         }
-
-        if (resolvedTeams?.length) {
-          teamsByLeagueRef.current[String(leagueId)] = resolvedTeams;
-        }
-
-        setGames(games || []);
-        setPicks(picks || []);
-        setRevealedPicks(anyGameStarted ? communityPicks || [] : []);
-        setPickUsers(anyGameStarted ? users || [] : []);
-        setTeams(resolvedTeams);
 
         if (showLoader && (games || []).length > 0) {
           void (async () => {
@@ -423,7 +459,7 @@ const Scoreboard = () => {
   usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 10000 });
 
   useEffect(() => {
-    if (!isAuthenticated || dataLoading) {
+    if (!isAuthenticated || dataLoading || picksDataLoading) {
       return;
     }
 
@@ -435,7 +471,7 @@ const Scoreboard = () => {
     if (unpickedCount > 0) {
       enableSlimMode();
     }
-  }, [dataLoading, enableSlimMode, games, isAuthenticated, picks]);
+  }, [dataLoading, enableSlimMode, games, isAuthenticated, picks, picksDataLoading]);
 
   const rankingSnapshots = useMemo(
     () =>
@@ -884,7 +920,7 @@ const Scoreboard = () => {
         {isAuthenticated && !slimMode && (
           <div>
             <ArcadePickResult
-              loading={isLoading}
+              loading={picksDataLoading}
               spreadMode={spreadMode}
               games={groupedGames.completed}
               picks={picks}
@@ -1006,6 +1042,7 @@ const Scoreboard = () => {
                         updatingPick={updatingPick}
                         spreadMode={spreadMode}
                         slimMode={slimMode}
+                        picksDataLoading={picksDataLoading}
                         fieldPickers={getFieldPickersForGame(
                           game,
                           revealedPicks,
@@ -1046,6 +1083,7 @@ const Scoreboard = () => {
                         disableTie={disableTie}
                         spreadMode={spreadMode}
                         slimMode={slimMode}
+                        picksDataLoading={picksDataLoading}
                         fieldPickers={getFieldPickersForGame(
                           game,
                           revealedPicks,

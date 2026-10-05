@@ -7,6 +7,7 @@ import get from "lodash/get";
 import Grow from "@mui/material/Grow";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
 
 import BasketballCourt from "./components/Fields/BasketballCourt";
 import WorldFootballField from "./components/Fields/WorldFootballField";
@@ -402,7 +403,12 @@ const Game = (props) => {
     spreadMode: spreadModeProp,
     slimMode = false,
     fieldPickers,
+    picksDataLoading = false,
   } = props;
+
+  const showPickSkeleton = isAuthenticated && picksDataLoading;
+  const showFieldPickerSkeleton =
+    picksDataLoading && hasGameStarted(game.startDateTime) && !slimMode;
 
   const spreadMode =
     spreadModeProp ?? localStorage.getItem("spreadModeToggle") === "1";
@@ -498,7 +504,15 @@ const Game = (props) => {
       >
         <Grid key={game._id + "-gridlist"} container style={styles.root}>
           {game.competitors.map((competitor, competitorIndex) => {
-            const pickColumn = (
+            const pickColumn = showPickSkeleton ? (
+              <Skeleton
+                animation="pulse"
+                variant="rect"
+                height={slimMode ? 88 : 132}
+                width="100%"
+                sx={{ borderRadius: "8px" }}
+              />
+            ) : (
               <Paper style={styles.paper}>
                 <CompetitorHeader
                   {...{ ...componentProps, competitor, reserveHeaderSpace: shouldReserveHeaderSpace }}
@@ -511,19 +525,25 @@ const Game = (props) => {
             <Grid
               key={game._id + "." + competitor._id}
               size={6}
-              onClick={() => handleMakePick(game, competitor._id, competitorIndex)}
+              onClick={
+                showPickSkeleton
+                  ? undefined
+                  : () => handleMakePick(game, competitor._id, competitorIndex)
+              }
               className={updatingPick ? "fast-flash" : ""}
               style={{
                 width: "50%",
                 minWidth: 0,
-                border: competitor.selected
+                border: showPickSkeleton
+                  ? `${slimMode ? "1.25em" : "1.5rem"} dashed #E7E7E7`
+                  : competitor.selected
                   ? `${slimMode ? "1.25em" : "1.5rem"} dashed #3772FA`
                   : `${slimMode ? "1.25em" : "1.5rem"} dashed #E7E7E7`,
                 padding: slimMode ? "4px" : "10px",
-                cursor: "pointer",
+                cursor: showPickSkeleton ? "default" : "pointer",
               }}
             >
-              {slimMode ? pickColumn : (
+              {slimMode || showPickSkeleton ? pickColumn : (
                 <Grow in={true} timeout={500}>
                   {pickColumn}
                 </Grow>
@@ -569,8 +589,8 @@ const Game = (props) => {
             ⭐ Game of the Week
           </div>
         )}
-        {canShowTie && <TieButton {...componentProps} />}
-        {canShowScoreGuess && (
+        {canShowTie && !picksDataLoading && <TieButton {...componentProps} />}
+        {canShowScoreGuess && !picksDataLoading && (
           <details
             className="score-guess-details"
             style={{
@@ -775,7 +795,19 @@ const Game = (props) => {
               </div>
             </div>
           </div>
-          {hasGameStarted(game.startDateTime) &&
+          {showFieldPickerSkeleton && (
+            <div
+              className="game-field-picker-skeleton"
+              aria-busy="true"
+              aria-label="Loading community picks"
+            >
+              <Skeleton animation="pulse" variant="circular" width={34} height={34} />
+              <span className="game-field-picker-skeleton__vs">vs</span>
+              <Skeleton animation="pulse" variant="circular" width={34} height={34} />
+            </div>
+          )}
+          {!showFieldPickerSkeleton &&
+            hasGameStarted(game.startDateTime) &&
             fieldPickers &&
             (fieldPickers.away.length > 0 || fieldPickers.home.length > 0) && (
               <div
@@ -1026,6 +1058,7 @@ Game.propTypes = {
   handleMakePick: PropTypes.func,
   handleUpdateGame: PropTypes.func,
   updatingPick: PropTypes.bool,
+  picksDataLoading: PropTypes.bool,
 };
 
 export default Game;
