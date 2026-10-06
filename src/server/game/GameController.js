@@ -210,14 +210,20 @@ const setAmericanFootballPlays = (game) => {
 
       try {
         const yardArray = /for([^yards]+)yards/.exec(lastPlay);
-        if (Array(yardArray).length > 0) {
-          const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
-          const yardNumber = parseInt(yardString);
+        const hasPlayEmoji = game.playHistory[i].lastPlay !== lastPlay;
 
-          if (yardNumber >= 10 && 
+        if (yardArray?.[1]) {
+          const yardString = yardArray[1].replace("' '", "").replace(",", "");
+          const yardNumber = parseInt(yardString, 10);
+
+          if (
+            Number.isFinite(yardNumber) &&
+            yardNumber >= 10 &&
             !lastPlay.toLowerCase().includes('kick') &&
-            !lastPlay.toLowerCase().includes('injur')) {
-            game.playHistory[i].lastPlay = lastPlay + " 🎯";
+            !lastPlay.toLowerCase().includes('injur') &&
+            !hasPlayEmoji
+          ) {
+            game.playHistory[i].lastPlay = `${lastPlay} 🎯`;
             highlights.push(game.playHistory[i]);
           }
         }
@@ -313,14 +319,20 @@ const setAmericanFootballDown = (game) => {
 
     try {
         const yardArray = /for([^yards]+)yards/.exec(downPlay);
-        if (Array(yardArray).length > 0) {
-          const yardString = yardArray?.[1]?.replace("' '", "").replace(",", "");
-          const yardNumber = parseInt(yardString);
+        const hasDownEmoji = game.down !== downPlay;
 
-          if (yardNumber >= 10 && 
-            !downPlay.toLowerCase().includes('kick') && 
-            !downPlay.toLowerCase().includes('injur')) {
-            game.down = downPlay + " 🎯";
+        if (yardArray?.[1]) {
+          const yardString = yardArray[1].replace("' '", "").replace(",", "");
+          const yardNumber = parseInt(yardString, 10);
+
+          if (
+            Number.isFinite(yardNumber) &&
+            yardNumber >= 10 &&
+            !downPlay.toLowerCase().includes('kick') &&
+            !downPlay.toLowerCase().includes('injur') &&
+            !hasDownEmoji
+          ) {
+            game.down = `${downPlay} 🎯`;
           }
         }
       } catch (error) {
