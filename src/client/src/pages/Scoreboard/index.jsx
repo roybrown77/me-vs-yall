@@ -72,12 +72,15 @@ import useSlimUx from "../../hooks/useSlimUx";
 import {
   assignGameSlugs,
   buildNavigationPath,
-  buildWeekSegmentFromWeek,
   parseNavigationPath,
   SCOREBOARD_VIEW_RANKINGS,
   withGameSlug,
 } from "../../utilities/navigationPaths";
 import { inferSeasonType } from "./rankings";
+import {
+  buildWeekQueryMetaMap,
+  getWeekSegmentForWeek,
+} from "../../utilities/weekQueryMeta";
 
 const isAuthenticated = isConfirmedAuthentication();
 
@@ -350,7 +353,7 @@ const Scoreboard = () => {
     routeBase: "/scoreboards/",
     initialLeagueId: initialLeague?.id,
     initialYear: last(initialLeague?.years),
-    gameWeeksQueryExtras: { skipEntireWeek: true },
+    allowEntireSeasonWeek: false,
     onLoadData: loadDataWithLoader,
   });
 
@@ -379,6 +382,10 @@ const Scoreboard = () => {
   }, []);
 
   const currentWeek = weeks.find((x) => x._id === weekId);
+  const weekQueryMetaById = useMemo(
+    () => buildWeekQueryMetaMap(weeks),
+    [weeks]
+  );
 
   const rankingsAvailable = areRankingsAvailableForWeek(currentWeek);
   const parsedScoreboardPath = useMemo(
@@ -413,12 +420,14 @@ const Scoreboard = () => {
           (currentWeek ? inferSeasonType(currentWeek) : null),
         weekSegment:
           parsedScoreboardPath.weekSegment ||
-          (currentWeek ? buildWeekSegmentFromWeek(currentWeek) : null),
+          (currentWeek
+            ? getWeekSegmentForWeek(currentWeek, weekQueryMetaById)
+            : null),
         scoreboardView,
         gameSlug,
       });
     },
-    [currentWeek, leagueId, parsedScoreboardPath, year]
+    [currentWeek, leagueId, parsedScoreboardPath, weekQueryMetaById, year]
   );
 
   const poll = useCallback(() => {

@@ -12,10 +12,17 @@ import {
 } from "../utilities/navigationPaths";
 import {
   buildWeekQueryMetaMap,
+  ENTIRE_SEASON_WEEK_SEGMENT,
+  isEntireSeasonWeek,
   shouldSkipWeekSegment,
 } from "../utilities/weekQueryMeta";
 
-export { buildWeekQueryMetaMap, inferSeasonType, shouldSkipWeekSegment } from "../utilities/weekQueryMeta";
+export {
+  buildWeekQueryMetaMap,
+  inferSeasonType,
+  isEntireSeasonWeek,
+  shouldSkipWeekSegment,
+} from "../utilities/weekQueryMeta";
 
 const findLeagueByName = (leagueName) =>
   leagues.find(
@@ -65,10 +72,15 @@ const syncSelectionToPath = ({
   selectedWeek,
   weekQueryMetaById,
   gameSlug = null,
+  allowEntireSeasonWeek = true,
 }) => {
   const league = leagues.find((x) => x.id === leagueId);
   const selectedWeekId = selectedWeek?._id;
   const weekMeta = selectedWeekId ? weekQueryMetaById?.[selectedWeekId] : null;
+  const weekSegment =
+    !allowEntireSeasonWeek && isEntireSeasonWeek(selectedWeek)
+      ? null
+      : weekMeta?.weekSegment ?? null;
 
   const scoreboardView = routeBase.includes("scoreboards")
     ? parseNavigationPath(window.location.pathname, routeBase).scoreboardView
@@ -79,10 +91,7 @@ const syncSelectionToPath = ({
     leagueName: league?.name,
     year,
     seasonType: weekMeta?.seasonType,
-    weekSegment:
-      weekMeta?.weekSegment && !shouldSkipWeekSegment(selectedWeek)
-        ? weekMeta.weekSegment
-        : null,
+    weekSegment,
     scoreboardView,
     gameSlug: scoreboardView ? null : gameSlug,
   });
@@ -99,6 +108,7 @@ const useLeagueWeekNavigation = ({
   initialLeagueId,
   initialYear,
   gameWeeksQueryExtras = {},
+  allowEntireSeasonWeek = true,
   onLoadData,
 }) => {
   const [weeks, setWeeks] = useState([]);
@@ -110,6 +120,7 @@ const useLeagueWeekNavigation = ({
 
   const weeksRawRef = useRef([]);
   const gameWeeksQueryExtrasRef = useRef(gameWeeksQueryExtras);
+  const allowEntireSeasonWeekRef = useRef(allowEntireSeasonWeek);
   const onLoadDataRef = useRef(onLoadData);
   const weekQueryMetaByIdRef = useRef({});
   const initialWeekQueryRef = useRef(null);
@@ -136,6 +147,10 @@ const useLeagueWeekNavigation = ({
   }, [gameWeeksQueryExtras]);
 
   useEffect(() => {
+    allowEntireSeasonWeekRef.current = allowEntireSeasonWeek;
+  }, [allowEntireSeasonWeek]);
+
+  useEffect(() => {
     onLoadDataRef.current = onLoadData;
   }, [onLoadData]);
 
@@ -146,12 +161,34 @@ const useLeagueWeekNavigation = ({
         year: yearToLoad,
         signal,
         ...gameWeeksQueryExtrasRef.current,
+        ...(allowEntireSeasonWeekRef.current ? {} : { skipEntireWeek: true }),
       });
 
       return weeks;
     },
     []
   );
+
+  const resolveSelectedWeek = useCallback((weeksRaw = [], selectedWeek) => {
+    if (!weeksRaw.length) {
+      return null;
+    }
+
+    if (selectedWeek) {
+      const entireSeasonBlocked =
+        !allowEntireSeasonWeekRef.current && isEntireSeasonWeek(selectedWeek);
+
+      if (!entireSeasonBlocked) {
+        return selectedWeek;
+      }
+    }
+
+    const navigableWeeks = weeksRaw.filter(
+      (week) => !isEntireSeasonWeek(week) && !week?.isRollup
+    );
+
+    return last(navigableWeeks.length ? navigableWeeks : weeksRaw);
+  }, []);
 
   const selectWeekAndLoadData = useCallback(
     async ({
@@ -172,7 +209,7 @@ const useLeagueWeekNavigation = ({
       }
       if (!weeksRaw?.length) return;
 
-      const currentWeek = selectedWeek || last(weeksRaw);
+      const currentWeek = resolveSelectedWeek(weeksRaw, selectedWeek);
       if (!currentWeek) return;
 
       weeksRawRef.current = weeksRaw;
@@ -198,6 +235,7 @@ const useLeagueWeekNavigation = ({
         selectedWeek: currentWeek,
         weekQueryMetaById,
         gameSlug,
+        allowEntireSeasonWeek: allowEntireSeasonWeekRef.current,
       });
 
       await onLoadDataRef.current?.({
@@ -211,7 +249,7 @@ const useLeagueWeekNavigation = ({
         requestEpoch,
       });
     },
-    [routeBase]
+    [resolveSelectedWeek, routeBase]
   );
 
   useEffect(() => {
@@ -233,7 +271,11 @@ const useLeagueWeekNavigation = ({
       });
 
       initialWeekQueryRef.current = weekQuery;
-      initialWeekSegmentRef.current = weekSegmentQuery;
+      initialWeekSegmentRef.current =
+        !allowEntireSeasonWeekRef.current &&
+        weekSegmentQuery === ENTIRE_SEASON_WEEK_SEGMENT
+          ? null
+          : weekSegmentQuery;
       initialWeekIdQueryRef.current = weekIdQuery;
       initialSeasonTypeQueryRef.current = seasonTypeQuery;
       initialGameSlugRef.current = gameSlug;
@@ -252,11 +294,15 @@ const useLeagueWeekNavigation = ({
       weekQueryMetaByIdRef.current = weekQueryMetaById;
 
       const selectedWeekFromPath = weeksRaw.find((week) => {
-        if (shouldSkipWeekSegment(week)) {
+        if (week?.isRollup) {
           return false;
         }
 
-        const weekMeta = weekQueryMetaById?.[week._id];
+        if (shouldSkipWeekSegment(week) && !isEntireSeasonWeek(week)) {
+          return false;
+        }
+
+        const weekMeta = weekQueryMetaById?.[String(week._id)];
         if (!weekMeta) {
           return false;
         }
@@ -384,16 +430,15 @@ const useLeagueWeekNavigation = ({
         return;
       }
 
-      if (!shouldSkipWeekSegment(currentWeek)) {
-        syncSelectionToPath({
-          routeBase,
-          leagueId,
-          year,
-          selectedWeek: currentWeek,
-          weekQueryMetaById: weekQueryMetaByIdRef.current,
-          gameSlug: null,
-        });
-      }
+      syncSelectionToPath({
+        routeBase,
+        leagueId,
+        year,
+        selectedWeek: currentWeek,
+        weekQueryMetaById: weekQueryMetaByIdRef.current,
+        gameSlug: null,
+        allowEntireSeasonWeek: allowEntireSeasonWeekRef.current,
+      });
 
       await onLoadDataRef.current?.({
         weeks: weeksRawRef.current,

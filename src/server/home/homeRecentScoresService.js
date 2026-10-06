@@ -97,6 +97,20 @@ const inferSeasonType = (week = {}) => {
   return 2;
 };
 
+const ENTIRE_SEASON_WEEK_SEGMENT = 'entire-season';
+
+const isEntireSeasonWeek = (week = {}) => {
+  const labelCandidates = [
+    week.displayName,
+    week.description,
+    week.name,
+  ]
+    .map((value) => String(value || '').trim().toLowerCase())
+    .filter(Boolean);
+
+  return labelCandidates.some((label) => label.startsWith('entire'));
+};
+
 const shouldSkipWeekSegment = (selectedWeek = {}) => {
   const labelCandidates = [
     selectedWeek.displayName,
@@ -106,15 +120,9 @@ const shouldSkipWeekSegment = (selectedWeek = {}) => {
     .map((value) => String(value || '').trim())
     .filter(Boolean);
 
-  return labelCandidates.some((label) => {
-    const normalizedLabel = label.toLowerCase();
-
-    if (normalizedLabel.startsWith('entire')) {
-      return true;
-    }
-
-    return /^week\s+\d+\s*-\s*\d+\b/i.test(label);
-  });
+  return labelCandidates.some((label) =>
+    /^week\s+\d+\s*-\s*\d+\b/i.test(label.toLowerCase())
+  );
 };
 
 const getWeekLabelSources = (week = {}) =>
@@ -148,16 +156,32 @@ const buildWeekSegmentFromWeek = (week = {}, { weekNumber } = {}) => {
 };
 
 const buildWeekQueryMetaMap = (weeks = []) => {
+  const weekMetaById = {};
+
+  (weeks || []).forEach((week) => {
+    if (!week?._id || week?.isRollup || !isEntireSeasonWeek(week)) {
+      return;
+    }
+
+    weekMetaById[String(week._id)] = {
+      seasonType: inferSeasonType(week),
+      week: null,
+      weekSegment: ENTIRE_SEASON_WEEK_SEGMENT,
+    };
+  });
+
   const sortedWeeks = [...weeks]
     .sort(
       (a, b) =>
         new Date(a.beginDateTime || 0).getTime() - new Date(b.beginDateTime || 0).getTime()
     )
-    .filter((week) => !week?.isRollup && !shouldSkipWeekSegment(week));
+    .filter(
+      (week) =>
+        !week?.isRollup && !shouldSkipWeekSegment(week) && !isEntireSeasonWeek(week)
+    );
 
   const countersBySeasonType = { 1: 0, 2: 0, 3: 0 };
   const usedSegmentsBySeasonType = { 1: new Set(), 2: new Set(), 3: new Set() };
-  const weekMetaById = {};
 
   sortedWeeks.forEach((week) => {
     const seasonType = inferSeasonType(week);
@@ -314,10 +338,7 @@ const getHomeRecentScores = async ({ leagueId, year }) => {
 
   const weekQueryMetaById = buildWeekQueryMetaMap(gameWeeks || []);
   const weekMeta = weekQueryMetaById[String(selectedWeek._id)] || {};
-  const weekSegment =
-    weekMeta.weekSegment && !shouldSkipWeekSegment(selectedWeek)
-      ? weekMeta.weekSegment
-      : null;
+  const weekSegment = weekMeta.weekSegment ?? null;
 
   const games = await gameRepository
     .find(

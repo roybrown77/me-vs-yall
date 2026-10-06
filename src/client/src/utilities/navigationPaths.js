@@ -142,6 +142,8 @@ export const isGameSlugSegment = (segment) => /-vs-/.test(String(segment || ""))
 
 export const buildWeekSegment = (weekNumber) => `week-${weekNumber}`;
 
+export { ENTIRE_SEASON_WEEK_SEGMENT } from "./weekQueryMeta";
+
 export const parseWeekSegment = (segment) => {
   const match = /^week-(\d+)$/i.exec(String(segment || ""));
   return match ? Number(match[1]) : null;

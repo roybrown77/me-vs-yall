@@ -1,5 +1,19 @@
 import { buildWeekSegmentFromWeek } from "./navigationPaths";
 
+export const ENTIRE_SEASON_WEEK_SEGMENT = "entire-season";
+
+export const isEntireSeasonWeek = (week = {}) => {
+  const labelCandidates = [
+    week.displayName,
+    week.description,
+    week.name,
+  ]
+    .map((value) => String(value || "").trim().toLowerCase())
+    .filter(Boolean);
+
+  return labelCandidates.some((label) => label.startsWith("entire"));
+};
+
 export const inferSeasonType = (week = {}) => {
   const description = String(week.description || "").toLowerCase();
 
@@ -34,15 +48,9 @@ export const shouldSkipWeekSegment = (selectedWeek = {}) => {
     .map((value) => String(value || "").trim())
     .filter(Boolean);
 
-  return labelCandidates.some((label) => {
-    const normalizedLabel = label.toLowerCase();
-
-    if (normalizedLabel.startsWith("entire")) {
-      return true;
-    }
-
-    return /^week\s+\d+\s*-\s*\d+\b/i.test(label);
-  });
+  return labelCandidates.some((label) =>
+    /^week\s+\d+\s*-\s*\d+\b/i.test(label.toLowerCase())
+  );
 };
 
 const sortWeeksForNumbering = (weeks = []) => {
@@ -54,12 +62,26 @@ const sortWeeksForNumbering = (weeks = []) => {
 };
 
 export const buildWeekQueryMetaMap = (weeks = []) => {
+  const weekMetaById = {};
+
+  (weeks || []).forEach((week) => {
+    if (!week?._id || week?.isRollup || !isEntireSeasonWeek(week)) {
+      return;
+    }
+
+    weekMetaById[String(week._id)] = {
+      seasonType: inferSeasonType(week),
+      week: null,
+      weekSegment: ENTIRE_SEASON_WEEK_SEGMENT,
+    };
+  });
+
   const sortedWeeks = sortWeeksForNumbering(weeks).filter(
-    (week) => !week?.isRollup && !shouldSkipWeekSegment(week)
+    (week) =>
+      !week?.isRollup && !shouldSkipWeekSegment(week) && !isEntireSeasonWeek(week)
   );
   const countersBySeasonType = { 1: 0, 2: 0, 3: 0 };
   const usedSegmentsBySeasonType = { 1: new Set(), 2: new Set(), 3: new Set() };
-  const weekMetaById = {};
 
   sortedWeeks.forEach((week) => {
     const seasonType = inferSeasonType(week);
@@ -78,7 +100,7 @@ export const buildWeekQueryMetaMap = (weeks = []) => {
 
     usedSegments.add(weekSegment);
 
-    weekMetaById[week._id] = {
+    weekMetaById[String(week._id)] = {
       seasonType,
       week: weekNumber,
       weekSegment,
@@ -86,4 +108,21 @@ export const buildWeekQueryMetaMap = (weeks = []) => {
   });
 
   return weekMetaById;
+};
+
+export const getWeekSegmentForWeek = (week, weekQueryMetaById = {}) => {
+  if (!week?._id) {
+    return null;
+  }
+
+  const weekMeta = weekQueryMetaById[String(week._id)];
+  if (weekMeta?.weekSegment) {
+    return weekMeta.weekSegment;
+  }
+
+  if (shouldSkipWeekSegment(week)) {
+    return null;
+  }
+
+  return buildWeekSegmentFromWeek(week, { weekNumber: weekMeta?.week });
 };
