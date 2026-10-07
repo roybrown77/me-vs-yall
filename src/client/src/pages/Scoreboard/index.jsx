@@ -70,6 +70,7 @@ import useScrollToGameSlug from "../../hooks/useScrollToGameSlug";
 import usePageSeo from "../../hooks/usePageSeo";
 import useSpreadMode from "../../hooks/useSpreadMode";
 import useSlimUx from "../../hooks/useSlimUx";
+import { hasSlimUxPreference } from "../../utilities/slimUx";
 import {
   assignGameSlugs,
   buildNavigationPath,
@@ -483,7 +484,11 @@ const Scoreboard = () => {
     );
     const unpickedCount = getPicksNotSelected(gamesNotStarted, picks);
 
-    if (unpickedCount > 0) {
+    if (unpickedCount <= 0) {
+      return;
+    }
+
+    if (!hasSlimUxPreference()) {
       enableSlimMode();
     }
   }, [dataLoading, enableSlimMode, games, isAuthenticated, picks, picksDataLoading]);
@@ -975,6 +980,7 @@ const Scoreboard = () => {
           handleSpreadToggleOff={disableSpreadMode}
           handleSlimToggleOn={enableSlimMode}
           handleSlimToggleOff={disableSlimMode}
+          spreadMode={spreadMode}
           slimMode={slimMode}
           games={games}
           picks={picks}

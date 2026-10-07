@@ -22,6 +22,7 @@ const GameEngagementBar = ({
     handleSpreadToggleOff,
     handleSlimToggleOn,
     handleSlimToggleOff,
+    spreadMode = false,
     slimMode = false,
     games,
     picks,
@@ -299,19 +300,15 @@ const GameEngagementBar = ({
         setIsSpreadModeAlertOpen(false);
     };
 
-    const spreadToggleOn = () => {
-        localStorage.setItem("spreadModeToggle", "1");
-        setIsSpreadModeAlertOpen(false);
-        handleSpreadToggleOff();
-    };
-
-    const spreadToggleOff = () => {
-        localStorage.setItem("spreadModeToggle", "0");
+    const handleSpreadOn = () => {
+        handleSpreadToggleOn?.();
         setIsSpreadModeAlertOpen(true);
-        handleSpreadToggleOn();
     };
 
-    const spreadMode = localStorage.getItem("spreadModeToggle") === "1";
+    const handleSpreadOff = () => {
+        handleSpreadToggleOff?.();
+        setIsSpreadModeAlertOpen(false);
+    };
 
     return (
         <div
@@ -392,9 +389,9 @@ const GameEngagementBar = ({
                             aria-label="toggle spread mode"
                         >
                             {spreadMode ? (
-                                <ToggleOn onClick={spreadToggleOn} />
+                                <ToggleOn onClick={handleSpreadOff} />
                             ) : (
-                                <ToggleOff onClick={spreadToggleOff} />
+                                <ToggleOff onClick={handleSpreadOn} />
                             )}
                         </IconButton>
                         <Snackbar
@@ -470,6 +467,7 @@ GameEngagementBar.propTypes = {
     handleSpreadToggleOff: PropTypes.func,
     handleSlimToggleOn: PropTypes.func,
     handleSlimToggleOff: PropTypes.func,
+    spreadMode: PropTypes.bool,
     slimMode: PropTypes.bool,
     games: PropTypes.array.isRequired,
     picks: PropTypes.object.isRequired,

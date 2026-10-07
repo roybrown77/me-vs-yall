@@ -47,7 +47,6 @@ import styles from "./styles";
 import useLeagueWeekNavigation from "../../hooks/useLeagueWeekNavigation";
 import usePollWhileGamesInProgress from "../../hooks/usePollWhileGamesInProgress";
 import usePageSeo from "../../hooks/usePageSeo";
-import useSpreadMode from "../../hooks/useSpreadMode";
 
 const isAuthenticated = isConfirmedAuthentication();
 
@@ -178,19 +177,12 @@ const Leader = () => {
   const loadRequestIdRef = useRef(0);
   const scoresRequestEpochGetterRef = useRef(() => 0);
 
-  const { enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const [selectedLeaderTab, setSelectedLeaderTab] = useState(0);
   const isSpreadTab = selectedLeaderTab === 1;
   const isBonusPointsTab = selectedLeaderTab === 2;
 
   const handleLeaderTabChange = (_, selectedTab) => {
     setSelectedLeaderTab(selectedTab);
-
-    if (selectedTab === 1) {
-      enableSpreadMode();
-    } else {
-      disableSpreadMode();
-    }
   };
 
   const handleLeaderPictureError = useCallback((leaderId) => {
@@ -309,8 +301,6 @@ const Leader = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Leaders should always open on Picks.
-    disableSpreadMode();
   }, []);
 
   const poll = useCallback(() => {

@@ -1,5 +1,8 @@
 const SLIM_UX_KEY = "slimUxToggle";
 
+export const hasSlimUxPreference = () =>
+  localStorage.getItem(SLIM_UX_KEY) != null;
+
 export const getSlimUx = () => {
   return localStorage.getItem(SLIM_UX_KEY) ?? "0";
 };
