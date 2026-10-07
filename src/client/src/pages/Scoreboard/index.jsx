@@ -15,7 +15,8 @@ import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import TeamRankings from "./TeamRankings";
 import TabPanel from "../../components/TabPanel";
 import {
-  areRankingsAvailableForWeek,
+  areRankingsAvailableForSelection,
+  isLatestLeagueYear,
   getEarliestPlayoffWeekBegin,
   getLatestPlayoffWeekEnd,
   getRankingsSeasonBeginDateTime,
@@ -387,7 +388,12 @@ const Scoreboard = () => {
     [weeks]
   );
 
-  const rankingsAvailable = areRankingsAvailableForWeek(currentWeek);
+  const rankingsAvailable = areRankingsAvailableForSelection({
+    week: currentWeek,
+    weeks,
+    leagueId,
+    year,
+  });
   const parsedScoreboardPath = useMemo(
     () => parseNavigationPath(location.pathname, "/scoreboards/"),
     [location.pathname]
@@ -487,6 +493,7 @@ const Scoreboard = () => {
       resolveRankingSnapshots({
         currentYear: year,
         currentWeek,
+        leagueId,
         weeks,
         seasonGames,
         priorYearGames,
@@ -496,6 +503,7 @@ const Scoreboard = () => {
     [
       currentWeek,
       endDateTime,
+      leagueId,
       priorYearGames,
       priorYearWeeks,
       seasonGames,
@@ -568,6 +576,14 @@ const Scoreboard = () => {
 
   const loadRankingsData = useCallback(async () => {
     if (!leagueId || !year || !endDateTime || !currentWeek || !weeks.length || !weekId) {
+      return;
+    }
+
+    if (!isLatestLeagueYear(leagueId, year)) {
+      setSeasonGames([]);
+      setPriorYearWeeks([]);
+      setPriorYearGames([]);
+      setRankingsLoading(false);
       return;
     }
 
@@ -698,6 +714,15 @@ const Scoreboard = () => {
     wasRankingsViewActiveRef.current = true;
 
     if (!leagueId || !year || !weekId || !endDateTime || !currentWeek) {
+      return;
+    }
+
+    if (!isLatestLeagueYear(leagueId, year)) {
+      setSeasonGames([]);
+      setPriorYearWeeks([]);
+      setPriorYearGames([]);
+      setRankingsLoading(false);
+      rankingsFetchKeyRef.current = null;
       return;
     }
 

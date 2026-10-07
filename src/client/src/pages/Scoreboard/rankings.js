@@ -1,4 +1,7 @@
 import get from "lodash/get";
+import last from "lodash/last";
+
+import { leagues } from "../../utilities";
 
 export const inferSeasonType = (week = {}) => {
   const description = String(week.description || "").toLowerCase();
@@ -67,8 +70,52 @@ export const isFirstRegularSeasonWeek = (week, weeks = []) => {
   return regularWeeks.length > 0 && regularWeeks[0]._id === week._id;
 };
 
-export const areRankingsAvailableForWeek = (week) =>
-  Boolean(week) && inferSeasonType(week) !== 1;
+export const areRankingsAvailableForWeek = (week, weeks = []) => {
+  if (!week) {
+    return false;
+  }
+
+  const seasonType = inferSeasonType(week);
+
+  if (seasonType === 1) {
+    return false;
+  }
+
+  if (seasonType === 3) {
+    return true;
+  }
+
+  const regularWeeks = getNavigableWeeks(weeks).filter(
+    (entry) => inferSeasonType(entry) === 2
+  );
+  const regularSeasonWeekIndex = regularWeeks.findIndex(
+    (entry) => entry._id === week._id
+  );
+
+  return regularSeasonWeekIndex >= 1;
+};
+
+export const isLatestLeagueYear = (leagueId, year) => {
+  const league = leagues.find(
+    (entry) => String(entry.id) === String(leagueId)
+  );
+  const latestYear = last(league?.years);
+
+  if (latestYear == null || year == null) {
+    return false;
+  }
+
+  return Number(year) === Number(latestYear);
+};
+
+export const areRankingsAvailableForSelection = ({
+  week,
+  weeks = [],
+  leagueId,
+  year,
+}) =>
+  areRankingsAvailableForWeek(week, weeks) &&
+  isLatestLeagueYear(leagueId, year);
 
 export const getPreviousRankingWeek = (currentWeek, weeks = []) => {
   if (!currentWeek) return null;
@@ -176,13 +223,17 @@ const CURRENT_RANKING_SEASON_TYPES = [2, 3];
 export const resolveRankingSnapshots = ({
   currentYear,
   currentWeek,
+  leagueId,
   weeks = [],
   seasonGames = [],
   priorYearGames = [],
   priorYearWeeks = [],
   endDateTime,
 }) => {
-  if (!areRankingsAvailableForWeek(currentWeek)) {
+  if (
+    !areRankingsAvailableForWeek(currentWeek, weeks) ||
+    !isLatestLeagueYear(leagueId, currentYear)
+  ) {
     return {
       current: [],
       previous: [],

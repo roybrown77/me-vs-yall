@@ -36,8 +36,8 @@ const TeamRankings = ({
   if (!rankingsAvailable) {
     return (
       <div style={styles.note}>
-        Team rankings start with the regular season. Preseason games are not
-        included.
+        Team rankings begin at regular season week 2. Preseason and week 1 are
+        not included.
       </div>
     );
   }
