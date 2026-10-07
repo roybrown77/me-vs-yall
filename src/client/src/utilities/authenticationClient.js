@@ -17,6 +17,43 @@ const AUDIENCE = 'https://mevsyallcom/api/';
 const SCOPE = 'openid profile email';
 
 const WAIT_FOR_NEXT_SIGN_IN_PROMPT = 1; // hours
+const POST_LOGIN_REDIRECT_KEY = 'postLoginRedirect';
+const DEFAULT_POST_LOGIN_PATH = '/scoreboards/nfl';
+
+const savePostLoginRedirect = () => {
+  const path = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+  if (!path.startsWith('/') || path.startsWith('//')) {
+    return;
+  }
+
+  if (
+    path.startsWith('/authenticationCallback') ||
+    path.startsWith('/login')
+  ) {
+    return;
+  }
+
+  localStorage.setItem(POST_LOGIN_REDIRECT_KEY, path);
+};
+
+export const consumePostLoginRedirect = () => {
+  const path = localStorage.getItem(POST_LOGIN_REDIRECT_KEY);
+  localStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
+
+  if (!path || !path.startsWith('/') || path.startsWith('//')) {
+    return DEFAULT_POST_LOGIN_PATH;
+  }
+
+  if (
+    path.startsWith('/authenticationCallback') ||
+    path.startsWith('/login')
+  ) {
+    return DEFAULT_POST_LOGIN_PATH;
+  }
+
+  return path;
+};
 
 const auth = new auth0.WebAuth({
   clientID: authenticationClientId,
@@ -28,6 +65,7 @@ const auth = new auth0.WebAuth({
 });
 
 export const autoGoogleLogin = () => {
+  savePostLoginRedirect();
   try {
     auth.authorize({
       connection: 'google-oauth2',
@@ -40,6 +78,7 @@ export const autoGoogleLogin = () => {
 };
 
 export const googleLogin = () => {
+  savePostLoginRedirect();
   setConfirmedContinueAuthentication(true);
   auth.authorize({
     connection: 'google-oauth2',
@@ -115,6 +154,38 @@ export const getUserProfile = (cb) => {
   auth.client.userInfo(token, (err, profile) => {
     cb(err, profile);
   });
+};
+
+export const cacheUserFromIdToken = () => {
+  const idToken = getIdToken();
+  if (!idToken) {
+    return null;
+  }
+
+  try {
+    const payload = idToken.split('.')[1];
+    if (!payload) {
+      return null;
+    }
+
+    const claims = JSON.parse(
+      atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
+    );
+
+    const user = {
+      sub: claims.sub,
+      name: claims.name,
+      picture: claims.picture,
+      email: claims.email,
+      given_name: claims.given_name,
+      family_name: claims.family_name,
+    };
+
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    return user;
+  } catch {
+    return null;
+  }
 };
 
 export const getUser = () => {

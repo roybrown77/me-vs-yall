@@ -167,9 +167,43 @@ const Header = (props) => {
             </Profile>
           )}
           {isAuthenticated && !showProfileImage && (
-            <div style={styles.userDefaultPicture} title="User Profile">
-              <div style={{ margin: '8px 0' }}>{get(user, 'name', '?')[0]}</div>
-            </div>
+            <Profile
+              mainElement={(
+                <div style={styles.userDefaultPicture} title="User Profile">
+                  <div style={{ margin: '8px 0' }}>
+                    {String(get(user, 'name', '?') || '?')[0]}
+                  </div>
+                </div>
+              )}
+            >
+              {({ close }) => (
+                <div className="header-signout-popover">
+                  <div className="header-signout-popover__kicker">Account</div>
+                  <div className="header-signout-popover__identity">
+                    {get(user, 'name', 'Me vs Yall Player')}
+                  </div>
+                  <div className="header-signout-popover__actions">
+                    <button
+                      type="button"
+                      className="header-signout-popover__btn header-signout-popover__btn--ghost"
+                      onClick={close}
+                    >
+                      Stay Signed In
+                    </button>
+                    <button
+                      type="button"
+                      className="header-signout-popover__btn header-signout-popover__btn--danger"
+                      onClick={() => {
+                        close();
+                        logout();
+                      }}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Profile>
           )}
           {!isAuthenticated && (
             <button
