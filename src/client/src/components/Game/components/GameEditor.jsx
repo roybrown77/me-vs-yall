@@ -24,7 +24,15 @@ const GameEditor = (props) => {
       handleSaveGame,
       isHidden,
       isGameOfTheWeek,
+      homeStadiumName,
+      homeStadiumCity,
+      homeStadiumDescription,
     } = props;
+
+    const homeVenue = game.competitors[1] || {};
+    const defaultStadiumDescription = Array.isArray(homeVenue.stadiumLocation)
+      ? homeVenue.stadiumLocation.join("\n")
+      : "";
   
     return (
       <div style={{ padding: "16px", textAlign: "left" }}>
@@ -219,6 +227,47 @@ const GameEditor = (props) => {
             onChange={handleInputChange}
             variant="outlined"
             fullWidth
+          />
+        </div>
+        <div style={{ marginTop: "16px" }}>
+          <TextField
+            name="homeStadiumName"
+            label="Stadium name (home venue)"
+            defaultValue={homeStadiumName ?? homeVenue.stadiumName ?? ""}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{ marginTop: "16px" }}>
+          <TextField
+            name="homeStadiumCity"
+            label="Game location (city / region)"
+            defaultValue={homeStadiumCity ?? homeVenue.stadiumCity ?? ""}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+        </div>
+        <div style={{ marginTop: "16px" }}>
+          <TextField
+            name="homeStadiumDescription"
+            label="Stadium description (one line per variant)"
+            defaultValue={homeStadiumDescription ?? defaultStadiumDescription}
+            fullWidth
+            multiline
+            minRows={3}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleInputChange}
+            variant="outlined"
           />
         </div>
         <div style={{ marginTop: "16px" }}>

@@ -96,6 +96,21 @@ const update = async (game, cb) => {
             set(updatedGame,'isGameOfTheWeek',game.isGameOfTheWeek);
         }
 
+        if (game?.homeStadiumName !== undefined) {
+            set(updatedGame, 'competitors.1.stadiumName', game.homeStadiumName);
+        }
+
+        if (game?.homeStadiumCity !== undefined) {
+            set(updatedGame, 'competitors.1.stadiumCity', game.homeStadiumCity);
+        }
+
+        if (game?.homeStadiumLocation !== undefined) {
+            const lines = Array.isArray(game.homeStadiumLocation)
+                ? game.homeStadiumLocation
+                : [];
+            set(updatedGame, 'competitors.1.stadiumLocation', lines);
+        }
+
         console.log(`game updated: ${JSON.stringify(updatedGame)}`);
 
         const gameUpdated = await gameRepository.findOneAndUpdate(

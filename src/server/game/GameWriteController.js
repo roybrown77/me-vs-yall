@@ -27,7 +27,10 @@ router.put('/games/:id', function (req, res) {
         liveVideoUrl: req.body.liveVideoUrl,
         highlightVideoUrl: req.body.highlightVideoUrl,
         isHidden: req.body.isHidden,
-        isGameOfTheWeek: req.body.isGameOfTheWeek
+        isGameOfTheWeek: req.body.isGameOfTheWeek,
+        homeStadiumName: req.body.homeStadiumName,
+        homeStadiumCity: req.body.homeStadiumCity,
+        homeStadiumLocation: req.body.homeStadiumLocation
     };
 
     gameDomain.update(game, (error, gameToUpdate) => {

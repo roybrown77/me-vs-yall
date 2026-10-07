@@ -106,6 +106,9 @@ const Game = (props) => {
     highlightVideoUrl: null,
     isHidden: null,
     isGameOfTheWeek: Boolean(get(props, "game.isGameOfTheWeek")),
+    homeStadiumName: null,
+    homeStadiumCity: null,
+    homeStadiumDescription: null,
     popoverOpen: false,
     popoverMessage: '',
     selectionMade: null,
@@ -331,7 +334,25 @@ const Game = (props) => {
       highlightVideoUrl: null,
       isHidden: null,
       isGameOfTheWeek: Boolean(get(props, "game.isGameOfTheWeek")),
+      homeStadiumName: null,
+      homeStadiumCity: null,
+      homeStadiumDescription: null,
     }));
+  };
+
+  const parseStadiumLocationLines = (text) =>
+    String(text || "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+  const getHomeStadiumDescriptionText = (gameCompetitor, descriptionState) => {
+    if (descriptionState !== null && descriptionState !== undefined) {
+      return descriptionState;
+    }
+
+    const lines = gameCompetitor?.stadiumLocation;
+    return Array.isArray(lines) ? lines.join("\n") : "";
   };
 
   const handleInputChange = (event) => {
@@ -365,7 +386,12 @@ const Game = (props) => {
       gameTime,
       liveVideoUrl,
       highlightVideoUrl,
+      homeStadiumName,
+      homeStadiumCity,
+      homeStadiumDescription,
     } = state;
+
+    const homeCompetitor = get(props, "game.competitors.1") || {};
 
     const gameTimeFormatted = gameTime
       ? (gameDate || moment().format("YYYY-MM-DD")) + " " + gameTime
@@ -389,6 +415,17 @@ const Game = (props) => {
       highlightVideoUrl,
       isHidden,
       isGameOfTheWeek,
+      homeStadiumName:
+        homeStadiumName !== null && homeStadiumName !== undefined
+          ? homeStadiumName
+          : homeCompetitor.stadiumName || "",
+      homeStadiumCity:
+        homeStadiumCity !== null && homeStadiumCity !== undefined
+          ? homeStadiumCity
+          : homeCompetitor.stadiumCity || "",
+      homeStadiumLocation: parseStadiumLocationLines(
+        getHomeStadiumDescriptionText(homeCompetitor, homeStadiumDescription)
+      ),
     };
 
     props.handleUpdateGame(game);

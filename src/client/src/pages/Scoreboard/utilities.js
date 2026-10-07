@@ -70,6 +70,28 @@ const applyNflVenueOverrides = ({ game, team, isSeasonOpener = false }) => {
   return team;
 };
 
+const mergeCompetitorStadiumFields = (competitor = {}, team = {}) => {
+  const hasText = (value) =>
+    value !== undefined && value !== null && String(value).trim() !== "";
+
+  const competitorLocation = competitor.stadiumLocation;
+  const hasLocationOverride =
+    Array.isArray(competitorLocation) &&
+    competitorLocation.some((line) => String(line || "").trim() !== "");
+
+  return {
+    stadiumName: hasText(competitor.stadiumName)
+      ? competitor.stadiumName
+      : team.stadiumName,
+    stadiumCity: hasText(competitor.stadiumCity)
+      ? competitor.stadiumCity
+      : team.stadiumCity,
+    stadiumLocation: hasLocationOverride
+      ? competitorLocation
+      : team.stadiumLocation,
+  };
+};
+
 const getPickerLabel = (user) => {
   if (!user) {
     return "?";
@@ -183,6 +205,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
             return {
               ...competitor,
               ...team,
+              ...mergeCompetitorStadiumFields(competitor, team),
               record: competitor.finalRecord || competitor.record,
               selectedWinner,
               spreadPush: spreadPush && !!teamAPick,
@@ -212,6 +235,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
           return {
             ...competitor,
             ...team,
+            ...mergeCompetitorStadiumFields(competitor, team),
             record: competitor.finalRecord || competitor.record,
             selected: picks.find(
               (x) =>

@@ -908,6 +908,9 @@ const Scoreboard = () => {
       highlightVideoUrl: game.highlightVideoUrl,
       isHidden: game.isHidden,
       isGameOfTheWeek: game.isGameOfTheWeek,
+      homeStadiumName: game.homeStadiumName,
+      homeStadiumCity: game.homeStadiumCity,
+      homeStadiumLocation: game.homeStadiumLocation,
     };
 
     await callApi({
