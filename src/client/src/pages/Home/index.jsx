@@ -436,7 +436,7 @@ const Home = () => {
                 See Leaderboard
               </Link>
             </div>
-            <HomeRecentScores />
+            {false && <HomeRecentScores />}
           </section>
 
         {false && <section className="home-splash__winding-run" aria-label="Long winding run" ref={windingRef}>
