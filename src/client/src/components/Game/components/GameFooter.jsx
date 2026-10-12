@@ -17,9 +17,6 @@ const getFontSize = (game) => {
 const GameFooter = (props) => {
   const {
     game,
-    isAuthenticated,
-    userId,
-    pick,
   } = props;
 
   return (
@@ -37,8 +34,7 @@ const GameFooter = (props) => {
           {game.gameName}
         </div>
       )}
-      {(userId !== "google-oauth2|114172296334563495985" ||
-        !isAuthenticated) && (
+      {game.startDateTimeDisplay && (
         <div style={{ marginTop: "5px" }}>{game.startDateTimeDisplay}</div>
       )}
       {game?.isGameOver && <div style={{ marginTop: "5px" }}>Final</div>}
