@@ -251,7 +251,7 @@ const GamePlayTabs = (props) => {
       {
         enableGameEditor &&
         <TabPanel value={tabValue} index={TabState.EDIT} idPrefix={tabIdPrefix}>
-          <GameEditor {...props} />
+          <GameEditor key={`editor-${game._id}`} {...props} />
         </TabPanel>
       }
     </Box>

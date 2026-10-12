@@ -1,6 +1,8 @@
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
+import moment from "moment-timezone";
+import get from "lodash/get";
 
 const GameEditor = (props) => {
     const {
@@ -29,18 +31,54 @@ const GameEditor = (props) => {
       homeStadiumDescription,
     } = props;
 
-    const homeVenue = game.competitors[1] || {};
+    const awayCompetitor = get(game, "competitors.0") || {};
+    const homeCompetitor = get(game, "competitors.1") || {};
+    const homeVenue = homeCompetitor;
     const defaultStadiumDescription = Array.isArray(homeVenue.stadiumLocation)
       ? homeVenue.stadiumLocation.join("\n")
       : "";
-  
+
+    const spread = get(game, "spread");
+    const savedAwaySpread =
+      spread?.teamId === awayCompetitor._id && spread?.amount !== undefined && spread?.amount !== null
+        ? spread.amount
+        : "";
+    const savedHomeSpread =
+      spread?.teamId === homeCompetitor._id && spread?.amount !== undefined && spread?.amount !== null
+        ? spread.amount
+        : "";
+
+    const startMoment = game?.startDateTime
+      ? moment(game.startDateTime).tz("America/New_York")
+      : null;
+    const savedGameDate =
+      startMoment && startMoment.isValid()
+        ? startMoment.format("YYYY-MM-DD")
+        : "";
+    const savedGameTime =
+      startMoment && startMoment.isValid() ? startMoment.format("HH:mm") : "";
+
+    const savedGameName =
+      game?.rawGameName ??
+      (typeof game?.gameName === "string" && game.gameName.includes(" *** ")
+        ? game.gameName.split(" *** ")[0]
+        : game?.gameName) ??
+      "";
+
+    const awayLabel = (awayCompetitor.shortLocation || awayCompetitor.name || "Away") + " ";
+    const homeLabel = (homeCompetitor.shortLocation || homeCompetitor.name || "Home") + " ";
+
     return (
       <div style={{ padding: "16px", textAlign: "left" }}>
         <div>
           <Checkbox
             name="isGameOver"
             color="primary"
-            checked={isGameOver}
+            checked={
+              isGameOver !== null && isGameOver !== undefined
+                ? Boolean(isGameOver)
+                : Boolean(game?.isGameOver)
+            }
             inputProps={{ "aria-label": "secondary checkbox" }}
             onChange={handleInputChange}
           />
@@ -50,7 +88,11 @@ const GameEditor = (props) => {
           <Checkbox
             name="isHidden"
             color="primary"
-            checked={isHidden}
+            checked={
+              isHidden !== null && isHidden !== undefined
+                ? Boolean(isHidden)
+                : Boolean(game?.isHidden)
+            }
             inputProps={{ "aria-label": "secondary checkbox" }}
             onChange={handleInputChange}
           />
@@ -60,7 +102,11 @@ const GameEditor = (props) => {
           <Checkbox
             name="isGameOfTheWeek"
             color="primary"
-            checked={Boolean(isGameOfTheWeek)}
+            checked={
+              isGameOfTheWeek !== null && isGameOfTheWeek !== undefined
+                ? Boolean(isGameOfTheWeek)
+                : Boolean(get(game, "isGameOfTheWeek"))
+            }
             inputProps={{ "aria-label": "secondary checkbox" }}
             onChange={handleInputChange}
           />
@@ -71,9 +117,9 @@ const GameEditor = (props) => {
             <TextField
               name="awayScore"
               id="outlined-number"
-              label={game.competitors[0].shortLocation + " score"}
+              label={awayLabel + "score"}
               type="number"
-              defaultValue={awayScore}
+              defaultValue={awayScore ?? awayCompetitor.score ?? ""}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -85,9 +131,9 @@ const GameEditor = (props) => {
             <TextField
               name="homeScore"
               id="outlined-number"
-              label={game.competitors[1].shortLocation + " score"}
+              label={homeLabel + "score"}
               type="number"
-              defaultValue={homeScore}
+              defaultValue={homeScore ?? homeCompetitor.score ?? ""}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -101,9 +147,9 @@ const GameEditor = (props) => {
             <TextField
               name="awayRank"
               id="outlined-number"
-              label={game.competitors[0].shortLocation + " rank"}
+              label={awayLabel + "rank"}
               type="number"
-              defaultValue={awayRank}
+              defaultValue={awayRank ?? awayCompetitor.rank ?? ""}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -115,9 +161,9 @@ const GameEditor = (props) => {
             <TextField
               name="homeRank"
               id="outlined-number"
-              label={game.competitors[1].shortLocation + " rank"}
+              label={homeLabel + "rank"}
               type="number"
-              defaultValue={homeRank}
+              defaultValue={homeRank ?? homeCompetitor.rank ?? ""}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -131,9 +177,9 @@ const GameEditor = (props) => {
             <TextField
               name="awayRecord"
               id="outlined-number"
-              label={game.competitors[0].shortLocation + " record"}
+              label={awayLabel + "record"}
               type="string"
-              defaultValue={awayRecord}
+              defaultValue={awayRecord ?? awayCompetitor.record ?? ""}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -145,9 +191,9 @@ const GameEditor = (props) => {
             <TextField
               name="homeRecord"
               id="outlined-number"
-              label={game.competitors[1].shortLocation + " record"}
+              label={homeLabel + "record"}
               type="string"
-              defaultValue={homeRecord}
+              defaultValue={homeRecord ?? homeCompetitor.record ?? ""}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -161,9 +207,9 @@ const GameEditor = (props) => {
             <TextField
               name="awaySpread"
               id="outlined-number"
-              label={game.competitors[0].shortLocation + " spread"}
+              label={awayLabel + "spread"}
               type="number"
-              defaultValue={awaySpread}
+              defaultValue={awaySpread ?? savedAwaySpread}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -175,9 +221,9 @@ const GameEditor = (props) => {
             <TextField
               name="homeSpread"
               id="outlined-number"
-              label={game.competitors[1].shortLocation + " spread"}
+              label={homeLabel + "spread"}
               type="number"
-              defaultValue={homeSpread}
+              defaultValue={homeSpread ?? savedHomeSpread}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -191,7 +237,7 @@ const GameEditor = (props) => {
             name="currentTime"
             id="outlined-number"
             label="Game Clock"
-            defaultValue={currentTime}
+            defaultValue={currentTime ?? game?.currentTime ?? ""}
             InputLabelProps={{
               shrink: true,
             }}
@@ -205,7 +251,7 @@ const GameEditor = (props) => {
             id="outlined-number"
             label="Game Date"
             type="date"
-            defaultValue={gameDate}
+            defaultValue={gameDate ?? savedGameDate}
             InputLabelProps={{
               shrink: true,
             }}
@@ -220,7 +266,7 @@ const GameEditor = (props) => {
             id="outlined-number"
             label="Game Time"
             type="time"
-            defaultValue={gameTime}
+            defaultValue={gameTime ?? savedGameTime}
             InputLabelProps={{
               shrink: true,
             }}
@@ -275,7 +321,7 @@ const GameEditor = (props) => {
             name="gameName"
             id="outlined-number"
             label="Game Name"
-            defaultValue={gameName}
+            defaultValue={gameName ?? savedGameName}
             fullWidth
             multiline={true}
             InputLabelProps={{
@@ -290,7 +336,7 @@ const GameEditor = (props) => {
             name="liveVideoUrl"
             id="outlined-number"
             label="Live Video Url"
-            defaultValue={liveVideoUrl}
+            defaultValue={liveVideoUrl ?? game?.liveVideoUrl ?? ""}
             fullWidth
             multiline={true}
             InputLabelProps={{
@@ -305,7 +351,7 @@ const GameEditor = (props) => {
             name="highlightVideoUrl"
             id="outlined-number"
             label="Highlight Video Url"
-            defaultValue={highlightVideoUrl}
+            defaultValue={highlightVideoUrl ?? game?.highlightVideoUrl ?? ""}
             fullWidth
             multiline={true}
             InputLabelProps={{
@@ -337,6 +383,6 @@ const GameEditor = (props) => {
         </div>
       </div>
     );
-  };
+};
 
-  export default GameEditor;
+export default GameEditor;

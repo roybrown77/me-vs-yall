@@ -177,13 +177,15 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
                 getRandomIntInclusive(0, home?.emojis?.length - 1)
               ] || home?.name
             }`;
+      const rawGameName = (game?.rawGameName ?? game?.gameName ?? "").split(" *** ")[0].trim();
       const gameName =
-        game?.gameName?.trim()?.length > 0
-          ? (emojis ? `${game.gameName} *** ${emojis}` : game.gameName)
+        rawGameName.length > 0
+          ? (emojis ? `${rawGameName} *** ${emojis}` : rawGameName)
           : emojis;
       if (spreadMode) {
         return {
           ...game,
+          rawGameName,
           startDateTimeDisplay: displayDateTime.format("dddd MMM D YYYY h:mm a"),
           gameName,
           competitors: game.competitors.map((competitor, index) => {
@@ -218,6 +220,7 @@ const getGroupedGames = ({games = [], picks = [], teams = [], spreadMode = false
   
       return {
         ...game,
+        rawGameName,
         startDateTimeDisplay: displayDateTime.format("dddd MMM D YYYY h:mm a"),
         winner:
           game.competitors[0].score === game.competitors[1].score

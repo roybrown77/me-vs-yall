@@ -21,7 +21,7 @@ const update = async (game, cb) => {
           isGameOver: gameFound.isGameOver
         };
 
-        if (game?.awayScore) {
+        if (game?.awayScore !== undefined && game?.awayScore !== null && game?.awayScore !== '') {
             set(updatedGame,'competitors.0.score',parseInt(game.awayScore));
         }
 
@@ -42,7 +42,7 @@ const update = async (game, cb) => {
             set(updatedGame,'spread',spread);
         }
 
-        if (game?.homeScore) {
+        if (game?.homeScore !== undefined && game?.homeScore !== null && game?.homeScore !== '') {
             set(updatedGame,'competitors.1.score',parseInt(game.homeScore));
         }
 
@@ -63,11 +63,11 @@ const update = async (game, cb) => {
             set(updatedGame,'spread',spread);
         }
 
-        if (game?.gameName) {
+        if (game?.gameName !== undefined) {
             set(updatedGame,'gameName',game.gameName);
         }
 
-        if (game?.isGameOver) {
+        if (typeof game?.isGameOver === 'boolean') {
             set(updatedGame,'isGameOver',game.isGameOver);
         }
 
@@ -88,7 +88,7 @@ const update = async (game, cb) => {
             set(updatedGame,'highlightVideoUrl',game.highlightVideoUrl);
         }
 
-        if (game?.isHidden) {
+        if (typeof game?.isHidden === 'boolean') {
             set(updatedGame,'isHidden',game.isHidden);
         }
 

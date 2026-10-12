@@ -85,44 +85,88 @@ const getScoreGuessBoostRows = (multiplier = 1) => [
   { diff: "4", points: SCORE_GUESS_BUMPS.within4 * multiplier },
 ];
 
+const getSavedGameValues = (game) => {
+  const awayCompetitor = get(game, "competitors.0") || {};
+  const homeCompetitor = get(game, "competitors.1") || {};
+  const spread = get(game, "spread");
+  const awaySpread =
+    spread?.teamId === awayCompetitor._id && spread?.amount !== undefined && spread?.amount !== null
+      ? spread.amount
+      : "";
+  const homeSpread =
+    spread?.teamId === homeCompetitor._id && spread?.amount !== undefined && spread?.amount !== null
+      ? spread.amount
+      : "";
+
+  const startMoment = game?.startDateTime
+    ? moment(game.startDateTime).tz("America/New_York")
+    : null;
+  const gameDate =
+    startMoment && startMoment.isValid()
+      ? startMoment.format("YYYY-MM-DD")
+      : "";
+  const gameTime =
+    startMoment && startMoment.isValid() ? startMoment.format("HH:mm") : "";
+
+  const homeVenue = homeCompetitor;
+  const homeStadiumLocation = Array.isArray(homeVenue.stadiumLocation)
+    ? homeVenue.stadiumLocation.join("\n")
+    : "";
+
+  const savedGameName =
+    game?.rawGameName ??
+    (typeof game?.gameName === "string" && game.gameName.includes(" *** ")
+      ? game.gameName.split(" *** ")[0]
+      : game?.gameName) ??
+    "";
+
+  return {
+    awayScore: awayCompetitor.score ?? "",
+    homeScore: homeCompetitor.score ?? "",
+    awayRank: awayCompetitor.rank ?? "",
+    homeRank: homeCompetitor.rank ?? "",
+    awayRecord: awayCompetitor.record ?? "",
+    homeRecord: homeCompetitor.record ?? "",
+    awaySpread,
+    homeSpread,
+    gameName: savedGameName,
+    isGameOver: Boolean(game?.isGameOver),
+    currentTime: game?.currentTime ?? "",
+    gameTime,
+    gameDate,
+    liveVideoUrl: game?.liveVideoUrl ?? "",
+    highlightVideoUrl: game?.highlightVideoUrl ?? "",
+    isHidden: Boolean(game?.isHidden),
+    isGameOfTheWeek: Boolean(get(game, "isGameOfTheWeek")),
+    homeStadiumName: homeVenue.stadiumName ?? "",
+    homeStadiumCity: homeVenue.stadiumCity ?? "",
+    homeStadiumDescription: homeStadiumLocation,
+  };
+};
+
 const Game = (props) => {
   const unauthenticatedPickMessage = 'Please sign in to make your picks. You got this! 🚀';
 
-  const [state, setState] = useState({
-    awayScore: null,
-    homeScore: null,
-    awayRank: null,
-    homeRank: null,
-    awayRecord: null,
-    homeRecord: null,
-    awaySpread: null,
-    homeSpread: null,
-    gameName: null,
-    isGameOver: null,
-    currentTime: null,
-    gameTime: null,
-    gameDate: null,
-    liveVideoUrl: null,
-    highlightVideoUrl: null,
-    isHidden: null,
-    isGameOfTheWeek: Boolean(get(props, "game.isGameOfTheWeek")),
-    homeStadiumName: null,
-    homeStadiumCity: null,
-    homeStadiumDescription: null,
+  const [state, setState] = useState(() => ({
+    ...getSavedGameValues(props.game),
     popoverOpen: false,
     popoverMessage: '',
     selectionMade: null,
     guessedAwayScore: get(props, "pick.guessedAwayScore") ?? "",
     guessedHomeScore: get(props, "pick.guessedHomeScore") ?? "",
-  });
+  }));
 
   useEffect(() => {
+    const saved = getSavedGameValues(props.game);
     setState((prevState) => ({
+      ...saved,
       ...prevState,
       guessedAwayScore: get(props, "pick.guessedAwayScore") ?? "",
       guessedHomeScore: get(props, "pick.guessedHomeScore") ?? "",
     }));
   }, [
+    props.game?._id,
+    props.game?.startDateTime,
     props.pick?.pickId,
     props.pick?.guessedAwayScore,
     props.pick?.guessedHomeScore,
@@ -317,26 +361,7 @@ const Game = (props) => {
   const handleClearInput = () => {
     setState((prevState) => ({
       ...prevState,
-      awayScore: null,
-      homeScore: null,
-      awayRank: null,
-      homeRank: null,
-      awayRecord: null,
-      homeRecord: null,
-      awaySpread: null,
-      homeSpread: null,
-      gameName: null,
-      isGameOver: null,
-      currentTime: null,
-      gameTime: null,
-      gameDate: null,
-      liveVideoUrl: null,
-      highlightVideoUrl: null,
-      isHidden: null,
-      isGameOfTheWeek: Boolean(get(props, "game.isGameOfTheWeek")),
-      homeStadiumName: null,
-      homeStadiumCity: null,
-      homeStadiumDescription: null,
+      ...getSavedGameValues(props.game),
     }));
   };
 
@@ -368,28 +393,89 @@ const Game = (props) => {
       return;
     }
 
-    const {
-      awayScore,
-      homeScore,
-      awayRank,
-      homeRank,
-      awayRecord,
-      homeRecord,
-      awaySpread,
-      isHidden,
-      isGameOfTheWeek,
-      homeSpread,
-      gameName,
-      isGameOver,
-      currentTime,
-      gameDate,
-      gameTime,
-      liveVideoUrl,
-      highlightVideoUrl,
-      homeStadiumName,
-      homeStadiumCity,
-      homeStadiumDescription,
-    } = state;
+    const saved = getSavedGameValues(props.game);
+
+    const awayScore =
+      state.awayScore !== null && state.awayScore !== undefined
+        ? state.awayScore
+        : saved.awayScore;
+    const homeScore =
+      state.homeScore !== null && state.homeScore !== undefined
+        ? state.homeScore
+        : saved.homeScore;
+    const awayRank =
+      state.awayRank !== null && state.awayRank !== undefined
+        ? state.awayRank
+        : saved.awayRank;
+    const homeRank =
+      state.homeRank !== null && state.homeRank !== undefined
+        ? state.homeRank
+        : saved.homeRank;
+    const awayRecord =
+      state.awayRecord !== null && state.awayRecord !== undefined
+        ? state.awayRecord
+        : saved.awayRecord;
+    const homeRecord =
+      state.homeRecord !== null && state.homeRecord !== undefined
+        ? state.homeRecord
+        : saved.homeRecord;
+    const awaySpread =
+      state.awaySpread !== null && state.awaySpread !== undefined
+        ? state.awaySpread
+        : saved.awaySpread;
+    const homeSpread =
+      state.homeSpread !== null && state.homeSpread !== undefined
+        ? state.homeSpread
+        : saved.homeSpread;
+    const gameName =
+      state.gameName !== null && state.gameName !== undefined
+        ? state.gameName
+        : saved.gameName;
+    const isGameOver =
+      state.isGameOver !== null && state.isGameOver !== undefined
+        ? state.isGameOver
+        : saved.isGameOver;
+    const currentTime =
+      state.currentTime !== null && state.currentTime !== undefined
+        ? state.currentTime
+        : saved.currentTime;
+    const gameDate =
+      state.gameDate !== null && state.gameDate !== undefined
+        ? state.gameDate
+        : saved.gameDate;
+    const gameTime =
+      state.gameTime !== null && state.gameTime !== undefined
+        ? state.gameTime
+        : saved.gameTime;
+    const liveVideoUrl =
+      state.liveVideoUrl !== null && state.liveVideoUrl !== undefined
+        ? state.liveVideoUrl
+        : saved.liveVideoUrl;
+    const highlightVideoUrl =
+      state.highlightVideoUrl !== null && state.highlightVideoUrl !== undefined
+        ? state.highlightVideoUrl
+        : saved.highlightVideoUrl;
+    const isHidden =
+      state.isHidden !== null && state.isHidden !== undefined
+        ? state.isHidden
+        : saved.isHidden;
+    const isGameOfTheWeek =
+      state.isGameOfTheWeek !== null && state.isGameOfTheWeek !== undefined
+        ? state.isGameOfTheWeek
+        : saved.isGameOfTheWeek;
+    const homeStadiumName =
+      state.homeStadiumName !== null && state.homeStadiumName !== undefined
+        ? state.homeStadiumName
+        : saved.homeStadiumName;
+    const homeStadiumCity =
+      state.homeStadiumCity !== null && state.homeStadiumCity !== undefined
+        ? state.homeStadiumCity
+        : saved.homeStadiumCity;
+    const homeStadiumDescription =
+      state.homeStadiumDescription !== null &&
+      state.homeStadiumDescription !== undefined
+        ? state.homeStadiumDescription
+        : saved.homeStadiumDescription;
 
     const homeCompetitor = get(props, "game.competitors.1") || {};
 
