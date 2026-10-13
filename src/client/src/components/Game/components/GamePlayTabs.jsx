@@ -68,7 +68,7 @@ const GamePlayTabs = (props) => {
     ];
 
     if (showQuarterScoresTab) {
-      list.push({ key: "quarters", label: "Qtr to Qtr 🏈" });
+      list.push({ key: "quarters", label: "Qtrs 🏈" });
     }
 
     list.push({ key: "stats", label: "Stats 🤓" });

@@ -105,7 +105,7 @@ const GameQuarterScores = ({ game }) => {
             marginRight: "4px",
           }}
         >
-          Qtr to Qtr
+          Qtrs
         </div>
       </div>
       <div
