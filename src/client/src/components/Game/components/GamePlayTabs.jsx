@@ -140,7 +140,7 @@ const GamePlayTabs = (props) => {
           <div style={{ marginTop: '1.25rem' }}>Please wait for game to start to see play history.</div>
         )}
         {hasGameStarted(game.startDateTime) &&
-          game.playHistory.length === 0 && (
+          (game.playHistory || []).length === 0 && (
             <div style={{ marginTop: '1.25rem' }}>Play history is not available.</div>
           )}
       </TabPanel>
@@ -175,7 +175,7 @@ const GamePlayTabs = (props) => {
         {!hasGameStarted(game.startDateTime) && (
           <div style={{ marginTop: '1.25rem' }}>Please wait for game to start to see highlights.</div>
         )}
-        {hasGameStarted(game.startDateTime) && game.highlights.length === 0 && (
+        {hasGameStarted(game.startDateTime) && (game.highlights || []).length === 0 && (
           <div style={{ marginTop: '1.25rem' }}>Highlights are not available.</div>
         )}
       </TabPanel>
@@ -242,7 +242,8 @@ const GamePlayTabs = (props) => {
           )}
           {hasGameStarted(game.startDateTime) &&
             !game.isGameOver &&
-            game?.currentTime?.toLowerCase === "halftime" && (
+            typeof game?.currentTime === "string" &&
+            game.currentTime.toLowerCase() === "halftime" && (
               <div>Please come back after halftime.</div>
             )}
         </TabPanel>

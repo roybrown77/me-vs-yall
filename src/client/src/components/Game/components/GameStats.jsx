@@ -40,10 +40,10 @@ const GamePlayHistory = (props) => {
             <div style={{ display: "flex" }}>
               <div style={{ height: "1.5rem" }}></div>
               <div style={{ position: "absolute", right: "9.25rem" }}>
-                {game.stats[0].awayTeam.name}
+                {game.stats[0]?.awayTeam?.name}
               </div>
               <div style={{ position: "absolute", right: "0.625rem" }}>
-                {game.stats[1].homeTeam.name}
+                {game.stats[1]?.homeTeam?.name || game.stats[0]?.homeTeam?.name}
               </div>
             </div>
             {statsToShow.map((stat, statIndex) => (
