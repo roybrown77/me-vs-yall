@@ -97,6 +97,46 @@ const backupData = async () => {
   console.log('users: ' + JSON.stringify(users));
 };
 
+const normalizeAmericanFootballLiveFields = (game) => {
+  if (
+    !['59723313734d1d6202a85f10', '59723313734d1d6202a85f15'].includes(
+      game.leagueId.toString().toLowerCase()
+    )
+  ) {
+    return;
+  }
+
+  const down = String(game.down || '');
+  const legacyMatch = down.match(
+    /^Down:\s*(.*?)\s*-\s*Poss:\s*(.*?)\s*-\s*Last\s*play:\s*(.*)$/is
+  );
+
+  if (!legacyMatch) {
+    return;
+  }
+
+  const [, downDistance, possessionToken, lastPlayText] = legacyMatch;
+  game.down = downDistance?.trim() || game.down;
+
+  const possessionValue = possessionToken?.trim();
+  if (possessionValue && possessionValue !== 'N/A') {
+    game.possession = possessionValue;
+  }
+
+  const lastPlay = lastPlayText?.trim();
+  if (lastPlay && lastPlay !== 'N/A' && !game.playHistory?.[0]?.lastPlay) {
+    if (!Array.isArray(game.playHistory)) {
+      game.playHistory = [];
+    }
+
+    game.playHistory.unshift({
+      lastPlay,
+      quarter: game.currentTime,
+      time: 0,
+    });
+  }
+};
+
 const setAmericanFootballPlays = (game) => {
   if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
     const monthDay = parseInt(moment().format('MMDD'));
@@ -243,12 +283,22 @@ const setAmericanFootballDown = (game) => {
   if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
     const monthDay = parseInt(moment().format('MMDD'));
 
-    let downPlay = game.down?.replace('Last Play: ','')?.replace('Last play: ','') || '';
+    let downPlay =
+      game.playHistory?.[0]?.lastPlay
+        ?.replace('Last Play: ', '')
+        ?.replace('Last play: ', '') || '';
 
-    game.down = downPlay;
+    let livePlay = downPlay;
+
+    const setLivePlay = (value) => {
+      livePlay = value;
+      if (game.playHistory?.[0]) {
+        game.playHistory[0].lastPlay = value;
+      }
+    };
 
     if (downPlay.toLowerCase().includes('punt')) {
-      game.down = downPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧");
+      setLivePlay(downPlay + " DEFENSE FORCES PUNT" + (monthDay >= 1001 && monthDay <= 1031 ? " 🎃" : " 🚧"));
     }
 
     const emojis = ["🎅🏿", "🎅🏽", "🧑🏼‍🎄", "🤶🏾"];
@@ -256,20 +306,20 @@ const setAmericanFootballDown = (game) => {
 
     if (downPlay.toLowerCase().includes('touchdown') || 
       downPlay.toLowerCase().includes('td')) {
-      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " ");
+      setLivePlay(downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎄` : monthDay >= 1001 && monthDay <= 1031 ? " 👻" : " "));
     }
 
     if (downPlay.toLowerCase().includes('safety')) {
-      game.down = downPlay + " 🥳";
+      setLivePlay(downPlay + " 🥳");
     }
 
     if (downPlay.toLowerCase().includes('field goal') || 
         downPlay.toLowerCase().includes('fg')) {
-      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶");
+      setLivePlay(downPlay + (monthDay >= 1201 && monthDay <= 1225 ? ` ${randomEmoji}🎁` : " 🥶"));
     }
 
     if (downPlay.toLowerCase().includes('sacked')) {
-      game.down = downPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " ⚡️🧟‍♂️" : " ⚡️🦖");
+      setLivePlay(downPlay + (monthDay >= 1201 && monthDay <= 1225 ? " ⚡️⛄️" : monthDay >= 1001 && monthDay <= 1031 ? " ⚡️🧟‍♂️" : " ⚡️🦖"));
     }
 
     if (downPlay.toLowerCase().includes('pass deep') || 
@@ -277,11 +327,11 @@ const setAmericanFootballDown = (game) => {
       downPlay.toLowerCase().includes('hail mary') || 
       downPlay.toLowerCase().includes('statue of liberty') || 
       downPlay.toLowerCase().includes('philly special')) {
-      game.down = downPlay + " 🏈";
+      setLivePlay(downPlay + " 🏈");
     }
 
     if (downPlay.toLowerCase().includes('scramble')) {
-      game.down = downPlay + " 🚛";
+      setLivePlay(downPlay + " 🚛");
     }
 
     if (downPlay.toLowerCase().includes('unsportsmanlike') || 
@@ -296,30 +346,30 @@ const setAmericanFootballDown = (game) => {
       downPlay.toLowerCase().includes('intercept') ||
       downPlay.toLowerCase().includes('incomplete') || 
       downPlay.toLowerCase().includes('fumble')) {
-      game.down = downPlay + " 😳";
+      setLivePlay(downPlay + " 😳");
     }
 
     if (downPlay.toLowerCase().includes('two')) {
       const skinTones = ["✌🏼", "✌🏾", "✌🏿"];
       const randomSkinTone = skinTones[Math.floor(Math.random() * skinTones.length)];
-      game.down = downPlay + ` ${randomSkinTone}`;
+      setLivePlay(downPlay + ` ${randomSkinTone}`);
     }
 
     if (downPlay.toLowerCase().includes('timeout')) {
-      game.down = downPlay + " ⏱️";
+      setLivePlay(downPlay + " ⏱️");
     }
 
     if (downPlay.toLowerCase().includes('sneak')) {
-      game.down = downPlay + " 🤫";
+      setLivePlay(downPlay + " 🤫");
     }
 
     if (downPlay.toLowerCase().includes('kickoff')) {
-      game.down = downPlay + " 🚀";
+      setLivePlay(downPlay + " 🚀");
     }
 
     try {
         const yardArray = /for([^yards]+)yards/.exec(downPlay);
-        const hasDownEmoji = game.down !== downPlay;
+        const hasDownEmoji = livePlay !== downPlay;
 
         if (yardArray?.[1]) {
           const yardString = yardArray[1].replace("' '", "").replace(",", "");
@@ -332,7 +382,7 @@ const setAmericanFootballDown = (game) => {
             !downPlay.toLowerCase().includes('injur') &&
             !hasDownEmoji
           ) {
-            game.down = `${downPlay} 🎯`;
+            setLivePlay(`${downPlay} 🎯`);
           }
         }
       } catch (error) {
@@ -615,6 +665,7 @@ router.get('/games', async function (req, res) {
       }
 
       gamesThisRange.forEach((game) => {
+        normalizeAmericanFootballLiveFields(game);
         setAmericanFootballPlays(game);
         setAmericanFootballDown(game);
         setBasketballPlays(game);

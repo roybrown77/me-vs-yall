@@ -903,7 +903,8 @@ const runGameUpdate = async () => {
                         {
                             $set: {
                                 competitors: competitorsWithKickoff,
-                                down: `Down: ${mergedGame.down || 'N/A'} - Poss: ${mergedGame.possession || 'N/A'} - Last play: ${mergedGame.lastPlay || 'N/A'}`,
+                                down: mergedGame.down || null,
+                                possession: mergedGame.possession || null,
                                 currentTime: mergedGame.currentTime,
                                 isGameOver: mergedGame.isGameOver,
                                 playHistory: newPlayHistory,
