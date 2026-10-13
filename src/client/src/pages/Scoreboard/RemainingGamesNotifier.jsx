@@ -4,10 +4,18 @@ import Alert from '../../components/Alert';
 
 import './remaining-games-notifier.css';
 
-const RemainingGamesNotifier = ({isAuthenticated, picksNotSelected}) => {
-    if (!isAuthenticated || picksNotSelected === 0) {
-        return null;
-    }
+const RemainingGamesNotifier = ({
+  isAuthenticated,
+  picksNotSelected,
+  picksDataLoading = false,
+}) => {
+  if (
+    !isAuthenticated ||
+    picksDataLoading ||
+    picksNotSelected === 0
+  ) {
+    return null;
+  }
 
     return (
         <Snackbar

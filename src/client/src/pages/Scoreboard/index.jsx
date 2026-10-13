@@ -94,7 +94,7 @@ const Scoreboard = () => {
   }, []);
 
   const [dataLoading, setDataLoading] = useState(true);
-  const [picksDataLoading, setPicksDataLoading] = useState(false);
+  const [picksDataLoading, setPicksDataLoading] = useState(isAuthenticated);
   const [games, setGames] = useState([]);
   const [picks, setPicks] = useState([]);
   const [revealedPicks, setRevealedPicks] = useState([]);
@@ -142,6 +142,9 @@ const Scoreboard = () => {
 
       if (showLoader) {
         setDataLoading(true);
+        if (isAuthenticated) {
+          setPicksDataLoading(true);
+        }
       }
 
       const query = {
@@ -267,7 +270,7 @@ const Scoreboard = () => {
             if (
               !isStaleRequest() &&
               requestId === loadRequestIdRef.current &&
-              showLoader
+              isAuthenticated
             ) {
               setPicksDataLoading(false);
             }
@@ -275,9 +278,6 @@ const Scoreboard = () => {
         };
 
         if (needsPickExtras) {
-          if (showLoader) {
-            setPicksDataLoading(true);
-          }
           void loadPickExtras();
         } else {
           setPicks([]);
@@ -322,6 +322,14 @@ const Scoreboard = () => {
       } catch (error) {
         if (isRequestAborted(error) || isStaleRequest()) {
           return;
+        }
+
+        if (
+          isAuthenticated &&
+          showLoader &&
+          requestId === loadRequestIdRef.current
+        ) {
+          setPicksDataLoading(false);
         }
 
         throw error;
@@ -1159,7 +1167,9 @@ const Scoreboard = () => {
             )}
           </Box>
         }
-        <RemainingGamesNotifier {...{ isAuthenticated, picksNotSelected }} />
+        <RemainingGamesNotifier
+          {...{ isAuthenticated, picksNotSelected, picksDataLoading }}
+        />
       </PageContainer>
     </div>
   );
