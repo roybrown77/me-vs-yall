@@ -86,6 +86,37 @@ import {
 
 const isAuthenticated = isConfirmedAuthentication();
 
+const STATS_HYDRATION_INTERVAL_MS = 60 * 1000;
+
+const mergeLeanScoreboardGames = (previousGames = [], nextGames = []) => {
+  if (!nextGames?.length) {
+    return [];
+  }
+
+  if (!previousGames?.length) {
+    return nextGames;
+  }
+
+  const previousById = previousGames.reduce((acc, game) => {
+    acc[String(game._id)] = game;
+    return acc;
+  }, {});
+
+  return nextGames.map((game) => {
+    const previous = previousById[String(game._id)];
+    if (!previous) {
+      return game;
+    }
+
+    const hasStats = Array.isArray(game.stats) && game.stats.length > 0;
+
+    return {
+      ...game,
+      stats: hasStats ? game.stats : previous.stats,
+    };
+  });
+};
+
 const Scoreboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -105,6 +136,8 @@ const Scoreboard = () => {
   const [isShareClicked] = useState(false);
   const [isSpreadModeAlertOpen] = useState(false);
   const loadRequestIdRef = useRef(0);
+  const lastStatsHydrationAtRef = useRef(0);
+  const statsHydratedWeekKeyRef = useRef(null);
   const teamsByLeagueRef = useRef({});
   const scoresRequestEpochGetterRef = useRef(() => 0);
   const rankingsRequestIdRef = useRef(0);
@@ -195,7 +228,9 @@ const Scoreboard = () => {
           teamsByLeagueRef.current[String(leagueId)] = resolvedTeams;
         }
 
-        setGames(games || []);
+        setGames((previousGames) =>
+          mergeLeanScoreboardGames(previousGames, games || [])
+        );
         setTeams(resolvedTeams);
 
         if (showLoader && requestId === loadRequestIdRef.current) {
@@ -286,7 +321,24 @@ const Scoreboard = () => {
           setPicksDataLoading(false);
         }
 
-        if (showLoader && (games || []).length > 0) {
+        const statsWeekKey = `${leagueId}-${year}-${weekId}`;
+        if (statsHydratedWeekKeyRef.current !== statsWeekKey) {
+          statsHydratedWeekKeyRef.current = statsWeekKey;
+          lastStatsHydrationAtRef.current = 0;
+        }
+
+        const shouldRefreshLiveStats =
+          anyGameStarted &&
+          Date.now() - lastStatsHydrationAtRef.current >=
+            STATS_HYDRATION_INTERVAL_MS;
+        const hasHydratedStatsForWeek =
+          statsHydratedWeekKeyRef.current === statsWeekKey &&
+          lastStatsHydrationAtRef.current > 0;
+        const shouldHydrateGameStats =
+          (games || []).length > 0 &&
+          (showLoader || !hasHydratedStatsForWeek || shouldRefreshLiveStats);
+
+        if (shouldHydrateGameStats) {
           void (async () => {
             try {
               const fullGames = await callApi({
@@ -298,6 +350,8 @@ const Scoreboard = () => {
               if (isStaleRequest() || requestId !== loadRequestIdRef.current) {
                 return;
               }
+
+              lastStatsHydrationAtRef.current = Date.now();
 
               setGames((previousGames) =>
                 previousGames.map((game) => {

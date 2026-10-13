@@ -232,7 +232,12 @@ const teamStatTemplate = {
 const getAllTeamStats = (gamesWholeYear) => { 
     let teamStats = {};
   
-    if (gamesWholeYear.length > 0 && !['59723313734d1d6202a85f10'].includes(gamesWholeYear[0].leagueId.toString().toLowerCase())) {
+    if (
+      gamesWholeYear.length > 0 &&
+      !['59723313734d1d6202a85f10', '59723313734d1d6202a85f15'].includes(
+        gamesWholeYear[0].leagueId.toString().toLowerCase()
+      )
+    ) {
       return teamStats;
     }
   
