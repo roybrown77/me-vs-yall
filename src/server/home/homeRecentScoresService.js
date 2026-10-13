@@ -210,25 +210,36 @@ const buildWeekQueryMetaMap = (weeks = []) => {
   return weekMetaById;
 };
 
-const findScoreboardWeek = (weeks = []) => {
-  const sorted = [...weeks].sort(
-    (a, b) => new Date(a.beginDateTime) - new Date(b.beginDateTime)
-  );
+const getNavigableWeeks = (weeks = []) =>
+  [...weeks]
+    .filter(
+      (week) =>
+        !week?.isRollup && !shouldSkipWeekSegment(week) && !isEntireSeasonWeek(week)
+    )
+    .sort(
+      (a, b) => new Date(a.beginDateTime) - new Date(b.beginDateTime)
+    );
+
+const findCurrentWeek = (weeks = []) => {
+  const sorted = getNavigableWeeks(weeks);
   const now = moment().tz('America/New_York');
 
-  const active = sorted.find((week) => {
-    if (!week?.beginDateTime || !week?.endDateTime) {
-      return false;
-    }
+  return (
+    sorted.find((week) => {
+      if (!week?.beginDateTime || !week?.endDateTime) {
+        return false;
+      }
 
-    const begin = moment(week.beginDateTime).tz('America/New_York');
-    const end = moment(week.endDateTime).tz('America/New_York');
-    return now.isSameOrAfter(begin) && now.isSameOrBefore(end);
-  });
+      const begin = moment(week.beginDateTime).tz('America/New_York');
+      const end = moment(week.endDateTime).tz('America/New_York');
+      return now.isSameOrAfter(begin) && now.isSameOrBefore(end);
+    }) || null
+  );
+};
 
-  if (active) {
-    return active;
-  }
+const findPriorWeek = (weeks = []) => {
+  const sorted = getNavigableWeeks(weeks);
+  const now = moment().tz('America/New_York');
 
   const completed = sorted.filter(
     (week) =>
@@ -236,11 +247,7 @@ const findScoreboardWeek = (weeks = []) => {
       moment(week.endDateTime).tz('America/New_York').isBefore(now)
   );
 
-  if (completed.length) {
-    return completed[completed.length - 1];
-  }
-
-  return sorted[0] || null;
+  return completed.length ? completed[completed.length - 1] : null;
 };
 
 const hasGameStarted = (startDateTime) => {
@@ -314,6 +321,45 @@ const buildFieldPickersForGame = (game, picks = [], usersByAuthId = {}) => {
   return { away, home };
 };
 
+const fetchRecentStartedGamesForWeek = async ({
+  leagueId,
+  year,
+  week,
+  teamsById,
+}) => {
+  if (!week?.beginDateTime || !week?.endDateTime) {
+    return [];
+  }
+
+  const games = await gameRepository
+    .find(
+      {
+        leagueId: new mongoose.Types.ObjectId(leagueId),
+        year,
+        isHidden: { $ne: true },
+        startDateTime: {
+          $gt: new Date(moment(week.beginDateTime)),
+          $lt: new Date(moment(week.endDateTime)),
+        },
+      },
+      {
+        competitors: 1,
+        startDateTime: 1,
+        leagueId: 1,
+        year: 1,
+        isGameOver: 1,
+      }
+    )
+    .lean()
+    .exec();
+
+  return (games || [])
+    .filter((game) => hasGameStarted(game.startDateTime))
+    .sort((a, b) => new Date(b.startDateTime) - new Date(a.startDateTime))
+    .slice(0, RECENT_GAME_LIMIT)
+    .map((game) => enrichCompetitors(game, teamsById));
+};
+
 const getHomeRecentScores = async ({ leagueId, year }) => {
   const leagueKey = String(leagueId || '').toLowerCase();
   const leagueName = leagueIdToName[leagueKey] || 'nfl';
@@ -328,7 +374,36 @@ const getHomeRecentScores = async ({ leagueId, year }) => {
     year,
   });
 
-  const selectedWeek = findScoreboardWeek(gameWeeks || []);
+  const weekQueryMetaById = buildWeekQueryMetaMap(gameWeeks || []);
+  const currentWeek = findCurrentWeek(gameWeeks || []);
+  const priorWeek = findPriorWeek(gameWeeks || []);
+
+  let selectedWeek = currentWeek;
+  let recentGames = [];
+
+  if (currentWeek) {
+    recentGames = await fetchRecentStartedGamesForWeek({
+      leagueId,
+      year,
+      week: currentWeek,
+      teamsById,
+    });
+  }
+
+  if (
+    !recentGames.length &&
+    priorWeek &&
+    String(priorWeek._id) !== String(currentWeek?._id)
+  ) {
+    selectedWeek = priorWeek;
+    recentGames = await fetchRecentStartedGamesForWeek({
+      leagueId,
+      year,
+      week: priorWeek,
+      teamsById,
+    });
+  }
+
   if (!selectedWeek) {
     return {
       navigation: { leagueName, year: Number(year), seasonType: null, weekSegment: null },
@@ -336,37 +411,8 @@ const getHomeRecentScores = async ({ leagueId, year }) => {
     };
   }
 
-  const weekQueryMetaById = buildWeekQueryMetaMap(gameWeeks || []);
   const weekMeta = weekQueryMetaById[String(selectedWeek._id)] || {};
   const weekSegment = weekMeta.weekSegment ?? null;
-
-  const games = await gameRepository
-    .find(
-      {
-        leagueId: new mongoose.Types.ObjectId(leagueId),
-        year,
-        isHidden: { $ne: true },
-        startDateTime: {
-          $gt: new Date(moment(selectedWeek.beginDateTime)),
-          $lt: new Date(moment(selectedWeek.endDateTime)),
-        },
-      },
-      {
-        competitors: 1,
-        startDateTime: 1,
-        leagueId: 1,
-        year: 1,
-        isGameOver: 1,
-      }
-    )
-    .lean()
-    .exec();
-
-  const recentGames = (games || [])
-    .filter((game) => hasGameStarted(game.startDateTime))
-    .sort((a, b) => new Date(b.startDateTime) - new Date(a.startDateTime))
-    .slice(0, RECENT_GAME_LIMIT)
-    .map((game) => enrichCompetitors(game, teamsById));
 
   if (!recentGames.length) {
     return {
