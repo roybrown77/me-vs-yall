@@ -1,7 +1,10 @@
 import get from "lodash/get";
 import last from "lodash/last";
+import moment from "moment-timezone";
 
 import { leagues } from "../../utilities";
+
+const RANKINGS_LOCK_TZ = "America/New_York";
 
 export const inferSeasonType = (week = {}) => {
   const description = String(week.description || "").toLowerCase();
@@ -207,6 +210,62 @@ export const getLatestPlayoffWeekEnd = (weeks = []) => {
   return latestWeek?.endDateTime || null;
 };
 
+export const getRankingsLockMomentAfter = (dateTime) => {
+  const anchor = moment(dateTime).tz(RANKINGS_LOCK_TZ);
+  let lock = anchor.clone().day(2).hour(3).minute(0).second(0).millisecond(0);
+
+  if (!lock.isAfter(anchor)) {
+    lock = lock.add(1, "week");
+  }
+
+  return lock;
+};
+
+const getGamesScheduledInWeek = (games = [], week) => {
+  if (!week) {
+    return [];
+  }
+
+  return games.filter((game) => gameFallsInWeek(game, week));
+};
+
+export const isWeekRankingLocked = ({
+  week,
+  seasonGames = [],
+  now = new Date(),
+} = {}) => {
+  if (!week?.endDateTime) {
+    return false;
+  }
+
+  const weekGames = getGamesScheduledInWeek(seasonGames, week);
+  if (weekGames.length > 0 && !weekGames.every((game) => game.isGameOver)) {
+    return false;
+  }
+
+  const lockMoment = getRankingsLockMomentAfter(week.endDateTime);
+  return moment(now).tz(RANKINGS_LOCK_TZ).isSameOrAfter(lockMoment);
+};
+
+export const getRankingStatsCutoffEndDateTime = ({
+  week,
+  weeks = [],
+  seasonGames = [],
+  endDateTime,
+  now = new Date(),
+}) => {
+  if (!week || !endDateTime) {
+    return endDateTime;
+  }
+
+  if (isWeekRankingLocked({ week, seasonGames, now })) {
+    return endDateTime;
+  }
+
+  const previousRankingWeek = getPreviousRankingWeek(week, weeks);
+  return previousRankingWeek?.endDateTime ?? null;
+};
+
 const dedupeGamesById = (games = []) => {
   const seen = new Set();
 
@@ -247,10 +306,22 @@ export const resolveRankingSnapshots = ({
     (game) => Number(game.year) === yearNumber
   );
 
-  const currentSeasonThroughWeek = filterGamesThroughDate(
-    filterGamesInSeasonTypes(gamesThisYear, weeks, CURRENT_RANKING_SEASON_TYPES),
-    endDateTime
+  const rankingStatsCutoffEnd = getRankingStatsCutoffEndDateTime({
+    week: currentWeek,
+    weeks,
+    seasonGames: gamesThisYear,
+    endDateTime,
+  });
+
+  const rankedSeasonGames = filterGamesInSeasonTypes(
+    gamesThisYear,
+    weeks,
+    CURRENT_RANKING_SEASON_TYPES
   );
+  const currentSeasonThroughWeek =
+    rankingStatsCutoffEnd == null
+      ? []
+      : filterGamesThroughDate(rankedSeasonGames, rankingStatsCutoffEnd);
 
   if (isFirstRegularSeasonWeek(currentWeek, weeks)) {
     const priorPlayoffs = filterPlayoffGames(priorYearGames, priorYearWeeks);
