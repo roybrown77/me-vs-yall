@@ -305,10 +305,19 @@ async function scrapeGameInformationFromPage(page) {
                     const scoreEl = teamElement.querySelector('.ScoreCell__Score');
                     const score = scoreEl?.textContent?.trim() || '0';
 
+                    const linescoreContainer = teamElement.querySelector('.ScoreboardScoreCell_Linescores');
+                    const linescores = linescoreContainer
+                        ? [...linescoreContainer.querySelectorAll('.ScoreboardScoreCell__Value')].map((el) => {
+                            const parsed = parseInt(String(el.textContent || '').trim(), 10);
+                            return Number.isFinite(parsed) ? parsed : 0;
+                        })
+                        : [];
+
                     gameScores.push({
                         initial: teamInitial,
                         teamName,
                         score,
+                        linescores,
                     });
                 });
 
@@ -850,14 +859,25 @@ const runGameUpdate = async () => {
                         updateResult,
                     });
                 } else {
+                    const resolveLinescores = (scrapedTeam, existingCompetitor) => {
+                        const scraped = scrapedTeam?.linescores;
+                        if (Array.isArray(scraped) && scraped.length > 0) {
+                            return scraped;
+                        }
+
+                        return existingCompetitor?.linescores;
+                    };
+
                     const updatedCompetitors = [
                         {
                             ...game.competitors[0],
                             score: parseInt(mergedGame.game[0].score, 10),
+                            linescores: resolveLinescores(mergedGame.game[0], game.competitors[0]),
                         },
                         {
                             ...game.competitors[1],
                             score: parseInt(mergedGame.game[1].score, 10),
+                            linescores: resolveLinescores(mergedGame.game[1], game.competitors[1]),
                         }
                     ];
 
