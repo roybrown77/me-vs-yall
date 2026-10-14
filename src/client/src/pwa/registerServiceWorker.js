@@ -65,5 +65,10 @@ export const updateServiceWorker = registerSW({
         checkNow();
       }
     });
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        checkNow();
+      }
+    });
   },
 });

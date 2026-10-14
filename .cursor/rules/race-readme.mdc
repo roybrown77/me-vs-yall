@@ -1,0 +1,25 @@
+---
+description: Keep Race route README in sync when changing /race features
+globs: src/client/src/pages/Race/**
+alwaysApply: false
+---
+
+# Race (`/race`) documentation
+
+When you add, remove, or materially change behavior, UI, settings, defaults, audio tracks, or controls under `src/client/src/pages/Race/`:
+
+1. Update [src/client/src/pages/Race/README.md](src/client/src/pages/Race/README.md) in the same change set.
+2. Adjust the **Settings** table if keys, ranges, or defaults change (`length.js`, `speed.js`, `raceSoundtrack.js`, `mountainStyle.js`).
+3. Adjust **Game flow**, **Steering**, or **On-screen steer controls** if phase logic or input behavior changes (`engine.js`, `index.jsx`, `race.css`).
+4. Add a one-line bullet under **Changelog** with the date and summary.
+5. If you add or replace `models/race-car.glb` (or change `budgets.json`), run `npm run check:race-budget` and update the **3D car asset budget** section if limits change.
+
+Do not skip the README for “small” UX tweaks that players would notice (HUD, tutorial, boost, mountains, music, persistence).
+
+## Function comments
+
+When you add or change a **function** (including class methods, nested helpers, and engine API methods) under `src/client/src/pages/Race/`:
+
+- Put **one short `//` sentence** directly above it stating its purpose (what it does, not how).
+- Apply the same rule to new React components and hooks handlers in `index.jsx` when they are named functions or const arrow components.
+- Do not remove existing purpose comments unless the function is deleted.

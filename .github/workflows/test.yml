@@ -25,3 +25,12 @@ jobs:
 
       - name: Run unit tests
         run: npm test
+
+      - name: Install client dev dependencies
+        run: npm --prefix src/client ci
+
+      - name: Race budget unit tests
+        run: npm run test:race-budget
+
+      - name: Check Race 3D asset budget
+        run: npm run check:race-budget

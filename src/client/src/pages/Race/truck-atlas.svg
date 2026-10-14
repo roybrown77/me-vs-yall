@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1024" viewBox="0 0 2048 1024">
+  <defs>
+    <linearGradient id="orangePaint" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFCC66"/>
+      <stop offset="0.45" stop-color="#FFA000"/>
+      <stop offset="1" stop-color="#CC8000"/>
+    </linearGradient>
+    <linearGradient id="orangeHighlight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.35" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.65" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9eb4c8"/>
+      <stop offset="0.5" stop-color="#3d5568"/>
+      <stop offset="1" stop-color="#121820"/>
+    </linearGradient>
+    <linearGradient id="grilleBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2e34"/>
+      <stop offset="1" stop-color="#0a0c0e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- body side: rear tailgate (left) to front bumper (right) -->
+  <g id="body-side">
+    <rect width="1568" height="320" fill="#FFA000"/>
+    <rect width="1568" height="320" fill="url(#orangeHighlight)"/>
+    <rect y="248" width="1568" height="72" fill="#0a0c0e"/>
+    <rect y="232" width="1568" height="18" fill="#1a1e24"/>
+    <!-- bed -->
+    <path d="M40 48 H520 V210 H40 Z" fill="#E09000" opacity="0.35"/>
+    <rect x="48" y="56" width="460" height="6" fill="#FFC866" opacity="0.5"/>
+    <rect x="48" y="120" width="460" height="4" fill="#D88800"/>
+    <rect x="520" y="40" width="8" height="180" fill="#0a0c0e"/>
+    <!-- cab door -->
+    <rect x="560" y="36" width="420" height="188" rx="4" fill="#E09000" opacity="0.2"/>
+    <rect x="720" y="150" width="36" height="12" rx="3" fill="#0a0c0e"/>
+    <rect x="580" y="52" width="380" height="4" fill="#FFBF4D" opacity="0.55"/>
+    <!-- fender flares -->
+    <path d="M120 210 H280 V280 H80 Z" fill="#0a0c0e"/>
+    <path d="M380 210 H540 V280 H340 Z" fill="#0a0c0e"/>
+    <path d="M1180 210 H1340 V280 H1140 Z" fill="#0a0c0e"/>
+    <path d="M1440 210 H1600 V280 H1400 Z" fill="#0a0c0e"/>
+    <!-- running boards -->
+    <rect x="520" y="268" width="720" height="14" rx="3" fill="#0a0c0e"/>
+    <rect x="532" y="272" width="696" height="6" rx="2" fill="#2a3038"/>
+    <!-- front fender / hood line -->
+    <path d="M980 32 H1480 L1520 210 H960 Z" fill="#D88800" opacity="0.25"/>
+    <rect x="1320" y="168" width="180" height="28" rx="4" fill="#0a0c0e"/>
+    <!-- tail lamps -->
+    <rect x="28" y="72" width="28" height="100" rx="4" fill="#1a1e24"/>
+    <rect x="34" y="80" width="16" height="84" rx="2" fill="#e82232"/>
+    <!-- step badge -->
+    <text x="780" y="28" font-family="Impact, Arial Black, sans-serif" font-size="26" fill="#f4c020">BDS</text>
+  </g>
+
+  <!-- tailgate badge: text pre-mirrored; bodyRear UV flip reads TUFF -->
+  <g id="body-rear" transform="translate(1568,0)">
+    <rect width="480" height="180" fill="#FFA000"/>
+    <rect width="480" height="180" fill="url(#orangeHighlight)"/>
+    <rect x="24" y="20" width="432" height="120" rx="6" fill="#E09000" opacity="0.35"/>
+    <rect x="168" y="48" width="144" height="64" rx="4" fill="#0a0c0e"/>
+    <text
+      x="240"
+      y="96"
+      text-anchor="middle"
+      font-family="Impact, Arial Black, sans-serif"
+      font-size="34"
+      fill="#f0f2f5"
+      transform="translate(240,96) scale(-1,1) translate(-240,-96)"
+    >TUFF</text>
+    <rect x="36" y="28" width="32" height="108" rx="4" fill="#0a0c0e"/>
+    <rect x="42" y="36" width="20" height="92" rx="2" fill="#e82232"/>
+    <rect x="412" y="28" width="32" height="108" rx="4" fill="#0a0c0e"/>
+    <rect x="418" y="36" width="20" height="92" rx="2" fill="#e82232"/>
+    <rect y="150" width="480" height="30" fill="#0a0c0e"/>
+  </g>
+
+  <g id="body-front" transform="translate(1568,188)">
+    <rect width="480" height="180" fill="#FFA000"/>
+    <rect x="8" y="8" width="464" height="118" rx="8" fill="#E09000" opacity="0.18"/>
+    <!-- headlamp housings -->
+    <rect x="18" y="32" width="96" height="92" rx="12" fill="#0a0c0e"/>
+    <rect x="366" y="32" width="96" height="92" rx="12" fill="#0a0c0e"/>
+    <!-- C-clamp DRL (outer edge) -->
+    <path d="M34 48 A38 38 0 1 1 34 108" fill="none" stroke="#fffef0" stroke-width="11" stroke-linecap="round"/>
+    <path d="M446 48 A38 38 0 1 0 446 108" fill="none" stroke="#fffef0" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="62" cy="78" r="11" fill="#fff8e8" opacity="0.85"/>
+    <circle cx="418" cy="78" r="11" fill="#fff8e8" opacity="0.85"/>
+    <!-- grille -->
+    <rect x="112" y="38" width="256" height="88" rx="8" fill="#0a0c0e"/>
+    <rect x="124" y="50" width="232" height="22" rx="3" fill="url(#grilleBar)"/>
+    <rect x="124" y="82" width="232" height="22" rx="3" fill="url(#grilleBar)"/>
+    <ellipse cx="240" cy="78" rx="36" ry="24" fill="#0a0c0e" stroke="#FFA000" stroke-width="4"/>
+    <ellipse cx="240" cy="78" rx="22" ry="14" fill="none" stroke="#FFCC66" stroke-width="3" opacity="0.85"/>
+    <!-- orange off-road bumper -->
+    <path d="M8 128 H472 L460 176 H20 Z" fill="#FFA000"/>
+    <path d="M8 128 H472" stroke="#FFCC66" stroke-width="3" opacity="0.55"/>
+    <rect x="104" y="142" width="272" height="20" rx="4" fill="#0a0c0e"/>
+    <rect x="112" y="146" width="256" height="12" rx="2" fill="#ffffff"/>
+    <rect x="112" y="146" width="256" height="12" rx="2" fill="#ffffff" opacity="0.35"/>
+    <!-- amber fog pods -->
+    <rect x="24" y="136" width="40" height="36" rx="5" fill="#0a0c0e"/>
+    <rect x="28" y="140" width="32" height="28" rx="3" fill="#ffb030"/>
+    <rect x="28" y="140" width="32" height="28" rx="3" fill="#ffffff" opacity="0.22"/>
+    <rect x="416" y="136" width="40" height="36" rx="5" fill="#0a0c0e"/>
+    <rect x="420" y="140" width="32" height="28" rx="3" fill="#ffb030"/>
+    <rect x="420" y="140" width="32" height="28" rx="3" fill="#ffffff" opacity="0.22"/>
+    <!-- recovery point -->
+    <rect x="232" y="162" width="16" height="14" rx="3" fill="#CC8000"/>
+    <rect x="236" y="166" width="8" height="10" rx="2" fill="#0a0c0e"/>
+  </g>
+
+  <g id="cabin-side" transform="translate(0,336)">
+    <rect width="1280" height="388" fill="#0a0c0e"/>
+    <rect x="520" y="24" width="720" height="300" fill="url(#glass)"/>
+    <rect x="48" y="24" width="440" height="300" fill="url(#glass)"/>
+    <rect x="488" y="24" width="28" height="300" fill="#0a0c0e"/>
+    <path d="M560 48 L1180 40 L1200 280 L540 290 Z" fill="#ffffff" opacity="0.18"/>
+    <rect x="72" y="260" width="380" height="12" fill="#6e8898" opacity="0.45"/>
+    <text x="640" y="58" font-family="Impact, sans-serif" font-size="34" fill="#f4c020">BDS</text>
+    <rect y="340" width="1280" height="48" fill="#0a0c0e"/>
+    <rect y="0" width="1280" height="18" fill="#0a0c0e"/>
+  </g>
+
+  <g id="cabin-rear" transform="translate(1280,336)">
+    <rect width="400" height="138" fill="#0a0c0e"/>
+    <rect x="16" y="14" width="368" height="110" fill="url(#glass)"/>
+    <rect x="180" y="48" width="40" height="42" rx="3" fill="#0a0c0e" opacity="0.5"/>
+  </g>
+
+  <g id="windshield" transform="translate(1280,484)">
+    <rect width="400" height="150" fill="#0a0c0e"/>
+    <rect x="12" y="10" width="376" height="130" fill="url(#glass)"/>
+    <path d="M40 28 L320 22 L280 118 L56 112 Z" fill="#ffffff" opacity="0.28"/>
+    <text x="200" y="42" text-anchor="middle" font-family="Impact, sans-serif" font-size="28" fill="#f4c020">BDS</text>
+  </g>
+
+  <g id="roof" transform="translate(1700,380)">
+    <rect width="300" height="344" fill="#D88800"/>
+    <rect width="300" height="344" fill="url(#orangeHighlight)"/>
+    <rect x="24" y="20" width="252" height="304" rx="6" fill="#E09000" opacity="0.35"/>
+    <rect x="48" y="48" width="204" height="8" fill="#FFBF4D" opacity="0.5"/>
+    <rect x="48" y="140" width="204" height="8" fill="#CC8000" opacity="0.45"/>
+  </g>
+
+  <g id="hood" transform="translate(0,736)">
+    <rect width="470" height="286" fill="#FFA000"/>
+    <rect width="470" height="286" fill="url(#orangeHighlight)"/>
+    <path d="M40 22 H430" stroke="#FFC866" stroke-width="6" opacity="0.65"/>
+    <!-- center hood scoop -->
+    <path d="M148 28 H322 L308 118 H162 Z" fill="#E09000"/>
+    <path d="M168 40 H302 L292 102 H178 Z" fill="#0a0c0e"/>
+    <rect x="188" y="48" width="94" height="8" rx="2" fill="#1a1e24"/>
+    <rect x="188" y="64" width="94" height="8" rx="2" fill="#1a1e24"/>
+    <rect x="188" y="80" width="94" height="8" rx="2" fill="#1a1e24"/>
+    <path d="M155 28 L315 28" stroke="#FFBF4D" stroke-width="4" opacity="0.5"/>
+  </g>
+
+  <!-- bed liner / tailgate interior (used on bed top face) -->
+  <g id="bed-top" transform="translate(1700,740)">
+    <rect width="280" height="280" fill="#0a0c0e"/>
+    <rect x="16" y="16" width="248" height="248" rx="4" fill="#1a1e24"/>
+    <rect x="32" y="32" width="216" height="216" rx="2" fill="#121820"/>
+    <path d="M48 64 H232 M48 120 H232 M48 176 H232 M48 232 H232" stroke="#2a3038" stroke-width="6"/>
+  </g>
+</svg>

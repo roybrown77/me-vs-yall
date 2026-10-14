@@ -1,0 +1,9 @@
+{
+  "car": {
+    "path": "models/race-car.glb",
+    "warnTriangles": 25000,
+    "maxTriangles": 30000,
+    "maxTextureDimension": 2048,
+    "maxFileBytes": 8000000
+  }
+}

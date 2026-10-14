@@ -1,13 +1,22 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { minimal2023Preset } from '@vite-pwa/assets-generator/config';
+
+const clientDir = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   const isDevServer = command === 'serve';
 
   return {
+    resolve: {
+      alias: {
+        'simplex-noise': path.resolve(clientDir, 'src/vendor/simplex-noise/esm/simplex-noise.js'),
+      },
+    },
     plugins: [
       react(),
       VitePWA({
