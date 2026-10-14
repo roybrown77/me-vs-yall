@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1024" viewBox="0 0 2048 1024">
+  <!-- body side: image left is the rear, image right is the front -->
+  <g id="body-side">
+    <rect width="1568" height="320" fill="#f4f6f8"/>
+    <rect width="1568" height="320" fill="url(#paintShade)"/>
+    <rect y="248" width="1568" height="72" fill="#1c2128"/>
+    <rect y="236" width="1568" height="14" fill="#2c333c"/>
+    <rect y="14" width="1568" height="10" fill="#2f5f92"/>
+    <rect x="488" width="18" height="250" fill="#8e98a3"/>
+    <rect x="1016" width="18" height="250" fill="#8e98a3"/>
+    <rect x="1340" width="12" height="250" fill="#aeb6bf"/>
+    <rect x="400" y="108" width="78" height="18" rx="5" fill="#2a3038"/>
+    <rect x="910" y="108" width="78" height="18" rx="5" fill="#2a3038"/>
+    <rect x="70" y="150" width="28" height="18" rx="3" fill="#c53232"/>
+    <rect x="1488" y="168" width="22" height="14" rx="2" fill="#f2d48a"/>
+    <rect y="0" width="1568" height="8" fill="#d5dae0"/>
+  </g>
+
+  <!-- rear tailgate, drawn so a horizontal flip matches the chase view -->
+  <g id="body-rear" transform="translate(1568,0)">
+    <rect width="480" height="180" fill="#f4f6f8"/>
+    <rect width="480" height="180" fill="url(#paintShade)"/>
+    <rect y="18" width="480" height="8" fill="#2f5f92"/>
+    <rect y="78" width="480" height="5" fill="#c5ccd3"/>
+    <rect x="168" y="96" width="144" height="62" rx="4" fill="#20262e"/>
+    <rect x="176" y="104" width="128" height="46" rx="2" fill="#e6ebf0"/>
+    <text
+      x="240"
+      y="134"
+      text-anchor="middle"
+      font-family="Impact, sans-serif"
+      font-size="20"
+      fill="#1c2128"
+      transform="translate(240,134) scale(-1,1) translate(-240,-134)"
+    >SNOWBALL</text>
+    <rect x="214" y="86" width="52" height="8" rx="2" fill="#2a3038"/>
+    <rect x="18" y="28" width="36" height="130" rx="4" fill="#1a1e24"/>
+    <rect x="24" y="36" width="24" height="52" fill="#f7f8fa"/>
+    <rect x="24" y="92" width="24" height="28" fill="#d8dee6"/>
+    <rect x="24" y="124" width="24" height="26" fill="#e23b3b"/>
+    <rect x="426" y="28" width="36" height="130" rx="4" fill="#1a1e24"/>
+    <rect x="432" y="36" width="24" height="52" fill="#f7f8fa"/>
+    <rect x="432" y="92" width="24" height="28" fill="#d8dee6"/>
+    <rect x="432" y="124" width="24" height="26" fill="#e23b3b"/>
+  </g>
+
+  <g id="body-front" transform="translate(1568,188)">
+    <rect width="480" height="180" fill="#f4f6f8"/>
+    <rect width="480" height="180" fill="url(#paintShade)"/>
+    <rect x="150" y="48" width="180" height="78" rx="6" fill="#1a1e24"/>
+    <rect x="162" y="60" width="156" height="8" fill="#8d98a3"/>
+    <rect x="162" y="76" width="156" height="8" fill="#8d98a3"/>
+    <rect x="162" y="92" width="156" height="8" fill="#8d98a3"/>
+    <rect x="28" y="46" width="96" height="64" rx="8" fill="#1a1e24"/>
+    <rect x="36" y="54" width="80" height="48" rx="6" fill="#f3f0dd"/>
+    <rect x="356" y="46" width="96" height="64" rx="8" fill="#1a1e24"/>
+    <rect x="364" y="54" width="80" height="48" rx="6" fill="#f3f0dd"/>
+    <rect y="150" width="480" height="30" fill="#1c2128"/>
+  </g>
+
+  <!-- cabin side: image left is rear glass, image right is the front door -->
+  <g id="cabin-side" transform="translate(0,336)">
+    <rect width="1280" height="388" fill="#1a1e24"/>
+    <rect x="28" y="28" width="1224" height="300" fill="url(#glass)"/>
+    <rect x="620" y="28" width="36" height="300" fill="#14181d"/>
+    <path d="M80 70 L420 48 L520 210 L120 240 Z" fill="#ffffff" opacity="0.28"/>
+    <path d="M760 64 L1100 52 L1160 180 L820 200 Z" fill="#ffffff" opacity="0.22"/>
+    <rect x="48" y="250" width="560" height="10" fill="#9eb4c2" opacity="0.45"/>
+    <rect y="340" width="1280" height="48" fill="#12161b"/>
+    <rect y="0" width="1280" height="22" fill="#12161b"/>
+  </g>
+
+  <g id="cabin-rear" transform="translate(1280,336)">
+    <rect width="400" height="138" fill="#12161b"/>
+    <rect x="16" y="14" width="368" height="110" fill="url(#glass)"/>
+    <path d="M40 28 H360" stroke="#d5e2ea" stroke-width="3" opacity="0.35"/>
+    <circle cx="200" cy="78" r="10" fill="#9a1d1d"/>
+  </g>
+
+  <g id="windshield" transform="translate(1280,484)">
+    <rect width="400" height="150" fill="#12161b"/>
+    <rect x="14" y="12" width="372" height="126" fill="url(#glass)"/>
+    <path d="M40 30 L250 24 L220 110 L48 100 Z" fill="#ffffff" opacity="0.3"/>
+  </g>
+
+  <!-- roof, image top is the front of the cabin -->
+  <g id="roof" transform="translate(1700,380)">
+    <rect width="300" height="344" fill="#232a32"/>
+    <rect x="18" y="16" width="22" height="312" rx="6" fill="#3a4450"/>
+    <rect x="260" y="16" width="22" height="312" rx="6" fill="#3a4450"/>
+    <rect x="70" y="36" width="160" height="250" rx="8" fill="#1a2028"/>
+    <rect x="86" y="70" width="128" height="8" fill="#3d4652"/>
+    <rect x="86" y="150" width="128" height="8" fill="#3d4652"/>
+    <rect x="86" y="230" width="128" height="8" fill="#3d4652"/>
+  </g>
+
+  <g id="hood" transform="translate(0,736)">
+    <rect width="470" height="286" fill="#f4f6f8"/>
+    <rect width="470" height="286" fill="url(#paintShade)"/>
+    <path d="M40 24 H430" stroke="#c5ccd3" stroke-width="6"/>
+    <path d="M70 70 H400" stroke="#d5dae0" stroke-width="4"/>
+    <rect x="210" y="90" width="50" height="16" rx="3" fill="#2a3038"/>
+  </g>
+
+  <!-- spare sidewall, center stays transparent so the rim and spokes show -->
+  <g id="spare" transform="translate(1700,740)">
+    <circle cx="140" cy="140" r="136" fill="#1b1e22"/>
+    <circle cx="140" cy="140" r="114" fill="#4a525c"/>
+    <circle cx="140" cy="140" r="96" fill="none" stroke="#f7f9fc" stroke-width="6"/>
+    <circle cx="140" cy="140" r="70" fill="#c5ccd4"/>
+    <circle cx="140" cy="140" r="46" fill="#f4f6f8"/>
+    <circle cx="140" cy="140" r="16" fill="#2a3038"/>
+    <g fill="#f7f9fc" font-family="Impact, sans-serif" font-size="18" text-anchor="middle">
+      <text x="140" y="58">SNOW</text>
+      <text x="140" y="246">BALL</text>
+    </g>
+  </g>
+
+  <defs>
+    <linearGradient id="paintShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#9aa3ad" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b7d0dc"/>
+      <stop offset="0.45" stop-color="#6e8ea0"/>
+      <stop offset="1" stop-color="#1a242c"/>
+    </linearGradient>
+  </defs>
+</svg>

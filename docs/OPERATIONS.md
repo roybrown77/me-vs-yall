@@ -15,7 +15,7 @@ Changes here affect every user in production. Update this file when behavior cha
 3. On SW **install/activate**, **`html-navigations`** cache is cleared so stale `index.html` cannot pin old asset hashes.
 4. Additional SW update checks: on load, window **focus**, and tab **visible** (not only hourly).
 5. **Do not** precache `index.html` at install time (see `injectManifest.globIgnores` in `src/client/vite.config.js`).
-6. **Navigations** (e.g. `/scoreboards/nfl` from a push) use network-first; if the network and per-URL cache miss, the SW falls back to **`/index.html`** so the SPA shell still loads (`src/client/src/sw.js`).
+6. **Navigations** (e.g. `/scoreboards/nfl`, `/race`) always use the **network** when online (`cache: 'no-store'`) so a slow or timed-out fetch cannot serve a pre-deploy `index.html`; offline falls back to the last cached shell (`src/client/src/sw.js`).
 
 If users report “stale JS/CSS after deploy”, verify: Heroku build succeeded, `sw.js` and `index.html` cache headers, and that the precache manifest excludes `index.html`.
 

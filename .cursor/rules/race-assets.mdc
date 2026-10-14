@@ -1,0 +1,25 @@
+---
+description: Race 3D asset triangle and texture budgets
+globs: src/client/src/pages/Race/**,src/client/scripts/raceBudget.mjs,src/client/scripts/checkRaceBudget.mjs
+alwaysApply: false
+---
+
+# Race 3D asset budgets
+
+Hero car mesh limits live in `src/client/src/pages/Race/budgets.json`:
+
+| Limit | Value |
+|-------|--------|
+| Warn triangles | 25,000 |
+| **Fail (CI)** triangles | **30,000** |
+| Max texture edge | 2048px |
+| Max GLB size | 8 MB |
+
+## When changing Race 3D assets
+
+1. Place the shipped car at `src/client/src/pages/Race/models/race-car.glb` (or update `budgets.json` path deliberately).
+2. Run `npm run check:race-budget` from the repo root before opening a PR.
+3. Do **not** raise `maxTriangles` without explicit intent — decimate or simplify the model first.
+4. Update `src/client/src/pages/Race/README.md` if paths or limits change.
+
+CI runs the same check via GitHub Actions and will **fail the build** above 30k triangles.

@@ -19,12 +19,17 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-ga4": "^3.0.1",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "three": "^0.186.1"
   },
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:truck-atlas": "node scripts/rasterizeTruckAtlas.mjs",
+    "check:race-budget": "node scripts/checkRaceBudget.mjs",
+    "test:race-budget": "node --test scripts/__tests__/raceBudget.test.js",
+    "build:heroku": "vite build"
   },
   "browserslist": [
     ">0.2%",
@@ -33,6 +38,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@gltf-transform/core": "^4.5.1",
     "@vite-pwa/assets-generator": "2.0.0",
     "@vitejs/plugin-react": "6.0.1",
     "sharp": "^0.35.5",

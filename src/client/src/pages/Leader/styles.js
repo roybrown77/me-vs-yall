@@ -29,7 +29,7 @@ const styles = {
       padding: '8px'
     },
     leaderTabNote: {
-      margin: '0 1em 0.5em',
+      margin: 'auto',
       maxWidth: '42rem',
       padding: '6px 10px',
       color: '#475569',

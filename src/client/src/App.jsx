@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -10,6 +11,8 @@ import Origin from './pages/Origin';
 import Contact from './pages/Contact';
 import Play from './pages/Play';
 import AuthenticationCallback from './pages/AuthenticationCallback';
+
+const Race = lazy(() => import('./pages/Race'));
 
 import PwaInstallBanner from './components/PwaInstallBanner';
 
@@ -27,6 +30,14 @@ const App = () => {
             <Route path="/tips" element={<Tips />} />
             <Route path="/origin" element={<Origin />} />
             <Route path="/play" element={<Play />} />
+            <Route
+              path="/race"
+              element={(
+                <Suspense fallback={null}>
+                  <Race />
+                </Suspense>
+              )}
+            />
             <Route path="/contact" element={<Contact />} />
             <Route path="/authenticationCallback" element={<AuthenticationCallback />} />
             <Route path="*" element={<Home />} />
