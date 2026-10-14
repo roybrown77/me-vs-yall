@@ -13,6 +13,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import TeamRankings from "./TeamRankings";
+import PlayoffBracket from "./PlayoffBracket.jsx";
 import TabPanel from "../../components/TabPanel";
 import {
   areRankingsAvailableForSelection,
@@ -75,6 +76,7 @@ import {
   assignGameSlugs,
   buildNavigationPath,
   parseNavigationPath,
+  SCOREBOARD_VIEW_BRACKET,
   SCOREBOARD_VIEW_RANKINGS,
   withGameSlug,
 } from "../../utilities/navigationPaths";
@@ -462,17 +464,40 @@ const Scoreboard = () => {
     [location.pathname]
   );
 
+  const isNflLeague = leagues.some(
+    (entry) => String(entry.id) === String(leagueId) && entry.name === "nfl"
+  );
+  const playoffsAvailable = rankingsAvailable && isNflLeague;
+
   useEffect(() => {
-    setScoreboardTabIndex(
-      parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_RANKINGS ? 1 : 0
-    );
+    if (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_RANKINGS) {
+      setScoreboardTabIndex(1);
+      return;
+    }
+
+    if (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_BRACKET) {
+      setScoreboardTabIndex(2);
+      return;
+    }
+
+    setScoreboardTabIndex(0);
   }, [location.pathname, parsedScoreboardPath.scoreboardView]);
 
+  const isPlayoffsViewActive =
+    playoffsAvailable &&
+    (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_BRACKET ||
+      scoreboardTabIndex === 2);
   const isRankingsViewActive =
     rankingsAvailable &&
+    !isPlayoffsViewActive &&
     (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
       scoreboardTabIndex === 1);
-  const activeScoreboardTab = isRankingsViewActive ? 1 : 0;
+  const standingsViewActive = isRankingsViewActive || isPlayoffsViewActive;
+  const activeScoreboardTab = isPlayoffsViewActive
+    ? 2
+    : isRankingsViewActive
+      ? 1
+      : 0;
 
   const buildScoreboardPath = useCallback(
     ({ scoreboardView = null, gameSlug = null } = {}) => {
@@ -527,12 +552,12 @@ const Scoreboard = () => {
   ]);
 
   useEffect(() => {
-    if (isRankingsViewActive) {
+    if (standingsViewActive) {
       return;
     }
 
     rankingsAbortRef.current?.abort();
-  }, [isRankingsViewActive, leagueId, weekId, year]);
+  }, [standingsViewActive, leagueId, weekId, year]);
 
   usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 10000 });
 
@@ -581,14 +606,18 @@ const Scoreboard = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    if (searchParams.get("view") === SCOREBOARD_VIEW_RANKINGS) {
+    const legacyView = searchParams.get("view");
+    if (
+      legacyView === SCOREBOARD_VIEW_RANKINGS ||
+      legacyView === SCOREBOARD_VIEW_BRACKET
+    ) {
       searchParams.delete("view");
       const search = searchParams.toString();
 
       navigate(
         {
           pathname: buildScoreboardPath({
-            scoreboardView: SCOREBOARD_VIEW_RANKINGS,
+            scoreboardView: legacyView,
           }),
           search: search ? `?${search}` : "",
           hash: location.hash,
@@ -598,10 +627,13 @@ const Scoreboard = () => {
       return;
     }
 
-    if (
-      !rankingsAvailable &&
-      parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_RANKINGS
-    ) {
+    const viewUnavailable =
+      (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_RANKINGS &&
+        !rankingsAvailable) ||
+      (parsedScoreboardPath.scoreboardView === SCOREBOARD_VIEW_BRACKET &&
+        !playoffsAvailable);
+
+    if (weeks.length > 0 && viewUnavailable) {
       setScoreboardTabIndex(0);
       navigate(
         {
@@ -619,7 +651,9 @@ const Scoreboard = () => {
     location.search,
     navigate,
     parsedScoreboardPath.scoreboardView,
+    playoffsAvailable,
     rankingsAvailable,
+    weeks.length,
   ]);
 
   const applyRankingsState = useCallback((payload) => {
@@ -769,7 +803,7 @@ const Scoreboard = () => {
   ]);
 
   useEffect(() => {
-    if (!isRankingsViewActive) {
+    if (!standingsViewActive) {
       if (wasRankingsViewActiveRef.current) {
         rankingsAbortRef.current?.abort();
         setRankingsLoading(false);
@@ -816,10 +850,10 @@ const Scoreboard = () => {
     currentWeek,
     endDateTime,
     hydrateRankingsFromCache,
-    isRankingsViewActive,
     leagueId,
     loadRankingsData,
     seasonGames.length,
+    standingsViewActive,
     weekId,
     year,
   ]);
@@ -829,14 +863,22 @@ const Scoreboard = () => {
       return;
     }
 
+    if (tabIndex === 2 && !playoffsAvailable) {
+      return;
+    }
+
+    const scoreboardView =
+      tabIndex === 1
+        ? SCOREBOARD_VIEW_RANKINGS
+        : tabIndex === 2
+          ? SCOREBOARD_VIEW_BRACKET
+          : null;
+
     setScoreboardTabIndex(tabIndex);
 
     navigate(
       {
-        pathname: buildScoreboardPath({
-          scoreboardView:
-            tabIndex === 1 ? SCOREBOARD_VIEW_RANKINGS : null,
-        }),
+        pathname: buildScoreboardPath({ scoreboardView }),
         search: location.search,
         hash: location.hash,
       },
@@ -867,7 +909,7 @@ const Scoreboard = () => {
 
   useScrollToGameSlug({
     games,
-    enabled: !dataLoading && !isRankingsViewActive,
+    enabled: !dataLoading && !isRankingsViewActive && !isPlayoffsViewActive,
   });
   usePageSeo({
     enabled: !dataLoading,
@@ -1089,6 +1131,9 @@ const Scoreboard = () => {
                 {rankingsAvailable && (
                   <Tab label="Rankings" {...a11yProps(1, "scoreboard")} />
                 )}
+                {playoffsAvailable && (
+                  <Tab label="Playoffs" {...a11yProps(2, "scoreboard")} />
+                )}
               </Tabs>
             </Box>
             <LeaderHypeBanner />
@@ -1216,6 +1261,23 @@ const Scoreboard = () => {
                   usesPriorPlayoffs={rankingSnapshots.usesPriorPlayoffs}
                   rankingsAvailable={rankingSnapshots.rankingsAvailable}
                   teams={teams}
+                />
+              </TabPanel>
+            )}
+            {playoffsAvailable && (
+              <TabPanel
+                value={activeScoreboardTab}
+                index={2}
+                key="playoffs-tab"
+                idPrefix="scoreboard"
+                bold={false}
+              >
+                <PlayoffBracket
+                  loading={rankingsLoading}
+                  teams={teams}
+                  seasonGames={seasonGames}
+                  liveGames={games}
+                  weeks={weeks}
                 />
               </TabPanel>
             )}

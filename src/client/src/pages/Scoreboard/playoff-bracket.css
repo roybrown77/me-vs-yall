@@ -1,0 +1,97 @@
+.playoff-bracket {
+  padding: 0 0.5rem 1.5rem;
+  color: #111;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.playoff-bracket-note {
+  max-width: 44rem;
+  margin: 0.75rem auto 1rem;
+  padding: 8px 12px;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.playoff-conferences {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.playoff-conference-title {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.playoff-round-label {
+  margin: 0.35rem 0 0.4rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.playoff-match,
+.playoff-bye {
+  margin-bottom: 0.65rem;
+  background: #fff;
+  border: 1px solid #111;
+}
+
+.playoff-team {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr auto;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.55rem 0.7rem;
+  border-left: 6px solid #94a3b8;
+}
+
+.playoff-team + .playoff-team {
+  border-top: 1px solid #e2e8f0;
+}
+
+.playoff-seed {
+  font-weight: 700;
+}
+
+.playoff-team-name {
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.playoff-team-meta {
+  display: block;
+  margin-top: 0.15rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.playoff-record {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.playoff-live {
+  margin-left: 0.35rem;
+  color: #c62828;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 800px) {
+  .playoff-conferences {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+}

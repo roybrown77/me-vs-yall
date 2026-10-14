@@ -150,9 +150,19 @@ export const parseWeekSegment = (segment) => {
 };
 
 export const SCOREBOARD_VIEW_RANKINGS = "rankings";
+export const SCOREBOARD_VIEW_BRACKET = "bracket";
 
 export const isRankingsPathSegment = (segment) =>
   String(segment || "").toLowerCase() === SCOREBOARD_VIEW_RANKINGS;
+
+const isBracketPathSegment = (segment) =>
+  String(segment || "").toLowerCase() === SCOREBOARD_VIEW_BRACKET;
+
+const viewFromSegment = (segment) => {
+  if (isRankingsPathSegment(segment)) return SCOREBOARD_VIEW_RANKINGS;
+  if (isBracketPathSegment(segment)) return SCOREBOARD_VIEW_BRACKET;
+  return null;
+};
 
 const parseWeekAndGameSegments = (segments = []) => {
   const fourth = segments[3];
@@ -166,19 +176,21 @@ const parseWeekAndGameSegments = (segments = []) => {
     return { weekSegment: null, gameSlug: fourth, scoreboardView: null };
   }
 
-  if (isRankingsPathSegment(fourth) && !fifth) {
+  const fourthView = viewFromSegment(fourth);
+  if (fourthView && !fifth) {
     return {
       weekSegment: null,
       gameSlug: null,
-      scoreboardView: SCOREBOARD_VIEW_RANKINGS,
+      scoreboardView: fourthView,
     };
   }
 
-  if (isRankingsPathSegment(fifth)) {
+  const fifthView = viewFromSegment(fifth);
+  if (fifthView) {
     return {
       weekSegment: fourth,
       gameSlug: null,
-      scoreboardView: SCOREBOARD_VIEW_RANKINGS,
+      scoreboardView: fifthView,
     };
   }
 
@@ -250,8 +262,11 @@ export const buildNavigationPath = ({
     parts.push(resolvedWeekSegment);
   }
 
-  if (scoreboardView === SCOREBOARD_VIEW_RANKINGS) {
-    parts.push(SCOREBOARD_VIEW_RANKINGS);
+  if (
+    scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
+    scoreboardView === SCOREBOARD_VIEW_BRACKET
+  ) {
+    parts.push(scoreboardView);
   } else if (gameSlug) {
     parts.push(gameSlug);
   }
