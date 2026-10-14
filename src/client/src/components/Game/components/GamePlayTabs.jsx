@@ -64,7 +64,7 @@ const GamePlayTabs = (props) => {
   const tabs = useMemo(() => {
     const list = [
       { key: "plays", label: "Plays 🕹" },
-      { key: "highlights", label: "Highlights 📸" },
+      { key: "highlights", label: "Lights 📸" },
     ];
 
     if (showQuarterScoresTab) {
