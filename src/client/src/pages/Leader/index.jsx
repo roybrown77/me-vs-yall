@@ -410,11 +410,19 @@ const Leader = () => {
               <Tabs
                 value={selectedLeaderTab}
                 onChange={handleLeaderTabChange}
+                variant="scrollable"
+                scrollButtons={false}
                 aria-label="game types"
-                style={{
+                sx={{
+                  width: "100%",
+                  maxWidth: "100%",
                   paddingBottom: "20px",
-                  width: "fit-content",
-                  margin: "auto",
+                  "& .MuiTabs-scroller": {
+                    minWidth: 0,
+                  },
+                  "& .MuiTabs-list": {
+                    justifyContent: "safe center",
+                  },
                 }}
               >
                 <Tab label="Picks 🎯" {...a11yProps(0)} />

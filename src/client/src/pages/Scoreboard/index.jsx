@@ -1114,11 +1114,19 @@ const Scoreboard = () => {
               <Tabs
                 value={activeScoreboardTab}
                 onChange={handleScoreboardTabChange}
+                variant="scrollable"
+                scrollButtons={false}
                 aria-label="scoreboard views"
                 sx={{
-                  width: "fit-content",
-                  margin: "0 auto",
+                  width: "100%",
+                  maxWidth: "100%",
                   paddingBottom: "12px",
+                  "& .MuiTabs-scroller": {
+                    minWidth: 0,
+                  },
+                  "& .MuiTabs-list": {
+                    justifyContent: "safe center",
+                  },
                   "& .MuiTab-root": {
                     minHeight: 48,
                     touchAction: "manipulation",

@@ -289,11 +289,19 @@ const GamePlayTabs = (props) => {
         <Tabs
           value={resolvedTabIndex}
           onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons={false}
           aria-label="game play tabs"
-          style={{
+          sx={{
+            width: "100%",
+            maxWidth: "100%",
             paddingBottom: "1.25rem",
-            width: "fit-content",
-            margin: "auto",
+            "& .MuiTabs-scroller": {
+              minWidth: 0,
+            },
+            "& .MuiTabs-list": {
+              justifyContent: "safe center",
+            },
           }}
         >
           {tabs.map((tab, index) => (
