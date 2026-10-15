@@ -91,7 +91,7 @@ const TinyScoreboard = ({loading, title, games, getGameHref}) => {
         gameContainer: {
             display: 'flex',
             fontSize: '12px',
-            padding: '5px 0 15px 4px',
+            padding: '15px 0 15px 4px',
             fontWeight: 'bold',
             backgroundColor: '#fff',
             overflowX: 'auto',
