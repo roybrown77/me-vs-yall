@@ -7,6 +7,7 @@ import {
     hasGameStarted
 } from '../../utilities';
 import { buildGameLinkLabel } from '../../utilities/navigationPaths';
+import { scrollGameIntoView } from '../../hooks/useScrollToGameSlug';
 
 const formatQuarter = (quarter) => {
     if (!quarter) return '';
@@ -94,6 +95,8 @@ const TinyScoreboard = ({loading, title, games, getGameHref}) => {
             fontWeight: 'bold',
             backgroundColor: '#fff',
             overflowX: 'auto',
+            overflowY: 'hidden',
+            WebkitOverflowScrolling: 'touch',
             flex: '1 1 auto',
             minWidth: 0,
         },
@@ -206,6 +209,18 @@ const TinyScoreboard = ({loading, title, games, getGameHref}) => {
                                         <Link
                                             to={getGameHref?.(game) || "#"}
                                             style={{textDecoration: 'none'}}
+                                            onClick={() => {
+                                                const slug = String(getGameHref?.(game) || "")
+                                                    .split("/")
+                                                    .filter(Boolean)
+                                                    .pop();
+                                                const element = slug
+                                                    ? document.getElementById(slug)
+                                                    : null;
+                                                if (element) {
+                                                    scrollGameIntoView(element);
+                                                }
+                                            }}
                                         >
                                             <div style={styles.linkToGame}>
                                                 <span className="sr-only">{buildGameLinkLabel(game)}</span>

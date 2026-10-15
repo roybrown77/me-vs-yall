@@ -8,6 +8,27 @@ import {
   withGameSlug,
 } from "../utilities/navigationPaths";
 
+export const scrollGameIntoView = (element) => {
+  if (!element || typeof window === "undefined") return false;
+
+  const align = () => {
+    const header = document.querySelector(
+      ".MuiAppBar-positionFixed, .MuiAppBar-positionSticky"
+    );
+    const headerBottom = header
+      ? Math.ceil(header.getBoundingClientRect().bottom)
+      : 0;
+    const top =
+      element.getBoundingClientRect().top + window.scrollY - headerBottom - 8;
+
+    window.scrollTo(0, Math.max(0, top));
+  };
+
+  align();
+  window.requestAnimationFrame(align);
+  return true;
+};
+
 const useScrollToGameSlug = ({ games = [], enabled = true }) => {
   const location = useLocation();
 
@@ -23,8 +44,7 @@ const useScrollToGameSlug = ({ games = [], enabled = true }) => {
       const element = document.getElementById(slug);
       if (!element) return false;
 
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      return true;
+      return scrollGameIntoView(element);
     };
 
     if (scrollToSlug(gameSlug)) {

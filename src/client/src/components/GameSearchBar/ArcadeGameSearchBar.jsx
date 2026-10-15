@@ -103,13 +103,17 @@ const ArcadeGameSearchBar = ({
     ];
 
     selectedButtons.forEach((button) => {
-      if (!button) return;
+      const row = button?.parentElement;
+      if (!button || !row) return;
 
-      button.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
+      const rowRect = row.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+      const nextLeft =
+        row.scrollLeft +
+        (buttonRect.left - rowRect.left) -
+        (rowRect.width - buttonRect.width) / 2;
+
+      row.scrollTo({ left: Math.max(0, nextLeft), behavior: "smooth" });
     });
   }, [leagueId, yearSelected, weekId, selectedWeekIndex]);
 
