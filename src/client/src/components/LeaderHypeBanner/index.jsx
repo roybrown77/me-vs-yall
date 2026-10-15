@@ -1,7 +1,8 @@
 const styles = {
   banner: {
-    margin: "1em",
-    maxWidth: "42rem",
+    boxSizing: "border-box",
+    width: "min(42rem, calc(100% - 2em))",
+    margin: "1em auto",
     padding: "10px 12px",
     border: "3px solid #0f172a",
     boxShadow: "4px 4px 0 0 #f2c34a",
