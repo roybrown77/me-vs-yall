@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -23,14 +23,11 @@ const FOOTBALL_LEAGUE_IDS = new Set([
 
 const getInitialTabKey = (game) => {
   if (!hasGameStarted(game.startDateTime)) {
-    return (game.stats || []).length > 0 ? "stats" : "plays";
+    return "stats";
   }
 
   if (game.isGameOver) {
-    if ((game.highlights || []).length > 0) {
-      return "highlights";
-    }
-    return (game.stats || []).length > 0 ? "stats" : "highlights";
+    return (game.highlights || []).length > 0 ? "highlights" : "stats";
   }
 
   if ((game.playHistory || []).length > 0) {
@@ -44,10 +41,13 @@ const GamePlayTabs = (props) => {
   const { game, isAuthenticated, userId } = props;
 
   const [activeTabKey, setActiveTabKey] = useState(() => getInitialTabKey(game));
+  const pickedGameId = useRef(null);
+  const defaultTabKey = getInitialTabKey(game);
 
   useEffect(() => {
-    setActiveTabKey(getInitialTabKey(game));
-  }, [game._id]);
+    if (pickedGameId.current === game._id) return;
+    setActiveTabKey(defaultTabKey);
+  }, [game._id, defaultTabKey]);
 
   const enableWatchLiveGames = watchLiveGames &&
   ([
@@ -90,6 +90,7 @@ const GamePlayTabs = (props) => {
   const handleTabChange = (event, newTabIndex) => {
     const nextTab = tabs[newTabIndex];
     if (nextTab) {
+      pickedGameId.current = game._id;
       setActiveTabKey(nextTab.key);
     }
   };
