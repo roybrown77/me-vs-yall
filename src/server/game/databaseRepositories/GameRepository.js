@@ -14,6 +14,7 @@ const GameSchema = new mongoose.Schema({
     weather: String,
     stats: Array,
     isGameOver: { type: mongoose.Schema.Types.Boolean, index: true },
+    finalStatusDueAt: { type: Date },
     isHidden: { type: Boolean, index: true },
     isGameOfTheWeek: { type: Boolean, index: true },
     // deprecate following fields

@@ -58,6 +58,7 @@ const leagueId = '59723313734d1d6202a85f10';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
 const VIEWPORT = { width: 2500, height: 1500 };
 const UPDATE_INTERVAL_MS = 10000;
+const FINAL_STATUS_DELAY_MS = 60 * 1000;
 const PAGE_LOAD_TIMEOUT_MS = 45000;
 const BROWSER_SESSION_LIMIT = 30;
 
@@ -445,6 +446,28 @@ async function scrapeGameInformationFromPage(page) {
    SHARED GAME FIELD HELPERS - used by create + update paths
    ============================================================================= */
 
+// Delays marking isGameOver so last-play updates can still be collected after ESPN shows Final.
+const resolveFinalStatus = ({ game, scrapedIsGameOver, now = Date.now() }) => {
+    if (game.isGameOver === true) {
+        return { isGameOver: true, finalStatusDueAt: null };
+    }
+
+    if (!scrapedIsGameOver) {
+        return { isGameOver: false, finalStatusDueAt: null };
+    }
+
+    let dueMs = game.finalStatusDueAt ? new Date(game.finalStatusDueAt).getTime() : null;
+    if (!dueMs || !Number.isFinite(dueMs)) {
+        dueMs = now + FINAL_STATUS_DELAY_MS;
+    }
+
+    if (now >= dueMs) {
+        return { isGameOver: true, finalStatusDueAt: null };
+    }
+
+    return { isGameOver: false, finalStatusDueAt: new Date(dueMs) };
+};
+
 const calculateSpread = (mergedGame) => {
     const spreadText = (mergedGame.spread || '').trim();
     const spreadMatch = spreadText.match(/(?:Spread:\s*)?([A-Za-z]{2,5})\s*([+-]?\d+(?:\.\d+)?)/i);
@@ -640,7 +663,10 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
         spread: spread?.teamId ? spread : null,
         overUnder: parseInt(scrapedGame.total, 10) || undefined,
         weather: scrapedGame.weather || '57',
-        isGameOver: scrapedGame.isGameOver === true,
+        isGameOver: false,
+        finalStatusDueAt: scrapedGame.isGameOver === true
+            ? new Date(Date.now() + FINAL_STATUS_DELAY_MS)
+            : null,
         currentTime: scrapedGame.currentTime || null,
     };
 };
@@ -898,6 +924,11 @@ const runGameUpdate = async () => {
                         currentTime: mergedGame.currentTime || '',
                     });
 
+                    const { isGameOver, finalStatusDueAt } = resolveFinalStatus({
+                        game,
+                        scrapedIsGameOver: mergedGame.isGameOver === true,
+                    });
+
                     const updateResult = await gameRepository.updateOne(
                         { _id: game._id },
                         {
@@ -906,17 +937,22 @@ const runGameUpdate = async () => {
                                 down: mergedGame.down || null,
                                 possession: mergedGame.possession || null,
                                 currentTime: mergedGame.currentTime,
-                                isGameOver: mergedGame.isGameOver,
+                                isGameOver,
+                                finalStatusDueAt,
                                 playHistory: newPlayHistory,
                                 ...startDateTimeFields,
                             }
                         }
                     );
 
+                    const finalNote = mergedGame.isGameOver && !isGameOver && finalStatusDueAt
+                        ? `, final pending until ${finalStatusDueAt.toISOString()}`
+                        : '';
+
                     logGameUpdate({
                         game,
                         updateType: 'score',
-                        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${mergedGame.isGameOver}, playHistory ${newPlayHistory.length}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
+                        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${isGameOver}, playHistory ${newPlayHistory.length}${finalNote}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 }
