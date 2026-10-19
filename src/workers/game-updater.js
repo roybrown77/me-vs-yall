@@ -190,7 +190,7 @@ const closeSharedBrowser = async () => {
 };
 
 const getSharedBrowser = async () => {
-    if (sharedBrowser?.isConnected() && browserSessionUses < BROWSER_SESSION_LIMIT) {
+    if (sharedBrowser?.connected && browserSessionUses < BROWSER_SESSION_LIMIT) {
         return sharedBrowser;
     }
 
