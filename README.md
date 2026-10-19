@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<p align="center"><strong>The ultimate sports pick’em game.</strong> Pick winners, talk smack on the leaderboard, and try to outlast Vegas and your friends. Popcorn optional. Bragging rights mandatory. 🍿</p>
+<p align="center"><strong>The ultimate sports pick’em game.</strong> Pick winners and try to outlast your friends. Popcorn optional. Bragging rights mandatory. 🍿</p>
 
 <p align="center"><a href="https://www.mevsyall.com">Play now →</a> · Install the app from your browser for the full experience.</p>
 
