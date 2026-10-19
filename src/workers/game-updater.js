@@ -446,26 +446,33 @@ async function scrapeGameInformationFromPage(page) {
    SHARED GAME FIELD HELPERS - used by create + update paths
    ============================================================================= */
 
-// Delays marking isGameOver so last-play updates can still be collected after ESPN shows Final.
+// Marks games final immediately for rankings; keeps scraping last-play for a short window.
 const resolveFinalStatus = ({ game, scrapedIsGameOver, now = Date.now() }) => {
-    if (game.isGameOver === true) {
-        return { isGameOver: true, finalStatusDueAt: null };
-    }
-
     if (!scrapedIsGameOver) {
-        return { isGameOver: false, finalStatusDueAt: null };
+        return {
+            isGameOver: false,
+            playCollectionUntil: null,
+            finalStatusDueAt: null,
+        };
     }
 
-    let dueMs = game.finalStatusDueAt ? new Date(game.finalStatusDueAt).getTime() : null;
-    if (!dueMs || !Number.isFinite(dueMs)) {
-        dueMs = now + FINAL_STATUS_DELAY_MS;
+    let collectUntilMs = game.playCollectionUntil
+        ? new Date(game.playCollectionUntil).getTime()
+        : null;
+
+    if ((!collectUntilMs || !Number.isFinite(collectUntilMs)) && game.finalStatusDueAt) {
+        collectUntilMs = new Date(game.finalStatusDueAt).getTime();
     }
 
-    if (now >= dueMs) {
-        return { isGameOver: true, finalStatusDueAt: null };
+    if (!collectUntilMs || !Number.isFinite(collectUntilMs) || collectUntilMs < now) {
+        collectUntilMs = now + FINAL_STATUS_DELAY_MS;
     }
 
-    return { isGameOver: false, finalStatusDueAt: new Date(dueMs) };
+    return {
+        isGameOver: true,
+        playCollectionUntil: new Date(collectUntilMs),
+        finalStatusDueAt: null,
+    };
 };
 
 const calculateSpread = (mergedGame) => {
@@ -663,10 +670,11 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
         spread: spread?.teamId ? spread : null,
         overUnder: parseInt(scrapedGame.total, 10) || undefined,
         weather: scrapedGame.weather || '57',
-        isGameOver: false,
-        finalStatusDueAt: scrapedGame.isGameOver === true
+        isGameOver: scrapedGame.isGameOver === true,
+        playCollectionUntil: scrapedGame.isGameOver === true
             ? new Date(Date.now() + FINAL_STATUS_DELAY_MS)
             : null,
+        finalStatusDueAt: null,
         currentTime: scrapedGame.currentTime || null,
     };
 };
@@ -717,19 +725,24 @@ const createMissingGamesFromScrape = async ({ results, year, leagueId }) => {
    ============================================================================= */
 
 const buildGameSearch = ({ year, includeAllActive = false }) => {
+    const leagueObjectId = new mongoose.Types.ObjectId(leagueId);
+    const base = {
+        leagueId: leagueObjectId,
+        year,
+        $or: [
+            { isGameOver: { $ne: true } },
+            { playCollectionUntil: { $gt: new Date() } },
+            { finalStatusDueAt: { $gt: new Date() } },
+        ],
+    };
+
     if (includeAllActive) {
-        return {
-            leagueId: new mongoose.Types.ObjectId(leagueId),
-            isGameOver: { $ne: true },
-            year,
-        };
+        return base;
     }
 
     return {
-        leagueId: new mongoose.Types.ObjectId(leagueId),
-        isGameOver: { $ne: true },
+        ...base,
         startDateTime: { $lte: new Date(Date.now() + 30 * 60 * 1000) },
-        year,
     };
 };
 
@@ -924,7 +937,7 @@ const runGameUpdate = async () => {
                         currentTime: mergedGame.currentTime || '',
                     });
 
-                    const { isGameOver, finalStatusDueAt } = resolveFinalStatus({
+                    const { isGameOver, playCollectionUntil, finalStatusDueAt } = resolveFinalStatus({
                         game,
                         scrapedIsGameOver: mergedGame.isGameOver === true,
                     });
@@ -938,6 +951,7 @@ const runGameUpdate = async () => {
                                 possession: mergedGame.possession || null,
                                 currentTime: mergedGame.currentTime,
                                 isGameOver,
+                                playCollectionUntil,
                                 finalStatusDueAt,
                                 playHistory: newPlayHistory,
                                 ...startDateTimeFields,
@@ -945,8 +959,8 @@ const runGameUpdate = async () => {
                         }
                     );
 
-                    const finalNote = mergedGame.isGameOver && !isGameOver && finalStatusDueAt
-                        ? `, final pending until ${finalStatusDueAt.toISOString()}`
+                    const finalNote = playCollectionUntil
+                        ? `, collecting plays until ${playCollectionUntil.toISOString()}`
                         : '';
 
                     logGameUpdate({

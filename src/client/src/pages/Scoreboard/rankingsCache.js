@@ -1,20 +1,11 @@
-import moment from "moment-timezone";
-
-const RANKINGS_CACHE_TZ = "America/New_York";
 const RANKINGS_CACHE_PREFIX = "sportspick.rankings.v1";
+const RANKINGS_CACHE_LIVE_MS = 3 * 60 * 1000;
 
 export const buildRankingsCacheKey = (leagueId, year, weekId) =>
   `${RANKINGS_CACHE_PREFIX}:${leagueId}:${year}:${weekId}`;
 
 export const getRankingsCacheExpiryMs = (fromDate = new Date()) => {
-  const now = moment(fromDate).tz(RANKINGS_CACHE_TZ);
-  let expiry = now.clone().day(2).hour(3).minute(0).second(0).millisecond(0);
-
-  if (!expiry.isAfter(now)) {
-    expiry = expiry.add(1, "week");
-  }
-
-  return expiry.valueOf();
+  return fromDate.getTime() + RANKINGS_CACHE_LIVE_MS;
 };
 
 export const readRankingsCache = (cacheKey) => {
@@ -33,6 +24,25 @@ export const readRankingsCache = (cacheKey) => {
     return parsed.payload || null;
   } catch {
     return null;
+  }
+};
+
+export const clearRankingsCache = (cacheKey) => {
+  try {
+    if (cacheKey) {
+      localStorage.removeItem(cacheKey);
+      return;
+    }
+    const keysToRemove = [];
+    for (let index = 0; index < localStorage.length; index += 1) {
+      const key = localStorage.key(index);
+      if (key?.startsWith(RANKINGS_CACHE_PREFIX)) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+  } catch {
+    // Ignore quota / private mode errors.
   }
 };
 

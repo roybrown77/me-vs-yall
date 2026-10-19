@@ -559,8 +559,11 @@ router.get('/games', async function (req, res) {
       const rankingsSearch = {
         leagueId: new mongoose.Types.ObjectId(leagueId),
         year: year,
-        isGameOver: true,
         isHidden: { $ne: true },
+        $or: [
+          { isGameOver: true },
+          { finalStatusDueAt: { $ne: null } },
+        ],
         startDateTime: {
           $gt: new Date(
             !beginDateTime || beginDateTime === '-1'
@@ -586,6 +589,9 @@ router.get('/games', async function (req, res) {
 
       rankingGames.forEach((game) => {
         limitPlayHistoryForResponse(game);
+        if (!game.isGameOver && game.finalStatusDueAt) {
+          game.isGameOver = true;
+        }
       });
 
       return res.status(200).send(rankingGames);

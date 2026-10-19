@@ -28,6 +28,7 @@ import { fetchGameWeeks } from "../../utilities/gameWeeks";
 import {
   applyRankingsCachePayload,
   buildRankingsCacheKey,
+  clearRankingsCache,
   readRankingsCache,
   writeRankingsCache,
 } from "./rankingsCache";
@@ -146,6 +147,8 @@ const Scoreboard = () => {
   const rankingsAbortRef = useRef(null);
   const wasRankingsViewActiveRef = useRef(false);
   const rankingsFetchKeyRef = useRef(null);
+  const rankingsScoreSignatureRef = useRef("");
+  const loadRankingsDataRef = useRef(null);
   const [rankingsLoading, setRankingsLoading] = useState(false);
   const [seasonGames, setSeasonGames] = useState([]);
   const [priorYearGames, setPriorYearGames] = useState([]);
@@ -237,6 +240,18 @@ const Scoreboard = () => {
 
         if (showLoader && requestId === loadRequestIdRef.current) {
           setDataLoading(false);
+        }
+
+        if (
+          requestId === loadRequestIdRef.current &&
+          areRankingsAvailableForSelection({
+            week: weeks.find((entry) => entry._id === weekId),
+            weeks,
+            leagueId,
+            year,
+          })
+        ) {
+          loadRankingsDataRef.current?.({ bypassCache: false });
         }
 
         const needsPickExtras = isAuthenticated || anyGameStarted;
@@ -526,6 +541,7 @@ const Scoreboard = () => {
 
   const poll = useCallback(() => {
     if (isRankingsViewActive) {
+      loadRankingsDataRef.current?.({ bypassCache: true });
       return;
     }
 
@@ -675,7 +691,7 @@ const Scoreboard = () => {
     [applyRankingsState]
   );
 
-  const loadRankingsData = useCallback(async () => {
+  const loadRankingsData = useCallback(async ({ bypassCache = false } = {}) => {
     if (!leagueId || !year || !endDateTime || !currentWeek || !weeks.length || !weekId) {
       return;
     }
@@ -689,7 +705,10 @@ const Scoreboard = () => {
     }
 
     const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
-    if (hydrateRankingsFromCache(cacheKey)) {
+    if (bypassCache) {
+      clearRankingsCache(cacheKey);
+      rankingsFetchKeyRef.current = null;
+    } else if (hydrateRankingsFromCache(cacheKey)) {
       setRankingsLoading(false);
       return;
     }
@@ -799,6 +818,45 @@ const Scoreboard = () => {
     leagueId,
     weekId,
     weeks,
+    year,
+  ]);
+
+  useEffect(() => {
+    loadRankingsDataRef.current = loadRankingsData;
+  }, [loadRankingsData]);
+
+  const buildRankingsRefreshSignature = useCallback(
+    (gamesList = []) =>
+      gamesList
+        .map(
+          (game) =>
+            `${game._id}:${game.isGameOver ? 1 : 0}:${game.competitors?.[0]?.score ?? ""}:${game.competitors?.[1]?.score ?? ""}:${game.currentTime ?? ""}`
+        )
+        .join("|"),
+    []
+  );
+
+  useEffect(() => {
+    if (!rankingsAvailable || !leagueId || !year || !weekId) {
+      return;
+    }
+
+    const signature = buildRankingsRefreshSignature(games);
+    const previous = rankingsScoreSignatureRef.current;
+
+    if (previous && signature !== previous) {
+      clearRankingsCache(buildRankingsCacheKey(leagueId, year, weekId));
+      rankingsFetchKeyRef.current = null;
+      loadRankingsDataRef.current?.({ bypassCache: true });
+    }
+
+    rankingsScoreSignatureRef.current = signature;
+  }, [
+    buildRankingsRefreshSignature,
+    games,
+    leagueId,
+    rankingsAvailable,
+    weekId,
     year,
   ]);
 
