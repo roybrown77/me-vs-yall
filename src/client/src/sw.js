@@ -1,18 +1,24 @@
 /* eslint-disable no-restricted-globals */
 import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 import { clientsClaim } from 'workbox-core';
-import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { createHandlerBoundToURL } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { NetworkFirst } from 'workbox-strategies';
 
 self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
 
-// Precache files injected by vite-plugin-pwa/workbox
+// Precache hashed JS/CSS (index.html is excluded in vite injectManifest config).
 precacheAndRoute(self.__WB_MANIFEST || []);
 
-// SPA navigation fallback
-registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
+// Prefer network for navigations so deploys pick up fresh index.html + asset URLs.
+registerRoute(
+  ({ request }) => request.mode === 'navigate',
+  new NetworkFirst({
+    cacheName: 'html-navigations',
+    networkTimeoutSeconds: 5,
+  })
+);
 
 self.addEventListener('push', (event) => {
   let data = {};

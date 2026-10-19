@@ -16,6 +16,10 @@ export default defineConfig(({ command }) => {
         strategies: 'injectManifest',
         srcDir: 'src',
         filename: 'sw.js',
+        injectManifest: {
+          globPatterns: ['**/*.{js,css,ico,png,svg,webp,webmanifest,woff2}'],
+          globIgnores: ['**/index.html'],
+        },
         themeColor: '#FFE8A3',
         pwaAssets: {
           disabled: false,

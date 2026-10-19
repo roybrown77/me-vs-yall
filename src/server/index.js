@@ -177,10 +177,30 @@ function registerApiRoutes(app, authCheck) {
  */
 function serveStaticAssets(app) {
   const compression = require('compression');
+  const distPath = path.resolve(__dirname, '../client/dist');
+
+  const noCacheHeaders = (_res, filePath) => {
+    if (
+      filePath.endsWith(`${path.sep}sw.js`) ||
+      filePath.endsWith(`${path.sep}index.html`) ||
+      filePath.endsWith('.webmanifest')
+    ) {
+      _res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  };
+
   app.use(compression()); // Enable compression for faster asset delivery
-  app.use(express.static(path.resolve(__dirname, '../client/dist')));
+  app.use(
+    '/assets',
+    express.static(path.join(distPath, 'assets'), {
+      immutable: true,
+      maxAge: '365d',
+    })
+  );
+  app.use(express.static(distPath, { setHeaders: noCacheHeaders }));
   app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.sendFile(path.join(distPath, 'index.html'));
   });
 }
 
