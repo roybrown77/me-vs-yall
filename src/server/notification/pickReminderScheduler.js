@@ -16,6 +16,10 @@ const pickRepository = require('../pick/PickRepository');
 const userRepository = require('../user/UserRepository');
 const pushSubscriptionRepository = require('./PushSubscriptionRepository');
 const { rankLeaders, formatTopLeadersBody } = require('./leaderRankings');
+const {
+  buildLeaderboardPath,
+  resolveLeaderboardNotificationWeek,
+} = require('../game/gameWeekNavigation');
 
 const leagueIdToName = {
   '59723313734d1d6202a85f10': 'nfl',
@@ -54,16 +58,6 @@ const buildPickFinalizeReminderPayload = () => ({
 const isSevenPmWindow = ({ timezone, dateValue = new Date() }) => {
   const local = moment(dateValue).tz(timezone);
   return local.hour() === PICK_FINALIZE_REMINDER_HOUR && local.minute() < 15;
-};
-
-const findGameWeek = (game, gameWeeks = []) => {
-  const start = new Date(game.startDateTime).getTime();
-
-  return gameWeeks.find((week) => {
-    const begin = new Date(week.beginDateTime).getTime();
-    const end = new Date(week.endDateTime).getTime();
-    return start >= begin && start <= end;
-  });
 };
 
 const getGamesOnLocalDate = ({ games, timezone, dateKey }) => {
@@ -242,7 +236,12 @@ const getAllFinalBucketForTimezone = ({ games, timezone }) => {
   return allFinalBuckets[0];
 };
 
-const buildAllFinalPayload = ({ leagueName, dateKey, topLeaders = [] }) => ({
+const buildAllFinalPayload = ({
+  leagueName,
+  dateKey,
+  topLeaders = [],
+  leaderboardUrl,
+}) => ({
   title: '🏁 Final Scores Ready',
   body: `All ${leagueName.toUpperCase()} games are final. ${formatTopLeadersBody(topLeaders)}`,
   icon: '/favicon.png',
@@ -253,7 +252,7 @@ const buildAllFinalPayload = ({ leagueName, dateKey, topLeaders = [] }) => ({
     { action: 'open-leaderboard', title: 'Open Leaderboard' },
     { action: 'dismiss', title: 'Later' },
   ],
-  url: `/leaders/${leagueName}`,
+  url: leaderboardUrl || `/leaders/${leagueName}`,
 });
 
 const computeMissingPickCount = async ({ userId, gameIds }) => {
@@ -266,15 +265,28 @@ const computeMissingPickCount = async ({ userId, gameIds }) => {
   return gameIds.filter((gameId) => !pickedGameIds.has(String(gameId)));
 };
 
-const getTopLeadersForNotification = async ({ referenceGame, leaderCache }) => {
+const getLeaderboardSnapshotForNotification = async ({
+  referenceGame,
+  leaderCache,
+  timezone,
+  dateValue = new Date(),
+}) => {
   const leagueId = referenceGame.leagueId;
   const year = referenceGame.year;
+  const leagueName = getLeagueName(leagueId);
   const gameWeeks = await gameWeekRepository.find({ leagueId, year });
-  const week = findGameWeek(referenceGame, gameWeeks);
+  const { week, weekQueryMetaById, useEntireSeason } = resolveLeaderboardNotificationWeek({
+    referenceGame,
+    gameWeeks,
+    timezone,
+    dateValue,
+  });
 
-  if (!week) return [];
+  if (!week) {
+    return { topLeaders: [], leaderboardUrl: `/leaders/${leagueName}` };
+  }
 
-  const cacheKey = `${String(leagueId)}:${year}:${String(week._id)}`;
+  const cacheKey = `${String(leagueId)}:${year}:${String(week._id)}:${useEntireSeason ? 'season' : 'week'}`;
   if (leaderCache.has(cacheKey)) {
     return leaderCache.get(cacheKey);
   }
@@ -287,9 +299,17 @@ const getTopLeadersForNotification = async ({ referenceGame, leaderCache }) => {
   });
 
   const gameIds = weekGames.map((game) => game._id);
+  const leaderboardUrl = buildLeaderboardPath({
+    leagueName,
+    year,
+    week,
+    weekQueryMetaById,
+  });
+
   if (!gameIds.length) {
-    leaderCache.set(cacheKey, []);
-    return [];
+    const empty = { topLeaders: [], leaderboardUrl };
+    leaderCache.set(cacheKey, empty);
+    return empty;
   }
 
   const picks = await pickRepository.find({ gameId: { $in: gameIds } });
@@ -298,9 +318,12 @@ const getTopLeadersForNotification = async ({ referenceGame, leaderCache }) => {
     ? await userRepository.find({ authServiceId: { $in: userIds } })
     : [];
 
-  const topLeaders = rankLeaders({ games: weekGames, picks, users }).slice(0, 3);
-  leaderCache.set(cacheKey, topLeaders);
-  return topLeaders;
+  const snapshot = {
+    topLeaders: rankLeaders({ games: weekGames, picks, users }).slice(0, 3),
+    leaderboardUrl,
+  };
+  leaderCache.set(cacheKey, snapshot);
+  return snapshot;
 };
 
 const sendPickFinalizeReminder = async ({
@@ -497,9 +520,11 @@ const sendPickReminderOnce = async () => {
           });
 
           if (!hasSentEventKey({ subscription: sub, eventKey: allFinalEventKey })) {
-            const topLeaders = await getTopLeadersForNotification({
+            const { topLeaders, leaderboardUrl } = await getLeaderboardSnapshotForNotification({
               referenceGame: allFinalBucket.games[0],
               leaderCache,
+              timezone: subscriptionTimezone,
+              dateValue: now,
             });
 
             await webpush.sendNotification(
@@ -513,6 +538,7 @@ const sendPickReminderOnce = async () => {
                   leagueName: allFinalBucket.leagueName,
                   dateKey: allFinalBucket.dateKey,
                   topLeaders,
+                  leaderboardUrl,
                 })
               )
             );
