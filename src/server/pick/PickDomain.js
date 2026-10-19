@@ -93,6 +93,8 @@ const hasGameStarted = (gameDateTime, pickDateTime) =>{
     return difference < 0;
 };
 
-const domain = { upsert };
-
-module.exports = domain;
+module.exports = {
+  upsert,
+  isValid,
+  hasGameStarted,
+};

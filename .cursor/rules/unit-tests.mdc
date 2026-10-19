@@ -1,0 +1,51 @@
+---
+description: Require unit tests for complex and critical logic (Node test runner, colocated __tests__)
+alwaysApply: true
+---
+
+# Unit tests for complex and critical code
+
+When adding or materially changing logic, **add or update unit tests** unless the change is purely presentational (copy, CSS, static markup with no behavior).
+
+## When tests are required
+
+Treat code as **complex or critical** if it matches any of these:
+
+- **Picks only before kickoff**: users may create or change picks only while the game has not started (`hasGameStarted` / server `PickDomain.isValid`). Any change to pick UI, APIs, or validation must include tests that reject picks after start (and allow them before).
+- Business rules: picks, scoring, rankings, playoffs/seeding, spreads, bonus points
+- Notifications, schedulers, workers, cron, push payloads, rate limits
+- Auth, permissions, subscription/sync, or anything that gates user actions
+- Date/time, timezones, week/season navigation, caching, invalidation
+- Non-trivial algorithms, multi-branch conditionals, or state machines
+- Bug fixes for regressions (add a test that would have caught the bug)
+
+## When tests are optional
+
+- One-line wiring, config-only changes, or renames with no behavior change
+- Pure UI layout/styling with no new branching logic
+- Generated or third-party code you do not own
+
+## Conventions in this repo
+
+- **Runner**: Node built-in `node:test` + `node:assert/strict` (no Jest unless the area already uses something else).
+- **Location**: Colocate under `__tests__/` next to the module, e.g. `src/server/game/__tests__/gameWeekNavigation.test.js` for `gameWeekNavigation.js`.
+- **Style**: One `test('…', () => { … })` per behavior; use small fixtures; mock repositories/external IO at module boundaries when integration tests are not the goal.
+- **Exports**: Prefer exporting pure helpers (e.g. `rankLeaders`, `resolveLeaderboardNotificationWeek`) so tests stay fast and deterministic.
+
+## Agent checklist before finishing a task
+
+1. If the diff is complex/critical per above, **include new or updated tests in the same change**.
+2. Run `npm test` (all `src/server/**/__tests__/**/*.test.js`). Heroku `heroku-postbuild` and GitHub Actions run this before deploy/merge.
+3. Do not merge behavior fixes for critical paths without at least one test covering the fixed case.
+
+## Key modules for pick timing
+
+- Server enforcement: `src/server/pick/PickDomain.js` (`isValid`, `hasGameStarted`)
+- Client helper: `src/client/src/utilities/index.js` (`hasGameStarted`)
+
+## Examples to mirror
+
+- `src/server/notification/__tests__/leaderRankings.test.js`
+- `src/server/notification/__tests__/pickReminderScheduler.test.js`
+- `src/server/game/__tests__/gameWeekNavigation.test.js`
+- `src/server/pick/__tests__/PickDomain.test.js`

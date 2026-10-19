@@ -31,11 +31,12 @@
     "server": "nodemon src/server",
     "prod-server": "node src/server",
     "prod-worker": "node src/workers",
-    "test:notification": "node --test src/server/notification/__tests__/pickReminderScheduler.test.js",
+    "test": "find src/server -path '*/__tests__/*.test.js' -print0 | xargs -0 node --test",
+    "test:notification": "npm test",
     "client": "nodemon start-client.js",
     "generate-vapid": "npx web-push generate-vapid-keys",
     "local-prod": "npm --prefix src/client run build && NODE_ENV=production node src/server",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
-    "heroku-postbuild": "npm --prefix src/client install --include=dev && npm --prefix src/client run build"
+    "heroku-postbuild": "npm test && npm --prefix src/client install --include=dev && npm --prefix src/client run build"
   }
 }
