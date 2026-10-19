@@ -1,0 +1,39 @@
+---
+description: Keep README.md (players) and docs/* (technical) updated with features and critical behavior
+alwaysApply: true
+---
+
+# README maintenance
+
+| File | Audience |
+|------|----------|
+| **`README.md`** | Short, fun, user-facing (no file paths or deploy plumbing) |
+| **`docs/DEVELOPMENT.md`** | Dev hub: architecture, local setup, env, links to other docs |
+| **`docs/FEATURES.md`** | Detailed product / route / notification / worker behavior |
+| **`docs/DEPLOYMENT.md`** | Tests, CI, Heroku dynos, build pipeline |
+| **`docs/OPERATIONS.md`** | **Critical operations** — cache, SW, pick timing, troubleshooting |
+
+## When to update
+
+In the **same change** (or immediately after):
+
+| Change | Update |
+|--------|--------|
+| Player-visible feature, league, tab, rule | `README.md` + `docs/FEATURES.md` |
+| Local dev, architecture, env | `docs/DEVELOPMENT.md` |
+| CI, Heroku, `heroku-postbuild`, tests gate | `docs/DEPLOYMENT.md` |
+| PWA/cache/SW, workers, notification logic, pick/scoring internals users depend on | `docs/OPERATIONS.md` (+ `docs/FEATURES.md` if user-visible) |
+
+One line in `README.md` is enough when users only notice the effect (e.g. “app updates after deploy” → point to ops in dev docs, not full detail in README).
+
+Do **not** rewrite docs for copy/CSS-only tweaks or refactors with no behavior change.
+
+## Agent checklist
+
+1. User-visible? **`README.md`** — brief.
+2. Which technical doc? Use the table above; prefer editing an existing subsection.
+3. Critical production behavior always lands in **`docs/OPERATIONS.md`**.
+
+## Related rules
+
+- Unit tests: [.cursor/rules/unit-tests.mdc](./unit-tests.mdc)
