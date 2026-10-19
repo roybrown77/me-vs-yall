@@ -39,11 +39,46 @@
   text-transform: uppercase;
 }
 
-.playoff-match,
 .playoff-bye {
   margin-bottom: 0.65rem;
   background: #fff;
   border: 1px solid #111;
+}
+
+.playoff-match {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 0.65rem;
+  background: #fff;
+  border: 1px solid #111;
+}
+
+.playoff-match-team {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+  text-align: center;
+}
+
+.playoff-match-team--left {
+  border-left: 6px solid #94a3b8;
+}
+
+.playoff-match-team--right {
+  border-right: 6px solid #94a3b8;
+}
+
+.playoff-match-at {
+  flex: 0 0 auto;
+  align-self: center;
+  padding: 0 0.15rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .playoff-team {
@@ -53,10 +88,6 @@
   align-items: center;
   padding: 0.55rem 0.7rem;
   border-left: 6px solid #94a3b8;
-}
-
-.playoff-team + .playoff-team {
-  border-top: 1px solid #e2e8f0;
 }
 
 .playoff-seed {
@@ -80,6 +111,10 @@
   font-variant-numeric: tabular-nums;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.playoff-match-team .playoff-record {
+  margin-top: 0.15rem;
 }
 
 .playoff-live {

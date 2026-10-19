@@ -6,15 +6,35 @@ import Skeleton from "@mui/material/Skeleton";
 import { buildPlayoffBracket } from "./playoffSeeds";
 import "./playoff-bracket.css";
 
+const teamShape = {
+  seed: PropTypes.number,
+  color: PropTypes.string,
+  shortLocation: PropTypes.string,
+  name: PropTypes.string,
+  division: PropTypes.string,
+  recordLabel: PropTypes.string,
+  live: PropTypes.bool,
+};
+
+const TeamNameBlock = ({ team }) => (
+  <>
+    <span className="playoff-team-name">{team.shortLocation}</span>
+    <span className="playoff-team-meta">
+      {team.name}
+      {team.division ? ` · ${team.division}` : ""}
+    </span>
+  </>
+);
+
+TeamNameBlock.propTypes = {
+  team: PropTypes.shape(teamShape).isRequired,
+};
+
 const TeamRow = ({ team }) => (
   <div className="playoff-team" style={{ borderLeftColor: team.color }}>
     <span className="playoff-seed">{team.seed}</span>
     <span>
-      <span className="playoff-team-name">{team.shortLocation}</span>
-      <span className="playoff-team-meta">
-        {team.name}
-        {team.division ? ` · ${team.division}` : ""}
-      </span>
+      <TeamNameBlock team={team} />
     </span>
     <span className="playoff-record">
       {team.recordLabel}
@@ -23,16 +43,43 @@ const TeamRow = ({ team }) => (
   </div>
 );
 
+const MatchRow = ({ higher, lower }) => (
+  <div className="playoff-match">
+    <div
+      className="playoff-match-team playoff-match-team--left"
+      style={{ borderLeftColor: lower.color }}
+    >
+      <span className="playoff-seed">{lower.seed}</span>
+      <TeamNameBlock team={lower} />
+      <span className="playoff-record">
+        {lower.recordLabel}
+        {lower.live ? <span className="playoff-live">LIVE</span> : null}
+      </span>
+    </div>
+    <span className="playoff-match-at" aria-hidden="true">
+      @
+    </span>
+    <div
+      className="playoff-match-team playoff-match-team--right"
+      style={{ borderRightColor: higher.color }}
+    >
+      <span className="playoff-seed">{higher.seed}</span>
+      <TeamNameBlock team={higher} />
+      <span className="playoff-record">
+        {higher.recordLabel}
+        {higher.live ? <span className="playoff-live">LIVE</span> : null}
+      </span>
+    </div>
+  </div>
+);
+
+MatchRow.propTypes = {
+  higher: PropTypes.shape(teamShape).isRequired,
+  lower: PropTypes.shape(teamShape).isRequired,
+};
+
 TeamRow.propTypes = {
-  team: PropTypes.shape({
-    seed: PropTypes.number,
-    color: PropTypes.string,
-    shortLocation: PropTypes.string,
-    name: PropTypes.string,
-    division: PropTypes.string,
-    recordLabel: PropTypes.string,
-    live: PropTypes.bool,
-  }).isRequired,
+  team: PropTypes.shape(teamShape).isRequired,
 };
 
 const PlayoffBracket = ({
@@ -94,13 +141,11 @@ const PlayoffBracket = ({
             ) : null}
             <div className="playoff-round-label">Wild Card</div>
             {conference.wildCard.map((game) => (
-              <div
-                className="playoff-match"
+              <MatchRow
+                higher={game.higher}
                 key={`${game.higher.teamId}-${game.lower.teamId}`}
-              >
-                <TeamRow team={game.higher} />
-                <TeamRow team={game.lower} />
-              </div>
+                lower={game.lower}
+              />
             ))}
           </section>
         ))}
