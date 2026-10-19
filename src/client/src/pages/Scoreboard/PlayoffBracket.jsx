@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 
-import Skeleton from "@mui/material/Skeleton";
-
 import { buildPlayoffBracket } from "./playoffSeeds";
 import "./playoff-bracket.css";
 
@@ -83,7 +81,6 @@ TeamRow.propTypes = {
 };
 
 const PlayoffBracket = ({
-  loading = false,
   teams = [],
   seasonGames = [],
   liveGames = [],
@@ -99,26 +96,6 @@ const PlayoffBracket = ({
       }),
     [liveGames, seasonGames, teams, weeks]
   );
-
-  if (loading && !bracket.hasResults) {
-    return (
-      <div className="playoff-bracket">
-        <Skeleton animation="pulse" height="4em" variant="rectangular" />
-        <Skeleton animation="pulse" height="8em" variant="rectangular" />
-        <Skeleton animation="pulse" height="8em" variant="rectangular" />
-      </div>
-    );
-  }
-
-  if (!bracket.hasResults) {
-    return (
-      <div className="playoff-bracket">
-        <p className="playoff-bracket-note">
-          Playoff seeds appear once regular-season games are on the board.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="playoff-bracket">
@@ -155,7 +132,6 @@ const PlayoffBracket = ({
 };
 
 PlayoffBracket.propTypes = {
-  loading: PropTypes.bool,
   teams: PropTypes.array,
   seasonGames: PropTypes.array,
   liveGames: PropTypes.array,

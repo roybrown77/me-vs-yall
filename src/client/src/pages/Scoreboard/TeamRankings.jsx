@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
 
-import Skeleton from "@mui/material/Skeleton";
-
 import {
   attachRankMovement,
   buildTeamRankings,
@@ -25,7 +23,6 @@ const movementLabel = (entry) => {
 };
 
 const TeamRankings = ({
-  loading,
   leagueId,
   seasonGamesCurrent = [],
   seasonGamesPrevious = [],
@@ -38,16 +35,6 @@ const TeamRankings = ({
       <div style={styles.note}>
         Team rankings begin at regular season week 2. Preseason and week 1 are
         not included.
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div style={{ margin: "12px 0" }}>
-        <Skeleton animation="pulse" height="4em" variant="rect" />
-        <Skeleton animation="pulse" height="3em" variant="rect" />
-        <Skeleton animation="pulse" height="3em" variant="rect" />
       </div>
     );
   }
@@ -174,7 +161,6 @@ const styles = {
 };
 
 TeamRankings.propTypes = {
-  loading: PropTypes.bool,
   leagueId: PropTypes.string,
   seasonGamesCurrent: PropTypes.array,
   seasonGamesPrevious: PropTypes.array,

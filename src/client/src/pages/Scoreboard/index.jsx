@@ -9,9 +9,8 @@ import Button from "@mui/material/Button";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
-
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
+import { StandingsTabLoader } from "./ScoreboardTabLoading.jsx";
 import TeamRankings from "./TeamRankings";
 import PlayoffBracket from "./PlayoffBracket.jsx";
 import TabPanel from "../../components/TabPanel";
@@ -29,6 +28,7 @@ import {
   applyRankingsCachePayload,
   buildRankingsCacheKey,
   clearRankingsCache,
+  mergeLiveGamesIntoSeasonGames,
   readRankingsCache,
   writeRankingsCache,
 } from "./rankingsCache";
@@ -147,9 +147,12 @@ const Scoreboard = () => {
   const rankingsAbortRef = useRef(null);
   const wasRankingsViewActiveRef = useRef(false);
   const rankingsFetchKeyRef = useRef(null);
+  const rankingsLoadInFlightRef = useRef(false);
+  const rankingsInFlightPromiseRef = useRef(null);
   const rankingsScoreSignatureRef = useRef("");
   const loadRankingsDataRef = useRef(null);
   const [rankingsLoading, setRankingsLoading] = useState(false);
+  const [rankingsSeasonSettled, setRankingsSeasonSettled] = useState(false);
   const [seasonGames, setSeasonGames] = useState([]);
   const [priorYearGames, setPriorYearGames] = useState([]);
   const [priorYearWeeks, setPriorYearWeeks] = useState([]);
@@ -251,7 +254,10 @@ const Scoreboard = () => {
             year,
           })
         ) {
-          loadRankingsDataRef.current?.({ bypassCache: false });
+          loadRankingsDataRef.current?.({
+            bypassCache: false,
+            showLoader: false,
+          });
         }
 
         const needsPickExtras = isAuthenticated || anyGameStarted;
@@ -540,8 +546,18 @@ const Scoreboard = () => {
   );
 
   const poll = useCallback(() => {
-    if (isRankingsViewActive) {
-      loadRankingsDataRef.current?.({ bypassCache: true });
+    if (standingsViewActive && seasonGames.length > 0) {
+      setSeasonGames((previousSeasonGames) =>
+        mergeLiveGamesIntoSeasonGames(previousSeasonGames, games)
+      );
+      return;
+    }
+
+    if (standingsViewActive) {
+      loadRankingsDataRef.current?.({
+        bypassCache: false,
+        showLoader: false,
+      });
       return;
     }
 
@@ -558,22 +574,24 @@ const Scoreboard = () => {
   }, [
     beginDateTime,
     endDateTime,
+    games,
     getActiveScoresRequestEpoch,
     getActiveScoresRequestSignal,
-    isRankingsViewActive,
     leagueId,
     loadData,
+    seasonGames.length,
+    standingsViewActive,
     weekId,
     year,
   ]);
 
   useEffect(() => {
-    if (standingsViewActive) {
-      return;
-    }
-
     rankingsAbortRef.current?.abort();
-  }, [standingsViewActive, leagueId, weekId, year]);
+    rankingsLoadInFlightRef.current = false;
+    rankingsInFlightPromiseRef.current = null;
+    rankingsFetchKeyRef.current = null;
+    setRankingsSeasonSettled(false);
+  }, [leagueId, weekId, year]);
 
   usePollWhileGamesInProgress({ games, onPoll: poll, intervalMs: 10000 });
 
@@ -691,8 +709,32 @@ const Scoreboard = () => {
     [applyRankingsState]
   );
 
-  const loadRankingsData = useCallback(async ({ bypassCache = false } = {}) => {
+  const loadRankingsData = useCallback(async ({
+    bypassCache = false,
+    showLoader = true,
+  } = {}) => {
     if (!leagueId || !year || !endDateTime || !currentWeek || !weeks.length || !weekId) {
+      if (showLoader) {
+        setRankingsLoading(false);
+      }
+      return;
+    }
+
+    const fetchKey = `${leagueId}|${year}|${weekId}`;
+
+    if (
+      !bypassCache &&
+      rankingsInFlightPromiseRef.current &&
+      rankingsFetchKeyRef.current === fetchKey
+    ) {
+      try {
+        await rankingsInFlightPromiseRef.current;
+      } catch {
+        // Primary request handles errors.
+      }
+      if (showLoader) {
+        setRankingsLoading(false);
+      }
       return;
     }
 
@@ -700,7 +742,10 @@ const Scoreboard = () => {
       setSeasonGames([]);
       setPriorYearWeeks([]);
       setPriorYearGames([]);
-      setRankingsLoading(false);
+      setRankingsSeasonSettled(true);
+      if (showLoader) {
+        setRankingsLoading(false);
+      }
       return;
     }
 
@@ -709,107 +754,131 @@ const Scoreboard = () => {
       clearRankingsCache(cacheKey);
       rankingsFetchKeyRef.current = null;
     } else if (hydrateRankingsFromCache(cacheKey)) {
-      setRankingsLoading(false);
+      rankingsFetchKeyRef.current = fetchKey;
+      setRankingsSeasonSettled(true);
+      if (showLoader) {
+        setRankingsLoading(false);
+      }
       return;
     }
 
-    rankingsAbortRef.current?.abort();
+    if (bypassCache) {
+      rankingsAbortRef.current?.abort();
+      rankingsInFlightPromiseRef.current = null;
+    }
+
     const controller = new AbortController();
     rankingsAbortRef.current = controller;
     const requestId = ++rankingsRequestIdRef.current;
 
-    setRankingsLoading(true);
+    if (showLoader) {
+      setRankingsLoading(true);
+    }
+    rankingsLoadInFlightRef.current = true;
+    rankingsFetchKeyRef.current = fetchKey;
 
-    try {
-      const seasonBeginDateTime =
-        getRankingsSeasonBeginDateTime(weeks) ?? "-1";
+    const run = async () => {
+      try {
+        const seasonBeginDateTime =
+          getRankingsSeasonBeginDateTime(weeks) ?? "-1";
 
-      const query = {
-        leagueId,
-        year,
-        beginDateTime: seasonBeginDateTime,
-        endDateTime,
-        forRankings: true,
-      };
+        const query = {
+          leagueId,
+          year,
+          beginDateTime: seasonBeginDateTime,
+          endDateTime,
+          forRankings: true,
+        };
 
-      const priorYear = Number(year) - 1;
-      const leagueYears =
-        leagues.find((league) => String(league.id) === String(leagueId))
-          ?.years || [];
-      const shouldLoadPriorSeason =
-        isFirstRegularSeasonWeek(currentWeek, weeks) &&
-        leagueYears.some((leagueYear) => Number(leagueYear) === priorYear);
+        const priorYear = Number(year) - 1;
+        const leagueYears =
+          leagues.find((league) => String(league.id) === String(leagueId))
+            ?.years || [];
+        const shouldLoadPriorSeason =
+          isFirstRegularSeasonWeek(currentWeek, weeks) &&
+          leagueYears.some((leagueYear) => Number(leagueYear) === priorYear);
 
-      const gamesPromise = callApi({
-        method: "GET",
-        endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
-        signal: controller.signal,
-      });
+        const gamesPromise = callApi({
+          method: "GET",
+          endpoint: `/api/gamemanagement/games?${queryString.stringify(query)}`,
+          signal: controller.signal,
+        });
 
-      let fetchedPriorWeeks = [];
-      let fetchedPriorGames = [];
+        let fetchedPriorWeeks = [];
+        let fetchedPriorGames = [];
 
-      if (shouldLoadPriorSeason) {
-        fetchedPriorWeeks =
-          (await fetchGameWeeks({
-            leagueId,
-            year: priorYear,
-            signal: controller.signal,
-            skipEntireWeek: true,
-          })) || [];
-
-        const priorPlayoffBeginDateTime = getEarliestPlayoffWeekBegin(
-          fetchedPriorWeeks
-        );
-        const priorPlayoffEndDateTime = getLatestPlayoffWeekEnd(
-          fetchedPriorWeeks
-        );
-
-        if (priorPlayoffBeginDateTime && priorPlayoffEndDateTime) {
-          fetchedPriorGames =
-            (await callApi({
-              method: "GET",
-              endpoint: `/api/gamemanagement/games?${queryString.stringify({
-                leagueId,
-                year: priorYear,
-                beginDateTime: priorPlayoffBeginDateTime,
-                endDateTime: priorPlayoffEndDateTime,
-                forRankings: true,
-              })}`,
+        if (shouldLoadPriorSeason) {
+          fetchedPriorWeeks =
+            (await fetchGameWeeks({
+              leagueId,
+              year: priorYear,
               signal: controller.signal,
+              skipEntireWeek: true,
             })) || [];
+
+          const priorPlayoffBeginDateTime = getEarliestPlayoffWeekBegin(
+            fetchedPriorWeeks
+          );
+          const priorPlayoffEndDateTime = getLatestPlayoffWeekEnd(
+            fetchedPriorWeeks
+          );
+
+          if (priorPlayoffBeginDateTime && priorPlayoffEndDateTime) {
+            fetchedPriorGames =
+              (await callApi({
+                method: "GET",
+                endpoint: `/api/gamemanagement/games?${queryString.stringify({
+                  leagueId,
+                  year: priorYear,
+                  beginDateTime: priorPlayoffBeginDateTime,
+                  endDateTime: priorPlayoffEndDateTime,
+                  forRankings: true,
+                })}`,
+                signal: controller.signal,
+              })) || [];
+          }
+        }
+
+        const games = await gamesPromise;
+
+        if (
+          controller.signal.aborted ||
+          requestId !== rankingsRequestIdRef.current
+        ) {
+          return;
+        }
+
+        const payload = {
+          seasonGames: games || [],
+          priorYearWeeks: fetchedPriorWeeks,
+          priorYearGames: fetchedPriorGames,
+        };
+
+        applyRankingsState(payload);
+        writeRankingsCache(cacheKey, payload);
+        setRankingsSeasonSettled(true);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Failed to load ranking games", error);
+          setSeasonGames([]);
+          setPriorYearWeeks([]);
+          setPriorYearGames([]);
+          setRankingsSeasonSettled(true);
+        }
+      } finally {
+        if (requestId === rankingsRequestIdRef.current) {
+          rankingsLoadInFlightRef.current = false;
+          rankingsInFlightPromiseRef.current = null;
+          if (showLoader) {
+            setRankingsLoading(false);
+          }
         }
       }
+    };
 
-      const games = await gamesPromise;
-
-      if (
-        controller.signal.aborted ||
-        requestId !== rankingsRequestIdRef.current
-      ) {
-        return;
-      }
-
-      const payload = {
-        seasonGames: games || [],
-        priorYearWeeks: fetchedPriorWeeks,
-        priorYearGames: fetchedPriorGames,
-      };
-
-      applyRankingsState(payload);
-      writeRankingsCache(cacheKey, payload);
-    } catch (error) {
-      if (!controller.signal.aborted) {
-        console.error("Failed to load ranking games", error);
-        setSeasonGames([]);
-        setPriorYearWeeks([]);
-        setPriorYearGames([]);
-      }
-    } finally {
-      if (requestId === rankingsRequestIdRef.current) {
-        setRankingsLoading(false);
-      }
-    }
+    const promise = run();
+    rankingsInFlightPromiseRef.current = promise;
+    await promise;
   }, [
     applyRankingsState,
     currentWeek,
@@ -845,9 +914,26 @@ const Scoreboard = () => {
     const previous = rankingsScoreSignatureRef.current;
 
     if (previous && signature !== previous) {
-      clearRankingsCache(buildRankingsCacheKey(leagueId, year, weekId));
-      rankingsFetchKeyRef.current = null;
-      loadRankingsDataRef.current?.({ bypassCache: true });
+      setSeasonGames((previousSeasonGames) => {
+        if (!previousSeasonGames.length) {
+          return previousSeasonGames;
+        }
+
+        const merged = mergeLiveGamesIntoSeasonGames(
+          previousSeasonGames,
+          games
+        );
+
+        if (merged !== previousSeasonGames) {
+          writeRankingsCache(buildRankingsCacheKey(leagueId, year, weekId), {
+            seasonGames: merged,
+            priorYearWeeks,
+            priorYearGames,
+          });
+        }
+
+        return merged;
+      });
     }
 
     rankingsScoreSignatureRef.current = signature;
@@ -855,6 +941,8 @@ const Scoreboard = () => {
     buildRankingsRefreshSignature,
     games,
     leagueId,
+    priorYearGames,
+    priorYearWeeks,
     rankingsAvailable,
     weekId,
     year,
@@ -863,7 +951,6 @@ const Scoreboard = () => {
   useEffect(() => {
     if (!standingsViewActive) {
       if (wasRankingsViewActiveRef.current) {
-        rankingsAbortRef.current?.abort();
         setRankingsLoading(false);
       }
       wasRankingsViewActiveRef.current = false;
@@ -872,7 +959,14 @@ const Scoreboard = () => {
 
     wasRankingsViewActiveRef.current = true;
 
-    if (!leagueId || !year || !weekId || !endDateTime || !currentWeek) {
+    if (
+      !leagueId ||
+      !year ||
+      !weekId ||
+      !endDateTime ||
+      !currentWeek ||
+      !weeks.length
+    ) {
       return;
     }
 
@@ -889,21 +983,27 @@ const Scoreboard = () => {
     const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
 
     if (rankingsFetchKeyRef.current === fetchKey && seasonGames.length > 0) {
+      setRankingsSeasonSettled(true);
+      setRankingsLoading(false);
       return;
     }
 
     if (hydrateRankingsFromCache(cacheKey)) {
       rankingsFetchKeyRef.current = fetchKey;
+      setRankingsSeasonSettled(true);
       setRankingsLoading(false);
       return;
     }
 
     if (rankingsFetchKeyRef.current === fetchKey) {
-      return;
+      if (!rankingsLoadInFlightRef.current) {
+        rankingsFetchKeyRef.current = null;
+      }
     }
 
+    setRankingsLoading(true);
     rankingsFetchKeyRef.current = fetchKey;
-    loadRankingsData();
+    void loadRankingsData({ showLoader: true });
   }, [
     currentWeek,
     endDateTime,
@@ -913,6 +1013,84 @@ const Scoreboard = () => {
     seasonGames.length,
     standingsViewActive,
     weekId,
+    weeks.length,
+    year,
+  ]);
+
+  useEffect(() => {
+    if (standingsViewActive) {
+      return;
+    }
+
+    if (!rankingsAvailable && !playoffsAvailable) {
+      return;
+    }
+
+    if (
+      !leagueId ||
+      !year ||
+      !weekId ||
+      !endDateTime ||
+      !currentWeek ||
+      !weeks.length
+    ) {
+      return;
+    }
+
+    if (!isLatestLeagueYear(leagueId, year)) {
+      return;
+    }
+
+    const fetchKey = `${leagueId}|${year}|${weekId}`;
+    const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
+
+    if (rankingsFetchKeyRef.current === fetchKey && seasonGames.length > 0) {
+      return;
+    }
+
+    if (hydrateRankingsFromCache(cacheKey)) {
+      rankingsFetchKeyRef.current = fetchKey;
+      setRankingsSeasonSettled(true);
+      return;
+    }
+
+    if (rankingsFetchKeyRef.current === fetchKey) {
+      if (rankingsLoadInFlightRef.current) {
+        return;
+      }
+      rankingsFetchKeyRef.current = null;
+    }
+
+    rankingsFetchKeyRef.current = fetchKey;
+    loadRankingsData({ showLoader: false });
+
+    const cachedTeams = teamsByLeagueRef.current[String(leagueId)];
+    if (!cachedTeams?.length && leagueId) {
+      void callApi({
+        method: "GET",
+        endpoint: `/api/gamemanagement/teams?leagueId=${leagueId}`,
+      })
+        .then((nextTeams) => {
+          if (!nextTeams?.length) {
+            return;
+          }
+          teamsByLeagueRef.current[String(leagueId)] = nextTeams;
+          setTeams(nextTeams);
+        })
+        .catch(() => {});
+    }
+  }, [
+    currentWeek,
+    endDateTime,
+    hydrateRankingsFromCache,
+    leagueId,
+    loadRankingsData,
+    playoffsAvailable,
+    rankingsAvailable,
+    seasonGames.length,
+    standingsViewActive,
+    weekId,
+    weeks.length,
     year,
   ]);
 
@@ -931,6 +1109,16 @@ const Scoreboard = () => {
         : tabIndex === 2
           ? SCOREBOARD_VIEW_BRACKET
           : null;
+
+    const standingsReady =
+      rankingsSeasonSettled &&
+      !rankingsLoading &&
+      (teams.length > 0 ||
+        teamsByLeagueRef.current[String(leagueId)]?.length > 0);
+
+    if ((tabIndex === 1 || tabIndex === 2) && !standingsReady) {
+      setRankingsLoading(true);
+    }
 
     setScoreboardTabIndex(tabIndex);
 
@@ -987,6 +1175,19 @@ const Scoreboard = () => {
   const disableTie = currentWeek?.disableTie;
 
   const isLoading = dataLoading && !areAnyGamesInProgress;
+  const resolvedTeamCount =
+    teams.length ||
+    teamsByLeagueRef.current[String(leagueId)]?.length ||
+    0;
+  const standingsSeasonReady =
+    !rankingsLoading &&
+    rankingsSeasonSettled &&
+    resolvedTeamCount > 0;
+  const rankingsPanelLoading =
+    isRankingsViewActive && !standingsSeasonReady;
+  const playoffsPanelLoading =
+    isPlayoffsViewActive && !standingsSeasonReady;
+  const standingsPanelLoading = rankingsPanelLoading || playoffsPanelLoading;
   const handleFilterDate = undefined;
 
   const handleMakePick = useCallback(
@@ -1094,7 +1295,7 @@ const Scoreboard = () => {
             {...{
               title: `Let's Go!!!`,
               games: groupedGames.notCompleted,
-              loading: isLoading,
+              loading: false,
               getGameHref,
             }}
           />
@@ -1104,7 +1305,7 @@ const Scoreboard = () => {
             {...{
               title: `Game Over`,
               games: groupedGames.completed,
-              loading: isLoading,
+              loading: false,
               getGameHref,
             }}
           />
@@ -1115,7 +1316,7 @@ const Scoreboard = () => {
           yearSelected={year}
           weekId={weekId}
           weeks={weeks}
-          loading={isLoading}
+          loading={false}
           onFilterLeague={handleFilterLeague}
           onFilterYear={handleFilterYear}
           onFilterWeek={handleFilterWeek}
@@ -1202,35 +1403,18 @@ const Scoreboard = () => {
                 )}
               </Tabs>
             </Box>
-            <LeaderHypeBanner />
+            {!standingsPanelLoading && <LeaderHypeBanner />}
             <TabPanel
               value={activeScoreboardTab}
               index={0}
               idPrefix="scoreboard"
               bold={false}
             >
-            <div style={slimMode ? styles.rootSlim : styles.root}>
-              {isLoading && (
-                <div style={{ margin: "10px 0" }}>
-                  <Skeleton animation="pulse" height="5em" variant="rect" />
-                  <div style={{ display: "flex" }}>
-                    <Skeleton
-                      style={{ margin: "20px" }}
-                      animation="pulse"
-                      height="10em"
-                      width="50%"
-                      variant="rect"
-                    />
-                    <Skeleton
-                      style={{ margin: "20px" }}
-                      animation="pulse"
-                      height="10em"
-                      width="50%"
-                      variant="rect"
-                    />
-                  </div>
-                </div>
-              )}
+            <div
+              className="scoreboard-tab-panel-main"
+              style={slimMode ? styles.rootSlim : styles.root}
+            >
+              {isLoading && <StandingsTabLoader variant="scores" />}
               {!isLoading &&
                 groupedGames.notCompleted.map((game) => {
                   const newGameDate = moment(get(game, "startDateTime")).format(
@@ -1319,15 +1503,20 @@ const Scoreboard = () => {
                 idPrefix="scoreboard"
                 bold={false}
               >
-                <TeamRankings
-                  loading={rankingsLoading}
-                  leagueId={leagueId}
-                  seasonGamesCurrent={rankingSnapshots.current}
-                  seasonGamesPrevious={rankingSnapshots.previous}
-                  usesPriorPlayoffs={rankingSnapshots.usesPriorPlayoffs}
-                  rankingsAvailable={rankingSnapshots.rankingsAvailable}
-                  teams={teams}
-                />
+                <div className="scoreboard-tab-panel-main">
+                  {rankingsPanelLoading ? (
+                    <StandingsTabLoader variant="rankings" />
+                  ) : (
+                    <TeamRankings
+                      leagueId={leagueId}
+                      seasonGamesCurrent={rankingSnapshots.current}
+                      seasonGamesPrevious={rankingSnapshots.previous}
+                      usesPriorPlayoffs={rankingSnapshots.usesPriorPlayoffs}
+                      rankingsAvailable={rankingSnapshots.rankingsAvailable}
+                      teams={teams}
+                    />
+                  )}
+                </div>
               </TabPanel>
             )}
             {playoffsAvailable && (
@@ -1338,13 +1527,18 @@ const Scoreboard = () => {
                 idPrefix="scoreboard"
                 bold={false}
               >
-                <PlayoffBracket
-                  loading={rankingsLoading}
-                  teams={teams}
-                  seasonGames={seasonGames}
-                  liveGames={games}
-                  weeks={weeks}
-                />
+                <div className="scoreboard-tab-panel-main">
+                  {playoffsPanelLoading ? (
+                    <StandingsTabLoader variant="playoffs" />
+                  ) : (
+                    <PlayoffBracket
+                      teams={teams}
+                      seasonGames={seasonGames}
+                      liveGames={games}
+                      weeks={weeks}
+                    />
+                  )}
+                </div>
               </TabPanel>
             )}
           </Box>

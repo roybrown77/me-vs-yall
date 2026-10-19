@@ -1,0 +1,52 @@
+.scoreboard-tab-panel-main {
+  min-height: 10rem;
+}
+
+.standings-tab-loader {
+  margin: 0.75rem 0 1.25rem;
+  padding: 0.5rem 0.25rem 0;
+}
+
+.standings-tab-loader__message {
+  margin: 0 0 0.75rem;
+  text-align: center;
+  color: #57534e;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.standings-tab-loader__scores-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.standings-tab-loader__scores-row > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.standings-tab-loader__skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.standings-tab-loader__match-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.standings-tab-loader__match-side {
+  flex: 1 1 0;
+  border-radius: 2px;
+}
+
+.standings-tab-loader__match-at {
+  align-self: center;
+  width: 1rem;
+  flex-shrink: 0;
+  border-radius: 2px;
+}

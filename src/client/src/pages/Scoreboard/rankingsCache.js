@@ -73,3 +73,45 @@ export const applyRankingsCachePayload = (payload, applyState) => {
 
   return true;
 };
+
+/** Patch current-week live scores into cached season games (avoids full-season refetch). */
+export const mergeLiveGamesIntoSeasonGames = (
+  seasonGames = [],
+  liveGames = []
+) => {
+  if (!liveGames?.length) {
+    return seasonGames;
+  }
+
+  if (!seasonGames?.length) {
+    return seasonGames;
+  }
+
+  const liveById = liveGames.reduce((acc, game) => {
+    if (game?._id) {
+      acc[String(game._id)] = game;
+    }
+    return acc;
+  }, {});
+
+  let changed = false;
+
+  const next = seasonGames.map((game) => {
+    const live = liveById[String(game._id)];
+    if (!live) {
+      return game;
+    }
+
+    changed = true;
+    return {
+      ...game,
+      competitors: live.competitors ?? game.competitors,
+      isGameOver: live.isGameOver ?? game.isGameOver,
+      currentTime: live.currentTime ?? game.currentTime,
+      startDateTime: live.startDateTime ?? game.startDateTime,
+      finalStatusDueAt: live.finalStatusDueAt ?? game.finalStatusDueAt,
+    };
+  });
+
+  return changed ? next : seasonGames;
+};

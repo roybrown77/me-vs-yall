@@ -24,9 +24,11 @@ const TabPanel = (props) => {
                 ...(bold ? { fontWeight: "bold" } : {}),
             }}
         >
-            <Box sx={{ p: 3, padding: 0, display: isActive ? "block" : "none" }}>
-                {children}
-            </Box>
+            {isActive ? (
+                <Box sx={{ p: 3, padding: 0 }}>
+                    {children}
+                </Box>
+            ) : null}
         </div>
     );
 };
