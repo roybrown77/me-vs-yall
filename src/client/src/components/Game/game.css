@@ -1,20 +1,49 @@
 /* --- game --- */
 
+.game-field-picker-row,
 .game-field-picker-skeleton {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
   width: 90%;
   max-width: 500px;
   margin: 0 auto 6px;
 }
 
+.game-field-picker-row__side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.game-field-picker-row__side--away {
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.game-field-picker-row__side--home {
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.game-field-picker-row__vs,
 .game-field-picker-skeleton__vs {
   flex-shrink: 0;
   font-family: monospace;
   font-weight: 700;
   font-size: 12px;
+}
+
+.game-field-picker-row__vs {
+  color: #334155;
+}
+
+.game-field-picker-skeleton {
+  justify-content: center;
+  gap: 25px;
+}
+
+.game-field-picker-skeleton__vs {
   color: #94a3b8;
 }
 

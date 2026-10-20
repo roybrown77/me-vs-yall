@@ -933,35 +933,16 @@ const Game = (props) => {
             hasGameStarted(game.startDateTime) &&
             fieldPickers &&
             (fieldPickers.away.length > 0 || fieldPickers.home.length > 0) && (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: "90%",
-                  maxWidth: "500px",
-                  margin: "0 auto 6px",
-                }}
-              >
-                <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
+              <div className="game-field-picker-row">
+                <div className="game-field-picker-row__side game-field-picker-row__side--away">
                   <GamePickAvatarStack
                     side="left"
                     pickers={fieldPickers.away}
                     leadersHref={leadersHref}
                   />
                 </div>
-                <div
-                  style={{
-                    flexShrink: 0,
-                    padding: "0 8px",
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    fontSize: "12px",
-                    color: "#334155",
-                  }}
-                >
-                  vs
-                </div>
-                <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+                <div className="game-field-picker-row__vs">vs</div>
+                <div className="game-field-picker-row__side game-field-picker-row__side--home">
                   <GamePickAvatarStack
                     side="right"
                     pickers={fieldPickers.home}
