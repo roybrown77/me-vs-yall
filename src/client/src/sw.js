@@ -11,12 +11,36 @@ cleanupOutdatedCaches();
 // Precache hashed JS/CSS (index.html is excluded in vite injectManifest config).
 precacheAndRoute(self.__WB_MANIFEST || []);
 
+const HTML_NAV_CACHE = 'html-navigations';
+
+const fetchIndexShell = async (request) => {
+  const indexUrl = new URL('/index.html', request.url).href;
+  const cache = await caches.open(HTML_NAV_CACHE);
+  const cached = await cache.match(indexUrl);
+  if (cached) return cached;
+
+  const response = await fetch(indexUrl, { cache: 'no-store' });
+  if (response.ok) {
+    await cache.put(indexUrl, response.clone());
+  }
+  return response;
+};
+
 // Prefer network for navigations so deploys pick up fresh index.html + asset URLs.
 registerRoute(
   ({ request }) => request.mode === 'navigate',
   new NetworkFirst({
-    cacheName: 'html-navigations',
+    cacheName: HTML_NAV_CACHE,
     networkTimeoutSeconds: 5,
+    plugins: [
+      {
+        handlerDidError: async ({ request }) => {
+          const shell = await fetchIndexShell(request);
+          if (shell?.ok) return shell;
+          return undefined;
+        },
+      },
+    ],
   })
 );
 

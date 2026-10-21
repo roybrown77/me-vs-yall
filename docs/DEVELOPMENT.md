@@ -21,7 +21,8 @@ Technical docs for contributors. Player-facing overview: [README.md](../README.m
 
 ```bash
 npm install
-cd src/client && npm install && cd ../..
+
+(`postinstall` also runs `npm install --prefix src/client` so Vite and other client devDependencies are present. If the client fails with **Cannot find module 'vite'**, run `npm install --prefix src/client` manually.)
 npm start
 ```
 

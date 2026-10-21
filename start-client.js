@@ -1,4 +1,16 @@
 const { spawn } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const clientDir = path.join(__dirname, 'src/client');
+const viteEntry = path.join(clientDir, 'node_modules', 'vite', 'bin', 'vite.js');
+
+if (!fs.existsSync(viteEntry)) {
+  console.error(
+    '[CLIENT] Missing Vite in src/client/node_modules. Run: npm install --prefix src/client',
+  );
+  process.exit(1);
+}
 
 const child = spawn('npm', ['start'], {
   cwd: 'src/client',
