@@ -7,6 +7,8 @@
   width: 90%;
   max-width: 500px;
   margin: 0 auto 6px;
+  position: relative;
+  z-index: 1;
 }
 
 .game-field-picker-row__side {

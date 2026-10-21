@@ -1,21 +1,28 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
+
+const PLAY_MODES = {
+  throw: 'throw',
+  kick: 'kick',
+};
+
+const THROW_ANIM_MS = 700;
+const KICK_ANIM_MS = 1050;
 
 const AmericanFootballField = (props) => {
   const [heartCounts, setHeartCounts] = useState({ left: 0, right: 0 });
+  const [playMode, setPlayMode] = useState(PLAY_MODES.throw);
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
-  const hideXO = useRef(false);
-
   useEffect(() => {
     if (props.selectionMade === 'left') {
       setHeartCounts(prevCounts => ({ ...prevCounts, left: prevCounts.left + 1 }));
-      throwBallRight();
+      launchTowardHome();
     }
 
-   if (props.selectionMade === 'right') {
+    if (props.selectionMade === 'right') {
       setHeartCounts(prevCounts => ({ ...prevCounts, right: prevCounts.right + 1 }));
-      throwBallLeft();
+      launchTowardAway();
     }
   }, [props.selectionMade]);
 
@@ -29,17 +36,34 @@ const AmericanFootballField = (props) => {
     props.homeScoreHandler();
   };
 
-  const throwBallRight = () => {
-    hideXO.current = true;
-    setIsThrowingRight(true);
-    setTimeout(() => {awayScoreMade()}, 700);
+  const ballMotionClass = (side, isActive) => {
+    if (!isActive) {
+      return 'small-vertical-bounce ball';
+    }
+    if (playMode === PLAY_MODES.kick) {
+      return side === 'right' ? 'ball footballKickRight' : 'ball footballKickLeft';
+    }
+    return side === 'right' ? 'ball footballThrowRight' : 'ball footballThrowLeft';
   };
 
-  const throwBallLeft = () => {
-    hideXO.current = true;
-    setIsThrowingLeft(true);
-    setTimeout(() => {homeScoreMade()}, 700);
+  const animDurationMs = () => (playMode === PLAY_MODES.kick ? KICK_ANIM_MS : THROW_ANIM_MS);
+
+  const launchTowardHome = () => {
+    setIsThrowingRight(true);
+    setTimeout(() => { awayScoreMade(); }, animDurationMs());
   };
+
+  const launchTowardAway = () => {
+    setIsThrowingLeft(true);
+    setTimeout(() => { homeScoreMade(); }, animDurationMs());
+  };
+
+  const ballY = playMode === PLAY_MODES.kick ? 55 : 15;
+
+  const ballTextProps = () => ({
+    ...(playMode === PLAY_MODES.throw ? { rotate: 45 } : {}),
+    style: { cursor: 'pointer' },
+  });
 
   const handleHearts = (side) => {
     const heartCount = heartCounts[side];
@@ -80,7 +104,26 @@ const AmericanFootballField = (props) => {
   };
 
   return (
-    <svg id="drivechart-mobile" style={{...props.style, height:'100%', maxWidth:'500px', width:'90%', overflow: 'hidden', position: 'relative'}} className="mobile-svg mobile-only" height="120" version="1.1" width="372" xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 372 72" preserveAspectRatio="xMinYMin">
+    <div className="american-football-field-stage">
+    <div className="american-football-play-toggle" role="group" aria-label="Play type">
+      <button
+        type="button"
+        className={playMode === PLAY_MODES.throw ? 'is-active' : ''}
+        onClick={() => setPlayMode(PLAY_MODES.throw)}
+        disabled={isThrowingRight || isThrowingLeft}
+      >
+        Throw
+      </button>
+      <button
+        type="button"
+        className={playMode === PLAY_MODES.kick ? 'is-active' : ''}
+        onClick={() => setPlayMode(PLAY_MODES.kick)}
+        disabled={isThrowingRight || isThrowingLeft}
+      >
+        Kick
+      </button>
+    </div>
+    <svg id="drivechart-mobile" style={{...props.style, position: 'relative'}} className="mobile-svg mobile-only american-football-field-svg" width="372" height="120" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 372 72" preserveAspectRatio="xMinYMin">
       {/* <style>
         {`
           @keyframes floatUp {
@@ -182,30 +225,17 @@ const AmericanFootballField = (props) => {
         <svg id="right-heart" onClick={() => { handleHearts('right'); }} style={{ cursor: 'pointer' }} aria-label="Love Home" color="#ed4956" fill="#ed4956" height="25" role="img" viewBox="0 0 48 48" width="35" y="73" x="335"><path className="heart-pulse" d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path></svg>
         <text x="350" y="110" fontSize="12" fill="#000">{formatHeartCount(heartCounts.right)}</text>
       </g>
-      {/* balls */}
-      <g>
-        <g onClick={throwBallRight} className={`small-vertical-bounce ball ${isThrowingRight ? "throwBallRight" : ""}`}>
-          <text x="35" y="15" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
+      {/* balls — last layer so flight paints above field art */}
+      <g className="american-football-ball-layer">
+        <g onClick={launchTowardHome} className={ballMotionClass('right', isThrowingRight)}>
+          <text x="35" y={ballY} id="line" {...ballTextProps()}>🏈</text>
         </g>
-        <g onClick={throwBallLeft} className={`small-vertical-bounce ball ${isThrowingLeft ? "throwBallLeft" : ""}`}>
-          <text x="305" y="15" id="line" rotate="45" style={{cursor: 'pointer'}}>🏈</text>
+        <g onClick={launchTowardAway} className={ballMotionClass('left', isThrowingLeft)}>
+          <text x="305" y={ballY} id="line" {...ballTextProps()}>🏈</text>
         </g>
-        {!hideXO.current && <svg viewBox="135 65 100 100">
-          <path className="ball-path" fill="#fff" stroke="#000" strokeWidth="2" strokeOpacity="1" style={{fillOpacity: 0, strokeOpacity: 1}} strokeDasharray="4" d="M 319 138 L 319 138 A 140 83, 0,0 0,55 135"></path>
-        </svg>}
-        {!hideXO.current && <ellipse cx="285" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>}
-        {!hideXO.current && <ellipse cx="90" cy="56" rx="3" ry="3" id="line" fill="#000" stroke="#000" style={{fillOpacity: 1, strokeWidth: 1}} className="line-of-scrimmage"></ellipse>}
-        {!hideXO.current && <svg viewBox="-97 -32.5 100 100">
-          <line x1="35" x2="45" y1="45" y2="40" stroke="black" strokeWidth="3" strokeOpacity="1" />
-          <line x1="35" x2="90" y1="45" y2="45" stroke="black" strokeWidth="3" strokeOpacity="1" />
-          <line x1="35" x2="45" y1="45" y2="50" stroke="black" strokeWidth="3" strokeOpacity="1" />
-        </svg>}
-
-        {!hideXO.current && <svg viewBox="-75 -25 100 100">
-            <line x1="15" x2="20" y1="30" y2="70" stroke="yellow" strokeWidth="4" strokeOpacity="1" />
-        </svg>}
       </g>
     </svg>
+    </div>
   );
 };
 

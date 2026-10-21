@@ -55,3 +55,172 @@
   animation-fill-mode: forwards;
   z-index: 10000;
 }
+
+#drivechart-mobile .ball {
+  width: auto;
+  height: auto;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* American football mini-game — keep motion inside the SVG (no absolute + no spin glitch) */
+.footballThrowRight.ball,
+.footballThrowLeft.ball,
+.footballKickRight.ball,
+.footballKickLeft.ball {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes football-throw-left-to-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(280px);
+  }
+}
+
+@keyframes football-throw-right-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-280px);
+  }
+}
+
+/* Half-ellipse to opposite goal (b≈78px); x travel tuned to pass uprights (~x12 / ~x361) */
+@keyframes football-kick-left-to-right {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  12.5% {
+    transform: translate(23px, -39px) rotate(90deg);
+  }
+  25% {
+    transform: translate(86px, -68px) rotate(180deg);
+  }
+  37.5% {
+    transform: translate(129px, -75px) rotate(270deg);
+  }
+  50% {
+    transform: translate(172px, -78px) rotate(360deg);
+  }
+  62.5% {
+    transform: translate(215px, -75px) rotate(450deg);
+  }
+  75% {
+    transform: translate(258px, -68px) rotate(540deg);
+  }
+  87.5% {
+    transform: translate(321px, -39px) rotate(630deg);
+  }
+  100% {
+    transform: translate(344px, 0) rotate(720deg);
+  }
+}
+
+@keyframes football-kick-right-to-left {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  12.5% {
+    transform: translate(-22px, -39px) rotate(-90deg);
+  }
+  25% {
+    transform: translate(-81px, -68px) rotate(-180deg);
+  }
+  37.5% {
+    transform: translate(-121px, -75px) rotate(-270deg);
+  }
+  50% {
+    transform: translate(-161px, -78px) rotate(-360deg);
+  }
+  62.5% {
+    transform: translate(-201px, -75px) rotate(-450deg);
+  }
+  75% {
+    transform: translate(-241px, -68px) rotate(-540deg);
+  }
+  87.5% {
+    transform: translate(-301px, -39px) rotate(-630deg);
+  }
+  100% {
+    transform: translate(-322px, 0) rotate(-720deg);
+  }
+}
+
+.footballThrowRight.ball {
+  animation: 0.7s linear 1 football-throw-left-to-right;
+}
+
+.footballThrowLeft.ball {
+  animation: 0.7s linear 1 football-throw-right-to-left;
+}
+
+.footballKickRight.ball,
+.footballKickLeft.ball {
+  pointer-events: none;
+}
+
+.footballKickRight.ball {
+  animation: 1.05s cubic-bezier(0.22, 0.61, 0.36, 1) 1 football-kick-left-to-right;
+}
+
+.footballKickLeft.ball {
+  animation: 1.05s cubic-bezier(0.22, 0.61, 0.36, 1) 1 football-kick-right-to-left;
+}
+
+.american-football-field-stage {
+  position: relative;
+  z-index: 12;
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.american-football-field-stage .american-football-field-svg {
+  display: block;
+  width: 100%;
+  height: 120px;
+  min-height: 120px;
+  max-height: 120px;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.american-football-ball-layer {
+  pointer-events: none;
+}
+
+.american-football-ball-layer .ball {
+  pointer-events: auto;
+}
+
+.american-football-play-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.american-football-play-toggle button {
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 2px solid #1a1a1a;
+  background: #fff;
+  cursor: pointer;
+}
+
+.american-football-play-toggle button.is-active {
+  background: #1a1a1a;
+  color: #fff;
+}
