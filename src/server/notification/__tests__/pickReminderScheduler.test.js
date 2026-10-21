@@ -39,16 +39,18 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
     deleteOne: [],
   };
 
+  const frozenNow = new Date('2026-08-20T17:00:00.000Z');
+
   const games = [
     {
       _id: 'game-early',
       leagueId: leagueIdNFL,
-      startDateTime: new Date(Date.now() + 60 * 60 * 1000),
+      startDateTime: new Date('2026-08-20T18:00:00.000Z'),
     },
     {
       _id: 'game-late',
       leagueId: leagueIdNFL,
-      startDateTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+      startDateTime: new Date('2026-08-20T19:00:00.000Z'),
     },
   ];
 
@@ -59,7 +61,8 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
       endpoint: 'https://example.com/sub',
       keys: { p256dh: 'p256dh', auth: 'auth' },
       expirationTime: null,
-      lastNotifiedAt: null,
+      timezone: 'America/New_York',
+      sentEventKeys: [],
     },
   ];
 
@@ -159,7 +162,25 @@ test('sendPickReminderOnce sends push when user has missing picks', async () => 
   delete require.cache[schedulerModulePath];
   const { sendPickReminderOnce } = require('../pickReminderScheduler');
 
+  const originalDate = Date;
+  global.Date = class extends Date {
+    constructor(...args) {
+      if (args.length === 0) {
+        super(frozenNow.getTime());
+        return;
+      }
+
+      super(...args);
+    }
+
+    static now() {
+      return frozenNow.getTime();
+    }
+  };
+
   await sendPickReminderOnce();
+
+  global.Date = originalDate;
 
   assert.equal(calls.setVapidDetails.length, 1, 'Expected VAPID config to be set once');
   assert.equal(calls.gameFind.length, 3, 'Expected upcoming, scheduled, and final-status queries');
