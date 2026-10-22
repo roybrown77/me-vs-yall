@@ -240,8 +240,24 @@
 .american-football-play-toggle {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.35rem;
   margin-bottom: 0.35rem;
+}
+
+.american-football-play-toggle__or {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #000;
+  text-transform: lowercase;
+  padding: 0 0.15rem;
+}
+
+.american-football-play-toggle__help {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #000;
+  padding-left: 0.15rem;
 }
 
 .american-football-play-toggle button {
@@ -250,14 +266,35 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
-  border: 2px solid #1a1a1a;
+  padding: 0.3rem 0.85rem;
+  border-radius: 0;
+  border: 2px solid #000;
   background: #fff;
+  color: #000;
   cursor: pointer;
+  transform: skewX(-14deg);
+  box-shadow: none;
+}
+
+.american-football-play-toggle button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.american-football-play-toggle__label {
+  display: inline-block;
+  transform: skewX(14deg);
+  color: inherit;
 }
 
 .american-football-play-toggle button.is-active {
-  background: #1a1a1a;
-  color: #fff;
+  background: #0099ff;
+  color: #ffe600;
+  border: 3px solid #ffe600;
+  box-shadow: 0 2px 0 #0077cc;
+  font-weight: 800;
+}
+
+.american-football-play-toggle button.is-active .american-football-play-toggle__label {
+  color: #ffe600;
 }
