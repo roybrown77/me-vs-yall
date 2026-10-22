@@ -1,7 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Button from "@mui/material/Button";
 
 import AmericanFootballField from "./Fields/AmericanFootballField";
+
+const pickStadiumBlurb = (locations, seed = '') => {
+  if (!Array.isArray(locations) || locations.length === 0) {
+    return null;
+  }
+  if (locations.length === 1) {
+    return locations[0];
+  }
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash + seed.charCodeAt(i) * (i + 1)) % locations.length;
+  }
+  return locations[hash];
+};
 
 const AmericanFootballMiniRallyGame = (props) => {
   const [awayScore, setAwayScore] = useState(
@@ -25,8 +39,14 @@ const AmericanFootballMiniRallyGame = (props) => {
     setHomeScore(homeScore + 7);
   };
 
+  const homeVenue = props.game.competitors[1];
+  const stadiumBlurb = useMemo(
+    () => pickStadiumBlurb(homeVenue.stadiumLocation, props.game._id || props.game.id || ''),
+    [homeVenue.stadiumLocation, props.game._id, props.game.id],
+  );
+
   return (
-    <div style={{ marginTop: "10px" }}>
+    <div className="american-football-mini-rally">
 
       <>
         <div
@@ -111,10 +131,10 @@ const AmericanFootballMiniRallyGame = (props) => {
           selectionMade: props.selectionMade,
         }}
       />
-      <div style={{ fontFamily: 'monospace', fontSize: "10px", color: "black", fontWeight: "600", marginTop: "-15px" }}>
-        <div>{props.game.competitors[1].stadiumName}</div>
-        <div>{props.game.competitors[1].stadiumLocation ? props.game.competitors[1].stadiumLocation[Math.floor(Math.random() * props.game.competitors[1].stadiumLocation.length)] : null}</div>
-        <div>{props.game.competitors[1].stadiumCity}</div>
+      <div className="american-football-mini-rally__venue">
+        <div>{homeVenue.stadiumName}</div>
+        {stadiumBlurb ? <div>{stadiumBlurb}</div> : null}
+        <div>{homeVenue.stadiumCity}</div>
       </div>
     </div>
   );
