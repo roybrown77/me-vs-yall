@@ -8,6 +8,7 @@ const PLAY_MODES = {
 
 const THROW_ANIM_MS = 700;
 const KICK_ANIM_MS = 1050;
+const KICK_AWAY_BALL_X = 66;
 
 const AmericanFootballField = (props) => {
   const [heartCounts, setHeartCounts] = useState({ left: 0, right: 0 });
@@ -59,11 +60,23 @@ const AmericanFootballField = (props) => {
   };
 
   const ballY = playMode === PLAY_MODES.kick ? 55 : 15;
+  const awayBallX = playMode === PLAY_MODES.kick ? KICK_AWAY_BALL_X : 35;
 
-  const ballTextProps = () => ({
-    ...(playMode === PLAY_MODES.throw ? { rotate: 45 } : {}),
-    style: { cursor: 'pointer' },
-  });
+  const ballTextProps = (fieldSide) => {
+    const style = { cursor: 'pointer' };
+    if (playMode === PLAY_MODES.throw) {
+      return { rotate: 45, style };
+    }
+    if (fieldSide === 'away') {
+      const y = ballY;
+      const x = awayBallX;
+      return {
+        style,
+        transform: `translate(${x}, ${y}) scale(-1, 1) translate(-${x}, ${-y})`,
+      };
+    }
+    return { style };
+  };
 
   const handleHearts = (side) => {
     const heartCount = heartCounts[side];
@@ -228,10 +241,10 @@ const AmericanFootballField = (props) => {
       {/* balls — last layer so flight paints above field art */}
       <g className="american-football-ball-layer">
         <g onClick={launchTowardHome} className={ballMotionClass('right', isThrowingRight)}>
-          <text x="35" y={ballY} id="line" {...ballTextProps()}>🏈</text>
+          <text x={awayBallX} y={ballY} id="line" {...ballTextProps('away')}>🏈</text>
         </g>
         <g onClick={launchTowardAway} className={ballMotionClass('left', isThrowingLeft)}>
-          <text x="305" y={ballY} id="line" {...ballTextProps()}>🏈</text>
+          <text x="305" y={ballY} id="line" {...ballTextProps('home')}>🏈</text>
         </g>
       </g>
     </svg>
