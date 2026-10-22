@@ -48,9 +48,10 @@ const AmericanFootballMiniRallyGame = (props) => {
   return (
     <div className="american-football-mini-rally">
 
+      {showScoreboard ? (
       <>
         <div
-          style={showScoreboard ? {
+          style={{
             display: "inline-flex",
             width: "23%",
             padding: "3px",
@@ -58,12 +59,9 @@ const AmericanFootballMiniRallyGame = (props) => {
             borderRadius: "4px",
             marginRight: "20%",
             marginBottom: "1rem",
-            transform: "perspective(70px) rotateY(20deg)"
-          } : { margin: '1rem 0' }
-        }
+            transform: "perspective(70px) rotateY(20deg)",
+          }}
         >
-          {
-            showScoreboard &&
             <div
               style={{
                 width: "100%",
@@ -82,10 +80,9 @@ const AmericanFootballMiniRallyGame = (props) => {
                 </div>
               </div>
             </div>
-          }
         </div>
         <div
-          style={showScoreboard ? {
+          style={{
             display: "inline-flex",
             width: "23%",
             padding: "3px",
@@ -93,12 +90,9 @@ const AmericanFootballMiniRallyGame = (props) => {
             borderRadius: "4px",
             marginLeft: "20%",
             marginBottom: "1rem",
-            transform: "perspective(70px) rotateY(-20deg)"
-          } : { margin: '1rem 0' }
-        }
+            transform: "perspective(70px) rotateY(-20deg)",
+          }}
         >
-          {
-            showScoreboard &&
             <div
               style={{
                 width: "100%",
@@ -117,9 +111,9 @@ const AmericanFootballMiniRallyGame = (props) => {
                 </div>
               </div>
             </div>
-          }
         </div>
       </>
+      ) : null}
       <AmericanFootballField
         {...{
           away: props.game.competitors[0].shortLocation,
