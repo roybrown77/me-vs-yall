@@ -429,13 +429,13 @@ async function scrapeGameInformationFromPage(page) {
         });
 
         return results.map((result) => {
-            const updatedGames = result.game.map((game) => {
-                const teamData = resolveNflTeam({ initial: game.initial, teamName: game.teamName });
-                return teamData ? { ...game, teamDetails: teamData } : null;
-            }).filter(Boolean);
+                    const updatedGames = result.game.map((game) => {
+                        const teamData = resolveNflTeam({ initial: game.initial, teamName: game.teamName });
+                        return teamData ? { ...game, teamDetails: teamData } : null;
+                    }).filter(Boolean);
 
-            return updatedGames.length > 0 ? { ...result, game: updatedGames } : null;
-        }).filter(Boolean);
+                        return updatedGames.length > 0 ? { ...result, game: updatedGames } : null;
+                    }).filter(Boolean);
     } catch (error) {
         console.error('Error scraping ESPN page:', error.message);
         return [];

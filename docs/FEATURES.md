@@ -12,8 +12,8 @@ Player-facing summary: [README.md](../README.md).
 - **Live updates**: Polls while games are in progress on scoreboard and leader views.
 - **Tabs (NFL-focused where enabled)**:
   - **Scores** — games and pick UI.
-  - **Rankings** — conference/division-style standings derived from current scoreboard context.
-  - **Playoffs** — projected bracket (bye + wild card as lower seed @ higher seed).
+  - **Rankings** — conference/division-style standings derived from current scoreboard context. Standings refresh daily at 7 a.m. (local); during live games also at 1, 5, and 8 p.m.
+  - **Playoffs** — projected bracket (bye + wild card as lower seed @ higher seed). Same refresh schedule as Rankings.
 
 ## Leaders (`/leaders/:league/...`)
 

@@ -33,4 +33,6 @@ If users report **`no-response`** on a scoreboard URL, confirm the new `sw.js` i
 
 ## Rankings cache (scoreboard client)
 
-- Short TTL (~3 minutes) with invalidation when game signatures change; prefetch after scoreboard load.
+- **Schedule (local time):** season standings data in `localStorage` expires at the next **7:00 a.m.** refresh. While **any scoreboard game is in progress**, also expires at **1:00, 5:00, and 8:00 p.m.** on the same schedule.
+- Live scoreboard games still **patch** cached season games when scores change (no full refetch until the next scheduled boundary).
+- Prefetch after scoreboard load when Rankings/Playoffs are available; copy on those tabs explains the refresh times.

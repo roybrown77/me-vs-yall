@@ -11,6 +11,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import RemainingGamesNotifier from "./RemainingGamesNotifier";
 import { StandingsTabLoader } from "./ScoreboardTabLoading.jsx";
+import StandingsRefreshNotice from "./StandingsRefreshNotice.jsx";
 import TeamRankings from "./TeamRankings";
 import PlayoffBracket from "./PlayoffBracket.jsx";
 import TabPanel from "../../components/TabPanel";
@@ -29,6 +30,7 @@ import {
   buildRankingsCacheKey,
   clearRankingsCache,
   mergeLiveGamesIntoSeasonGames,
+  isRankingsCacheKeyValid,
   readRankingsCache,
   writeRankingsCache,
 } from "./rankingsCache";
@@ -697,8 +699,8 @@ const Scoreboard = () => {
   }, []);
 
   const hydrateRankingsFromCache = useCallback(
-    (cacheKey) => {
-      const cached = readRankingsCache(cacheKey);
+    (cacheKey, gamesInProgress = false) => {
+      const cached = readRankingsCache(cacheKey, { gamesInProgress });
       if (!cached) {
         return false;
       }
@@ -753,7 +755,9 @@ const Scoreboard = () => {
     if (bypassCache) {
       clearRankingsCache(cacheKey);
       rankingsFetchKeyRef.current = null;
-    } else if (hydrateRankingsFromCache(cacheKey)) {
+    } else if (
+      hydrateRankingsFromCache(cacheKey, getAreAnyGamesInProgress(games))
+    ) {
       rankingsFetchKeyRef.current = fetchKey;
       setRankingsSeasonSettled(true);
       if (showLoader) {
@@ -855,7 +859,9 @@ const Scoreboard = () => {
         };
 
         applyRankingsState(payload);
-        writeRankingsCache(cacheKey, payload);
+        writeRankingsCache(cacheKey, payload, {
+          gamesInProgress: getAreAnyGamesInProgress(games),
+        });
         setRankingsSeasonSettled(true);
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -888,6 +894,7 @@ const Scoreboard = () => {
     weekId,
     weeks,
     year,
+    games,
   ]);
 
   useEffect(() => {
@@ -925,11 +932,15 @@ const Scoreboard = () => {
         );
 
         if (merged !== previousSeasonGames) {
-          writeRankingsCache(buildRankingsCacheKey(leagueId, year, weekId), {
-            seasonGames: merged,
-            priorYearWeeks,
-            priorYearGames,
-          });
+          writeRankingsCache(
+            buildRankingsCacheKey(leagueId, year, weekId),
+            {
+              seasonGames: merged,
+              priorYearWeeks,
+              priorYearGames,
+            },
+            { gamesInProgress: getAreAnyGamesInProgress(games) }
+          );
         }
 
         return merged;
@@ -982,13 +993,18 @@ const Scoreboard = () => {
     const fetchKey = `${leagueId}|${year}|${weekId}`;
     const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
 
-    if (rankingsFetchKeyRef.current === fetchKey && seasonGames.length > 0) {
+    const gamesInProgress = getAreAnyGamesInProgress(games);
+    if (
+      rankingsFetchKeyRef.current === fetchKey &&
+      seasonGames.length > 0 &&
+      isRankingsCacheKeyValid(cacheKey, { gamesInProgress })
+    ) {
       setRankingsSeasonSettled(true);
       setRankingsLoading(false);
       return;
     }
 
-    if (hydrateRankingsFromCache(cacheKey)) {
+    if (hydrateRankingsFromCache(cacheKey, gamesInProgress)) {
       rankingsFetchKeyRef.current = fetchKey;
       setRankingsSeasonSettled(true);
       setRankingsLoading(false);
@@ -1007,6 +1023,7 @@ const Scoreboard = () => {
   }, [
     currentWeek,
     endDateTime,
+    games,
     hydrateRankingsFromCache,
     leagueId,
     loadRankingsData,
@@ -1044,11 +1061,16 @@ const Scoreboard = () => {
     const fetchKey = `${leagueId}|${year}|${weekId}`;
     const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
 
-    if (rankingsFetchKeyRef.current === fetchKey && seasonGames.length > 0) {
+    const gamesInProgress = getAreAnyGamesInProgress(games);
+    if (
+      rankingsFetchKeyRef.current === fetchKey &&
+      seasonGames.length > 0 &&
+      isRankingsCacheKeyValid(cacheKey, { gamesInProgress })
+    ) {
       return;
     }
 
-    if (hydrateRankingsFromCache(cacheKey)) {
+    if (hydrateRankingsFromCache(cacheKey, gamesInProgress)) {
       rankingsFetchKeyRef.current = fetchKey;
       setRankingsSeasonSettled(true);
       return;
@@ -1082,6 +1104,7 @@ const Scoreboard = () => {
   }, [
     currentWeek,
     endDateTime,
+    games,
     hydrateRankingsFromCache,
     leagueId,
     loadRankingsData,
@@ -1507,6 +1530,8 @@ const Scoreboard = () => {
                   {rankingsPanelLoading ? (
                     <StandingsTabLoader variant="rankings" />
                   ) : (
+                    <>
+                    <StandingsRefreshNotice />
                     <TeamRankings
                       leagueId={leagueId}
                       seasonGamesCurrent={rankingSnapshots.current}
@@ -1515,6 +1540,7 @@ const Scoreboard = () => {
                       rankingsAvailable={rankingSnapshots.rankingsAvailable}
                       teams={teams}
                     />
+                    </>
                   )}
                 </div>
               </TabPanel>
@@ -1531,12 +1557,15 @@ const Scoreboard = () => {
                   {playoffsPanelLoading ? (
                     <StandingsTabLoader variant="playoffs" />
                   ) : (
+                    <>
+                    <StandingsRefreshNotice />
                     <PlayoffBracket
                       teams={teams}
                       seasonGames={seasonGames}
                       liveGames={games}
                       weeks={weeks}
                     />
+                    </>
                   )}
                 </div>
               </TabPanel>
