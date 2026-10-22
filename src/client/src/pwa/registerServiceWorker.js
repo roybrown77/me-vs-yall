@@ -22,6 +22,16 @@ const checkForServiceWorkerUpdate = async (swUrl, registration) => {
   }
 };
 
+let refreshingAfterSwUpdate = false;
+
+if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshingAfterSwUpdate) return;
+    refreshingAfterSwUpdate = true;
+    window.location.reload();
+  });
+}
+
 export const updateServiceWorker = registerSW({
   immediate: true,
   onRegisteredSW(swUrl, registration) {

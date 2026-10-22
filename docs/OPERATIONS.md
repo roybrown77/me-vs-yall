@@ -11,10 +11,11 @@ Changes here affect every user in production. Update this file when behavior cha
 ## Service worker update behavior
 
 1. New deploy → new hashed `/assets/*` files and usually new `sw.js`.
-2. `registerSW({ immediate: true })` with **autoUpdate** reloads when a waiting worker activates.
-3. Additional SW update checks: on load, window **focus**, and tab **visible** (not only hourly).
-4. **Do not** precache `index.html` at install time (see `injectManifest.globIgnores` in `src/client/vite.config.js`).
-5. **Navigations** (e.g. `/scoreboards/nfl` from a push) use network-first; if the network and per-URL cache miss, the SW falls back to **`/index.html`** so the SPA shell still loads (`src/client/src/sw.js`).
+2. `registerSW({ immediate: true })` with **autoUpdate**; `skipWaiting` + **`controllerchange` → full page reload** so JS/CSS bundles match the new precache manifest.
+3. On SW **install/activate**, **`html-navigations`** cache is cleared so stale `index.html` cannot pin old asset hashes.
+4. Additional SW update checks: on load, window **focus**, and tab **visible** (not only hourly).
+5. **Do not** precache `index.html` at install time (see `injectManifest.globIgnores` in `src/client/vite.config.js`).
+6. **Navigations** (e.g. `/scoreboards/nfl` from a push) use network-first; if the network and per-URL cache miss, the SW falls back to **`/index.html`** so the SPA shell still loads (`src/client/src/sw.js`).
 
 If users report “stale JS/CSS after deploy”, verify: Heroku build succeeded, `sw.js` and `index.html` cache headers, and that the precache manifest excludes `index.html`.
 

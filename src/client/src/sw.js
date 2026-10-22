@@ -4,8 +4,6 @@ import { clientsClaim } from 'workbox-core';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
 
-self.skipWaiting();
-clientsClaim();
 cleanupOutdatedCaches();
 
 // Precache hashed JS/CSS (index.html is excluded in vite injectManifest config).
@@ -13,17 +11,38 @@ precacheAndRoute(self.__WB_MANIFEST || []);
 
 const HTML_NAV_CACHE = 'html-navigations';
 
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.delete(HTML_NAV_CACHE).catch(() => undefined)
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    (async () => {
+      await caches.delete(HTML_NAV_CACHE);
+      await self.clients.claim();
+    })()
+  );
+});
+
 const fetchIndexShell = async (request) => {
   const indexUrl = new URL('/index.html', request.url).href;
-  const cache = await caches.open(HTML_NAV_CACHE);
-  const cached = await cache.match(indexUrl);
-  if (cached) return cached;
 
-  const response = await fetch(indexUrl, { cache: 'no-store' });
-  if (response.ok) {
-    await cache.put(indexUrl, response.clone());
+  try {
+    const response = await fetch(indexUrl, { cache: 'no-store' });
+    if (response.ok) {
+      const cache = await caches.open(HTML_NAV_CACHE);
+      await cache.put(indexUrl, response.clone());
+      return response;
+    }
+  } catch {
+    // Offline or network error — fall back to last cached shell below.
   }
-  return response;
+
+  const cache = await caches.open(HTML_NAV_CACHE);
+  return cache.match(indexUrl);
 };
 
 // Prefer network for navigations so deploys pick up fresh index.html + asset URLs.
@@ -32,6 +51,7 @@ registerRoute(
   new NetworkFirst({
     cacheName: HTML_NAV_CACHE,
     networkTimeoutSeconds: 5,
+    fetchOptions: { cache: 'no-store' },
     plugins: [
       {
         handlerDidError: async ({ request }) => {
