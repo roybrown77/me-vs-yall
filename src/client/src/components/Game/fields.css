@@ -67,7 +67,9 @@
 .footballThrowRight.ball,
 .footballThrowLeft.ball,
 .footballKickRight.ball,
-.footballKickLeft.ball {
+.footballKickLeft.ball,
+.footballRunRight.ball,
+.footballRunLeft.ball {
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -172,6 +174,92 @@
   animation: 1.05s cubic-bezier(0.22, 0.61, 0.36, 1) 1 football-kick-right-to-left;
 }
 
+/* Run — rabbit hops further down-field toward the end zone */
+@keyframes football-run-left-to-right {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(36px, -22px);
+  }
+  20% {
+    transform: translate(72px, 10px);
+  }
+  30% {
+    transform: translate(108px, -16px);
+  }
+  40% {
+    transform: translate(144px, 22px);
+  }
+  50% {
+    transform: translate(180px, -8px);
+  }
+  60% {
+    transform: translate(216px, 26px);
+  }
+  70% {
+    transform: translate(252px, 4px);
+  }
+  80% {
+    transform: translate(288px, 28px);
+  }
+  90% {
+    transform: translate(324px, 40px);
+  }
+  100% {
+    transform: translate(360px, 48px);
+  }
+}
+
+@keyframes football-run-right-to-left {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-36px, -22px);
+  }
+  20% {
+    transform: translate(-72px, 10px);
+  }
+  30% {
+    transform: translate(-108px, -16px);
+  }
+  40% {
+    transform: translate(-144px, 22px);
+  }
+  50% {
+    transform: translate(-180px, -8px);
+  }
+  60% {
+    transform: translate(-216px, 26px);
+  }
+  70% {
+    transform: translate(-252px, 4px);
+  }
+  80% {
+    transform: translate(-288px, 28px);
+  }
+  90% {
+    transform: translate(-324px, 40px);
+  }
+  100% {
+    transform: translate(-360px, 48px);
+  }
+}
+
+.footballRunRight.ball,
+.footballRunLeft.ball {
+  pointer-events: none;
+}
+
+.footballRunRight.ball {
+  animation: 1.3s cubic-bezier(0.33, 0.85, 0.45, 1) 1 football-run-left-to-right;
+}
+
+.footballRunLeft.ball {
+  animation: 1.3s cubic-bezier(0.33, 0.85, 0.45, 1) 1 football-run-right-to-left;
+}
+
 .american-football-mini-rally {
   width: 90%;
   max-width: 500px;
@@ -205,6 +293,7 @@
   margin: 0 auto;
   overflow: visible;
   flex-shrink: 0;
+  padding-bottom: 0.25rem;
 }
 
 .american-football-field-stage .american-football-field-svg {
@@ -214,6 +303,10 @@
   max-height: 120px;
   overflow: visible;
   flex-shrink: 0;
+}
+
+.american-football-field-stage .american-football-ball-layer {
+  overflow: visible;
 }
 
 .american-football-ball-layer {
@@ -233,6 +326,7 @@
   margin-bottom: 0;
 }
 
+.american-football-play-toggle__sep,
 .american-football-play-toggle__or {
   font-size: 0.72rem;
   font-weight: 700;

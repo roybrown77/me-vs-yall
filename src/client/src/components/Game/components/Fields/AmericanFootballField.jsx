@@ -2,17 +2,19 @@ import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 
 const PLAY_MODES = {
-  throw: 'throw',
+  pass: 'pass',
+  run: 'run',
   kick: 'kick',
 };
 
-const THROW_ANIM_MS = 700;
+const PASS_ANIM_MS = 700;
+const RUN_ANIM_MS = 1300;
 const KICK_ANIM_MS = 1050;
 const KICK_AWAY_BALL_X = 66;
 
 const AmericanFootballField = (props) => {
   const [heartCounts, setHeartCounts] = useState({ left: 0, right: 0 });
-  const [playMode, setPlayMode] = useState(PLAY_MODES.throw);
+  const [playMode, setPlayMode] = useState(PLAY_MODES.pass);
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
   useEffect(() => {
@@ -44,10 +46,17 @@ const AmericanFootballField = (props) => {
     if (playMode === PLAY_MODES.kick) {
       return side === 'right' ? 'ball footballKickRight' : 'ball footballKickLeft';
     }
+    if (playMode === PLAY_MODES.run) {
+      return side === 'right' ? 'ball footballRunRight' : 'ball footballRunLeft';
+    }
     return side === 'right' ? 'ball footballThrowRight' : 'ball footballThrowLeft';
   };
 
-  const animDurationMs = () => (playMode === PLAY_MODES.kick ? KICK_ANIM_MS : THROW_ANIM_MS);
+  const animDurationMs = () => {
+    if (playMode === PLAY_MODES.kick) return KICK_ANIM_MS;
+    if (playMode === PLAY_MODES.run) return RUN_ANIM_MS;
+    return PASS_ANIM_MS;
+  };
 
   const launchTowardHome = () => {
     setIsThrowingRight(true);
@@ -59,17 +68,44 @@ const AmericanFootballField = (props) => {
     setTimeout(() => { homeScoreMade(); }, animDurationMs());
   };
 
-  const ballY = playMode === PLAY_MODES.kick ? 55 : 15;
-  const awayBallX = playMode === PLAY_MODES.kick ? KICK_AWAY_BALL_X : 35;
+  const KICK_BALL_Y = 55;
+  const PASS_BALL_Y = 15;
+  const ballY =
+    playMode === PLAY_MODES.kick
+      ? KICK_BALL_Y
+      : playMode === PLAY_MODES.run
+        ? KICK_BALL_Y
+        : PASS_BALL_Y + (KICK_BALL_Y - PASS_BALL_Y) / 2;
+  const homeBallX = 305;
+  const awayBallX =
+    playMode === PLAY_MODES.kick
+      ? KICK_AWAY_BALL_X
+      : playMode === PLAY_MODES.run
+        ? 372 - homeBallX
+        : 35;
+
+  const ballAnchor = (fieldSide) => ({
+    x: fieldSide === 'away' ? awayBallX : homeBallX,
+    y: ballY,
+  });
 
   const ballTextProps = (fieldSide) => {
     const style = { cursor: 'pointer' };
-    if (playMode === PLAY_MODES.throw) {
-      return { rotate: 45, style };
+    const { x, y } = ballAnchor(fieldSide);
+
+    if (playMode === PLAY_MODES.pass) {
+      return { transform: `rotate(45 ${x} ${y})`, style };
+    }
+    if (playMode === PLAY_MODES.run) {
+      if (fieldSide === 'away') {
+        return {
+          style,
+          transform: `translate(${x}, ${y}) scale(-1, 1) rotate(-45) translate(-${x}, ${-y})`,
+        };
+      }
+      return { transform: `rotate(-45 ${x} ${y})`, style };
     }
     if (fieldSide === 'away') {
-      const y = ballY;
-      const x = awayBallX;
       return {
         style,
         transform: `translate(${x}, ${y}) scale(-1, 1) translate(-${x}, ${-y})`,
@@ -226,18 +262,27 @@ const AmericanFootballField = (props) => {
           <text x={awayBallX} y={ballY} id="line" {...ballTextProps('away')}>🏈</text>
         </g>
         <g onClick={launchTowardAway} className={ballMotionClass('left', isThrowingLeft)}>
-          <text x="305" y={ballY} id="line" {...ballTextProps('home')}>🏈</text>
+          <text x={homeBallX} y={ballY} id="line" {...ballTextProps('home')}>🏈</text>
         </g>
       </g>
     </svg>
     <div className="american-football-play-toggle" role="group" aria-label="Play type">
       <button
         type="button"
-        className={playMode === PLAY_MODES.throw ? 'is-active' : ''}
-        onClick={() => setPlayMode(PLAY_MODES.throw)}
+        className={playMode === PLAY_MODES.pass ? 'is-active' : ''}
+        onClick={() => setPlayMode(PLAY_MODES.pass)}
         disabled={isThrowingRight || isThrowingLeft}
       >
-        <span className="american-football-play-toggle__label">Throw</span>
+        <span className="american-football-play-toggle__label">Pass</span>
+      </button>
+      <span className="american-football-play-toggle__sep" aria-hidden="true">,</span>
+      <button
+        type="button"
+        className={playMode === PLAY_MODES.run ? 'is-active' : ''}
+        onClick={() => setPlayMode(PLAY_MODES.run)}
+        disabled={isThrowingRight || isThrowingLeft}
+      >
+        <span className="american-football-play-toggle__label">Run</span>
       </button>
       <span className="american-football-play-toggle__or" aria-hidden="true">or</span>
       <button
