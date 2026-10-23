@@ -695,21 +695,13 @@ const Game = (props) => {
         </Grid>
         {isGameOfTheWeek && !slimMode && (
           <div
-            style={{
-              marginTop: "8px",
-              marginBottom: "6px",
-              display: "inline-block",
-              padding: "4px 8px 6px 8px",
-              borderRadius: "999px",
-              backgroundColor: "#0B6E4F",
-              color: "#fff",
-              fontWeight: "700",
-              fontSize: "12px",
-            }}
+            className="game-of-the-week-badge"
             title="Game of the Week"
             aria-label="Game of the Week"
           >
-            ⭐ Game of the Week
+            <span className="game-of-the-week-badge__label">
+              ⭐ Game of the Week
+            </span>
           </div>
         )}
         {canShowTie && !picksDataLoading && <TieButton {...componentProps} />}
