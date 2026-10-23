@@ -75,7 +75,7 @@ const AmericanFootballField = (props) => {
       ? KICK_BALL_Y
       : playMode === PLAY_MODES.run
         ? KICK_BALL_Y
-        : PASS_BALL_Y + (KICK_BALL_Y - PASS_BALL_Y) / 2;
+        : PASS_BALL_Y + (KICK_BALL_Y - PASS_BALL_Y) / 2 - 17;
   const homeBallX = 305;
   const awayBallX =
     playMode === PLAY_MODES.kick
