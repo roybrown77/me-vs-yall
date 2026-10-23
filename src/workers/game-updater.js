@@ -6,6 +6,16 @@ const gameRepository = require('../server/game/databaseRepositories/GameReposito
 const { dbConnectionString } = require('../../config');
 const { nflTeams } = require('../server/utilities/teams/nfl');
 const { getNflGameDataSource } = require('../server/utilities/getGameDataSource');
+const {
+    buildEspnKickoffByGameId,
+    enrichScrapedResultsWithEspnKickoffs,
+    fetchEspnNflScoreboardEvents,
+} = require('../server/utilities/espnNflScoreboardApi');
+const {
+    getDbGameMatchKey,
+    getScrapedGameMatchKey,
+    hasSameGameMatch,
+} = require('../server/game/espnGameMatch');
 const { getPlayHistory } = require('../server/utilities/utilities');
 const {
     upsertSpreadHistory,
@@ -101,35 +111,6 @@ const resolveNflTeam = ({ initial = '', teamName = '' }) => {
 };
 
 /* =============================================================================
-   GAME MATCHING HELPERS
-   ============================================================================= */
-
-const hasSameCompetitors = ({ dbGame, scrapedGame }) => {
-    const dbCompetitorIds = (dbGame.competitors || [])
-        .map((competitor) => competitor?._id?.toString().toLowerCase())
-        .filter(Boolean);
-
-    const scrapedCompetitorIds = (scrapedGame.game || [])
-        .map((team) => team?.teamDetails?._id?.toString().toLowerCase())
-        .filter(Boolean);
-
-    if (dbCompetitorIds.length !== 2 || scrapedCompetitorIds.length !== 2) {
-        return false;
-    }
-
-    return dbCompetitorIds.every((id) => scrapedCompetitorIds.includes(id));
-};
-
-const getGameKeyFromIds = (ids = []) => ids
-    .map((id) => id.toString().toLowerCase())
-    .sort()
-    .join('|');
-
-const getDbGameKey = (dbGame) => getGameKeyFromIds((dbGame.competitors || []).map((competitor) => competitor?._id).filter(Boolean));
-
-const getScrapedGameKey = (scrapedGame) => getGameKeyFromIds((scrapedGame.game || []).map((team) => team?.teamDetails?._id).filter(Boolean));
-
-/* =============================================================================
    LOGGING HELPERS
    ============================================================================= */
 
@@ -172,10 +153,7 @@ const getScrapedResults = async (page) => {
         console.log(`[GAME_UPDATER] Loaded ${results.length} scoreboard games from ESPN.`);
     }
 
-    return {
-        results,
-        sharedGameKeys: new Set(results.map(getScrapedGameKey)),
-    };
+    return { results };
 };
 
 const closeSharedBrowser = async () => {
@@ -242,6 +220,21 @@ const withEspnPage = async (url, callback) => {
             timeout: PAGE_LOAD_TIMEOUT_MS,
         });
         await page.waitForSelector('.Scoreboard', { timeout: 15000 }).catch(() => {});
+        await page.evaluate(async () => {
+            await new Promise((resolve) => {
+                let scrolled = 0;
+                const step = 900;
+                const timer = setInterval(() => {
+                    window.scrollBy(0, step);
+                    scrolled += step;
+                    if (scrolled >= document.body.scrollHeight) {
+                        clearInterval(timer);
+                        window.scrollTo(0, 0);
+                        resolve();
+                    }
+                }, 80);
+            });
+        });
         await page.waitForFunction(() => {
             const scoreboards = Array.from(document.querySelectorAll('.Scoreboard'));
             if (!scoreboards.length) {
@@ -255,12 +248,14 @@ const withEspnPage = async (url, callback) => {
                 }
 
                 const timeText =
+                    gameElement.querySelector('.ScoreboardScoreCell__Overview .ScoreCell__Time')?.textContent?.trim() ||
                     gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time')?.textContent?.trim() ||
+                    gameElement.querySelector('.ScoreCell__Time')?.textContent?.trim() ||
                     '';
 
                 return Boolean(timeText);
             });
-        }, { timeout: 20000 }).catch(() => {});
+        }, { timeout: 30000 }).catch(() => {});
 
         return await callback(page);
     } finally {
@@ -339,8 +334,10 @@ async function scrapeGameInformationFromPage(page) {
                 const isPreGame = scoreCellEl?.classList.contains('ScoreboardScoreCell--pre') ?? false;
                 const isPostGame = scoreCellEl?.classList.contains('ScoreboardScoreCell--post') ?? false;
                 const kickoffTimeEl =
+                    gameElement.querySelector('.ScoreboardScoreCell__Overview .ScoreCell__Time') ||
                     gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time.ScoreCell__Time--default') ||
-                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time');
+                    gameElement.querySelector('.ScoreCell__Time.ScoreboardScoreCell__Time') ||
+                    gameElement.querySelector('.ScoreCell__Time');
                 const kickoffTime = kickoffTimeEl?.textContent?.trim() || '';
                 const gameStatusText = kickoffTime;
                 const isGameOver =
@@ -438,7 +435,13 @@ async function scrapeGameInformationFromPage(page) {
                         return teamData ? { ...game, teamDetails: teamData } : null;
                     }).filter(Boolean);
 
-                        return updatedGames.length > 0 ? { ...result, game: updatedGames } : null;
+                        if (updatedGames.length !== 2) {
+                            const labels = (result.game || []).map((team) => team.teamName || team.initial).join(' vs ');
+                            console.log(`[GAME_UPDATER] Dropping scrape with unresolved teams (${updatedGames.length}/2): ${labels}`);
+                            return null;
+                        }
+
+                        return { ...result, game: updatedGames };
                     }).filter(Boolean);
     } catch (error) {
         console.error('Error scraping ESPN page:', error.message);
@@ -584,6 +587,24 @@ const parseKickoffFromCardAndTime = ({ cardDateText, timeText }) => {
     return kickoff.isValid() ? kickoff.toDate() : null;
 };
 
+const resolveScrapedKickoff = (scrapedGame = {}) => {
+    const parsed = parseScheduledKickoff({
+        cardDateText: scrapedGame.card,
+        statusText: scrapedGame.kickoffTime,
+        isPreGame: scrapedGame.isPreGame === true,
+    });
+
+    if (parsed) {
+        return parsed;
+    }
+
+    if (scrapedGame.apiKickoff) {
+        return new Date(scrapedGame.apiKickoff);
+    }
+
+    return null;
+};
+
 const parseScheduledKickoff = ({ cardDateText, statusText, isPreGame = false }) => {
     const status = normalizeStatusText(statusText);
     if (!status) {
@@ -603,12 +624,24 @@ const parseScheduledKickoff = ({ cardDateText, statusText, isPreGame = false }) 
 
 const formatKickoffForLog = (kickoff) => moment(kickoff).tz(NFL_TIMEZONE).format('ddd MMM D YYYY h:mm A z');
 
+const buildSharedGameMatchKeys = (results = []) =>
+    new Set(
+        results
+            .map((result) => getScrapedGameMatchKey(result, resolveScrapedKickoff(result)))
+            .filter((key) => key.includes('@'))
+    );
+
+const findScrapedGameForDbGame = (results, dbGame) =>
+    results.find((result) =>
+        hasSameGameMatch({
+            dbGame,
+            scrapedGame: result,
+            scrapedKickoff: resolveScrapedKickoff(result),
+        })
+    );
+
 const applyStartDateTimeToCompetitors = ({ scrapedGame, competitors = [] }) => {
-    const kickoff = parseScheduledKickoff({
-        cardDateText: scrapedGame.card,
-        statusText: scrapedGame.kickoffTime,
-        isPreGame: scrapedGame.isPreGame === true,
-    });
+    const kickoff = resolveScrapedKickoff(scrapedGame);
 
     if (!kickoff || competitors.length === 0) {
         return {
@@ -639,14 +672,11 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
         return null;
     }
 
-    const startDateTime = parseScheduledKickoff({
-        cardDateText: scrapedGame.card,
-        statusText: scrapedGame.kickoffTime,
-        isPreGame: scrapedGame.isPreGame === true,
-    });
+    const startDateTime = resolveScrapedKickoff(scrapedGame);
 
     if (!startDateTime) {
         console.log('[GAME_UPDATER] Skipping create; could not parse scheduled kickoff:', {
+            espnGameId: scrapedGame.espnGameId,
             card: scrapedGame.card,
             kickoffTime: scrapedGame.kickoffTime,
             status: scrapedGame.currentTime,
@@ -699,7 +729,9 @@ const createMissingGamesFromScrape = async ({ results, year, leagueId }) => {
     const existingHashes = new Set(
         existingGames.map((game) => game.hashCompetitors).filter(Boolean)
     );
-    const existingCompetitorKeys = new Set(existingGames.map(getDbGameKey));
+    const existingMatchKeys = new Set(
+        existingGames.map(getDbGameMatchKey).filter((key) => key.includes('@'))
+    );
 
     let createdCount = 0;
 
@@ -709,15 +741,21 @@ const createMissingGamesFromScrape = async ({ results, year, leagueId }) => {
             continue;
         }
 
-        const scrapedKey = getScrapedGameKey(scrapedGame);
-        if (existingHashes.has(gameDoc.hashCompetitors) || existingCompetitorKeys.has(scrapedKey)) {
+        const scrapedMatchKey = getScrapedGameMatchKey(scrapedGame, gameDoc.startDateTime);
+        if (existingHashes.has(gameDoc.hashCompetitors)) {
+            continue;
+        }
+
+        if (scrapedMatchKey && existingMatchKeys.has(scrapedMatchKey)) {
             continue;
         }
 
         try {
             await gameRepository.create(gameDoc);
             existingHashes.add(gameDoc.hashCompetitors);
-            existingCompetitorKeys.add(scrapedKey);
+            if (scrapedMatchKey) {
+                existingMatchKeys.add(scrapedMatchKey);
+            }
             createdCount += 1;
             logGameCreate({ gameDoc });
         } catch (error) {
@@ -760,9 +798,30 @@ const buildGameSearch = ({ year, includeAllActive = false }) => {
     };
 };
 
+const loadScrapedScoreboardResults = async ({ url, year, seasonType, weekNumber }) => {
+    let results = [];
+
+    await withEspnPage(url, async (page) => {
+        ({ results } = await getScrapedResults(page));
+    });
+
+    try {
+        const events = await fetchEspnNflScoreboardEvents({ year, seasonType, weekNumber });
+        results = enrichScrapedResultsWithEspnKickoffs(results, buildEspnKickoffByGameId(events));
+        console.log(`[GAME_UPDATER] Enriched ${events.length} ESPN API events for kickoff fallback.`);
+    } catch (error) {
+        console.log('[GAME_UPDATER] ESPN API kickoff enrich failed:', error.message);
+    }
+
+    return {
+        results,
+        sharedGameKeys: buildSharedGameMatchKeys(results),
+    };
+};
+
 const runGameUpdate = async () => {
     try {
-        const { year, url } = getNflGameDataSource();
+        const { year, seasonType, weekNumber, url } = getNflGameDataSource();
 
         console.log("🏈 Update Game Information:");
 
@@ -787,17 +846,22 @@ const runGameUpdate = async () => {
 
         let games = await gameRepository.find(search);
 
-        await withEspnPage(url, async (page) => {
-            const { results, sharedGameKeys } = await getScrapedResults(page);
+        const { results, sharedGameKeys } = await loadScrapedScoreboardResults({
+            url,
+            year,
+            seasonType,
+            weekNumber,
+        });
 
-            if (sharedGameKeys.size === 0) {
-                console.log('No ESPN scoreboard games available; skipping update run.');
-                console.log('------------------------');
-                return;
-            }
+        if (sharedGameKeys.size === 0) {
+            console.log('No ESPN scoreboard games available; skipping update run.');
+            console.log('------------------------');
+            return;
+        }
 
-            await createMissingGamesFromScrape({ results, year, leagueId });
+        await createMissingGamesFromScrape({ results, year, leagueId });
 
+        {
             if (!games.length) {
                 console.log(`All scores updated or no games close to starting.`);
 
@@ -819,7 +883,7 @@ const runGameUpdate = async () => {
                 }
 
                 for (const game of games) {
-                    const mergedGame = results.find((result) => hasSameCompetitors({ dbGame: game, scrapedGame: result }));
+                    const mergedGame = findScrapedGameForDbGame(results, game);
 
                     if (!mergedGame) {
                         console.log('mergedGame not found for game:', game._id?.toString());
@@ -868,14 +932,14 @@ const runGameUpdate = async () => {
             games = await gameRepository.find(search);
 
             for (const game of games) {
-                const dbGameKey = getDbGameKey(game);
+                const dbGameKey = getDbGameMatchKey(game);
 
                 if (!sharedGameKeys.has(dbGameKey)) {
                     console.log('Skipping db game not present on ESPN scoreboard:', game._id?.toString());
                     continue;
                 }
 
-                const mergedGame = results.find((result) => hasSameCompetitors({ dbGame: game, scrapedGame: result }));
+                const mergedGame = findScrapedGameForDbGame(results, game);
 
                 if (!mergedGame) {
                     console.log('mergedGame not found for game:', game._id?.toString());
@@ -995,7 +1059,7 @@ const runGameUpdate = async () => {
             }
 
             console.log('------------------------');
-        });
+        }
     } catch (error) {
         console.error('Error updating game information:', error);
         await closeSharedBrowser();
