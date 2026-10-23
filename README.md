@@ -15,7 +15,7 @@
 1. **Sign in** and hop on the scoreboard for your league (NFL is the main event; we also run CFB, NBA, MLB, and more when the season’s live).
 2. **Make your picks before kickoff** — once the game starts, the door locks. No late edits. Plan like a pro.
 3. **Watch scores update live**, climb the **leaderboard**, and optional **score guesses** for bonus glory on top of W’s and L’s.
-4. **Toggle spread mode** if you like picking with the line, not just the outright winner.
+4. **Check the spread and over/under** on each game card — tap a line to see how it moved day by day.
 
 That’s it. Simple rules. Hard perfect week. (Since 2017, a perfect NFL week has only happened twice. You’re welcome to be third.)
 

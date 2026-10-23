@@ -118,26 +118,6 @@ const AmericanFootballField = (props) => {
 
   return (
     <div className="american-football-field-stage">
-    <div className="american-football-play-toggle" role="group" aria-label="Play type">
-      <button
-        type="button"
-        className={playMode === PLAY_MODES.throw ? 'is-active' : ''}
-        onClick={() => setPlayMode(PLAY_MODES.throw)}
-        disabled={isThrowingRight || isThrowingLeft}
-      >
-        <span className="american-football-play-toggle__label">Throw</span>
-      </button>
-      <span className="american-football-play-toggle__or" aria-hidden="true">or</span>
-      <button
-        type="button"
-        className={playMode === PLAY_MODES.kick ? 'is-active' : ''}
-        onClick={() => setPlayMode(PLAY_MODES.kick)}
-        disabled={isThrowingRight || isThrowingLeft}
-      >
-        <span className="american-football-play-toggle__label">Kick</span>
-      </button>
-      <span className="american-football-play-toggle__help" aria-hidden="true">?</span>
-    </div>
     <svg id="drivechart-mobile" style={{...props.style, position: 'relative'}} className="mobile-svg mobile-only american-football-field-svg" width="372" height="120" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 372 72" preserveAspectRatio="xMinYMin">
       {/* <style>
         {`
@@ -250,6 +230,26 @@ const AmericanFootballField = (props) => {
         </g>
       </g>
     </svg>
+    <div className="american-football-play-toggle" role="group" aria-label="Play type">
+      <button
+        type="button"
+        className={playMode === PLAY_MODES.throw ? 'is-active' : ''}
+        onClick={() => setPlayMode(PLAY_MODES.throw)}
+        disabled={isThrowingRight || isThrowingLeft}
+      >
+        <span className="american-football-play-toggle__label">Throw</span>
+      </button>
+      <span className="american-football-play-toggle__or" aria-hidden="true">or</span>
+      <button
+        type="button"
+        className={playMode === PLAY_MODES.kick ? 'is-active' : ''}
+        onClick={() => setPlayMode(PLAY_MODES.kick)}
+        disabled={isThrowingRight || isThrowingLeft}
+      >
+        <span className="american-football-play-toggle__label">Kick</span>
+      </button>
+      <span className="american-football-play-toggle__help" aria-hidden="true">?</span>
+    </div>
     </div>
   );
 };

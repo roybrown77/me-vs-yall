@@ -1,7 +1,6 @@
 const CompetitorHeader = (props) => {
-  const { game, competitor, spreadMode, slimMode = false, reserveHeaderSpace = false } = props;
+  const { competitor, slimMode = false, reserveHeaderSpace = false } = props;
   const showConference = Boolean(competitor?.conference) && !slimMode;
-  const showSpread = Boolean(spreadMode && game?.spread?.teamId === competitor._id);
   const headerStyle = {
     display: "flex",
     justifyContent: "space-between",
@@ -10,7 +9,7 @@ const CompetitorHeader = (props) => {
     width: "100%",
   };
 
-  if (!showConference && !showSpread) {
+  if (!showConference) {
     if (!reserveHeaderSpace) {
       return null;
     }
@@ -37,22 +36,7 @@ const CompetitorHeader = (props) => {
           </span>
         )}
       </div>
-      <div style={{ textAlign: "right", flex: 1 }}>
-        {showSpread && (
-          <span
-            style={{
-              padding: "5px",
-              fontWeight: "bold",
-              backgroundColor: "#FCE385",
-              borderRadius: "5px",
-              display: "inline-block",
-              fontSize: ".7em",
-            }}
-          >
-            {game?.spread?.amount}
-          </span>
-        )}
-      </div>
+      <div style={{ textAlign: "right", flex: 1 }} aria-hidden="true" />
     </div>
   );
 };

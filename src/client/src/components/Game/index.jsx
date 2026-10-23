@@ -22,6 +22,7 @@ import TieButton from "./components/TieButton";
 import CompetitorHeader from "./components/CompetitorHeader";
 import Competitor from "./components/Competitor";
 import GameFooter from "./components/GameFooter";
+import GameLinesBar from "./components/GameLinesBar";
 
 import { hasGameStarted } from "../../utilities";
 
@@ -523,7 +524,6 @@ const Game = (props) => {
     isAuthenticated,
     disableTie,
     updatingPick,
-    spreadMode: spreadModeProp,
     slimMode = false,
     fieldPickers,
     picksDataLoading = false,
@@ -533,8 +533,6 @@ const Game = (props) => {
   const showFieldPickerSkeleton =
     picksDataLoading && hasGameStarted(game.startDateTime) && !slimMode;
 
-  const spreadMode =
-    spreadModeProp ?? localStorage.getItem("spreadModeToggle") === "1";
   const canShowTie =
     !slimMode &&
     isAuthenticated &&
@@ -546,7 +544,6 @@ const Game = (props) => {
       "59723313734d1d6202a85f27",
       "59723313734d1d6202a85f29",
     ].includes(get(game, "leagueId")) &&
-    !spreadMode &&
     !disableTie;
   const canShowScoreGuess =
     !slimMode &&
@@ -558,7 +555,6 @@ const Game = (props) => {
       "59723313734d1d6202a85f27",
       "59723313734d1d6202a85f29",
     ].includes(get(game, "leagueId")) &&
-    !spreadMode &&
     !disableTie;
   const isScoreGuessDisabled = !isAuthenticated;
   const isGameOfTheWeek =
@@ -571,15 +567,13 @@ const Game = (props) => {
   const scoreGuessBoostRows = getScoreGuessBoostRows(scoreGuessMultiplier);
   const shouldReserveHeaderSpace = game.competitors.some((competitorItem) => {
     const showConference = Boolean(competitorItem?.conference) && !slimMode;
-    const showSpread = Boolean(spreadMode && game?.spread?.teamId === competitorItem._id);
-    return showConference || showSpread;
+    return showConference;
   });
   const sharedTextSizes = getSharedCompetitorTextSizes(game.competitors, { slimMode });
 
   const componentProps = {
     ...props,
     ...state,
-    spreadMode,
     slimMode,
     sharedTextSizes,
     handleMakePick,
@@ -693,6 +687,7 @@ const Game = (props) => {
             </div>
           )}
         </Grid>
+        <GameLinesBar game={game} slimMode={slimMode} />
         {isGameOfTheWeek && !slimMode && (
           <div
             className="game-of-the-week-badge"
@@ -1144,7 +1139,6 @@ Game.propTypes = {
   gameSlug: PropTypes.string,
   pick: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
-  spreadMode: PropTypes.bool,
   slimMode: PropTypes.bool,
   fieldPickers: PropTypes.shape({
     away: PropTypes.array,

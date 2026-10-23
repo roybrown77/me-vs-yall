@@ -7,6 +7,10 @@ const { dbConnectionString } = require('../../config');
 const { nflTeams } = require('../server/utilities/teams/nfl');
 const { getNflGameDataSource } = require('../server/utilities/getGameDataSource');
 const { getPlayHistory } = require('../server/utilities/utilities');
+const {
+    upsertSpreadHistory,
+    upsertOverUnderHistory,
+} = require('../server/game/spreadLineHistory');
 
 puppeteer.use(StealthPlugin());
 
@@ -489,6 +493,11 @@ const calculateSpread = (mergedGame) => {
     };
 };
 
+const buildLineHistoryFields = (game, spread, overUnder) => ({
+    spreadHistory: upsertSpreadHistory(game.spreadHistory, spread),
+    overUnderHistory: upsertOverUnderHistory(game.overUnderHistory, overUnder),
+});
+
 /* =============================================================================
    GAME CREATION - ported from utilities.js (formatGames + createGames)
    ============================================================================= */
@@ -660,6 +669,9 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
     ];
 
     const spread = calculateSpread(scrapedGame);
+    const overUnder = parseInt(scrapedGame.total, 10) || undefined;
+    const emptyGame = { spreadHistory: [], overUnderHistory: [] };
+    const lineHistories = buildLineHistoryFields(emptyGame, spread, overUnder);
 
     return {
         leagueId: new mongoose.Types.ObjectId(leagueId),
@@ -668,7 +680,9 @@ const buildGameFromScrapedResult = (scrapedGame, { leagueId, year }) => {
         competitors,
         hashCompetitors: getCompetitorHash(competitors),
         spread: spread?.teamId ? spread : null,
-        overUnder: parseInt(scrapedGame.total, 10) || undefined,
+        overUnder,
+        spreadHistory: lineHistories.spreadHistory,
+        overUnderHistory: lineHistories.overUnderHistory,
         weather: scrapedGame.weather || '57',
         isGameOver: scrapedGame.isGameOver === true,
         playCollectionUntil: scrapedGame.isGameOver === true
@@ -813,6 +827,8 @@ const runGameUpdate = async () => {
                     }
 
                     const spread = calculateSpread(mergedGame);
+                    const overUnder = parseInt(mergedGame.total, 10);
+                    const lineHistories = buildLineHistoryFields(game, spread, overUnder);
                     const {
                         competitors: competitorsWithKickoff,
                         startDateTimeFields,
@@ -827,7 +843,9 @@ const runGameUpdate = async () => {
                         {
                             $set: {
                                 spread: spread,
-                                overUnder: parseInt(mergedGame.total, 10),
+                                overUnder,
+                                spreadHistory: lineHistories.spreadHistory,
+                                overUnderHistory: lineHistories.overUnderHistory,
                                 weather: (mergedGame.weather || game.weather) || '57',
                                 competitors: competitorsWithKickoff,
                                 ...startDateTimeFields,
@@ -838,7 +856,7 @@ const runGameUpdate = async () => {
                     logGameUpdate({
                         game,
                         updateType: 'spread',
-                        details: `spread ${spread.amount}, O/U ${parseInt(mergedGame.total, 10) || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
+                        details: `spread ${spread.amount}, O/U ${overUnder || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 }
@@ -869,6 +887,8 @@ const runGameUpdate = async () => {
 
                 if (currentTime < spreadUpdateTime) {
                     const spread = calculateSpread(mergedGame);
+                    const overUnder = parseInt(mergedGame.total, 10);
+                    const lineHistories = buildLineHistoryFields(game, spread, overUnder);
                     const {
                         competitors: competitorsWithKickoff,
                         startDateTimeFields,
@@ -883,7 +903,9 @@ const runGameUpdate = async () => {
                         {
                             $set: {
                                 spread: spread,
-                                overUnder: parseInt(mergedGame.total, 10),
+                                overUnder,
+                                spreadHistory: lineHistories.spreadHistory,
+                                overUnderHistory: lineHistories.overUnderHistory,
                                 weather: (mergedGame.weather || game.weather) || '57',
                                 competitors: competitorsWithKickoff,
                                 ...startDateTimeFields,
@@ -894,7 +916,7 @@ const runGameUpdate = async () => {
                     logGameUpdate({
                         game,
                         updateType: 'spread',
-                        details: `spread ${spread.amount}, O/U ${parseInt(mergedGame.total, 10) || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
+                        details: `spread ${spread.amount}, O/U ${overUnder || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
                         updateResult,
                     });
                 } else {

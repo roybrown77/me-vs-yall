@@ -72,7 +72,6 @@ import useLeagueWeekNavigation from "../../hooks/useLeagueWeekNavigation";
 import usePollWhileGamesInProgress from "../../hooks/usePollWhileGamesInProgress";
 import useScrollToGameSlug from "../../hooks/useScrollToGameSlug";
 import usePageSeo from "../../hooks/usePageSeo";
-import useSpreadMode from "../../hooks/useSpreadMode";
 import useSlimUx from "../../hooks/useSlimUx";
 import { hasSlimUxPreference } from "../../utilities/slimUx";
 import {
@@ -160,7 +159,6 @@ const Scoreboard = () => {
   const [priorYearWeeks, setPriorYearWeeks] = useState([]);
   const [scoreboardTabIndex, setScoreboardTabIndex] = useState(0);
 
-  const { spreadMode, enableSpreadMode, disableSpreadMode } = useSpreadMode();
   const { slimMode, enableSlimMode, disableSlimMode } = useSlimUx();
 
   const loadData = useCallback(
@@ -1159,10 +1157,9 @@ const Scoreboard = () => {
       games,
       picks,
       teams,
-      spreadMode,
       week: currentWeek,
     });
-  }, [currentWeek, games, picks, spreadMode, teams]);
+  }, [currentWeek, games, picks, teams]);
 
   const gameSlugById = useMemo(() => assignGameSlugs(games), [games]);
 
@@ -1349,7 +1346,6 @@ const Scoreboard = () => {
           <div>
             <ArcadePickResult
               loading={picksDataLoading}
-              spreadMode={spreadMode}
               games={groupedGames.completed}
               picks={picks}
             />
@@ -1365,11 +1361,8 @@ const Scoreboard = () => {
         />
 
         <GameEngagementBar
-          handleSpreadToggleOn={enableSpreadMode}
-          handleSpreadToggleOff={disableSpreadMode}
           handleSlimToggleOn={enableSlimMode}
           handleSlimToggleOff={disableSlimMode}
-          spreadMode={spreadMode}
           slimMode={slimMode}
           games={games}
           picks={picks}
@@ -1463,7 +1456,6 @@ const Scoreboard = () => {
                         userId={userId}
                         disableTie={disableTie}
                         updatingPick={updatingPick}
-                        spreadMode={spreadMode}
                         slimMode={slimMode}
                         picksDataLoading={picksDataLoading}
                         fieldPickers={getFieldPickersForGame(
@@ -1504,7 +1496,6 @@ const Scoreboard = () => {
                         isAuthenticated={isAuthenticated}
                         userId={userId}
                         disableTie={disableTie}
-                        spreadMode={spreadMode}
                         slimMode={slimMode}
                         picksDataLoading={picksDataLoading}
                         fieldPickers={getFieldPickersForGame(

@@ -18,22 +18,17 @@ import {
   } from "../../utilities";
 
 const GameEngagementBar = ({
-    handleSpreadToggleOn,
-    handleSpreadToggleOff,
     handleSlimToggleOn,
     handleSlimToggleOff,
-    spreadMode = false,
     slimMode = false,
     games,
     picks,
     teams,
     isAuthenticated,
     userId,
-    showSpreadToggle = true,
     showSlimToggle = true,
 }) => {
     const [isShareClicked, setIsShareClicked] = useState(false);
-    const [isSpreadModeAlertOpen, setIsSpreadModeAlertOpen] = useState(false);
     const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
@@ -296,20 +291,6 @@ const GameEngagementBar = ({
         setIsShareClicked(false);
     };
 
-    const handleSpreadModeAlertClose = () => {
-        setIsSpreadModeAlertOpen(false);
-    };
-
-    const handleSpreadOn = () => {
-        handleSpreadToggleOn?.();
-        setIsSpreadModeAlertOpen(true);
-    };
-
-    const handleSpreadOff = () => {
-        handleSpreadToggleOff?.();
-        setIsSpreadModeAlertOpen(false);
-    };
-
     return (
         <div
             style={{
@@ -368,55 +349,6 @@ const GameEngagementBar = ({
                     </div>
                 </div>
             )}
-            {showSpreadToggle && (
-                <div
-                    style={{
-                        marginTop: '25px',
-                        padding: '10px',
-                        backgroundColor: '#fff',
-                    }}
-                >
-                    <div style={{ fontSize: '9px', fontWeight: 700 }}>View Spread</div>
-                    <div
-                        style={{
-                            background: '#FCE385',
-                            margin: '5px',
-                            borderRadius: '8px',
-                        }}
-                    >
-                        <IconButton
-                            style={spreadMode ? styles.toggleButtonOn : styles.toggleButtonOff}
-                            aria-label="toggle spread mode"
-                        >
-                            {spreadMode ? (
-                                <ToggleOn onClick={handleSpreadOff} />
-                            ) : (
-                                <ToggleOff onClick={handleSpreadOn} />
-                            )}
-                        </IconButton>
-                        <Snackbar
-                            open={isSpreadModeAlertOpen}
-                            onClose={handleSpreadModeAlertClose}
-                            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
-                        >
-                            <Alert
-                                severity="none"
-                                onClose={handleSpreadModeAlertClose}
-                                style={{
-                                    textAlign: 'center',
-                                    backgroundColor: '#FCE385',
-                                    color: '#000000',
-                                    font: 'bold 14px monospace',
-                                }}
-                            >
-                                {'Spread mode activated!'}
-                                <span style={{ marginLeft: '4px', fontSize: '2rem' }}>🐣</span>
-                            </Alert>
-                        </Snackbar>
-                    </div>
-                </div>
-            )}
-
             {showSlimToggle && (
                 <div
                     style={{
@@ -463,18 +395,14 @@ const GameEngagementBar = ({
 };
 
 GameEngagementBar.propTypes = {
-    handleSpreadToggleOn: PropTypes.func,
-    handleSpreadToggleOff: PropTypes.func,
     handleSlimToggleOn: PropTypes.func,
     handleSlimToggleOff: PropTypes.func,
-    spreadMode: PropTypes.bool,
     slimMode: PropTypes.bool,
     games: PropTypes.array.isRequired,
     picks: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     userId: PropTypes.string,
-    showSpreadToggle: PropTypes.bool,
     showSlimToggle: PropTypes.bool,
 };
 
