@@ -462,6 +462,7 @@ const Race = () => {
               <div className="race-progress" aria-hidden="true">
                 <span ref={progressRef} />
               </div>
+              {hint ? <div className="race-hint">Stay on the glowing line</div> : null}
             </div>
           )}
           <div className="race-hud-map-stack">
@@ -476,12 +477,6 @@ const Race = () => {
               courseProfile={courseProfile}
             />
           </div>
-        </div>
-      )}
-
-      {phase === "racing" && (
-        <div className="race-hud">
-          {hint && <div className="race-hint">Stay on the glowing line</div>}
         </div>
       )}
 
