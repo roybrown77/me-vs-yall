@@ -21,6 +21,7 @@ const {
     upsertSpreadHistory,
     upsertOverUnderHistory,
 } = require('../server/game/spreadLineHistory');
+const { reconcileScoreboardGameCounts } = require('../server/game/scoreboardGameCountCheck');
 
 puppeteer.use(StealthPlugin());
 
@@ -138,6 +139,27 @@ const logGameCreate = ({ gameDoc }) => {
     const away = gameDoc.competitors?.[0]?.name || 'Away';
     const home = gameDoc.competitors?.[1]?.name || 'Home';
     console.log(`[GAME_UPDATER] Created game ${away} vs ${home} (${gameDoc.startDateTime?.toISOString?.() || gameDoc.startDateTime})`);
+};
+
+const RED = '\x1b[31m';
+const RESET = '\x1b[0m';
+
+const logGameUpdaterError = (message) => {
+    console.error(`${RED}[GAME_UPDATER] ${message}${RESET}`);
+};
+
+const shutdownGameUpdater = async (reason) => {
+    isShuttingDown = true;
+
+    if (updateLoopSleep) {
+        clearTimeout(updateLoopSleep);
+    }
+
+    logGameUpdaterError(reason);
+    logGameUpdaterError('Check that all games are accounted for (ESPN scoreboard vs database).');
+
+    await closeSharedBrowser();
+    process.exit(1);
 };
 
 /* =============================================================================
@@ -800,13 +822,14 @@ const buildGameSearch = ({ year, includeAllActive = false }) => {
 
 const loadScrapedScoreboardResults = async ({ url, year, seasonType, weekNumber }) => {
     let results = [];
+    let events = [];
 
     await withEspnPage(url, async (page) => {
         ({ results } = await getScrapedResults(page));
     });
 
     try {
-        const events = await fetchEspnNflScoreboardEvents({ year, seasonType, weekNumber });
+        events = await fetchEspnNflScoreboardEvents({ year, seasonType, weekNumber });
         results = enrichScrapedResultsWithEspnKickoffs(results, buildEspnKickoffByGameId(events));
         console.log(`[GAME_UPDATER] Enriched ${events.length} ESPN API events for kickoff fallback.`);
     } catch (error) {
@@ -815,8 +838,60 @@ const loadScrapedScoreboardResults = async ({ url, year, seasonType, weekNumber 
 
     return {
         results,
+        events,
         sharedGameKeys: buildSharedGameMatchKeys(results),
     };
+};
+
+const buildScoreboardReconciliation = async ({ results, events, year }) => {
+    const leagueObjectId = new mongoose.Types.ObjectId(leagueId);
+    const dbGames = await gameRepository.find({ leagueId: leagueObjectId, year });
+
+    return reconcileScoreboardGameCounts({
+        results,
+        dbGames,
+        events,
+        resolveScrapedKickoff,
+    });
+};
+
+const logScoreboardReconciliation = (reconciliation) => {
+    const summary =
+        `Scoreboard games: ${reconciliation.scrapedCount} ESPN / ${reconciliation.dbCount} DB (this week)`;
+
+    if (reconciliation.ok) {
+        console.log(`[GAME_UPDATER] ${summary} — all accounted for.`);
+        return false;
+    }
+
+    console.log(`[GAME_UPDATER] ${summary} — MISMATCH.`);
+    console.log('[GAME_UPDATER] Check that all games are accounted for (ESPN scoreboard vs database).');
+
+    if (!reconciliation.countsMatch) {
+        const countMessage =
+            `Scoreboard game count mismatch: ${reconciliation.scrapedCount} found on ESPN, ${reconciliation.dbCount} in DB for this week.`;
+        console.log(`[GAME_UPDATER] ${countMessage}`);
+        logGameUpdaterError(countMessage);
+    } else {
+        const lineupMessage =
+            `Scoreboard game count matches (${reconciliation.scrapedCount}) but matchups do not line up.`;
+        console.log(`[GAME_UPDATER] ${lineupMessage}`);
+        logGameUpdaterError(lineupMessage);
+    }
+
+    if (reconciliation.missingInDb.length) {
+        const missingMessage = `On ESPN but missing in DB: ${reconciliation.missingInDb.join('; ')}`;
+        console.log(`[GAME_UPDATER] ${missingMessage}`);
+        logGameUpdaterError(missingMessage);
+    }
+
+    if (reconciliation.extraInDb.length) {
+        const extraMessage = `In DB but not on ESPN scoreboard: ${reconciliation.extraInDb.join('; ')}`;
+        console.log(`[GAME_UPDATER] ${extraMessage}`);
+        logGameUpdaterError(extraMessage);
+    }
+
+    return true;
 };
 
 const runGameUpdate = async () => {
@@ -846,7 +921,7 @@ const runGameUpdate = async () => {
 
         let games = await gameRepository.find(search);
 
-        const { results, sharedGameKeys } = await loadScrapedScoreboardResults({
+        const { results, events, sharedGameKeys } = await loadScrapedScoreboardResults({
             url,
             year,
             seasonType,
@@ -854,12 +929,20 @@ const runGameUpdate = async () => {
         });
 
         if (sharedGameKeys.size === 0) {
+            console.log('[GAME_UPDATER] Scoreboard games: 0 ESPN — skipping update run.');
             console.log('No ESPN scoreboard games available; skipping update run.');
             console.log('------------------------');
             return;
         }
 
         await createMissingGamesFromScrape({ results, year, leagueId });
+
+        const reconciliation = await buildScoreboardReconciliation({ results, events, year });
+        const shouldShutdown = logScoreboardReconciliation(reconciliation);
+
+        if (shouldShutdown) {
+            await shutdownGameUpdater('Stopping game updater until all games are accounted for.');
+        }
 
         {
             if (!games.length) {

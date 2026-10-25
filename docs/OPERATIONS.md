@@ -21,6 +21,13 @@ If users report “stale JS/CSS after deploy”, verify: Heroku build succeeded,
 
 If users report **`no-response`** on a scoreboard URL, confirm the new `sw.js` is deployed and hard-refresh once so the worker updates.
 
+## Game updater worker
+
+- **Source:** `src/workers/game-updater.js` (NFL week URL from `getNflGameDataSource()`).
+- Each loop: scrape ESPN → create missing games → reconcile counts for that scoreboard week vs MongoDB.
+- **Mismatch:** red `[GAME_UPDATER]` lines (ESPN count vs DB count, plus missing/extra matchups), then **process exit** so the worker does not keep updating with a partial slate.
+- Fix data or matching (kickoff keys in `espnGameMatch.js`) and redeploy/restart the worker; check logs for “On ESPN but missing in DB” / “In DB but not on ESPN scoreboard”.
+
 ## Pick timing
 
 - **Client**: `hasGameStarted` in `src/client/src/utilities/index.js` (small pre-kickoff buffer).

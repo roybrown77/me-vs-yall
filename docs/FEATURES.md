@@ -54,4 +54,5 @@ Player-facing summary: [README.md](../README.md).
 ## Background worker
 
 - **Heroku worker** (`npm run prod-worker`): `src/workers/game-updater.js` scrapes/updates games (NFL via configured source), scores, play history.
+- After each scrape + auto-create pass, compares **ESPN scoreboard game count** to **DB games for that week**; on mismatch or unmatched matchups it logs **red** errors, prints “check that all games are accounted for”, and **exits** (dyno restarts per Heroku policy).
 - NFL finals: mark games over for rankings promptly; optional extra window to keep collecting last play/score updates.
