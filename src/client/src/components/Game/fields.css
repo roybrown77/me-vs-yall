@@ -317,6 +317,139 @@
   pointer-events: auto;
 }
 
+.american-football-ball-layer .american-football-possession-marker {
+  pointer-events: auto;
+}
+
+.american-football-possession-marker {
+  cursor: pointer;
+}
+
+.american-football-possession-marker.is-display-only {
+  cursor: default;
+}
+
+.american-football-midfield-teams {
+  pointer-events: none;
+}
+
+@keyframes american-football-midfield-jostle-away {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  18% {
+    transform: translate(1.5px, -3.5px);
+  }
+  36% {
+    transform: translate(2.2px, 2.8px);
+  }
+  54% {
+    transform: translate(0.8px, -2.2px);
+  }
+  72% {
+    transform: translate(2px, 3.2px);
+  }
+  88% {
+    transform: translate(0.4px, -1.2px);
+  }
+}
+
+@keyframes american-football-midfield-jostle-home {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  18% {
+    transform: translate(-1.5px, -3.2px);
+  }
+  36% {
+    transform: translate(-2.2px, 2.5px);
+  }
+  54% {
+    transform: translate(-0.8px, -2.5px);
+  }
+  72% {
+    transform: translate(-2px, 3px);
+  }
+  88% {
+    transform: translate(-0.4px, -1px);
+  }
+}
+
+.american-football-possession-marker--jostle-away {
+  animation-name: american-football-midfield-jostle-away;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.american-football-possession-marker--jostle-home {
+  animation-name: american-football-midfield-jostle-home;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes american-football-possession-wobble {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(0.9px, -2.8px);
+  }
+  40% {
+    transform: translate(-1.1px, 2.4px);
+  }
+  60% {
+    transform: translate(1.2px, -1.6px);
+  }
+  80% {
+    transform: translate(-0.7px, 1.8px);
+  }
+}
+
+.american-football-possession-marker--jostle-possession {
+  animation-name: american-football-possession-wobble;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .american-football-possession-marker--jostle-away,
+  .american-football-possession-marker--jostle-home,
+  .american-football-possession-marker--jostle-possession {
+    animation: none;
+  }
+}
+
+.american-football-possession-marker__head {
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 0.75;
+  paint-order: stroke fill;
+}
+
+.american-football-possession-marker__label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.american-football-possession-marker__direction {
+  font-size: 11px;
+  pointer-events: none;
+  user-select: none;
+}
+
 .american-football-play-toggle {
   display: flex;
   justify-content: center;

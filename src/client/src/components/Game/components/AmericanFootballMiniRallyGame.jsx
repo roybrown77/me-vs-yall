@@ -116,6 +116,7 @@ const AmericanFootballMiniRallyGame = (props) => {
       ) : null}
       <AmericanFootballField
         {...{
+          game: props.game,
           away: props.game.competitors[0].shortLocation,
           awayColor: props.game.competitors[0].color,
           home: props.game.competitors[1].shortLocation,

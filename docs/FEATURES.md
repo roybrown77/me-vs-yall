@@ -10,6 +10,7 @@ Player-facing summary: [README.md](../README.md).
 - **Vegas lines on game cards**: Each game shows spread favorite and over/under below the matchup and above venue info. Tap either line for a day-by-day history (East Coast dates). The pill uses a highlight background when that line moved during the week. Leaders still has a separate **Spread** tab for spread-adjusted standings.
 - **Score guesses**: Optional away/home score picks; bonus points for accuracy and game-of-the-week rules (see server ranking helpers).
 - **Live updates**: Polls while games are in progress on scoreboard and leader views.
+- **NFL field graphic**: Before kickoff, end-zone **footballs** for the pick mini-game; in progress, **no footballs**—possession **team badge** on the spot when known (direction arrow ➡️/⬅️, tap for Pass / Run / Kick), or **both team badges at midfield** when possession is unknown.
 - **Tabs (NFL-focused where enabled)**:
   - **Scores** — games and pick UI.
   - **Rankings** — conference/division-style standings derived from current scoreboard context. Standings refresh daily at 7 a.m. (local); during live games also at 1, 5, and 8 p.m.

@@ -1,5 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PropTypes from "prop-types";
+
+import { hasGameStarted } from "../../../../utilities";
+import {
+  resolveAmericanFootballLiveBall,
+  resolveAmericanFootballMidfieldTeams,
+} from "../../americanFootballFieldPosition";
+import AmericanFootballPossessionMarker from "./AmericanFootballPossessionMarker";
 
 const PLAY_MODES = {
   pass: 'pass',
@@ -17,6 +24,61 @@ const AmericanFootballField = (props) => {
   const [playMode, setPlayMode] = useState(PLAY_MODES.pass);
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
+
+  const liveBall = useMemo(
+    () => resolveAmericanFootballLiveBall({ game: props.game, hasGameStarted }),
+    [props.game],
+  );
+
+  const midfieldTeams = useMemo(
+    () => resolveAmericanFootballMidfieldTeams({ game: props.game, hasGameStarted }),
+    [props.game],
+  );
+
+  const midfieldJostle = useMemo(() => {
+    if (!midfieldTeams) {
+      return null;
+    }
+    const gameKey = props.game?._id || props.game?.id || "game";
+    let seed = 0;
+    for (let i = 0; i < gameKey.length; i += 1) {
+      seed = (seed + gameKey.charCodeAt(i) * (i + 1)) % 997;
+    }
+    const rand = (offset) => {
+      seed = (seed * 48271 + offset) % 2147483647;
+      return seed / 2147483647;
+    };
+    return {
+      away: {
+        durationSec: 2.35 + rand(1) * 1.15,
+        delaySec: rand(2) * 0.45,
+      },
+      home: {
+        durationSec: 2.35 + rand(3) * 1.15,
+        delaySec: rand(4) * 0.45,
+      },
+    };
+  }, [midfieldTeams, props.game?._id, props.game?.id]);
+
+  const possessionWobble = useMemo(() => {
+    if (!liveBall) {
+      return null;
+    }
+    const gameKey = props.game?._id || props.game?.id || "game";
+    let seed = 0;
+    for (let i = 0; i < gameKey.length; i += 1) {
+      seed = (seed + gameKey.charCodeAt(i) * (i + 1)) % 997;
+    }
+    const rand = (offset) => {
+      seed = (seed * 48271 + offset) % 2147483647;
+      return seed / 2147483647;
+    };
+    return {
+      durationSec: 2.35 + rand(5) * 1.15,
+      delaySec: rand(6) * 0.45,
+    };
+  }, [liveBall, props.game?._id, props.game?.id]);
+
   useEffect(() => {
     if (props.selectionMade === 'left') {
       setHeartCounts(prevCounts => ({ ...prevCounts, left: prevCounts.left + 1 }));
@@ -84,14 +146,14 @@ const AmericanFootballField = (props) => {
         ? 372 - homeBallX
         : 35;
 
-  const ballAnchor = (fieldSide) => ({
-    x: fieldSide === 'away' ? awayBallX : homeBallX,
+  const ballAnchor = (fieldSide, overrideX) => ({
+    x: overrideX ?? (fieldSide === 'away' ? awayBallX : homeBallX),
     y: ballY,
   });
 
-  const ballTextProps = (fieldSide) => {
+  const ballTextProps = (fieldSide, overrideX) => {
     const style = { cursor: 'pointer' };
-    const { x, y } = ballAnchor(fieldSide);
+    const { x, y } = ballAnchor(fieldSide, overrideX);
 
     if (playMode === PLAY_MODES.pass) {
       return { transform: `rotate(45 ${x} ${y})`, style };
@@ -151,6 +213,24 @@ const AmericanFootballField = (props) => {
     if (count === 0) return "";
     return `${count}`;
   };
+
+  const handleLiveBallPlay = () => {
+    if (liveBall?.possessionSide === "home") {
+      launchTowardAway();
+      return;
+    }
+    launchTowardHome();
+  };
+
+  const liveBallAnimating =
+    liveBall?.possessionSide === "home" ? isThrowingLeft : isThrowingRight;
+  const liveBallSide = liveBall?.possessionSide === "home" ? "home" : "away";
+  const gameInProgress =
+    props.game && hasGameStarted(props.game.startDateTime) && !props.game.isGameOver;
+  const showAwayEndZoneBall =
+    !gameInProgress && (!liveBall || liveBall.possessionSide !== "away");
+  const showHomeEndZoneBall =
+    !gameInProgress && (!liveBall || liveBall.possessionSide !== "home");
 
   return (
     <div className="american-football-field-stage">
@@ -258,12 +338,66 @@ const AmericanFootballField = (props) => {
       </g>
       {/* balls — last layer so flight paints above field art */}
       <g className="american-football-ball-layer">
-        <g onClick={launchTowardHome} className={ballMotionClass('right', isThrowingRight)}>
-          <text x={awayBallX} y={ballY} id="line" {...ballTextProps('away')}>🏈</text>
-        </g>
-        <g onClick={launchTowardAway} className={ballMotionClass('left', isThrowingLeft)}>
-          <text x={homeBallX} y={ballY} id="line" {...ballTextProps('home')}>🏈</text>
-        </g>
+        {liveBall && !liveBallAnimating ? (
+          <AmericanFootballPossessionMarker
+            ballX={liveBall.ballX}
+            teamLabel={liveBall.teamLabel}
+            teamColor={liveBall.teamColor}
+            onClick={handleLiveBallPlay}
+            jostleSide="possession"
+            jostleDurationSec={possessionWobble?.durationSec}
+            jostleDelaySec={possessionWobble?.delaySec}
+            driveDirection={liveBall.possessionSide === "away" ? "right" : "left"}
+          />
+        ) : null}
+        {!liveBall && midfieldTeams && !liveBallAnimating ? (
+          <g className="american-football-midfield-teams" aria-label="Teams at midfield">
+            <AmericanFootballPossessionMarker
+              ballX={midfieldTeams.away.ballX}
+              teamLabel={midfieldTeams.away.teamLabel}
+              teamColor={midfieldTeams.away.teamColor}
+              jostleSide="away"
+              jostleDurationSec={midfieldJostle?.away.durationSec}
+              jostleDelaySec={midfieldJostle?.away.delaySec}
+            />
+            <AmericanFootballPossessionMarker
+              ballX={midfieldTeams.home.ballX}
+              teamLabel={midfieldTeams.home.teamLabel}
+              teamColor={midfieldTeams.home.teamColor}
+              jostleSide="home"
+              jostleDurationSec={midfieldJostle?.home.durationSec}
+              jostleDelaySec={midfieldJostle?.home.delaySec}
+            />
+          </g>
+        ) : null}
+        {liveBall && liveBallAnimating && !gameInProgress ? (
+          <g
+            onClick={handleLiveBallPlay}
+            className={ballMotionClass(liveBallSide === "home" ? "left" : "right", true)}
+          >
+            <text
+              x={liveBall.ballX}
+              y={ballY}
+              {...ballTextProps(liveBallSide, liveBall.ballX)}
+            >
+              🏈
+            </text>
+          </g>
+        ) : null}
+        {showAwayEndZoneBall && !liveBallAnimating ? (
+          <g onClick={launchTowardHome} className={ballMotionClass("right", isThrowingRight)}>
+            <text x={awayBallX} y={ballY} {...ballTextProps("away")}>
+              🏈
+            </text>
+          </g>
+        ) : null}
+        {showHomeEndZoneBall && !liveBallAnimating ? (
+          <g onClick={launchTowardAway} className={ballMotionClass("left", isThrowingLeft)}>
+            <text x={homeBallX} y={ballY} {...ballTextProps("home")}>
+              🏈
+            </text>
+          </g>
+        ) : null}
       </g>
     </svg>
     <div className="american-football-play-toggle" role="group" aria-label="Play type">
@@ -300,6 +434,7 @@ const AmericanFootballField = (props) => {
 };
 
 AmericanFootballField.propTypes = {
+  game: PropTypes.object,
   selectionMade: PropTypes.string,
 };
 
