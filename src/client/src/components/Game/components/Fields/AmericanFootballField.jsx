@@ -222,8 +222,11 @@ const AmericanFootballField = (props) => {
     launchTowardHome();
   };
 
-  const liveBallAnimating =
-    liveBall?.possessionSide === "home" ? isThrowingLeft : isThrowingRight;
+  const liveBallAnimating = liveBall
+    ? liveBall.possessionSide === "home"
+      ? isThrowingLeft
+      : isThrowingRight
+    : false;
   const liveBallSide = liveBall?.possessionSide === "home" ? "home" : "away";
   const gameInProgress =
     props.game && hasGameStarted(props.game.startDateTime) && !props.game.isGameOver;
@@ -370,7 +373,7 @@ const AmericanFootballField = (props) => {
             />
           </g>
         ) : null}
-        {liveBall && liveBallAnimating && !gameInProgress ? (
+        {liveBall && liveBallAnimating ? (
           <g
             onClick={handleLiveBallPlay}
             className={ballMotionClass(liveBallSide === "home" ? "left" : "right", true)}
