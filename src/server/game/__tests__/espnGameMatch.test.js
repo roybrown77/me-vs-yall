@@ -5,6 +5,7 @@ const {
   getDbGameMatchKey,
   getScrapedGameMatchKey,
   hasSameGameMatch,
+  hasScoreboardWeekGameMatch,
 } = require('../espnGameMatch');
 
 const kcId = '19823783734d1d04a1b39001';
@@ -47,6 +48,18 @@ test('hasSameGameMatch matches only the same kickoff day', () => {
     hasSameGameMatch({ dbGame: dbRegular, scrapedGame: scraped, scrapedKickoff: regularKickoff }),
     true
   );
+});
+
+test('hasScoreboardWeekGameMatch ignores kickoff day for same competitor pair', () => {
+  const dbGame = {
+    startDateTime: new Date('2026-10-26T00:20:00.000Z'),
+    competitors: [{ _id: kcId }, { _id: seaId }],
+  };
+  const scraped = {
+    game: [{ teamDetails: { _id: kcId } }, { teamDetails: { _id: seaId } }],
+  };
+
+  assert.equal(hasScoreboardWeekGameMatch({ dbGame, scrapedGame: scraped }), true);
 });
 
 test('getDbGameMatchKey uses Eastern kickoff date', () => {

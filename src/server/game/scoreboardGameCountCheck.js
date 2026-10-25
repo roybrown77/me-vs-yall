@@ -1,4 +1,6 @@
-const { hasSameGameMatch } = require('./espnGameMatch');
+const moment = require('moment-timezone');
+
+const { hasScoreboardWeekGameMatch } = require('./espnGameMatch');
 
 const MS_DAY = 24 * 60 * 60 * 1000;
 
@@ -12,6 +14,9 @@ const getKickoffTimesMs = ({ events = [], results = [], resolveScrapedKickoff })
   });
 
   results.forEach((result) => {
+    if (result?.apiKickoff) {
+      times.push(new Date(result.apiKickoff).getTime());
+    }
     const kickoff = resolveScrapedKickoff(result);
     if (kickoff) {
       times.push(new Date(kickoff).getTime());
@@ -19,6 +24,24 @@ const getKickoffTimesMs = ({ events = [], results = [], resolveScrapedKickoff })
   });
 
   return times.filter(Number.isFinite);
+};
+
+// Same bounds as GameController list games (begin/end query params).
+const filterDbGamesForGameWeek = (dbGames = [], gameWeek = null) => {
+  if (!gameWeek?.beginDateTime || !gameWeek?.endDateTime) {
+    return dbGames;
+  }
+
+  const beginMs = new Date(moment(gameWeek.beginDateTime)).getTime();
+  const endMs = new Date(moment(gameWeek.endDateTime)).getTime();
+
+  return dbGames.filter((game) => {
+    if (game?.isHidden === true) {
+      return false;
+    }
+    const startMs = game?.startDateTime ? new Date(game.startDateTime).getTime() : NaN;
+    return Number.isFinite(startMs) && startMs > beginMs && startMs < endMs;
+  });
 };
 
 const filterDbGamesForScoreboardWeek = (dbGames = [], kickoffTimesMs = []) => {
@@ -30,6 +53,9 @@ const filterDbGamesForScoreboardWeek = (dbGames = [], kickoffTimesMs = []) => {
   const maxMs = Math.max(...kickoffTimesMs) + MS_DAY;
 
   return dbGames.filter((game) => {
+    if (game?.isHidden === true) {
+      return false;
+    }
     const kickoffMs = game?.startDateTime ? new Date(game.startDateTime).getTime() : NaN;
     return Number.isFinite(kickoffMs) && kickoffMs >= minMs && kickoffMs <= maxMs;
   });
@@ -58,18 +84,20 @@ const reconcileScoreboardGameCounts = ({
   results = [],
   dbGames = [],
   events = [],
+  gameWeek = null,
   resolveScrapedKickoff,
 }) => {
   const kickoffTimesMs = getKickoffTimesMs({ events, results, resolveScrapedKickoff });
-  const dbWeekGames = filterDbGamesForScoreboardWeek(dbGames, kickoffTimesMs);
+  const dbWeekGames = gameWeek
+    ? filterDbGamesForGameWeek(dbGames, gameWeek)
+    : filterDbGamesForScoreboardWeek(dbGames, kickoffTimesMs);
   const scrapedCount = results.length;
   const dbCount = dbWeekGames.length;
 
   const missingInDb = [];
   results.forEach((scrapedGame) => {
-    const scrapedKickoff = resolveScrapedKickoff(scrapedGame);
     const matched = dbWeekGames.some((dbGame) =>
-      hasSameGameMatch({ dbGame, scrapedGame, scrapedKickoff })
+      hasScoreboardWeekGameMatch({ dbGame, scrapedGame }),
     );
 
     if (!matched) {
@@ -80,11 +108,7 @@ const reconcileScoreboardGameCounts = ({
   const extraInDb = [];
   dbWeekGames.forEach((dbGame) => {
     const matched = results.some((scrapedGame) =>
-      hasSameGameMatch({
-        dbGame,
-        scrapedGame,
-        scrapedKickoff: resolveScrapedKickoff(scrapedGame),
-      })
+      hasScoreboardWeekGameMatch({ dbGame, scrapedGame }),
     );
 
     if (!matched) {
@@ -107,6 +131,7 @@ const reconcileScoreboardGameCounts = ({
 };
 
 module.exports = {
+  filterDbGamesForGameWeek,
   filterDbGamesForScoreboardWeek,
   getKickoffTimesMs,
   reconcileScoreboardGameCounts,

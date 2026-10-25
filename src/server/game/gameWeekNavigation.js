@@ -172,6 +172,21 @@ const findNavigableWeekForGame = (game, gameWeeks = []) => {
 const findEntireSeasonWeek = (gameWeeks = []) =>
   (gameWeeks || []).find((week) => week?._id && !week?.isRollup && isEntireSeasonWeek(week));
 
+const findGameWeekForEspnWeek = (gameWeeks = [], { seasonType, weekNumber } = {}) => {
+  if (!seasonType || !weekNumber) {
+    return null;
+  }
+
+  const weekMetaById = buildWeekQueryMetaMap(gameWeeks);
+
+  return (
+    getNavigableWeeks(gameWeeks).find((week) => {
+      const meta = weekMetaById[String(week._id)];
+      return meta?.seasonType === seasonType && meta?.week === weekNumber;
+    }) || null
+  );
+};
+
 const findCurrentWeek = (weeks = []) => {
   const sorted = getNavigableWeeks(weeks);
   const now = moment().tz('America/New_York');
@@ -247,6 +262,7 @@ module.exports = {
   buildWeekQueryMetaMap,
   findCurrentWeek,
   findEntireSeasonWeek,
+  findGameWeekForEspnWeek,
   findNavigableWeekForGame,
   findPriorWeek,
   getNavigableWeeks,

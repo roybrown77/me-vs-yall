@@ -75,6 +75,10 @@ const hasSameGameMatch = ({ dbGame, scrapedGame, scrapedKickoff = null }) => {
   return dbMatchKey === scrapedMatchKey;
 };
 
+// Weekly scoreboard reconcile: same two teams on this week's board (kickoff keys can diverge for live/final).
+const hasScoreboardWeekGameMatch = ({ dbGame, scrapedGame }) =>
+  hasSameCompetitors({ dbGame, scrapedGame });
+
 module.exports = {
   NFL_TIMEZONE,
   buildGameMatchKey,
@@ -84,4 +88,5 @@ module.exports = {
   getScrapedGameMatchKey,
   hasSameCompetitors,
   hasSameGameMatch,
+  hasScoreboardWeekGameMatch,
 };

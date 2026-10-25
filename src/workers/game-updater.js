@@ -3,6 +3,8 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const gameRepository = require('../server/game/databaseRepositories/GameRepository');
+const gameWeekRepository = require('../server/game/databaseRepositories/GameWeekRepository');
+const { findGameWeekForEspnWeek } = require('../server/game/gameWeekNavigation');
 const { dbConnectionString } = require('../../config');
 const { nflTeams } = require('../server/utilities/teams/nfl');
 const { getNflGameDataSource } = require('../server/utilities/getGameDataSource');
@@ -843,14 +845,23 @@ const loadScrapedScoreboardResults = async ({ url, year, seasonType, weekNumber 
     };
 };
 
-const buildScoreboardReconciliation = async ({ results, events, year }) => {
+const buildScoreboardReconciliation = async ({ results, events, year, seasonType, weekNumber }) => {
     const leagueObjectId = new mongoose.Types.ObjectId(leagueId);
     const dbGames = await gameRepository.find({ leagueId: leagueObjectId, year });
+    const gameWeeks = await gameWeekRepository.find({ leagueId: leagueObjectId, year });
+    const gameWeek = findGameWeekForEspnWeek(gameWeeks, { seasonType, weekNumber });
+
+    if (!gameWeek) {
+        console.log(
+            `[GAME_UPDATER] No Game_Week row for ESPN week ${weekNumber} (seasonType ${seasonType}); using kickoff window fallback for reconcile.`,
+        );
+    }
 
     return reconcileScoreboardGameCounts({
         results,
         dbGames,
         events,
+        gameWeek,
         resolveScrapedKickoff,
     });
 };
@@ -937,7 +948,13 @@ const runGameUpdate = async () => {
 
         await createMissingGamesFromScrape({ results, year, leagueId });
 
-        const reconciliation = await buildScoreboardReconciliation({ results, events, year });
+        const reconciliation = await buildScoreboardReconciliation({
+            results,
+            events,
+            year,
+            seasonType,
+            weekNumber,
+        });
         const shouldShutdown = logScoreboardReconciliation(reconciliation);
 
         if (shouldShutdown) {

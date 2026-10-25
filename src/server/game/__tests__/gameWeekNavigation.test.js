@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const {
   buildLeaderboardPath,
   buildWeekQueryMetaMap,
+  findGameWeekForEspnWeek,
   findNavigableWeekForGame,
   isWednesdayInTimezone,
   resolveLeaderboardNotificationWeek,
@@ -26,6 +27,22 @@ const week3 = {
 const referenceGame = {
   startDateTime: new Date('2025-09-21T17:00:00.000Z'),
 };
+
+test('findGameWeekForEspnWeek resolves navigable week by ESPN seasonType and week number', () => {
+  const week7 = {
+    _id: 'week-7',
+    description: 'Week 7 Thu Oct 23',
+    beginDateTime: new Date('2026-10-21T04:00:00.000Z'),
+    endDateTime: new Date('2026-10-27T03:59:00.000Z'),
+  };
+
+  const found = findGameWeekForEspnWeek([entireSeasonWeek, week7], {
+    seasonType: 2,
+    weekNumber: 1,
+  });
+
+  assert.equal(String(found._id), 'week-7');
+});
 
 test('findNavigableWeekForGame ignores entire-season week overlap', () => {
   const week = findNavigableWeekForGame(referenceGame, [entireSeasonWeek, week3]);
