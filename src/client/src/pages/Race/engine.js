@@ -856,7 +856,7 @@ export function createRace(canvas, hooks) {
     if (phase === "loading" || phase === "title") {
       const grid = frameAt(curve, 0.018);
       if (phase === "loading") {
-        const amount = Math.min(1, (now - phaseStart) / 1100);
+        const amount = Math.min(1, Math.max(0, (now - phaseStart) / 1100));
         hooks.onLoad?.(Math.round(amount * 100));
         titleT = 0.08 + amount * 0.22;
         if (amount >= 1) setPhase("title");

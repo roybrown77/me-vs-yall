@@ -315,10 +315,13 @@ const Race = () => {
   useEffect(() => {
     let dead = false;
     let race;
+    setLoad(0);
     import("./engine").then(({ createRace }) => {
       if (dead || !canvasRef.current) return;
       race = createRace(canvasRef.current, {
-        onLoad: setLoad,
+        onLoad: (percent) => {
+          setLoad(Math.max(0, Math.min(100, percent)));
+        },
         onPhase: (next) => {
           setPhase(next);
           if (next === "title") {
@@ -482,7 +485,7 @@ const Race = () => {
 
       {phase === "loading" && (
         <div className="race-loading">
-          <div className="race-loading-count">{load}</div>
+          <div className="race-loading-count">{Math.max(0, Math.min(100, load))}</div>
           <div className="race-loading-label">Loading</div>
         </div>
       )}
