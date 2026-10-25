@@ -480,6 +480,22 @@
   width: min(92vw, 560px);
   text-align: center;
   pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.9s ease;
+}
+
+.race-tutorial-copy.is-fading-out {
+  opacity: 0;
+}
+
+.race-tutorial-copy-fade {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .race-tutorial-copy {
+    transition: none;
+  }
 }
 
 .race-tutorial-kicker {

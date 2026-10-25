@@ -15,6 +15,15 @@ import {
 import { getRaceSessionSettings } from "./raceSession";
 import RaceTrackMap from "./RaceTrackMap.jsx";
 
+const TUTORIAL_COPY_FADE_MS = 900;
+
+const RaceTutorialCopy = () => (
+  <>
+    <div className="race-tutorial-kicker">Tutorial</div>
+    <p className="race-tutorial-title">Press and hold left &amp; right arrows to steer</p>
+  </>
+);
+
 const RaceHeroButton = ({ label, className = "", onClick }) => (
   <button type="button" className={`race-start race-start-hero ${className}`.trim()} onClick={onClick}>
     <span className="race-start-hero-shine" aria-hidden="true" />
@@ -233,10 +242,7 @@ const RaceSteerButtons = ({ raceRef, leftButtonRef, rightButtonRef }) => (
 const RaceTutorial = ({ raceRef, leftButtonRef, rightButtonRef }) => (
   <div className="race-steer-overlay">
     <div className="race-tutorial-copy">
-      <div className="race-tutorial-kicker">Tutorial</div>
-      <p className="race-tutorial-title">
-        Press and hold left &amp; right arrows to steer
-      </p>
+      <RaceTutorialCopy />
     </div>
     <div className="race-tutorial-lane" aria-hidden="true" />
     <RaceSteerButtons
@@ -276,7 +282,10 @@ const Race = () => {
   const [courseProfile, setCourseProfile] = useState(() => sessionRef.current.courseProfile);
   const [hint, setHint] = useState(false);
   const [steerButtonsHidden, setSteerButtonsHidden] = useState(false);
+  const [tutorialCopyPhase, setTutorialCopyPhase] = useState("hidden");
+  const [tutorialCopyFadeActive, setTutorialCopyFadeActive] = useState(false);
   const [raceSpeed, setRaceSpeed] = useState(speedRef.current);
+  const trackMapVisible = phase === "racing" && tutorialCopyPhase === "hidden";
   // Syncs React state and engine when pace multiplier changes.
   const changeSpeed = (multiplier) => {
     const applied = raceRef.current?.setSpeed(multiplier) ?? multiplier;
@@ -331,7 +340,16 @@ const Race = () => {
           if (next === "title" || next === "countdown" || next === "tutorial") {
             setSteerButtonsHidden(false);
           }
+          if (next === "tutorial") {
+            setTutorialCopyPhase("visible");
+            setTutorialCopyFadeActive(false);
+          }
+          if (next === "title" || next === "countdown" || next === "loading") {
+            setTutorialCopyPhase("hidden");
+            setTutorialCopyFadeActive(false);
+          }
           if (next === "racing") {
+            setTutorialCopyPhase("fading");
             setHint(true);
             window.setTimeout(() => setHint(false), 4200);
           }
@@ -376,6 +394,24 @@ const Race = () => {
       raceRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (tutorialCopyPhase !== "fading") {
+      return undefined;
+    }
+    const fadeMs = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? 0
+      : TUTORIAL_COPY_FADE_MS;
+    const raf = window.requestAnimationFrame(() => setTutorialCopyFadeActive(true));
+    const done = window.setTimeout(() => {
+      setTutorialCopyPhase("hidden");
+      setTutorialCopyFadeActive(false);
+    }, fadeMs);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.clearTimeout(done);
+    };
+  }, [tutorialCopyPhase]);
 
   // Fades in title UI one second after the title phase begins.
   useEffect(() => {
@@ -455,31 +491,29 @@ const Race = () => {
         </button>
       </header>
 
-      {(phase === "racing" || phase === "tutorial") && (
+      {phase === "racing" && (
         <div className="race-hud-top">
-          {phase === "racing" && (
-            <div className="race-hud-readouts">
-              <div className="race-time" ref={timeRef}>
-                0:00.00
-              </div>
-              <div className="race-progress" aria-hidden="true">
-                <span ref={progressRef} />
-              </div>
-              {hint ? <div className="race-hint">Stay on the glowing line</div> : null}
+          <div className="race-hud-readouts">
+            <div className="race-time" ref={timeRef}>
+              0:00.00
             </div>
-          )}
-          <div className="race-hud-map-stack">
-            {phase === "racing" && (
+            <div className="race-progress" aria-hidden="true">
+              <span ref={progressRef} />
+            </div>
+            {hint ? <div className="race-hint">Stay on the glowing line</div> : null}
+          </div>
+          {trackMapVisible ? (
+            <div className="race-hud-map-stack">
               <div className="race-boost" aria-hidden="true">
                 <span ref={boostRef} />
               </div>
-            )}
-            <RaceTrackMap
-              ref={trackMapRef}
-              roadScale={roadScale}
-              courseProfile={courseProfile}
-            />
-          </div>
+              <RaceTrackMap
+                ref={trackMapRef}
+                roadScale={roadScale}
+                courseProfile={courseProfile}
+              />
+            </div>
+          ) : null}
         </div>
       )}
 
@@ -517,6 +551,16 @@ const Race = () => {
           </div>
         </div>
       )}
+
+      {tutorialCopyPhase === "fading" ? (
+        <div className="race-steer-overlay race-tutorial-copy-fade" aria-hidden="true">
+          <div
+            className={`race-tutorial-copy${tutorialCopyFadeActive ? " is-fading-out" : ""}`}
+          >
+            <RaceTutorialCopy />
+          </div>
+        </div>
+      ) : null}
 
       {phase === "tutorial" && !steerButtonsHidden && (
         <RaceTutorial
