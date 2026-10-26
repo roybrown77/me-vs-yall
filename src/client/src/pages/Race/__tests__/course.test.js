@@ -4,7 +4,10 @@ import assert from "node:assert/strict";
 import {
   buildCoursePoints,
   createRaceCurve,
+  FINISH_STRAIGHT_METERS,
+  finishStraightStartT,
   jumpPlateauPhase,
+  measureFinishStraightMeters,
   sampleCourseElevationAt,
 } from "../course.js";
 
@@ -21,11 +24,13 @@ const turningWork = (points) => {
 
 const maxElevation = (points) => Math.max(...points.map((point) => point.y));
 
-test("road scale multiplies control point count", () => {
+test("road scale multiplies winding control points before the finish straight", () => {
   const one = buildCoursePoints({ roadScale: 1, courseProfile: "standard" });
   const two = buildCoursePoints({ roadScale: 2, courseProfile: "standard" });
-  assert.equal(one.length, 310);
-  assert.equal(two.length, 620);
+  const straightSteps = Math.ceil(FINISH_STRAIGHT_METERS / 17);
+  assert.equal(one.length, Math.floor((310 - 1) * 0.88) + 1 + straightSteps);
+  assert.equal(two.length, Math.floor((620 - 1) * 0.88) + 1 + straightSteps);
+  assert.ok(two.length > one.length);
 });
 
 test("turns profile bends more than standard", () => {
@@ -60,24 +65,54 @@ test("jump crest lies near mid lap on standard course", () => {
   );
 });
 
-test("finish approach has downhill before finish straight", () => {
+test("half-mile straight uses flat finish elevation", () => {
   const layout = { roadScale: 1, courseProfile: "standard" };
-  const yHigh = sampleCourseElevationAt(layout, 0.73);
-  const yLow = sampleCourseElevationAt(layout, 0.81);
-  assert.ok(yHigh > yLow + 4, `expected drop, got ${yHigh.toFixed(1)} -> ${yLow.toFixed(1)}`);
+  const startT = finishStraightStartT(layout);
+  const yJoin = sampleCourseElevationAt(layout, startT);
+  const yMidStraight = sampleCourseElevationAt(layout, startT + (1 - startT) * 0.5);
+  const yLine = sampleCourseElevationAt(layout, 0.992);
+  assert.ok(Math.abs(yJoin - yMidStraight) < 0.5 && Math.abs(yMidStraight - yLine) < 0.5);
 });
 
-test("finish straight and road end are not on a downhill", () => {
+test("final stretch is a half mile for every course profile and road scale", () => {
   for (const courseProfile of ["standard", "turns", "hills", "mixed"]) {
     for (const roadScale of [1, 2, 3]) {
-      const curve = createRaceCurve({ roadScale, courseProfile });
-      const yFinishStraight = curve.getPointAt(0.95).y;
-      const yBanner = curve.getPointAt(0.975).y;
-      const yRoadEnd = curve.getPointAt(0.992).y;
+      const layout = { roadScale, courseProfile };
+      const startT = finishStraightStartT(layout);
+      const straightM = measureFinishStraightMeters(layout, startT);
       assert.ok(
-        yRoadEnd >= yBanner - 0.35 && yBanner >= yFinishStraight - 0.35,
-        `${courseProfile} scale ${roadScale}: end y=${yRoadEnd.toFixed(1)} banner=${yBanner.toFixed(1)} straight=${yFinishStraight.toFixed(1)}`,
+        Math.abs(straightM - FINISH_STRAIGHT_METERS) <= FINISH_STRAIGHT_METERS * 0.02,
+        `${courseProfile} scale ${roadScale}: straight ${straightM.toFixed(1)}m`,
       );
     }
+  }
+});
+
+test("finish straight stays flat and aligned through the line", () => {
+  for (const courseProfile of ["standard", "turns", "hills", "mixed"]) {
+    const layout = { roadScale: 1, courseProfile };
+    const curve = createRaceCurve(layout);
+    const startT = finishStraightStartT(layout);
+    const yStraight = curve.getPointAt(Math.min(0.999, startT + 0.01)).y;
+    const yBanner = curve.getPointAt(0.975).y;
+    const yRoadEnd = curve.getPointAt(0.992).y;
+    assert.ok(
+      yRoadEnd >= yBanner - 0.35 && yBanner >= yStraight - 0.35,
+      `${courseProfile}: end y=${yRoadEnd.toFixed(1)} banner=${yBanner.toFixed(1)} straight=${yStraight.toFixed(1)}`,
+    );
+
+    let turn = 0;
+    let prevHeading = null;
+    for (let i = 0; i <= 40; i += 1) {
+      const t = startT + ((1 - startT) * i) / 40;
+      const p0 = curve.getPointAt(Math.max(startT, t - 0.0008));
+      const p1 = curve.getPointAt(Math.min(1, t + 0.0008));
+      const heading = Math.atan2(p1.z - p0.z, p1.x - p0.x);
+      if (prevHeading != null) {
+        turn += Math.abs(Math.atan2(Math.sin(heading - prevHeading), Math.cos(heading - prevHeading)));
+      }
+      prevHeading = heading;
+    }
+    assert.ok(turn < 0.08, `${courseProfile}: finish straight should stay aligned, turn=${turn.toFixed(3)}`);
   }
 });

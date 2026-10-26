@@ -25,7 +25,7 @@ Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 
 ## Core driving
 
-- **Course:** 3D Catmull-Rom spline with elevation profile, gated straights, and soft containment (`course.js`). The **jump** (high plateau) is **mid-lap**; the **finish** is a left turn on a **downhill** into the flat run to the line. **Road** scale repeats the route (2× / 3× length); **Course** profile adjusts turns and hill severity.
+- **Course:** 3D Catmull-Rom spline with elevation profile, gated straights, and soft containment (`course.js`). The **jump** (high plateau) is **mid-lap**; every layout ends with the same **half-mile drag strip** to the checkered line (downhill into the flat run-in, then straight). **Road** scale repeats the winding route (2× / 3× length); **Course** profile adjusts turns and hill severity.
 - **Road:** Dark asphalt ribbon, white edge strips, START/FINISH banners, guard rails on part of the course, cliff at road end (`ROAD_END_T`).
 - **Steering:**
   - Keyboard: **←/→** or **A/D**

@@ -7,7 +7,9 @@ import {
 
 const BASE_POINT_COUNT = 310;
 const SEGMENT_LENGTH = 17;
-// Global curve t where the lap flattens into the finish straight (not wrapped phase).
+/** Half-mile run to the checkered line (meters), appended after the winding course. */
+export const FINISH_STRAIGHT_METERS = 804.672;
+// Global curve parameter where winding ends and the half-mile straight begins.
 const FINISH_RUN_FLAT_FROM_T = 0.88;
 const FINISH_RUN_PHASE = 0.96;
 
@@ -25,7 +27,6 @@ const STRAIGHTS = [
   [0.39, 0.52],
   [0.56, 0.6],
   [0.62, 0.71],
-  [0.945, 0.995],
 ];
 
 // Lap-phase jump (210 plateau) sits near mid-lap; finish is downhill left then flat run-in.
@@ -91,16 +92,15 @@ export const buildCoursePoints = (layout = {}) => {
   const profile = normalizeCourseProfile(layout.courseProfile);
   const tuning = PROFILE_TUNING[profile];
   const count = BASE_POINT_COUNT * roadScale;
+  const curvyEndIndex = Math.max(2, Math.floor((count - 1) * FINISH_RUN_FLAT_FROM_T));
   const points = [];
   let x = 60;
   let z = 10;
   let heading = 0.6;
 
-  for (let i = 0; i < count; i += 1) {
-    const t = i / (count - 1);
-    // Keep the final control point at end-of-lap elevation (phase 1), not wrapped to start height.
-    let phase = (t * roadScale) % 1;
-    if (i === count - 1) phase = 1;
+  for (let i = 0; i <= curvyEndIndex; i += 1) {
+    const t = (i / curvyEndIndex) * FINISH_RUN_FLAT_FROM_T;
+    const phase = (t * roadScale) % 1;
     const dist = Math.hypot(x, z) || 1;
     let contain = 0;
     if (dist > 55) {
@@ -119,9 +119,7 @@ export const buildCoursePoints = (layout = {}) => {
     z += Math.sin(heading) * SEGMENT_LENGTH;
 
     let y = elevationAt(phase, tuning.hillGain);
-    if (t >= FINISH_RUN_FLAT_FROM_T) {
-      y = elevationAt(FINISH_RUN_PHASE, tuning.hillGain);
-    } else if (t > FINISH_RUN_FLAT_FROM_T - 0.04) {
+    if (t > FINISH_RUN_FLAT_FROM_T - 0.04) {
       const blend = (t - (FINISH_RUN_FLAT_FROM_T - 0.04)) / 0.04;
       const eased = (1 - Math.cos(Math.PI * blend)) / 2;
       y =
@@ -132,6 +130,17 @@ export const buildCoursePoints = (layout = {}) => {
 
     points.push({ x, y, z });
   }
+
+  const straightY = elevationAt(FINISH_RUN_PHASE, tuning.hillGain);
+  let straightLeft = FINISH_STRAIGHT_METERS;
+  while (straightLeft > 0.01) {
+    const step = Math.min(SEGMENT_LENGTH, straightLeft);
+    straightLeft -= step;
+    x += Math.cos(heading) * step;
+    z += Math.sin(heading) * step;
+    points.push({ x, y: straightY, z });
+  }
+
   return points;
 };
 
@@ -153,4 +162,27 @@ export const createRaceCurve = (layout = {}) => {
 export const sampleCourseElevationAt = (layout, t) => {
   const curve = createRaceCurve(layout);
   return curve.getPointAt(THREE.MathUtils.clamp(t, 0, 1)).y;
+};
+
+// Normalized t where the mandatory half-mile finish straight begins.
+export const finishStraightStartT = (layout = {}) => {
+  const curve = createRaceCurve(layout);
+  const total = curve.getLength();
+  if (total <= FINISH_STRAIGHT_METERS) return 0;
+  return (total - FINISH_STRAIGHT_METERS) / total;
+};
+
+// Arc length (m) of the finish straight from startT through t=1.
+export const measureFinishStraightMeters = (layout = {}, startT) => {
+  const curve = createRaceCurve(layout);
+  const samples = 240;
+  let length = 0;
+  let prev = curve.getPointAt(THREE.MathUtils.clamp(startT, 0, 1));
+  for (let i = 1; i <= samples; i += 1) {
+    const t = startT + ((1 - startT) * i) / samples;
+    const point = curve.getPointAt(Math.min(1, t));
+    length += prev.distanceTo(point);
+    prev = point;
+  }
+  return length;
 };
