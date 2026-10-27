@@ -1,0 +1,82 @@
+.sign-in-prompt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  box-sizing: border-box;
+  background: rgba(18, 28, 42, 0.72);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+.sign-in-prompt-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sign-in-prompt-overlay__panel {
+  width: min(420px, 100%);
+  padding: 28px 24px 24px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffef8 0%, #fff6dc 100%);
+  border: 1px solid rgba(255, 210, 90, 0.55);
+  box-shadow: 0 18px 48px rgba(12, 22, 36, 0.35);
+  text-align: center;
+  color: #1f2b3d;
+}
+
+.sign-in-prompt-overlay__kicker {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6b5a1f;
+}
+
+.sign-in-prompt-overlay__title {
+  margin: 10px 0 8px;
+  font-size: clamp(1.35rem, 4.5vw, 1.65rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.sign-in-prompt-overlay__copy {
+  margin: 0 0 22px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #3a4658;
+}
+
+.sign-in-prompt-overlay__btn {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #1a1200;
+  background: linear-gradient(180deg, #ffe8a3 0%, #ffd45a 100%);
+  box-shadow: 0 4px 14px rgba(120, 90, 10, 0.25);
+}
+
+.sign-in-prompt-overlay__btn:hover {
+  filter: brightness(1.03);
+}
+
+.sign-in-prompt-overlay__btn:focus-visible {
+  outline: 3px solid #234f86;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign-in-prompt-overlay {
+    transition: none;
+  }
+}

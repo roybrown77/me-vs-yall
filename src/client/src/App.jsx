@@ -15,6 +15,7 @@ import AuthenticationCallback from './pages/AuthenticationCallback';
 const Race = lazy(() => import('./pages/Race'));
 
 import PwaInstallBanner from './components/PwaInstallBanner';
+import SignInPromptOverlay from './components/SignInPromptOverlay';
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
         </div>
       </main>
       <PwaInstallBanner />
+      <SignInPromptOverlay />
     </div>
   );
 };

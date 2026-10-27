@@ -16,7 +16,7 @@ const RESPONSE_TYPE = 'token id_token';
 const AUDIENCE = 'https://mevsyallcom/api/';
 const SCOPE = 'openid profile email';
 
-const WAIT_FOR_NEXT_SIGN_IN_PROMPT = 1; // hours
+const WAIT_FOR_NEXT_SIGN_IN_PROMPT = 24; // hours
 const POST_LOGIN_REDIRECT_KEY = 'postLoginRedirect';
 const DEFAULT_POST_LOGIN_PATH = '/scoreboards/nfl';
 
