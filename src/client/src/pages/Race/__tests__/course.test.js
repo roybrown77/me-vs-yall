@@ -80,6 +80,17 @@ test("hills profile reaches higher elevation than standard", () => {
   assert.ok(maxElevation(hills) > maxElevation(standard));
 });
 
+test("hills profile has deep down and up hills with dramatic elevation span", () => {
+  const layout = { roadScale: 1, courseProfile: "hills" };
+  const points = buildCoursePoints(layout);
+  const minY = minElevation(points);
+  const maxY = maxElevation(points);
+  const span = maxY - minY;
+  assert.ok(minY < 0, `expected deep downhills below 0m, got ${minY.toFixed(1)}m`);
+  assert.ok(maxY > 200, `expected towering peaks above 200m, got ${maxY.toFixed(1)}m`);
+  assert.ok(span > 200, `expected massive elevation span (>200m), got ${span.toFixed(1)}m`);
+});
+
 test("standard course has light rolling hills without steep cliffs", () => {
   const layout = { roadScale: 1, courseProfile: "standard" };
   const points = buildCoursePoints(layout);

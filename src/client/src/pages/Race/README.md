@@ -25,7 +25,7 @@ Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 
 ## Core driving
 
-- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** add steep alpine climbs and a high mid-lap crest; every layout starts level and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
+- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** feature dramatic, deep down and up hills with thrilling canyon plunges down to ~-34m and soaring alpine climbs up to ~+244m (a ~278m vertical span with mid-lap crest); every layout starts level and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
 - **Road:** 3D asphalt deck (top, curbs, underside), white edge strips, START/FINISH banners, steel arch ribs, cliff at road end (`ROAD_END_T`).
 - **Steering:**
   - Keyboard: **←/→** or **A/D**

@@ -63,19 +63,21 @@ const STANDARD_ELEVATION = [
   [1.00, 48],
 ];
 
-// High alpine elevation keyframes (meters) for the hills and mixed courses.
+// Very deep alpine elevation keyframes (meters) with dramatic downhills into gorges and steep climbs to mountain summits.
 const ALPINE_ELEVATION = [
-  [0.00, 28],
-  [0.16, 114],
-  [0.24, 102],
-  [0.36, 54],
-  [0.46, 214],
-  [0.54, 214],
-  [0.62, 46],
-  [0.76, 92],
-  [0.88, 44],
-  [0.96, 48],
-  [1.00, 48],
+  [0.00, 48],    // Start line flat at base elevation
+  [0.04, 48],    // Level start grid
+  [0.14, 135],   // Epic climb to first mountain ridge (+135m)
+  [0.24, -15],   // Deep plunge into first canyon valley (-15m)
+  [0.36, 150],   // Rocketing ascent to scenic mountain pass (+150m)
+  [0.44, 40],    // Deep intermediate drop into mountain basin (+40m)
+  [0.51, 230],   // Grand summit peak near mid-lap (+230m)
+  [0.62, -28],   // Giant downhill plunge into deep gorge floor (-28m)
+  [0.74, 140],   // Sweeping climb up to scenic overlook (+140m)
+  [0.82, -10],   // Deep dip through lower valley (-10m)
+  [0.89, 70],    // Gentle exit crest (+70m)
+  [0.95, 48],    // Smooth return to base elevation
+  [1.00, 48],    // Finish straight flat at 48m
 ];
 
 // Smooth inward-banking magnitude envelopes [start, holdStart, holdEnd, end, maxDeg] aligned inside turns.
@@ -240,6 +242,22 @@ export const buildCoursePoints = (layout = {}) => {
     }
 
     raw.push({ x, y, z });
+  }
+
+  // Smooth control point elevations to eliminate any subtle lumpiness between keyframes.
+  for (let pass = 0; pass < 2; pass += 1) {
+    const smoothedY = new Float32Array(raw.length);
+    for (let i = 0; i < raw.length; i += 1) {
+      const u = i / curvyEndIndex;
+      if (u < 0.04 || u > 0.96) {
+        smoothedY[i] = raw[i].y;
+      } else {
+        smoothedY[i] = 0.25 * raw[i - 1].y + 0.5 * raw[i].y + 0.25 * raw[i + 1].y;
+      }
+    }
+    for (let i = 0; i < raw.length; i += 1) {
+      raw[i].y = smoothedY[i];
+    }
   }
 
   const finishHeading = THREE.MathUtils.degToRad(START_HEADING_DEG + LOOP_SWEEP_DEG);
