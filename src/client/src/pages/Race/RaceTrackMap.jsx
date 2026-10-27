@@ -36,10 +36,12 @@ const RaceTrackMap = forwardRef(function RaceTrackMap({ roadScale, courseProfile
   const carRef = useRef(null);
   const turnRef = useRef(null);
   const inclineRef = useRef(null);
+  const tiltRef = useRef(null);
   const remainingRef = useRef(null);
   const speedRef = useRef(null);
 
   useImperativeHandle(ref, () => ({
+    // Updates the map car marker and live telemetry readouts.
     update(telemetry) {
       if (!telemetry) return;
       const { mapX, mapY, heading } = projectTelemetryToMap(model, telemetry);
@@ -56,6 +58,14 @@ const RaceTrackMap = forwardRef(function RaceTrackMap({ roadScale, courseProfile
         if (telemetry.inclineDeg > 0.35) inclineRef.current.classList.add("is-up");
         else if (telemetry.inclineDeg < -0.35) inclineRef.current.classList.add("is-down");
         else inclineRef.current.classList.add("is-flat");
+      }
+      if (tiltRef.current) {
+        const tilt = Number(telemetry.tiltDeg) || 0;
+        if (Math.abs(tilt) < 0.5) {
+          tiltRef.current.textContent = "0.0°";
+        } else {
+          tiltRef.current.textContent = `${Math.abs(tilt).toFixed(1)}° ${tilt > 0 ? "L" : "R"}`;
+        }
       }
       if (remainingRef.current) {
         remainingRef.current.textContent = formatTrackDistance(telemetry.remainingM);
@@ -98,6 +108,10 @@ const RaceTrackMap = forwardRef(function RaceTrackMap({ roadScale, courseProfile
               ·
             </span>
             Incline <span ref={inclineRef} className="is-flat">0.0°</span>
+            <span className="race-track-map-meta-sep" aria-hidden="true">
+              ·
+            </span>
+            Tilt <span ref={tiltRef}>0.0°</span>
           </div>
           <div className="race-track-map-legend" aria-hidden="true">
             <span className="race-track-map-legend-start">

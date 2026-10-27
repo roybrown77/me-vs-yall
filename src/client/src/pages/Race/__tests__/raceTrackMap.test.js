@@ -11,9 +11,10 @@ import {
 } from "../raceTrackMap.js";
 
 test("buildTrackMapModel produces graded segments and start/finish markers", () => {
-  const model = buildTrackMapModel({ roadScale: 1, courseProfile: "mixed" });
+  const model = buildTrackMapModel({ roadScale: 1, courseProfile: "standard" });
   assert.ok(model.segments.length > 20);
-  assert.ok(model.segments.some((segment) => segment.grade === "up" || segment.grade === "down"));
+  assert.ok(model.segments.some((segment) => segment.grade === "up"));
+  assert.ok(model.segments.some((segment) => segment.grade === "down"));
   assert.ok(Number.isFinite(model.start.mapX));
   assert.ok(Number.isFinite(model.start.dashX1));
   assert.ok(Number.isFinite(model.finish.mapX));
@@ -22,14 +23,17 @@ test("buildTrackMapModel produces graded segments and start/finish markers", () 
   assert.equal(model.transform.height, TRACK_MAP_CANVAS.height);
 });
 
-test("computeDrivingTelemetry reports position and remaining distance", () => {
+test("computeDrivingTelemetry reports position, road tilt, and remaining distance", () => {
   const layout = { roadScale: 1, courseProfile: "standard" };
-  const mid = computeDrivingTelemetry({ layout, t: 0.5, roadEndT: RACE_FINISH_T, trackLength: 4000 });
-  assert.ok(Number.isFinite(mid.x));
-  assert.ok(Number.isFinite(mid.y));
-  assert.ok(Number.isFinite(mid.z));
-  assert.ok(mid.remainingM > 0);
-  assert.ok(mid.turnDeg >= 0);
+  const start = computeDrivingTelemetry({ layout, t: 0, roadEndT: RACE_FINISH_T, trackLength: 4000 });
+  const banked = computeDrivingTelemetry({ layout, t: 0.551, roadEndT: RACE_FINISH_T, trackLength: 4000 });
+  assert.equal(start.tiltDeg, 0);
+  assert.ok(Number.isFinite(banked.x));
+  assert.ok(Number.isFinite(banked.y));
+  assert.ok(Number.isFinite(banked.z));
+  assert.ok(Math.abs(banked.tiltDeg) > 40);
+  assert.ok(banked.remainingM > 0);
+  assert.ok(banked.turnDeg >= 0);
 });
 
 test("formatTrackDistance renders meters and kilometers", () => {

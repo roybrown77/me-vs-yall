@@ -3,7 +3,7 @@ import { clampRaceLength } from "./length";
 import { buildRaceCar } from "./carFactory";
 import { disposeCarGroup } from "./carUtils";
 import { normalizeCarModel } from "./carModel";
-import { createRaceCurve } from "./course";
+import { createRaceCurve, sampleCurveFrame } from "./course";
 import {
   normalizeCourseProfile,
   normalizeRoadScale,
@@ -98,36 +98,51 @@ const writeBest = (seconds, speedMultiplier, roadScale, courseProfile, ms) => {
   }
 };
 
-// Builds a road ribbon mesh geometry along the spline up to tMax.
+// Builds a 3D road deck mesh geometry (top, underside, and side curbs) along the spline up to tMax.
 const ribbon = (curve, halfWidth, samples, lift, inset = 0, tMax = 1) => {
   const positions = [];
   const normals = [];
   const indices = [];
-  const up = new THREE.Vector3(0, 1, 0);
-  const tangent = new THREE.Vector3();
-  const right = new THREE.Vector3();
-  const normal = new THREE.Vector3();
-  const point = new THREE.Vector3();
   const endT = THREE.MathUtils.clamp(tMax, 0.02, 0.999);
+  const span = Math.max(0.05, halfWidth - inset);
+  const thickness = 0.52;
 
   for (let i = 0; i <= samples; i += 1) {
     const t = (i / samples) * endT;
-    curve.getPointAt(t, point);
-    curve.getTangentAt(t, tangent).normalize();
-    right.crossVectors(tangent, up);
-    if (right.lengthSq() < 1e-8) right.set(1, 0, 0);
-    right.normalize();
-    normal.crossVectors(right, tangent).normalize();
-    const span = Math.max(0.05, halfWidth - inset);
-    const left = point.clone().addScaledVector(right, -span).addScaledVector(normal, lift);
-    const edge = point.clone().addScaledVector(right, span).addScaledVector(normal, lift);
-    positions.push(left.x, left.y, left.z, edge.x, edge.y, edge.z);
+    const { position: point, right, normal } = sampleCurveFrame(curve, t);
+    const topLeft = point.clone().addScaledVector(right, -span).addScaledVector(normal, lift);
+    const topRight = point.clone().addScaledVector(right, span).addScaledVector(normal, lift);
+    const botLeft = point
+      .clone()
+      .addScaledVector(right, -span)
+      .addScaledVector(normal, lift - thickness);
+    const botRight = point
+      .clone()
+      .addScaledVector(right, span)
+      .addScaledVector(normal, lift - thickness);
+
+    // Top surface (+normal)
+    positions.push(topLeft.x, topLeft.y, topLeft.z, topRight.x, topRight.y, topRight.z);
     normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
+    // Underside (-normal)
+    positions.push(botRight.x, botRight.y, botRight.z, botLeft.x, botLeft.y, botLeft.z);
+    normals.push(-normal.x, -normal.y, -normal.z, -normal.x, -normal.y, -normal.z);
+    // Left curb (-right)
+    positions.push(botLeft.x, botLeft.y, botLeft.z, topLeft.x, topLeft.y, topLeft.z);
+    normals.push(-right.x, -right.y, -right.z, -right.x, -right.y, -right.z);
+    // Right curb (+right)
+    positions.push(topRight.x, topRight.y, topRight.z, botRight.x, botRight.y, botRight.z);
+    normals.push(right.x, right.y, right.z, right.x, right.y, right.z);
   }
 
   for (let i = 0; i < samples; i += 1) {
-    const offset = i * 2;
-    indices.push(offset, offset + 1, offset + 2, offset + 1, offset + 3, offset + 2);
+    const ring = i * 8;
+    const nextRing = (i + 1) * 8;
+    for (let face = 0; face < 4; face += 1) {
+      const a = ring + face * 2;
+      const b = nextRing + face * 2;
+      indices.push(a, a + 1, b, a + 1, b + 1, b);
+    }
   }
 
   const geometry = new THREE.BufferGeometry();
@@ -142,22 +157,12 @@ const segmentRibbon = (curve, halfWidth, t0, t1, samples, lift) => {
   const positions = [];
   const normals = [];
   const indices = [];
-  const up = new THREE.Vector3(0, 1, 0);
-  const tangent = new THREE.Vector3();
-  const right = new THREE.Vector3();
-  const normal = new THREE.Vector3();
-  const point = new THREE.Vector3();
   const start = THREE.MathUtils.clamp(t0, 0.001, 0.999);
   const end = THREE.MathUtils.clamp(t1, start + 0.002, 0.999);
 
   for (let i = 0; i <= samples; i += 1) {
     const t = start + ((end - start) * i) / samples;
-    curve.getPointAt(t, point);
-    curve.getTangentAt(t, tangent).normalize();
-    right.crossVectors(tangent, up);
-    if (right.lengthSq() < 1e-8) right.set(1, 0, 0);
-    right.normalize();
-    normal.crossVectors(right, tangent).normalize();
+    const { position: point, right, normal } = sampleCurveFrame(curve, t);
     const left = point.clone().addScaledVector(right, -halfWidth).addScaledVector(normal, lift);
     const edge = point.clone().addScaledVector(right, halfWidth).addScaledVector(normal, lift);
     positions.push(left.x, left.y, left.z, edge.x, edge.y, edge.z);
@@ -179,27 +184,19 @@ const segmentRibbon = (curve, halfWidth, t0, t1, samples, lift) => {
 // Builds a thin strip mesh for white road edge markings.
 const edgeRibbon = (curve, samples, side, lift, tMax = 1) => {
   const positions = [];
+  const normals = [];
   const indices = [];
-  const up = new THREE.Vector3(0, 1, 0);
-  const tangent = new THREE.Vector3();
-  const right = new THREE.Vector3();
-  const normal = new THREE.Vector3();
-  const point = new THREE.Vector3();
   const inner = ROAD_HALF - 0.38;
   const outer = ROAD_HALF - 0.12;
   const endT = THREE.MathUtils.clamp(tMax, 0.02, 0.999);
 
   for (let i = 0; i <= samples; i += 1) {
     const t = (i / samples) * endT;
-    curve.getPointAt(t, point);
-    curve.getTangentAt(t, tangent).normalize();
-    right.crossVectors(tangent, up);
-    if (right.lengthSq() < 1e-8) right.set(1, 0, 0);
-    right.normalize();
-    normal.crossVectors(right, tangent).normalize();
+    const { position: point, right, normal } = sampleCurveFrame(curve, t);
     const a = point.clone().addScaledVector(right, side * inner).addScaledVector(normal, lift);
     const b = point.clone().addScaledVector(right, side * outer).addScaledVector(normal, lift);
     positions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+    normals.push(normal.x, normal.y, normal.z, normal.x, normal.y, normal.z);
   }
   for (let i = 0; i < samples; i += 1) {
     const offset = i * 2;
@@ -207,23 +204,13 @@ const edgeRibbon = (curve, samples, side, lift, tMax = 1) => {
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
   geometry.setIndex(indices);
-  geometry.computeVertexNormals();
   return geometry;
 };
 
 // Returns position and orientation frame on the curve with lateral offset.
-const frameAt = (curve, t, offset = 0) => {
-  const u = THREE.MathUtils.clamp(t, 0.001, 0.999);
-  const position = curve.getPointAt(u);
-  const tangent = curve.getTangentAt(u).normalize();
-  const right = new THREE.Vector3().crossVectors(tangent, new THREE.Vector3(0, 1, 0));
-  if (right.lengthSq() < 1e-8) right.set(1, 0, 0);
-  right.normalize();
-  const normal = new THREE.Vector3().crossVectors(right, tangent).normalize();
-  position.addScaledVector(right, offset);
-  return { position, tangent, right, normal };
-};
+const frameAt = (curve, t, offset = 0) => sampleCurveFrame(curve, t, offset);
 
 // Orients and positions a Three.js object on a road frame.
 const placeOnFrame = (object, frame, lift = 0) => {
@@ -340,10 +327,12 @@ const buildCourseTrackScene = (scene, curve, roadScale) => {
     blending: THREE.AdditiveBlending,
     depthWrite: false,
     toneMapped: false,
+    side: THREE.DoubleSide,
   });
   const lineCoreMat = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     toneMapped: false,
+    side: THREE.DoubleSide,
   });
 
   const glow = new THREE.Mesh(
@@ -414,7 +403,7 @@ const buildWorld = (curve, carModelId, roadScale) => {
   scene.add(sun.target);
 
   const ground = new THREE.Mesh(
-    new THREE.CircleGeometry(520, 48),
+    new THREE.CircleGeometry(3600, 64),
     new THREE.MeshLambertMaterial({ color: 0xb9c6d4 }),
   );
   ground.rotation.x = -Math.PI / 2;
@@ -532,6 +521,9 @@ export function createRace(canvas, hooks) {
   const finishBox = new THREE.Box3();
   const finishCenter = new THREE.Vector3();
   const finishSize = new THREE.Vector3();
+  const camLiftDir = new THREE.Vector3(0, 1, 0);
+  const camUpTarget = new THREE.Vector3(0, 1, 0);
+  const chaseUp = new THREE.Vector3(0, 1, 0);
   let chaseRise = 4.73;
   let chaseAhead = 6.6;
   let launchLeft = 0;
@@ -581,6 +573,7 @@ export function createRace(canvas, hooks) {
     finishLineShown = false;
     chaseRise = 4.73;
     chaseAhead = 6.6;
+    chaseUp.set(0, 1, 0);
     launchLeft = 0;
     introLeft = 0;
     countdownLabel = "";
@@ -810,21 +803,28 @@ export function createRace(canvas, hooks) {
     setPhase("racing");
   };
 
-  // Smooth chase camera behind the car on the road frame.
+  // Smooth chase camera behind the car on the road frame, keeping a mostly level horizon so road tilt reads clearly.
   const aimAtCar = (frame, dt, opts = {}) => {
     const blend = speedBlend();
     const rise = opts.rise ?? 4.73 - blend * 0.83;
     const ahead = opts.ahead ?? 6.6 - blend * 4.2;
     const back = opts.back ?? -8.4;
     const follow = Math.min(1, dt * (opts.follow ?? 6));
+    const levelNormal = frame.levelNormal ?? frame.normal;
     chaseRise += (rise - chaseRise) * follow;
     chaseAhead += (ahead - chaseAhead) * follow;
+    camLiftDir.copy(levelNormal).lerp(frame.normal, opts.tiltLift ?? 0.56).normalize();
+    camUpTarget.copy(levelNormal).lerp(frame.normal, opts.tiltRoll ?? 0.18).normalize();
+    chaseUp.lerp(camUpTarget, follow).normalize();
     camera.position
       .copy(frame.position)
-      .addScaledVector(frame.normal, chaseRise)
+      .addScaledVector(camLiftDir, chaseRise)
       .addScaledVector(frame.tangent, back);
-    lookTarget.copy(frame.position).addScaledVector(frame.normal, opts.lookLift ?? 0).addScaledVector(frame.tangent, chaseAhead);
-    camera.up.copy(frame.normal);
+    lookTarget
+      .copy(frame.position)
+      .addScaledVector(camLiftDir, opts.lookLift ?? 0)
+      .addScaledVector(frame.tangent, chaseAhead);
+    camera.up.copy(chaseUp);
     camera.lookAt(lookTarget);
   };
 
@@ -861,8 +861,9 @@ export function createRace(canvas, hooks) {
         titleT = 0.08 + amount * 0.22;
         if (amount >= 1) setPhase("title");
         const fly = frameAt(curve, 0.05 + titleT * 0.35);
-        camera.up.copy(fly.normal);
-        camera.position.copy(fly.position).addScaledVector(fly.normal, 8.5).addScaledVector(fly.tangent, -18);
+        const flyUp = fly.levelNormal ?? fly.normal;
+        camera.up.copy(flyUp);
+        camera.position.copy(fly.position).addScaledVector(flyUp, 8.5).addScaledVector(fly.tangent, -18);
         camera.lookAt(grid.position.clone().addScaledVector(grid.tangent, 10));
       } else {
         const settle = Math.min(1, (now - phaseStart) / 1500);
@@ -943,7 +944,9 @@ export function createRace(canvas, hooks) {
         lateral -= (dyaw * 4.5) / Math.max(dt, 0.001);
       }
       roadYaw = yaw;
-      offset += input * 11 * dt;
+      const slopePull = Math.sin(along.tiltRad ?? 0) * 1.9;
+      offset += (input * 11 - slopePull) * dt;
+      lateral -= slopePull;
       offset = THREE.MathUtils.clamp(offset, -(ROAD_HALF - CAR_HALF), ROAD_HALF - CAR_HALF);
       const swayTarget = THREE.MathUtils.clamp(lateral / 12, -1, 1);
       sway += (swayTarget - sway) * Math.min(1, dt * 8);
@@ -954,7 +957,6 @@ export function createRace(canvas, hooks) {
       placeOnFrame(car, frame, 0.2);
       car.rotateZ(-sway * 0.34);
       car.userData.axles?.forEach((axle) => axle.rotateX(speed * dt * 0.55));
-      camera.up.copy(frame.normal);
       aimAtCar(frame, dt, { back: -9.2, rise: 4.85, ahead: 7.2, follow: 5 });
       sun.position.copy(frame.position).add(new THREE.Vector3(26, 42, 18));
       sun.target.position.copy(frame.position);
@@ -988,7 +990,9 @@ export function createRace(canvas, hooks) {
         lateral -= (dyaw * 4.5) / Math.max(dt, 0.001);
       }
       roadYaw = yaw;
-      offset += input * 11 * dt;
+      const slopePull = Math.sin(along.tiltRad ?? 0) * 1.9;
+      offset += (input * 11 - slopePull) * dt;
+      lateral -= slopePull;
       offset = THREE.MathUtils.clamp(offset, -(ROAD_HALF - CAR_HALF), ROAD_HALF - CAR_HALF);
       const swayTarget = THREE.MathUtils.clamp(lateral / 12, -1, 1);
       sway += (swayTarget - sway) * Math.min(1, dt * 8);
@@ -1069,7 +1073,6 @@ export function createRace(canvas, hooks) {
       placeOnFrame(car, frame, 0.2);
       car.rotateZ(-sway * 0.34);
       car.userData.axles.forEach((axle) => axle.rotateX(speed * dt * 0.55));
-      camera.up.copy(frame.normal);
       const intro = introLeft > 0 ? introLeft / 0.9 : 0;
       if (introLeft > 0) {
         introLeft = Math.max(0, introLeft - dt);

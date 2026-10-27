@@ -25,8 +25,8 @@ Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 
 ## Core driving
 
-- **Course:** 3D Catmull-Rom spline with elevation profile, gated straights, and soft containment (`course.js`). The **jump** (high plateau) is **mid-lap**; every layout ends with the same **half-mile drag strip** to the checkered line (downhill into the flat run-in, then straight). **Road** scale repeats the winding route (2× / 3× length); **Course** profile adjusts turns and hill severity.
-- **Road:** Dark asphalt ribbon, white edge strips, START/FINISH banners, guard rails on part of the course, cliff at road end (`ROAD_END_T`).
+- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** add steep alpine climbs and a high mid-lap crest; every layout starts level and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
+- **Road:** 3D asphalt deck (top, curbs, underside), white edge strips, START/FINISH banners, steel arch ribs, cliff at road end (`ROAD_END_T`).
 - **Steering:**
   - Keyboard: **←/→** or **A/D**
   - Canvas: tap/hold **left or right half** of the screen
@@ -59,7 +59,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 
 ## HUD (racing)
 
-- **Track map** (top): top-down course trace — green uphill / red downhill, start **S**, checkered finish, car marker, turn & incline degrees, distance to finish and current speed (km/h); starts **collapsed**; tap the summary row to expand or collapse the map
+- **Track map** (top): top-down course trace — green uphill / red downhill, start **S**, checkered finish, car marker, turn, incline & tilt degrees, distance to finish and current speed (km/h); starts **collapsed**; tap the summary row to expand or collapse the map
 - Elapsed **time** (centiseconds)
 - **Progress** bar (course fraction)
 - **Boost** meter
@@ -175,6 +175,7 @@ Document notable behavior changes here when you edit this folder.
 - **2025-10-17:** Added **Drizzy Dust Drive** (`drizzy-dust.m4a`) as default BGM.
 - **2025-10-17:** Mobile steer taps no longer trigger text selection (`user-select`, canvas `preventDefault`).
 - **2025-10-17:** Mobile finish UI — compact bottom sheet; settings in collapsed **Settings** panel.
+- **2026-10-27:** Standard course redesigned as a non-intersecting circular loop with left/right turns up to 90°, light rolling hills, and gradual inward-only left/right road banking up to 75° (`course.js`, `engine.js`, `raceTrackMap.js`).
 - **2026-10-22:** Removed in-menu **Length** (time) picker; lap duration fixed at 3:00 — use **Road** scale for track distance.
 - **2026-10-22:** Standard course — more/wider straightaways, gentler turn rhythm, longer baseline spline (`course.js`).
 - **2025-10-17:** One-line purpose comments on all Race functions; enforced via Cursor rule.

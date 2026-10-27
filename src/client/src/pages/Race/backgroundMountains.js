@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { createNoise3D } from "simplex-noise";
+import { sampleCurveFrame } from "./course";
 
 // Deterministic PRNG for reproducible terrain noise from an integer seed.
 export const seededRandom = (seed) => {
@@ -112,7 +113,7 @@ export const displaceMountainGeometry = (geometry, options = {}) => {
     fbm = {},
     roadIndex = null,
     tunnelHalf = 0,
-    floorDrop = 3.4,
+    floorDrop = 6.2,
   } = options;
 
   const noise3D = noiseOverride ?? createNoise3D(seededRandom(seed));
@@ -128,7 +129,7 @@ export const displaceMountainGeometry = (geometry, options = {}) => {
     if (roadIndex && tunnelHalf > 0) {
       const near = nearestRoadSample(roadIndex, worldX, worldZ);
       const worldY = baseY + displaced;
-      if (near && near.dist <= tunnelHalf && worldY > near.y - 0.35) {
+      if (near && near.dist <= tunnelHalf && worldY > near.y - 4.5) {
         displaced = (near.y - floorDrop) - baseY;
       }
     }
@@ -140,17 +141,8 @@ export const displaceMountainGeometry = (geometry, options = {}) => {
   return geometry;
 };
 
-// Frenet-style frame on the race spline at parameter t.
-const roadFrame = (curve, t) => {
-  const u = THREE.MathUtils.clamp(t, 0.001, 0.999);
-  const position = curve.getPointAt(u);
-  const tangent = curve.getTangentAt(u).normalize();
-  const right = new THREE.Vector3().crossVectors(tangent, new THREE.Vector3(0, 1, 0));
-  if (right.lengthSq() < 1e-8) right.set(1, 0, 0);
-  right.normalize();
-  const normal = new THREE.Vector3().crossVectors(right, tangent).normalize();
-  return { position, tangent, right, normal };
-};
+// Frenet-style tilted frame on the race spline at parameter t.
+const roadFrame = (curve, t) => sampleCurveFrame(curve, t);
 
 // World surface height from alpine noise at XZ.
 const surfaceYAt = (noise3D, x, z, params) => {

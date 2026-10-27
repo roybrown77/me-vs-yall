@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-import { createRaceCurve } from "./course.js";
+import { createRaceCurve, sampleCourseTiltDeg } from "./course.js";
 import {
   normalizeCourseProfile,
   normalizeRoadScale,
@@ -9,24 +9,40 @@ import {
 /** Matches `ROAD_END_T` in engine.js */
 export const RACE_FINISH_T = 0.992;
 
-const MAP_SAMPLES = 128;
+const MAP_SAMPLES = 160;
 const GRADE_EPS = 0.35;
 /** Top-down map viewBox — taller canvas so the course uses more vertical space when scaled to fit */
 export const TRACK_MAP_CANVAS = { width: 320, height: 144 };
 /** Half-length of gold start dash across the track (px in viewBox) */
 const START_DASH_HALF = 9;
 
+const curveCache = new Map();
+
+// Normalizes road scale and course profile ids for map lookups.
 const normalizeLayout = (layout = {}) => ({
   roadScale: normalizeRoadScale(layout.roadScale),
   courseProfile: normalizeCourseProfile(layout.courseProfile),
 });
 
+// Returns a cached spline curve for read-only map and telemetry sampling.
+const getMapCurve = (normalized) => {
+  const key = `${normalized.roadScale}:${normalized.courseProfile}`;
+  let curve = curveCache.get(key);
+  if (!curve) {
+    curve = createRaceCurve(normalized);
+    curveCache.set(key, curve);
+  }
+  return curve;
+};
+
+// Classifies an incline angle in degrees into uphill, downhill, or flat.
 const gradeFromIncline = (inclineDeg) => {
   if (inclineDeg > GRADE_EPS) return "up";
   if (inclineDeg < -GRADE_EPS) return "down";
   return "flat";
 };
 
+// Computes world-to-SVG projection parameters that center and fit the track.
 const buildMapTransform = (points) => {
   let minX = Infinity;
   let maxX = -Infinity;
@@ -58,6 +74,7 @@ const buildMapTransform = (points) => {
     pad,
     width: canvasW,
     height: canvasH,
+    // Projects world XZ coordinates into SVG viewBox coordinates.
     project(x, z) {
       const mapX = offsetX + (x - minX) * scale;
       const mapY = offsetY + (maxZ - z) * scale;
@@ -66,6 +83,7 @@ const buildMapTransform = (points) => {
   };
 };
 
+// Samples instantaneous slope incline and local turn change on the spline.
 const sampleCurveMetrics = (curve, t) => {
   const clamped = THREE.MathUtils.clamp(t, 0.001, 0.999);
   const delta = 0.0015;
@@ -89,9 +107,10 @@ const sampleCurveMetrics = (curve, t) => {
   return { inclineDeg, turnDeg };
 };
 
+// Builds projected SVG track segments and start/finish markers for a layout.
 export const buildTrackMapModel = (layout = {}) => {
   const normalized = normalizeLayout(layout);
-  const curve = createRaceCurve(normalized);
+  const curve = getMapCurve(normalized);
   const segments = [];
   const worldPoints = [];
 
@@ -105,9 +124,11 @@ export const buildTrackMapModel = (layout = {}) => {
   for (let i = 0; i < MAP_SAMPLES; i += 1) {
     const t0 = (i / MAP_SAMPLES) * RACE_FINISH_T;
     const t1 = ((i + 1) / MAP_SAMPLES) * RACE_FINISH_T;
+    const midT = (t0 + t1) * 0.5;
     const a = worldPoints[i];
     const b = worldPoints[i + 1];
-    const { inclineDeg } = sampleCurveMetrics(curve, (t0 + t1) * 0.5);
+    const { inclineDeg } = sampleCurveMetrics(curve, midT);
+    const tiltDeg = sampleCourseTiltDeg(normalized, midT);
     const grade = gradeFromIncline(inclineDeg);
     const from = transform.project(a.x, a.z);
     const to = transform.project(b.x, b.z);
@@ -118,6 +139,7 @@ export const buildTrackMapModel = (layout = {}) => {
       y2: to.mapY,
       grade,
       inclineDeg,
+      tiltDeg,
     });
   }
 
@@ -151,6 +173,7 @@ export const buildTrackMapModel = (layout = {}) => {
   };
 };
 
+// Computes live car world position, turn, incline, road tilt, and remaining meters.
 export const computeDrivingTelemetry = ({
   layout = {},
   t = 0,
@@ -158,10 +181,11 @@ export const computeDrivingTelemetry = ({
   trackLength = 1,
 }) => {
   const normalized = normalizeLayout(layout);
-  const curve = createRaceCurve(normalized);
+  const curve = getMapCurve(normalized);
   const clampedT = THREE.MathUtils.clamp(t, 0, roadEndT);
   const point = curve.getPointAt(Math.max(clampedT, 0.004));
   const { inclineDeg, turnDeg } = sampleCurveMetrics(curve, clampedT);
+  const tiltDeg = sampleCourseTiltDeg(normalized, clampedT);
   const remainingM = Math.max(0, (roadEndT - clampedT) * trackLength);
 
   return {
@@ -170,16 +194,18 @@ export const computeDrivingTelemetry = ({
     z: point.z,
     turnDeg,
     inclineDeg,
+    tiltDeg,
     progressT: clampedT,
     remainingM,
   };
 };
 
+// Projects live driving telemetry onto the top-down SVG map model.
 export const projectTelemetryToMap = (model, telemetry) => {
   if (!model?.transform || !telemetry) {
     return { mapX: 0, mapY: 0, heading: 0 };
   }
-  const curve = createRaceCurve(model.layout);
+  const curve = getMapCurve(model.layout);
   const t = THREE.MathUtils.clamp(telemetry.progressT ?? 0, 0.004, RACE_FINISH_T);
   const tangent = curve.getTangentAt(t);
   const { mapX, mapY } = model.transform.project(telemetry.x, telemetry.z);
@@ -187,12 +213,14 @@ export const projectTelemetryToMap = (model, telemetry) => {
   return { mapX, mapY, heading };
 };
 
+// Formats remaining track distance in meters or kilometers.
 export const formatTrackDistance = (meters) => {
   const safe = Math.max(0, Number(meters) || 0);
   if (safe >= 1000) return `${(safe / 1000).toFixed(2)} km`;
   return `${Math.round(safe)} m`;
 };
 
+// Formats vehicle speed in kilometers per hour.
 export const formatTrackSpeed = (metersPerSecond) => {
   const safe = Math.max(0, Number(metersPerSecond) || 0);
   return `${Math.round(safe * 3.6)} km/h`;

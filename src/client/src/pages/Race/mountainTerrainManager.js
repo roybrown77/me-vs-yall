@@ -12,6 +12,7 @@ import { RACE_FOG_DENSITY, fogHorizonDistance } from "./atmosphere";
 
 // Builds a stable string key for a terrain chunk grid cell.
 const chunkKey = (ix, iz) => `${ix},${iz}`;
+const forwardScratch = new THREE.Vector3();
 
 // Streams and recycles displaced heightfield chunks around the camera.
 export class MountainTerrainManager {
@@ -43,7 +44,7 @@ export class MountainTerrainManager {
     this.seed = options.seed ?? 42;
     this.roadIndex = options.roadIndex ?? null;
     this.tunnelHalf = options.tunnelHalf ?? 0;
-    this.floorDrop = options.floorDrop ?? 3.4;
+    this.floorDrop = options.floorDrop ?? 6.2;
 
     this.noise3D = createNoise3D(seededRandom(this.seed));
     this.material = createMountainTerrainMaterial({
@@ -125,15 +126,27 @@ export class MountainTerrainManager {
     this.active.set(key, mesh);
   }
 
-  // Computes which chunk keys should exist around the camera frustum.
+  // Computes which chunk keys should exist around the camera frustum in any heading.
   neededChunkSet(camera) {
-    const ix =
-      Math.floor(camera.position.x / this.chunkWidth) + this.chunkIndexOffsetX;
-    const iz = Math.floor(camera.position.z / this.chunkDepth);
+    let fx = 0;
+    let fz = 1;
+    if (typeof camera?.getWorldDirection === "function") {
+      camera.getWorldDirection(forwardScratch);
+      const len = Math.hypot(forwardScratch.x, forwardScratch.z);
+      if (len > 1e-4) {
+        fx = forwardScratch.x / len;
+        fz = forwardScratch.z / len;
+      }
+    }
+    const rx = fz;
+    const rz = -fx;
     const needed = new Set();
-    for (let dz = -this.chunksBehind; dz <= this.chunksAhead; dz += 1) {
-      for (let dx = -this.chunksLateral; dx <= this.chunksLateral; dx += 1) {
-        needed.add(chunkKey(ix + dx, iz + dz));
+    for (let along = -this.chunksBehind; along <= this.chunksAhead; along += 1) {
+      for (let lat = -this.chunksLateral; lat <= this.chunksLateral; lat += 1) {
+        const side = this.chunkIndexOffsetX + lat;
+        const wx = camera.position.x + fx * along * this.chunkDepth + rx * side * this.chunkWidth;
+        const wz = camera.position.z + fz * along * this.chunkDepth + rz * side * this.chunkDepth;
+        needed.add(chunkKey(Math.floor(wx / this.chunkWidth), Math.floor(wz / this.chunkDepth)));
       }
     }
     return needed;
@@ -213,8 +226,8 @@ export function createRaceMountainTerrainManagers(scene, options = {}) {
     baseOffset: -12,
     fogDensity: RACE_FOG_DENSITY,
     roadIndex: options.curve ? buildRoadProximityIndex(options.curve) : null,
-    tunnelHalf: roadHalfWidth,
-    floorDrop: 3.4,
+    tunnelHalf: roadHalfWidth + 2.4,
+    floorDrop: 6.2,
     ...options,
     roadHalfWidth,
   };
