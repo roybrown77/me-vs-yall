@@ -17,7 +17,7 @@ Full-screen WebGL ridge-line driving game (**RIDGE LINE** / **The Race**). Route
 | **countdown** | **3-2-1-GO** with tones + start lights; camera at the line |
 | **tutorial** | Copy + center lane guide; car at ~88% cruise; race starts on first steer or **5s** fallback (`TUTORIAL_FALLBACK_MS`) |
 | **racing** | Timed run to finish line |
-| **finished** | Results, coast + **360°** celebration camera; **Again** |
+| **finished** | Car continues driving along the closed-loop road circuit while the camera smoothly sweeps between front-approach and rear driving-away views alongside results + **Again** |
 
 Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 
@@ -26,14 +26,14 @@ Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 ## Core driving
 
 - **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** feature dramatic, deep down and up hills with thrilling canyon plunges down to ~-34m and soaring alpine climbs up to ~+244m (a ~278m vertical span with mid-lap crest); every layout starts level and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
-- **Road:** 3D asphalt deck (top, curbs, underside), white edge strips, START/FINISH banners, steel arch ribs, cliff at road end (`ROAD_END_T`).
+- **Road:** Closed-loop 3D asphalt deck (top, curbs, underside) with a smooth Bezier connector from `ROAD_END_T` back to `LOOP_START_T`, white edge strips, dashed center lane markings, START/FINISH banners, and steel arch ribs.
 - **Steering:**
   - Keyboard: **←/→** or **A/D**
   - Canvas: tap/hold **left or right half** of the screen
   - UI: **diamond** left/right buttons (see [On-screen steer controls](#on-screen-steer-controls))
   - Optional throttle on road: **↑** or **W**
 - **Feel:** Lateral offset clamped to road width; curve yaw assist; car sway and wheel spin.
-- **Cars:** **Snowball** (SUV atlas `suv-atlas.png`, `suv-tread.png`) or **Tuff Truck** (`truck-atlas.png`, shared tread). With BGM on, the spare tire hub (Snowball) or TUFF badge plate (Tuff Truck) pulses on bass like a speaker cone (`raceMusicPulse.js`, soundtrack analyser). Both start title/countdown facing backward and swing forward into the run; at the finish they keep race heading then turn around to face backward. Title shows stacked **THE** / **RACE** wordmark + icy skewed **Start** parallelogram (settings in ☰ menu); finish time/Again appear only after the end turn. Regenerate truck atlas: `npm --prefix src/client run generate:truck-atlas` (optional photo overlays via `TRUCK_REFERENCE=/path/to.jpg` or `Race/truck-reference.jpg`).
+- **Cars:** **Snowball** (SUV atlas `suv-atlas.png`, `suv-tread.png`) or **Tuff Truck** (`truck-atlas.png`, shared tread). With BGM on, the spare tire hub (Snowball) or TUFF badge plate (Tuff Truck) pulses on bass like a speaker cone (`raceMusicPulse.js`, soundtrack analyser). Both start title/countdown facing backward and swing forward into the run; at the finish they continue driving down the road while the camera shifts between a front approach view and a rear view watching the car drive away until the player clicks **Again**. Title shows stacked **THE** / **RACE** wordmark + icy skewed **Start** parallelogram (settings in ☰ menu); finish time/Again appear when the finish camera cycle begins. Regenerate truck atlas: `npm --prefix src/client run generate:truck-atlas` (optional photo overlays via `TRUCK_REFERENCE=/path/to.jpg` or `Race/truck-reference.jpg`).
 
 Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 

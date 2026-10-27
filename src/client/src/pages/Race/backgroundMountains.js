@@ -49,7 +49,7 @@ export const sampleAlpineFbm = (noise3D, x, y, options = {}) => {
   return maxAmp > 0 ? total / maxAmp : 0;
 };
 
-// Spatial index of road samples for carving terrain near the spline.
+// Spatial index of road samples for carving terrain near the spline and closed-loop finish connector.
 export const buildRoadProximityIndex = (curve, sampleCount = 1400) => {
   const samples = [];
   const cell = 28;
@@ -65,6 +65,30 @@ export const buildRoadProximityIndex = (curve, sampleCount = 1400) => {
       grid.set(key, bucket);
     }
     bucket.push(i);
+  }
+  const endPoint = curve.getPointAt(0.992);
+  const endTangent = curve.getTangentAt(0.992).normalize();
+  const startPoint = curve.getPointAt(0.004);
+  const startTangent = curve.getTangentAt(0.004).normalize();
+  const chord = endPoint.distanceTo(startPoint);
+  const connector = new THREE.CubicBezierCurve3(
+    endPoint.clone(),
+    endPoint.clone().addScaledVector(endTangent, chord * 0.42),
+    startPoint.clone().addScaledVector(startTangent, -chord * 0.42),
+    startPoint.clone(),
+  );
+  const connectorSamples = 180;
+  for (let i = 1; i < connectorSamples; i += 1) {
+    const idx = samples.length;
+    const point = connector.getPoint(i / connectorSamples);
+    samples.push({ x: point.x, y: point.y, z: point.z });
+    const key = `${Math.floor(point.x / cell)},${Math.floor(point.z / cell)}`;
+    let bucket = grid.get(key);
+    if (!bucket) {
+      bucket = [];
+      grid.set(key, bucket);
+    }
+    bucket.push(idx);
   }
   return { samples, grid, cell };
 };

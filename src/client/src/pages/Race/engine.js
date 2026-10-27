@@ -37,15 +37,26 @@ const LINE_LIFT = 0.175;
 const SUPER_BOOST_SECONDS = 3;
 const LINE_SUPER_BOOST_HOLD_SEC = 1;
 const LINE_AFTER_SUPER_BOOST_MS = 1000;
+const LOOP_START_T = 0.004;
 const ROAD_END_T = 0.992;
 const FINISH_BANNER_T = 0.975;
 const FINISH_CROSS_T = 0.976;
-const FINISH_COAST_SEC = 1.35;
-const FINISH_SPIN_SEC = 3.2;
+const FINISH_DRIVE_SEC = 2.6;
+const FINISH_TO_FRONT_SEC = 1.25;
+const FINISH_FRONT_SEC = 3.2;
+const FINISH_FRONT_TO_BACK_SEC = 1.15;
+const FINISH_BACK_SEC = 3.2;
+const FINISH_BACK_TO_FRONT_SEC = 1.35;
 const TUTORIAL_FALLBACK_MS = 5000;
 const CENTER_PACE_MAX = 1.1;
 const CENTER_PACE_BAND = ROAD_HALF * 0.32;
 const THROTTLE_PACE = 1.55;
+
+// Smoothly eases a normalized [0, 1] fraction using a half-cosine curve.
+const cosineEase01 = (value) => {
+  const clamped = Math.max(0, Math.min(1, value));
+  return 0.5 - 0.5 * Math.cos(Math.PI * clamped);
+};
 
 // Speed bonus for driving near the center of the road when not on the glowing line.
 const centerPaceMultiplier = (offset, onRoad, onLine, boosting) => {
@@ -98,18 +109,74 @@ const writeBest = (seconds, speedMultiplier, roadScale, courseProfile, ms) => {
   }
 };
 
-// Builds a 3D road deck mesh geometry (top, underside, and side curbs) along the spline up to tMax.
-const ribbon = (curve, halfWidth, samples, lift, inset = 0, tMax = 1) => {
+// Builds and caches the smooth cubic Bezier connector curve joining ROAD_END_T back to LOOP_START_T.
+const getLoopConnector = (curve) => {
+  if (curve.userData?.loopConnector) return curve.userData.loopConnector;
+  const endFrame = sampleCurveFrame(curve, ROAD_END_T);
+  const startFrame = sampleCurveFrame(curve, LOOP_START_T);
+  const chord = endFrame.position.distanceTo(startFrame.position);
+  const bezier = new THREE.CubicBezierCurve3(
+    endFrame.position.clone(),
+    endFrame.position.clone().addScaledVector(endFrame.tangent, chord * 0.42),
+    startFrame.position.clone().addScaledVector(startFrame.tangent, -chord * 0.42),
+    startFrame.position.clone(),
+  );
+  bezier.arcLengthDivisions = 400;
+  const totalLength = curve.getLength();
+  const mainStartDist = LOOP_START_T * totalLength;
+  const mainEndDist = ROAD_END_T * totalLength;
+  const mainSpanDist = mainEndDist - mainStartDist;
+  const connectorLength = bezier.getLength();
+  const loopLength = mainSpanDist + connectorLength;
+  const loopEndT = ROAD_END_T + connectorLength / totalLength;
+  const info = {
+    bezier,
+    totalLength,
+    mainStartDist,
+    mainEndDist,
+    mainSpanDist,
+    connectorLength,
+    loopLength,
+    loopEndT,
+  };
+  curve.userData = curve.userData || {};
+  curve.userData.loopConnector = info;
+  return info;
+};
+
+// Returns position and orientation frame on the closed-loop road circuit with lateral offset.
+const frameAt = (curve, t, offset = 0) => {
+  if (t >= LOOP_START_T && t <= ROAD_END_T) return sampleCurveFrame(curve, t, offset);
+  const {
+    bezier,
+    totalLength,
+    mainStartDist,
+    mainSpanDist,
+    connectorLength,
+    loopLength,
+  } = getLoopConnector(curve);
+  const dist = t * totalLength;
+  const s = (((dist - mainStartDist) % loopLength) + loopLength) % loopLength;
+  if (s <= mainSpanDist) {
+    return sampleCurveFrame(curve, LOOP_START_T + s / totalLength, offset);
+  }
+  const u = THREE.MathUtils.clamp((s - mainSpanDist) / Math.max(0.01, connectorLength), 0, 1);
+  return sampleCurveFrame(bezier, u, offset);
+};
+
+// Builds a 3D road deck mesh geometry (top, underside, and side curbs) along the spline from tMin to tMax.
+const ribbon = (curve, halfWidth, samples, lift, inset = 0, tMax = 1, tMin = LOOP_START_T) => {
   const positions = [];
   const normals = [];
   const indices = [];
-  const endT = THREE.MathUtils.clamp(tMax, 0.02, 0.999);
+  const startT = Math.max(0.001, tMin);
+  const endT = Math.max(startT + 0.02, tMax);
   const span = Math.max(0.05, halfWidth - inset);
   const thickness = 0.52;
 
   for (let i = 0; i <= samples; i += 1) {
-    const t = (i / samples) * endT;
-    const { position: point, right, normal } = sampleCurveFrame(curve, t);
+    const t = startT + ((endT - startT) * i) / samples;
+    const { position: point, right, normal } = frameAt(curve, t);
     const topLeft = point.clone().addScaledVector(right, -span).addScaledVector(normal, lift);
     const topRight = point.clone().addScaledVector(right, span).addScaledVector(normal, lift);
     const botLeft = point
@@ -182,17 +249,18 @@ const segmentRibbon = (curve, halfWidth, t0, t1, samples, lift) => {
 };
 
 // Builds a thin strip mesh for white road edge markings.
-const edgeRibbon = (curve, samples, side, lift, tMax = 1) => {
+const edgeRibbon = (curve, samples, side, lift, tMax = 1, tMin = LOOP_START_T) => {
   const positions = [];
   const normals = [];
   const indices = [];
   const inner = ROAD_HALF - 0.38;
   const outer = ROAD_HALF - 0.12;
-  const endT = THREE.MathUtils.clamp(tMax, 0.02, 0.999);
+  const startT = Math.max(0.001, tMin);
+  const endT = Math.max(startT + 0.02, tMax);
 
   for (let i = 0; i <= samples; i += 1) {
-    const t = (i / samples) * endT;
-    const { position: point, right, normal } = sampleCurveFrame(curve, t);
+    const t = startT + ((endT - startT) * i) / samples;
+    const { position: point, right, normal } = frameAt(curve, t);
     const a = point.clone().addScaledVector(right, side * inner).addScaledVector(normal, lift);
     const b = point.clone().addScaledVector(right, side * outer).addScaledVector(normal, lift);
     positions.push(a.x, a.y, a.z, b.x, b.y, b.z);
@@ -209,8 +277,52 @@ const edgeRibbon = (curve, samples, side, lift, tMax = 1) => {
   return geometry;
 };
 
-// Returns position and orientation frame on the curve with lateral offset.
-const frameAt = (curve, t, offset = 0) => sampleCurveFrame(curve, t, offset);
+// Builds a single batched mesh of dashed center lane stripes along the entire road loop.
+const centerDashesRibbon = (curve, lift = 0.115) => {
+  const { totalLength, mainStartDist, loopLength } = getLoopConnector(curve);
+  const positions = [];
+  const normals = [];
+  const indices = [];
+  const halfWidth = 0.11;
+  const dashLength = 3.4;
+  const dashStride = 13.5;
+  let vertCount = 0;
+
+  for (let s = 0; s + dashLength < loopLength; s += dashStride) {
+    const t0 = (mainStartDist + s) / totalLength;
+    const t1 = (mainStartDist + s + dashLength) / totalLength;
+    const f0 = frameAt(curve, t0);
+    const f1 = frameAt(curve, t1);
+    const p0L = f0.position.clone().addScaledVector(f0.right, -halfWidth).addScaledVector(f0.normal, lift);
+    const p0R = f0.position.clone().addScaledVector(f0.right, halfWidth).addScaledVector(f0.normal, lift);
+    const p1L = f1.position.clone().addScaledVector(f1.right, -halfWidth).addScaledVector(f1.normal, lift);
+    const p1R = f1.position.clone().addScaledVector(f1.right, halfWidth).addScaledVector(f1.normal, lift);
+
+    positions.push(
+      p0L.x, p0L.y, p0L.z,
+      p0R.x, p0R.y, p0R.z,
+      p1L.x, p1L.y, p1L.z,
+      p1R.x, p1R.y, p1R.z,
+    );
+    normals.push(
+      f0.normal.x, f0.normal.y, f0.normal.z,
+      f0.normal.x, f0.normal.y, f0.normal.z,
+      f1.normal.x, f1.normal.y, f1.normal.z,
+      f1.normal.x, f1.normal.y, f1.normal.z,
+    );
+    indices.push(
+      vertCount, vertCount + 1, vertCount + 2,
+      vertCount + 1, vertCount + 3, vertCount + 2,
+    );
+    vertCount += 4;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+  geometry.setIndex(indices);
+  return geometry;
+};
 
 // Orients and positions a Three.js object on a road frame.
 const placeOnFrame = (object, frame, lift = 0) => {
@@ -294,31 +406,18 @@ const disposeCourseTrack = (scene, track) => {
   });
 };
 
-// Adds road ribbon, edges, banners, and boost line meshes for a spline.
+// Adds road ribbon, edges, center dashes, banners, and boost line meshes for a closed-loop spline.
 const buildCourseTrackScene = (scene, curve, roadScale) => {
   const roots = [];
-  const samples = Math.min(6240, 2080 * Math.max(1, Math.round(roadScale)));
+  const { loopEndT } = getLoopConnector(curve);
+  const samples = Math.min(6400, 2200 * Math.max(1, Math.round(roadScale)));
   const road = new THREE.Mesh(
-    ribbon(curve, ROAD_HALF, samples, 0.08, 0, ROAD_END_T),
+    ribbon(curve, ROAD_HALF, samples, 0.08, 0, loopEndT, LOOP_START_T),
     new THREE.MeshStandardMaterial({ color: 0x1a212b, roughness: 0.62, metalness: 0.08 }),
   );
   road.receiveShadow = true;
   scene.add(road);
   roots.push(road);
-
-  const roadEndFrame = frameAt(curve, ROAD_END_T);
-  const roadEndDrop = new THREE.Group();
-  const cliffFace = new THREE.Mesh(
-    new THREE.BoxGeometry(ROAD_HALF * 2.04, 14, 0.55),
-    new THREE.MeshStandardMaterial({ color: 0x121820, roughness: 0.85, metalness: 0.05 }),
-  );
-  cliffFace.position.set(0, -6.8, 0.32);
-  cliffFace.receiveShadow = true;
-  cliffFace.castShadow = true;
-  roadEndDrop.add(cliffFace);
-  placeOnFrame(roadEndDrop, roadEndFrame, 0);
-  scene.add(roadEndDrop);
-  roots.push(roadEndDrop);
 
   const lineGlowMat = new THREE.MeshBasicMaterial({
     color: 0xdceeff,
@@ -352,10 +451,26 @@ const buildCourseTrackScene = (scene, curve, roadScale) => {
   roots.push(line);
 
   const edgeMat = new THREE.MeshBasicMaterial({ color: 0xf2f6fb, side: THREE.DoubleSide });
-  const edgeLeft = new THREE.Mesh(edgeRibbon(curve, samples, 1, 0.14, ROAD_END_T), edgeMat);
-  const edgeRight = new THREE.Mesh(edgeRibbon(curve, samples, -1, 0.14, ROAD_END_T), edgeMat);
+  const edgeLeft = new THREE.Mesh(
+    edgeRibbon(curve, samples, 1, 0.14, loopEndT, LOOP_START_T),
+    edgeMat,
+  );
+  const edgeRight = new THREE.Mesh(
+    edgeRibbon(curve, samples, -1, 0.14, loopEndT, LOOP_START_T),
+    edgeMat,
+  );
   scene.add(edgeLeft, edgeRight);
   roots.push(edgeLeft, edgeRight);
+
+  const dashMat = new THREE.MeshBasicMaterial({
+    color: 0xd6e1ee,
+    transparent: true,
+    opacity: 0.68,
+    side: THREE.DoubleSide,
+  });
+  const centerDashes = new THREE.Mesh(centerDashesRibbon(curve, 0.115), dashMat);
+  scene.add(centerDashes);
+  roots.push(centerDashes);
 
   const ribMat = new THREE.MeshStandardMaterial({ color: 0x9aabba, metalness: 0.45, roughness: 0.35 });
   for (let i = 0; i < 16; i += 1) {
@@ -513,14 +628,13 @@ export function createRace(canvas, hooks) {
   let titleT = 0.08;
   let finishSpinTime = 0;
   let finishPresentationSent = false;
-  let finishStartDistance = 0;
   // Distance along the spline where the run ends.
   const finishDistance = () => length * ROAD_END_T;
   const lookTarget = new THREE.Vector3();
-  const finishCamScratch = new THREE.Vector3();
-  const finishBox = new THREE.Box3();
-  const finishCenter = new THREE.Vector3();
-  const finishSize = new THREE.Vector3();
+  const finishCamPos = new THREE.Vector3();
+  const finishLookPos = new THREE.Vector3();
+  const desiredFinishCamPos = new THREE.Vector3();
+  const desiredFinishLookPos = new THREE.Vector3();
   const camLiftDir = new THREE.Vector3(0, 1, 0);
   const camUpTarget = new THREE.Vector3(0, 1, 0);
   const chaseUp = new THREE.Vector3(0, 1, 0);
@@ -584,7 +698,6 @@ export function createRace(canvas, hooks) {
     elapsed = 0;
     finishSpinTime = 0;
     finishPresentationSent = false;
-    finishStartDistance = 0;
   };
 
   // Shows glowing line geometry between two curve parameters.
@@ -826,21 +939,6 @@ export function createRace(canvas, hooks) {
       .addScaledVector(frame.tangent, chaseAhead);
     camera.up.copy(chaseUp);
     camera.lookAt(lookTarget);
-  };
-
-  // Camera distance that frames the whole car in the finish spin shot.
-  const finishFitDistance = () => {
-    finishBox.setFromObject(car);
-    finishBox.getSize(finishSize);
-    const halfV = THREE.MathUtils.degToRad(camera.fov * 0.5);
-    const halfH = Math.atan(Math.tan(halfV) * Math.max(camera.aspect, 0.55));
-    const margin = 1.38;
-    return margin * Math.max(
-      finishSize.y / (2 * Math.tan(halfV)),
-      finishSize.x / (2 * Math.tan(halfH)),
-      finishSize.z / (2 * Math.tan(halfH)),
-      5.2,
-    );
   };
 
   // Per-frame simulation, rendering, and phase-specific updates.
@@ -1106,10 +1204,11 @@ export function createRace(canvas, hooks) {
         },
       });
       if (distance >= length * FINISH_CROSS_T) {
-        distance = Math.min(distance, finishDistance());
-        finishStartDistance = distance;
+        distance = Math.max(distance, length * FINISH_CROSS_T);
         finishSpinTime = 0;
         finishPresentationSent = false;
+        finishCamPos.copy(camera.position);
+        finishLookPos.copy(lookTarget);
         hideLine();
         glow.visible = false;
         const previous = readBest(runSeconds, speedMultiplier, roadScale, courseProfile);
@@ -1127,55 +1226,145 @@ export function createRace(canvas, hooks) {
     }
 
     if (phase === "finished") {
-      finishSpinTime += dt;
-      const coastBlend = Math.min(1, finishSpinTime / FINISH_COAST_SEC);
-      const coastEase = (1 - Math.cos(Math.PI * coastBlend)) / 2;
-      distance = THREE.MathUtils.lerp(finishStartDistance, finishDistance(), coastEase);
-      const endT = THREE.MathUtils.clamp(distance / length, FINISH_BANNER_T, ROAD_END_T - 0.001);
-      const endFrame = frameAt(curve, endT, 0);
-      const carPos = endFrame.position.clone().addScaledVector(endFrame.normal, 0.2);
-
-      const spinElapsed = Math.max(0, finishSpinTime - FINISH_COAST_SEC * 0.55);
-      const spinBlend = Math.min(1, spinElapsed / FINISH_SPIN_SEC);
-      const spinEase = (1 - Math.cos(Math.PI * spinBlend)) / 2;
-      const finishYaw = THREE.MathUtils.lerp(0, CAR_INTRO_REVERSE_YAW, spinEase);
-      placeOnFrameWithYaw(car, { ...endFrame, position: carPos }, 0.2, finishYaw);
-
-      if (spinBlend >= 1 && !finishPresentationSent) {
-        finishPresentationSent = true;
-        hooks.onFinishPresentation?.();
+      if (!paused) {
+        finishSpinTime += dt;
+        const finishTargetSpeed = cruise * 0.92;
+        speed += (finishTargetSpeed - speed) * Math.min(1, dt * 3.2);
+        distance += speed * dt;
+        const alongNow = frameAt(curve, distance / length, 0);
+        const alongAhead = frameAt(curve, (distance + 16) / length, 0);
+        const yawNow = Math.atan2(alongNow.tangent.x, alongNow.tangent.z);
+        const yawAhead = Math.atan2(alongAhead.tangent.x, alongAhead.tangent.z);
+        const turnDelta = Math.atan2(Math.sin(yawAhead - yawNow), Math.cos(yawAhead - yawNow));
+        const targetOffset = THREE.MathUtils.clamp(
+          -turnDelta * 5.2,
+          -ROAD_HALF * 0.38,
+          ROAD_HALF * 0.38,
+        );
+        const targetSway = THREE.MathUtils.clamp(-turnDelta * 2.1, -0.62, 0.62);
+        offset += (targetOffset - offset) * Math.min(1, dt * 2.6);
+        sway += (targetSway - sway) * Math.min(1, dt * 4.5);
       }
 
-      if (spinEase < 0.18) {
+      const endFrame = frameAt(curve, distance / length, offset);
+      placeOnFrame(car, endFrame, 0.2);
+      car.rotateZ(-sway * 0.34);
+      if (!paused) {
+        car.userData.axles?.forEach((axle) => axle.rotateX(speed * dt * 0.55));
+      }
+      sun.position.copy(endFrame.position).add(new THREE.Vector3(26, 42, 18));
+      sun.target.position.copy(endFrame.position);
+
+      if (finishSpinTime < FINISH_DRIVE_SEC) {
         aimAtCar(endFrame, dt, {
-          back: -13.5,
-          rise: 5.95,
-          ahead: 1.8,
-          lookLift: 0.85,
-          follow: 2.4,
+          back: -8.6,
+          rise: 4.65,
+          ahead: 6.6,
+          follow: 5.5,
         });
+        finishCamPos.copy(camera.position);
+        finishLookPos.copy(lookTarget);
       } else {
-        const camBlend = (spinEase - 0.18) / 0.82;
-        finishBox.setFromObject(car);
-        finishBox.getCenter(finishCenter);
-        finishBox.getSize(finishSize);
-        const fitDist = finishFitDistance();
-        const side = THREE.MathUtils.lerp(0, 0.55, camBlend);
-        finishCamScratch
-          .copy(finishCenter)
-          .addScaledVector(endFrame.tangent, THREE.MathUtils.lerp(-11, fitDist, camBlend))
-          .addScaledVector(endFrame.normal, THREE.MathUtils.lerp(4.2, finishSize.y * 0.38 + 0.75, camBlend))
-          .addScaledVector(endFrame.right, side);
-        const camEase = spinEase > 0.92 ? 1 : Math.min(1, dt * 1.6);
-        camera.position.lerp(finishCamScratch, camEase);
-        camera.up.copy(endFrame.normal);
-        lookTarget.copy(finishCenter);
-        if (camBlend > 0.45) {
-          const bannerFrame = frameAt(curve, FINISH_BANNER_T);
-          const bannerAim = bannerFrame.position.clone().addScaledVector(bannerFrame.normal, 3.4);
-          lookTarget.lerp(bannerAim, Math.min(0.12, (camBlend - 0.45) * 0.18));
+        if (!finishPresentationSent) {
+          finishPresentationSent = true;
+          hooks.onFinishPresentation?.();
         }
-        camera.lookAt(lookTarget);
+        if (camera.fov !== 50) {
+          camera.fov = 50;
+          camera.updateProjectionMatrix();
+        }
+
+        const postDriveTime = finishSpinTime - FINISH_DRIVE_SEC;
+        let alongOffset;
+        let sideOffset;
+        let rise;
+        let lookAhead;
+        let lookLift;
+
+        if (postDriveTime < FINISH_TO_FRONT_SEC) {
+          const e = cosineEase01(postDriveTime / FINISH_TO_FRONT_SEC);
+          alongOffset = THREE.MathUtils.lerp(-8.6, 42, e);
+          sideOffset = Math.sin(Math.PI * e) * 4.2 + THREE.MathUtils.lerp(0, 0.85, e);
+          rise = THREE.MathUtils.lerp(4.65, 2.35, e);
+          lookAhead = THREE.MathUtils.lerp(6.6, 0, e);
+          lookLift = THREE.MathUtils.lerp(0.2, 0.85, e);
+        } else {
+          const loopTime = postDriveTime - FINISH_TO_FRONT_SEC;
+          const cycleDuration =
+            FINISH_FRONT_SEC
+            + FINISH_FRONT_TO_BACK_SEC
+            + FINISH_BACK_SEC
+            + FINISH_BACK_TO_FRONT_SEC;
+          const cycleTime = loopTime % cycleDuration;
+
+          if (cycleTime < FINISH_FRONT_SEC) {
+            const u = cycleTime / FINISH_FRONT_SEC;
+            alongOffset = THREE.MathUtils.lerp(42, 6.0, u);
+            sideOffset = THREE.MathUtils.lerp(0.85, 0.45, u);
+            rise = THREE.MathUtils.lerp(2.35, 1.55, u);
+            lookAhead = 0;
+            lookLift = 0.85;
+          } else if (cycleTime < FINISH_FRONT_SEC + FINISH_FRONT_TO_BACK_SEC) {
+            const u = (cycleTime - FINISH_FRONT_SEC) / FINISH_FRONT_TO_BACK_SEC;
+            const e = cosineEase01(u);
+            alongOffset = THREE.MathUtils.lerp(6.0, -6.0, e);
+            sideOffset = THREE.MathUtils.lerp(0.45, -0.45, e) + Math.sin(Math.PI * e) * 3.8;
+            rise = THREE.MathUtils.lerp(1.55, 1.75, e);
+            lookAhead = THREE.MathUtils.lerp(0, 1.8, e);
+            lookLift = THREE.MathUtils.lerp(0.85, 0.9, e);
+          } else if (cycleTime < FINISH_FRONT_SEC + FINISH_FRONT_TO_BACK_SEC + FINISH_BACK_SEC) {
+            const u =
+              (cycleTime - FINISH_FRONT_SEC - FINISH_FRONT_TO_BACK_SEC) / FINISH_BACK_SEC;
+            alongOffset = THREE.MathUtils.lerp(-6.0, -44, u);
+            sideOffset = THREE.MathUtils.lerp(-0.45, -0.85, u);
+            rise = THREE.MathUtils.lerp(1.75, 2.85, u);
+            lookAhead = 1.8;
+            lookLift = 0.9;
+          } else {
+            const u =
+              (cycleTime - FINISH_FRONT_SEC - FINISH_FRONT_TO_BACK_SEC - FINISH_BACK_SEC)
+              / FINISH_BACK_TO_FRONT_SEC;
+            const e = cosineEase01(u);
+            alongOffset = THREE.MathUtils.lerp(-44, 42, e);
+            sideOffset = THREE.MathUtils.lerp(-0.85, 0.85, e) - Math.sin(Math.PI * e) * 4.4;
+            rise = THREE.MathUtils.lerp(2.85, 2.35, e) + Math.sin(Math.PI * e) * 1.35;
+            lookAhead = THREE.MathUtils.lerp(1.8, 0, e);
+            lookLift = THREE.MathUtils.lerp(0.9, 0.85, e);
+          }
+        }
+
+        const camRoadFrame = frameAt(curve, (distance + alongOffset) / length, 0);
+        const camLift = camRoadFrame.levelNormal ?? camRoadFrame.normal;
+        const camRight = camRoadFrame.levelRight ?? camRoadFrame.right;
+        desiredFinishCamPos
+          .copy(camRoadFrame.position)
+          .addScaledVector(camLift, rise)
+          .addScaledVector(camRight, sideOffset);
+
+        const carTargetY = endFrame.position.y + lookLift;
+        let extraHeight = 0;
+        for (const frac of [0.25, 0.5, 0.75]) {
+          const checkFrame = frameAt(curve, (distance + alongOffset * frac) / length, 0);
+          const losY = THREE.MathUtils.lerp(carTargetY, desiredFinishCamPos.y, frac);
+          const needed = (checkFrame.position.y + 1.35 - losY) / Math.max(0.25, frac);
+          if (needed > extraHeight) extraHeight = needed;
+        }
+        desiredFinishCamPos.y += extraHeight;
+
+        const carLift = endFrame.levelNormal ?? endFrame.normal;
+        desiredFinishLookPos
+          .copy(endFrame.position)
+          .addScaledVector(carLift, lookLift)
+          .addScaledVector(endFrame.tangent, lookAhead);
+
+        const camFollow = paused ? 1 : Math.min(1, dt * 8.5);
+        finishCamPos.lerp(desiredFinishCamPos, camFollow);
+        finishLookPos.lerp(desiredFinishLookPos, camFollow);
+        camUpTarget.copy(camLift).lerp(camRoadFrame.normal, 0.16).normalize();
+        chaseUp.lerp(camUpTarget, camFollow).normalize();
+        camera.up.copy(chaseUp);
+        camera.position.copy(finishCamPos);
+        camera.lookAt(finishLookPos);
       }
     }
 
