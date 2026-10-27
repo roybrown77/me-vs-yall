@@ -53,7 +53,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 - Stay on line (~1s `lineHold`, `LINE_SUPER_BOOST_HOLD_SEC`) → **super boost** ~**3s** (`SUPER_BOOST_SECONDS`) at ~**2.85×** cruise.
 - HUD **boost bar**; cooldown (`LINE_AFTER_SUPER_BOOST_MS`) before next spawn after super boost.
 - Off-road slows; **center-of-road pacing** when not on line (`centerPaceMultiplier`).
-- Brief hint after race start: “Stay on the glowing line” (`index.jsx`).
+- Persistent hint while racing: “Follow the line to go faster” (`index.jsx`).
 
 ---
 

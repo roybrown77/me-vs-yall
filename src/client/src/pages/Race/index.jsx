@@ -280,7 +280,6 @@ const Race = () => {
   const [carModel, setCarModel] = useState(() => sessionRef.current.carModelId);
   const [roadScale, setRoadScale] = useState(() => sessionRef.current.roadScale);
   const [courseProfile, setCourseProfile] = useState(() => sessionRef.current.courseProfile);
-  const [hint, setHint] = useState(false);
   const [steerButtonsHidden, setSteerButtonsHidden] = useState(false);
   const [tutorialCopyPhase, setTutorialCopyPhase] = useState("hidden");
   const [tutorialCopyFadeActive, setTutorialCopyFadeActive] = useState(false);
@@ -350,8 +349,6 @@ const Race = () => {
           }
           if (next === "racing") {
             setTutorialCopyPhase("fading");
-            setHint(true);
-            window.setTimeout(() => setHint(false), 4200);
           }
           if (next === "finished") {
             setFinishPresentationReady(false);
@@ -500,20 +497,20 @@ const Race = () => {
             <div className="race-progress" aria-hidden="true">
               <span ref={progressRef} />
             </div>
-            {hint ? <div className="race-hint">Stay on the glowing line</div> : null}
+            <div className="race-hint">Follow the line to go faster</div>
           </div>
-          {trackMapVisible ? (
-            <div className="race-hud-map-stack">
-              <div className="race-boost" aria-hidden="true">
-                <span ref={boostRef} />
-              </div>
+          <div className="race-hud-map-stack">
+            <div className="race-boost" aria-hidden="true">
+              <span ref={boostRef} />
+            </div>
+            {trackMapVisible ? (
               <RaceTrackMap
                 ref={trackMapRef}
                 roadScale={roadScale}
                 courseProfile={courseProfile}
               />
-            </div>
-          ) : null}
+            ) : null}
+          </div>
         </div>
       )}
 

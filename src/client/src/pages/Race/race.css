@@ -735,17 +735,23 @@
   }
 }
 
+/* ~12px between hint bottom and boost top (boost bottom 28px, height 12px) */
 .race-hud-map-stack .race-boost {
-  position: fixed;
-  left: 50%;
-  bottom: 28px;
   width: min(420px, 70vw);
   height: 12px;
-  transform: translateX(-50%);
-  z-index: 5;
   background: rgba(10, 16, 22, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.7);
   overflow: hidden;
+}
+
+@media (min-width: 641px) {
+  .race-hud-map-stack .race-boost {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
 }
 
 .race-track-map.race-results {
@@ -1056,23 +1062,11 @@
   .race-hint {
     position: fixed;
     left: 50%;
-    bottom: 78px;
+    bottom: 52px;
     transform: translateX(-50%);
     z-index: 3;
     pointer-events: none;
   }
-}
-
-.race-boost {
-  position: absolute;
-  left: 50%;
-  bottom: 28px;
-  width: min(420px, 70vw);
-  height: 12px;
-  transform: translateX(-50%);
-  background: rgba(10, 16, 22, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  overflow: hidden;
 }
 
 .race-results {
@@ -1179,14 +1173,14 @@
     position: relative;
     left: auto;
     bottom: auto;
-    order: 1;
+    order: 0;
     transform: none;
     margin: 0 auto 8px;
     flex-shrink: 0;
   }
 
   .race-hud-map-stack .race-track-map.race-results {
-    order: 2;
+    order: 1;
     width: 100%;
     border-left: 0;
     border-right: 0;
