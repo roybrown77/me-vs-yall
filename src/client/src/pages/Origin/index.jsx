@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import PageContainer from '../../components/PageContainer';
 
+import './origin.css';
+
 const line1 = `A long time ago (2007) in a galaxy far, far away (Alpharetta, Georgia), a buddy and I would scribble on paper 
                who we thought would win the upcoming week's NFL games.  Whoever got the most correct would win bragging rights 
                or a meal.  After a few weeks he said "hey, ur a dev -- make an app."`;
@@ -23,13 +25,13 @@ const Origin = () => {
 
     return (
         <PageContainer>
-            <div style={{ marginTop: '10%' }}>
-                <div style={{textAlign: 'left', padding: '12px'}}>{line1}</div>
-                <div style={{textAlign: 'left', padding: '12px'}}>{line2}</div>
-                <div style={{textAlign: 'left', padding: '12px'}}>{line3}</div>
-                <div style={{textAlign: 'left', padding: '12px'}}>
+            <div className="origin-page">
+                <p>{line1}</p>
+                <p>{line2}</p>
+                <p>{line3}</p>
+                <p>
                     {line4}<a href="https://www.github.com/roybrown77/me-vs-yall">here</a>.
-                </div>
+                </p>
             </div>
         </PageContainer>
     );

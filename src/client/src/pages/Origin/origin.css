@@ -1,0 +1,7 @@
+.origin-page {
+  padding: 0.75rem 12px 2rem;
+}
+
+.origin-page p + p {
+  margin-top: 0.75rem;
+}
