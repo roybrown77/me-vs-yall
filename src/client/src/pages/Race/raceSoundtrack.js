@@ -1,6 +1,7 @@
 /**
  * Race BGM — royalty-free instrumentals (Pixabay Content License).
  * Southern trap: Mixkit Free License, "Waka Floka Type" (Arulo).
+ * 80s synth: Kevin MacLeod "Exit the Premises" (incompetech.com), CC BY 4.0.
  * Other tracks: Pixabay Content License.
  */
 import raceTrapBeatUrl from "../../media/race-trap-beat.mp3";
@@ -8,6 +9,7 @@ import raceUpbeatBeatUrl from "../../media/race-hiphop-upbeat.mp3";
 import raceSouthernTrapUrl from "../../media/race-southern-trap.mp3";
 import raceReggaeUrl from "../../media/boasty.m4a";
 import raceDrizzyDustUrl from "../../media/drizzy-dust.m4a";
+import race80sSynthUrl from "../../media/race-80s-synth.mp3";
 
 export const MUSIC_OFF = "off";
 
@@ -36,6 +38,11 @@ export const RACE_MUSIC_TRACKS = {
     id: "drizzyDust",
     label: "Drizzy Dust Drive",
     url: raceDrizzyDustUrl,
+  },
+  eightiesSynth: {
+    id: "eightiesSynth",
+    label: "80s Neon Run",
+    url: race80sSynthUrl,
   },
 };
 

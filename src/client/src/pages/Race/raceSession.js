@@ -18,6 +18,7 @@ const VALID_MUSIC_TRACKS = new Set([
   "southernTrap",
   "reggae",
   "drizzyDust",
+  "eightiesSynth",
 ]);
 
 const isRaceMusicTrackId = (id) => VALID_MUSIC_TRACKS.has(id);
