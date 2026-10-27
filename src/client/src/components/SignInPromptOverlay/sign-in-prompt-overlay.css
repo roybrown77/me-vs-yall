@@ -20,6 +20,80 @@
   pointer-events: auto;
 }
 
+.sign-in-prompt-overlay--theatrical {
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0;
+  padding:
+    max(12px, env(safe-area-inset-top))
+    max(12px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left));
+  background: radial-gradient(circle at 50% 20%, rgba(72, 48, 120, 0.55), rgba(12, 18, 32, 0.92));
+}
+
+.sign-in-prompt-overlay--theatrical .sign-in-prompt-overlay__panel {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.sign-in-playful-moment {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  max-height: min(52vh, 420px);
+  margin-bottom: 12px;
+}
+
+.sign-in-playful-moment__stage {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.sign-in-playful-moment__lottie {
+  width: min(280px, 72vw);
+  max-height: min(40vh, 320px);
+}
+
+.sign-in-playful-moment--scene .sign-in-playful-moment__stage {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.sign-in-playful-moment__scene-img {
+  display: block;
+  width: 100%;
+  max-height: min(44vh, 360px);
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.sign-in-playful-moment__caption {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 236, 190, 0.92);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign-in-playful-moment__lottie {
+    display: none;
+  }
+}
+
 .sign-in-prompt-overlay__panel {
   width: min(420px, 100%);
   padding: 28px 24px 24px;

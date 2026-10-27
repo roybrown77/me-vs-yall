@@ -7,15 +7,16 @@ import {
   writeSignInPromptLastShownAt,
 } from '../../utilities/signInPromptPolicy';
 import { googleLogin, isConfirmedAuthentication } from '../../utilities/authenticationClient';
-
 import './sign-in-prompt-overlay.css';
 
 const SignInPromptOverlay = () => {
   const location = useLocation();
   const sessionStartedAtRef = useRef(Date.now());
   const cycleMarkedRef = useRef(false);
+  const playfulSceneRef = useRef(undefined);
   const [phase, setPhase] = useState('hidden');
   const [fadeIn, setFadeIn] = useState(false);
+  const [playfulBundle, setPlayfulBundle] = useState(null);
 
   const onAuthCallback = location.pathname.startsWith('/authenticationCallback');
 
@@ -60,24 +61,56 @@ const SignInPromptOverlay = () => {
   useEffect(() => {
     if (phase !== 'visible') {
       setFadeIn(false);
+      setPlayfulBundle(null);
+      playfulSceneRef.current = undefined;
       return undefined;
     }
+
+    let cancelled = false;
+
+    Promise.all([
+      import('../../utilities/signInPlayfulScenes.js'),
+      import('./SignInPlayfulMoment.jsx'),
+    ])
+      .then(([{ pickSignInPlayfulScene }, momentModule]) => {
+        if (cancelled) {
+          return;
+        }
+        const scene = pickSignInPlayfulScene();
+        playfulSceneRef.current = scene;
+        if (scene) {
+          setPlayfulBundle({ scene, Moment: momentModule.default });
+        }
+      })
+      .catch(() => {
+        playfulSceneRef.current = null;
+      });
+
     const raf = window.requestAnimationFrame(() => setFadeIn(true));
-    return () => window.cancelAnimationFrame(raf);
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(raf);
+    };
   }, [phase]);
 
   if (phase === 'hidden' || phase === 'waiting' || onAuthCallback) {
     return null;
   }
 
+  const theatrical = Boolean(playfulBundle?.scene);
+  const PlayfulMoment = playfulBundle?.Moment;
+
   return (
     <div
-      className={`sign-in-prompt-overlay${fadeIn ? ' is-visible' : ''}`}
+      className={`sign-in-prompt-overlay${fadeIn ? ' is-visible' : ''}${theatrical ? ' sign-in-prompt-overlay--theatrical' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="sign-in-prompt-title"
       aria-hidden={!fadeIn}
     >
+      {PlayfulMoment && playfulBundle?.scene ? (
+        <PlayfulMoment scene={playfulBundle.scene} />
+      ) : null}
       <div className="sign-in-prompt-overlay__panel">
         <div className="sign-in-prompt-overlay__kicker">Continue with Google</div>
         <h2 className="sign-in-prompt-overlay__title" id="sign-in-prompt-title">
