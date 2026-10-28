@@ -95,7 +95,6 @@
 }
 
 .sign-in-prompt-overlay__panel {
-  width: min(420px, 100%);
   padding: 28px 24px 24px;
   border-radius: 18px;
   background: linear-gradient(180deg, #fffef8 0%, #fff6dc 100%);
