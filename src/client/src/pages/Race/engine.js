@@ -277,53 +277,6 @@ const edgeRibbon = (curve, samples, side, lift, tMax = 1, tMin = LOOP_START_T) =
   return geometry;
 };
 
-// Builds a single batched mesh of dashed center lane stripes along the entire road loop.
-const centerDashesRibbon = (curve, lift = 0.115) => {
-  const { totalLength, mainStartDist, loopLength } = getLoopConnector(curve);
-  const positions = [];
-  const normals = [];
-  const indices = [];
-  const halfWidth = 0.11;
-  const dashLength = 3.4;
-  const dashStride = 13.5;
-  let vertCount = 0;
-
-  for (let s = 0; s + dashLength < loopLength; s += dashStride) {
-    const t0 = (mainStartDist + s) / totalLength;
-    const t1 = (mainStartDist + s + dashLength) / totalLength;
-    const f0 = frameAt(curve, t0);
-    const f1 = frameAt(curve, t1);
-    const p0L = f0.position.clone().addScaledVector(f0.right, -halfWidth).addScaledVector(f0.normal, lift);
-    const p0R = f0.position.clone().addScaledVector(f0.right, halfWidth).addScaledVector(f0.normal, lift);
-    const p1L = f1.position.clone().addScaledVector(f1.right, -halfWidth).addScaledVector(f1.normal, lift);
-    const p1R = f1.position.clone().addScaledVector(f1.right, halfWidth).addScaledVector(f1.normal, lift);
-
-    positions.push(
-      p0L.x, p0L.y, p0L.z,
-      p0R.x, p0R.y, p0R.z,
-      p1L.x, p1L.y, p1L.z,
-      p1R.x, p1R.y, p1R.z,
-    );
-    normals.push(
-      f0.normal.x, f0.normal.y, f0.normal.z,
-      f0.normal.x, f0.normal.y, f0.normal.z,
-      f1.normal.x, f1.normal.y, f1.normal.z,
-      f1.normal.x, f1.normal.y, f1.normal.z,
-    );
-    indices.push(
-      vertCount, vertCount + 1, vertCount + 2,
-      vertCount + 1, vertCount + 3, vertCount + 2,
-    );
-    vertCount += 4;
-  }
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
-  geometry.setIndex(indices);
-  return geometry;
-};
-
 // Orients and positions a Three.js object on a road frame.
 const placeOnFrame = (object, frame, lift = 0) => {
   object.position.copy(frame.position).addScaledVector(frame.normal, lift);
@@ -406,7 +359,7 @@ const disposeCourseTrack = (scene, track) => {
   });
 };
 
-// Adds road ribbon, edges, center dashes, banners, and boost line meshes for a closed-loop spline.
+// Adds road ribbon, edges, banners, and boost line meshes for a closed-loop spline.
 const buildCourseTrackScene = (scene, curve, roadScale) => {
   const roots = [];
   const { loopEndT } = getLoopConnector(curve);
@@ -461,16 +414,6 @@ const buildCourseTrackScene = (scene, curve, roadScale) => {
   );
   scene.add(edgeLeft, edgeRight);
   roots.push(edgeLeft, edgeRight);
-
-  const dashMat = new THREE.MeshBasicMaterial({
-    color: 0xd6e1ee,
-    transparent: true,
-    opacity: 0.68,
-    side: THREE.DoubleSide,
-  });
-  const centerDashes = new THREE.Mesh(centerDashesRibbon(curve, 0.115), dashMat);
-  scene.add(centerDashes);
-  roots.push(centerDashes);
 
   const ribMat = new THREE.MeshStandardMaterial({ color: 0x9aabba, metalness: 0.45, roughness: 0.35 });
   for (let i = 0; i < 16; i += 1) {
