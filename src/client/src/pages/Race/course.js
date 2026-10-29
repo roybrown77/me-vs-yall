@@ -7,6 +7,10 @@ import {
 
 const BASE_POINT_COUNT = 310;
 const SEGMENT_LENGTH = 17;
+/** Normalized curve parameter where the overhead START banner sits. */
+export const START_BANNER_T = 0.035;
+/** Straight run past the start line (0.1 miles in meters) before any turns or hills begin. */
+export const START_STRAIGHT_METERS = 160.9344;
 /** Half-mile run to the checkered line (meters), appended after the winding course. */
 export const FINISH_STRAIGHT_METERS = 804.672;
 /** Maximum lateral road bank angle (degrees) reached on tilted sections. */
@@ -126,15 +130,25 @@ const elevationAt = (phase, tuning) => {
   return BASE_ELEVATION_Y + (base - BASE_ELEVATION_Y) * tuning.hillScale;
 };
 
+// Computes the winding-section fraction u where the opening straight ends (0.1 miles past START).
+const computeStartStraightEndU = (curvyEndIndex) => {
+  const windingMeters = curvyEndIndex * SEGMENT_LENGTH;
+  const approxTotalMeters = (windingMeters + FINISH_STRAIGHT_METERS) * 1.08;
+  const requiredStraightMeters =
+    START_BANNER_T * approxTotalMeters + START_STRAIGHT_METERS + SEGMENT_LENGTH * 2;
+  return Math.min(0.18, requiredStraightMeters / windingMeters);
+};
+
 // Precomputes smooth inward-only road tilt samples (degrees) along the winding spline.
-const buildInwardTiltTable = (curve, totalLength, windingEndT, roadScale) => {
+const buildInwardTiltTable = (curve, totalLength, windingStartT, windingEndT, roadScale) => {
   const sampleCount = BASE_TILT_SAMPLES * roadScale;
   const raw = new Float32Array(sampleCount + 1);
   const kappa = new Float32Array(sampleCount + 1);
   if (windingEndT <= 0 || totalLength <= 0) return raw;
 
   const halfWindowT = Math.min(0.004, 4 / totalLength);
-  const startRamp = 0.05 / roadScale;
+  const startStraightU = windingEndT > 0 ? windingStartT / windingEndT : 0;
+  const startRamp = 0.04 / roadScale;
   const endRamp = 0.05 / roadScale;
   const tan0 = new THREE.Vector3();
   const tan1 = new THREE.Vector3();
@@ -142,7 +156,8 @@ const buildInwardTiltTable = (curve, totalLength, windingEndT, roadScale) => {
   for (let i = 1; i < sampleCount; i += 1) {
     const u = i / sampleCount;
     const t = u * windingEndT;
-    const t0 = Math.max(0.0005, t - halfWindowT);
+    if (t <= windingStartT) continue;
+    const t0 = Math.max(windingStartT, t - halfWindowT);
     const t1 = Math.min(windingEndT, t + halfWindowT);
     const ds = Math.max(0.5, (t1 - t0) * totalLength);
 
@@ -156,8 +171,11 @@ const buildInwardTiltTable = (curve, totalLength, windingEndT, roadScale) => {
     kappa[i] = kappaRight;
 
     let globalEnv = 1;
-    if (u < startRamp) globalEnv = cosineEase01(u / startRamp);
-    else if (u > 1 - endRamp) globalEnv = 1 - cosineEase01((u - (1 - endRamp)) / endRamp);
+    if (u < startStraightU + startRamp) {
+      globalEnv = cosineEase01((u - startStraightU) / startRamp);
+    } else if (u > 1 - endRamp) {
+      globalEnv = 1 - cosineEase01((u - (1 - endRamp)) / endRamp);
+    }
 
     const phase = (u * roadScale) % 1;
     let targetMag = 0;
@@ -215,6 +233,8 @@ export const buildCoursePoints = (layout = {}) => {
   const tuning = PROFILE_TUNING[profile];
   const count = BASE_POINT_COUNT * roadScale;
   const curvyEndIndex = Math.max(2, Math.floor((count - 1) * FINISH_RUN_FLAT_FROM_T));
+  const startStraightEndU = computeStartStraightEndU(curvyEndIndex);
+  const startRampU = 0.06 / roadScale;
   const scaleTurnFit = 1 - 0.11 * (1 - 1 / roadScale);
   const raw = [];
   let x = 0;
@@ -224,18 +244,26 @@ export const buildCoursePoints = (layout = {}) => {
     const u = i / curvyEndIndex;
     const t = u * FINISH_RUN_FLAT_FROM_T;
     const phase = (u * roadScale) % 1;
-    const startEnv = u < 0.03 ? cosineEase01(u / 0.03) : 1;
+    const startEnv = u <= startStraightEndU
+      ? 0
+      : u < startStraightEndU + startRampU
+        ? cosineEase01((u - startStraightEndU) / startRampU)
+        : 1;
     const endEnv = u > 0.965 ? 1 - cosineEase01((u - 0.965) / 0.035) : 1;
     const envelope = startEnv * endEnv;
+    const sweepU = u * startEnv;
 
     const modDeg =
       evalPeriodicTable(TURN_WAYPOINTS, phase) * scaleTurnFit
       + Math.sin(phase * Math.PI * 2 * tuning.extraTurnFreq) * tuning.extraTurnGain;
-    const heading = THREE.MathUtils.degToRad(START_HEADING_DEG + LOOP_SWEEP_DEG * u + modDeg * envelope);
+    const heading = THREE.MathUtils.degToRad(
+      START_HEADING_DEG + LOOP_SWEEP_DEG * sweepU + modDeg * envelope,
+    );
     x += Math.cos(heading) * SEGMENT_LENGTH;
     z += Math.sin(heading) * SEGMENT_LENGTH;
 
-    let y = elevationAt(phase, tuning);
+    const rawY = elevationAt(phase, tuning);
+    let y = BASE_ELEVATION_Y + (rawY - BASE_ELEVATION_Y) * startEnv;
     if (t > FINISH_RUN_FLAT_FROM_T - 0.04) {
       const blend = cosineEase01((t - (FINISH_RUN_FLAT_FROM_T - 0.04)) / 0.04);
       y += (BASE_ELEVATION_Y - y) * blend;
@@ -249,7 +277,7 @@ export const buildCoursePoints = (layout = {}) => {
     const smoothedY = new Float32Array(raw.length);
     for (let i = 0; i < raw.length; i += 1) {
       const u = i / curvyEndIndex;
-      if (u < 0.04 || u > 0.96) {
+      if (u <= startStraightEndU || u > 0.96) {
         smoothedY[i] = raw[i].y;
       } else {
         smoothedY[i] = 0.25 * raw[i - 1].y + 0.5 * raw[i].y + 0.25 * raw[i + 1].y;
@@ -303,11 +331,28 @@ const getCachedLayoutMetrics = (layout = {}) => {
     const curve = new THREE.CatmullRomCurve3(vectors);
     curve.arcLengthDivisions = Math.round(1600 * roadScale);
     const totalLength = curve.getLength();
+    const windingStartT = totalLength <= 0
+      ? 0
+      : Math.min(1, START_BANNER_T + START_STRAIGHT_METERS / totalLength);
     const windingEndT = totalLength <= FINISH_STRAIGHT_METERS
       ? 0
       : (totalLength - FINISH_STRAIGHT_METERS) / totalLength;
-    const tiltTable = buildInwardTiltTable(curve, totalLength, windingEndT, roadScale);
-    entry = { curve, totalLength, windingEndT, tiltTable, roadScale, courseProfile };
+    const tiltTable = buildInwardTiltTable(
+      curve,
+      totalLength,
+      windingStartT,
+      windingEndT,
+      roadScale,
+    );
+    entry = {
+      curve,
+      totalLength,
+      windingStartT,
+      windingEndT,
+      tiltTable,
+      roadScale,
+      courseProfile,
+    };
     metricCache.set(key, entry);
   }
   return entry;
@@ -315,8 +360,15 @@ const getCachedLayoutMetrics = (layout = {}) => {
 
 // Samples inward lateral road tilt in degrees at normalized arc length t.
 export const sampleCourseTiltDeg = (layout = {}, t = 0) => {
-  const { windingEndT, tiltTable } = getCachedLayoutMetrics(layout);
-  if (!Number.isFinite(t) || windingEndT <= 0 || t <= 0 || t >= windingEndT) return 0;
+  const { windingStartT, windingEndT, tiltTable } = getCachedLayoutMetrics(layout);
+  if (
+    !Number.isFinite(t)
+    || windingEndT <= 0
+    || t <= windingStartT
+    || t >= windingEndT
+  ) {
+    return 0;
+  }
   const maxIndex = tiltTable.length - 1;
   const pos = (t / windingEndT) * maxIndex;
   const i0 = Math.min(maxIndex, Math.max(0, Math.floor(pos)));
@@ -381,20 +433,29 @@ export const sampleCourseElevationAt = (layout, t) => {
   return curve.getPointAt(THREE.MathUtils.clamp(t, 0, 1)).y;
 };
 
+// Normalized t where the opening straightaway ends (0.1 miles past the START banner).
+export const startStraightEndT = (layout = {}) => getCachedLayoutMetrics(layout).windingStartT;
+
 // Normalized t where the mandatory half-mile finish straight begins.
 export const finishStraightStartT = (layout = {}) => getCachedLayoutMetrics(layout).windingEndT;
 
-// Arc length (m) of the finish straight from startT through t=1.
-export const measureFinishStraightMeters = (layout = {}, startT) => {
+// Arc length (m) of a course section between startT and endT.
+export const measureCourseSpanMeters = (layout = {}, startT = 0, endT = 1) => {
   const { curve } = getCachedLayoutMetrics(layout);
   const samples = 240;
   let length = 0;
-  let prev = curve.getPointAt(THREE.MathUtils.clamp(startT, 0, 1));
+  const from = THREE.MathUtils.clamp(startT, 0, 1);
+  const to = THREE.MathUtils.clamp(endT, from, 1);
+  let prev = curve.getPointAt(from);
   for (let i = 1; i <= samples; i += 1) {
-    const t = startT + ((1 - startT) * i) / samples;
-    const point = curve.getPointAt(Math.min(1, t));
+    const t = from + ((to - from) * i) / samples;
+    const point = curve.getPointAt(t);
     length += prev.distanceTo(point);
     prev = point;
   }
   return length;
 };
+
+// Arc length (m) of the finish straight from startT through t=1.
+export const measureFinishStraightMeters = (layout = {}, startT) =>
+  measureCourseSpanMeters(layout, startT, 1);

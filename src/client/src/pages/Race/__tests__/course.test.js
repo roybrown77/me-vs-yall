@@ -8,10 +8,14 @@ import {
   finishStraightStartT,
   jumpPlateauPhase,
   MAX_ROAD_TILT_DEG,
+  measureCourseSpanMeters,
   measureFinishStraightMeters,
   sampleCourseElevationAt,
   sampleCourseTiltDeg,
   sampleCurveFrame,
+  START_BANNER_T,
+  START_STRAIGHT_METERS,
+  startStraightEndT,
 } from "../course.js";
 
 const turningWork = (points) => {
@@ -277,6 +281,44 @@ test("half-mile straight uses flat finish elevation", () => {
   const yMidStraight = sampleCourseElevationAt(layout, startT + (1 - startT) * 0.5);
   const yLine = sampleCourseElevationAt(layout, 0.992);
   assert.ok(Math.abs(yJoin - yMidStraight) < 0.5 && Math.abs(yMidStraight - yLine) < 0.5);
+});
+
+test("opening stretch stays straight, flat, and level until 0.1 miles past the start line for every course", () => {
+  for (const courseProfile of ["standard", "turns", "hills", "mixed"]) {
+    for (const roadScale of [1, 2, 3]) {
+      const layout = { roadScale, courseProfile };
+      const curve = createRaceCurve(layout);
+      const endT = startStraightEndT(layout);
+      const pastBannerM = measureCourseSpanMeters(layout, START_BANNER_T, endT);
+      assert.ok(
+        Math.abs(pastBannerM - START_STRAIGHT_METERS) <= START_STRAIGHT_METERS * 0.02,
+        `${courseProfile} scale ${roadScale}: start straight past line ${pastBannerM.toFixed(1)}m`,
+      );
+
+      let turn = 0;
+      let prevHeading = null;
+      const yStart = curve.getPointAt(0).y;
+      for (let i = 0; i <= 40; i += 1) {
+        const t = (endT * i) / 40;
+        const point = curve.getPointAt(t);
+        assert.ok(
+          Math.abs(point.y - yStart) < 0.05,
+          `${courseProfile} scale ${roadScale}: start straight should stay flat, got y=${point.y.toFixed(2)}`,
+        );
+        assert.equal(sampleCourseTiltDeg(layout, t), 0);
+        const tangent = curve.getTangentAt(t);
+        const heading = Math.atan2(tangent.z, tangent.x);
+        if (prevHeading != null) {
+          turn += Math.abs(Math.atan2(Math.sin(heading - prevHeading), Math.cos(heading - prevHeading)));
+        }
+        prevHeading = heading;
+      }
+      assert.ok(
+        turn < 0.005,
+        `${courseProfile} scale ${roadScale}: road must stay straight until 0.1 miles past start line, turn=${turn.toFixed(4)}`,
+      );
+    }
+  }
 });
 
 test("final stretch is a half mile for every course profile and road scale", () => {

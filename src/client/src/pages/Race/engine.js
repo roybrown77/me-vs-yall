@@ -3,7 +3,7 @@ import { clampRaceLength } from "./length";
 import { buildRaceCar } from "./carFactory";
 import { disposeCarGroup } from "./carUtils";
 import { normalizeCarModel } from "./carModel";
-import { createRaceCurve, sampleCurveFrame } from "./course";
+import { createRaceCurve, sampleCurveFrame, START_BANNER_T } from "./course";
 import {
   normalizeCourseProfile,
   normalizeRoadScale,
@@ -489,8 +489,8 @@ const buildCourseTrackScene = (scene, curve, roadScale) => {
     roots.push(rib);
   }
 
-  const startBanner = buildBanner(curve, 0.035, "START");
-  const finishBanner = buildBanner(curve, 0.975, "FINISH");
+  const startBanner = buildBanner(curve, START_BANNER_T, "START");
+  const finishBanner = buildBanner(curve, FINISH_BANNER_T, "FINISH");
   scene.add(startBanner, finishBanner);
   roots.push(startBanner, finishBanner);
 

@@ -25,7 +25,7 @@ Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 
 ## Core driving
 
-- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** feature dramatic, deep down and up hills with thrilling canyon plunges down to ~-34m and soaring alpine climbs up to ~+244m (a ~278m vertical span with mid-lap crest); every layout starts level and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
+- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** feature dramatic, deep down and up hills with thrilling canyon plunges down to ~-34m and soaring alpine climbs up to ~+244m (a ~278m vertical span with mid-lap crest); every layout starts on a straight, level road that extends **0.1 miles** (`160.9m`) past the **START** line before any turns or hills begin, and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
 - **Road:** Closed-loop 3D asphalt deck (top, curbs, underside) with a smooth Bezier connector from `ROAD_END_T` back to `LOOP_START_T`, white edge strips, dashed center lane markings, START/FINISH banners, and steel arch ribs.
 - **Steering:**
   - Keyboard: **←/→** or **A/D**
@@ -175,7 +175,7 @@ Document notable behavior changes here when you edit this folder.
 - **2025-10-17:** Added **Drizzy Dust Drive** (`drizzy-dust.m4a`) as default BGM.
 - **2025-10-17:** Mobile steer taps no longer trigger text selection (`user-select`, canvas `preventDefault`).
 - **2025-10-17:** Mobile finish UI — compact bottom sheet; settings in collapsed **Settings** panel.
-- **2026-10-29:** Updated default race settings to 200% speed (`2`), Double road scale (`2`), Boasty Expedition music (`reggae`), Tuff Truck (`truck`), and Hills course (`hills`).
+- **2026-10-29:** Updated default race settings to 200% speed (`2`), Double road scale (`2`), Boasty Expedition music (`reggae`), Tuff Truck (`truck`), and Hills course (`hills`), and kept the opening road straight and level until 0.1 miles past the START line on every course.
 - **2026-10-27:** Standard course redesigned as a non-intersecting circular loop with left/right turns up to 90°, light rolling hills, and gradual inward-only left/right road banking up to 75° (`course.js`, `engine.js`, `raceTrackMap.js`).
 - **2026-10-22:** Removed in-menu **Length** (time) picker; lap duration fixed at 3:00 — use **Road** scale for track distance.
 - **2026-10-22:** Standard course — more/wider straightaways, gentler turn rhythm, longer baseline spline (`course.js`).
