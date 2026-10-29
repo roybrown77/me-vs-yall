@@ -721,7 +721,7 @@
   width: min(480px, calc(100vw - 44px));
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1401px) {
   .race-hud-map-stack .race-track-map.race-results {
     max-width: min(480px, calc(100vw - 44px));
   }
@@ -744,7 +744,7 @@
   overflow: hidden;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1401px) {
   .race-hud-map-stack .race-boost {
     position: fixed;
     left: 50%;
@@ -1058,7 +1058,7 @@
   line-height: 1.35;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1401px) {
   .race-hint {
     position: fixed;
     left: 50%;
@@ -1129,20 +1129,7 @@
   margin: 6px 0;
 }
 
-@media (max-width: 640px) {
-  .race-title {
-    padding-top: max(46px, calc(env(safe-area-inset-top, 0px) + 30px));
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .race-title .race-start-hero {
-    min-width: min(280px, 88vw);
-    padding-left: 22px;
-    font-size: 15px;
-    letter-spacing: 0.2em;
-  }
-
+@media (max-width: 1400px) {
   .race-hud-top {
     top: 0;
     bottom: auto;
@@ -1260,6 +1247,16 @@
     overflow: hidden;
   }
 
+  .race-track-map .race-results-kicker,
+  .race-track-map .race-results-best {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+
+  .race-track-map .race-results-best {
+    opacity: 0.92;
+  }
+
   .race-track-map-hero.race-results-time {
     font-size: clamp(25px, 6.3vw, 36px);
     margin: 3px 0 0;
@@ -1311,6 +1308,21 @@
   .race-track-map-legend-down::before {
     width: 9px;
     height: 3px;
+  }
+}
+
+@media (max-width: 640px) {
+  .race-title {
+    padding-top: max(46px, calc(env(safe-area-inset-top, 0px) + 30px));
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .race-title .race-start-hero {
+    min-width: min(280px, 88vw);
+    padding-left: 22px;
+    font-size: 15px;
+    letter-spacing: 0.2em;
   }
 
   .race-results {

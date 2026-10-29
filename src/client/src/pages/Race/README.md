@@ -59,7 +59,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 
 ## HUD (racing)
 
-- **Track map** (top): top-down course trace — green uphill / red downhill, start **S**, checkered finish, car marker, turn, incline & tilt degrees, distance to finish and current speed (km/h); starts **collapsed**; tap the summary row to expand or collapse the map
+- **Track map** (top `>1400px`, bottom `≤1400px`): top-down course trace — green uphill / red downhill, start **S**, checkered finish, car marker, turn, incline & tilt degrees, distance to finish and current speed (km/h); starts **collapsed**; tap the summary row to expand or collapse the map
 - Elapsed **time** (centiseconds)
 - **Progress** bar (course fraction)
 - **Boost** meter

@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 
-const MOBILE_COURSE_MAP_QUERY = "(max-width: 640px)";
+const MOBILE_COURSE_MAP_QUERY = "(max-width: 1400px)";
 
 import {
   buildTrackMapModel,
