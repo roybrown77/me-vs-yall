@@ -26,6 +26,7 @@ import {
   setRaceSessionSettings,
 } from "./raceSession";
 import { computeDrivingTelemetry } from "./raceTrackMap.js";
+import rideLineAudioUrl from "../../media/ride-line-to-go-faster.mp4";
 
 const BEST_KEY = "mvy-race-best";
 const ROAD_HALF = 4.15;
@@ -475,7 +476,7 @@ const buildWorld = (curve, carModelId, roadScale) => {
   return { scene, sun, hemi, car, carMesh, glow: track.glow, line: track.line, track };
 };
 
-// Creates engine oscillator, filter chain, and soundtrack wrapper.
+// Creates engine oscillator, glowing-line audio player, filter chain, and soundtrack wrapper.
 const createAudio = (musicTrackId) => {
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
   if (!AudioCtx) return null;
@@ -492,13 +493,69 @@ const createAudio = (musicTrackId) => {
   filter.connect(gain);
   gain.connect(ctx.destination);
   osc.start();
+
+  const lineGain = ctx.createGain();
+  lineGain.gain.value = 0;
+  lineGain.connect(ctx.destination);
+
+  const lineAudio = new Audio(rideLineAudioUrl);
+  lineAudio.loop = true;
+  lineAudio.preload = "auto";
+  lineAudio.volume = 0;
+  let lineBufferSource = null;
+
+  if (typeof fetch === "function") {
+    fetch(rideLineAudioUrl)
+      .then((res) => res.arrayBuffer())
+      .then((buf) => ctx.decodeAudioData(buf))
+      .then((decoded) => {
+        if (ctx.state === "closed") return;
+        const source = ctx.createBufferSource();
+        source.buffer = decoded;
+        source.loop = true;
+        source.connect(lineGain);
+        source.start();
+        lineBufferSource = source;
+        lineAudio.pause();
+        lineAudio.volume = 0;
+      })
+      .catch(() => {});
+  }
+
   const soundtrack = createRaceSoundtrack(musicTrackId);
   return {
     ctx,
     osc,
     filter,
     gain,
+    lineGain,
+    lineAudio,
     soundtrack,
+    // Updates glowing-line audio volume via decoded Web Audio buffer or HTMLAudio fallback.
+    setLineVolume(level) {
+      const clamped = Math.min(1, Math.max(0, level));
+      lineGain.gain.setTargetAtTime(clamped, ctx.currentTime, 0.05);
+      if (!lineBufferSource) {
+        lineAudio.volume = clamped;
+        if (clamped > 0.001) {
+          if (lineAudio.paused) lineAudio.play().catch(() => {});
+        } else if (!lineAudio.paused) {
+          lineAudio.pause();
+        }
+      }
+    },
+    // Stops glowing-line audio playback on disposal.
+    stopLineAudio() {
+      lineGain.gain.value = 0;
+      if (lineBufferSource) {
+        try {
+          lineBufferSource.stop();
+        } catch {}
+        lineBufferSource = null;
+      }
+      lineAudio.pause();
+      lineAudio.currentTime = 0;
+    },
     // Starts BGM after audio context is unlocked.
     ensureSoundtrack() {
       soundtrack.start();
@@ -802,7 +859,7 @@ export function createRace(canvas, hooks) {
     osc.stop(t0 + seconds + 0.02);
   };
 
-  // Updates engine tone and BGM volume from phase and road state.
+  // Updates glowing-line audio, road-edge rumble, and BGM volume from phase and road state.
   const updateAudio = () => {
     if (!audio) return;
     const ctx = audio.ctx;
@@ -810,10 +867,10 @@ export function createRace(canvas, hooks) {
     const playRoad = soundOn && (phase === "racing" || phase === "tutorial") && !paused && roadAudio.active;
     let engineVolume = 0;
     let engineFreq = 48;
+    let lineVolume = 0;
     if (playRoad) {
       if (roadAudio.line) {
-        engineVolume = 0.018 + Math.min(speed, 80) / 4200 + (boosting ? 0.012 : 0);
-        engineFreq = 52 + speed * 1.05 + (boosting ? 34 : 16);
+        lineVolume = Math.min(1, 0.55 + Math.min(speed, 80) / 320 + (boosting ? 0.2 : 0));
       } else if (roadAudio.edge) {
         engineVolume = 0.022 + Math.min(speed, 80) / 3800 + Math.abs(sway) * 0.006;
         engineFreq = 36 + speed * 0.75 + Math.abs(sway) * 10;
@@ -821,6 +878,7 @@ export function createRace(canvas, hooks) {
     }
     audio.gain.gain.setTargetAtTime(engineVolume, ctx.currentTime, 0.08);
     audio.osc.frequency.setTargetAtTime(engineFreq, ctx.currentTime, 0.08);
+    audio.setLineVolume(lineVolume);
     const musicLevel = soundOn && !paused
       ? soundtrackVolumeForPhase(phase, phase === "racing" || phase === "tutorial")
       : 0;
@@ -1453,6 +1511,7 @@ export function createRace(canvas, hooks) {
       canvas.removeEventListener("touchstart", touchStart);
       window.removeEventListener("pointerup", pointerUp);
       window.removeEventListener("pointercancel", pointerUp);
+      audio?.stopLineAudio?.();
       audio?.soundtrack?.stop();
       audio?.ctx.close();
       disposeCourseTrack(scene, courseTrack);
