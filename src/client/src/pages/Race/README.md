@@ -25,7 +25,7 @@ Key files: `index.jsx` (UI phases), `engine.js` (`setPhase`, game loop).
 
 ## Core driving
 
-- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** feature dramatic, deep down and up hills with thrilling canyon plunges down to ~-34m and soaring alpine climbs up to ~+244m (a ~278m vertical span with mid-lap crest); every layout starts on a straight, level road that extends **0.1 miles** (`160.9m`) past the **START** line before any turns or hills begin, and ends on a level **half-mile drag strip** to the checkered line. **Road** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
+- **Course:** 3D Catmull-Rom spline built as a generally circular loop with left and right turns up to **90°** and smooth **inward road tilt** (superelevation banking into left and right turns, outer edge raised) up to **75°** at different stretches (`course.js`). **Standard** uses light rolling hills, while **Hills** / **All** feature dramatic, deep down and up hills with thrilling canyon plunges down to ~-34m and soaring alpine climbs up to ~+244m (a ~278m vertical span with mid-lap crest); every layout starts on a straight, level road that extends **0.1 miles** (`160.9m`) past the **START** line before any turns or hills begin, and ends on a level **half-mile drag strip** to the checkered line. **Length** scale (2× / 3×) expands the circular circuit and repeats the turn/hill/tilt rhythm; **Course** profile adjusts turn and hill intensity.
 - **Road:** Closed-loop 3D asphalt deck (top, curbs, underside) with a smooth Bezier connector from `ROAD_END_T` back to `LOOP_START_T`, white edge strips, START/FINISH banners, and steel arch ribs.
 - **Steering:**
   - Keyboard: **←/→** or **A/D**
@@ -94,7 +94,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 | Music | `raceSoundtrack.js` + `raceSession.js` | tracks + Off | **Boasty Expedition** (`reggae`) |
 | Mountains | `mountainStyle.js` + `raceSession.js` | Black Mountains, Icy | **Icy** |
 | Car | `carModel.js` + `raceSession.js` | Snowball, Tuff Truck | **Tuff Truck** (`truck`) |
-| Road | `courseLayout.js` + `raceSession.js` | Standard, Double, Triple (physical spline length) | **Double** (2×) |
+| Length | `courseLayout.js` + `raceSession.js` | Standard, Double, Triple (physical spline length) | **Double** (2×) |
 | Course | `courseLayout.js` + `course.js` + `raceSession.js` | Standard, Turns, Hills, All | **Hills** (`hills`) |
 
 Values live in **`raceSession.js`** (memory only). They persist while the SPA is open—**Again**, menu changes, and returning to `/race` without a full reload keep your picks. A **full page reload** resets to defaults. Pickers on **title**, **results**, and **hamburger menu**.
@@ -154,7 +154,7 @@ From repo root: `npm run check:race-budget`. Until `race-car.glb` exists, the ch
 
 ## Engine API (surface)
 
-`createRace(canvas, hooks)` returns methods including: `start`, `restart`, `setPaused`, `setSpeed`, `setMusicTrack`, `setMountainStyle`, `setRoadScale`, `setCourseProfile`, `setCarModel`, `setSound`, `setTutorialSteer`, `unlockAudio`, `dispose`. Target lap duration is fixed at **3:00** (`length.js` / `RACE_LENGTH.fallback`) for cruise-speed math; use **Road** scale for a longer or shorter physical track.
+`createRace(canvas, hooks)` returns methods including: `start`, `restart`, `setPaused`, `setSpeed`, `setMusicTrack`, `setMountainStyle`, `setRoadScale`, `setCourseProfile`, `setCarModel`, `setSound`, `setTutorialSteer`, `unlockAudio`, `dispose`. Target lap duration is fixed at **3:00** (`length.js` / `RACE_LENGTH.fallback`) for cruise-speed math; use **Length** scale for a longer or shorter physical track.
 
 Hooks: `onLoad`, `onPhase`, `onCountdown`, `onHud`, `onFinish`, `onFinishPresentation`, `onKeyboardSteer`.
 

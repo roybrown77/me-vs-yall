@@ -97,14 +97,14 @@ const MusicPicker = ({ trackId, onChange }) => {
 // UI control to cycle 1× / 2× / 3× physical road length.
 const RoadScalePicker = ({ scale, onChange }) => (
   <div className="race-length">
-    <button type="button" aria-label="shorter road" onClick={() => onChange(stepRoadScale(scale, -1))}>
+    <button type="button" aria-label="shorter length" onClick={() => onChange(stepRoadScale(scale, -1))}>
       −
     </button>
     <div>
       <strong>{ROAD_SCALE_LABELS[scale] ?? "Double"}</strong>
-      <span>Road</span>
+      <span>Length</span>
     </div>
-    <button type="button" aria-label="longer road" onClick={() => onChange(stepRoadScale(scale, 1))}>
+    <button type="button" aria-label="longer length" onClick={() => onChange(stepRoadScale(scale, 1))}>
       +
     </button>
   </div>
