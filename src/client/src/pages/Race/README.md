@@ -69,9 +69,10 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 ## Mountains & world
 
 - **Procedural alpine terrain** (ridged FBM), chunked **left/right** managers following the camera (`mountainTerrainManager.js`, `backgroundMountains.js`).
+- **Color-blocked vector mosaic facets:** Non-indexed (`toNonIndexed()`) flat triangle geometry with gradient-stretched vertical shards on steep slopes, per-face Rock/Snow assignment (`normal.y < 0.25` or sharp upper ridge peaks → Rock; `normal.y >= 0.25` → Snow), 3-step quantized `NdotL` cel-shading (Snow: `#FFFFFF`, `#C8E8F5`, `#8AB8CE`; Rock: `#6E828A`, `#465860`), and camera-distance atmospheric washout (`#7BA4BA`).
 - **Mountain style:** **Black Mountains** | **Icy** — `mountainStyle.js`, applied via `setMountainStyle` / shader look.
 - **Tunnels:** Where terrain would cover the road, bore + arch at **road width** (`buildMountainTunnels`).
-- Atmosphere: fog, icy sky, sun + hemisphere light (`atmosphere.js`).
+- Atmosphere: fog, `#7BA4BA` sky/horizon washout, sun + hemisphere light (`atmosphere.js`).
 
 ---
 
@@ -175,6 +176,7 @@ Document notable behavior changes here when you edit this folder.
 - **2025-10-17:** Added **Drizzy Dust Drive** (`drizzy-dust.m4a`) as default BGM.
 - **2025-10-17:** Mobile steer taps no longer trigger text selection (`user-select`, canvas `preventDefault`).
 - **2025-10-17:** Mobile finish UI — compact bottom sheet; settings in collapsed **Settings** panel.
+- **2026-10-29:** Updated mountain geometry and shader to a snow-dominant color-blocked vector mosaic with non-indexed per-face Rock/Snow assignment (`normal.y < 0.16` + summit crags), 3-step quantized cel-shading (`#FFFFFF`, `#C8E8F5`, `#8AB8CE`, `#6E828A`, `#465860`), gradient-stretched vertical shards, and `#7BA4BA` atmospheric distance washout (`backgroundMountains.js`, `mountainTerrainManager.js`, `atmosphere.js`).
 - **2026-10-29:** Updated default race settings to 200% speed (`2`), Double road scale (`2`), Boasty Expedition music (`reggae`), Tuff Truck (`truck`), and Hills course (`hills`), and kept the opening road straight and level until 0.1 miles past the START line on every course.
 - **2026-10-27:** Standard course redesigned as a non-intersecting circular loop with left/right turns up to 90°, light rolling hills, and gradual inward-only left/right road banking up to 75° (`course.js`, `engine.js`, `raceTrackMap.js`).
 - **2026-10-22:** Removed in-menu **Length** (time) picker; lap duration fixed at 3:00 — use **Road** scale for track distance.

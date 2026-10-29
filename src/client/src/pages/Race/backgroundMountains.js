@@ -1,6 +1,19 @@
 import * as THREE from "three";
-import { createNoise3D } from "simplex-noise";
-import { sampleCurveFrame } from "./course";
+import { createNoise3D } from "../../vendor/simplex-noise/esm/simplex-noise.js";
+import { sampleCurveFrame } from "./course.js";
+
+/** Slope normal.y threshold below which a steep cliff face is classified as Rock. */
+export const FACE_SLOPE_THRESHOLD = 0.25;
+
+/** Exact color-blocked vector mosaic swatches for quantized mountain cel-shading. */
+export const MOUNTAIN_SWATCHES = {
+  snowSun: "#FFFFFF",
+  snowMid: "#C8E8F5",
+  snowShadow: "#8AB8CE",
+  rockLit: "#6E828A",
+  rockShadow: "#465860",
+  washout: "#7BA4BA",
+};
 
 // Deterministic PRNG for reproducible terrain noise from an integer seed.
 export const seededRandom = (seed) => {
@@ -124,7 +137,99 @@ export const nearestRoadSample = (index, x, z, maxRing = 3) => {
   return { x: best.x, y: best.y, z: best.z, dist: Math.sqrt(bestD) };
 };
 
-// Displaces a plane mesh into mountains with optional road tunnel floor drop.
+// Classifies a flat triangle face as Rock (1) or Snow (0) from its normal.y and upper ridge peak sharpness.
+export const classifyMountainFace = ({
+  normalY,
+  maxHeightRatio = 0,
+  faceReliefRatio = 0,
+  slopeThreshold = FACE_SLOPE_THRESHOLD,
+}) => {
+  if (normalY < slopeThreshold) return 1;
+  const isSharpUpperRidgePeak =
+    maxHeightRatio >= 0.78 && normalY < slopeThreshold + 0.12 && faceReliefRatio >= 0.08;
+  return isSharpUpperRidgePeak ? 1 : 0;
+};
+
+// Converts a geometry to non-indexed in-place and assigns flat face normals plus per-face aIsRock attributes.
+export const assignPerFaceMountainAttributes = (geometry, options = {}) => {
+  const {
+    peakHeight = 145,
+    baseOffset = 0,
+    slopeThreshold = FACE_SLOPE_THRESHOLD,
+    upAxis = "z",
+  } = options;
+
+  if (geometry.index) {
+    const nonIndexed = geometry.toNonIndexed();
+    geometry.setIndex(null);
+    for (const name of Object.keys(nonIndexed.attributes)) {
+      geometry.setAttribute(name, nonIndexed.attributes[name]);
+    }
+  }
+
+  const position = geometry.attributes.position;
+  const vertexCount = position.count;
+  const normals = new Float32Array(vertexCount * 3);
+  const isRockAttr = new Float32Array(vertexCount);
+
+  const p0 = new THREE.Vector3();
+  const p1 = new THREE.Vector3();
+  const p2 = new THREE.Vector3();
+  const e1 = new THREE.Vector3();
+  const e2 = new THREE.Vector3();
+  const faceNormal = new THREE.Vector3();
+  const invPeak = peakHeight > 0 ? 1 / peakHeight : 0;
+
+  for (let i = 0; i + 2 < vertexCount; i += 3) {
+    p0.fromBufferAttribute(position, i);
+    p1.fromBufferAttribute(position, i + 1);
+    p2.fromBufferAttribute(position, i + 2);
+
+    e1.subVectors(p1, p0);
+    e2.subVectors(p2, p0);
+    faceNormal.crossVectors(e1, e2);
+    if (faceNormal.lengthSq() > 1e-12) {
+      faceNormal.normalize();
+    } else {
+      faceNormal.set(0, upAxis === "y" ? 1 : 0, upAxis === "z" ? 1 : 0);
+    }
+
+    const upComponent = upAxis === "y" ? faceNormal.y : faceNormal.z;
+    if (upComponent < 0) {
+      faceNormal.negate();
+    }
+    const normalY = Math.abs(upComponent);
+
+    const h0 = (upAxis === "y" ? p0.y : p0.z) - baseOffset;
+    const h1 = (upAxis === "y" ? p1.y : p1.z) - baseOffset;
+    const h2 = (upAxis === "y" ? p2.y : p2.z) - baseOffset;
+    const maxH = Math.max(h0, h1, h2);
+    const minH = Math.min(h0, h1, h2);
+    const maxHeightRatio = Math.max(0, maxH * invPeak);
+    const faceReliefRatio = Math.max(0, (maxH - minH) * invPeak);
+
+    const isRock = classifyMountainFace({
+      normalY,
+      maxHeightRatio,
+      faceReliefRatio,
+      slopeThreshold,
+    });
+
+    for (let v = 0; v < 3; v += 1) {
+      const vi = i + v;
+      normals[vi * 3] = faceNormal.x;
+      normals[vi * 3 + 1] = faceNormal.y;
+      normals[vi * 3 + 2] = faceNormal.z;
+      isRockAttr[vi] = isRock;
+    }
+  }
+
+  geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+  geometry.setAttribute("aIsRock", new THREE.Float32BufferAttribute(isRockAttr, 1));
+  return geometry;
+};
+
+// Displaces a plane mesh into jagged vertical shards with non-indexed per-face material assignment.
 export const displaceMountainGeometry = (geometry, options = {}) => {
   const {
     seed = 1,
@@ -138,30 +243,78 @@ export const displaceMountainGeometry = (geometry, options = {}) => {
     roadIndex = null,
     tunnelHalf = 0,
     floorDrop = 6.2,
+    gradientScale = 145,
+    verticalShardScale = 0.32,
+    lateralShardStretch = 1.5,
+    slopeThreshold = FACE_SLOPE_THRESHOLD,
   } = options;
 
   const noise3D = noiseOverride ?? createNoise3D(seededRandom(seed));
   const position = geometry.attributes.position;
+
+  let maxAbsX = 0;
+  let maxAbsY = 0;
+  for (let i = 0; i < position.count; i += 1) {
+    maxAbsX = Math.max(maxAbsX, Math.abs(position.getX(i)));
+    maxAbsY = Math.max(maxAbsY, Math.abs(position.getY(i)));
+  }
+  const gradStep = 4.2;
 
   for (let i = 0; i < position.count; i += 1) {
     const lx = position.getX(i);
     const ly = position.getY(i);
     const worldX = chunkCenterX + lx;
     const worldZ = chunkCenterZ - ly;
-    const height = sampleAlpineFbm(noise3D, worldX, worldZ, fbm);
+    const baseHeight = sampleAlpineFbm(noise3D, worldX, worldZ, fbm);
+
+    // Sample local noise gradient to stretch steep faces into tall, jagged vertical shards.
+    const hxPos = sampleAlpineFbm(noise3D, worldX + gradStep, worldZ, fbm);
+    const hxNeg = sampleAlpineFbm(noise3D, worldX - gradStep, worldZ, fbm);
+    const hzPos = sampleAlpineFbm(noise3D, worldX, worldZ + gradStep, fbm);
+    const hzNeg = sampleAlpineFbm(noise3D, worldX, worldZ - gradStep, fbm);
+    const gx = (hxPos - hxNeg) / (2 * gradStep);
+    const gz = (hzPos - hzNeg) / (2 * gradStep);
+    const gradMag = Math.hypot(gx, gz);
+    const slopeFactor = THREE.MathUtils.clamp(gradMag * gradientScale, 0, 1);
+    const shardBoost = Math.pow(slopeFactor, 1.25) * verticalShardScale * (0.35 + 0.65 * baseHeight);
+    const height = THREE.MathUtils.clamp(
+      Math.pow(baseHeight, 1.12) + shardBoost,
+      0,
+      1.45,
+    );
+
     let displaced = baseOffset + height * peakHeight;
+    let nextLx = lx;
+    let nextLy = ly;
+    const onBorder =
+      (maxAbsX > 0 && Math.abs(Math.abs(lx) - maxAbsX) < 1e-3)
+      || (maxAbsY > 0 && Math.abs(Math.abs(ly) - maxAbsY) < 1e-3);
+
+    if (!onBorder && gradMag > 1e-5 && lateralShardStretch > 0) {
+      const pull = slopeFactor * lateralShardStretch * (baseHeight > 0.25 ? 1 : 0.35);
+      nextLx += (gx / gradMag) * pull;
+      nextLy -= (gz / gradMag) * pull;
+    }
+
     if (roadIndex && tunnelHalf > 0) {
-      const near = nearestRoadSample(roadIndex, worldX, worldZ);
+      const near = nearestRoadSample(roadIndex, chunkCenterX + nextLx, chunkCenterZ - nextLy);
       const worldY = baseY + displaced;
       if (near && near.dist <= tunnelHalf && worldY > near.y - 4.5) {
         displaced = (near.y - floorDrop) - baseY;
+        nextLx = lx;
+        nextLy = ly;
       }
     }
-    position.setZ(i, displaced);
+    position.setXYZ(i, nextLx, nextLy, displaced);
   }
 
   position.needsUpdate = true;
-  geometry.computeVertexNormals();
+  assignPerFaceMountainAttributes(geometry, {
+    peakHeight,
+    baseOffset,
+    slopeThreshold,
+    upAxis: "z",
+  });
   return geometry;
 };
 
@@ -287,7 +440,11 @@ export function buildMountainTunnels(scene, curve, options = {}) {
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
   geometry.setIndex(indices);
-  geometry.computeVertexNormals();
+  assignPerFaceMountainAttributes(geometry, {
+    peakHeight: params.peakHeight,
+    baseOffset: params.baseY + params.baseOffset,
+    upAxis: "y",
+  });
   const material = createMountainTerrainMaterial({
     side: THREE.DoubleSide,
     flatShading: true,
@@ -300,122 +457,162 @@ export function buildMountainTunnels(scene, curve, options = {}) {
   return { group, material };
 };
 
-const terrainVaryings = `
+// Pure helper evaluating the 3-step quantized cel-shaded swatch and atmospheric washout for a facet.
+export const evaluateMountainFacetColor = ({
+  isRock = false,
+  normalY = 1,
+  ndotL = 0.5,
+  distance = 0,
+  slopeThreshold = FACE_SLOPE_THRESHOLD,
+  washoutNear = 280,
+  washoutFar = 920,
+  washoutMax = 0.85,
+  swatches = MOUNTAIN_SWATCHES,
+} = {}) => {
+  const rock = Boolean(isRock) || normalY < slopeThreshold;
+  const clampedNdotL = THREE.MathUtils.clamp(ndotL, 0, 1);
+  const stepBand = Math.min(2, Math.floor(clampedNdotL * 3));
+
+  let baseHex;
+  if (rock) {
+    baseHex = stepBand >= 1 ? swatches.rockLit : swatches.rockShadow;
+  } else if (stepBand >= 2) {
+    baseHex = swatches.snowSun;
+  } else if (stepBand >= 1) {
+    baseHex = swatches.snowMid;
+  } else {
+    baseHex = swatches.snowShadow;
+  }
+
+  const baseColor = new THREE.Color(baseHex);
+  const washoutColor = new THREE.Color(swatches.washout);
+  const t = THREE.MathUtils.clamp((distance - washoutNear) / Math.max(1, washoutFar - washoutNear), 0, 1);
+  const smoothT = t * t * (3 - 2 * t);
+  const washout = THREE.MathUtils.clamp(smoothT * washoutMax, 0, washoutMax);
+  const finalColor = baseColor.clone().lerp(washoutColor, washout);
+
+  return {
+    isRock: rock,
+    stepBand,
+    swatchHex: baseHex,
+    washout,
+    color: finalColor,
+  };
+};
+
+const terrainVertexDeclarations = `
+attribute float aIsRock;
 varying vec3 vTerrainWorldPos;
 varying vec3 vTerrainWorldNormal;
+varying float vIsRock;
 `;
 
-const terrainUniformsGlsl = `
-uniform float snowElevation;
-uniform vec3 rockColor;
-uniform vec3 iceColor;
-uniform vec3 snowColor;
-uniform float snowSlopeMin;
-uniform float snowSlopeMax;
-uniform float snowHeightSoftness;
-uniform float steepRockDarken;
+const terrainFragmentDeclarations = `
+varying vec3 vTerrainWorldPos;
+varying vec3 vTerrainWorldNormal;
+varying float vIsRock;
+uniform float slopeThreshold;
 uniform vec3 sunDirection;
-uniform float snowEmissive;
-uniform float snowRim;
-uniform float alpineMix;
+uniform vec3 snowSunColor;
+uniform vec3 snowMidColor;
+uniform vec3 snowShadowColor;
+uniform vec3 rockLitColor;
+uniform vec3 rockShadowColor;
+uniform vec3 washoutColor;
+uniform float washoutNear;
+uniform float washoutFar;
+uniform float washoutMax;
 `;
 
 const terrainVertexInjection = `
-  vTerrainWorldPos = worldPosition.xyz;
+  vec4 terrainWorldPosition = modelMatrix * vec4(transformed, 1.0);
+  vTerrainWorldPos = terrainWorldPosition.xyz;
   vTerrainWorldNormal = normalize((modelMatrix * vec4(objectNormal, 0.0)).xyz);
+  vIsRock = aIsRock;
 `;
 
-const terrainColorInjection = `
+const terrainCelFragmentInjection = `
   {
-    float terrainUp = max(vTerrainWorldNormal.y, 0.0);
-    float slopeSnow = smoothstep(snowSlopeMin, snowSlopeMax, terrainUp);
-    float heightClassic = smoothstep(
-      snowElevation - snowHeightSoftness,
-      snowElevation + snowHeightSoftness * 0.35,
-      vTerrainWorldPos.y
+    vec3 faceNormal = normalize(vTerrainWorldNormal);
+    float isRockFace = step(0.5, vIsRock);
+    if (faceNormal.y < slopeThreshold) {
+      isRockFace = 1.0;
+    }
+
+    float rawNdotL = dot(faceNormal, normalize(sunDirection));
+    float NdotL = clamp(rawNdotL * 0.55 + 0.42, 0.0, 1.0);
+    float lightStep = min(floor(NdotL * 3.0), 2.0);
+
+    vec3 snowSwatch = snowShadowColor;
+    snowSwatch = mix(snowSwatch, snowMidColor, step(1.0, lightStep));
+    snowSwatch = mix(snowSwatch, snowSunColor, step(2.0, lightStep));
+
+    vec3 rockSwatch = mix(rockShadowColor, rockLitColor, step(1.0, lightStep));
+
+    vec3 quantizedColor = mix(snowSwatch, rockSwatch, isRockFace);
+
+    float camDist = length(vTerrainWorldPos - cameraPosition);
+    float washout = clamp(
+      smoothstep(washoutNear, washoutFar, camDist) * washoutMax,
+      0.0,
+      washoutMax
     );
-    float steepClassic = 1.0 - smoothstep(0.0, 0.38, terrainUp);
-    vec3 classicFace = mix(rockColor, rockColor * 0.72, steepClassic * steepRockDarken);
-    vec3 classicColor = mix(classicFace, snowColor, heightClassic * slopeSnow);
-    float heightIcy = smoothstep(
-      snowElevation - snowHeightSoftness,
-      snowElevation + snowHeightSoftness * 0.2,
-      vTerrainWorldPos.y
-    );
-    float snowIcy = clamp(heightIcy * (0.42 + 0.58 * slopeSnow) + heightIcy * heightIcy * 0.4, 0.0, 1.0);
-    float steepIcy = 1.0 - smoothstep(0.16, 0.78, terrainUp);
-    vec3 icyFace = mix(iceColor, rockColor, steepIcy * steepRockDarken);
-    vec3 icyColor = mix(icyFace, snowColor, snowIcy);
-    diffuseColor.rgb = mix(classicColor, icyColor, alpineMix);
+    outgoingLight = mix(quantizedColor, washoutColor, washout);
   }
+  #include <opaque_fragment>
 `;
 
-const terrainEmissiveInjection = `
-  {
-    vec3 terrainNormal = normalize(vTerrainWorldNormal);
-    float terrainUp = max(terrainNormal.y, 0.0);
-    float slopeSnow = smoothstep(snowSlopeMin, snowSlopeMax, terrainUp);
-    float heightClassic = smoothstep(
-      snowElevation - snowHeightSoftness,
-      snowElevation + snowHeightSoftness * 0.35,
-      vTerrainWorldPos.y
-    );
-    float snowClassic = heightClassic * slopeSnow;
-    float heightIcy = smoothstep(
-      snowElevation - snowHeightSoftness,
-      snowElevation + snowHeightSoftness * 0.2,
-      vTerrainWorldPos.y
-    );
-    float snowIcy = clamp(heightIcy * (0.42 + 0.58 * slopeSnow) + heightIcy * heightIcy * 0.4, 0.0, 1.0);
-    float snowMask = mix(snowClassic, snowIcy, alpineMix);
-    vec3 viewDir = normalize(cameraPosition - vTerrainWorldPos);
-    float fresnel = pow(1.0 - max(dot(viewDir, terrainNormal), 0.0), 2.35);
-    float sunHit = pow(max(dot(terrainNormal, normalize(sunDirection)), 0.0), 1.5);
-    vec3 scatter = snowColor * snowMask * (sunHit * snowEmissive + fresnel * snowRim);
-    vec3 iceLift = iceColor * (1.0 - snowIcy) * 0.07 * alpineMix;
-    totalEmissiveRadiance += scatter + iceLift;
-  }
-`;
-
-// Creates a lit terrain material with height/slope snow shading uniforms.
+// Creates a quantized cel-shaded mountain material with 5 color swatches and atmospheric washout.
 export function createMountainTerrainMaterial(options = {}) {
-  const sunDir = options.sunDirection ?? new THREE.Vector3(0.45, 0.72, 0.52);
+  const sunDir = options.sunDirection ?? new THREE.Vector3(0.48, 0.78, 0.4);
   const uniforms = {
-    snowElevation: { value: options.snowElevation ?? 78 },
-    rockColor: { value: new THREE.Color(options.rockColor ?? 0x3a4650) },
-    iceColor: { value: new THREE.Color(options.iceColor ?? 0xd7f1f8) },
-    snowColor: { value: new THREE.Color(options.snowColor ?? 0xffffff) },
-    snowSlopeMin: { value: options.snowSlopeMin ?? 0.5 },
-    snowSlopeMax: { value: options.snowSlopeMax ?? 0.88 },
-    snowHeightSoftness: { value: options.snowHeightSoftness ?? 22 },
-    steepRockDarken: { value: options.steepRockDarken ?? 0.85 },
+    slopeThreshold: { value: options.slopeThreshold ?? FACE_SLOPE_THRESHOLD },
     sunDirection: { value: sunDir.clone().normalize() },
-    snowEmissive: { value: options.snowEmissive ?? 0.22 },
-    snowRim: { value: options.snowRim ?? 0.38 },
-    alpineMix: { value: options.alpineMix ?? 0 },
+    snowSunColor: { value: new THREE.Color(options.snowSunColor ?? MOUNTAIN_SWATCHES.snowSun) },
+    snowMidColor: { value: new THREE.Color(options.snowMidColor ?? MOUNTAIN_SWATCHES.snowMid) },
+    snowShadowColor: { value: new THREE.Color(options.snowShadowColor ?? MOUNTAIN_SWATCHES.snowShadow) },
+    rockLitColor: { value: new THREE.Color(options.rockLitColor ?? MOUNTAIN_SWATCHES.rockLit) },
+    rockShadowColor: { value: new THREE.Color(options.rockShadowColor ?? MOUNTAIN_SWATCHES.rockShadow) },
+    washoutColor: { value: new THREE.Color(options.washoutColor ?? MOUNTAIN_SWATCHES.washout) },
+    washoutNear: { value: options.washoutNear ?? 280 },
+    washoutFar: { value: options.washoutFar ?? 920 },
+    washoutMax: { value: options.washoutMax ?? 0.85 },
+    // Retained legacy uniform keys for compatibility with callers inspecting terrainUniforms.
+    snowElevation: { value: options.snowElevation ?? 42 },
+    rockColor: { value: new THREE.Color(options.rockColor ?? MOUNTAIN_SWATCHES.rockLit) },
+    iceColor: { value: new THREE.Color(options.iceColor ?? MOUNTAIN_SWATCHES.snowMid) },
+    snowColor: { value: new THREE.Color(options.snowColor ?? MOUNTAIN_SWATCHES.snowSun) },
+    snowSlopeMin: { value: options.snowSlopeMin ?? FACE_SLOPE_THRESHOLD },
+    snowSlopeMax: { value: options.snowSlopeMax ?? FACE_SLOPE_THRESHOLD },
+    snowHeightSoftness: { value: options.snowHeightSoftness ?? 0 },
+    steepRockDarken: { value: options.steepRockDarken ?? 1 },
+    snowEmissive: { value: options.snowEmissive ?? 0 },
+    snowRim: { value: options.snowRim ?? 0 },
+    alpineMix: { value: options.alpineMix ?? 1 },
   };
 
   const material = new THREE.MeshStandardMaterial({
     color: 0xffffff,
-    roughness: options.roughness ?? 0.93,
-    metalness: options.metalness ?? 0.02,
+    roughness: options.roughness ?? 0.9,
+    metalness: options.metalness ?? 0.0,
     flatShading: options.flatShading ?? true,
     side: options.side ?? THREE.FrontSide,
+    fog: false,
+    toneMapped: false,
   });
 
-  material.customProgramCacheKey = () => "mountain-terrain-v5";
+  material.customProgramCacheKey = () => "mountain-terrain-cel-v6";
 
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
 
     shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", `#include <common>\n${terrainVaryings}`)
+      .replace("#include <common>", `#include <common>\n${terrainVertexDeclarations}`)
       .replace("#include <worldpos_vertex>", `#include <worldpos_vertex>\n${terrainVertexInjection}`);
 
     shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", `#include <common>\n${terrainVaryings}\n${terrainUniformsGlsl}`)
-      .replace("#include <color_fragment>", `#include <color_fragment>\n${terrainColorInjection}`)
-      .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>\n${terrainEmissiveInjection}`);
+      .replace("#include <common>", `#include <common>\n${terrainFragmentDeclarations}`)
+      .replace("#include <opaque_fragment>", terrainCelFragmentInjection);
   };
 
   material.userData.terrainUniforms = uniforms;
@@ -425,40 +622,60 @@ export function createMountainTerrainMaterial(options = {}) {
 const MOUNTAIN_LOOKS = {
   classic: {
     alpineMix: 0,
-    rockColor: 0x3a4650,
-    iceColor: 0xd7f1f8,
+    slopeThreshold: FACE_SLOPE_THRESHOLD,
+    snowSunColor: 0xffffff,
+    snowMidColor: 0xc8e8f5,
+    snowShadowColor: 0x8ab8ce,
+    rockLitColor: 0x586970,
+    rockShadowColor: 0x36444a,
+    washoutColor: 0x7ba4ba,
+    washoutNear: 280,
+    washoutFar: 920,
+    washoutMax: 0.85,
+    rockColor: 0x586970,
+    iceColor: 0xc8e8f5,
     snowColor: 0xffffff,
     snowElevation: 78,
-    snowHeightSoftness: 22,
-    snowSlopeMin: 0.5,
-    snowSlopeMax: 0.88,
-    steepRockDarken: 0.85,
-    snowEmissive: 0.22,
-    snowRim: 0.38,
+    snowHeightSoftness: 0,
+    snowSlopeMin: FACE_SLOPE_THRESHOLD,
+    snowSlopeMax: FACE_SLOPE_THRESHOLD,
+    steepRockDarken: 1,
+    snowEmissive: 0,
+    snowRim: 0,
     roughness: 0.93,
-    sky: 0x9eb4cc,
+    sky: 0x7ba4ba,
     hemiSky: 0xfff6ea,
-    hemiGround: 0x7f96ad,
+    hemiGround: 0x7ba4ba,
     hemiIntensity: 0.95,
     sunColor: 0xfff4e4,
     sunIntensity: 1.45,
   },
   icy: {
     alpineMix: 1,
-    rockColor: 0x9eb0c2,
-    iceColor: 0xd7f1f8,
-    snowColor: 0xf5f9fd,
+    slopeThreshold: FACE_SLOPE_THRESHOLD,
+    snowSunColor: 0xffffff,
+    snowMidColor: 0xc8e8f5,
+    snowShadowColor: 0x8ab8ce,
+    rockLitColor: 0x6e828a,
+    rockShadowColor: 0x465860,
+    washoutColor: 0x7ba4ba,
+    washoutNear: 280,
+    washoutFar: 920,
+    washoutMax: 0.85,
+    rockColor: 0x6e828a,
+    iceColor: 0xc8e8f5,
+    snowColor: 0xffffff,
     snowElevation: 42,
-    snowHeightSoftness: 30,
-    snowSlopeMin: 0.2,
-    snowSlopeMax: 0.68,
-    steepRockDarken: 0.88,
-    snowEmissive: 0.22,
-    snowRim: 0.38,
-    roughness: 0.68,
-    sky: 0x6eb4ea,
+    snowHeightSoftness: 0,
+    snowSlopeMin: FACE_SLOPE_THRESHOLD,
+    snowSlopeMax: FACE_SLOPE_THRESHOLD,
+    steepRockDarken: 1,
+    snowEmissive: 0,
+    snowRim: 0,
+    roughness: 0.85,
+    sky: 0x7ba4ba,
     hemiSky: 0xd4ecff,
-    hemiGround: 0xb5d7ea,
+    hemiGround: 0x8ab8ce,
     hemiIntensity: 1.2,
     sunColor: 0xf3f7ff,
     sunIntensity: 1.55,
@@ -474,6 +691,16 @@ export const applyMountainLook = (material, style) => {
   const uniforms = material?.userData?.terrainUniforms;
   if (!uniforms) return look;
   uniforms.alpineMix.value = look.alpineMix;
+  uniforms.slopeThreshold.value = look.slopeThreshold;
+  uniforms.snowSunColor.value.set(look.snowSunColor);
+  uniforms.snowMidColor.value.set(look.snowMidColor);
+  uniforms.snowShadowColor.value.set(look.snowShadowColor);
+  uniforms.rockLitColor.value.set(look.rockLitColor);
+  uniforms.rockShadowColor.value.set(look.rockShadowColor);
+  uniforms.washoutColor.value.set(look.washoutColor);
+  uniforms.washoutNear.value = look.washoutNear;
+  uniforms.washoutFar.value = look.washoutFar;
+  uniforms.washoutMax.value = look.washoutMax;
   uniforms.rockColor.value.set(look.rockColor);
   uniforms.iceColor.value.set(look.iceColor);
   uniforms.snowColor.value.set(look.snowColor);

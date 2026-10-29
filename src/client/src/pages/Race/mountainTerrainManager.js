@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { createNoise3D } from "simplex-noise";
+import { createNoise3D } from "../../vendor/simplex-noise/esm/simplex-noise.js";
 import {
   applyMountainLook,
   buildMountainTunnels,
@@ -7,12 +7,13 @@ import {
   createMountainTerrainMaterial,
   displaceMountainGeometry,
   seededRandom,
-} from "./backgroundMountains";
-import { RACE_FOG_DENSITY, fogHorizonDistance } from "./atmosphere";
+} from "./backgroundMountains.js";
+import { RACE_FOG_DENSITY, fogHorizonDistance } from "./atmosphere.js";
 
 // Builds a stable string key for a terrain chunk grid cell.
 const chunkKey = (ix, iz) => `${ix},${iz}`;
 const forwardScratch = new THREE.Vector3();
+const sunDirScratch = new THREE.Vector3();
 
 // Streams and recycles displaced heightfield chunks around the camera.
 export class MountainTerrainManager {
@@ -21,18 +22,18 @@ export class MountainTerrainManager {
     this.scene = scene;
     this.chunkWidth = options.chunkWidth ?? 128;
     this.chunkDepth = options.chunkDepth ?? 128;
-    this.segments = options.segments ?? 48;
-    this.peakHeight = options.peakHeight ?? 145;
+    this.segments = options.segments ?? 32;
+    this.peakHeight = options.peakHeight ?? 165;
     this.baseOffset = options.baseOffset ?? -12;
     this.baseY = options.baseY ?? -18;
     this.chunkIndexOffsetX = options.chunkIndexOffsetX ?? 0;
     this.fbm = options.fbm ?? {
       octaves: 8,
       lacunarity: 2.5,
-      persistence: 0.44,
+      persistence: 0.45,
       frequency: 0.0042,
-      ridgeMix: 0.88,
-      sharpness: 1.72,
+      ridgeMix: 0.9,
+      sharpness: 1.85,
     };
     this.fogDensity = options.fogDensity ?? RACE_FOG_DENSITY;
     this.fogHorizon = fogHorizonDistance(this.fogDensity, options.fogObscured ?? 0.965);
@@ -218,10 +219,10 @@ export function createRaceMountainTerrainManagers(scene, options = {}) {
   const shared = {
     chunkWidth: 128,
     chunkDepth: 128,
-    segments: 48,
+    segments: 32,
     chunksBehind: 2,
     chunksLateral: 1,
-    peakHeight: 145,
+    peakHeight: 165,
     baseY: -18,
     baseOffset: -12,
     fogDensity: RACE_FOG_DENSITY,
@@ -262,10 +263,18 @@ export function createRaceMountainTerrainManagers(scene, options = {}) {
     // Updates sun on terrain and ticks both chunk managers.
     update(camera, sun) {
       if (sun?.position) {
-        left.syncSunDirection(sun.position);
-        right.syncSunDirection(sun.position);
-        const uniforms = tunnels.material?.userData?.terrainUniforms;
-        if (uniforms?.sunDirection) uniforms.sunDirection.value.copy(sun.position).normalize();
+        if (sun.target?.position) {
+          sunDirScratch.subVectors(sun.position, sun.target.position);
+        } else {
+          sunDirScratch.copy(sun.position);
+        }
+        if (sunDirScratch.lengthSq() > 1e-6) {
+          sunDirScratch.normalize();
+          left.syncSunDirection(sunDirScratch);
+          right.syncSunDirection(sunDirScratch);
+          const uniforms = tunnels.material?.userData?.terrainUniforms;
+          if (uniforms?.sunDirection) uniforms.sunDirection.value.copy(sunDirScratch);
+        }
       }
       left.update(camera);
       right.update(camera);

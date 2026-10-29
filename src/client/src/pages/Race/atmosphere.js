@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 /** Cold icy sky — also used for FogExp2 and renderer clear. */
-export const RACE_SKY_COLOR = 0x6eb4ea;
+export const RACE_SKY_COLOR = 0x7ba4ba;
 
 /** Tuned with {@link RACE_CAMERA_FAR} so distant terrain fades before the far plane. */
 export const RACE_FOG_DENSITY = 0.00228;
