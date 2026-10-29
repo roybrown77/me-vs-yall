@@ -101,7 +101,7 @@ const RoadScalePicker = ({ scale, onChange }) => (
       −
     </button>
     <div>
-      <strong>{ROAD_SCALE_LABELS[scale] ?? "Standard"}</strong>
+      <strong>{ROAD_SCALE_LABELS[scale] ?? "Double"}</strong>
       <span>Road</span>
     </div>
     <button type="button" aria-label="longer road" onClick={() => onChange(stepRoadScale(scale, 1))}>
@@ -117,7 +117,7 @@ const CourseProfilePicker = ({ profileId, onChange }) => (
       −
     </button>
     <div>
-      <strong>{COURSE_PROFILE_LABELS[profileId] ?? "Standard"}</strong>
+      <strong>{COURSE_PROFILE_LABELS[profileId] ?? "Hills"}</strong>
       <span>Course</span>
     </div>
     <button type="button" aria-label="next course profile" onClick={() => onChange(stepCourseProfile(profileId, 1))}>
@@ -139,7 +139,7 @@ const CarModelPicker = ({ modelId, onChange }) => {
         −
       </button>
       <div>
-        <strong>{CAR_MODEL_LABELS[modelId] ?? "Snowball"}</strong>
+        <strong>{CAR_MODEL_LABELS[modelId] ?? "Tuff Truck"}</strong>
         <span>Car</span>
       </div>
       <button type="button" aria-label="next car" onClick={() => step(1)}>

@@ -6,7 +6,7 @@ export const ROAD_SCALE_LABELS = {
   3: "Triple",
 };
 
-export const DEFAULT_ROAD_SCALE = 1;
+export const DEFAULT_ROAD_SCALE = 2;
 
 export const COURSE_PROFILES = ["standard", "turns", "hills", "mixed"];
 
@@ -17,7 +17,7 @@ export const COURSE_PROFILE_LABELS = {
   mixed: "All",
 };
 
-export const DEFAULT_COURSE_PROFILE = "standard";
+export const DEFAULT_COURSE_PROFILE = "hills";
 
 export const normalizeRoadScale = (scale) => {
   const rounded = Math.round(Number(scale));

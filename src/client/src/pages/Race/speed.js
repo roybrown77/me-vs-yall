@@ -1,4 +1,4 @@
-export const RACE_SPEED = { min: 1, max: 4, step: 0.5, fallback: 4 };
+export const RACE_SPEED = { min: 1, max: 4, step: 0.5, fallback: 2 };
 
 // Clamps a pace multiplier to the allowed race speed range.
 export const clampRaceSpeed = (multiplier) => {

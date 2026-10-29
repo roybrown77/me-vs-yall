@@ -89,12 +89,12 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 
 | Setting | Module | Range | Default |
 |---------|--------|-------|---------|
-| Speed | `speed.js` + `raceSession.js` | 100%–400%, 50% steps | **400%** (multiplier `4`) |
-| Music | `raceSoundtrack.js` + `raceSession.js` | tracks + Off | **Drizzy Dust Drive** (`drizzyDust`) |
+| Speed | `speed.js` + `raceSession.js` | 100%–400%, 50% steps | **200%** (multiplier `2`) |
+| Music | `raceSoundtrack.js` + `raceSession.js` | tracks + Off | **Boasty Expedition** (`reggae`) |
 | Mountains | `mountainStyle.js` + `raceSession.js` | Black Mountains, Icy | **Icy** |
-| Car | `carModel.js` + `raceSession.js` | Snowball, Tuff Truck | **Snowball** |
-| Road | `courseLayout.js` + `raceSession.js` | Standard, Double, Triple (physical spline length) | **Standard** (1×) |
-| Course | `courseLayout.js` + `course.js` + `raceSession.js` | Standard, Turns, Hills, All | **Standard** |
+| Car | `carModel.js` + `raceSession.js` | Snowball, Tuff Truck | **Tuff Truck** (`truck`) |
+| Road | `courseLayout.js` + `raceSession.js` | Standard, Double, Triple (physical spline length) | **Double** (2×) |
+| Course | `courseLayout.js` + `course.js` + `raceSession.js` | Standard, Turns, Hills, All | **Hills** (`hills`) |
 
 Values live in **`raceSession.js`** (memory only). They persist while the SPA is open—**Again**, menu changes, and returning to `/race` without a full reload keep your picks. A **full page reload** resets to defaults. Pickers on **title**, **results**, and **hamburger menu**.
 
@@ -175,6 +175,7 @@ Document notable behavior changes here when you edit this folder.
 - **2025-10-17:** Added **Drizzy Dust Drive** (`drizzy-dust.m4a`) as default BGM.
 - **2025-10-17:** Mobile steer taps no longer trigger text selection (`user-select`, canvas `preventDefault`).
 - **2025-10-17:** Mobile finish UI — compact bottom sheet; settings in collapsed **Settings** panel.
+- **2026-10-29:** Updated default race settings to 200% speed (`2`), Double road scale (`2`), Boasty Expedition music (`reggae`), Tuff Truck (`truck`), and Hills course (`hills`).
 - **2026-10-27:** Standard course redesigned as a non-intersecting circular loop with left/right turns up to 90°, light rolling hills, and gradual inward-only left/right road banking up to 75° (`course.js`, `engine.js`, `raceTrackMap.js`).
 - **2026-10-22:** Removed in-menu **Length** (time) picker; lap duration fixed at 3:00 — use **Road** scale for track distance.
 - **2026-10-22:** Standard course — more/wider straightaways, gentler turn rhythm, longer baseline spline (`course.js`).

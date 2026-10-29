@@ -18,31 +18,36 @@ test("race session defaults match app constants", () => {
   const session = getRaceSessionSettings();
   assert.equal(session.lengthSeconds, RACE_LENGTH.fallback);
   assert.equal(session.speedMultiplier, RACE_SPEED.fallback);
+  assert.equal(session.speedMultiplier, 2);
   assert.equal(session.musicTrackId, DEFAULT_RACE_MUSIC_TRACK);
+  assert.equal(session.musicTrackId, "reggae");
   assert.equal(session.mountainStyle, DEFAULT_MOUNTAIN_STYLE);
   assert.equal(session.carModelId, DEFAULT_CAR_MODEL);
+  assert.equal(session.carModelId, "truck");
   assert.equal(session.roadScale, DEFAULT_ROAD_SCALE);
+  assert.equal(session.roadScale, 2);
   assert.equal(session.courseProfile, DEFAULT_COURSE_PROFILE);
+  assert.equal(session.courseProfile, "hills");
 });
 
 test("setRaceSessionSettings keeps values in memory across reads", () => {
   resetRaceSessionSettings();
   setRaceSessionSettings({
-    speedMultiplier: 2,
+    speedMultiplier: 3,
     musicTrackId: "off",
     mountainStyle: "classic",
-    carModelId: "truck",
+    carModelId: "suv",
     roadScale: 3,
-    courseProfile: "hills",
+    courseProfile: "turns",
   });
   const session = getRaceSessionSettings();
   assert.equal(session.lengthSeconds, RACE_LENGTH.fallback);
-  assert.equal(session.speedMultiplier, 2);
+  assert.equal(session.speedMultiplier, 3);
   assert.equal(session.musicTrackId, "off");
   assert.equal(session.mountainStyle, "classic");
-  assert.equal(session.carModelId, "truck");
+  assert.equal(session.carModelId, "suv");
   assert.equal(session.roadScale, 3);
-  assert.equal(session.courseProfile, "hills");
+  assert.equal(session.courseProfile, "turns");
 });
 
 test("setRaceSessionSettings ignores invalid road scale and course profile", () => {

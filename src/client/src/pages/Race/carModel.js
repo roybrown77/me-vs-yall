@@ -5,7 +5,7 @@ export const CAR_MODEL_LABELS = {
   truck: "Tuff Truck",
 };
 
-export const DEFAULT_CAR_MODEL = "suv";
+export const DEFAULT_CAR_MODEL = "truck";
 
 export const isCarModel = (id) => CAR_MODELS.includes(id);
 

@@ -9,7 +9,7 @@ import {
   normalizeRoadScale,
 } from "./courseLayout.js";
 
-export const DEFAULT_RACE_MUSIC_TRACK = "drizzyDust";
+export const DEFAULT_RACE_MUSIC_TRACK = "reggae";
 
 const VALID_MUSIC_TRACKS = new Set([
   "off",

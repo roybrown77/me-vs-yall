@@ -56,9 +56,9 @@ export const listRaceMusicTracks = () => [
 export const isRaceMusicTrack = (id) => id === MUSIC_OFF || Boolean(RACE_MUSIC_TRACKS[id]);
 
 // Creates a looping HTMLAudio BGM controller for the race.
-export function createRaceSoundtrack(initialTrackId = "drizzyDust") {
-  let trackId = isRaceMusicTrack(initialTrackId) ? initialTrackId : "drizzyDust";
-  let songId = trackId === MUSIC_OFF ? "drizzyDust" : trackId;
+export function createRaceSoundtrack(initialTrackId = "reggae") {
+  let trackId = isRaceMusicTrack(initialTrackId) ? initialTrackId : "reggae";
+  let songId = trackId === MUSIC_OFF ? "reggae" : trackId;
   const audio = new Audio(RACE_MUSIC_TRACKS[songId].url);
   audio.loop = true;
   audio.preload = "auto";
