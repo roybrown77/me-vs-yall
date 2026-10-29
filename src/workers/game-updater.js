@@ -218,7 +218,14 @@ const getSharedBrowser = async () => {
 };
 
 const sleep = (ms) => new Promise((resolve) => {
-    updateLoopSleep = setTimeout(resolve, ms);
+    if (ms <= 0) {
+        setImmediate(resolve);
+        return;
+    }
+    updateLoopSleep = setTimeout(() => {
+        updateLoopSleep = null;
+        resolve();
+    }, ms);
 });
 
 const withEspnPage = async (url, callback) => {
@@ -905,6 +912,120 @@ const logScoreboardReconciliation = (reconciliation) => {
     return true;
 };
 
+const updateGameSpread = async ({ game, mergedGame }) => {
+    const spread = calculateSpread(mergedGame);
+    const overUnder = parseInt(mergedGame.total, 10);
+    const lineHistories = buildLineHistoryFields(game, spread, overUnder);
+    const {
+        competitors: competitorsWithKickoff,
+        startDateTimeFields,
+        kickoffLog,
+    } = applyStartDateTimeToCompetitors({
+        scrapedGame: mergedGame,
+        competitors: game.competitors || [],
+    });
+
+    const updateResult = await gameRepository.updateOne(
+        { _id: game._id },
+        {
+            $set: {
+                spread: spread,
+                overUnder,
+                spreadHistory: lineHistories.spreadHistory,
+                overUnderHistory: lineHistories.overUnderHistory,
+                weather: (mergedGame.weather || game.weather) || '57',
+                competitors: competitorsWithKickoff,
+                ...startDateTimeFields,
+            }
+        }
+    );
+
+    logGameUpdate({
+        game,
+        updateType: 'spread',
+        details: `spread ${spread.amount}, O/U ${overUnder || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
+        updateResult,
+    });
+
+    return updateResult;
+};
+
+const updateGameScore = async ({ game, mergedGame }) => {
+    const resolveLinescores = (scrapedTeam, existingCompetitor) => {
+        const scraped = scrapedTeam?.linescores;
+        if (Array.isArray(scraped) && scraped.length > 0) {
+            return scraped;
+        }
+
+        return existingCompetitor?.linescores;
+    };
+
+    const updatedCompetitors = [
+        {
+            ...game.competitors[0],
+            score: parseInt(mergedGame.game[0].score, 10),
+            linescores: resolveLinescores(mergedGame.game[0], game.competitors[0]),
+        },
+        {
+            ...game.competitors[1],
+            score: parseInt(mergedGame.game[1].score, 10),
+            linescores: resolveLinescores(mergedGame.game[1], game.competitors[1]),
+        }
+    ];
+
+    const {
+        competitors: competitorsWithKickoff,
+        startDateTimeFields,
+        kickoffLog,
+    } = applyStartDateTimeToCompetitors({
+        scrapedGame: mergedGame,
+        competitors: updatedCompetitors,
+    });
+
+    const newPlayHistory = getPlayHistory({
+        message: 'game-updater',
+        leagueId,
+        playHistory: game.playHistory || [],
+        lastPlay: mergedGame.lastPlay || '',
+        currentTime: mergedGame.currentTime || '',
+    });
+
+    const { isGameOver, playCollectionUntil, finalStatusDueAt } = resolveFinalStatus({
+        game,
+        scrapedIsGameOver: mergedGame.isGameOver === true,
+    });
+
+    const updateResult = await gameRepository.updateOne(
+        { _id: game._id },
+        {
+            $set: {
+                competitors: competitorsWithKickoff,
+                down: mergedGame.down || null,
+                possession: mergedGame.possession || null,
+                currentTime: mergedGame.currentTime,
+                isGameOver,
+                playCollectionUntil,
+                finalStatusDueAt,
+                playHistory: newPlayHistory,
+                ...startDateTimeFields,
+            }
+        }
+    );
+
+    const finalNote = playCollectionUntil
+        ? `, collecting plays until ${playCollectionUntil.toISOString()}`
+        : '';
+
+    logGameUpdate({
+        game,
+        updateType: 'score',
+        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${isGameOver}, playHistory ${newPlayHistory.length}${finalNote}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
+        updateResult,
+    });
+
+    return updateResult;
+};
+
 const runGameUpdate = async () => {
     try {
         const { year, seasonType, weekNumber, url } = getNflGameDataSource();
@@ -982,48 +1103,18 @@ const runGameUpdate = async () => {
                     return;
                 }
 
-                for (const game of games) {
-                    const mergedGame = findScrapedGameForDbGame(results, game);
+                await Promise.all(
+                    games.map(async (game) => {
+                        const mergedGame = findScrapedGameForDbGame(results, game);
 
-                    if (!mergedGame) {
-                        console.log('mergedGame not found for game:', game._id?.toString());
-                        continue;
-                    }
-
-                    const spread = calculateSpread(mergedGame);
-                    const overUnder = parseInt(mergedGame.total, 10);
-                    const lineHistories = buildLineHistoryFields(game, spread, overUnder);
-                    const {
-                        competitors: competitorsWithKickoff,
-                        startDateTimeFields,
-                        kickoffLog,
-                    } = applyStartDateTimeToCompetitors({
-                        scrapedGame: mergedGame,
-                        competitors: game.competitors || [],
-                    });
-
-                    const updateResult = await gameRepository.updateOne(
-                        { _id: game._id },
-                        {
-                            $set: {
-                                spread: spread,
-                                overUnder,
-                                spreadHistory: lineHistories.spreadHistory,
-                                overUnderHistory: lineHistories.overUnderHistory,
-                                weather: (mergedGame.weather || game.weather) || '57',
-                                competitors: competitorsWithKickoff,
-                                ...startDateTimeFields,
-                            }
+                        if (!mergedGame) {
+                            console.log('mergedGame not found for game:', game._id?.toString());
+                            return;
                         }
-                    );
 
-                    logGameUpdate({
-                        game,
-                        updateType: 'spread',
-                        details: `spread ${spread.amount}, O/U ${overUnder || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
-                        updateResult,
-                    });
-                }
+                        await updateGameSpread({ game, mergedGame });
+                    })
+                );
 
                 console.log('------------------------');
                 return;
@@ -1031,132 +1122,32 @@ const runGameUpdate = async () => {
 
             games = await gameRepository.find(search);
 
-            for (const game of games) {
-                const dbGameKey = getDbGameMatchKey(game);
+            await Promise.all(
+                games.map(async (game) => {
+                    const dbGameKey = getDbGameMatchKey(game);
 
-                if (!sharedGameKeys.has(dbGameKey)) {
-                    console.log('Skipping db game not present on ESPN scoreboard:', game._id?.toString());
-                    continue;
-                }
+                    if (!sharedGameKeys.has(dbGameKey)) {
+                        console.log('Skipping db game not present on ESPN scoreboard:', game._id?.toString());
+                        return;
+                    }
 
-                const mergedGame = findScrapedGameForDbGame(results, game);
+                    const mergedGame = findScrapedGameForDbGame(results, game);
 
-                if (!mergedGame) {
-                    console.log('mergedGame not found for game:', game._id?.toString());
-                    continue;
-                }
+                    if (!mergedGame) {
+                        console.log('mergedGame not found for game:', game._id?.toString());
+                        return;
+                    }
 
-                const spreadUpdateTime = new Date(game.startDateTime.getTime() - 5 * 60 * 1000);
-                const currentTime = new Date();
+                    const spreadUpdateTime = new Date(game.startDateTime.getTime() - 5 * 60 * 1000);
+                    const currentTime = new Date();
 
-                if (currentTime < spreadUpdateTime) {
-                    const spread = calculateSpread(mergedGame);
-                    const overUnder = parseInt(mergedGame.total, 10);
-                    const lineHistories = buildLineHistoryFields(game, spread, overUnder);
-                    const {
-                        competitors: competitorsWithKickoff,
-                        startDateTimeFields,
-                        kickoffLog,
-                    } = applyStartDateTimeToCompetitors({
-                        scrapedGame: mergedGame,
-                        competitors: game.competitors || [],
-                    });
-
-                    const updateResult = await gameRepository.updateOne(
-                        { _id: game._id },
-                        {
-                            $set: {
-                                spread: spread,
-                                overUnder,
-                                spreadHistory: lineHistories.spreadHistory,
-                                overUnderHistory: lineHistories.overUnderHistory,
-                                weather: (mergedGame.weather || game.weather) || '57',
-                                competitors: competitorsWithKickoff,
-                                ...startDateTimeFields,
-                            }
-                        }
-                    );
-
-                    logGameUpdate({
-                        game,
-                        updateType: 'spread',
-                        details: `spread ${spread.amount}, O/U ${overUnder || 'N/A'}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
-                        updateResult,
-                    });
-                } else {
-                    const resolveLinescores = (scrapedTeam, existingCompetitor) => {
-                        const scraped = scrapedTeam?.linescores;
-                        if (Array.isArray(scraped) && scraped.length > 0) {
-                            return scraped;
-                        }
-
-                        return existingCompetitor?.linescores;
-                    };
-
-                    const updatedCompetitors = [
-                        {
-                            ...game.competitors[0],
-                            score: parseInt(mergedGame.game[0].score, 10),
-                            linescores: resolveLinescores(mergedGame.game[0], game.competitors[0]),
-                        },
-                        {
-                            ...game.competitors[1],
-                            score: parseInt(mergedGame.game[1].score, 10),
-                            linescores: resolveLinescores(mergedGame.game[1], game.competitors[1]),
-                        }
-                    ];
-
-                    const {
-                        competitors: competitorsWithKickoff,
-                        startDateTimeFields,
-                        kickoffLog,
-                    } = applyStartDateTimeToCompetitors({
-                        scrapedGame: mergedGame,
-                        competitors: updatedCompetitors,
-                    });
-
-                    const newPlayHistory = getPlayHistory({
-                        message: 'game-updater',
-                        leagueId,
-                        playHistory: game.playHistory || [],
-                        lastPlay: mergedGame.lastPlay || '',
-                        currentTime: mergedGame.currentTime || '',
-                    });
-
-                    const { isGameOver, playCollectionUntil, finalStatusDueAt } = resolveFinalStatus({
-                        game,
-                        scrapedIsGameOver: mergedGame.isGameOver === true,
-                    });
-
-                    const updateResult = await gameRepository.updateOne(
-                        { _id: game._id },
-                        {
-                            $set: {
-                                competitors: competitorsWithKickoff,
-                                down: mergedGame.down || null,
-                                possession: mergedGame.possession || null,
-                                currentTime: mergedGame.currentTime,
-                                isGameOver,
-                                playCollectionUntil,
-                                finalStatusDueAt,
-                                playHistory: newPlayHistory,
-                                ...startDateTimeFields,
-                            }
-                        }
-                    );
-
-                    const finalNote = playCollectionUntil
-                        ? `, collecting plays until ${playCollectionUntil.toISOString()}`
-                        : '';
-
-                    logGameUpdate({
-                        game,
-                        updateType: 'score',
-                        details: `${competitorsWithKickoff[0].score}-${competitorsWithKickoff[1].score}, clock ${mergedGame.currentTime || 'N/A'}, isGameOver ${isGameOver}, playHistory ${newPlayHistory.length}${finalNote}${kickoffLog ? `, kickoff ${kickoffLog}` : ''}`,
-                        updateResult,
-                    });
-                }
-            }
+                    if (currentTime < spreadUpdateTime) {
+                        await updateGameSpread({ game, mergedGame });
+                    } else {
+                        await updateGameScore({ game, mergedGame });
+                    }
+                })
+            );
 
             console.log('------------------------');
         }
@@ -1172,13 +1163,17 @@ const runGameUpdate = async () => {
 
 const startGameUpdateLoop = async () => {
     while (!isShuttingDown) {
+        const cycleStartTime = Date.now();
         await runGameUpdate();
 
         if (isShuttingDown) {
             break;
         }
 
-        await sleep(UPDATE_INTERVAL_MS);
+        const elapsedMs = Date.now() - cycleStartTime;
+        const delayMs = Math.max(0, UPDATE_INTERVAL_MS - elapsedMs);
+
+        await sleep(delayMs);
     }
 };
 
