@@ -457,35 +457,49 @@ export function buildMountainTunnels(scene, curve, options = {}) {
   return { group, material };
 };
 
+/** Dark rock-only swatches for the Black Mountains (`classic`) preset without snow. */
+export const BLACK_MOUNTAIN_SWATCHES = {
+  snowSun: "#3A4650",
+  snowMid: "#2C363E",
+  snowShadow: "#1E262C",
+  rockLit: "#263038",
+  rockShadow: "#151B20",
+  washout: "#7BA4BA",
+};
+
 // Pure helper evaluating the 3-step quantized cel-shaded swatch and atmospheric washout for a facet.
 export const evaluateMountainFacetColor = ({
   isRock = false,
   normalY = 1,
   ndotL = 0.5,
   distance = 0,
+  style = "icy",
+  alpineMix,
   slopeThreshold = FACE_SLOPE_THRESHOLD,
   washoutNear = 280,
   washoutFar = 920,
   washoutMax = 0.85,
-  swatches = MOUNTAIN_SWATCHES,
+  swatches,
 } = {}) => {
+  const useBlackMountains = alpineMix === 0 || style === "classic";
+  const activeSwatches = swatches ?? (useBlackMountains ? BLACK_MOUNTAIN_SWATCHES : MOUNTAIN_SWATCHES);
   const rock = Boolean(isRock) || normalY < slopeThreshold;
   const clampedNdotL = THREE.MathUtils.clamp(ndotL, 0, 1);
   const stepBand = Math.min(2, Math.floor(clampedNdotL * 3));
 
   let baseHex;
   if (rock) {
-    baseHex = stepBand >= 1 ? swatches.rockLit : swatches.rockShadow;
+    baseHex = stepBand >= 1 ? activeSwatches.rockLit : activeSwatches.rockShadow;
   } else if (stepBand >= 2) {
-    baseHex = swatches.snowSun;
+    baseHex = activeSwatches.snowSun;
   } else if (stepBand >= 1) {
-    baseHex = swatches.snowMid;
+    baseHex = activeSwatches.snowMid;
   } else {
-    baseHex = swatches.snowShadow;
+    baseHex = activeSwatches.snowShadow;
   }
 
   const baseColor = new THREE.Color(baseHex);
-  const washoutColor = new THREE.Color(swatches.washout);
+  const washoutColor = new THREE.Color(activeSwatches.washout);
   const t = THREE.MathUtils.clamp((distance - washoutNear) / Math.max(1, washoutFar - washoutNear), 0, 1);
   const smoothT = t * t * (3 - 2 * t);
   const washout = THREE.MathUtils.clamp(smoothT * washoutMax, 0, washoutMax);
@@ -623,18 +637,18 @@ const MOUNTAIN_LOOKS = {
   classic: {
     alpineMix: 0,
     slopeThreshold: FACE_SLOPE_THRESHOLD,
-    snowSunColor: 0xffffff,
-    snowMidColor: 0xc8e8f5,
-    snowShadowColor: 0x8ab8ce,
-    rockLitColor: 0x586970,
-    rockShadowColor: 0x36444a,
+    snowSunColor: 0x3a4650,
+    snowMidColor: 0x2c363e,
+    snowShadowColor: 0x1e262c,
+    rockLitColor: 0x263038,
+    rockShadowColor: 0x151b20,
     washoutColor: 0x7ba4ba,
     washoutNear: 280,
     washoutFar: 920,
     washoutMax: 0.85,
-    rockColor: 0x586970,
-    iceColor: 0xc8e8f5,
-    snowColor: 0xffffff,
+    rockColor: 0x3a4650,
+    iceColor: 0x2c363e,
+    snowColor: 0x3a4650,
     snowElevation: 78,
     snowHeightSoftness: 0,
     snowSlopeMin: FACE_SLOPE_THRESHOLD,

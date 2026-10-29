@@ -70,7 +70,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 
 - **Procedural alpine terrain** (ridged FBM), chunked **left/right** managers following the camera (`mountainTerrainManager.js`, `backgroundMountains.js`).
 - **Color-blocked vector mosaic facets:** Non-indexed (`toNonIndexed()`) flat triangle geometry with gradient-stretched vertical shards on steep slopes, per-face Rock/Snow assignment (`normal.y < 0.25` or sharp upper ridge peaks → Rock; `normal.y >= 0.25` → Snow), 3-step quantized `NdotL` cel-shading (Snow: `#FFFFFF`, `#C8E8F5`, `#8AB8CE`; Rock: `#6E828A`, `#465860`), and camera-distance atmospheric washout (`#7BA4BA`).
-- **Mountain style:** **Black Mountains** | **Icy** — `mountainStyle.js`, applied via `setMountainStyle` / shader look.
+- **Mountain style:** **Black Mountains** (dark slate/charcoal rock facets without snow, `BLACK_MOUNTAIN_SWATCHES`) | **Icy** (snow-capped vector mosaic, `MOUNTAIN_SWATCHES`) — `mountainStyle.js`, applied via `setMountainStyle` / shader look.
 - **Tunnels:** Where terrain would cover the road, bore + arch at **road width** (`buildMountainTunnels`).
 - Atmosphere: fog, `#7BA4BA` sky/horizon washout, sun + hemisphere light (`atmosphere.js`).
 

@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import * as THREE from "three";
 
 import {
+  applyMountainLook,
+  BLACK_MOUNTAIN_SWATCHES,
   classifyMountainFace,
   createMountainTerrainMaterial,
   displaceMountainGeometry,
@@ -147,4 +149,24 @@ test("createMountainTerrainMaterial configures cel-shading swatches and injects 
   assert.match(shader.vertexShader, /attribute float aIsRock;/);
   assert.match(shader.fragmentShader, /floor\(NdotL \* 3\.0\)/);
   assert.match(shader.fragmentShader, /smoothstep\(washoutNear, washoutFar, camDist\)/);
+});
+
+test("Black Mountains (classic) look uses dark rock swatches without snow on any facet", () => {
+  const material = createMountainTerrainMaterial();
+  applyMountainLook(material, "classic");
+  const uniforms = material.userData.terrainUniforms;
+
+  assert.equal(`#${uniforms.snowSunColor.value.getHexString().toUpperCase()}`, BLACK_MOUNTAIN_SWATCHES.snowSun);
+  assert.equal(`#${uniforms.snowMidColor.value.getHexString().toUpperCase()}`, BLACK_MOUNTAIN_SWATCHES.snowMid);
+  assert.equal(`#${uniforms.snowShadowColor.value.getHexString().toUpperCase()}`, BLACK_MOUNTAIN_SWATCHES.snowShadow);
+  assert.equal(`#${uniforms.rockLitColor.value.getHexString().toUpperCase()}`, BLACK_MOUNTAIN_SWATCHES.rockLit);
+  assert.equal(`#${uniforms.rockShadowColor.value.getHexString().toUpperCase()}`, BLACK_MOUNTAIN_SWATCHES.rockShadow);
+
+  const upperSun = evaluateMountainFacetColor({ style: "classic", isRock: false, normalY: 0.85, ndotL: 0.9, distance: 0 });
+  const upperMid = evaluateMountainFacetColor({ style: "classic", isRock: false, normalY: 0.85, ndotL: 0.5, distance: 0 });
+  const cliffShadow = evaluateMountainFacetColor({ style: "classic", isRock: true, normalY: 0.15, ndotL: 0.1, distance: 0 });
+
+  assert.equal(upperSun.swatchHex, BLACK_MOUNTAIN_SWATCHES.snowSun);
+  assert.equal(upperMid.swatchHex, BLACK_MOUNTAIN_SWATCHES.snowMid);
+  assert.equal(cliffShadow.swatchHex, BLACK_MOUNTAIN_SWATCHES.rockShadow);
 });
