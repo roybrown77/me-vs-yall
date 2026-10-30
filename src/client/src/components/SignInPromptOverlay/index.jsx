@@ -108,24 +108,26 @@ const SignInPromptOverlay = () => {
       aria-labelledby="sign-in-prompt-title"
       aria-hidden={!fadeIn}
     >
-      {PlayfulMoment && playfulBundle?.scene ? (
-        <PlayfulMoment scene={playfulBundle.scene} />
-      ) : null}
-      <div className="sign-in-prompt-overlay__panel">
-        <div className="sign-in-prompt-overlay__kicker">Continue with Google</div>
-        <h2 className="sign-in-prompt-overlay__title" id="sign-in-prompt-title">
-          Sign in to keep playing
-        </h2>
-        <p className="sign-in-prompt-overlay__copy">
-          Pick the Google account you want for picks, scores, and leaderboards.
-        </p>
-        <button
-          type="button"
-          className="sign-in-prompt-overlay__btn"
-          onClick={googleLogin}
-        >
-          Continue with Google
-        </button>
+      <div className="sign-in-prompt-overlay__dialog">
+        {PlayfulMoment && playfulBundle?.scene ? (
+          <PlayfulMoment scene={playfulBundle.scene} />
+        ) : null}
+        <div className="sign-in-prompt-overlay__panel">
+          <div className="sign-in-prompt-overlay__kicker">Continue with Google</div>
+          <h2 className="sign-in-prompt-overlay__title" id="sign-in-prompt-title">
+            Sign in to keep playing
+          </h2>
+          <p className="sign-in-prompt-overlay__copy">
+            Pick the Google account you want for picks, scores, and leaderboards.
+          </p>
+          <button
+            type="button"
+            className="sign-in-prompt-overlay__btn"
+            onClick={googleLogin}
+          >
+            Continue with Google
+          </button>
+        </div>
       </div>
     </div>
   );

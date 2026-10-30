@@ -5,6 +5,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
     max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
   box-sizing: border-box;
@@ -21,50 +23,74 @@
 }
 
 .sign-in-prompt-overlay--theatrical {
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0;
-  padding:
-    max(12px, env(safe-area-inset-top))
-    max(12px, env(safe-area-inset-right))
-    max(16px, env(safe-area-inset-bottom))
-    max(12px, env(safe-area-inset-left));
   background: radial-gradient(circle at 50% 20%, rgba(72, 48, 120, 0.55), rgba(12, 18, 32, 0.92));
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
 }
 
-.sign-in-prompt-overlay--theatrical .sign-in-prompt-overlay__panel {
+/* Centered content column dialog that wraps playful moment + panel together */
+.sign-in-prompt-overlay__dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+  box-sizing: border-box;
   position: relative;
-  z-index: 2;
-  flex-shrink: 0;
+  z-index: 1;
 }
 
 .sign-in-playful-moment {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 0;
-  max-height: min(52vh, 420px);
-  margin-bottom: 12px;
+  max-width: 440px;
+  margin: 0 auto 12px;
+  box-sizing: border-box;
 }
 
 .sign-in-playful-moment__stage {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 0;
+  box-sizing: border-box;
 }
 
 .sign-in-playful-moment__lottie {
-  width: min(280px, 72vw);
-  max-height: min(40vh, 320px);
+  width: 100%;
+  max-width: min(240px, 62vw);
+  max-height: min(28vh, 230px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-in-playful-moment__lottie svg {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  display: block;
 }
 
 .sign-in-playful-moment--scene .sign-in-playful-moment__stage {
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 16 / 10;
+  max-height: min(28vh, 220px);
+  background: #060914;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
@@ -73,19 +99,22 @@
 .sign-in-playful-moment__scene-img {
   display: block;
   width: 100%;
-  max-height: min(44vh, 360px);
-  object-fit: cover;
-  object-position: center 35%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .sign-in-playful-moment__caption {
+  flex: 0 0 auto;
   margin: 10px 0 0;
+  padding: 0 12px;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 236, 190, 0.92);
+  color: rgba(255, 236, 190, 0.95);
   text-align: center;
+  line-height: 1.35;
+  box-sizing: border-box;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -95,7 +124,12 @@
 }
 
 .sign-in-prompt-overlay__panel {
-  padding: 28px 24px 24px;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 440px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 24px 20px 20px;
   border-radius: 18px;
   background: linear-gradient(180deg, #fffef8 0%, #fff6dc 100%);
   border: 1px solid rgba(255, 210, 90, 0.55);
@@ -114,14 +148,14 @@
 
 .sign-in-prompt-overlay__title {
   margin: 10px 0 8px;
-  font-size: clamp(1.35rem, 4.5vw, 1.65rem);
+  font-size: clamp(1.25rem, 4vw, 1.55rem);
   font-weight: 800;
   line-height: 1.25;
 }
 
 .sign-in-prompt-overlay__copy {
-  margin: 0 0 22px;
-  font-size: 0.95rem;
+  margin: 0 0 18px;
+  font-size: 0.92rem;
   line-height: 1.45;
   color: #3a4658;
 }
@@ -130,7 +164,7 @@
   width: 100%;
   border: 0;
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 13px 16px;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
@@ -146,6 +180,98 @@
 .sign-in-prompt-overlay__btn:focus-visible {
   outline: 3px solid #234f86;
   outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+  .sign-in-prompt-overlay--theatrical {
+    padding:
+      max(8px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      max(12px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+  }
+
+  .sign-in-playful-moment {
+    margin-bottom: 8px;
+  }
+
+  .sign-in-prompt-overlay__panel {
+    padding: 18px 14px 16px;
+    border-radius: 14px;
+  }
+
+  .sign-in-playful-moment__lottie {
+    max-width: min(200px, 58vw);
+    max-height: min(24vh, 180px);
+  }
+
+  .sign-in-playful-moment--scene .sign-in-playful-moment__stage {
+    border-radius: 12px;
+  }
+
+  .sign-in-playful-moment__caption {
+    font-size: 0.74rem;
+    margin-top: 6px;
+  }
+
+  .sign-in-prompt-overlay__title {
+    font-size: 1.22rem;
+    margin: 8px 0 6px;
+  }
+
+  .sign-in-prompt-overlay__copy {
+    margin: 0 0 14px;
+    font-size: 0.85rem;
+  }
+
+  .sign-in-prompt-overlay__btn {
+    padding: 11px 14px;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-height: 680px) {
+  .sign-in-prompt-overlay--theatrical {
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .sign-in-playful-moment {
+    margin-bottom: 6px;
+  }
+
+  .sign-in-playful-moment--scene .sign-in-playful-moment__stage {
+    max-height: min(22vh, 150px);
+  }
+
+  .sign-in-playful-moment__lottie {
+    max-width: min(170px, 45vw);
+    max-height: min(20vh, 140px);
+  }
+
+  .sign-in-playful-moment__caption {
+    margin-top: 4px;
+    font-size: 0.7rem;
+  }
+
+  .sign-in-prompt-overlay__panel {
+    padding: 14px 14px 12px;
+  }
+
+  .sign-in-prompt-overlay__title {
+    margin: 6px 0 4px;
+    font-size: 1.15rem;
+  }
+
+  .sign-in-prompt-overlay__copy {
+    margin: 0 0 10px;
+    font-size: 0.82rem;
+  }
+
+  .sign-in-prompt-overlay__btn {
+    padding: 9px 12px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

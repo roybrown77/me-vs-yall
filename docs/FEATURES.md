@@ -32,7 +32,7 @@ Player-facing summary: [README.md](../README.md).
 - **Shop**, **Tips**, **Origin**, **Contact**, **Of the Week** — content and merchandising routes.
 - **Play** — auth entry redirect into NFL scoreboard.
 - **Auth0** callback flow for sign-in.
-- **Sign-in prompt**: After **7 seconds** of browsing while signed out, a full-screen **Continue with Google** overlay fades in (account picker via Auth0). It stays until sign-in. For **24 hours** after the first show in a cycle, returning visitors see the overlay immediately; after 24 hours the cycle resets (7s grace, then overlay again). Signed-in users never see it. Every overlay includes the trophy **Lottie** (“Trophy case is waiting on you.”) above the sign-in card.
+- **Sign-in prompt**: After **7 seconds** of browsing while signed out, a full-screen **Continue with Google** overlay fades in (account picker via Auth0). It stays until sign-in. For **24 hours** after the first show in a cycle, returning visitors see the overlay immediately; after 24 hours the cycle resets (7s grace, then overlay again). Signed-in users never see it. The overlay randomly showcases playful moments above the sign-in card: the trophy **Lottie** (“Trophy case is waiting on you.”) or the night rooftop city skyline with the **M V Y** star constellation (“Look up — MVY is written in the stars.”).
 
 ## PWA & install
 
