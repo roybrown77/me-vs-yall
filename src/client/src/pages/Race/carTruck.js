@@ -49,8 +49,7 @@ export const buildTruckCar = () => {
   const shockBody = new THREE.MeshStandardMaterial({ color: 0xe8ecef, metalness: 0.65, roughness: 0.32 });
   const shockLabel = new THREE.MeshStandardMaterial({ color: 0xffa000, metalness: 0.2, roughness: 0.5 });
   const tail = new THREE.MeshBasicMaterial({ color: 0xf02030 });
-  const lampWhite = new THREE.MeshBasicMaterial({ color: 0xfff4e8 });
-  const lampAmber = new THREE.MeshBasicMaterial({ color: 0xffb030 });
+  const lamp = new THREE.MeshBasicMaterial({ color: 0xfff4d2 });
 
   const bed = new THREE.Mesh(new THREE.BoxGeometry(1.94, 0.58, 1.48), [
     paint(region(TRUCK_ATLAS.bodySide)),
@@ -104,27 +103,24 @@ export const buildTruckCar = () => {
   fasciaFront.polygonOffset = true;
   fasciaFront.polygonOffsetFactor = 1;
   fasciaFront.polygonOffsetUnits = 1;
-  const fascia = new THREE.Mesh(new THREE.BoxGeometry(1.86, 0.98, 0.18), [
-    dark,
-    dark,
-    dark,
+  const fascia = new THREE.Mesh(new THREE.BoxGeometry(1.86, 0.80, 0.12), [
+    paint(region(TRUCK_ATLAS.bodySide)),
+    paint(region(TRUCK_ATLAS.bodySide, true)),
+    paint(region(TRUCK_ATLAS.hood)),
     dark,
     dark,
     fasciaFront,
   ]);
-  fascia.position.set(0, 0.86, -2.04);
-  const bumperShellMat = paint(region(TRUCK_ATLAS.bodyFront, true));
-  bumperShellMat.polygonOffset = true;
-  bumperShellMat.polygonOffsetFactor = 2;
-  bumperShellMat.polygonOffsetUnits = 2;
-  const bumperShell = new THREE.Mesh(new THREE.BoxGeometry(1.94, 0.2, 0.12), bumperShellMat);
-  bumperShell.position.set(0, 0.54, -2.1);
-  const lightBar = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.07, 0.035), lampWhite);
-  lightBar.position.set(0, 0.56, -2.17);
-  [-0.86, 0.86].forEach((x) => {
-    const pod = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.11, 0.05), lampAmber);
-    pod.position.set(x, 0.54, -2.17);
-    car.add(pod);
+  fascia.position.set(0, 0.90, -1.98);
+  const frontBumper = new THREE.Mesh(new THREE.BoxGeometry(1.88, 0.12, 0.08), dark);
+  frontBumper.position.set(0, 0.50, -2.05);
+  const headLedBar = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.04, 0.04), lamp);
+  headLedBar.position.set(0, 1.25, -2.05);
+  car.add(headLedBar);
+  [-0.62, 0.62].forEach((x) => {
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.14, 0.04), lamp);
+    head.position.set(x, 0.94, -2.05);
+    car.add(head);
   });
   const windshield = new THREE.Mesh(new THREE.BoxGeometry(1.62, 0.48, 0.08), glass(region(TRUCK_ATLAS.windshield)));
   windshield.position.set(0, 1.28, -0.82);
@@ -138,10 +134,6 @@ export const buildTruckCar = () => {
     dark,
   ]);
   rearGlass.position.set(0, 1.22, 0.1);
-  const shackle = new THREE.Mesh(new THREE.TorusGeometry(0.055, 0.016, 8, 18), beadlock);
-  shackle.rotation.x = Math.PI / 2;
-  shackle.position.set(0, 0.36, -2.16);
-  shackle.renderOrder = 2;
   car.add(
     bed,
     tailgateMount,
@@ -151,11 +143,9 @@ export const buildTruckCar = () => {
     scoopLip,
     scoopWell,
     fascia,
-    bumperShell,
-    lightBar,
+    frontBumper,
     windshield,
     rearGlass,
-    shackle,
   );
   [-0.86, 0.86].forEach((x) => {
     const bezel = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.62, 0.08), dark);

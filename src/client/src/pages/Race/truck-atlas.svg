@@ -78,37 +78,24 @@
 
   <g id="body-front" transform="translate(1568,188)">
     <rect width="480" height="180" fill="#FFA000"/>
-    <rect x="8" y="8" width="464" height="118" rx="8" fill="#E09000" opacity="0.18"/>
-    <!-- headlamp housings -->
-    <rect x="18" y="32" width="96" height="92" rx="12" fill="#0a0c0e"/>
-    <rect x="366" y="32" width="96" height="92" rx="12" fill="#0a0c0e"/>
-    <!-- C-clamp DRL (outer edge) -->
-    <path d="M34 48 A38 38 0 1 1 34 108" fill="none" stroke="#fffef0" stroke-width="11" stroke-linecap="round"/>
-    <path d="M446 48 A38 38 0 1 0 446 108" fill="none" stroke="#fffef0" stroke-width="11" stroke-linecap="round"/>
-    <circle cx="62" cy="78" r="11" fill="#fff8e8" opacity="0.85"/>
-    <circle cx="418" cy="78" r="11" fill="#fff8e8" opacity="0.85"/>
-    <!-- grille -->
-    <rect x="112" y="38" width="256" height="88" rx="8" fill="#0a0c0e"/>
-    <rect x="124" y="50" width="232" height="22" rx="3" fill="url(#grilleBar)"/>
-    <rect x="124" y="82" width="232" height="22" rx="3" fill="url(#grilleBar)"/>
-    <ellipse cx="240" cy="78" rx="36" ry="24" fill="#0a0c0e" stroke="#FFA000" stroke-width="4"/>
-    <ellipse cx="240" cy="78" rx="22" ry="14" fill="none" stroke="#FFCC66" stroke-width="3" opacity="0.85"/>
-    <!-- orange off-road bumper -->
-    <path d="M8 128 H472 L460 176 H20 Z" fill="#FFA000"/>
-    <path d="M8 128 H472" stroke="#FFCC66" stroke-width="3" opacity="0.55"/>
-    <rect x="104" y="142" width="272" height="20" rx="4" fill="#0a0c0e"/>
-    <rect x="112" y="146" width="256" height="12" rx="2" fill="#ffffff"/>
-    <rect x="112" y="146" width="256" height="12" rx="2" fill="#ffffff" opacity="0.35"/>
-    <!-- amber fog pods -->
-    <rect x="24" y="136" width="40" height="36" rx="5" fill="#0a0c0e"/>
-    <rect x="28" y="140" width="32" height="28" rx="3" fill="#ffb030"/>
-    <rect x="28" y="140" width="32" height="28" rx="3" fill="#ffffff" opacity="0.22"/>
-    <rect x="416" y="136" width="40" height="36" rx="5" fill="#0a0c0e"/>
-    <rect x="420" y="140" width="32" height="28" rx="3" fill="#ffb030"/>
-    <rect x="420" y="140" width="32" height="28" rx="3" fill="#ffffff" opacity="0.22"/>
-    <!-- recovery point -->
-    <rect x="232" y="162" width="16" height="14" rx="3" fill="#CC8000"/>
-    <rect x="236" y="166" width="8" height="10" rx="2" fill="#0a0c0e"/>
+    <rect width="480" height="180" fill="url(#orangeHighlight)"/>
+    <!-- Thin headlight LED bar near top of front end -->
+    <rect x="20" y="12" width="440" height="10" rx="3" fill="#14181d"/>
+    <rect x="24" y="14" width="432" height="6" rx="2" fill="#fff4d2"/>
+    <rect x="28" y="15.5" width="424" height="3" rx="1.5" fill="#ffffff" opacity="0.9"/>
+    <!-- Snowball-style rectangular headlamp housings & warm lenses -->
+    <rect x="28" y="42" width="110" height="72" rx="10" fill="#14181d"/>
+    <rect x="38" y="52" width="90" height="52" rx="6" fill="#fff4d2"/>
+    <rect x="342" y="42" width="110" height="72" rx="10" fill="#14181d"/>
+    <rect x="352" y="52" width="90" height="52" rx="6" fill="#fff4d2"/>
+    <!-- Snowball-style clean 3-bar horizontal grille -->
+    <rect x="154" y="44" width="172" height="84" rx="8" fill="#14181d"/>
+    <rect x="166" y="58" width="148" height="10" rx="2" fill="#707a84"/>
+    <rect x="166" y="81" width="148" height="10" rx="2" fill="#707a84"/>
+    <rect x="166" y="104" width="148" height="10" rx="2" fill="#707a84"/>
+    <!-- Clean dark lower bumper band matching Snowball -->
+    <rect y="142" width="480" height="10" fill="#1a1e24"/>
+    <rect y="150" width="480" height="30" fill="#0a0c0e"/>
   </g>
 
   <g id="cabin-side" transform="translate(0,336)">
