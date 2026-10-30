@@ -20,7 +20,7 @@ test("race session defaults match app constants", () => {
   assert.equal(session.speedMultiplier, RACE_SPEED.fallback);
   assert.equal(session.speedMultiplier, 2);
   assert.equal(session.musicTrackId, DEFAULT_RACE_MUSIC_TRACK);
-  assert.equal(session.musicTrackId, "reggae");
+  assert.equal(session.musicTrackId, "eightiesNewerWave");
   assert.equal(session.mountainStyle, DEFAULT_MOUNTAIN_STYLE);
   assert.equal(session.carModelId, DEFAULT_CAR_MODEL);
   assert.equal(session.carModelId, "truck");

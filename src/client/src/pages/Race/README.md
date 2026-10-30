@@ -78,7 +78,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 
 ## Audio
 
-- **BGM:** `raceSoundtrack.js` — **Off**, Soulful Adventure (`trap`), East Coast Journey (`upbeat`), Southern Trap Run (`southernTrap`), Boasty Expedition (`reggae` / `boasty-full.m4a`), **Drizzy Dust Drive** (`drizzyDust` / `drizzy-dust.m4a`), **80s Neon Run** (`eightiesSynth` / `neon-laser-horizon.mp3`). License notes in file header.
+- **BGM:** `raceSoundtrack.js` — **Off**, Boasty Expedition (`reggae` / `boasty-full.m4a`), **Drizzy Dust Drive** (`drizzyDust` / `drizzy-dust.m4a`), **80s Neon Run** (`eightiesNeonLaserHorizon` / `neon-laser-horizon.mp3`), **80s Newer Wave** (`eightiesNewerWave` / `newer-wave.mp3`). License notes in file header.
 - Phase-based **master volume** (`soundtrackVolumeForPhase`).
 - **Road / line** layer: plays `ride-line-to-go-faster.mp4` when riding the glowing line or super-boosting (`setLineVolume`), and Web Audio low oscillator rumble on road edge (`roadAudio` in `engine.js`).
 - **Countdown** sine tones (`playTone`).
@@ -91,7 +91,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 | Setting | Module | Range | Default |
 |---------|--------|-------|---------|
 | Speed | `speed.js` + `raceSession.js` | 100%–400%, 50% steps | **200%** (multiplier `2`) |
-| Music | `raceSoundtrack.js` + `raceSession.js` | tracks + Off | **Boasty Expedition** (`reggae`) |
+| Music | `raceSoundtrack.js` + `raceSession.js` | tracks + Off | **80s Newer Wave** (`eightiesNewerWave`) |
 | Mountains | `mountainStyle.js` + `raceSession.js` | Black Mountains, Icy | **Icy** |
 | Car | `carModel.js` + `raceSession.js` | Snowball, Tuff Truck | **Tuff Truck** (`truck`) |
 | Length | `courseLayout.js` + `raceSession.js` | Standard, Double, Triple (physical spline length) | **Double** (2×) |

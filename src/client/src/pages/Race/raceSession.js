@@ -9,7 +9,7 @@ import {
   normalizeRoadScale,
 } from "./courseLayout.js";
 
-export const DEFAULT_RACE_MUSIC_TRACK = "reggae";
+export const DEFAULT_RACE_MUSIC_TRACK = "eightiesNewerWave";
 
 const VALID_MUSIC_TRACKS = new Set([
   "off",
@@ -19,6 +19,8 @@ const VALID_MUSIC_TRACKS = new Set([
   "reggae",
   "drizzyDust",
   "eightiesSynth",
+  "eightiesNeonLaserHorizon",
+  "eightiesNewerWave",
 ]);
 
 const isRaceMusicTrackId = (id) => VALID_MUSIC_TRACKS.has(id);
