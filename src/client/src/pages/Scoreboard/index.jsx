@@ -29,6 +29,7 @@ import {
   applyRankingsCachePayload,
   buildRankingsCacheKey,
   clearRankingsCache,
+  isRankingsGameDay,
   mergeLiveGamesIntoSeasonGames,
   isRankingsCacheKeyValid,
   readRankingsCache,
@@ -697,8 +698,8 @@ const Scoreboard = () => {
   }, []);
 
   const hydrateRankingsFromCache = useCallback(
-    (cacheKey, gamesInProgress = false) => {
-      const cached = readRankingsCache(cacheKey, { gamesInProgress });
+    (cacheKey, isGameDay = false) => {
+      const cached = readRankingsCache(cacheKey, { isGameDay });
       if (!cached) {
         return false;
       }
@@ -754,7 +755,7 @@ const Scoreboard = () => {
       clearRankingsCache(cacheKey);
       rankingsFetchKeyRef.current = null;
     } else if (
-      hydrateRankingsFromCache(cacheKey, getAreAnyGamesInProgress(games))
+      hydrateRankingsFromCache(cacheKey, isRankingsGameDay(games))
     ) {
       rankingsFetchKeyRef.current = fetchKey;
       setRankingsSeasonSettled(true);
@@ -858,7 +859,7 @@ const Scoreboard = () => {
 
         applyRankingsState(payload);
         writeRankingsCache(cacheKey, payload, {
-          gamesInProgress: getAreAnyGamesInProgress(games),
+          isGameDay: isRankingsGameDay(games),
         });
         setRankingsSeasonSettled(true);
       } catch (error) {
@@ -937,7 +938,7 @@ const Scoreboard = () => {
               priorYearWeeks,
               priorYearGames,
             },
-            { gamesInProgress: getAreAnyGamesInProgress(games) }
+            { isGameDay: isRankingsGameDay(games) }
           );
         }
 
@@ -991,18 +992,18 @@ const Scoreboard = () => {
     const fetchKey = `${leagueId}|${year}|${weekId}`;
     const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
 
-    const gamesInProgress = getAreAnyGamesInProgress(games);
+    const isGameDay = isRankingsGameDay(games);
     if (
       rankingsFetchKeyRef.current === fetchKey &&
       seasonGames.length > 0 &&
-      isRankingsCacheKeyValid(cacheKey, { gamesInProgress })
+      isRankingsCacheKeyValid(cacheKey, { isGameDay })
     ) {
       setRankingsSeasonSettled(true);
       setRankingsLoading(false);
       return;
     }
 
-    if (hydrateRankingsFromCache(cacheKey, gamesInProgress)) {
+    if (hydrateRankingsFromCache(cacheKey, isGameDay)) {
       rankingsFetchKeyRef.current = fetchKey;
       setRankingsSeasonSettled(true);
       setRankingsLoading(false);
@@ -1059,16 +1060,16 @@ const Scoreboard = () => {
     const fetchKey = `${leagueId}|${year}|${weekId}`;
     const cacheKey = buildRankingsCacheKey(leagueId, year, weekId);
 
-    const gamesInProgress = getAreAnyGamesInProgress(games);
+    const isGameDay = isRankingsGameDay(games);
     if (
       rankingsFetchKeyRef.current === fetchKey &&
       seasonGames.length > 0 &&
-      isRankingsCacheKeyValid(cacheKey, { gamesInProgress })
+      isRankingsCacheKeyValid(cacheKey, { isGameDay })
     ) {
       return;
     }
 
-    if (hydrateRankingsFromCache(cacheKey, gamesInProgress)) {
+    if (hydrateRankingsFromCache(cacheKey, isGameDay)) {
       rankingsFetchKeyRef.current = fetchKey;
       setRankingsSeasonSettled(true);
       return;

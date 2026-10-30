@@ -1,33 +1,81 @@
 const RANKINGS_CACHE_PREFIX = "sportspick.rankings.v1";
 
-/** Local-time refresh hours (24h). Daily baseline; extra slots on game days. */
+/** Local-time refresh slots (24h). Daily baseline at 7:00 a.m.; extra slots on game days (1, 5, 8, and 11:59 p.m.). */
 export const RANKINGS_DAILY_REFRESH_HOUR = 7;
-export const RANKINGS_GAME_DAY_REFRESH_HOURS = [7, 13, 17, 20];
+export const RANKINGS_DAILY_REFRESH_SLOT = { hour: 7, minute: 0 };
+export const RANKINGS_GAME_DAY_REFRESH_HOURS = [7, 13, 17, 20, 23];
+export const RANKINGS_GAME_DAY_REFRESH_SLOTS = [
+  { hour: 7, minute: 0 },
+  { hour: 13, minute: 0 },
+  { hour: 17, minute: 0 },
+  { hour: 20, minute: 0 },
+  { hour: 23, minute: 59 },
+];
 
 export const buildRankingsCacheKey = (leagueId, year, weekId) =>
   `${RANKINGS_CACHE_PREFIX}:${leagueId}:${year}:${weekId}`;
 
-export const getRankingsCacheRefreshHours = (gamesInProgress = false) =>
-  gamesInProgress
+export const isSameLocalCalendarDay = (dateA, dateB) =>
+  dateA.getFullYear() === dateB.getFullYear() &&
+  dateA.getMonth() === dateB.getMonth() &&
+  dateA.getDate() === dateB.getDate();
+
+/** True when any game is scheduled on `referenceDate` (local time) or currently live in progress. */
+export const isRankingsGameDay = (
+  games = [],
+  referenceDate = new Date()
+) => {
+  if (!Array.isArray(games) || !games.length) {
+    return false;
+  }
+
+  const refDate =
+    referenceDate instanceof Date ? referenceDate : new Date(referenceDate);
+  const refMs = refDate.getTime();
+  if (Number.isNaN(refMs)) {
+    return false;
+  }
+
+  return games.some((game) => {
+    if (!game?.startDateTime) {
+      return false;
+    }
+    const startDate = new Date(game.startDateTime);
+    const startMs = startDate.getTime();
+    if (Number.isNaN(startMs)) {
+      return false;
+    }
+    if (isSameLocalCalendarDay(startDate, refDate)) {
+      return true;
+    }
+    return startMs <= refMs + 5000 && !game.isGameOver;
+  });
+};
+
+export const getRankingsCacheRefreshSlots = (isGameDay = false) =>
+  isGameDay ? RANKINGS_GAME_DAY_REFRESH_SLOTS : [RANKINGS_DAILY_REFRESH_SLOT];
+
+export const getRankingsCacheRefreshHours = (isGameDay = false) =>
+  isGameDay
     ? RANKINGS_GAME_DAY_REFRESH_HOURS
     : [RANKINGS_DAILY_REFRESH_HOUR];
 
 /** Next scheduled refresh strictly after `fromDate` (local time). */
 export const getNextRankingsCacheRefreshAt = (
   fromDate = new Date(),
-  gamesInProgress = false
+  isGameDay = false
 ) => {
   const fromMs = fromDate.getTime();
-  const hours = getRankingsCacheRefreshHours(gamesInProgress);
+  const slots = getRankingsCacheRefreshSlots(isGameDay);
 
   for (let dayOffset = 0; dayOffset < 366; dayOffset += 1) {
     const dayStart = new Date(fromDate);
     dayStart.setHours(0, 0, 0, 0);
     dayStart.setDate(dayStart.getDate() + dayOffset);
 
-    for (const hour of hours) {
+    for (const { hour, minute = 0 } of slots) {
       const slot = new Date(dayStart);
-      slot.setHours(hour, 0, 0, 0);
+      slot.setHours(hour, minute, 0, 0);
       if (slot.getTime() > fromMs) {
         return slot.getTime();
       }
@@ -42,12 +90,12 @@ export const getNextRankingsCacheRefreshAt = (
 
 export const getRankingsCacheExpiryMs = (
   fromDate = new Date(),
-  { gamesInProgress = false } = {}
-) => getNextRankingsCacheRefreshAt(fromDate, gamesInProgress);
+  { isGameDay = false, gamesInProgress = false } = {}
+) => getNextRankingsCacheRefreshAt(fromDate, Boolean(isGameDay || gamesInProgress));
 
 export const isRankingsCacheEntryExpired = (
   entry,
-  { gamesInProgress = false, now = Date.now() } = {}
+  { isGameDay = false, gamesInProgress = false, now = Date.now() } = {}
 ) => {
   if (!entry?.expiresAt) {
     return true;
@@ -57,9 +105,10 @@ export const isRankingsCacheEntryExpired = (
     return true;
   }
 
-  if (gamesInProgress && entry.cachedAt) {
+  const activeGameDay = Boolean(isGameDay || gamesInProgress);
+  if (activeGameDay && entry.cachedAt) {
     const gameDayExpiry = getRankingsCacheExpiryMs(new Date(entry.cachedAt), {
-      gamesInProgress: true,
+      isGameDay: true,
     });
     if (now >= gameDayExpiry) {
       return true;
@@ -71,7 +120,7 @@ export const isRankingsCacheEntryExpired = (
 
 export const isRankingsCacheKeyValid = (
   cacheKey,
-  { gamesInProgress = false, now = Date.now() } = {}
+  { isGameDay = false, gamesInProgress = false, now = Date.now() } = {}
 ) => {
   try {
     const raw = localStorage.getItem(cacheKey);
@@ -80,13 +129,20 @@ export const isRankingsCacheKeyValid = (
     }
 
     const parsed = JSON.parse(raw);
-    return !isRankingsCacheEntryExpired(parsed, { gamesInProgress, now });
+    return !isRankingsCacheEntryExpired(parsed, {
+      isGameDay,
+      gamesInProgress,
+      now,
+    });
   } catch {
     return false;
   }
 };
 
-export const readRankingsCache = (cacheKey, { gamesInProgress = false } = {}) => {
+export const readRankingsCache = (
+  cacheKey,
+  { isGameDay = false, gamesInProgress = false } = {}
+) => {
   try {
     const raw = localStorage.getItem(cacheKey);
     if (!raw) {
@@ -94,7 +150,7 @@ export const readRankingsCache = (cacheKey, { gamesInProgress = false } = {}) =>
     }
 
     const parsed = JSON.parse(raw);
-    if (isRankingsCacheEntryExpired(parsed, { gamesInProgress })) {
+    if (isRankingsCacheEntryExpired(parsed, { isGameDay, gamesInProgress })) {
       localStorage.removeItem(cacheKey);
       return null;
     }
@@ -127,7 +183,7 @@ export const clearRankingsCache = (cacheKey) => {
 export const writeRankingsCache = (
   cacheKey,
   payload,
-  { gamesInProgress = false } = {}
+  { isGameDay = false, gamesInProgress = false } = {}
 ) => {
   try {
     const cachedAt = Date.now();
@@ -136,6 +192,7 @@ export const writeRankingsCache = (
       JSON.stringify({
         cachedAt,
         expiresAt: getRankingsCacheExpiryMs(new Date(cachedAt), {
+          isGameDay,
           gamesInProgress,
         }),
         payload,

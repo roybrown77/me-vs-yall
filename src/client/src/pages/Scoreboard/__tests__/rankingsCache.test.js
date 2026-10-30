@@ -5,27 +5,28 @@ import {
   getNextRankingsCacheRefreshAt,
   getRankingsCacheExpiryMs,
   isRankingsCacheEntryExpired,
+  isRankingsGameDay,
   mergeLiveGamesIntoSeasonGames,
 } from "../rankingsCache.js";
 
 const localDate = (year, month, day, hour, minute = 0) =>
   new Date(year, month - 1, day, hour, minute, 0, 0);
 
-test("getRankingsCacheExpiryMs uses next 7 a.m. when no games are in progress", () => {
+test("getRankingsCacheExpiryMs uses next 7 a.m. when not a game day", () => {
   const atSixAm = localDate(2026, 3, 15, 6, 30);
   assert.equal(
-    getRankingsCacheExpiryMs(atSixAm, { gamesInProgress: false }),
+    getRankingsCacheExpiryMs(atSixAm, { isGameDay: false }),
     localDate(2026, 3, 15, 7).getTime()
   );
 
   const atEightAm = localDate(2026, 3, 15, 8);
   assert.equal(
-    getRankingsCacheExpiryMs(atEightAm, { gamesInProgress: false }),
+    getRankingsCacheExpiryMs(atEightAm, { isGameDay: false }),
     localDate(2026, 3, 16, 7).getTime()
   );
 });
 
-test("getRankingsCacheExpiryMs uses 1, 5, and 8 p.m. slots on game days", () => {
+test("getRankingsCacheExpiryMs uses 1, 5, 8, and 11:59 p.m. slots on game days", () => {
   const atNoon = localDate(2026, 9, 20, 12);
   assert.equal(
     getNextRankingsCacheRefreshAt(atNoon, true),
@@ -43,20 +44,49 @@ test("getRankingsCacheExpiryMs uses 1, 5, and 8 p.m. slots on game days", () => 
     getNextRankingsCacheRefreshAt(atSixPm, true),
     localDate(2026, 9, 20, 20).getTime()
   );
+
+  const atNinePm = localDate(2026, 9, 20, 21);
+  assert.equal(
+    getNextRankingsCacheRefreshAt(atNinePm, true),
+    localDate(2026, 9, 20, 23, 59).getTime()
+  );
+
+  const atMidnightMinusHalfMin = localDate(2026, 9, 20, 23, 59);
+  assert.equal(
+    getNextRankingsCacheRefreshAt(atMidnightMinusHalfMin, true),
+    localDate(2026, 9, 21, 7).getTime()
+  );
 });
 
-test("isRankingsCacheEntryExpired applies game-day schedule when games are live", () => {
+test("isRankingsGameDay detects games scheduled on the local date even after completion", () => {
+  const gameDayNoon = localDate(2026, 9, 20, 12);
+  const gameDayLateNight = localDate(2026, 9, 20, 23, 59);
+  const nextMorning = localDate(2026, 9, 21, 9, 0);
+  const games = [
+    {
+      _id: "g1",
+      startDateTime: localDate(2026, 9, 20, 13, 0).toISOString(),
+      isGameOver: true,
+    },
+  ];
+
+  assert.equal(isRankingsGameDay(games, gameDayNoon), true);
+  assert.equal(isRankingsGameDay(games, gameDayLateNight), true);
+  assert.equal(isRankingsGameDay(games, nextMorning), false);
+});
+
+test("isRankingsCacheEntryExpired applies game-day schedule on game days", () => {
   const cachedAt = localDate(2026, 9, 20, 8).getTime();
   const entry = {
     cachedAt,
     expiresAt: getRankingsCacheExpiryMs(new Date(cachedAt), {
-      gamesInProgress: false,
+      isGameDay: false,
     }),
   };
 
   assert.equal(
     isRankingsCacheEntryExpired(entry, {
-      gamesInProgress: false,
+      isGameDay: false,
       now: localDate(2026, 9, 20, 10).getTime(),
     }),
     false
@@ -64,7 +94,7 @@ test("isRankingsCacheEntryExpired applies game-day schedule when games are live"
 
   assert.equal(
     isRankingsCacheEntryExpired(entry, {
-      gamesInProgress: true,
+      isGameDay: true,
       now: localDate(2026, 9, 20, 13).getTime(),
     }),
     true

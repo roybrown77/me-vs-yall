@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 
 export const STANDINGS_REFRESH_NOTICE =
-  "Updates daily at 7 a.m. During live games, also at 1, 5, and 8 p.m.";
+  "Updates daily at 7 a.m. During game days, also at 1, 5, 8 and 11:59 p.m.";
 
 const StandingsRefreshNotice = () => (
   <Typography
