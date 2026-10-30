@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const TEAM_CY = 50;
 const TEAM_RADIUS = 15.5;
 const DIRECTION_ARROW_Y = 25;
+const DRIVE_BACK_OFFSET = 12;
 const OCTAGON_TAN = Math.tan(Math.PI / 8);
 
 const buildOctagonPoints = (cx, cy, r) => {
@@ -81,6 +82,12 @@ const AmericanFootballPossessionMarker = ({
   const textFill = contrastTextColor(fill);
   const interactive = typeof onClick === "function";
   const arrow = directionArrow(driveDirection);
+  const driveOffsetX =
+    driveDirection === "right"
+      ? -DRIVE_BACK_OFFSET
+      : driveDirection === "left"
+        ? DRIVE_BACK_OFFSET
+        : 0;
   const jostleClass =
     jostleSide === "away"
       ? " american-football-possession-marker--jostle-away"
@@ -136,7 +143,7 @@ const AmericanFootballPossessionMarker = ({
           <polygon points={OCTAGON_POINTS} />
         </clipPath>
       </defs>
-      <g transform={`translate(${ballX}, 0)`}>
+      <g transform={`translate(${ballX + driveOffsetX}, 0)`}>
         {arrow ? (
           <text
             className="american-football-possession-marker__direction"

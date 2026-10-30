@@ -1,5 +1,5 @@
-export const FIELD_LEFT_GOAL_X = 20;
-export const FIELD_RIGHT_GOAL_X = 352;
+export const FIELD_LEFT_GOAL_X = 39;
+export const FIELD_RIGHT_GOAL_X = 333;
 export const FIELD_PLAYABLE_WIDTH = FIELD_RIGHT_GOAL_X - FIELD_LEFT_GOAL_X;
 
 const normalizeToken = (value) => String(value || "").trim().toUpperCase();
