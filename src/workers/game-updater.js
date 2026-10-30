@@ -24,6 +24,10 @@ const {
     upsertOverUnderHistory,
 } = require('../server/game/spreadLineHistory');
 const { reconcileScoreboardGameCounts } = require('../server/game/scoreboardGameCountCheck');
+const {
+    FINAL_STATUS_DELAY_MS,
+    resolveFinalStatus,
+} = require('../server/game/gameFinalStatus');
 
 puppeteer.use(StealthPlugin());
 
@@ -75,7 +79,6 @@ const leagueId = '59723313734d1d6202a85f10';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
 const VIEWPORT = { width: 2500, height: 1500 };
 const UPDATE_INTERVAL_MS = 10000;
-const FINAL_STATUS_DELAY_MS = 60 * 1000;
 const PAGE_LOAD_TIMEOUT_MS = 45000;
 const BROWSER_SESSION_LIMIT = 30;
 
@@ -483,35 +486,6 @@ async function scrapeGameInformationFromPage(page) {
 /* =============================================================================
    SHARED GAME FIELD HELPERS - used by create + update paths
    ============================================================================= */
-
-// Marks games final immediately for rankings; keeps scraping last-play for a short window.
-const resolveFinalStatus = ({ game, scrapedIsGameOver, now = Date.now() }) => {
-    if (!scrapedIsGameOver) {
-        return {
-            isGameOver: false,
-            playCollectionUntil: null,
-            finalStatusDueAt: null,
-        };
-    }
-
-    let collectUntilMs = game.playCollectionUntil
-        ? new Date(game.playCollectionUntil).getTime()
-        : null;
-
-    if ((!collectUntilMs || !Number.isFinite(collectUntilMs)) && game.finalStatusDueAt) {
-        collectUntilMs = new Date(game.finalStatusDueAt).getTime();
-    }
-
-    if (!collectUntilMs || !Number.isFinite(collectUntilMs) || collectUntilMs < now) {
-        collectUntilMs = now + FINAL_STATUS_DELAY_MS;
-    }
-
-    return {
-        isGameOver: true,
-        playCollectionUntil: new Date(collectUntilMs),
-        finalStatusDueAt: null,
-    };
-};
 
 const calculateSpread = (mergedGame) => {
     const spreadText = (mergedGame.spread || '').trim();
