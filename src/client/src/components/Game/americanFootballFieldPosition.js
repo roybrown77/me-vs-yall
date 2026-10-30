@@ -87,7 +87,7 @@ export const yardLineToFieldX = (yardsFromLeft) => {
   return FIELD_LEFT_GOAL_X + (clamped / 100) * FIELD_PLAYABLE_WIDTH;
 };
 
-export const MIDFIELD_BADGE_OFFSET = 16;
+export const MIDFIELD_BADGE_OFFSET = 18;
 
 const teamBadgeFromCompetitor = (competitor = {}) => ({
   teamLabel: competitor.shortLocation || competitor.alternateName || "",
