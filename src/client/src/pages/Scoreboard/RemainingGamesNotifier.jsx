@@ -23,7 +23,14 @@ const RemainingGamesNotifier = ({
             open={true}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
-            <Alert severity="error" style={{ fontWeight: 'bold' }}>
+            <Alert
+                severity="error"
+                style={{
+                    fontWeight: 'bold',
+                    backgroundColor: '#4f46e5',
+                    color: '#ffffff',
+                }}
+            >
                 <span className="flash">{`${picksNotSelected} Remaining Pick(s) 🤩`}</span>
             </Alert>
         </Snackbar>

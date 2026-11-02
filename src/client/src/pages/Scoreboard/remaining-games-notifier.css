@@ -3,3 +3,8 @@
 .remaining-games-notifier {
   bottom: 50px !important;
 }
+
+.remaining-games-notifier .MuiAlert-root {
+  background-color: #4f46e5;
+  color: #ffffff;
+}
