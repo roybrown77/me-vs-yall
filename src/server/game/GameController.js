@@ -100,7 +100,7 @@ const backupData = async () => {
 const normalizeAmericanFootballLiveFields = (game) => {
   if (
     !['59723313734d1d6202a85f10', '59723313734d1d6202a85f15'].includes(
-      game.leagueId.toString().toLowerCase()
+      game.leagueId?.toString().toLowerCase()
     )
   ) {
     return;
@@ -138,7 +138,11 @@ const normalizeAmericanFootballLiveFields = (game) => {
 };
 
 const setAmericanFootballPlays = (game) => {
-  if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
+  if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId?.toString().toLowerCase())) {
+    if (!Array.isArray(game.playHistory)) {
+      return;
+    }
+
     const monthDay = parseInt(moment().format('MMDD'));
 
     let lastPlay;
@@ -149,6 +153,7 @@ const setAmericanFootballPlays = (game) => {
     let playHistory = [];
 
     for (let i = 0; i < game.playHistory.length; i++) {
+      if (!game.playHistory[i]) continue;
       lastPlay = game.playHistory[i].lastPlay?.replace('Last Play: ','')?.replace('Last play: ','') || '';
 
       game.playHistory[i].lastPlay = lastPlay;
@@ -280,7 +285,11 @@ const setAmericanFootballPlays = (game) => {
 };
 
 const setAmericanFootballDown = (game) => {
-  if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId.toString().toLowerCase())) {
+  if (['59723313734d1d6202a85f10','59723313734d1d6202a85f15'].includes(game.leagueId?.toString().toLowerCase())) {
+    if (!Array.isArray(game.playHistory) || game.playHistory.length === 0) {
+      return;
+    }
+
     const monthDay = parseInt(moment().format('MMDD'));
 
     let downPlay =
@@ -392,7 +401,11 @@ const setAmericanFootballDown = (game) => {
 };
 
 const setBasketballPlays = (game) => {
-  if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f19') {
+  if (game.leagueId?.toString().toLowerCase() === '59723313734d1d6202a85f19') {
+    if (!Array.isArray(game.playHistory)) {
+      return;
+    }
+
     const monthDay = parseInt(moment().format('MMDD'));
   
     let highlights = [];
@@ -400,6 +413,7 @@ const setBasketballPlays = (game) => {
     let lastPlay;
 
     for (let i = 0; i < game.playHistory.length; i++) {
+      if (!game.playHistory[i]) continue;
       lastPlay = game.playHistory[i].lastPlay;
 
       if (lastPlay.toLowerCase().includes('free throw') ||  
@@ -445,7 +459,11 @@ const setBasketballPlays = (game) => {
 };
 
 const setBaseballPlays = (game) => {
-  if (game.leagueId.toString().toLowerCase() === '59723313734d1d6202a85f21') {
+  if (game.leagueId?.toString().toLowerCase() === '59723313734d1d6202a85f21') {
+    if (!Array.isArray(game.playHistory)) {
+      return;
+    }
+
     const monthDay = parseInt(moment().format('MMDD'));
   
     let highlights = [];
@@ -453,6 +471,7 @@ const setBaseballPlays = (game) => {
     let lastPlay;
 
     for (let i = 0; i < game.playHistory.length; i++) {
+      if (!game.playHistory[i]) continue;
       lastPlay = game.playHistory[i].lastPlay;
 
       if (lastPlay.toLowerCase().includes('foul') || 
@@ -775,5 +794,13 @@ router.get('/home-recent-scores', async function (req, res) {
     return res.status(500).send('There was a problem fetching home recent scores');
   }
 });
+
+router._test = {
+  setAmericanFootballPlays,
+  setAmericanFootballDown,
+  setBasketballPlays,
+  setBaseballPlays,
+  normalizeAmericanFootballLiveFields,
+};
 
 module.exports = router;
