@@ -3,8 +3,10 @@ import { useLocation } from 'react-router-dom';
 
 import {
   getSignInPromptPhase,
-  readSignInPromptLastShownAt,
-  writeSignInPromptLastShownAt,
+  isInGuestPromptCooldown,
+  readSignInPromptGuestDismissedAt,
+  shouldShowSignInPrompt,
+  writeSignInPromptGuestDismissedAt,
 } from '../../utilities/signInPromptPolicy';
 import { googleLogin, isConfirmedAuthentication } from '../../utilities/authenticationClient';
 import './sign-in-prompt-overlay.css';
@@ -12,7 +14,12 @@ import './sign-in-prompt-overlay.css';
 const SignInPromptOverlay = () => {
   const location = useLocation();
   const sessionStartedAtRef = useRef(Date.now());
-  const cycleMarkedRef = useRef(false);
+  const shouldShowPromptRef = useRef(shouldShowSignInPrompt());
+  const wasInCooldownRef = useRef(
+    isInGuestPromptCooldown({
+      guestDismissedAtIso: readSignInPromptGuestDismissedAt(),
+    }),
+  );
   const playfulSceneRef = useRef(undefined);
   const [phase, setPhase] = useState('hidden');
   const [fadeIn, setFadeIn] = useState(false);
@@ -29,26 +36,21 @@ const SignInPromptOverlay = () => {
 
     const tick = () => {
       const isAuthenticated = isConfirmedAuthentication();
-      const lastShownAtIso = readSignInPromptLastShownAt();
+      const guestDismissedAtIso = readSignInPromptGuestDismissedAt();
+      const inCooldown = isInGuestPromptCooldown({ guestDismissedAtIso });
+
+      if (wasInCooldownRef.current && !inCooldown) {
+        sessionStartedAtRef.current = Date.now();
+        shouldShowPromptRef.current = shouldShowSignInPrompt();
+      }
+      wasInCooldownRef.current = inCooldown;
+
       const nextPhase = getSignInPromptPhase({
         isAuthenticated,
         sessionStartedAtMs: sessionStartedAtRef.current,
-        lastShownAtIso,
+        guestDismissedAtIso,
+        shouldShowPrompt: shouldShowPromptRef.current,
       });
-
-      const cooldownMs = 24 * 60 * 60 * 1000;
-      const inActivePromptPeriod =
-        lastShownAtIso
-        && Date.now() - Date.parse(lastShownAtIso) < cooldownMs;
-
-      if (nextPhase === 'waiting') {
-        cycleMarkedRef.current = false;
-      }
-
-      if (nextPhase === 'visible' && !inActivePromptPeriod && !cycleMarkedRef.current) {
-        writeSignInPromptLastShownAt(new Date().toISOString());
-        cycleMarkedRef.current = true;
-      }
 
       setPhase(nextPhase);
     };
@@ -93,6 +95,13 @@ const SignInPromptOverlay = () => {
     };
   }, [phase]);
 
+  const continueAsGuest = () => {
+    writeSignInPromptGuestDismissedAt(new Date().toISOString());
+    wasInCooldownRef.current = true;
+    setFadeIn(false);
+    setPhase('hidden');
+  };
+
   if (phase === 'hidden' || phase === 'waiting' || onAuthCallback) {
     return null;
   }
@@ -126,6 +135,13 @@ const SignInPromptOverlay = () => {
             onClick={googleLogin}
           >
             Continue with Google
+          </button>
+          <button
+            type="button"
+            className="sign-in-prompt-overlay__guest-btn"
+            onClick={continueAsGuest}
+          >
+            Continue as our beloved guest
           </button>
         </div>
       </div>
