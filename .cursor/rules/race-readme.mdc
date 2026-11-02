@@ -14,7 +14,7 @@ When you add, remove, or materially change behavior, UI, settings, defaults, aud
 4. Add a one-line bullet under **Changelog** with the date and summary.
 5. If you add or replace `models/race-car.glb` (or change `budgets.json`), run `npm run check:race-budget` and update the **3D car asset budget** section if limits change.
 
-Do not skip the README for “small” UX tweaks that players would notice (HUD, tutorial, boost, mountains, music, persistence).
+Do not update the README for small code changes or UX tweaks (HUD adjustments, styling tweaks, minor visual refinements). Only update for substantial new mechanics, settings, or architecture changes.
 
 ## Function comments
 

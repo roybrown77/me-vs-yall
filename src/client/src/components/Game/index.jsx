@@ -54,6 +54,7 @@ const styles = {
   root: {
     flexGrow: 1,
     height: "fit-content",
+    position: "relative",
   },
   game: {
     backgroundColor: "#ffffff",
@@ -668,6 +669,31 @@ const Game = (props) => {
             </Grid>
             );
           })}
+          {game.competitors?.length === 2 && (
+            <div
+              className={`game-competitors-vs${slimMode ? " game-competitors-vs--slim" : ""}`}
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 32 32"
+                className="game-competitors-vs__svg"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <polygon
+                  points="16,2.5 29.3,12.2 24.2,27.8 7.8,27.8 2.7,12.2"
+                  className="game-competitors-vs__polygon"
+                />
+                <text
+                  x="16"
+                  y="17"
+                  className="game-competitors-vs__text"
+                >
+                  vs
+                </text>
+              </svg>
+            </div>
+          )}
           {state.popoverOpen && (
             <div
               style={{
