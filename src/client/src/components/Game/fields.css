@@ -347,6 +347,47 @@
   fill-opacity: 0.5;
 }
 
+.american-football-floating-hearts {
+  pointer-events: none;
+}
+
+@keyframes american-football-heart-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.25) rotate(0deg);
+  }
+  15% {
+    opacity: 0.98;
+    transform: translate(var(--heart-sway-1, -6px), calc(var(--heart-rise, -95px) * 0.2))
+      scale(var(--heart-scale, 1)) rotate(var(--heart-rot-1, -8deg));
+  }
+  50% {
+    opacity: 0.92;
+    transform: translate(var(--heart-sway-2, 8px), calc(var(--heart-rise, -95px) * 0.58))
+      scale(var(--heart-scale, 1)) rotate(var(--heart-rot-2, 10deg));
+  }
+  80% {
+    opacity: 0.55;
+    transform: translate(var(--heart-sway-3, -5px), calc(var(--heart-rise, -95px) * 0.85))
+      scale(calc(var(--heart-scale, 1) * 0.92)) rotate(var(--heart-rot-1, -6deg));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--heart-sway-2, 4px), var(--heart-rise, -95px))
+      scale(calc(var(--heart-scale, 1) * 0.7)) rotate(0deg);
+  }
+}
+
+.american-football-floating-heart {
+  pointer-events: none;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: american-football-heart-float;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: forwards;
+}
+
 @keyframes american-football-midfield-jostle-away {
   0%,
   100% {
