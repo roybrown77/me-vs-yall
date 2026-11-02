@@ -15,23 +15,25 @@ alwaysApply: true
 
 ## When to update
 
-In the **same change** (or immediately after):
+Do **not** update `README.md` or `docs/*` for small code changes, especially UX tweaks (e.g., UI shapes, styling, colors, micro-copy, badge tweaks, layout spacing, minor component visual enhancements, or refactors).
+
+Only update documentation for:
+- Major new user-facing features, new leagues, new routes/pages
+- Local dev environment or architecture additions (`docs/DEVELOPMENT.md`)
+- CI, Heroku dyno, or build pipeline changes (`docs/DEPLOYMENT.md`)
+- Critical operational behavior: cache/SW, worker contracts, notification architecture (`docs/OPERATIONS.md`)
 
 | Change | Update |
 |--------|--------|
-| Player-visible feature, league, tab, rule | `README.md` + `docs/FEATURES.md` |
+| Major new feature, league, tab | `README.md` + `docs/FEATURES.md` |
 | Local dev, architecture, env | `docs/DEVELOPMENT.md` |
 | CI, Heroku, `heroku-postbuild`, tests gate | `docs/DEPLOYMENT.md` |
-| PWA/cache/SW, workers, notification logic, pick/scoring internals users depend on | `docs/OPERATIONS.md` (+ `docs/FEATURES.md` if user-visible) |
-
-One line in `README.md` is enough when users only notice the effect (e.g. “app updates after deploy” → point to ops in dev docs, not full detail in README).
-
-Do **not** rewrite docs for copy/CSS-only tweaks or refactors with no behavior change.
+| Critical operations (SW, worker, cache logic) | `docs/OPERATIONS.md` |
 
 ## Agent checklist
 
-1. User-visible? **`README.md`** — brief.
-2. Which technical doc? Use the table above; prefer editing an existing subsection.
+1. Small code change or UX tweak? **Do NOT update any docs.**
+2. Major feature or substantial behavioral addition? Update the appropriate file using the table above.
 3. Critical production behavior always lands in **`docs/OPERATIONS.md`**.
 
 ## Related rules

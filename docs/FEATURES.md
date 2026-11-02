@@ -6,7 +6,7 @@ Player-facing summary: [README.md](../README.md).
 
 - **Leagues**: NFL, CFB, Premier League, MMA, boxing, MLB, NBA, WNBA, NCAAM, NCAAW, NBA 2K (availability varies by season data).
 - **Week navigation**: Preseason, regular season, and playoffs via URL segments; “entire season” rollup where configured.
-- **Picks**: Choose a side before kickoff with centered pentagon "vs" badge between team pick cards; server rejects picks after the game starts (`PickDomain.isValid`).
+- **Picks**: Choose a side before kickoff; server rejects picks after the game starts (`PickDomain.isValid`).
 - **Vegas lines on game cards**: Each game shows spread favorite and over/under below the matchup and above venue info. Tap either line for a day-by-day history (East Coast dates). The pill uses a highlight background when that line moved during the week. Leaders still has a separate **Spread** tab for spread-adjusted standings.
 - **Score guesses**: Optional away/home score picks; bonus points for accuracy and game-of-the-week rules (see server ranking helpers).
 - **Live updates**: Polls while games are in progress on scoreboard and leader views.
