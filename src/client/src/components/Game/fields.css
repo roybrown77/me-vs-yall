@@ -333,6 +333,20 @@
   pointer-events: none;
 }
 
+.american-football-red-zone {
+  pointer-events: none;
+}
+
+.american-football-red-zone__turf {
+  fill: #e52424;
+  fill-opacity: 0.45;
+}
+
+.american-football-red-zone__lip {
+  fill: #af1616;
+  fill-opacity: 0.5;
+}
+
 @keyframes american-football-midfield-jostle-away {
   0%,
   100% {

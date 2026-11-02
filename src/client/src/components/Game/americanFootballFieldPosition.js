@@ -88,6 +88,24 @@ export const yardLineToFieldX = (yardsFromLeft) => {
 };
 
 export const MIDFIELD_BADGE_OFFSET = 18;
+export const RED_ZONE_YARDS = 20;
+
+export const resolveRedZoneSide = ({
+  possessionSide,
+  yardsFromLeft,
+  hasValidSpot = true,
+}) => {
+  if (!hasValidSpot || yardsFromLeft == null || !possessionSide) {
+    return null;
+  }
+  if (possessionSide === "away" && yardsFromLeft >= 100 - RED_ZONE_YARDS) {
+    return "right";
+  }
+  if (possessionSide === "home" && yardsFromLeft <= RED_ZONE_YARDS) {
+    return "left";
+  }
+  return null;
+};
 
 const teamBadgeFromCompetitor = (competitor = {}) => ({
   teamLabel: competitor.shortLocation || competitor.alternateName || "",
@@ -140,10 +158,14 @@ export const resolveAmericanFootballLiveBall = ({
   }
 
   const spot = parseSpotFromDown(game.down);
-  let yardsFromLeft = yardsFromLeftGoalLine({ spot, competitors: game.competitors || [] });
-  if (yardsFromLeft == null) {
-    yardsFromLeft = 50;
-  }
+  const parsedYardsFromLeft = yardsFromLeftGoalLine({ spot, competitors: game.competitors || [] });
+  const hasValidSpot = parsedYardsFromLeft != null;
+  const yardsFromLeft = hasValidSpot ? parsedYardsFromLeft : 50;
+  const redZoneSide = resolveRedZoneSide({
+    possessionSide,
+    yardsFromLeft,
+    hasValidSpot,
+  });
 
   const competitor = game.competitors[possessionSide === "away" ? 0 : 1] || {};
 
@@ -152,6 +174,8 @@ export const resolveAmericanFootballLiveBall = ({
     possessionSide,
     yardsFromLeft,
     spot,
+    redZoneSide,
+    inRedZone: Boolean(redZoneSide),
     ...teamBadgeFromCompetitor(competitor),
   };
 };
