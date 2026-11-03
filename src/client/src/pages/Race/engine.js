@@ -26,7 +26,7 @@ import {
   setRaceSessionSettings,
 } from "./raceSession";
 import { computeDrivingTelemetry } from "./raceTrackMap.js";
-import rideLineAudioUrl from "../../media/ride-line-to-go-faster.mp4";
+import raceGameSoundsUrl from "../../media/race-game-sounds.mp4";
 
 const BEST_KEY = "mvy-race-best";
 const ROAD_HALF = 4.15;
@@ -35,9 +35,15 @@ const GLOW_HALF = 0.7;
 const LINE_CORE_HALF = 0.042;
 const LINE_GLOW_HALF = 0.13;
 const LINE_LIFT = 0.175;
-const SUPER_BOOST_SECONDS = 3;
-const LINE_SUPER_BOOST_HOLD_SEC = 1;
+const SUPER_BOOST_SECONDS = 3.5;
+const LINE_SUPER_BOOST_HOLD_SEC = 2;
 const LINE_AFTER_SUPER_BOOST_MS = 1000;
+const LINE_RIDE_AUDIO_START = 14.0;
+const LINE_RIDE_AUDIO_END = 16.0;
+const LINE_RIDE_AUDIO_DURATION = 2.0;
+const POWER_BOOST_AUDIO_START = 16.5;
+const POWER_BOOST_AUDIO_END = 20.0;
+const POWER_BOOST_AUDIO_DURATION = 3.5;
 const LOOP_START_T = 0.004;
 const ROAD_END_T = 0.992;
 const FINISH_BANNER_T = 0.975;
@@ -498,63 +504,154 @@ const createAudio = (musicTrackId) => {
   lineGain.gain.value = 0;
   lineGain.connect(ctx.destination);
 
-  const lineAudio = new Audio(rideLineAudioUrl);
-  lineAudio.loop = true;
-  lineAudio.preload = "auto";
-  lineAudio.volume = 0;
-  let lineBufferSource = null;
+  const boostGain = ctx.createGain();
+  boostGain.gain.value = 0;
+  boostGain.connect(ctx.destination);
+
+  let fullAudioBuffer = null;
+  let lineRideSource = null;
+  let boostSource = null;
+  let isLineRideActive = false;
+  let isBoostActive = false;
+
+  const fallbackAudio = new Audio(raceGameSoundsUrl);
+  fallbackAudio.preload = "auto";
+  fallbackAudio.volume = 0;
 
   if (typeof fetch === "function") {
-    fetch(rideLineAudioUrl)
+    fetch(raceGameSoundsUrl)
       .then((res) => res.arrayBuffer())
       .then((buf) => ctx.decodeAudioData(buf))
       .then((decoded) => {
         if (ctx.state === "closed") return;
-        const source = ctx.createBufferSource();
-        source.buffer = decoded;
-        source.loop = true;
-        source.connect(lineGain);
-        source.start();
-        lineBufferSource = source;
-        lineAudio.pause();
-        lineAudio.volume = 0;
+        fullAudioBuffer = decoded;
+        fallbackAudio.pause();
+        fallbackAudio.volume = 0;
       })
       .catch(() => {});
   }
 
   const soundtrack = createRaceSoundtrack(musicTrackId);
+
+  // Stops line ride buffer source playback and resets line gain.
+  const stopLineRideSource = () => {
+    if (lineRideSource) {
+      try {
+        lineRideSource.stop();
+        lineRideSource.disconnect();
+      } catch {}
+      lineRideSource = null;
+    }
+    isLineRideActive = false;
+    lineGain.gain.setValueAtTime(0, ctx.currentTime);
+  };
+
+  // Stops active power boost buffer source and resets boost gain.
+  const stopBoostSource = () => {
+    if (boostSource) {
+      try {
+        boostSource.stop();
+        boostSource.disconnect();
+      } catch {}
+      boostSource = null;
+    }
+    isBoostActive = false;
+    boostGain.gain.setValueAtTime(0, ctx.currentTime);
+  };
+
   return {
     ctx,
     osc,
     filter,
     gain,
     lineGain,
-    lineAudio,
+    boostGain,
     soundtrack,
-    // Updates glowing-line audio volume via decoded Web Audio buffer or HTMLAudio fallback.
-    setLineVolume(level) {
-      const clamped = Math.min(1, Math.max(0, level));
-      lineGain.gain.setTargetAtTime(clamped, ctx.currentTime, 0.05);
-      if (!lineBufferSource) {
-        lineAudio.volume = clamped;
-        if (clamped > 0.001) {
-          if (lineAudio.paused) lineAudio.play().catch(() => {});
-        } else if (!lineAudio.paused) {
-          lineAudio.pause();
+    // Updates riding-line audio: plays 14s to 16s slice while on the line.
+    updateLineRideAudio(active, holdSec, volume = 1) {
+      if (!active) {
+        if (isLineRideActive) {
+          stopLineRideSource();
+          if (!fullAudioBuffer) {
+            fallbackAudio.pause();
+          }
+        }
+        return;
+      }
+
+      lineGain.gain.setTargetAtTime(Math.min(1, Math.max(0, volume)), ctx.currentTime, 0.05);
+
+      if (!isLineRideActive) {
+        stopBoostSource();
+        isLineRideActive = true;
+        const clampedHold = Math.min(Math.max(0, holdSec), LINE_RIDE_AUDIO_DURATION - 0.05);
+        const startOffset = LINE_RIDE_AUDIO_START + clampedHold;
+        const duration = Math.max(0.01, LINE_RIDE_AUDIO_DURATION - clampedHold);
+
+        if (fullAudioBuffer) {
+          const source = ctx.createBufferSource();
+          source.buffer = fullAudioBuffer;
+          source.connect(lineGain);
+          source.start(ctx.currentTime, startOffset, duration);
+          lineRideSource = source;
+          source.onended = () => {
+            if (lineRideSource === source) {
+              lineRideSource = null;
+              isLineRideActive = false;
+            }
+          };
+        } else {
+          fallbackAudio.currentTime = startOffset;
+          fallbackAudio.volume = Math.min(1, Math.max(0, volume));
+          fallbackAudio.play().catch(() => {});
         }
       }
     },
-    // Stops glowing-line audio playback on disposal.
-    stopLineAudio() {
-      lineGain.gain.value = 0;
-      if (lineBufferSource) {
-        try {
-          lineBufferSource.stop();
-        } catch {}
-        lineBufferSource = null;
+    // Plays power boost audio from 16.5s to 20s mark when boost is achieved.
+    triggerPowerBoost(volume = 1) {
+      stopLineRideSource();
+      stopBoostSource();
+      isBoostActive = true;
+      const boostVol = Math.min(1, Math.max(0, volume));
+      boostGain.gain.setValueAtTime(boostVol, ctx.currentTime);
+
+      if (fullAudioBuffer) {
+        const source = ctx.createBufferSource();
+        source.buffer = fullAudioBuffer;
+        source.connect(boostGain);
+        source.start(ctx.currentTime, POWER_BOOST_AUDIO_START, POWER_BOOST_AUDIO_DURATION);
+        boostSource = source;
+        source.onended = () => {
+          if (boostSource === source) {
+            boostSource = null;
+            isBoostActive = false;
+          }
+        };
+      } else {
+        fallbackAudio.currentTime = POWER_BOOST_AUDIO_START;
+        fallbackAudio.volume = boostVol;
+        fallbackAudio.play().catch(() => {});
       }
-      lineAudio.pause();
-      lineAudio.currentTime = 0;
+    },
+    // Updates volume for active power boost or stops if boost ended.
+    updatePowerBoostAudio(boosting, volume = 1) {
+      if (!boosting) {
+        if (isBoostActive) {
+          stopBoostSource();
+          if (!fullAudioBuffer) {
+            fallbackAudio.pause();
+          }
+        }
+        return;
+      }
+      boostGain.gain.setTargetAtTime(Math.min(1, Math.max(0, volume)), ctx.currentTime, 0.05);
+    },
+    // Stops glowing-line and boost audio playback on disposal or pause/reset.
+    stopLineAudio() {
+      stopLineRideSource();
+      stopBoostSource();
+      fallbackAudio.pause();
+      fallbackAudio.currentTime = 0;
     },
     // Starts BGM after audio context is unlocked.
     ensureSoundtrack() {
@@ -670,6 +767,7 @@ export function createRace(canvas, hooks) {
 
   // Resets car, line, boost, and timer state for a new run.
   const resetRun = () => {
+    audio?.stopLineAudio();
     distance = 0;
     speed = cruise * 0.35;
     offset = 0;
@@ -751,7 +849,7 @@ export function createRace(canvas, hooks) {
 
   // Returns t-range for the mandatory finish glowing line segment.
   const finishLine = () => {
-    const span = Math.min(0.28, (7 * 1.45) / runSeconds);
+    const span = Math.min(0.24, (4 * 1.45) / runSeconds);
     const end = 0.968;
     return { start: Math.max(0.62, end - span), end };
   };
@@ -760,7 +858,7 @@ export function createRace(canvas, hooks) {
   const spawnLine = () => {
     const carT = distance / length;
     const finish = finishLine();
-    const span = Math.min(0.24, (9 * 1.45) / runSeconds);
+    const span = Math.min(0.22, (5 * 1.45) / runSeconds);
     const lead = ((0.025 + Math.random() * 0.08) / 4) * (192 / runSeconds);
     const gap = Math.min(0.02, 2 / runSeconds);
     const start = carT + lead;
@@ -868,9 +966,11 @@ export function createRace(canvas, hooks) {
     let engineVolume = 0;
     let engineFreq = 48;
     let lineVolume = 0;
+    let boostVolume = 0;
     if (playRoad) {
       if (roadAudio.line) {
-        lineVolume = Math.min(1, 0.55 + Math.min(speed, 80) / 320 + (boosting ? 0.2 : 0));
+        lineVolume = Math.min(1, 0.65 + Math.min(speed, 80) / 320);
+        boostVolume = Math.min(1, 0.75 + Math.min(speed, 80) / 320);
       } else if (roadAudio.edge) {
         engineVolume = 0.022 + Math.min(speed, 80) / 3800 + Math.abs(sway) * 0.006;
         engineFreq = 36 + speed * 0.75 + Math.abs(sway) * 10;
@@ -878,7 +978,11 @@ export function createRace(canvas, hooks) {
     }
     audio.gain.gain.setTargetAtTime(engineVolume, ctx.currentTime, 0.08);
     audio.osc.frequency.setTargetAtTime(engineFreq, ctx.currentTime, 0.08);
-    audio.setLineVolume(lineVolume);
+
+    const isLineRideActive = Boolean(playRoad && roadAudio.line && !boosting);
+    audio.updateLineRideAudio(isLineRideActive, lineHold, lineVolume);
+    audio.updatePowerBoostAudio(Boolean(playRoad && boosting), boostVolume);
+
     const musicLevel = soundOn && !paused
       ? soundtrackVolumeForPhase(phase, phase === "racing" || phase === "tutorial")
       : 0;
@@ -1135,6 +1239,10 @@ export function createRace(canvas, hooks) {
           boost = 1;
           lineSpawnAfter = 0;
           hideLine();
+          if (soundOn && !paused) {
+            const boostVol = Math.min(1, 0.75 + Math.min(speed, 80) / 320);
+            audio?.triggerPowerBoost(boostVol);
+          }
         }
       } else if (carT >= lineStart) {
         lineHold = Math.max(0, lineHold - dt);

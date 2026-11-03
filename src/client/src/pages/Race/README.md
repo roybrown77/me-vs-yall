@@ -80,7 +80,7 @@ Constants (engine): `ROAD_HALF`, `CAR_HALF`, `GLOW_HALF`.
 
 - **BGM:** `raceSoundtrack.js` — **Off**, Boasty Expedition (`reggae` / `boasty-full.m4a`), **Drizzy Dust Drive** (`drizzyDust` / `drizzy-dust.m4a`), **80s Neon Run** (`eightiesNeonLaserHorizon` / `neon-laser-horizon.mp3`), **80s Newer Wave** (`eightiesNewerWave` / `newer-wave.mp3`). License notes in file header.
 - Phase-based **master volume** (`soundtrackVolumeForPhase`).
-- **Road / line** layer: plays `ride-line-to-go-faster.mp4` when riding the glowing line or super-boosting (`setLineVolume`), and Web Audio low oscillator rumble on road edge (`roadAudio` in `engine.js`).
+- **Road / line** layer: plays `race-game-sounds.mp4` when riding the glowing line or super-boosting (`setLineVolume`), and Web Audio low oscillator rumble on road edge (`roadAudio` in `engine.js`).
 - **Countdown** sine tones (`playTone`).
 - **Sound on/off** in menu; unlock via first pointer (`unlockAudio`).
 
