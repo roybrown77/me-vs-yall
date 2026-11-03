@@ -70,6 +70,7 @@ const AmericanFootballPossessionMarker = ({
   jostleDurationSec,
   jostleDelaySec,
   driveDirection,
+  inRedZone = false,
 }) => {
   const rawId = useId().replace(/:/g, "");
   const sheenGradId = `af-poss-sheen-${rawId}`;
@@ -187,6 +188,15 @@ const AmericanFootballPossessionMarker = ({
             className="american-football-possession-marker__inner-rim"
             points={INNER_OCTAGON_POINTS}
           />
+          {inRedZone ? (
+            <polygon
+              className="american-football-possession-marker__red-zone-ring"
+              points={OCTAGON_POINTS}
+              fill="none"
+              stroke="#e52424"
+              strokeWidth="2.75"
+            />
+          ) : null}
         </g>
         <text
           className="american-football-possession-marker__label"
@@ -211,6 +221,7 @@ AmericanFootballPossessionMarker.propTypes = {
   jostleDurationSec: PropTypes.number,
   jostleDelaySec: PropTypes.number,
   driveDirection: PropTypes.oneOf(["left", "right"]),
+  inRedZone: PropTypes.bool,
 };
 
 export default AmericanFootballPossessionMarker;

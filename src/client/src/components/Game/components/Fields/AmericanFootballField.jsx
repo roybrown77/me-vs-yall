@@ -312,39 +312,6 @@ const AmericanFootballField = (props) => {
       <path className="field-top" fill="#39b54a" stroke="#000000" d="M74.893,40.427L61.761,67.814L31.101,67.814L47.474,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-top" fill="#cdcccc" stroke="#000000" d="M47.474,40.427L31.102,67.814L28.989,67.814L45.585,40.427Z" strokeWidth="0" strokeOpacity="1" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}}></path>
       <path className="field-top field-away" fill={props.awayColor} stroke="#000000" d="M45.584,40.427L28.989,67.814L0.441,67.814L20.055,40.427Z" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', strokeOpacity: 1}} strokeWidth="0" strokeOpacity="1"></path>
-      {/* red zone overlay */}
-      {liveBall?.redZoneSide === "left" ? (
-        <g className="american-football-red-zone american-football-red-zone--left" aria-label="Red zone">
-          <path
-            className="american-football-red-zone__lip"
-            fill="#af1616"
-            fillOpacity="0.5"
-            d="M92.421,67.814L92.548,71.857L31.312,71.857L31.102,67.814Z"
-          />
-          <path
-            className="american-football-red-zone__turf"
-            fill="#e52424"
-            fillOpacity="0.45"
-            d="M102.313,40.427L92.421,67.814L31.101,67.814L47.474,40.427Z"
-          />
-        </g>
-      ) : null}
-      {liveBall?.redZoneSide === "right" ? (
-        <g className="american-football-red-zone american-football-red-zone--right" aria-label="Red zone">
-          <path
-            className="american-football-red-zone__lip"
-            fill="#af1616"
-            fillOpacity="0.5"
-            d="M340.898,67.814L340.689,71.857L278.388,71.857L278.513,67.814Z"
-          />
-          <path
-            className="american-football-red-zone__turf"
-            fill="#e52424"
-            fillOpacity="0.45"
-            d="M324.527,40.427L340.898,67.814L278.514,67.814L268.734,40.427Z"
-          />
-        </g>
-      ) : null}
       {/* field yard markers */}
       <text className="field-number" x="186.00000000000000" y="87.814" textAnchor="middle" fontFamily="BentonSans, Arial, Helvetica, sans-serif" fontSize="12px" stroke="none" fill="#333333" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', textAnchor: 'middle', fontFamily: 'BentonSans, Arial, Helvetica, sans-serif', fontSize: '12px'}} strokeWidth="1">
         <tspan dy="3.493687499999993" style={{WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)'}}>50</tspan>
@@ -478,6 +445,7 @@ const AmericanFootballField = (props) => {
             jostleDurationSec={possessionWobble?.durationSec}
             jostleDelaySec={possessionWobble?.delaySec}
             driveDirection={liveBall.possessionSide === "away" ? "right" : "left"}
+            inRedZone={liveBall.inRedZone}
           />
         ) : null}
         {!liveBall && midfieldTeams && !liveBallAnimating ? (

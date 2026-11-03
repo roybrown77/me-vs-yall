@@ -333,18 +333,9 @@
   pointer-events: none;
 }
 
-.american-football-red-zone {
+.american-football-possession-marker__red-zone-ring {
   pointer-events: none;
-}
-
-.american-football-red-zone__turf {
-  fill: #e52424;
-  fill-opacity: 0.45;
-}
-
-.american-football-red-zone__lip {
-  fill: #af1616;
-  fill-opacity: 0.5;
+  paint-order: stroke fill;
 }
 
 .american-football-floating-hearts {
