@@ -231,7 +231,7 @@ const nflTeams = [
         color2: "#535353",
         color: "#C5D5DF",
         stadiumName: "Allegiant Stadium",
-        stadiumCity: "Paradise, Nevada, USA",
+        stadiumCity: "Las Vegas, Nevada, USA",
         stadiumLocation: ["Glamorous venue near the Vegas Strip", "A pirate's haven in the entertainment capital", "A black spaceship parked by the Strip, pirate flags under desert neon"],
         emojis: ["🏴‍☠️","🎰","🎲"],
         conference: "AFC",
