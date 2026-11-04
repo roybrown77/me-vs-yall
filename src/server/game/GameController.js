@@ -8,8 +8,6 @@ const sortBy = require('lodash/sortBy');
 
 const gameRepository = require('./databaseRepositories/GameRepository');
 const gameWeekRepository = require('./databaseRepositories/GameWeekRepository');
-const pickRepository = require('../pick/PickRepository');
-const userRepository = require('../user/UserRepository');
 
 const { playHistoryCount } = require('../../../config');
 
@@ -78,24 +76,6 @@ const allTeams = [
   ...nba2kCompetitors,
   ...wnbaTeams
 ];
-
-const getEmailAddresses = async () => {
-  const users = await userRepository.find({deleted: {$ne: true}});
-  const emailList = [...users.map(user=>{return user.email})];
-  const emailString = emailList.join('\n');
-  console.log('emailString: ' + emailString);
-};
-
-const backupData = async () => {
-  const games = await gameRepository.find({});
-  console.log('games: ' + JSON.stringify(games));
-  const gameWeeks = await gameWeekRepository.find({});
-  console.log('gameWeeks: ' + JSON.stringify(gameWeeks));
-  const picks = await pickRepository.find({});
-  console.log('picks: ' + JSON.stringify(picks));
-  const users = await userRepository.find({});
-  console.log('users: ' + JSON.stringify(users));
-};
 
 const normalizeAmericanFootballLiveFields = (game) => {
   if (
@@ -564,9 +544,6 @@ router.get('/games', async function (req, res) {
   const skipTeamStats = get(req, 'query.skipTeamStats') === 'true';
   const endDateTime = get(req, 'query.endDateTime');
 
-  // backupData();
-  // getEmailAddresses();
-  
   console.log("time2: ", moment().format());
 
   try {
