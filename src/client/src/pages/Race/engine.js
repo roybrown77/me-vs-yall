@@ -27,6 +27,10 @@ import {
 } from "./raceSession";
 import { computeDrivingTelemetry } from "./raceTrackMap.js";
 import raceGameSoundsUrl from "../../media/race-game-sounds.mp4";
+import {
+  scaleRaceGameSoundsFallbackVolume,
+  scaleRaceGameSoundsGain,
+} from "./raceGameSoundsVolume";
 
 const BEST_KEY = "mvy-race-best";
 const ROAD_HALF = 4.15;
@@ -579,7 +583,11 @@ const createAudio = (musicTrackId) => {
         return;
       }
 
-      lineGain.gain.setTargetAtTime(Math.min(1, Math.max(0, volume)), ctx.currentTime, 0.05);
+      lineGain.gain.setTargetAtTime(
+        scaleRaceGameSoundsGain(volume),
+        ctx.currentTime,
+        0.05
+      );
 
       if (!isLineRideActive) {
         stopBoostSource();
@@ -602,7 +610,7 @@ const createAudio = (musicTrackId) => {
           };
         } else {
           fallbackAudio.currentTime = startOffset;
-          fallbackAudio.volume = Math.min(1, Math.max(0, volume));
+          fallbackAudio.volume = scaleRaceGameSoundsFallbackVolume(volume);
           fallbackAudio.play().catch(() => {});
         }
       }
@@ -612,7 +620,7 @@ const createAudio = (musicTrackId) => {
       stopLineRideSource();
       stopBoostSource();
       isBoostActive = true;
-      const boostVol = Math.min(1, Math.max(0, volume));
+      const boostVol = scaleRaceGameSoundsGain(volume);
       boostGain.gain.setValueAtTime(boostVol, ctx.currentTime);
 
       if (fullAudioBuffer) {
@@ -629,7 +637,7 @@ const createAudio = (musicTrackId) => {
         };
       } else {
         fallbackAudio.currentTime = POWER_BOOST_AUDIO_START;
-        fallbackAudio.volume = boostVol;
+        fallbackAudio.volume = scaleRaceGameSoundsFallbackVolume(volume);
         fallbackAudio.play().catch(() => {});
       }
     },
@@ -644,7 +652,11 @@ const createAudio = (musicTrackId) => {
         }
         return;
       }
-      boostGain.gain.setTargetAtTime(Math.min(1, Math.max(0, volume)), ctx.currentTime, 0.05);
+      boostGain.gain.setTargetAtTime(
+        scaleRaceGameSoundsGain(volume),
+        ctx.currentTime,
+        0.05
+      );
     },
     // Stops glowing-line and boost audio playback on disposal or pause/reset.
     stopLineAudio() {
