@@ -15,6 +15,8 @@ import maddenTouchdown from '../../media/madden-touchdown.m4a';
 import tecmoTouchdown from '../../media/tecmo-touchdown.m4a'
 import boasty from '../../media/boasty.m4a';
 
+import TouchdownCelebration from '../../components/TouchdownCelebration/TouchdownCelebration';
+
 import './home.css';
 
 const taglineEndings = [
@@ -55,7 +57,6 @@ const windingSegments = [
   { top: '80%', left: '32%', width: '54%', rotate: '-8deg' },
 ];
 
-const confettiPieces = Array.from({ length: 18 }, (_, index) => index);
 const TOUCHDOWN_TRIGGER_PROGRESS = 0.9;
 const BANDWAGON_SCROLL_SENSITIVITY = 1.8;
 
@@ -445,24 +446,11 @@ const Home = () => {
             {windingTypedText}
             <span className="home-splash__cursor" />
           </div>
-          <div
-            className={`home-splash__touchdown-celebration home-splash__touchdown-celebration--winding${
-              isWindingTouchdown ? ' is-live' : ''
-            }`}
-            aria-hidden="true"
-          >
-            {confettiPieces.map((piece) => (
-              <span
-                key={`winding-confetti-${piece}`}
-                className="home-splash__confetti"
-                style={{
-                  left: `${8 + piece * 5}%`,
-                  animationDelay: `${(piece % 6) * 90}ms`,
-                  animationDuration: `${850 + (piece % 5) * 160}ms`,
-                }}
-              />
-            ))}
-          </div>
+          <TouchdownCelebration
+            active={isWindingTouchdown}
+            className="home-splash__touchdown-celebration home-splash__touchdown-celebration--winding"
+            idPrefix="winding-confetti"
+          />
           <div className="home-splash__winding-track" aria-hidden="true">
             {windingSegments.map((segment) => (
               <div
@@ -564,22 +552,11 @@ const Home = () => {
           >
             <p className="home-splash__controls-meta">Use ⬅️ ➡️ arrow keys or click a milestone dot</p>
           </aside>}
-          <div
-            className={`home-splash__touchdown-celebration${isTouchdown ? ' is-live' : ''}`}
-            aria-hidden="true"
-          >
-            {confettiPieces.map((piece) => (
-              <span
-                key={`confetti-${piece}`}
-                className="home-splash__confetti"
-                style={{
-                  left: `${8 + piece * 5}%`,
-                  animationDelay: `${(piece % 6) * 90}ms`,
-                  animationDuration: `${850 + (piece % 5) * 160}ms`,
-                }}
-              />
-            ))}
-          </div>
+          <TouchdownCelebration
+            active={isTouchdown}
+            className="home-splash__touchdown-celebration"
+            idPrefix="confetti"
+          />
           {hasTruckMoved && (
             <div className="home-splash__typing" role="status" aria-live="polite">
               {typedText}

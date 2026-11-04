@@ -1,0 +1,56 @@
+.touchdown-celebration {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.touchdown-celebration.is-live {
+  opacity: 1;
+}
+
+.touchdown-celebration__confetti {
+  position: absolute;
+  top: -18px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: touchdown-celebration-confetti-fall;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+.touchdown-celebration__confetti:nth-child(4n + 1) {
+  background: #f2c34a;
+}
+
+.touchdown-celebration__confetti:nth-child(4n + 2) {
+  background: #ff5f45;
+}
+
+.touchdown-celebration__confetti:nth-child(4n + 3) {
+  background: #34a853;
+}
+
+.touchdown-celebration__confetti:nth-child(4n + 4) {
+  background: #2d8cff;
+}
+
+@keyframes touchdown-celebration-confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(182px) rotate(280deg);
+    opacity: 0;
+  }
+}

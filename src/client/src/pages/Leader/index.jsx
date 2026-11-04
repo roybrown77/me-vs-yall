@@ -23,6 +23,8 @@ import Countdown from "../../components/Countdown";
 import GameEngagementBar from "../../components/GameEngagementBar";
 import LeagueNotices from "../../components/LeagueNotices";
 import LeaderHypeBanner from "../../components/LeaderHypeBanner";
+import TouchdownCelebration from "../../components/TouchdownCelebration/TouchdownCelebration";
+import { shouldShowWeekWinnerCelebration } from "./weekWinnerCelebration";
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi, isRequestAborted } from "../../utilities/http";
@@ -478,9 +480,28 @@ const Leader = () => {
                       isBonusPointsTab,
                       areAnyGamesInProgress,
                     });
+                    const showWeekWinnerCelebration = shouldShowWeekWinnerCelebration({
+                      areAllGamesOver,
+                      games,
+                      isFirstLeader: index === 0,
+                    });
 
                     return (
-                    <div style={styles.container} key={leader.id}>
+                    <div
+                      style={
+                        showWeekWinnerCelebration
+                          ? { ...styles.container, position: "relative" }
+                          : styles.container
+                      }
+                      key={leader.id}
+                    >
+                      {showWeekWinnerCelebration ? (
+                        <TouchdownCelebration
+                          active
+                          className="leader-first-place-celebration"
+                          idPrefix={`leader-first-${leader.id}`}
+                        />
+                      ) : null}
                       <Accordion style={{ borderRadius: "8px", boxShadow: "none" }}>
                         <AccordionSummary
                           style={styles.expansionSummary}
