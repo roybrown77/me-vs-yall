@@ -25,6 +25,7 @@ import LeagueNotices from "../../components/LeagueNotices";
 import LeaderHypeBanner from "../../components/LeaderHypeBanner";
 import TouchdownCelebration from "../../components/TouchdownCelebration/TouchdownCelebration";
 import { shouldShowWeekWinnerCelebration } from "./weekWinnerCelebration";
+import { getLeaderAccordionSummaryPaddingBottomRem } from "./leaderAccordionSummaryPadding";
 
 import a11yProps from "../../utilities/a11yProps";
 import { callApi, isRequestAborted } from "../../utilities/http";
@@ -485,9 +486,25 @@ const Leader = () => {
                       games,
                       isFirstLeader: index === 0,
                     });
+                    const streakEmoji = getGameStreakEmoji(
+                      leader.winsBeforeGameOver,
+                      leader.losses,
+                      leader.winsInARow,
+                      leader.lossesInARow
+                    );
+                    const accordionSummaryPaddingBottomRem =
+                      getLeaderAccordionSummaryPaddingBottomRem({
+                        streakEmoji,
+                        streakMultiplier:
+                          leader.winsInARow || leader.lossesInARow,
+                        areAnyGamesInProgress,
+                        showBonusPoints:
+                          isBonusPointsTab && leader.scoreGuessBumpPoints > 0,
+                      });
 
                     return (
                     <div
+                      className="leader-entry"
                       style={
                         showWeekWinnerCelebration
                           ? { ...styles.container, position: "relative" }
@@ -506,7 +523,11 @@ const Leader = () => {
                         <AccordionSummary
                           style={styles.expansionSummary}
                           expandIcon={<ExpandMoreIcon />}
-                          sx={{ "&.MuiAccordionSummary-root": { paddingBottom: "1.75rem" } }}
+                          sx={{
+                            "&.MuiAccordionSummary-root": {
+                              paddingBottom: `${accordionSummaryPaddingBottomRem}rem`,
+                            },
+                          }}
                         >
                           <div
                             style={{
@@ -603,12 +624,7 @@ const Leader = () => {
                                   width: "9rem",
                                 }}
                               >
-                                {`${getGameStreakEmoji(
-                                  leader.winsBeforeGameOver,
-                                  leader.losses,
-                                  leader.winsInARow,
-                                  leader.lossesInARow
-                                )} x${leader.winsInARow || leader.lossesInARow}`}
+                                {`${streakEmoji} x${leader.winsInARow || leader.lossesInARow}`}
                               </div>
                             </div>
                           </div>

@@ -4,6 +4,20 @@
   z-index: 10;
 }
 
+.leader-entry {
+  margin-bottom: 0.85rem;
+}
+
+.leader-entry:last-child {
+  margin-bottom: 0;
+}
+
+.leader-entry .MuiAccordion-heading,
+.leader-entry .MuiAccordionSummary-root,
+.leader-entry .MuiAccordionSummary-content {
+  overflow: visible;
+}
+
 .leader-win-loss-tie-header {
   font-weight: bold;
   color: #fff;
