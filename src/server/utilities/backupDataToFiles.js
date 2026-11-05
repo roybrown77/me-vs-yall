@@ -1,8 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { finished } = require("stream/promises");
-
-const { EJSON } = require("bson");
 const moment = require("moment-timezone");
 
 const gameRepository = require("../game/databaseRepositories/GameRepository");
@@ -14,6 +11,8 @@ const {
   openBackupMongoConnection,
   closeBackupMongoConnection,
 } = require("./backupMongoConnection");
+const { exportCollectionToNdjson, serializeBackupLine } = require("./backupMongoExport");
+const { defaultBackupRoot } = require("./backupLastManifest");
 
 const COLLECTIONS = [
   { name: "games", model: gameRepository },
@@ -22,18 +21,6 @@ const COLLECTIONS = [
   { name: "users", model: userRepository },
 ];
 
-const defaultBackupRoot = () =>
-  path.join(process.cwd(), "backups", "mongo");
-
-/** Canonical Extended JSON line — one document per line for mongoimport. */
-const serializeBackupLine = (doc) =>
-  `${EJSON.stringify(doc, { relaxed: false })}\n`;
-
-const CURSOR_BATCH_SIZE = 250;
-const PROGRESS_EVERY_DOCS =
-  Number(process.env.BACKUP_DATA_PROGRESS_EVERY) || 10_000;
-const PROGRESS_EVERY_MS =
-  Number(process.env.BACKUP_DATA_PROGRESS_MS) || 30_000;
 const EXPORT_RETRIES = Number(process.env.BACKUP_DATA_EXPORT_RETRIES) || 2;
 
 const isTransientMongoError = (err) => {
@@ -43,63 +30,6 @@ const isTransientMongoError = (err) => {
     name.includes("MongoTimeout") ||
     /timed out/i.test(String(err?.message))
   );
-};
-
-const exportCollectionToNdjson = async (collection, filePath, { label } = {}) => {
-  await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-  const stream = fs.createWriteStream(filePath, { encoding: "utf8" });
-  let count = 0;
-  let lastProgressAt = Date.now();
-  let estimatedTotal = null;
-
-  try {
-    try {
-      estimatedTotal = await collection.estimatedDocumentCount();
-      if (estimatedTotal >= 0) {
-        console.log(
-          `[backupData] ${label}: ~${estimatedTotal.toLocaleString()} documents (estimate)`
-        );
-      }
-    } catch {
-      estimatedTotal = null;
-    }
-
-    const cursor = collection.find(
-      {},
-      { batchSize: CURSOR_BATCH_SIZE, maxTimeMS: 0 }
-    );
-    for await (const doc of cursor) {
-      if (!stream.write(serializeBackupLine(doc))) {
-        await new Promise((resolve) => stream.once("drain", resolve));
-      }
-      count += 1;
-
-      const now = Date.now();
-      const docMilestone = count % PROGRESS_EVERY_DOCS === 0;
-      const timeMilestone = now - lastProgressAt >= PROGRESS_EVERY_MS;
-      if (docMilestone || (count > 0 && timeMilestone)) {
-        lastProgressAt = now;
-        const totalHint =
-          estimatedTotal != null
-            ? ` / ~${estimatedTotal.toLocaleString()}`
-            : "";
-        console.log(
-          `[backupData] ${label}: ${count.toLocaleString()}${totalHint} written…`
-        );
-      }
-    }
-    stream.end();
-    await finished(stream);
-    return count;
-  } catch (err) {
-    stream.destroy();
-    try {
-      await fs.promises.unlink(filePath);
-    } catch {
-      // ignore partial file cleanup errors
-    }
-    throw err;
-  }
 };
 
 const exportCollectionWithRetry = async (collection, filePath, meta) => {
@@ -144,6 +74,7 @@ const runBackupExport = async (options) => {
       console.log(`[backupData] ${name}…`);
       const count = await exportCollectionWithRetry(collection, filePath, {
         label: name,
+        query: {},
       });
       files[name] = { path: filePath, count, mongoCollection };
       console.log(`[backupData] ${name}: ${count} documents`);
@@ -176,10 +107,6 @@ const runBackupExport = async (options) => {
   }
 };
 
-/**
- * Writes Mongo collections to NDJSON files (Extended JSON) for mongoimport.
- * @returns {Promise<{ dir: string, files: Record<string, { path: string, count: number }> }>}
- */
 const backupDataToFiles = async (options = {}) => {
   if (!options.force && backupSucceededThisProcess) {
     console.log("[backupData] Skipping — backup already completed this process");

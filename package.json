@@ -31,6 +31,7 @@
     "start": "concurrently --kill-others --handle-input \"npm run server\" \"npm run client\"",
     "server": "nodemon src/server",
     "backup:mongo": "node src/server/scripts/backupMongoToFiles.js",
+    "backup-since-last:mongo": "node src/server/scripts/backupSinceLastMongoToFiles.js",
     "prod-server": "node src/server",
     "prod-worker": "node src/workers",
     "test": "find src/server -path '*/__tests__/*.test.js' -print0 | xargs -0 node --test",
