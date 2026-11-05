@@ -653,10 +653,10 @@ const Game = (props) => {
                 width: "50%",
                 minWidth: 0,
                 border: showPickSkeleton
-                  ? `${slimMode ? "1.25em" : "1.5rem"} dashed #E7E7E7`
+                  ? `1.75rem dashed #E7E7E7`
                   : competitor.selected
-                  ? `${slimMode ? "1.25em" : "1.5rem"} dashed #3772FA`
-                  : `${slimMode ? "1.25em" : "1.5rem"} dashed #E7E7E7`,
+                  ? `1.75rem dashed #3772FA`
+                  : `1.75rem dashed #E7E7E7`,
                 padding: slimMode ? "4px" : "10px",
                 cursor: showPickSkeleton ? "default" : "pointer",
               }}
