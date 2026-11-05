@@ -69,19 +69,6 @@ function setupDatabaseConnection() {
     console.log('[MONGODB] - Connected!');
   });
 
-  mongoose.connection.once('connected', () => {
-    if (process.env.BACKUP_DATA !== 'true') {
-      return;
-    }
-    console.log(
-      '[backupData] BACKUP_DATA=true — starting one export (prefer: npm run backup:mongo)'
-    );
-    const { backupDataToFiles } = require('./utilities/backupDataToFiles');
-    backupDataToFiles().catch((error) => {
-      console.error('[backupData] export failed:', error.message || error);
-    });
-  });
-
   mongoose.connection.on('error', (error) => {
     console.error('[MONGODB] - failed to connect on startup: ', error);
   });
