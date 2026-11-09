@@ -2,20 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Button from "@mui/material/Button";
 
 import AmericanFootballField from "./Fields/AmericanFootballField";
-
-const pickStadiumBlurb = (locations, seed = '') => {
-  if (!Array.isArray(locations) || locations.length === 0) {
-    return null;
-  }
-  if (locations.length === 1) {
-    return locations[0];
-  }
-  let hash = 0;
-  for (let i = 0; i < seed.length; i += 1) {
-    hash = (hash + seed.charCodeAt(i) * (i + 1)) % locations.length;
-  }
-  return locations[hash];
-};
+import { pickRandomStadiumBlurb } from "../pickRandomStadiumBlurb";
 
 const AmericanFootballMiniRallyGame = (props) => {
   const [awayScore, setAwayScore] = useState(
@@ -40,9 +27,11 @@ const AmericanFootballMiniRallyGame = (props) => {
   };
 
   const homeVenue = props.game.competitors[1];
+  const gameKey = props.game._id || props.game.id || "";
+  // Random variant per game visit; new pick after page reload or navigating to another game.
   const stadiumBlurb = useMemo(
-    () => pickStadiumBlurb(homeVenue.stadiumLocation, props.game._id || props.game.id || ''),
-    [homeVenue.stadiumLocation, props.game._id, props.game.id],
+    () => pickRandomStadiumBlurb(homeVenue.stadiumLocation),
+    [gameKey],
   );
 
   return (
