@@ -552,18 +552,16 @@ const Leader = () => {
                               </div>
                             )}
                             {leader.picture && !failedLeaderPictures[leader.id] && (
-                              <div style={{ margin: "auto" }}>
+                              <div
+                                style={{
+                                  margin: "auto",
+                                  position: "relative",
+                                  width: styles.userPicture.width,
+                                  height: styles.userPicture.height,
+                                }}
+                              >
                                 {index === 0 && (
-                                  <div
-                                    style={{
-                                      fontSize: "2rem",
-                                      position: "absolute",
-                                      top: "-11px",
-                                      transform: "rotate(-30deg)",
-                                      left: "55px",
-                                      zIndex: "777",
-                                    }}
-                                  >
+                                  <div className="leader-first-place-crown" aria-hidden="true">
                                     👑
                                   </div>
                                 )}

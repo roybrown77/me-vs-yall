@@ -4,6 +4,17 @@
   z-index: 10;
 }
 
+.leader-first-place-crown {
+  position: absolute;
+  top: -21px;
+  left: -13px;
+  z-index: 777;
+  font-size: 2rem;
+  line-height: 1;
+  transform: rotate(-30deg);
+  pointer-events: none;
+}
+
 .leader-entry {
   margin-bottom: 0.85rem;
 }
