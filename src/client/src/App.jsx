@@ -45,8 +45,8 @@ const App = () => {
           </Routes>
         </div>
       </main>
-      <PwaInstallBanner />
-      <SignInPromptOverlay />
+      {false && <PwaInstallBanner />}
+      {false && <SignInPromptOverlay />}
     </div>
   );
 };
