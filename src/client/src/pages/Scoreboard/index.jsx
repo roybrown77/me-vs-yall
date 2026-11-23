@@ -78,6 +78,8 @@ import { hasSlimUxPreference } from "../../utilities/slimUx";
 import {
   assignGameSlugs,
   buildNavigationPath,
+  isLongStandingsScoreboardPath,
+  normalizeLegacyScoreboardViewQuery,
   parseNavigationPath,
   SCOREBOARD_VIEW_BRACKET,
   SCOREBOARD_VIEW_RANKINGS,
@@ -526,10 +528,22 @@ const Scoreboard = () => {
       const league = leagues.find(
         (entry) => String(entry.id) === String(leagueId)
       );
+      const leagueName = parsedScoreboardPath.leagueName || league?.name;
+
+      if (
+        scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
+        scoreboardView === SCOREBOARD_VIEW_BRACKET
+      ) {
+        return buildNavigationPath({
+          routeBase: "/scoreboards/",
+          leagueName,
+          scoreboardView,
+        });
+      }
 
       return buildNavigationPath({
         routeBase: "/scoreboards/",
-        leagueName: parsedScoreboardPath.leagueName || league?.name,
+        leagueName,
         year: parsedScoreboardPath.year ?? year,
         seasonType:
           parsedScoreboardPath.seasonType ??
@@ -539,7 +553,6 @@ const Scoreboard = () => {
           (currentWeek
             ? getWeekSegmentForWeek(currentWeek, weekQueryMetaById)
             : null),
-        scoreboardView,
         gameSlug,
       });
     },
@@ -641,11 +654,10 @@ const Scoreboard = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const legacyView = searchParams.get("view");
-    if (
-      legacyView === SCOREBOARD_VIEW_RANKINGS ||
-      legacyView === SCOREBOARD_VIEW_BRACKET
-    ) {
+    const legacyView = normalizeLegacyScoreboardViewQuery(
+      searchParams.get("view")
+    );
+    if (legacyView) {
       searchParams.delete("view");
       const search = searchParams.toString();
 
@@ -655,6 +667,20 @@ const Scoreboard = () => {
             scoreboardView: legacyView,
           }),
           search: search ? `?${search}` : "",
+          hash: location.hash,
+        },
+        { replace: true }
+      );
+      return;
+    }
+
+    if (isLongStandingsScoreboardPath(location.pathname, "/scoreboards/")) {
+      navigate(
+        {
+          pathname: buildScoreboardPath({
+            scoreboardView: parsedScoreboardPath.scoreboardView,
+          }),
+          search: location.search,
           hash: location.hash,
         },
         { replace: true }

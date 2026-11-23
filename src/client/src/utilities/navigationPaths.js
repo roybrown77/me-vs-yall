@@ -150,19 +150,25 @@ export const parseWeekSegment = (segment) => {
 };
 
 export const SCOREBOARD_VIEW_RANKINGS = "rankings";
-export const SCOREBOARD_VIEW_BRACKET = "bracket";
+export const SCOREBOARD_VIEW_PLAYOFFS = "playoffs";
+/** Playoffs bracket tab URL segment (`playoffs`). */
+export const SCOREBOARD_VIEW_BRACKET = SCOREBOARD_VIEW_PLAYOFFS;
+
+const PLAYOFFS_STANDINGS_SEGMENTS = new Set(["playoffs", "bracket"]);
 
 export const isRankingsPathSegment = (segment) =>
   String(segment || "").toLowerCase() === SCOREBOARD_VIEW_RANKINGS;
 
-const isBracketPathSegment = (segment) =>
-  String(segment || "").toLowerCase() === SCOREBOARD_VIEW_BRACKET;
+export const isPlayoffsStandingsPathSegment = (segment) =>
+  PLAYOFFS_STANDINGS_SEGMENTS.has(String(segment || "").toLowerCase());
 
 const viewFromSegment = (segment) => {
   if (isRankingsPathSegment(segment)) return SCOREBOARD_VIEW_RANKINGS;
-  if (isBracketPathSegment(segment)) return SCOREBOARD_VIEW_BRACKET;
+  if (isPlayoffsStandingsPathSegment(segment)) return SCOREBOARD_VIEW_BRACKET;
   return null;
 };
+
+const isYearPathSegment = (segment) => /^\d{4}$/.test(String(segment || ""));
 
 const parseWeekAndGameSegments = (segments = []) => {
   const fourth = segments[3];
@@ -176,12 +182,14 @@ const parseWeekAndGameSegments = (segments = []) => {
     return { weekSegment: null, gameSlug: fourth, scoreboardView: null };
   }
 
-  const fourthView = viewFromSegment(fourth);
-  if (fourthView && !fifth) {
+  // Legacy long rankings URL: /{league}/{year}/{season}/rankings
+  // Do not treat "playoffs" here — it is both a season segment and a week slug
+  // (e.g. /nfl/2025/playoffs/playoffs).
+  if (isRankingsPathSegment(fourth) && !fifth) {
     return {
       weekSegment: null,
       gameSlug: null,
-      scoreboardView: fourthView,
+      scoreboardView: SCOREBOARD_VIEW_RANKINGS,
     };
   }
 
@@ -219,7 +227,27 @@ export const parseNavigationPath = (pathname = "", routeBase = detectRouteBase(p
 
   const remainder = normalizedPath.slice(normalizedBase.length);
   const segments = remainder.split("/").filter(Boolean);
-  const [leagueName, yearRaw, seasonSegment] = segments;
+  const [leagueName, secondSegment] = segments;
+
+  const shortStandingsView =
+    secondSegment && !isYearPathSegment(secondSegment)
+      ? viewFromSegment(secondSegment)
+      : null;
+
+  if (shortStandingsView) {
+    return {
+      leagueName,
+      year: null,
+      seasonType: null,
+      weekSegment: null,
+      week: null,
+      gameSlug: null,
+      scoreboardView: shortStandingsView,
+    };
+  }
+
+  const yearRaw = secondSegment;
+  const seasonSegment = segments[2];
   const { weekSegment, gameSlug, scoreboardView } = parseWeekAndGameSegments(segments);
   const year = yearRaw ? Number(yearRaw) : null;
 
@@ -244,6 +272,15 @@ export const buildNavigationPath = ({
   scoreboardView,
   gameSlug,
 }) => {
+  if (
+    scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
+    scoreboardView === SCOREBOARD_VIEW_BRACKET
+  ) {
+    return [routeBase.replace(/\/$/, ""), leagueName, scoreboardView]
+      .filter(Boolean)
+      .join("/");
+  }
+
   const parts = [routeBase.replace(/\/$/, ""), leagueName].filter(Boolean);
 
   if (year) {
@@ -262,16 +299,30 @@ export const buildNavigationPath = ({
     parts.push(resolvedWeekSegment);
   }
 
-  if (
-    scoreboardView === SCOREBOARD_VIEW_RANKINGS ||
-    scoreboardView === SCOREBOARD_VIEW_BRACKET
-  ) {
-    parts.push(scoreboardView);
-  } else if (gameSlug) {
+  if (gameSlug) {
     parts.push(gameSlug);
   }
 
   return parts.join("/");
+};
+
+export const normalizeLegacyScoreboardViewQuery = (view) => {
+  const normalized = String(view || "").toLowerCase();
+  if (normalized === SCOREBOARD_VIEW_RANKINGS) {
+    return SCOREBOARD_VIEW_RANKINGS;
+  }
+  if (isPlayoffsStandingsPathSegment(normalized)) {
+    return SCOREBOARD_VIEW_BRACKET;
+  }
+  return null;
+};
+
+export const isLongStandingsScoreboardPath = (pathname, routeBase = "/scoreboards/") => {
+  const parsed = parseNavigationPath(pathname, routeBase);
+  if (!parsed.scoreboardView) {
+    return false;
+  }
+  return Boolean(parsed.year || parsed.weekSegment || parsed.gameSlug);
 };
 
 export const withGameSlug = (pathname, routeBase, gameSlug) =>
