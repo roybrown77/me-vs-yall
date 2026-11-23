@@ -338,8 +338,19 @@
   paint-order: stroke fill;
 }
 
-.american-football-floating-hearts {
+.american-football-floating-hearts,
+.american-football-floating-footballs {
   pointer-events: none;
+}
+
+.american-football-field-stage .hearts-container,
+.american-football-field-stage .hearts-container svg,
+.american-football-field-stage .american-football-floating-hearts,
+.american-football-field-stage .american-football-ball-layer text,
+.american-football-play-toggle-wrap .american-football-floating-football {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 @keyframes american-football-heart-float {
@@ -377,6 +388,80 @@
   animation-name: american-football-heart-float;
   animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
   animation-fill-mode: forwards;
+}
+
+@keyframes american-football-football-float {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translate(0, 0) scale(0.88) rotate(0deg);
+  }
+  15% {
+    opacity: 0.98;
+    transform: translateX(-50%)
+      translate(var(--football-sway-1, -6px), calc(var(--football-rise, -95px) * 0.2))
+      scale(var(--football-scale, 1)) rotate(var(--football-rot-1, -12deg));
+  }
+  50% {
+    opacity: 0.92;
+    transform: translateX(-50%)
+      translate(var(--football-sway-2, 8px), calc(var(--football-rise, -95px) * 0.58))
+      scale(var(--football-scale, 1)) rotate(var(--football-rot-2, 14deg));
+  }
+  80% {
+    opacity: 0.55;
+    transform: translateX(-50%)
+      translate(var(--football-sway-3, -5px), calc(var(--football-rise, -95px) * 0.85))
+      scale(calc(var(--football-scale, 1) * 0.92)) rotate(var(--football-rot-1, -10deg));
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%)
+      translate(var(--football-sway-2, 4px), var(--football-rise, -95px))
+      scale(calc(var(--football-scale, 1) * 0.7)) rotate(0deg);
+  }
+}
+
+.american-football-play-toggle-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.american-football-play-toggle__slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.american-football-play-toggle__bursts {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.65rem);
+  width: 0;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.american-football-floating-football {
+  position: absolute;
+  left: 0;
+  top: -1.75rem;
+  margin: 0;
+  padding: 0;
+  font-size: 1.75rem;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: center;
+  animation-name: american-football-football-float;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: forwards;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 @keyframes american-football-midfield-jostle-away {
@@ -539,6 +624,11 @@
   gap: 0.35rem;
   margin-top: 1.25rem;
   margin-bottom: 0;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  position: relative;
+  z-index: 1;
 }
 
 .american-football-play-toggle__sep,
@@ -571,6 +661,10 @@
   cursor: pointer;
   transform: skewX(-14deg);
   box-shadow: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .american-football-play-toggle button:disabled {

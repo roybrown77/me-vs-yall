@@ -11,6 +11,10 @@ import {
   computeHeartTapBurst,
   createFloatingHeartBurst,
 } from "../../americanFootballFloatingHearts";
+import {
+  computePlayToggleTapBurst,
+  createFloatingFootballBurst,
+} from "../../americanFootballFloatingFootballs";
 import AmericanFootballPossessionMarker from "./AmericanFootballPossessionMarker";
 
 const PLAY_MODES = {
@@ -27,10 +31,16 @@ const KICK_AWAY_BALL_X = 66;
 const AmericanFootballField = (props) => {
   const [heartCounts, setHeartCounts] = useState({ left: 0, right: 0 });
   const [floatingHearts, setFloatingHearts] = useState([]);
+  const [floatingFootballs, setFloatingFootballs] = useState([]);
   const [playMode, setPlayMode] = useState(PLAY_MODES.pass);
   const [isThrowingRight, setIsThrowingRight] = useState(false);
   const [isThrowingLeft, setIsThrowingLeft] = useState(false);
   const tapHistoryRef = useRef({ left: [], right: [] });
+  const playTapHistoryRef = useRef({
+    [PLAY_MODES.pass]: [],
+    [PLAY_MODES.run]: [],
+    [PLAY_MODES.kick]: [],
+  });
   const cleanupTimersRef = useRef([]);
 
   useEffect(
@@ -191,6 +201,20 @@ const AmericanFootballField = (props) => {
     return { style };
   };
 
+  const scheduleParticleCleanup = (newParticles, onRemove) => {
+    const newIds = new Set(newParticles.map((p) => p.id));
+    const maxLifetimeMs = Math.max(
+      ...newParticles.map((p) => p.durationMs + p.delayMs),
+      1000,
+    );
+
+    const timerId = setTimeout(() => {
+      onRemove((prev) => prev.filter((item) => !newIds.has(item.id)));
+      cleanupTimersRef.current = cleanupTimersRef.current.filter((id) => id !== timerId);
+    }, maxLifetimeMs + 100);
+    cleanupTimersRef.current.push(timerId);
+  };
+
   const handleHearts = (side) => {
     setHeartCounts((prevCounts) => ({
       ...prevCounts,
@@ -210,20 +234,63 @@ const AmericanFootballField = (props) => {
       rapidLevel,
       nowMs,
     });
-    const newIds = new Set(newParticles.map((p) => p.id));
-    const maxLifetimeMs = Math.max(
-      ...newParticles.map((p) => p.durationMs + p.delayMs),
-      1000,
-    );
 
     setFloatingHearts((prev) => [...prev, ...newParticles]);
-
-    const timerId = setTimeout(() => {
-      setFloatingHearts((prev) => prev.filter((item) => !newIds.has(item.id)));
-      cleanupTimersRef.current = cleanupTimersRef.current.filter((id) => id !== timerId);
-    }, maxLifetimeMs + 100);
-    cleanupTimersRef.current.push(timerId);
+    scheduleParticleCleanup(newParticles, setFloatingHearts);
   };
+
+  const handlePlayModeSelect = (mode) => {
+    setPlayMode(mode);
+
+    const nowMs = Date.now();
+    const { updatedTapTimesMs, burstCount, rapidLevel } = computePlayToggleTapBurst({
+      recentTapTimesMs: playTapHistoryRef.current[mode] || [],
+      nowMs,
+    });
+    playTapHistoryRef.current[mode] = updatedTapTimesMs;
+
+    const newParticles = createFloatingFootballBurst({
+      playMode: mode,
+      burstCount,
+      rapidLevel,
+      nowMs,
+    });
+
+    setFloatingFootballs((prev) => [...prev, ...newParticles]);
+    scheduleParticleCleanup(newParticles, setFloatingFootballs);
+  };
+
+  const preventTapSelection = (event) => {
+    event.preventDefault();
+  };
+
+  const renderPlayToggleBursts = (mode) => (
+    <span className="american-football-play-toggle__bursts" aria-hidden="true">
+      {floatingFootballs
+        .filter((football) => football.playMode === mode)
+        .map((football) => (
+          <span
+            key={football.id}
+            className="american-football-floating-football"
+            style={{
+              '--football-sway-1': `${football.sway1}px`,
+              '--football-sway-2': `${football.sway2}px`,
+              '--football-sway-3': `${football.sway3}px`,
+              '--football-rise': `${football.riseY}px`,
+              '--football-scale': football.scale,
+              '--football-rot-1': `${football.rot1}deg`,
+              '--football-rot-2': `${football.rot2}deg`,
+              left: `${football.x}px`,
+              top: `${football.y}px`,
+              animationDuration: `${football.durationMs}ms`,
+              animationDelay: `${football.delayMs}ms`,
+            }}
+          >
+            🏈
+          </span>
+        ))}
+    </span>
+  );
 
   const formatHeartCount = (count) => {
     if (count === 0) return "";
@@ -386,6 +453,7 @@ const AmericanFootballField = (props) => {
           onClick={() => {
             handleHearts('left');
           }}
+          onMouseDown={preventTapSelection}
           style={{
             cursor: 'pointer',
             userSelect: 'none',
@@ -411,6 +479,7 @@ const AmericanFootballField = (props) => {
           onClick={() => {
             handleHearts('right');
           }}
+          onMouseDown={preventTapSelection}
           style={{
             cursor: 'pointer',
             userSelect: 'none',
@@ -471,6 +540,7 @@ const AmericanFootballField = (props) => {
         {liveBall && liveBallAnimating ? (
           <g
             onClick={handleLiveBallPlay}
+            onMouseDown={preventTapSelection}
             className={ballMotionClass(liveBallSide === "home" ? "left" : "right", true)}
           >
             <text
@@ -483,14 +553,22 @@ const AmericanFootballField = (props) => {
           </g>
         ) : null}
         {showAwayEndZoneBall && !liveBallAnimating ? (
-          <g onClick={launchTowardHome} className={ballMotionClass("right", isThrowingRight)}>
+          <g
+            onClick={launchTowardHome}
+            onMouseDown={preventTapSelection}
+            className={ballMotionClass("right", isThrowingRight)}
+          >
             <text x={awayBallX} y={ballY} {...ballTextProps("away")}>
               🏈
             </text>
           </g>
         ) : null}
         {showHomeEndZoneBall && !liveBallAnimating ? (
-          <g onClick={launchTowardAway} className={ballMotionClass("left", isThrowingLeft)}>
+          <g
+            onClick={launchTowardAway}
+            onMouseDown={preventTapSelection}
+            className={ballMotionClass("left", isThrowingLeft)}
+          >
             <text x={homeBallX} y={ballY} {...ballTextProps("home")}>
               🏈
             </text>
@@ -498,34 +576,48 @@ const AmericanFootballField = (props) => {
         ) : null}
       </g>
     </svg>
-    <div className="american-football-play-toggle" role="group" aria-label="Play type">
-      <button
-        type="button"
-        className={playMode === PLAY_MODES.pass ? 'is-active' : ''}
-        onClick={() => setPlayMode(PLAY_MODES.pass)}
-        disabled={isThrowingRight || isThrowingLeft}
-      >
-        <span className="american-football-play-toggle__label">Pass</span>
-      </button>
-      <span className="american-football-play-toggle__sep" aria-hidden="true">,</span>
-      <button
-        type="button"
-        className={playMode === PLAY_MODES.run ? 'is-active' : ''}
-        onClick={() => setPlayMode(PLAY_MODES.run)}
-        disabled={isThrowingRight || isThrowingLeft}
-      >
-        <span className="american-football-play-toggle__label">Run</span>
-      </button>
-      <span className="american-football-play-toggle__or" aria-hidden="true">or</span>
-      <button
-        type="button"
-        className={playMode === PLAY_MODES.kick ? 'is-active' : ''}
-        onClick={() => setPlayMode(PLAY_MODES.kick)}
-        disabled={isThrowingRight || isThrowingLeft}
-      >
-        <span className="american-football-play-toggle__label">Kick</span>
-      </button>
-      <span className="american-football-play-toggle__help" aria-hidden="true">?</span>
+    <div className="american-football-play-toggle-wrap">
+      <div className="american-football-play-toggle" role="group" aria-label="Play type">
+        <span className="american-football-play-toggle__slot">
+          {renderPlayToggleBursts(PLAY_MODES.pass)}
+          <button
+            type="button"
+            className={playMode === PLAY_MODES.pass ? 'is-active' : ''}
+            onClick={() => handlePlayModeSelect(PLAY_MODES.pass)}
+            onMouseDown={preventTapSelection}
+            disabled={isThrowingRight || isThrowingLeft}
+          >
+            <span className="american-football-play-toggle__label">Pass</span>
+          </button>
+        </span>
+        <span className="american-football-play-toggle__sep" aria-hidden="true">,</span>
+        <span className="american-football-play-toggle__slot">
+          {renderPlayToggleBursts(PLAY_MODES.run)}
+          <button
+            type="button"
+            className={playMode === PLAY_MODES.run ? 'is-active' : ''}
+            onClick={() => handlePlayModeSelect(PLAY_MODES.run)}
+            onMouseDown={preventTapSelection}
+            disabled={isThrowingRight || isThrowingLeft}
+          >
+            <span className="american-football-play-toggle__label">Run</span>
+          </button>
+        </span>
+        <span className="american-football-play-toggle__or" aria-hidden="true">or</span>
+        <span className="american-football-play-toggle__slot">
+          {renderPlayToggleBursts(PLAY_MODES.kick)}
+          <button
+            type="button"
+            className={playMode === PLAY_MODES.kick ? 'is-active' : ''}
+            onClick={() => handlePlayModeSelect(PLAY_MODES.kick)}
+            onMouseDown={preventTapSelection}
+            disabled={isThrowingRight || isThrowingLeft}
+          >
+            <span className="american-football-play-toggle__label">Kick</span>
+          </button>
+        </span>
+        <span className="american-football-play-toggle__help" aria-hidden="true">?</span>
+      </div>
     </div>
     </div>
   );
